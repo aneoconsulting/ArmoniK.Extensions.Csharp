@@ -1,0 +1,54 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="..\..\..\..\Versions.xml" />
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerfileContext>..\..\..\..\..\..\..</DockerfileContext>
+    <OutputType>Library</OutputType>
+    <Authors>$(Authors)</Authors>
+    <Version>$(ArmonikVersion)</Version>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <IsPackable>true</IsPackable>
+    <PackageOutputPath>..\..\..\..\publish</PackageOutputPath>
+    <RuntimeIdentifiers>win-x64;linux-x64</RuntimeIdentifiers>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugType>embedded</DebugType>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)'=='Release'">
+    <Optimize>true</Optimize>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Grpc.AspNetCore" Version="2.40.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.11.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Common\ArmoniK.DevelopmentKit.Common\ArmoniK.DevelopmentKit.Common.csproj" />
+    <ProjectReference Include="..\..\Generated\src\ArmoniK.Csharp.csproj" />
+    <ProjectReference Include="..\..\WorkerApi\ArmoniK.DevelopmentKit.WorkerApi.Common\Armonik.DevelopmentKit.WorkerApi.Common.csproj" />
+    <ProjectReference Include="..\ArmoniK.DevelopmentKit.SymphonyApi.Client\ArmoniK.DevelopmentKit.SymphonyApi.Client.csproj" />
+  </ItemGroup>
+
+  <!--<ItemGroup>
+    <ModuleFiles Include="$(OutputPath)..\*.nupkg;$(OutputPath)..\*.snupkg" Exclude="" DestinationPath="..\..\..\..\..\..\..\publish\%(Filename)%(Extension)">
+    </ModuleFiles>
+  </ItemGroup>
+
+  <Target Name="PublishModule" AfterTargets="Pack" Inputs="@(ModuleFiles)" Outputs="@(ModuleFiles->'%(DestinationPath)')">
+    <Copy SourceFiles="@(ModuleFiles)" DestinationFiles="@(ModuleFiles->'%(DestinationPath)')" />
+    <Message Text="Reference:
+      @(ModuleFiles->'%(DestinationPath)')" />
+  </Target>-->
+
+  <Target Name="DeleteLocalCache" BeforeTargets="Pack">
+    <RemoveDir Directories="$(NugetPackageRoot)/$(PackageId.ToLower())/$(ArmonikVersion)" />
+  </Target>
+</Project>
