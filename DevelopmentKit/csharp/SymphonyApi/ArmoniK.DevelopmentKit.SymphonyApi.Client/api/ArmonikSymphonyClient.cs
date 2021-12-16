@@ -21,8 +21,6 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client
 {
   public class ArmonikSymphonyClient
   {
-    public SessionId _sessionId;
-
     private readonly IConfiguration                    configuration_;
     private readonly IConfigurationSection             controlPlanAddress;
     private          ClientService.ClientServiceClient controlPlaneService;
@@ -152,8 +150,8 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client
       }
 
       CreateTaskRequest requests = new();
-      requests.SessionId   = _sessionId;
       requests.TaskOptions = InitializeDefaultTaskOptions();
+      requests.SessionId   = SessionId;
       requests.TaskOptions.Options.Add(AppsOptions.GridAppNameKey,
                                        "ArmoniK.Samples.SymphonyPackage");
       requests.TaskOptions.Options.Add(AppsOptions.GridAppVersionKey,
@@ -170,16 +168,8 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client
         requests.TaskRequests.Add(taskRequest);
       }
 
-
       CreateTaskReply requestReply = controlPlaneService.CreateTask(requests);
-
-      List<string> taskIds = new List<string>();
-      foreach (TaskId taskId in requestReply.TaskIds)
-      {
-        taskIds.Add(taskId.Task);
-      }
-
-      return taskIds;
+      return requestReply.TaskIds.Select(id => id.Task);
     }
 
     /// <summary>
