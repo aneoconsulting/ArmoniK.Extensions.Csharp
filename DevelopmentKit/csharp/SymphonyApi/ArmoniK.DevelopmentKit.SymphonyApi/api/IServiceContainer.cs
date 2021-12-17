@@ -12,7 +12,7 @@ using Google.Protobuf.WellKnownTypes;
 
 namespace ArmoniK.DevelopmentKit.SymphonyApi
 {
-  public abstract class IServiceContainer
+  public abstract class ServiceContainer
   {
     public SessionId SessionId { get; set; }
 
@@ -77,7 +77,7 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
     /// <param name="value">
     /// The data value to put in the database.
     /// </param>
-    public void writeTaskOutput(string key, byte[] value)
+    public void WriteTaskOutput(string key, byte[] value)
     {
       ClientService.StoreData(key,
                               value);
@@ -157,10 +157,10 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
     /// <param name="payloads">
     /// The user payload list to execute. Generaly used for subtasking.
     /// </param>
-    public IEnumerable<string> SubmitSubTasks(IEnumerable<byte[]> payloads, string ParentTaskIds)
+    public IEnumerable<string> SubmitSubTasks(IEnumerable<byte[]> payloads, string parentTaskIds)
     {
       return ClientService.SubmitSubTasks(SessionId.Session,
-                                          ParentTaskIds,
+                                          parentTaskIds,
                                           payloads);
     }
 
@@ -239,7 +239,7 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
     /// The user payload to execute. Generaly used for subtasking.
     /// </param>
     /// <param name="parentId">With one parent task Id</param>
-    public static IEnumerable<string> SubmitSubTasks(this IServiceContainer serviceContainer, IEnumerable<byte[]> payload, string parentId)
+    public static IEnumerable<string> SubmitSubTasks(this ServiceContainer serviceContainer, IEnumerable<byte[]> payload, string parentId)
     {
       return serviceContainer.SubmitSubTasks(payload,
                                              parentId);

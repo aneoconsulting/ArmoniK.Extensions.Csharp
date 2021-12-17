@@ -28,7 +28,7 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
     public class TaskContext
     {
         public string TaskId { get; set; }
-        public byte[] payload_;
+        public byte[] Payload;
 
         public string SessionId { get; set; }
 
@@ -41,9 +41,9 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
         /// <value></value>
         public byte[] TaskInput
         {
-            get { return payload_; }
+            get { return Payload; }
 
-            set { payload_ = value; }
+            set { Payload = value; }
         }
     }
 }

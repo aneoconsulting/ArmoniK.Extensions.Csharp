@@ -28,12 +28,12 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
         /// <summary>
         ///
         /// </summary>
-        public bool IsDebugMode { get { return (timeRemoteDebug > 0); } }
+        public bool IsDebugMode { get { return (TimeRemoteDebug > 0); } }
 
         /// <summary>
         ///
         /// </summary>
-        public int timeRemoteDebug;
+        public int TimeRemoteDebug;
 
         /// <summary>
         ///
@@ -45,6 +45,6 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
         ///
         /// </summary>
         /// <value></value>
-        public string clientLibVersion { get; set; }
+        public string ClientLibVersion { get; set; }
     }
 }

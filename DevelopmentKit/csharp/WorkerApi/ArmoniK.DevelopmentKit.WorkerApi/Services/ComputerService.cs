@@ -18,9 +18,9 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Services
 {
   public class ComputerService : Core.gRPC.V1.ComputerService.ComputerServiceBase
   {
-    private          string                   sessionId;
-    private          AppsLoader               appsLoader;
-    private          IGridWorker              gridWorker;
+    private          string                   sessionId_;
+    private          AppsLoader               appsLoader_;
+    private          IGridWorker              gridWorker_;
     private readonly ILogger<ComputerService> logger_;
 
     public ComputerService(IConfiguration           configuration,
@@ -38,38 +38,38 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Services
     {
       try
       {
-        if (string.IsNullOrEmpty(sessionId) || !sessionId.Equals(request.Session))
+        if (string.IsNullOrEmpty(sessionId_) || !sessionId_.Equals(request.Session))
         {
-          string assembly_path = String.Format("/tmp/packages/{0}/{1}/{0}.dll",
-                                               request.TaskOptions[AppsOptions.GridAppNameKey],
-                                               request.TaskOptions[AppsOptions.GridAppVersionKey]
-          );
-          string pathToZipFile = String.Format("{0}/{1}-v{2}.zip",
-                                               Configuration.GetSection("Volumes")["target_app_path"],
-                                               request.TaskOptions[AppsOptions.GridAppNameKey],
-                                               request.TaskOptions[AppsOptions.GridAppVersionKey]
-          );
-          sessionId = $"{request.Session}#{request.Subsession}";
+          var assemblyPath = String.Format("/tmp/packages/{0}/{1}/{0}.dll",
+                                           request.TaskOptions[AppsOptions.GridAppNameKey],
+                                           request.TaskOptions[AppsOptions.GridAppVersionKey]
+                                          );
+          var pathToZipFile = String.Format("{0}/{1}-v{2}.zip",
+                                            Configuration.GetSection("Volumes")["target_app_path"],
+                                            request.TaskOptions[AppsOptions.GridAppNameKey],
+                                            request.TaskOptions[AppsOptions.GridAppVersionKey]
+                                           );
+          sessionId_ = $"{request.Session}#{request.Subsession}";
 
-          if (gridWorker != null && appsLoader != null)
+          if (gridWorker_ != null && appsLoader_ != null)
           {
-            gridWorker.SessionFinilize();
-            appsLoader.Dispose();
+            gridWorker_.SessionFinilize();
+            appsLoader_.Dispose();
           }
 
-          appsLoader = new AppsLoader(Configuration,
-                                      assembly_path,
+          appsLoader_ = new AppsLoader(Configuration,
+                                      assemblyPath,
                                       pathToZipFile);
           //request.TaskOptions["GridWorkerNamespace"]
-          gridWorker = appsLoader.getGridWorkerInstance();
-          gridWorker.Configure(Configuration,
+          gridWorker_ = appsLoader_.GetGridWorkerInstance();
+          gridWorker_.Configure(Configuration,
                                request.TaskOptions,
-                               appsLoader);
+                               appsLoader_);
 
-          gridWorker.InitializeSessionWorker(sessionId);
+          gridWorker_.InitializeSessionWorker(sessionId_);
         }
 
-        var result = gridWorker.Execute(sessionId, request);
+        var result = gridWorker_.Execute(sessionId_, request);
 
 
         return Task.FromResult(new ComputeReply { Result = ByteString.CopyFrom(result) });

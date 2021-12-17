@@ -16,7 +16,7 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Common
 {
   public class ZipArchiver
   {
-    private static string rootAppPath = "/tmp/packages";
+    private static readonly string RootAppPath = "/tmp/packages";
 
     /// <summary>
     /// 
@@ -27,7 +27,7 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Common
     {
       //ATm ONLY Check the extensions 
 
-      string extension = Path.GetExtension(assemblyNameFilePath);
+      var extension = Path.GetExtension(assemblyNameFilePath);
       if (extension?.ToLower() == ".zip")
         return true;
 
@@ -56,12 +56,12 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Common
       }
 
       // Instantiate the regular expression object.
-      string pat = @"(.*)-v([\d\w]+\.[\d\w]+\.[\d\w]+)";
+      var pat = @"(.*)-v([\d\w]+\.[\d\w]+\.[\d\w]+)";
 
-      Regex r = new Regex(pat,
-                          RegexOptions.IgnoreCase);
+      var r = new Regex(pat,
+                        RegexOptions.IgnoreCase);
 
-      Match m          = r.Match(filePathNoExt);
+      var m          = r.Match(filePathNoExt);
       
       if (m.Success)
       {
@@ -92,7 +92,7 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Common
       var assemblyInfo    = ExtractNameAndVersion(pathToZip);
       var assemblyName    = assemblyInfo.ElementAt(0);
       var assemblyVersion = assemblyInfo.ElementAt(1);
-      var basePath        = $"{rootAppPath}/{assemblyName}/{assemblyVersion}";
+      var basePath        = $"{RootAppPath}/{assemblyName}/{assemblyVersion}";
 
       return $"{basePath}/{assemblyName}.dll";
     }
@@ -121,9 +121,9 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Common
       var assemblyInfo    = ExtractNameAndVersion(assemblyNameFilePath);
       var assemblyName    = assemblyInfo.ElementAt(0);
       var assemblyVersion = assemblyInfo.ElementAt(1);
-      var basePath        = $"{rootAppPath}/{assemblyName}/{assemblyVersion}";
+      var basePath        = $"{RootAppPath}/{assemblyName}/{assemblyVersion}";
 
-      if (Directory.Exists($"{rootAppPath}/{assemblyName}/{assemblyVersion}"))
+      if (Directory.Exists($"{RootAppPath}/{assemblyName}/{assemblyVersion}"))
       {
         //Now at least if dll exist or if a lock file exists and wait for unlock
         if (File.Exists($"{basePath}/{assemblyName}.dll"))
@@ -133,8 +133,8 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Common
 
         if (File.Exists($"{basePath}/{assemblyName}.lock"))
         {
-          int retry       = 0;
-          int loopingWait = 2; // 2 secs
+          var retry       = 0;
+          var loopingWait = 2; // 2 secs
 
           if (waitForArchiver == 0) return true;
 
@@ -171,8 +171,8 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Common
       var assemblyName    = assemblyInfo.ElementAt(0);
 
 
-      string pathToAssembly    = $"{rootAppPath}/{assemblyName}/{assemblyVersion}/{assemblyName}.dll";
-      string pathToAssemblyDir = $"{rootAppPath}/{assemblyName}/{assemblyVersion}";
+      var pathToAssembly    = $"{RootAppPath}/{assemblyName}/{assemblyVersion}/{assemblyName}.dll";
+      var pathToAssemblyDir = $"{RootAppPath}/{assemblyName}/{assemblyVersion}";
 
       if (ArchiveAlreadyExtracted(assemblyNameFilePath,
                                   0))
@@ -183,19 +183,19 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Common
       if (!Directory.Exists(pathToAssemblyDir))
         Directory.CreateDirectory(pathToAssemblyDir);
 
-      string lockFileName = $"{pathToAssemblyDir}/{assemblyName}.lock";
+      var lockFileName = $"{pathToAssemblyDir}/{assemblyName}.lock";
 
 
-      using (FileStream fileStream = new FileStream(
-               lockFileName,
-               FileMode.OpenOrCreate,
-               FileAccess.ReadWrite,
-               FileShare.ReadWrite))
+      using (var fileStream = new FileStream(
+                                             lockFileName,
+                                             FileMode.OpenOrCreate,
+                                             FileAccess.ReadWrite,
+                                             FileShare.ReadWrite))
       {
         var lockfileForExtractionString = "Lockfile for extraction";
 
-        UnicodeEncoding unicodeEncoding = new UnicodeEncoding();
-        int             textLength      = unicodeEncoding.GetByteCount(lockfileForExtractionString);
+        var unicodeEncoding = new UnicodeEncoding();
+        var             textLength      = unicodeEncoding.GetByteCount(lockfileForExtractionString);
 
         if (fileStream.Length == 0)
         {
@@ -210,7 +210,7 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Common
           fileStream.Lock(0,
                           textLength);
         }
-        catch (IOException e)
+        catch (IOException)
         {
           return pathToAssembly;
         }
@@ -223,7 +223,7 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Common
         try
         {
           ZipFile.ExtractToDirectory(assemblyNameFilePath,
-                                     rootAppPath);
+                                     RootAppPath);
         }
         catch (Exception e)
         {

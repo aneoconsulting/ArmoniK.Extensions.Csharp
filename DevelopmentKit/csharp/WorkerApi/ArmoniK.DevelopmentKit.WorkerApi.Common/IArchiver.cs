@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ArmoniK.DevelopmentKit.WorkerApi.Common
 {
-    public class IArchiver
+    public class Archiver
     {
     }
 }

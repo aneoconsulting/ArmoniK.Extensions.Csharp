@@ -15,26 +15,26 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Common.Exceptions
 
       public WorkerApiException(string message)
       {
-        _message = message;
+        message_ = message;
       }
 
-      private string _message = "WorkerApi Exception during call function";
+      private readonly string message_ = "WorkerApi Exception during call function";
 
       public WorkerApiException(Exception e) : base(e.Message, e)
       {
-        _message = $"{_message} \ninnerEception message : {e.Message}";
+        message_ = $"{message_} \ninnerEception message : {e.Message}";
       }
 
       public WorkerApiException(string message, ArgumentException e) : base(message,
                                                                             e)
       {
-        _message = message;
+        message_ = message;
       }
 
         //Overriding the Message property
         public override string Message
       {
-        get { return _message; }
+        get { return message_; }
       }
     }
 }

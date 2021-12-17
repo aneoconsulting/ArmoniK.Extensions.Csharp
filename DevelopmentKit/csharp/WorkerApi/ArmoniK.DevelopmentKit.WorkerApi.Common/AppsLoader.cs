@@ -12,11 +12,12 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Common
 {
   public class AppsLoader
   {
-    AssemblyLoadContext                  loadContext        = null;
-    Assembly                             assembly           = null;
-    Assembly                             assemblyGridWorker = null;
+    private Assembly assembly_ = null;
+
+    private readonly AssemblyLoadContext loadContext_                      = null;
+    private readonly Assembly            assemblyGridWorker_               = null;
+    private const    string              ArmoniKDevelopmentKitSymphonyApi = "ArmoniK.DevelopmentKit.SymphonyApi";
     private readonly ILogger<AppsLoader> logger_;
-    string                               armonikDevelopmentkitSymphonyapi = "ArmoniK.DevelopmentKit.SymphonyApi";
 
     public IConfiguration Configuration { get; }
 
@@ -26,9 +27,9 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Common
                                        builder.AddConfiguration(configuration)).CreateLogger<AppsLoader>();
 
       // Create a new context and mark it as 'collectible'.
-      string tempLoadContextName = Guid.NewGuid().ToString();
+      var tempLoadContextName = Guid.NewGuid().ToString();
 
-      loadContext = new AssemblyLoadContext(tempLoadContextName,
+      loadContext_ = new AssemblyLoadContext(tempLoadContextName,
                                             true);
       string localPathToAssembly;
 
@@ -39,9 +40,9 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Common
       localPathToAssembly = ZipArchiver.GetLocalPathToAssembly(pathToZip);
 
 
-      assembly = loadContext.LoadFromAssemblyPath(localPathToAssembly);
+      assembly_ = loadContext_.LoadFromAssemblyPath(localPathToAssembly);
 
-      if (assembly == null)
+      if (assembly_ == null)
       {
         logger_.LogError($"Cannot load assembly from path [${localPathToAssembly}]");
         throw new WorkerApiException($"Cannot load assembly from path [${localPathToAssembly}]");
@@ -50,12 +51,12 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Common
       PathToAssembly = localPathToAssembly;
 
 
-      string localPathToAssemblyGridWorker = $"{Path.GetDirectoryName(localPathToAssembly)}/{armonikDevelopmentkitSymphonyapi}.dll";
+      var localPathToAssemblyGridWorker = $"{Path.GetDirectoryName(localPathToAssembly)}/{ArmoniKDevelopmentKitSymphonyApi}.dll";
 
 
-      assemblyGridWorker = loadContext.LoadFromAssemblyPath(localPathToAssemblyGridWorker);
+      assemblyGridWorker_ = loadContext_.LoadFromAssemblyPath(localPathToAssemblyGridWorker);
       
-      if (assemblyGridWorker == null)
+      if (assemblyGridWorker_ == null)
       {
         logger_.LogError($"Cannot load assembly from path [${localPathToAssemblyGridWorker}]");
         throw new WorkerApiException($"Cannot load assembly from path [${localPathToAssemblyGridWorker}]");
@@ -64,14 +65,14 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Common
 
       PathToAssemblyGridWorker = localPathToAssembly;
 
-      AppDomain currentDomain = AppDomain.CurrentDomain;
+      var currentDomain = AppDomain.CurrentDomain;
       currentDomain.AssemblyResolve += new ResolveEventHandler(LoadFromSameFolder);
 
       Assembly LoadFromSameFolder(object sender, ResolveEventArgs args)
       {
-        string folderPath = Path.GetDirectoryName(PathToAssembly);
-        string assemblyPath = Path.Combine(folderPath,
-                                           new AssemblyName(args.Name).Name + ".dll");
+        var folderPath = Path.GetDirectoryName(PathToAssembly);
+        var assemblyPath = Path.Combine(folderPath,
+                                        new AssemblyName(args.Name).Name + ".dll");
         if (!File.Exists(assemblyPath)) return null;
         Assembly assembly;
         try
@@ -96,16 +97,16 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Common
 
     public string PathToAssemblyGridWorker { get; set; }
 
-    public IGridWorker getGridWorkerInstance()
+    public IGridWorker GetGridWorkerInstance()
     {
       // Create an instance of a class from the assembly.
       try
       {
-        Type classType = assemblyGridWorker.GetType($"{armonikDevelopmentkitSymphonyapi}.GridWorker");
+        var classType = assemblyGridWorker_.GetType($"{ArmoniKDevelopmentKitSymphonyApi}.GridWorker");
 
         if (classType != null)
         {
-          IGridWorker gridworker = (IGridWorker)Activator.CreateInstance(classType);
+          var gridworker = (IGridWorker)Activator.CreateInstance(classType);
 
           return gridworker;
         }
@@ -117,17 +118,17 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Common
       }
 
       throw new NullReferenceException(
-        $"Cannot find ServiceContainer named : {armonikDevelopmentkitSymphonyapi}.GridWorker in dll [{PathToAssemblyGridWorker}]");
+        $"Cannot find ServiceContainer named : {ArmoniKDevelopmentKitSymphonyApi}.GridWorker in dll [{PathToAssemblyGridWorker}]");
     }
 
-    public T getServiceContainerInstance<T>(string appNamespace, string serviceContainerClassName)
+    public T GetServiceContainerInstance<T>(string appNamespace, string serviceContainerClassName)
     {
       // Create an instance of a class from the assembly.
-      Type classType = assembly.GetType($"{appNamespace}.{serviceContainerClassName}");
+      var classType = assembly_.GetType($"{appNamespace}.{serviceContainerClassName}");
 
       if (classType != null)
       {
-        T serviceContainer = (T)Activator.CreateInstance(classType);
+        var serviceContainer = (T)Activator.CreateInstance(classType);
 
         return serviceContainer;
       }
@@ -139,10 +140,10 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Common
 
     public void Dispose()
     {
-      assembly = null;
-      if (loadContext != null)
+      assembly_ = null;
+      if (loadContext_ != null)
         // Unload the context.
-        loadContext.Unload();
+        loadContext_.Unload();
     }
 
     ~AppsLoader()
