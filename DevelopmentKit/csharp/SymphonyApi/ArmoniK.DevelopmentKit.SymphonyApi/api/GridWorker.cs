@@ -20,15 +20,11 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
 
 using ArmoniK.Core.gRPC.V1;
 using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.SymphonyApi.Client;
 using ArmoniK.DevelopmentKit.WorkerApi.Common;
-
-using Google.Protobuf.Collections;
 
 using Microsoft.Extensions.Configuration;
 
@@ -37,9 +33,9 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
 {
   public class GridWorker : IGridWorker
   {
-    private ServiceContainer serviceContainer_;
-    private SessionContext    sessionContext_;
-    private ServiceContext    serviceContext_;
+    private ServiceContainerBase serviceContainerBase_;
+    private SessionContext       sessionContext_;
+    private ServiceContext       serviceContext_;
 
     public void Configure(IConfiguration configuration, IDictionary<string, string> taskOptions, AppsLoader appsLoader)
     {
@@ -58,10 +54,10 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
 
       sessionContext_.ClientLibVersion = GridAppVersion;
 
-      serviceContainer_ = appsLoader.GetServiceContainerInstance<ServiceContainer>(GridAppNamespace,
+      serviceContainerBase_ = appsLoader.GetServiceContainerInstance<ServiceContainerBase>(GridAppNamespace,
                                                                                    "ServiceContainer");
 
-      serviceContainer_.ClientService = new ArmonikSymphonyClient(configuration);
+      serviceContainerBase_.ClientService = new ArmonikSymphonyClient(configuration);
 
 
       OnCreateService();
@@ -86,7 +82,7 @@ public void InitializeSessionWorker(string sessionId)
 
     public void OnCreateService()
     {
-      serviceContainer_.OnCreateService(serviceContext_);
+      serviceContainerBase_.OnCreateService(serviceContext_);
     }
 
     /// <summary>
@@ -97,13 +93,13 @@ public void InitializeSessionWorker(string sessionId)
     {
       sessionContext_.SessionId = session;
 
-      if (serviceContainer_.SessionId == null || string.IsNullOrEmpty(serviceContainer_.SessionId.Session))
+      if (serviceContainerBase_.SessionId == null || string.IsNullOrEmpty(serviceContainerBase_.SessionId.Session))
       {
-        serviceContainer_.SessionId = session?.UnPackId();
-        serviceContainer_.ClientService.OpenSession(session);
+        serviceContainerBase_.SessionId = session?.UnPackId();
+        serviceContainerBase_.ClientService.OpenSession(session);
       }
 
-      serviceContainer_.OnSessionEnter(sessionContext_);
+      serviceContainerBase_.OnSessionEnter(sessionContext_);
     }
 
     public byte[] Execute(string session, ComputeRequest request)
@@ -134,9 +130,9 @@ public void InitializeSessionWorker(string sessionId)
                           ParentIds = request.Dependencies,
                         };
 
-      serviceContainer_.TaskId = request.TaskId;
+      serviceContainerBase_.TaskId = request.TaskId;
 
-      var clientPayload = serviceContainer_.OnInvoke(sessionContext_,
+      var clientPayload = serviceContainerBase_.OnInvoke(sessionContext_,
                                                      taskContext);
 
       // Return to user the taskId, could be any other information
@@ -153,7 +149,7 @@ public void InitializeSessionWorker(string sessionId)
     {
       if (sessionContext_ != null)
       {
-        serviceContainer_.OnSessionLeave(sessionContext_);
+        serviceContainerBase_.OnSessionLeave(sessionContext_);
         SessionId      = null;
         sessionContext_ = null;
       }
@@ -165,7 +161,7 @@ public void InitializeSessionWorker(string sessionId)
 
       if (serviceContext_ != null)
       {
-        serviceContainer_.OnDestroyService(serviceContext_);
+        serviceContainerBase_.OnDestroyService(serviceContext_);
         serviceContext_ = null;
         SessionId      = null;
       }

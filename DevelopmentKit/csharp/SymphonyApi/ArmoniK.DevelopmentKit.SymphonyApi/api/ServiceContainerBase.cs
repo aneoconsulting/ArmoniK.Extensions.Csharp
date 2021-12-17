@@ -1,18 +1,36 @@
+// This file is part of the ArmoniK project
+// 
+// Copyright (C) ANEO, 2021-2021. All rights reserved.
+//   W. Kirschenmann   <wkirschenmann@aneo.fr>
+//   J. Gurhem         <jgurhem@aneo.fr>
+//   D. Dubuc          <ddubuc@aneo.fr>
+//   L. Ziane Khodja   <lzianekhodja@aneo.fr>
+//   F. Lemaitre       <flemaitre@aneo.fr>
+//   S. Djebbar        <sdjebbar@aneo.fr>
+// 
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU Affero General Public License as published
+// by the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU Affero General Public License for more details.
+// 
+// You should have received a copy of the GNU Affero General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 using System;
-using System.Text;
 using System.Collections.Generic;
 using System.Linq;
 
 using ArmoniK.Core.gRPC.V1;
-using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.SymphonyApi.Client;
-
-using Google.Protobuf;
-using Google.Protobuf.WellKnownTypes;
 
 namespace ArmoniK.DevelopmentKit.SymphonyApi
 {
-  public abstract class ServiceContainer
+  public abstract class ServiceContainerBase
   {
     public SessionId SessionId { get; set; }
 
@@ -197,8 +215,8 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
     public IEnumerable<string> SubmitSubtasksWithDependencies(string session, string parentId, IEnumerable<Tuple<byte[], IList<string>>> payloadWithDependencies)
     {
       return ClientService.SubmitSubtasksWithDependencies(session,
-                                                         parentId,
-                                                         payloadWithDependencies);
+                                                          parentId,
+                                                          payloadWithDependencies);
     }
 
     /// <summary>
@@ -226,7 +244,7 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
     public string TaskId { get; set; }
   }
 
-  public static class ServiceContainerExt
+  public static class ServiceContainerBaseExt
   {
     /// <summary>
     /// User method to submit task from the service
@@ -239,9 +257,9 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
     /// The user payload to execute. Generaly used for subtasking.
     /// </param>
     /// <param name="parentId">With one parent task Id</param>
-    public static IEnumerable<string> SubmitSubTasks(this ServiceContainer serviceContainer, IEnumerable<byte[]> payload, string parentId)
+    public static IEnumerable<string> SubmitSubTasks(this ServiceContainerBase serviceContainerBase, IEnumerable<byte[]> payload, string parentId)
     {
-      return serviceContainer.SubmitSubTasks(payload,
+      return serviceContainerBase.SubmitSubTasks(payload,
                                              parentId);
     }
   }
