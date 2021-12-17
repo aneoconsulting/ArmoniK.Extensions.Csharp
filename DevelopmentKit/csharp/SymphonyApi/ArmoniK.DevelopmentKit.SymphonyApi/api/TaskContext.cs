@@ -20,6 +20,8 @@
 using System.Collections;
 using System.Collections.Generic;
 
+using ArmoniK.Core.gRPC.V1;
+
 namespace ArmoniK.DevelopmentKit.SymphonyApi
 {
     /// <summary>
@@ -33,6 +35,8 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
         public string SessionId { get; set; }
 
         public IEnumerable<string> ParentIds { get; set; }
+
+        public TaskOptions TaskOptions { get; set; }
 
 
         /// <summary>

@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 
 using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.WorkerApi.Common;
+using ArmoniK.DevelopmentKit.WorkerApi.Common.Exceptions;
 
 using Google.Protobuf.WellKnownTypes;
 
@@ -21,33 +22,18 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client
 {
   public class ArmonikSymphonyClient
   {
-    private readonly IConfiguration                    configuration_;
-    private readonly IConfigurationSection             controlPlanAddress_;
-    private          ClientService.ClientServiceClient controlPlaneService_;
+    private readonly IConfiguration        configuration_;
+    private readonly IConfigurationSection controlPlanAddress_;
 
-    public string SectionControlPlan { get; set; } = "ControlPlan";
-    public string SectionGrpcChannel { get; set; } = "GrpcChannel";
+    private ClientService.ClientServiceClient ControlPlaneService { get; set; }
+
+    public string SectionControlPlan { get; set; } = "Grpc";
 
     public ArmonikSymphonyClient(IConfiguration configuration)
     {
-      configuration_     = configuration;
-      controlPlanAddress_ = configuration_.GetSection(SectionControlPlan).GetSection(SectionGrpcChannel);
+      configuration_      = configuration;
+      controlPlanAddress_ = configuration_.GetSection(SectionControlPlan);
     }
-
-
-    /// <summary>
-    /// User call to get customer data from client (Server side)
-    /// </summary>
-    /// <param name="key">
-    /// The user key that can be retrieved later from client side.
-    /// </param>
-    public byte[] GetData(string key)
-    {
-      throw new NotImplementedException("The method [GetData] Need new gRPC connection");
-    }
-
-    public void StoreData(string key, byte[] data) =>
-      throw new NotImplementedException("The method [StoreData] Need new gRPC connection");
 
     /// <summary>
     /// Create the session to submit task
@@ -56,8 +42,7 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client
     /// <returns></returns>
     public string CreateSession()
     {
-      var channel = GrpcChannel.ForAddress(controlPlanAddress_["Address"]);
-      controlPlaneService_ ??= new ClientService.ClientServiceClient(channel);
+      ControlPlaneConnection();
 
       var sessionOptions = new SessionOptions
       {
@@ -68,8 +53,14 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client
           Priority    = 1,
         },
       };
-      SessionId = controlPlaneService_.CreateSession(sessionOptions);
+      SessionId = ControlPlaneService.CreateSession(sessionOptions);
       return SessionId.PackId();
+    }
+
+    private void ControlPlaneConnection()
+    {
+      var channel = GrpcChannel.ForAddress(controlPlanAddress_["Endpoint"]);
+      ControlPlaneService ??= new ClientService.ClientServiceClient(channel);
     }
 
     /// <summary>
@@ -78,23 +69,19 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client
     /// <param name="parentSession"></param>
     /// <param name="sessionOptions"></param>
     /// <returns></returns>
-    public void CreateSubSession(string parentId)
+    private void CreateSubSession(string parentId)
     {
       lock (this)
       {
+        ControlPlaneConnection();
         if (SubSessionId is null)
         {
           var sessionOptions = new SessionOptions
           {
-            DefaultTaskOption = new TaskOptions
-            {
-              MaxDuration = Duration.FromTimeSpan(TimeSpan.FromMinutes(20)),
-              MaxRetries  = 2,
-              Priority    = 1,
-            },
-            ParentTask = new TaskId { Session = SessionId.Session, SubSession = SessionId.SubSession, Task = parentId },
+            DefaultTaskOption = InitializeDefaultTaskOptions(),
+            ParentTask        = new TaskId { Session = SessionId.Session, SubSession = SessionId.SubSession, Task = parentId },
           };
-          SubSessionId = controlPlaneService_.CreateSession(sessionOptions);
+          SubSessionId = ControlPlaneService.CreateSession(sessionOptions);
         }
       }
     }
@@ -117,68 +104,35 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client
     //}
 
 
-    public void OpenSession(string session)
+    public void OpenSession(SessionId session)
     {
-      SessionId = session.UnPackId();
+      ControlPlaneConnection();
+      SessionId ??= session;
+
       //return Disposable.Create(() => { SubSessionId = null; });
     }
 
     private static TaskOptions InitializeDefaultTaskOptions()
     {
       TaskOptions taskOptions = new()
-                                {
-                                  MaxDuration = new Duration
-                                                {
-                                                  Seconds = 60,
-                                                },
-                                  MaxRetries = 5,
-                                  IdTag = "ddu",
-                                };
+      {
+        MaxDuration = new Duration
+        {
+          Seconds = 300,
+        },
+        MaxRetries = 5,
+        IdTag      = "ArmonikTag",
+      };
+      taskOptions.Options.Add(AppsOptions.GridAppNameKey,
+                              "ArmoniK.Samples.SymphonyPackage");
+      taskOptions.Options.Add(AppsOptions.GridAppVersionKey,
+                              "1.0.0");
+      taskOptions.Options.Add(AppsOptions.GridAppNamespaceKey,
+                              "ArmoniK.Samples.Symphony.Packages");
 
       return taskOptions;
     }
 
-    /// <summary>
-    /// User method to submit task from the client
-    ///  Need a client Service. In case of ServiceContainer
-    /// controlPlaneService can be null until the OpenSession is called
-    /// </summary>
-    /// <param name="payloads">
-    /// The user payload list to execute. Generaly used for subtasking.
-    /// </param>
-    public IEnumerable<string> SubmitTasks(IEnumerable<byte[]> payloads)
-    {
-      if (controlPlaneService_ == null)
-      {
-        throw new NullReferenceException("Client Service is required to submit task");
-      }
-
-      CreateTaskRequest requests = new();
-      requests.TaskOptions = InitializeDefaultTaskOptions();
-      requests.SessionId   = SessionId;
-      requests.TaskOptions.Options.Add(AppsOptions.GridAppNameKey,
-                                       "ArmoniK.Samples.SymphonyPackage");
-      requests.TaskOptions.Options.Add(AppsOptions.GridAppVersionKey,
-                                       "1.0.0");
-      requests.TaskOptions.Options.Add(AppsOptions.GridAppNamespaceKey,
-                                       "ArmoniK.Samples.Symphony.Packages");
-
-      foreach (var payload in payloads)
-      {
-        var taskRequest = new TaskRequest
-                          {
-                            Payload = new Payload
-                                      {
-                                        Data = ByteString.CopyFrom(payload),
-                                      },
-                          };
-
-        requests.TaskRequests.Add(taskRequest);
-      }
-
-      var requestReply = controlPlaneService_.CreateTask(requests);
-      return requestReply.TaskIds.Select(id => id.Task);
-    }
 
     /// <summary>
     /// User method to wait for tasks from the client
@@ -190,15 +144,19 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client
     {
       var taskFilter = new TaskFilter();
       taskFilter.IncludedTaskIds.Add(taskId);
-      controlPlaneService_.WaitForCompletion(taskFilter);
+      ControlPlaneService.WaitForCompletion(taskFilter);
     }
 
     public Task<Dictionary<string, byte[]>> GetResults(IEnumerable<string> taskId)
     {
       var taskFilter = new TaskFilter();
       taskFilter.IncludedTaskIds.Add(taskId);
+      taskFilter.SessionId    = SessionId.Session;
+      taskFilter.SubSessionId = SessionId.SubSession;
 
-      var                        result  = controlPlaneService_.TryGetResult(taskFilter);
+      ControlPlaneService.WaitForCompletion(taskFilter);
+
+      var                        result  = ControlPlaneService.TryGetResult(taskFilter);
       Dictionary<string, byte[]> results = new();
 
       foreach (var reply in result.Payloads)
@@ -212,29 +170,66 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client
     //TODO : See what will be the goal in the new Control Agent
     public void WaitSubtasksCompletion(string parentId) => WaitCompletion(parentId);
 
+
+    /// <summary>
+    /// User method to submit task from the client
+    ///  Need a client Service. In case of ServiceContainer
+    /// controlPlaneService can be null until the OpenSession is called
+    /// </summary>
+    /// <param name="payloads">
+    /// The user payload list to execute. Generaly used for subtasking.
+    /// </param>
+    public IEnumerable<string> SubmitTasks(IEnumerable<byte[]> payloads)
+    {
+      CreateTaskRequest requests = new();
+
+      requests.SessionId = SessionId;
+
+
+      foreach (var payload in payloads)
+      {
+        var taskRequest = new TaskRequest
+        {
+          Payload = new Payload
+          {
+            Data = ByteString.CopyFrom(payload),
+          },
+        };
+
+        requests.TaskRequests.Add(taskRequest);
+      }
+
+      requests.TaskOptions = InitializeDefaultTaskOptions();
+      var requestReply = ControlPlaneService.CreateTask(requests);
+      return requestReply.TaskIds.Select(id => id.Task);
+    }
+
     public IEnumerable<string> SubmitSubTasks(string session, string parentTaskId, IEnumerable<byte[]> payloads)
     {
+      OpenSession(session.UnPackId());
       if (SubSessionId is null)
         CreateSubSession(parentTaskId);
       var taskRequests      = payloads.Select(p => new TaskRequest { Payload = new Payload { Data = ByteString.CopyFrom(p) } });
       var createTaskRequest = new CreateTaskRequest { SessionId = SubSessionId };
       createTaskRequest.TaskRequests.Add(taskRequests);
-      var createTaskReply = controlPlaneService_.CreateTask(createTaskRequest);
+      createTaskRequest.TaskOptions = InitializeDefaultTaskOptions();
+      var createTaskReply = ControlPlaneService.CreateTask(createTaskRequest);
       return createTaskReply.TaskIds.Select(id => id.Task);
     }
 
     public string SubmitTaskWithDependencies(string session, byte[] payload, IList<string> dependencies)
     {
-      return SubmitTaskWithDependencies(session,
-                                        new[]
-                                        {
-                                          Tuple.Create(payload,
-                                                       dependencies),
-                                        }).Single();
+      return SubmitTasksWithDependencies(session,
+                                         new[]
+                                         {
+                                           Tuple.Create(payload,
+                                                        dependencies),
+                                         }).Single();
     }
 
-    public IEnumerable<string> SubmitTaskWithDependencies(string session, IEnumerable<Tuple<byte[], IList<string>>> payloadWithDependencies)
+    public IEnumerable<string> SubmitTasksWithDependencies(string session, IEnumerable<Tuple<byte[], IList<string>>> payloadWithDependencies)
     {
+      OpenSession(session.UnPackId());
       var taskRequests = payloadWithDependencies.Select(p =>
       {
         var output = new TaskRequest { Payload = new Payload { Data = ByteString.CopyFrom(p.Item1) } };
@@ -243,23 +238,35 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client
       });
       var createTaskRequest = new CreateTaskRequest { SessionId = session.UnPackId() };
       createTaskRequest.TaskRequests.Add(taskRequests);
-      var createTaskReply = controlPlaneService_.CreateTask(createTaskRequest);
+
+      createTaskRequest.TaskOptions = InitializeDefaultTaskOptions();
+
+      var createTaskReply = ControlPlaneService.CreateTask(createTaskRequest);
       return createTaskReply.TaskIds.Select(id => id.Task);
     }
 
     public string SubmitSubtaskWithDependencies(string session, string parentId, byte[] payload, IList<string> dependencies)
     {
       return SubmitSubtasksWithDependencies(session,
-                                           parentId,
-                                           new[]
-                                           {
-                                             Tuple.Create(payload,
-                                                          dependencies),
-                                           }).Single();
+                                            parentId,
+                                            new[]
+                                            {
+                                              Tuple.Create(payload,
+                                                           dependencies),
+                                            }).Single();
     }
 
-    public IEnumerable<string> SubmitSubtasksWithDependencies(string session, string parentId, IEnumerable<Tuple<byte[], IList<string>>> payloadWithDependencies)
+    public IEnumerable<string> SubmitSubtasksWithDependencies(string session, string parentTaskId, IEnumerable<Tuple<byte[], IList<string>>> payloadWithDependencies)
     {
+      OpenSession(session.UnPackId());
+      if (SubSessionId is null)
+        CreateSubSession(parentTaskId);
+      else
+      {
+        if (SubSessionId.SubSession != parentTaskId)
+          throw new WorkerApiException($"Dependencies issues with Parent TaskId and SubSession {SubSessionId.SubSession} != {parentTaskId}");
+      }
+
       var taskRequests = payloadWithDependencies.Select(p =>
       {
         var output = new TaskRequest { Payload = new Payload { Data = ByteString.CopyFrom(p.Item1) } };
@@ -268,11 +275,12 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client
       });
       var createTaskRequest = new CreateTaskRequest
       {
-        SessionId = new SessionId
-          { Session = session.UnPackId().Session, SubSession = parentId },
+        SessionId = SubSessionId
       };
       createTaskRequest.TaskRequests.Add(taskRequests);
-      var createTaskReply = controlPlaneService_.CreateTask(createTaskRequest);
+      createTaskRequest.TaskOptions = InitializeDefaultTaskOptions();
+
+      var createTaskReply = ControlPlaneService.CreateTask(createTaskRequest);
       return createTaskReply.TaskIds.Select(id => id.Task);
     }
 
@@ -282,7 +290,8 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client
       taskFilter.IncludedTaskIds.Add(taskId);
       taskFilter.SessionId    = SessionId.Session;
       taskFilter.SubSessionId = SessionId.SubSession;
-      var response = controlPlaneService_.TryGetResult(taskFilter);
+
+      var response = ControlPlaneService.TryGetResult(taskFilter);
       return response.Payloads.Single().Data.ToByteArray();
     }
   }
@@ -303,6 +312,7 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client
 
     public static byte[] GetResult(this ArmonikSymphonyClient client, string taskId)
     {
+     
       var results = client.GetResults(new List<string>() { taskId });
       Task.WaitAll(results);
       return results.Result[taskId];

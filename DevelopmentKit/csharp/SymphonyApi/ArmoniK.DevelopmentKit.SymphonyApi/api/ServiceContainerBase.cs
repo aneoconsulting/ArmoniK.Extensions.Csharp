@@ -26,7 +26,10 @@ using System.Collections.Generic;
 using System.Linq;
 
 using ArmoniK.Core.gRPC.V1;
+using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.SymphonyApi.Client;
+
+using Microsoft.Extensions.Configuration;
 
 namespace ArmoniK.DevelopmentKit.SymphonyApi
 {
@@ -85,36 +88,6 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
     /// </param>
     public abstract void OnDestroyService(ServiceContext serviceContext);
 
-
-    /// <summary>
-    /// User call to insert customer result data from task (Server side)
-    /// </summary>
-    /// <param name="key">
-    /// The user key that can be retrieved later from client side.
-    /// </param>
-    /// <param name="value">
-    /// The data value to put in the database.
-    /// </param>
-    public void WriteTaskOutput(string key, byte[] value)
-    {
-      ClientService.StoreData(key,
-                              value);
-    }
-
-    /// <summary>
-    /// User call to get customer data from task (Server side)
-    /// </summary>
-    /// <param name="key">
-    /// The user key that can be retrieved later from client side.
-    /// </param>
-    /// <param name="value">
-    /// The data value to put in the database.
-    /// </param>
-    public byte[] GetData(string key)
-    {
-      return ClientService.GetData(key);
-    }
-
     /// <summary>
     /// User method to submit task from the service
     /// </summary>
@@ -126,7 +99,7 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
     /// </param>
     public string SubmitTask(byte[] payload)
     {
-      return ClientService.SubmitSubTasks(SessionId.Session,
+      return ClientService.SubmitSubTasks(SessionId.PackId(),
                                           TaskId,
                                           new[] { payload }
                           )
@@ -144,7 +117,7 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
     /// </param>
     public IEnumerable<string> SubmitTasks(IEnumerable<byte[]> payloads)
     {
-      return ClientService.SubmitSubTasks(SessionId.Session,
+      return ClientService.SubmitSubTasks(SessionId.PackId(),
                                           TaskId,
                                           payloads);
     }
@@ -161,7 +134,7 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
     /// <param name="parentId">With one Parent task Id</param>
     public string SubmitSubTask(byte[] payload, string parentId)
     {
-      return ClientService.SubmitSubTasks(SessionId.Session,
+      return ClientService.SubmitSubTasks(SessionId.PackId(),
                                           parentId,
                                           new[] { payload }).Single();
     }
@@ -177,14 +150,14 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
     /// </param>
     public IEnumerable<string> SubmitSubTasks(IEnumerable<byte[]> payloads, string parentTaskIds)
     {
-      return ClientService.SubmitSubTasks(SessionId.Session,
+      return ClientService.SubmitSubTasks(SessionId.PackId(),
                                           parentTaskIds,
                                           payloads);
     }
 
-    public string SubmitTaskWithDependencies(string session, byte[] payload, IList<string> dependencies)
+    public string SubmitTaskWithDependencies(byte[] payload, IList<string> dependencies)
     {
-      return ClientService.SubmitSubtasksWithDependencies(session,
+      return ClientService.SubmitSubtasksWithDependencies(SessionId.PackId(),
                                                           TaskId,
                                                           new[]
                                                           {
@@ -193,18 +166,17 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
                                                           }).Single();
     }
 
-    public IEnumerable<string> SubmitTasksWithDependencies(string session, IEnumerable<Tuple<byte[], IList<string>>> payloadWithDependencies)
+    public IEnumerable<string> SubmitTasksWithDependencies(IEnumerable<Tuple<byte[], IList<string>>> payloadWithDependencies)
     {
-      return ClientService.SubmitSubtasksWithDependencies(session,
+      return ClientService.SubmitSubtasksWithDependencies(SessionId.PackId(),
                                                           TaskId,
                                                           payloadWithDependencies);
     }
 
 
-    public string SubmitSubtaskWithDependencies(string session, string parentId, byte[] payload, IList<string> dependencies)
+    public string SubmitSubtaskWithDependencies(string parentId, byte[] payload, IList<string> dependencies)
     {
-      return SubmitSubtasksWithDependencies(session,
-                                            parentId,
+      return SubmitSubtasksWithDependencies(parentId,
                                             new[]
                                             {
                                               Tuple.Create(payload,
@@ -212,9 +184,9 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
                                             }).Single();
     }
 
-    public IEnumerable<string> SubmitSubtasksWithDependencies(string session, string parentId, IEnumerable<Tuple<byte[], IList<string>>> payloadWithDependencies)
+    public IEnumerable<string> SubmitSubtasksWithDependencies(string parentId, IEnumerable<Tuple<byte[], IList<string>>> payloadWithDependencies)
     {
-      return ClientService.SubmitSubtasksWithDependencies(session,
+      return ClientService.SubmitSubtasksWithDependencies(SessionId.PackId(),
                                                           parentId,
                                                           payloadWithDependencies);
     }
@@ -225,8 +197,9 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
     /// <param name="taskID">
     /// The task id of the task
     /// </param>
-    public void WaitCompletion(string taskId)
+    public void WaitForCompletion(string taskId)
     {
+      ClientService.OpenSession(SessionId);
       ClientService.WaitCompletion(taskId);
     }
 
@@ -237,11 +210,22 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
     /// <returns>return the customer payload</returns>
     public byte[] GetResult(string taskId)
     {
-      return ClientService.TryGetResult(taskId);
+      ClientService.OpenSession(SessionId);
+
+      return ClientService.GetResult(taskId);
     }
 
-    public ArmonikSymphonyClient ClientService { get; set; }
+
+    private ArmonikSymphonyClient ClientService { get; set; }
     public string TaskId { get; set; }
+
+    public void Configure(IConfiguration configuration)
+    {
+      Configuration = configuration;
+      ClientService = new ArmonikSymphonyClient(configuration);
+    }
+
+    public IConfiguration Configuration { get; set; }
   }
 
   public static class ServiceContainerBaseExt
