@@ -45,7 +45,7 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Services
                                            request.TaskOptions[AppsOptions.GridAppVersionKey]
                                           );
           var pathToZipFile = String.Format("{0}/{1}-v{2}.zip",
-                                            Configuration.GetSection("Volumes")["target_app_path"],
+                                            Configuration["target_data_path"],
                                             request.TaskOptions[AppsOptions.GridAppNameKey],
                                             request.TaskOptions[AppsOptions.GridAppVersionKey]
                                            );
