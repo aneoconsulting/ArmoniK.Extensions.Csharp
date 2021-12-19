@@ -38,7 +38,10 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Services
     {
       try
       {
-        if (string.IsNullOrEmpty(sessionId_) || !sessionId_.Equals(request.Session))
+        logger_.LogInformation($"Receive new task Session        {request.Session}#{request.Subsession} -> task {request.TaskId}");
+        logger_.LogInformation($"Previous Session#SubSession was {sessionId_}");
+
+        if (string.IsNullOrEmpty(sessionId_) || !sessionId_.Equals($"{request.Session}#{request.Subsession}"))
         {
           var assemblyPath = String.Format("/tmp/packages/{0}/{1}/{0}.dll",
                                            request.TaskOptions[AppsOptions.GridAppNameKey],
@@ -69,6 +72,8 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Services
           gridWorker_.InitializeSessionWorker(sessionId_);
         }
 
+        logger_.LogInformation($"Executing task {request.TaskId}");
+        
         var result = gridWorker_.Execute(sessionId_, request);
 
 

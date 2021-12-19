@@ -15,7 +15,7 @@ namespace ArmoniK.DevelopmentKit.Common
     /// </summary>
     /// <param name="sessionId"></param>
     /// <returns></returns>
-    public static string PackId(this SessionId sessionId) => $"{sessionId.Session}#{sessionId.SubSession}";
+    public static string PackSessionId(this SessionId sessionId) => $"{sessionId.Session}#{sessionId.SubSession}";
 
     /// <summary>
     /// Unpack SessionId and SubSessionId
@@ -23,7 +23,7 @@ namespace ArmoniK.DevelopmentKit.Common
     /// <param name="id"></param>
     /// <returns></returns>
     /// <exception cref="ArgumentException"></exception>
-    public static SessionId UnPackId(this string id)
+    public static SessionId UnPackSessionId(this string id)
     {
       var split = id.Split('#');
       if (split.Length != 2)

@@ -20,6 +20,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 using ArmoniK.Core.gRPC.V1;
 using ArmoniK.DevelopmentKit.Common;
@@ -27,19 +28,37 @@ using ArmoniK.DevelopmentKit.SymphonyApi.Client;
 using ArmoniK.DevelopmentKit.WorkerApi.Common;
 
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+
+using Serilog;
+using Serilog.Events;
 
 
 namespace ArmoniK.DevelopmentKit.SymphonyApi
 {
   public class GridWorker : IGridWorker
   {
-    private ServiceContainerBase serviceContainerBase_;
-    private SessionContext       sessionContext_;
-    private ServiceContext       serviceContext_;
-
+    private          ServiceContainerBase serviceContainerBase_;
+    private          SessionContext       sessionContext_;
+    private          ServiceContext       serviceContext_;
+    private readonly ILogger<GridWorker>  logger_;
     public TaskOptions TaskOptions { get; set; }
 
-public void Configure(IConfiguration configuration, IDictionary<string, string> taskOptions, AppsLoader appsLoader)
+    public GridWorker()
+    {
+      Log.Logger = new LoggerConfiguration()
+                   .MinimumLevel.Override("Microsoft",
+                                          LogEventLevel.Information)
+                   .Enrich.FromLogContext()
+                   .WriteTo.Console()
+                   .CreateBootstrapLogger();
+
+      var factory = new LoggerFactory().AddSerilog();
+
+      logger_ = factory.CreateLogger<GridWorker>();
+    }
+
+    public void Configure(IConfiguration configuration, IDictionary<string, string> taskOptions, AppsLoader appsLoader)
     {
       Configuration = configuration;
 
@@ -59,11 +78,15 @@ public void Configure(IConfiguration configuration, IDictionary<string, string> 
         ClientLibVersion = GridAppVersion,
       };
 
+      logger_.LogInformation(
+        $"Loading ServiceContainer from Application package : appName \n\t{GridAppName} \n\tvers : {GridAppVersion} \n\tnameSpace {GridAppNamespace}");
       serviceContainerBase_ = appsLoader.GetServiceContainerInstance<ServiceContainerBase>(GridAppNamespace,
                                                                                            "ServiceContainer");
 
       serviceContainerBase_.Configure(configuration);
 
+      logger_.LogDebug(
+        $"Call OnCreateService");
 
       OnCreateService();
     }
@@ -100,11 +123,11 @@ public void Configure(IConfiguration configuration, IDictionary<string, string> 
 
       if (serviceContainerBase_.SessionId == null || string.IsNullOrEmpty(serviceContainerBase_.SessionId.Session))
       {
-        serviceContainerBase_.SessionId = session?.UnPackId();
+        serviceContainerBase_.SessionId = session?.UnPackSessionId();
         //serviceContainerBase_.ClientService.OpenSession(session);
       }
 
-      serviceContainerBase_.SessionId = session?.UnPackId();
+      serviceContainerBase_.SessionId = session?.UnPackSessionId();
 
       serviceContainerBase_.OnSessionEnter(sessionContext_);
     }
@@ -125,20 +148,24 @@ public void Configure(IConfiguration configuration, IDictionary<string, string> 
       }
 
 
-      TaskId = request.TaskId;
+      TaskId = (new TaskId() { Task = request.TaskId, SubSession = request.Subsession }).PackTaskId();
 
       SessionId                       = session;
-      serviceContainerBase_.SessionId = session?.UnPackId();
+      serviceContainerBase_.SessionId = session?.UnPackSessionId();
 
       var taskContext = new TaskContext
       {
-        TaskId    = request.TaskId,
+        TaskId    = TaskId,
         TaskInput = request.Payload.ToByteArray(),
         SessionId = session,
-        ParentIds = request.Dependencies,
+        ParentIds = request.Dependencies.Select(t =>
+                                                  (new TaskId()
+                                                  {
+                                                    Task = t, SubSession = request.Subsession
+                                                  }).PackTaskId()),
       };
 
-      serviceContainerBase_.TaskId = request.TaskId;
+      serviceContainerBase_.TaskId = TaskId;
 
       var clientPayload = serviceContainerBase_.OnInvoke(sessionContext_,
                                                          taskContext);

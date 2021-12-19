@@ -99,7 +99,7 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
     /// </param>
     public string SubmitTask(byte[] payload)
     {
-      return ClientService.SubmitSubTasks(SessionId.PackId(),
+      return ClientService.SubmitSubTasks(SessionId.PackSessionId(),
                                           TaskId,
                                           new[] { payload }
                           )
@@ -117,7 +117,7 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
     /// </param>
     public IEnumerable<string> SubmitTasks(IEnumerable<byte[]> payloads)
     {
-      return ClientService.SubmitSubTasks(SessionId.PackId(),
+      return ClientService.SubmitSubTasks(SessionId.PackSessionId(),
                                           TaskId,
                                           payloads);
     }
@@ -134,7 +134,7 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
     /// <param name="parentId">With one Parent task Id</param>
     public string SubmitSubTask(byte[] payload, string parentId)
     {
-      return ClientService.SubmitSubTasks(SessionId.PackId(),
+      return ClientService.SubmitSubTasks(SessionId.PackSessionId(),
                                           parentId,
                                           new[] { payload }).Single();
     }
@@ -150,14 +150,14 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
     /// </param>
     public IEnumerable<string> SubmitSubTasks(IEnumerable<byte[]> payloads, string parentTaskIds)
     {
-      return ClientService.SubmitSubTasks(SessionId.PackId(),
+      return ClientService.SubmitSubTasks(SessionId.PackSessionId(),
                                           parentTaskIds,
                                           payloads);
     }
 
     public string SubmitTaskWithDependencies(byte[] payload, IList<string> dependencies)
     {
-      return ClientService.SubmitSubtasksWithDependencies(SessionId.PackId(),
+      return ClientService.SubmitSubtasksWithDependencies(SessionId.PackSessionId(),
                                                           TaskId,
                                                           new[]
                                                           {
@@ -168,7 +168,7 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
 
     public IEnumerable<string> SubmitTasksWithDependencies(IEnumerable<Tuple<byte[], IList<string>>> payloadWithDependencies)
     {
-      return ClientService.SubmitSubtasksWithDependencies(SessionId.PackId(),
+      return ClientService.SubmitSubtasksWithDependencies(SessionId.PackSessionId(),
                                                           TaskId,
                                                           payloadWithDependencies);
     }
@@ -186,7 +186,7 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
 
     public IEnumerable<string> SubmitSubtasksWithDependencies(string parentId, IEnumerable<Tuple<byte[], IList<string>>> payloadWithDependencies)
     {
-      return ClientService.SubmitSubtasksWithDependencies(SessionId.PackId(),
+      return ClientService.SubmitSubtasksWithDependencies(SessionId.PackSessionId(),
                                                           parentId,
                                                           payloadWithDependencies);
     }
@@ -204,10 +204,22 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
     }
 
     /// <summary>
-    /// Get Result from compute reply
+    /// User method to wait for tasks from the client
     /// </summary>
-    /// <param name="taskId">The task Id to get the result</param>
-    /// <returns>return the customer payload</returns>
+    /// <param name="taskID">
+    /// The task id of the task
+    /// </param>
+    public void WaitForSubTasksCompletion(string taskId)
+    {
+      ClientService.OpenSession(SessionId);
+      ClientService.WaitSubtasksCompletion(taskId);
+    }
+
+    /// <summary>
+        /// Get Result from compute reply
+        /// </summary>
+        /// <param name="taskId">The task Id to get the result</param>
+        /// <returns>return the customer payload</returns>
     public byte[] GetResult(string taskId)
     {
       ClientService.OpenSession(SessionId);
