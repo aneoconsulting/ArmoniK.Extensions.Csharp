@@ -231,11 +231,15 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
     private ArmonikSymphonyClient ClientService { get; set; }
     public string TaskId { get; set; }
 
-    public void Configure(IConfiguration configuration)
+    public void Configure(IConfiguration configuration, IDictionary<string, string> clientOptions)
     {
       Configuration = configuration;
       ClientService = new ArmonikSymphonyClient(configuration);
-    }
+
+      //Append or overwrite Dictionary Options in TaskOptions with one coming from client
+      clientOptions.ToList()
+                   .ForEach(pair => ClientService.TaskOptions.Options[pair.Key] = pair.Value);
+}
 
     public IConfiguration Configuration { get; set; }
   }

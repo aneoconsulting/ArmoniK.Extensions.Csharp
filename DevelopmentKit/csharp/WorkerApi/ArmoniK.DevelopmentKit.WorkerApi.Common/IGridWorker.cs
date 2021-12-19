@@ -32,10 +32,10 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Common
 {
   public interface IGridWorker
   {
-      public void Configure(IConfiguration configuration, IDictionary<string, string> taskOptions, AppsLoader appsLoader);
+      public void Configure(IConfiguration configuration, IDictionary<string, string> clientOptions, AppsLoader appsLoader);
       public void InitializeSessionWorker(string sessionId);
       public byte[] Execute(string session, ComputeRequest request);
         
-      public void SessionFinilize();
+      public void SessionFinalize();
   }
 }

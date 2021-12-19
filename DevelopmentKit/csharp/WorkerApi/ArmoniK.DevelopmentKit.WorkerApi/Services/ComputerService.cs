@@ -39,7 +39,7 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Services
       try
       {
         logger_.LogInformation($"Receive new task Session        {request.Session}#{request.Subsession} -> task {request.TaskId}");
-        logger_.LogInformation($"Previous Session#SubSession was {sessionId_}");
+        logger_.LogInformation($"Previous Session#SubSession was {sessionId_ ?? "NOT SET"}");
 
         if (string.IsNullOrEmpty(sessionId_) || !sessionId_.Equals($"{request.Session}#{request.Subsession}"))
         {
@@ -56,7 +56,7 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Services
 
           if (gridWorker_ != null && appsLoader_ != null)
           {
-            gridWorker_.SessionFinilize();
+            gridWorker_.SessionFinalize();
             appsLoader_.Dispose();
           }
 
