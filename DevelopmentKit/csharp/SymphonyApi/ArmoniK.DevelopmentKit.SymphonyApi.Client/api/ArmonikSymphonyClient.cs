@@ -2,7 +2,6 @@ using ArmoniK.Core.gRPC.V1;
 
 using Google.Protobuf;
 
-using Grpc.Core;
 using Grpc.Net.Client;
 
 using Microsoft.Extensions.Configuration;

@@ -16,13 +16,6 @@
    limitations under the License.
 
 */
-using Grpc.Core;
-
-using System;
-using System.Threading.Tasks;
-using Google.Protobuf.Collections;
-using Microsoft.Extensions.Configuration;
-
 
 namespace ArmoniK.DevelopmentKit.WorkerApi.Common
 {

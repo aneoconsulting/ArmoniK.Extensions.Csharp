@@ -16,16 +16,11 @@
    limitations under the License.
 
 */
-using Grpc.Core;
 
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using Google.Protobuf.Collections;
+
 using Microsoft.Extensions.Configuration;
 
-using ArmoniK.Core.gRPC;
 using ArmoniK.Core.gRPC.V1;
 
 namespace ArmoniK.DevelopmentKit.WorkerApi.Common
