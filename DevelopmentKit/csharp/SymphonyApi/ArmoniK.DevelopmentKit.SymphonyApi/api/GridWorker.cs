@@ -20,6 +20,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
 using ArmoniK.Core.gRPC.V1;
 using ArmoniK.DevelopmentKit.Common;
@@ -27,38 +29,72 @@ using ArmoniK.DevelopmentKit.SymphonyApi.Client;
 using ArmoniK.DevelopmentKit.WorkerApi.Common;
 
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+
+using Serilog;
+using Serilog.Events;
 
 
 namespace ArmoniK.DevelopmentKit.SymphonyApi
 {
   public class GridWorker : IGridWorker
   {
-    private ServiceContainer serviceContainer_;
-    private SessionContext    sessionContext_;
-    private ServiceContext    serviceContext_;
+    private          ServiceContainerBase serviceContainerBase_;
+    private          SessionContext       sessionContext_;
+    private          ServiceContext       serviceContext_;
+    private readonly ILogger<GridWorker>  logger_;
+    public TaskOptions TaskOptions { get; set; }
 
-    public void Configure(IConfiguration configuration, IDictionary<string, string> taskOptions, AppsLoader appsLoader)
+    public GridWorker()
+    {
+      Log.Logger = new LoggerConfiguration()
+                   .MinimumLevel.Override("Microsoft",
+                                          LogEventLevel.Information)
+                   .Enrich.FromLogContext()
+                   .WriteTo.Console()
+                   .CreateBootstrapLogger();
+
+      var factory = new LoggerFactory().AddSerilog();
+
+      logger_ = factory.CreateLogger<GridWorker>();
+    }
+
+    public void Configure(IConfiguration configuration, IDictionary<string, string> clientOptions, AppsLoader appsLoader)
     {
       Configuration = configuration;
 
-      GridAppName      = taskOptions[AppsOptions.GridAppNameKey];
-      GridAppVersion   = taskOptions[AppsOptions.GridAppVersionKey];
-      GridAppNamespace = taskOptions[AppsOptions.GridAppNamespaceKey];
+      GridAppName      = clientOptions[AppsOptions.GridAppNameKey];
+      GridAppVersion   = clientOptions[AppsOptions.GridAppVersionKey];
+      GridAppNamespace = clientOptions[AppsOptions.GridAppNamespaceKey];
 
 
-      serviceContext_                  = new ServiceContext
-                                         {
-                                           ApplicationName = GridAppName,
-                                           ServiceName = $"{GridAppName}-{GridAppVersion}-Service",
-                                         };
+      serviceContext_ = new ServiceContext
+      {
+        ApplicationName  = GridAppName,
+        ServiceName      = $"{GridAppName}-{GridAppVersion}-Service",
+        ClientLibVersion = GridAppVersion,
+        AppNamespace     = GridAppNamespace
+      };
 
-      sessionContext_.ClientLibVersion = GridAppVersion;
+      sessionContext_ = new SessionContext()
+      {
+        ClientLibVersion = GridAppVersion,
+      };
 
-      serviceContainer_ = appsLoader.GetServiceContainerInstance<ServiceContainer>(GridAppNamespace,
-                                                                                   "ServiceContainer");
+      logger_.LogInformation(
+        $"Loading ServiceContainer from Application package :  " +
+        $"\n\tappName   :   {GridAppName}" +
+        $"\n\tvers      :   {GridAppVersion}" +
+        $"\n\tnameSpace :   {GridAppNamespace}");
 
-      serviceContainer_.ClientService = new ArmonikSymphonyClient(configuration);
+      serviceContainerBase_ = appsLoader.GetServiceContainerInstance<ServiceContainerBase>(GridAppNamespace,
+                                                                                           "ServiceContainer");
 
+      serviceContainerBase_.Configure(configuration,
+                                      clientOptions);
+
+      logger_.LogDebug(
+        $"Call OnCreateService");
 
       OnCreateService();
     }
@@ -73,16 +109,16 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
 
 
     public string SessionId { get; set; }
-    
+
     public string TaskId { get; set; }
 
-public void InitializeSessionWorker(string sessionId)
+    public void InitializeSessionWorker(string sessionId)
     {
     }
 
     public void OnCreateService()
     {
-      serviceContainer_.OnCreateService(serviceContext_);
+      serviceContainerBase_.OnCreateService(serviceContext_);
     }
 
     /// <summary>
@@ -93,13 +129,14 @@ public void InitializeSessionWorker(string sessionId)
     {
       sessionContext_.SessionId = session;
 
-      if (serviceContainer_.SessionId == null || string.IsNullOrEmpty(serviceContainer_.SessionId.Session))
+      if (serviceContainerBase_.SessionId == null || string.IsNullOrEmpty(serviceContainerBase_.SessionId.Session))
       {
-        serviceContainer_.SessionId = session?.UnPackId();
-        serviceContainer_.ClientService.OpenSession(session);
+        serviceContainerBase_.SessionId = session?.UnPackSessionId();
       }
 
-      serviceContainer_.OnSessionEnter(sessionContext_);
+      serviceContainerBase_.SessionId = session?.UnPackSessionId();
+
+      serviceContainerBase_.OnSessionEnter(sessionContext_);
     }
 
     public byte[] Execute(string session, ComputeRequest request)
@@ -117,30 +154,36 @@ public void InitializeSessionWorker(string sessionId)
         }
       }
 
-      
-      TaskId = request.TaskId;
 
-      SessionId = session;
+      TaskId = (new TaskId() { Task = request.TaskId, SubSession = request.Subsession }).PackTaskId();
+
+      SessionId                       = session;
+      serviceContainerBase_.SessionId = session?.UnPackSessionId();
 
       var taskContext = new TaskContext
-                        {
-                          TaskId = request.TaskId,
-                          TaskInput = request.Payload.ToByteArray(),
-                          SessionId = session,
-                          ParentIds = request.Dependencies,
-                        };
+      {
+        TaskId    = TaskId,
+        TaskInput = request.Payload.ToByteArray(),
+        SessionId = session,
+        DependenciesTaskIds = request.Dependencies.Select(t =>
+                                                  (new TaskId()
+                                                  {
+                                                    Task = t, SubSession = request.Subsession
+                                                  }).PackTaskId()),
+        ClientOptions = request.TaskOptions
+      };
 
-      serviceContainer_.TaskId = request.TaskId;
+      serviceContainerBase_.TaskId = TaskId;
 
-      var clientPayload = serviceContainer_.OnInvoke(sessionContext_,
-                                                     taskContext);
+      var clientPayload = serviceContainerBase_.OnInvoke(sessionContext_,
+                                                         taskContext);
 
       // Return to user the taskId, could be any other information
       return clientPayload;
     }
 
 
-    public void SessionFinilize()
+    public void SessionFinalize()
     {
       OnSessionLeave();
     }
@@ -149,8 +192,8 @@ public void InitializeSessionWorker(string sessionId)
     {
       if (sessionContext_ != null)
       {
-        serviceContainer_.OnSessionLeave(sessionContext_);
-        SessionId      = null;
+        serviceContainerBase_.OnSessionLeave(sessionContext_);
+        SessionId       = null;
         sessionContext_ = null;
       }
     }
@@ -161,9 +204,9 @@ public void InitializeSessionWorker(string sessionId)
 
       if (serviceContext_ != null)
       {
-        serviceContainer_.OnDestroyService(serviceContext_);
+        serviceContainerBase_.OnDestroyService(serviceContext_);
         serviceContext_ = null;
-        SessionId      = null;
+        SessionId       = null;
       }
     }
   }

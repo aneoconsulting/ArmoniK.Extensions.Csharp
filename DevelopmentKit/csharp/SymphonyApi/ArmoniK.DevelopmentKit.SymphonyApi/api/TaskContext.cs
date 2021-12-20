@@ -19,6 +19,10 @@
 
 using System.Collections.Generic;
 
+using ArmoniK.Core.gRPC.V1;
+
+using Google.Protobuf.Collections;
+
 namespace ArmoniK.DevelopmentKit.SymphonyApi
 {
     /// <summary>
@@ -31,7 +35,9 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
 
         public string SessionId { get; set; }
 
-        public IEnumerable<string> ParentIds { get; set; }
+        public IEnumerable<string> DependenciesTaskIds { get; set; }
+
+        public IDictionary<string, string> ClientOptions { get; set; }
 
 
         /// <summary>

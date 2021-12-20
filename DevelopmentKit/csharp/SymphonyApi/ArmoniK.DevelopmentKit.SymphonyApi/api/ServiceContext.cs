@@ -27,6 +27,7 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
     {
         public string ApplicationName { get; set; }
         public string ServiceName { get; set; }
-
+        public string ClientLibVersion { get; set; }
+        public string AppNamespace { get; set; }
     }
 }
