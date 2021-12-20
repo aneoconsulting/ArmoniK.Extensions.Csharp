@@ -20,15 +20,11 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
 
 using ArmoniK.Core.gRPC.V1;
 using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.SymphonyApi.Client;
 using ArmoniK.DevelopmentKit.WorkerApi.Common;
-
-using Google.Protobuf.Collections;
 
 using Microsoft.Extensions.Configuration;
 

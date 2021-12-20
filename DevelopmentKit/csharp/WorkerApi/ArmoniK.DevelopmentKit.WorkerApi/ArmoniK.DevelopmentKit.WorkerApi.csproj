@@ -28,6 +28,7 @@
     <PackageReference Include="Grpc.AspNetCore" Version="2.40.0" />
     <PackageReference Include="JetBrains.Annotations" Version="2021.3.0" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.11.1" />
+    <PackageReference Include="Serilog.Sinks.Seq" Version="5.1.0" />
   </ItemGroup>
 
   <ItemGroup>

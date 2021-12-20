@@ -3,13 +3,11 @@
 // Copyright (c) ANEO. All rights reserved.
 //   W. Kirschenmann <wkirschenmann@aneo.fr>
 
-using System.Security.Cryptography.Xml;
 using JetBrains.Annotations;
 using Microsoft.Extensions.DependencyInjection;
 
 
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Options;
 
 namespace ArmoniK.Adapters.WorkerApi
 {

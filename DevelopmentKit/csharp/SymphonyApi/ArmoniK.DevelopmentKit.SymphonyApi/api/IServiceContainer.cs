@@ -1,14 +1,9 @@
 using System;
-using System.Text;
 using System.Collections.Generic;
 using System.Linq;
 
 using ArmoniK.Core.gRPC.V1;
-using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.SymphonyApi.Client;
-
-using Google.Protobuf;
-using Google.Protobuf.WellKnownTypes;
 
 namespace ArmoniK.DevelopmentKit.SymphonyApi
 {
