@@ -108,24 +108,6 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
     /// <param name="sessionId">
     /// The session id to attach the new task.
     /// </param>
-    /// <param name="payload">
-    /// The user payload to execute. Generaly used for subtasking.
-    /// </param>
-    public string SubmitTask(byte[] payload)
-    {
-      return ClientService.SubmitSubTasks(SessionId.PackSessionId(),
-                                          TaskId,
-                                          new[] { payload }
-                          )
-                          .Single();
-    }
-
-    /// <summary>
-    /// User method to submit task from the service
-    /// </summary>
-    /// <param name="sessionId">
-    /// The session id to attach the new task.
-    /// </param>
     /// <param name="payloads">
     /// The user payload list to execute. Generaly used for subtasking.
     /// </param>
@@ -136,22 +118,6 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
                                           payloads);
     }
 
-    /// <summary>
-    /// User method to submit task from the service
-    /// </summary>
-    /// <param name="sessionId">
-    /// The session id to attach the new task.
-    /// </param>
-    /// <param name="payload">
-    /// The user payload to execute. Generaly used for subtasking.
-    /// </param>
-    /// <param name="parentId">With one Parent task Id</param>
-    public string SubmitSubTask(byte[] payload, string parentId)
-    {
-      return ClientService.SubmitSubTasks(SessionId.PackSessionId(),
-                                          parentId,
-                                          new[] { payload }).Single();
-    }
 
     /// <summary>
     /// User method to submit task from the service
@@ -168,24 +134,6 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
       return ClientService.SubmitSubTasks(SessionId.PackSessionId(),
                                           parentTaskIds,
                                           payloads);
-    }
-
-    /// <summary>
-    /// The method to submit One task with dependencies tasks. This task will wait for
-    /// to start until all dependencies are completed successfully
-    /// </summary>
-    /// <param name="payload">The payload to submit</param>
-    /// <param name="dependencies">A list of task Id in dependence of this created task</param>
-    /// <returns>return the taskId of the created task </returns>
-    public string SubmitTaskWithDependencies(byte[] payload, IList<string> dependencies)
-    {
-      return ClientService.SubmitSubtasksWithDependencies(SessionId.PackSessionId(),
-                                                          TaskId,
-                                                          new[]
-                                                          {
-                                                            Tuple.Create(payload,
-                                                                         dependencies),
-                                                          }).Single();
     }
 
     /// <summary>
@@ -272,7 +220,7 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
     }
 
 
-    private ArmonikSymphonyClient ClientService { get; set; }
+    internal ArmonikSymphonyClient ClientService { get; set; }
 
     /// <summary>
     /// Get or set the taskId (ONLY INTERNAL USED)
@@ -309,10 +257,31 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
     /// <summary>
     /// User method to submit task from the service
     /// </summary>
-    /// <param name="sessionId">
-    /// The session id to attach the new task.
+    /// <param name="payload">
+    /// The user payload to execute. Generaly used for subtasking.
     /// </param>
-    /// <param name="serviceContainer"></param>
+    public static string SubmitTask(this ServiceContainerBase serviceContainerBase, byte[] payload)
+    {
+      return serviceContainerBase.SubmitSubTasks(new[] { payload },
+                                                 serviceContainerBase.TaskId).Single();
+    }
+
+    /// <summary>
+    /// User method to submit task from the service
+    /// </summary>
+    /// <param name="payload">
+    /// The user payload to execute. Generaly used for subtasking.
+    /// </param>
+    /// <param name="parentId">With one Parent task Id</param>
+    public static string SubmitSubTask(this ServiceContainerBase serviceContainerBase, byte[] payload, string parentId)
+    {
+      return serviceContainerBase.SubmitSubTasks(new[] { payload },
+                                                 serviceContainerBase.TaskId).Single();
+    }
+
+    /// <summary>
+    /// User method to submit task from the service
+    /// </summary>
     /// <param name="payload">
     /// The user payload to execute. Generaly used for subtasking.
     /// </param>
@@ -322,5 +291,23 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
       return serviceContainerBase.SubmitSubTasks(payload,
                                                  parentId);
     }
-  }
+
+    /// <summary>
+    /// The method to submit One task with dependencies tasks. This task will wait for
+    /// to start until all dependencies are completed successfully
+    /// </summary>
+    /// <param name="payload">The payload to submit</param>
+    /// <param name="dependencies">A list of task Id in dependence of this created task</param>
+    /// <returns>return the taskId of the created task </returns>
+    public static string SubmitTaskWithDependencies(this ServiceContainerBase serviceContainerBase, byte[] payload, IList<string> dependencies)
+    {
+      return serviceContainerBase.ClientService.SubmitSubtasksWithDependencies(serviceContainerBase.SessionId.PackSessionId(),
+                                                                               serviceContainerBase.TaskId,
+                                                                               new[]
+                                                                               {
+                                                                                 Tuple.Create(payload,
+                                                                                              dependencies),
+                                                                               }).Single();
+    }
+}
 }

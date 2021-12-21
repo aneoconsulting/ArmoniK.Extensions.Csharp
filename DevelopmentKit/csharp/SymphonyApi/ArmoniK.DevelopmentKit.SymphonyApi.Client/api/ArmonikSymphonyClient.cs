@@ -348,24 +348,6 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client
     }
 
     /// <summary>
-    /// The method to submit One task with dependencies tasks. This task will wait for
-    /// to start until all dependencies are completed successfully
-    /// </summary>
-    /// <param name="session">The session Id where the task will be attached</param>
-    /// <param name="payload">The payload to submit</param>
-    /// <param name="dependencies">A list of task Id in dependence of this created task</param>
-    /// <returns>return the taskId of the created task </returns>
-    public string SubmitTaskWithDependencies(string session, byte[] payload, IList<string> dependencies)
-    {
-      return SubmitTasksWithDependencies(session,
-                                         new[]
-                                         {
-                                           Tuple.Create(payload,
-                                                        dependencies),
-                                         }).Single();
-    }
-
-    /// <summary>
     /// The method to submit several tasks with dependencies tasks. This task will wait for
     /// to start until all dependencies are completed successfully
     /// </summary>
@@ -506,6 +488,43 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client
                    .Single();
     }
 
+    /// <summary>
+    /// The method to submit sub task coming from a parent task
+    /// Use this method only on server side development
+    /// </summary>
+    /// <param name="parentTaskId">The task Id of a parent task</param>
+    /// <param name="payloads">A lists of payloads creating a list of subTask</param>
+    /// <returns>Return a list of taskId</returns>
+    public static IEnumerable<string> SubmitSubTask(this ArmonikSymphonyClient client, string parentTaskId, byte[] payloads)
+    {
+      return client.SubmitSubTasks(client.SessionId.PackSessionId(),
+                                   parentTaskId,
+                                   new[] { payloads });
+    }
+
+    /// <summary>
+    /// The method to submit One task with dependencies tasks. This task will wait for
+    /// to start until all dependencies are completed successfully
+    /// </summary>
+    /// <param name="session">The session Id where the task will be attached</param>
+    /// <param name="payload">The payload to submit</param>
+    /// <param name="dependencies">A list of task Id in dependence of this created task</param>
+    /// <returns>return the taskId of the created task </returns>
+    public static string SubmitTaskWithDependencies(this ArmonikSymphonyClient client, byte[] payload, IList<string> dependencies)
+    {
+      return client.SubmitTasksWithDependencies(client.SessionId.PackSessionId(),
+                                                new[]
+                                                {
+                                                  Tuple.Create(payload,
+                                                               dependencies),
+                                                }).Single();
+    }
+
+    /// <summary>
+    /// Get the result of One task. If there no result, the function return byte[0] 
+    /// </summary>
+    /// <param name="taskId">The task Id trying to get result</param>
+    /// <returns>Returns the result or byte[0] if there no result</returns>
     public static byte[] GetResult(this ArmonikSymphonyClient client, string taskId)
     {
       var results = client.GetResults(new List<string>() { taskId });

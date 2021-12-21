@@ -23,6 +23,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+using ArmoniK.Attributes;
 using ArmoniK.Core.gRPC.V1;
 using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.SymphonyApi.Client;
@@ -37,6 +38,7 @@ using Serilog.Events;
 
 namespace ArmoniK.DevelopmentKit.SymphonyApi
 {
+  [XmlDocIgnore]
   public class GridWorker : IGridWorker
   {
     private          ServiceContainerBase serviceContainerBase_;
