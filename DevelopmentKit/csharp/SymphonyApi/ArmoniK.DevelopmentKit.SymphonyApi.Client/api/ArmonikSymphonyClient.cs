@@ -219,7 +219,12 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client
         $"Wait for subTask {parentTaskId} coming from Session {SessionId.Session} " +
         $"and subSession {SessionId.SubSession} with Task SubSession {parentTaskId.UnPackTaskId().SubSession}");
 
-      ControlPlaneService.WaitForSubTasksCompletion(taskFilter);
+      ControlPlaneService.WaitForSubTasksCompletion(new()
+                                                    {
+                                                      Filter = taskFilter, 
+                                                      ThrowOnTaskCancellation = true, 
+                                                      ThrowOnTaskError = true,
+                                                    });
     }
 
     /// <summary>
@@ -239,7 +244,12 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client
         $"Wait for task {taskId} coming from Session {SessionId.Session} " +
         $"and subSession {SessionId.SubSession} with Task SubSession {taskId.UnPackTaskId().SubSession}");
 
-      ControlPlaneService.WaitForCompletion(taskFilter);
+      ControlPlaneService.WaitForCompletion(new()
+                                            {
+                                              Filter                  = taskFilter,
+                                              ThrowOnTaskCancellation = true,
+                                              ThrowOnTaskError        = true,
+                                            });
     }
 
     /// <summary>
