@@ -12,7 +12,7 @@
 
 
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-    <DebugType>embedded</DebugType>
+    <DebugType>Portable</DebugType>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
@@ -22,17 +22,7 @@
     <Optimize>true</Optimize>
   </PropertyGroup>
 
-  <!--<ItemGroup>
-    <PackageReference Include="Google.Protobuf" Version="3.19.1" />
-    <PackageReference Include="Grpc.Net.Client" Version="2.40.0" />
-    <PackageReference Include="Grpc.Net.ClientFactory" Version="2.40.0" />
-    <PackageReference Include="Grpc.Tools" Version="2.42.0">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-  </ItemGroup>-->
-
-  
+    
 
   <Target Name="DeleteLocalCache" BeforeTargets="Pack">
     <RemoveDir Directories="$(NugetPackageRoot)/$(PackageId.ToLower())/$(ArmonikVersion)" />
