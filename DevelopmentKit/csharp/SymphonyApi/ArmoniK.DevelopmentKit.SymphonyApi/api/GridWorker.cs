@@ -70,15 +70,15 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
       GridAppNamespace = clientOptions[AppsOptions.GridAppNamespaceKey];
 
 
-      serviceContext_ = new ServiceContext
-      {
+      serviceContext_ = new()
+                        {
         ApplicationName  = GridAppName,
         ServiceName      = $"{GridAppName}-{GridAppVersion}-Service",
         ClientLibVersion = GridAppVersion,
         AppNamespace     = GridAppNamespace
       };
 
-      sessionContext_ = new SessionContext()
+      sessionContext_ = new()
       {
         ClientLibVersion = GridAppVersion,
       };

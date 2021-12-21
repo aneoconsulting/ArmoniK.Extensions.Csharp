@@ -236,7 +236,7 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
     public void Configure(IConfiguration configuration, IDictionary<string, string> clientOptions)
     {
       Configuration = configuration;
-      ClientService = new ArmonikSymphonyClient(configuration);
+      ClientService = new(configuration);
 
       //Append or overwrite Dictionary Options in TaskOptions with one coming from client
       clientOptions.ToList()

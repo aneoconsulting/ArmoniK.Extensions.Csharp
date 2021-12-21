@@ -48,7 +48,8 @@ namespace ArmoniK.DevelopmentKit.Common
       if (split.Length != 2)
         throw new ArgumentException("Id is not a valid SessionId",
                                     nameof(id));
-      return new SessionId { Session = split[0], SubSession = split[1] };
+      return new()
+             { Session = split[0], SubSession = split[1] };
     }
   }
 }

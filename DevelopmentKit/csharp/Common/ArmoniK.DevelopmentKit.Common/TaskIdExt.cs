@@ -51,7 +51,8 @@ namespace ArmoniK.DevelopmentKit.Common
         if (split.Length != 2)
           throw new ArgumentException("Id is not a valid TaskId",
                                       nameof(id));
-        return new TaskId { SubSession = split[0], Task = split[1] };
+        return new()
+               { SubSession = split[0], Task = split[1] };
       }
 
       /// <summary>

@@ -133,7 +133,7 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client
     private void ControlPlaneConnection()
     {
       var channel = GrpcChannel.ForAddress(controlPlanAddress_["Endpoint"]);
-      ControlPlaneService ??= new ClientService.ClientServiceClient(channel);
+      ControlPlaneService ??= new(channel);
     }
 
     /// <summary>
@@ -154,8 +154,8 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client
           var sessionOptions = new SessionOptions
           {
             DefaultTaskOption = TaskOptions,
-            ParentTask = new TaskId
-            {
+            ParentTask = new()
+                         {
               Session    = SessionId.Session,
               SubSession = SessionId.SubSession,
               Task       = taskId
@@ -186,8 +186,8 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client
     {
       TaskOptions taskOptions = new()
       {
-        MaxDuration = new Duration
-        {
+        MaxDuration = new()
+                      {
           Seconds = 300,
         },
         MaxRetries = 5,
@@ -305,8 +305,8 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client
       {
         var taskRequest = new TaskRequest
         {
-          Payload = new Payload
-          {
+          Payload = new()
+                    {
             Data = ByteString.CopyFrom(payload),
           },
         };
@@ -340,7 +340,8 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client
       OpenSession(session.UnPackSessionId());
       if (SubSessionId is null)
         CreateSubSession(parentTaskId);
-      var taskRequests = payloads.Select(p => new TaskRequest { Payload = new Payload { Data = ByteString.CopyFrom(p) } });
+      var taskRequests = payloads.Select(p => new TaskRequest { Payload = new()
+                                                                          { Data = ByteString.CopyFrom(p) } });
 
       var createTaskRequest = new CreateTaskRequest { SessionId = SubSessionId };
       createTaskRequest.TaskRequests.Add(taskRequests);
@@ -369,7 +370,8 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client
       OpenSession(session.UnPackSessionId());
       var taskRequests = payloadWithDependencies.Select(p =>
       {
-        var output = new TaskRequest { Payload = new Payload { Data = ByteString.CopyFrom(p.Item1) } };
+        var output = new TaskRequest { Payload = new()
+                                                 { Data = ByteString.CopyFrom(p.Item1) } };
         output.DependenciesTaskIds.Add(p.Item2);
         return output;
       });
@@ -432,7 +434,8 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client
 
       var taskRequests = payloadWithDependencies.Select(p =>
       {
-        var output = new TaskRequest { Payload = new Payload { Data = ByteString.CopyFrom(p.Item1) } };
+        var output = new TaskRequest { Payload = new()
+                                                 { Data = ByteString.CopyFrom(p.Item1) } };
         output.DependenciesTaskIds.Add(p.Item2.Select(t => t.UnPackTaskId().Task));
         return output;
       });

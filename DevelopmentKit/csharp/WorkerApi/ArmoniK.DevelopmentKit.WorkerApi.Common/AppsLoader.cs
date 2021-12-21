@@ -52,8 +52,8 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Common
       // Create a new context and mark it as 'collectible'.
       var tempLoadContextName = Guid.NewGuid().ToString();
 
-      loadContext_ = new AssemblyLoadContext(tempLoadContextName,
-                                            true);
+      loadContext_ = new(tempLoadContextName,
+                         true);
       string localPathToAssembly;
 
 
@@ -89,7 +89,7 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Common
       PathToAssemblyGridWorker = localPathToAssembly;
 
       var currentDomain = AppDomain.CurrentDomain;
-      currentDomain.AssemblyResolve += new ResolveEventHandler(LoadFromSameFolder);
+      currentDomain.AssemblyResolve += new(LoadFromSameFolder);
 
       Assembly LoadFromSameFolder(object sender, ResolveEventArgs args)
       {

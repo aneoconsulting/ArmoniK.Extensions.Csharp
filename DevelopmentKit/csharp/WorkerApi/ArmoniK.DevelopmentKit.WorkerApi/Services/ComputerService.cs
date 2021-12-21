@@ -81,9 +81,9 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Services
             appsLoader_.Dispose();
           }
 
-          appsLoader_ = new AppsLoader(Configuration,
-                                      assemblyPath,
-                                      pathToZipFile);
+          appsLoader_ = new(Configuration,
+                            assemblyPath,
+                            pathToZipFile);
           //request.TaskOptions["GridWorkerNamespace"]
           gridWorker_ = appsLoader_.GetGridWorkerInstance();
           gridWorker_.Configure(Configuration,
