@@ -21,25 +21,20 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using Grpc.Core;
-
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using Google.Protobuf.Collections;
-using Microsoft.Extensions.Configuration;
 
 using ArmoniK.Core.gRPC.V1;
+
+using Microsoft.Extensions.Configuration;
 
 namespace ArmoniK.DevelopmentKit.WorkerApi.Common
 {
   public interface IGridWorker
   {
-      public void Configure(IConfiguration configuration, IDictionary<string, string> clientOptions, AppsLoader appsLoader);
-      public void InitializeSessionWorker(string sessionId);
-      public byte[] Execute(string session, ComputeRequest request);
-        
-      public void SessionFinalize();
+    public void   Configure(IConfiguration       configuration, IDictionary<string, string> clientOptions, AppsLoader appsLoader);
+    public void   InitializeSessionWorker(string sessionId);
+    public byte[] Execute(string                 session, ComputeRequest request);
+
+    public void SessionFinalize();
   }
 }
