@@ -33,7 +33,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Common\ArmoniK.DevelopmentKit.Common\ArmoniK.DevelopmentKit.Common.csproj" />
-    <ProjectReference Include="..\ArmoniK.DevelopmentKit.WorkerApi.Common\Armonik.DevelopmentKit.WorkerApi.Common.csproj" />
+    <ProjectReference Include="..\ArmoniK.DevelopmentKit.WorkerApi.Common\ArmoniK.DevelopmentKit.WorkerApi.Common.csproj" />
   </ItemGroup>
 
   <Target Name="DeleteLocalCache" BeforeTargets="Pack">
