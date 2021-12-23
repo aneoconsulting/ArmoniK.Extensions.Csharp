@@ -24,14 +24,13 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Text;
-using System.IO.Compression;
 using System.Text.RegularExpressions;
 using System.Threading;
 
 using ArmoniK.DevelopmentKit.WorkerApi.Common.Exceptions;
-
 
 namespace ArmoniK.DevelopmentKit.WorkerApi.Common
 {
@@ -40,7 +39,6 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Common
     private static readonly string RootAppPath = "/tmp/packages";
 
     /// <summary>
-    /// 
     /// </summary>
     /// <param name="assemblyNameFilePath"></param>
     /// <returns></returns>
@@ -56,7 +54,6 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Common
     }
 
     /// <summary>
-    /// 
     /// </summary>
     /// <param name="assemblyNameFilePath"></param>
     /// <returns></returns>
@@ -82,8 +79,8 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Common
       var r = new Regex(pat,
                         RegexOptions.IgnoreCase);
 
-      var m          = r.Match(filePathNoExt);
-      
+      var m = r.Match(filePathNoExt);
+
       if (m.Success)
       {
         appName     = m.Groups[1].Value;
@@ -119,7 +116,6 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Common
     }
 
     /// <summary>
-    /// 
     /// </summary>
     /// <param name="appVolume"></param>
     /// <param name="assemblyNameFilePath"></param>
@@ -148,9 +144,7 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Common
       {
         //Now at least if dll exist or if a lock file exists and wait for unlock
         if (File.Exists($"{basePath}/{assemblyName}.dll"))
-        {
           return true;
-        }
 
         if (File.Exists($"{basePath}/{assemblyName}.lock"))
         {
@@ -163,10 +157,8 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Common
           {
             Thread.Sleep(loopingWait * 1000);
             retry++;
-            if (retry > (waitForArchiver >> 2))
-            {
+            if (retry > waitForArchiver >> 2)
               throw new WorkerApiException($"Wait for unlock unzip was timeout after {waitForArchiver * 2} seconds");
-            }
           }
         }
       }
@@ -175,11 +167,12 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Common
     }
 
     /// <summary>
-    /// Unzip Archive if the temporary folder doesn't contain the
-    /// foler convention path should exist in /tmp/{AppName}/{AppVersion/AppName.dll
+    ///   Unzip Archive if the temporary folder doesn't contain the
+    ///   foler convention path should exist in /tmp/{AppName}/{AppVersion/AppName.dll
     /// </summary>
-    /// <param name="assemblyNameFilePath">The path to the zip file
-    /// Pattern for zip file has to be {AppName}-v{AppVersion}.zip
+    /// <param name="assemblyNameFilePath">
+    ///   The path to the zip file
+    ///   Pattern for zip file has to be {AppName}-v{AppVersion}.zip
     /// </param>
     /// <returns>return string containing the path to the client assembly (.dll) </returns>
     public static string UnzipArchive(string assemblyNameFilePath)
@@ -197,9 +190,7 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Common
 
       if (ArchiveAlreadyExtracted(assemblyNameFilePath,
                                   0))
-      {
         return pathToAssembly;
-      }
 
       if (!Directory.Exists(pathToAssemblyDir))
         Directory.CreateDirectory(pathToAssemblyDir);
@@ -207,8 +198,7 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Common
       var lockFileName = $"{pathToAssemblyDir}/{assemblyName}.lock";
 
 
-      using (var fileStream = new FileStream(
-                                             lockFileName,
+      using (var fileStream = new FileStream(lockFileName,
                                              FileMode.OpenOrCreate,
                                              FileAccess.ReadWrite,
                                              FileShare.ReadWrite))
@@ -216,15 +206,13 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Common
         var lockfileForExtractionString = "Lockfile for extraction";
 
         var unicodeEncoding = new UnicodeEncoding();
-        var             textLength      = unicodeEncoding.GetByteCount(lockfileForExtractionString);
+        var textLength      = unicodeEncoding.GetByteCount(lockfileForExtractionString);
 
         if (fileStream.Length == 0)
-        {
           //Try to lock file to protect extraction
           fileStream.Write(new UnicodeEncoding().GetBytes(lockfileForExtractionString),
                            0,
                            unicodeEncoding.GetByteCount(lockfileForExtractionString));
-        }
 
         try
         {
@@ -259,10 +247,8 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Common
 
       //Check now if the assembly is present
       if (!File.Exists(pathToAssembly))
-      {
         throw new WorkerApiException($"Fail to find assembly {pathToAssembly}. Something went wrong during the extraction. " +
                                      $"Please sure that tree folder inside is {assemblyName}/{assemblyVersion}/*.dll");
-      }
 
       return pathToAssembly;
     }

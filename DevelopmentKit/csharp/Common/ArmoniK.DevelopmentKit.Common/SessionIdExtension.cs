@@ -30,14 +30,14 @@ namespace ArmoniK.DevelopmentKit.Common
   public static class SessionIdExtension
   {
     /// <summary>
-    /// Concatenante SessionId and SubSessionId into a string
+    ///   Concatenante SessionId and SubSessionId into a string
     /// </summary>
     /// <param name="sessionId"></param>
     /// <returns></returns>
     public static string PackSessionId(this SessionId sessionId) => $"{sessionId.Session}#{sessionId.SubSession}";
 
     /// <summary>
-    /// Unpack SessionId and SubSessionId
+    ///   Unpack SessionId and SubSessionId
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
@@ -48,7 +48,11 @@ namespace ArmoniK.DevelopmentKit.Common
       if (split.Length != 2)
         throw new ArgumentException("Id is not a valid SessionId",
                                     nameof(id));
-      return new SessionId { Session = split[0], SubSession = split[1] };
+      return new()
+             {
+               Session    = split[0],
+               SubSession = split[1],
+             };
     }
   }
 }

@@ -39,10 +39,10 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Services
 {
   public class ComputerService : Core.gRPC.V1.ComputerService.ComputerServiceBase
   {
-    private          string                   sessionId_;
+    private readonly ILogger<ComputerService> logger_;
     private          AppsLoader               appsLoader_;
     private          IGridWorker              gridWorker_;
-    private readonly ILogger<ComputerService> logger_;
+    private          string                   sessionId_;
 
     public ComputerService(IConfiguration           configuration,
                            ILogger<ComputerService> logger)
@@ -64,15 +64,13 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Services
 
         if (string.IsNullOrEmpty(sessionId_) || !sessionId_.Equals($"{request.Session}#{request.Subsession}"))
         {
-          var assemblyPath = String.Format("/tmp/packages/{0}/{1}/{0}.dll",
+          var assemblyPath = string.Format("/tmp/packages/{0}/{1}/{0}.dll",
                                            request.TaskOptions[AppsOptions.GridAppNameKey],
-                                           request.TaskOptions[AppsOptions.GridAppVersionKey]
-                                          );
-          var pathToZipFile = String.Format("{0}/{1}-v{2}.zip",
+                                           request.TaskOptions[AppsOptions.GridAppVersionKey]);
+          var pathToZipFile = string.Format("{0}/{1}-v{2}.zip",
                                             Configuration["target_data_path"],
                                             request.TaskOptions[AppsOptions.GridAppNameKey],
-                                            request.TaskOptions[AppsOptions.GridAppVersionKey]
-                                           );
+                                            request.TaskOptions[AppsOptions.GridAppVersionKey]);
           sessionId_ = $"{request.Session}#{request.Subsession}";
 
           if (gridWorker_ != null && appsLoader_ != null)
@@ -81,24 +79,28 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Services
             appsLoader_.Dispose();
           }
 
-          appsLoader_ = new AppsLoader(Configuration,
-                                      assemblyPath,
-                                      pathToZipFile);
+          appsLoader_ = new(Configuration,
+                            assemblyPath,
+                            pathToZipFile);
           //request.TaskOptions["GridWorkerNamespace"]
           gridWorker_ = appsLoader_.GetGridWorkerInstance();
           gridWorker_.Configure(Configuration,
-                               request.TaskOptions,
-                               appsLoader_);
+                                request.TaskOptions,
+                                appsLoader_);
 
           gridWorker_.InitializeSessionWorker(sessionId_);
         }
 
         logger_.LogInformation($"Executing task {request.TaskId}");
-        
-        var result = gridWorker_.Execute(sessionId_, request);
+
+        var result = gridWorker_.Execute(sessionId_,
+                                         request);
 
 
-        return Task.FromResult(new ComputeReply { Result = ByteString.CopyFrom(result) });
+        return Task.FromResult(new ComputeReply
+                               {
+                                 Result = ByteString.CopyFrom(result),
+                               });
       }
       catch (WorkerApiException we)
       {

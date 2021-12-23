@@ -19,36 +19,32 @@
 
 using System.Collections.Generic;
 
-using ArmoniK.Core.gRPC.V1;
-
-using Google.Protobuf.Collections;
-
 namespace ArmoniK.DevelopmentKit.SymphonyApi
 {
+  /// <summary>
+  ///   Provides the context for the task that is bound to the given service invocation
+  /// </summary>
+  public class TaskContext
+  {
+    public byte[] Payload;
+    public string TaskId { get; set; }
+
+    public string SessionId { get; set; }
+
+    public IEnumerable<string> DependenciesTaskIds { get; set; }
+
+    public IDictionary<string, string> ClientOptions { get; set; }
+
+
     /// <summary>
-    /// Provides the context for the task that is bound to the given service invocation
+    ///   The customer payload to deserialize by the customer
     /// </summary>
-    public class TaskContext
+    /// <value></value>
+    public byte[] TaskInput
     {
-        public string TaskId { get; set; }
-        public byte[] Payload;
+      get => Payload;
 
-        public string SessionId { get; set; }
-
-        public IEnumerable<string> DependenciesTaskIds { get; set; }
-
-        public IDictionary<string, string> ClientOptions { get; set; }
-
-
-        /// <summary>
-        /// The customer payload to deserialize by the customer
-        /// </summary>
-        /// <value></value>
-        public byte[] TaskInput
-        {
-            get { return Payload; }
-
-            set { Payload = value; }
-        }
+      set => Payload = value;
     }
+  }
 }
