@@ -1,14 +1,17 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <Import Project="..\..\..\..\Versions.xml" />
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <Company>ANEO</Company>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerfileContext>..\..\..\..\..\..\..</DockerfileContext>
+    <OutputType>Library</OutputType>
+    <Authors>$(Authors)</Authors>
     <Version>$(ArmonikVersion)</Version>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <IsPackable>true</IsPackable>
     <PackageOutputPath>..\..\..\..\publish</PackageOutputPath>
-    <RuntimeIdentifiers>win-x64;linux-x64</RuntimeIdentifiers>
+    <RuntimeIdentifier>linux-x64</RuntimeIdentifier>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
 
@@ -19,12 +22,21 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)'=='Release'">
-    <Optimize>true</Optimize>
-  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="6.0.0" />
+  </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Google.Protobuf" Version="3.19.1" />
+    <ProjectReference Include="..\..\Common\ArmoniK.DevelopmentKit.Common\ArmoniK.DevelopmentKit.Common.csproj" />
+    <ProjectReference Include="..\..\Generated\src\ArmoniK.Csharp.csproj" />
+    <ProjectReference Include="..\..\WorkerApi\ArmoniK.DevelopmentKit.WorkerApi.Common\ArmoniK.DevelopmentKit.WorkerApi.Common.csproj" />
+    <ProjectReference Include="..\ArmoniK.DevelopmentKit.GridServer\ArmoniK.DevelopmentKit.GridServer.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -33,11 +45,6 @@
     <PackageReference Include="Serilog.Settings.Configuration" Version="3.3.0" />
     <PackageReference Include="Serilog.Sinks.Console" Version="4.0.1" />
     <PackageReference Include="Serilog.Formatting.Compact" Version="1.1.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\Common\ArmoniK.DevelopmentKit.Common\ArmoniK.DevelopmentKit.Common.csproj" />
-    <ProjectReference Include="..\..\WorkerApi\ArmoniK.DevelopmentKit.WorkerApi.Common\ArmoniK.DevelopmentKit.WorkerApi.Common.csproj" />
   </ItemGroup>
 
   <Target Name="DeleteLocalCache" BeforeTargets="Pack">

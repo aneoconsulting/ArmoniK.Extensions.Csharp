@@ -25,10 +25,12 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Common
 {
   public static class AppsOptions
   {
+      public static string EngineTypeNameKey { get; } = "EngineType";
       public static string GridAppNameKey { get; } = "GridAppName";
       public static string GridAppVersionKey { get; } = "GridAppVersion";
       public static string GridAppNamespaceKey { get; } = "GridAppNamespace";
       public static string GridVolumesKey { get; } = "gridVolumes";
       public static string GridAppVolumesKey { get; } = "target_app_path";
+      public static string GridServiceNameKey { get; set; } = "GridServiceName";
   }
 }

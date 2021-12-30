@@ -35,66 +35,66 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Common
 {
   public class AppsLoader
   {
-    private Assembly assembly_ = null;
+    private Assembly assembly_;
 
-    private readonly AssemblyLoadContext loadContext_                      = null;
-    private readonly Assembly            assemblyGridWorker_               = null;
-    private const    string              ArmoniKDevelopmentKitSymphonyApi = "ArmoniK.DevelopmentKit.SymphonyApi";
-    private readonly ILogger<AppsLoader> logger_;
+    private readonly AssemblyLoadContext loadContext_;
+    private readonly Assembly            assemblyGridWorker_;
 
-    public IConfiguration Configuration { get; }
+    private readonly EngineType engineType_;
 
-    public AppsLoader(IConfiguration configuration, string pathToAssemblies, string pathToZip)
+    private string ArmoniKDevelopmentKitServerApi { get; set; }
+
+    public AppsLoader(IConfiguration configuration, string engineTypeAssemblyName, string pathToZip)
     {
-      logger_ = LoggerFactory.Create(builder =>
-                                       builder.AddConfiguration(configuration)).CreateLogger<AppsLoader>();
+      engineType_                    = EngineTypeHelper.ToEnum(engineTypeAssemblyName);
+
+      PathToZip = pathToZip;
+
+      ArmoniKDevelopmentKitServerApi = new EngineTypes()[engineType_];
+
+      var logger = LoggerFactory.Create(builder =>
+                                           builder.AddConfiguration(configuration)).CreateLogger<AppsLoader>();
 
       // Create a new context and mark it as 'collectible'.
       var tempLoadContextName = Guid.NewGuid().ToString();
 
       loadContext_ = new AssemblyLoadContext(tempLoadContextName,
-                                            true);
-      string localPathToAssembly;
+                                             true);
 
+      if (!ZipArchiver.ArchiveAlreadyExtracted(PathToZip))
+        ZipArchiver.UnzipArchive(PathToZip);
 
-      if (!ZipArchiver.ArchiveAlreadyExtracted(pathToZip))
-        ZipArchiver.UnzipArchive(pathToZip);
-
-      localPathToAssembly = ZipArchiver.GetLocalPathToAssembly(pathToZip);
-
+      var localPathToAssembly = ZipArchiver.GetLocalPathToAssembly(PathToZip);
 
       assembly_ = loadContext_.LoadFromAssemblyPath(localPathToAssembly);
 
       if (assembly_ == null)
       {
-        logger_.LogError($"Cannot load assembly from path [${localPathToAssembly}]");
+        logger.LogError($"Cannot load assembly from path [${localPathToAssembly}]");
         throw new WorkerApiException($"Cannot load assembly from path [${localPathToAssembly}]");
       }
 
       PathToAssembly = localPathToAssembly;
 
-
-      var localPathToAssemblyGridWorker = $"{Path.GetDirectoryName(localPathToAssembly)}/{ArmoniKDevelopmentKitSymphonyApi}.dll";
-
+      var localPathToAssemblyGridWorker = $"{Path.GetDirectoryName(localPathToAssembly)}/{ArmoniKDevelopmentKitServerApi}.dll";
 
       assemblyGridWorker_ = loadContext_.LoadFromAssemblyPath(localPathToAssemblyGridWorker);
-      
+
       if (assemblyGridWorker_ == null)
       {
-        logger_.LogError($"Cannot load assembly from path [${localPathToAssemblyGridWorker}]");
+        logger.LogError($"Cannot load assembly from path [${localPathToAssemblyGridWorker}]");
         throw new WorkerApiException($"Cannot load assembly from path [${localPathToAssemblyGridWorker}]");
       }
-
 
       PathToAssemblyGridWorker = localPathToAssembly;
 
       var currentDomain = AppDomain.CurrentDomain;
-      currentDomain.AssemblyResolve += new ResolveEventHandler(LoadFromSameFolder);
+      currentDomain.AssemblyResolve += new (LoadFromSameFolder);
 
       Assembly LoadFromSameFolder(object sender, ResolveEventArgs args)
       {
         var folderPath = Path.GetDirectoryName(PathToAssembly);
-        var assemblyPath = Path.Combine(folderPath,
+        var assemblyPath = Path.Combine(folderPath ?? "",
                                         new AssemblyName(args.Name).Name + ".dll");
         if (!File.Exists(assemblyPath)) return null;
         Assembly assembly;
@@ -106,15 +106,17 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Common
         {
           folderPath = "/app";
           assemblyPath = Path.Combine(folderPath,
-                                             new AssemblyName(args.Name).Name + ".dll");
+                                      new AssemblyName(args.Name).Name + ".dll");
           if (!File.Exists(assemblyPath)) return null;
 
           assembly = Assembly.LoadFrom(assemblyPath);
-
         }
+
         return assembly;
       }
     }
+
+    public string PathToZip { get; set; }
 
     public string PathToAssembly { get; set; }
 
@@ -125,7 +127,7 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Common
       // Create an instance of a class from the assembly.
       try
       {
-        var classType = assemblyGridWorker_.GetType($"{ArmoniKDevelopmentKitSymphonyApi}.GridWorker");
+        var classType = assemblyGridWorker_.GetType($"{ArmoniKDevelopmentKitServerApi}.GridWorker");
 
         if (classType != null)
         {
@@ -141,7 +143,7 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Common
       }
 
       throw new NullReferenceException(
-        $"Cannot find ServiceContainer named : {ArmoniKDevelopmentKitSymphonyApi}.GridWorker in dll [{PathToAssemblyGridWorker}]");
+        $"Cannot find ServiceContainer named : {ArmoniKDevelopmentKitServerApi}.GridWorker in dll [{PathToAssemblyGridWorker}]");
     }
 
     public T GetServiceContainerInstance<T>(string appNamespace, string serviceContainerClassName)
@@ -172,6 +174,17 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Common
     ~AppsLoader()
     {
       Dispose();
+    }
+
+    public bool RequestNewAssembly(string engineType, string pathToZipFile)
+    {
+      if (pathToZipFile == null) throw new ArgumentNullException("pathToZipFile is a null argument");
+
+      if (engineType == null || engineType_ != EngineTypeHelper.ToEnum(engineType) || 
+          PathToZip == null || !pathToZipFile.Equals(PathToZip))
+        return true;
+
+      return false;
     }
   }
 }

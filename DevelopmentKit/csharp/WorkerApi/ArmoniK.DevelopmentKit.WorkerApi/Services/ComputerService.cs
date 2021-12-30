@@ -39,10 +39,13 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Services
 {
   public class ComputerService : Core.gRPC.V1.ComputerService.ComputerServiceBase
   {
-    private          string                   sessionId_;
     private          AppsLoader               appsLoader_;
     private          IGridWorker              gridWorker_;
     private readonly ILogger<ComputerService> logger_;
+
+
+    public IConfiguration Configuration { get; }
+    private string SessionId { get; set; }
 
     public ComputerService(IConfiguration           configuration,
                            ILogger<ComputerService> logger)
@@ -51,8 +54,6 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Services
       logger_       = logger;
     }
 
-    public IConfiguration Configuration { get; }
-
 
     /// <inheritdoc />
     public override Task<ComputeReply> Execute(ComputeRequest request, ServerCallContext context)
@@ -60,56 +61,83 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Services
       try
       {
         logger_.LogInformation($"Receive new task Session        {request.Session}#{request.Subsession} -> task {request.TaskId}");
-        logger_.LogInformation($"Previous Session#SubSession was {sessionId_ ?? "NOT SET"}");
+        logger_.LogInformation($"Previous Session#SubSession was {SessionId ?? "NOT SET"}");
 
-        if (string.IsNullOrEmpty(sessionId_) || !sessionId_.Equals($"{request.Session}#{request.Subsession}"))
+        if (string.IsNullOrEmpty(SessionId) || !SessionId.Equals($"{request.Session}#{request.Subsession}"))
         {
           var assemblyPath = String.Format("/tmp/packages/{0}/{1}/{0}.dll",
                                            request.TaskOptions[AppsOptions.GridAppNameKey],
                                            request.TaskOptions[AppsOptions.GridAppVersionKey]
-                                          );
-          var pathToZipFile = String.Format("{0}/{1}-v{2}.zip",
-                                            Configuration["target_data_path"],
-                                            request.TaskOptions[AppsOptions.GridAppNameKey],
-                                            request.TaskOptions[AppsOptions.GridAppVersionKey]
-                                           );
-          sessionId_ = $"{request.Session}#{request.Subsession}";
+          );
+          SessionId = $"{request.Session}#{request.Subsession}";
+          var pathToZipFile =
+            $"{Configuration["target_data_path"]}/{request.TaskOptions[AppsOptions.GridAppNameKey]}-v{request.TaskOptions[AppsOptions.GridAppVersionKey]}.zip";
 
-          if (gridWorker_ != null && appsLoader_ != null)
+
+
+          gridWorker_?.SessionFinalize();
+
+          if (appsLoader_ != null &&
+              appsLoader_.RequestNewAssembly(request.TaskOptions[AppsOptions.EngineTypeNameKey],
+                                             pathToZipFile))
           {
-            gridWorker_.SessionFinalize();
             appsLoader_.Dispose();
+            appsLoader_ = null;
           }
 
-          appsLoader_ = new AppsLoader(Configuration,
-                                      assemblyPath,
-                                      pathToZipFile);
-          //request.TaskOptions["GridWorkerNamespace"]
+          appsLoader_ ??= new AppsLoader(Configuration,
+                                         request.TaskOptions[AppsOptions.EngineTypeNameKey],
+                                         pathToZipFile);
+
+
           gridWorker_ = appsLoader_.GetGridWorkerInstance();
           gridWorker_.Configure(Configuration,
-                               request.TaskOptions,
-                               appsLoader_);
+                                request.TaskOptions,
+                                appsLoader_);
 
-          gridWorker_.InitializeSessionWorker(sessionId_);
+          gridWorker_.InitializeSessionWorker(SessionId);
         }
 
         logger_.LogInformation($"Executing task {request.TaskId}");
-        
-        var result = gridWorker_.Execute(sessionId_, request);
+
+        var result = gridWorker_.Execute(SessionId,
+                                         request);
 
 
         return Task.FromResult(new ComputeReply { Result = ByteString.CopyFrom(result) });
       }
       catch (WorkerApiException we)
       {
-        logger_.LogError(we.Message);
-        throw; // TODO manage error code to return for gRPC
+        logger_.LogError(ExtractException(we));
+        throw new RpcException(new Status(StatusCode.Aborted,
+                                          ExtractException(we)));
       }
       catch (Exception e)
       {
-        logger_.LogError(e.Message);
-        throw; // TODO manage error code to return for gRPC
+        logger_.LogError(ExtractException(e));
+        throw new RpcException(new Status(StatusCode.Aborted,
+                                          ExtractException(e)));
       }
+    }
+
+    private static string ExtractException(Exception e)
+    {
+      var message = $"Error Message : {e.Message}" +
+             $"\n\tStackTrace : {string.Join("\n\t", e.StackTrace)}";
+      int       level   = 1;
+      Exception current = e;
+      while (current.InnerException != null)
+      {
+        message = message + $"\nInnerException Msg : {current.Message}\n\t{string.Join("\n\t", current.InnerException.StackTrace)}";
+        level++;
+
+        if (level > 5)
+          break;
+
+        current = current.InnerException;
+      }
+
+      return message;
     }
   }
 }

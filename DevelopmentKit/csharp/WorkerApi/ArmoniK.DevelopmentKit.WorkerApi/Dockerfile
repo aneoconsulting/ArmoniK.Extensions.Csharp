@@ -21,7 +21,7 @@ WORKDIR /src
 
 COPY ["DevelopmentKit/csharp/WorkerApi/ArmoniK.DevelopmentKit.WorkerApi/ArmoniK.DevelopmentKit.WorkerApi.csproj", "DevelopmentKit/csharp/WorkerApi/ArmoniK.DevelopmentKit.WorkerApi/"]
 
-COPY ["DevelopmentKit/csharp/WorkerApi/ArmoniK.DevelopmentKit.WorkerApi.Common/Armonik.DevelopmentKit.WorkerApi.Common.csproj", "DevelopmentKit/csharp/WorkerApi/ArmoniK.DevelopmentKit.WorkerApi.Common/"]
+COPY ["DevelopmentKit/csharp/WorkerApi/ArmoniK.DevelopmentKit.WorkerApi.Common/ArmoniK.DevelopmentKit.WorkerApi.Common.csproj", "DevelopmentKit/csharp/WorkerApi/ArmoniK.DevelopmentKit.WorkerApi.Common/"]
 
 COPY ["DevelopmentKit/csharp/Common/ArmoniK.DevelopmentKit.Common/ArmoniK.DevelopmentKit.Common.csproj", "DevelopmentKit/csharp/Common/ArmoniK.DevelopmentKit.Common/"]
 COPY ["DevelopmentKit/csharp/Generated/src/ArmoniK.Csharp.csproj", "DevelopmentKit/csharp/Generated/src/"]
