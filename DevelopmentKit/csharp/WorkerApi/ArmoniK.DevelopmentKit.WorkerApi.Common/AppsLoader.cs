@@ -127,7 +127,7 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Common
 
     public string PathToAssemblyGridWorker { get; set; }
 
-    public IGridWorker GetGridWorkerInstance()
+    public IGridWorker GetGridWorkerInstance(IConfiguration configuration)
     {
       // Create an instance of a class from the assembly.
       try
@@ -136,7 +136,8 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Common
 
         if (classType != null)
         {
-          var gridworker = (IGridWorker)Activator.CreateInstance(classType);
+          var gridworker = (IGridWorker)Activator.CreateInstance(classType,
+                                                                 configuration);
 
           return gridworker;
         }

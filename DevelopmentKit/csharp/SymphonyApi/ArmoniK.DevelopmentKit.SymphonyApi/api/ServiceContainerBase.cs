@@ -30,6 +30,10 @@ using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.SymphonyApi.Client;
 
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+
+using Serilog;
+using Serilog.Extensions.Logging;
 
 namespace ArmoniK.DevelopmentKit.SymphonyApi
 {
@@ -236,7 +240,23 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
       //Append or overwrite Dictionary Options in TaskOptions with one coming from client
       clientOptions.ToList()
                    .ForEach(pair => ClientService.TaskOptions.Options[pair.Key] = pair.Value);
+
+      var factory = new LoggerFactory(new[]
+      {
+        new SerilogLoggerProvider(new LoggerConfiguration()
+                                  .ReadFrom
+                                  .Configuration(Configuration)
+                                  .CreateLogger())
+      });
+
+      Log = factory.CreateLogger<GridWorker>();
+      Log.LogInformation("Configuring ServiceContainerBase");
     }
+
+    /// <summary>
+    /// Get access to Logger with Log.Lo.
+    /// </summary>
+    public ILogger<GridWorker> Log { get; set; }
   }
 
   /// <summary>

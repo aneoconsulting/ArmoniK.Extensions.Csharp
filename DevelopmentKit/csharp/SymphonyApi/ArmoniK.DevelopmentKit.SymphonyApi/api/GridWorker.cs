@@ -31,30 +31,40 @@ using Microsoft.Extensions.Logging;
 
 using Serilog;
 using Serilog.Events;
+using Serilog.Extensions.Logging;
+
+#pragma warning disable CS1591
 
 namespace ArmoniK.DevelopmentKit.SymphonyApi
 {
   [XmlDocIgnore]
   public class GridWorker : IGridWorker
   {
-    private readonly ILogger<GridWorker>  logger_;
-    private          ServiceContainerBase serviceContainerBase_;
-    private          ServiceContext       serviceContext_;
-    private          SessionContext       sessionContext_;
+    private ILogger<GridWorker>  logger_;
+    private ServiceContainerBase serviceContainerBase_;
+    private ServiceContext       serviceContext_;
+    private SessionContext       sessionContext_;
 
-    public GridWorker()
+    public GridWorker(IConfiguration configuration)
     {
       Log.Logger = new LoggerConfiguration()
-                  .MinimumLevel.Override("Microsoft",
-                                         LogEventLevel.Information)
-                  .Enrich.FromLogContext()
-                  .WriteTo.Console()
-                  .CreateBootstrapLogger();
+                   .MinimumLevel.Override("Microsoft",
+                                          LogEventLevel.Information)
+                   .Enrich.FromLogContext()
+                   .WriteTo.Console()
+                   .CreateBootstrapLogger();
+      Configuration = configuration;
 
-      var factory = new LoggerFactory().AddSerilog();
+      var factory = new LoggerFactory(new[]
+      {
+        new SerilogLoggerProvider(new LoggerConfiguration()
+                                  .ReadFrom
+                                  .Configuration(Configuration)
+                                  .CreateLogger())
+      });
 
       logger_ = factory.CreateLogger<GridWorker>();
-    }
+}
 
     public TaskOptions TaskOptions { get; set; }
 
@@ -73,25 +83,23 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
 
     public void Configure(IConfiguration configuration, IDictionary<string, string> clientOptions, AppsLoader appsLoader)
     {
-      Configuration = configuration;
-
       GridAppName      = clientOptions[AppsOptions.GridAppNameKey];
       GridAppVersion   = clientOptions[AppsOptions.GridAppVersionKey];
       GridAppNamespace = clientOptions[AppsOptions.GridAppNamespaceKey];
 
 
       serviceContext_ = new()
-                        {
-                          ApplicationName  = GridAppName,
-                          ServiceName      = $"{GridAppName}-{GridAppVersion}-Service",
-                          ClientLibVersion = GridAppVersion,
-                          AppNamespace     = GridAppNamespace,
-                        };
+      {
+        ApplicationName  = GridAppName,
+        ServiceName      = $"{GridAppName}-{GridAppVersion}-Service",
+        ClientLibVersion = GridAppVersion,
+        AppNamespace     = GridAppNamespace,
+      };
 
       sessionContext_ = new()
-                        {
-                          ClientLibVersion = GridAppVersion,
-                        };
+      {
+        ClientLibVersion = GridAppVersion,
+      };
 
       logger_.LogInformation("Loading ServiceContainer from Application package :  " +
                              $"\n\tappName   :   {GridAppName}" +
@@ -130,27 +138,27 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
 
 
       TaskId = new TaskId
-               {
-                 Task       = request.TaskId,
-                 SubSession = request.Subsession,
-               }.PackTaskId();
+      {
+        Task       = request.TaskId,
+        SubSession = request.Subsession,
+      }.PackTaskId();
 
       SessionId                       = session;
       serviceContainerBase_.SessionId = session?.UnPackSessionId();
 
       var taskContext = new TaskContext
-                        {
-                          TaskId    = TaskId,
-                          TaskInput = request.Payload.ToByteArray(),
-                          SessionId = session,
-                          DependenciesTaskIds = request.Dependencies.Select(t =>
-                                                                              new TaskId
-                                                                              {
-                                                                                Task       = t,
-                                                                                SubSession = request.Subsession,
-                                                                              }.PackTaskId()),
-                          ClientOptions = request.TaskOptions,
-                        };
+      {
+        TaskId    = TaskId,
+        TaskInput = request.Payload.ToByteArray(),
+        SessionId = session,
+        DependenciesTaskIds = request.Dependencies.Select(t =>
+                                                            new TaskId
+                                                            {
+                                                              Task       = t,
+                                                              SubSession = request.Subsession,
+                                                            }.PackTaskId()),
+        ClientOptions = request.TaskOptions,
+      };
 
       serviceContainerBase_.TaskId = TaskId;
 

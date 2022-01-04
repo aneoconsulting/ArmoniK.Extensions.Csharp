@@ -30,7 +30,7 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
     /// </summary>
     public SessionId SessionId { get; set; }
 
-    private Dictionary<string, Task> TaskWarehouse { get; set; } = new();
+    public Dictionary<string, Task> TaskWarehouse { get; set; } = new();
 
     private ArmonikDataSynapseClientService ClientService { get; set; }
 

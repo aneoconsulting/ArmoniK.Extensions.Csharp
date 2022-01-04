@@ -13,11 +13,43 @@ using Google.Protobuf;
 using Google.Protobuf.WellKnownTypes;
 
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+
+using Serilog;
+using Serilog.Events;
+using Serilog.Extensions.Logging;
+#pragma warning disable CS1591
 
 namespace ArmoniK.DevelopmentKit.GridServer
 {
   public class GridWorker : IGridWorker, IDisposable
   {
+    private readonly ILogger<GridWorker> logger_;
+
+    public GridWorker(IConfiguration configuration)
+    {
+      Log.Logger = new LoggerConfiguration()
+                   .MinimumLevel.Override("Microsoft",
+                                          LogEventLevel.Information)
+                   .Enrich.FromLogContext()
+                   .WriteTo.Console()
+                   .CreateBootstrapLogger();
+
+      Configuration = configuration;
+
+      var factory = new LoggerFactory(new[]
+      {
+        new SerilogLoggerProvider(new LoggerConfiguration()
+                                  .ReadFrom
+                                  .Configuration(Configuration)
+                                  .CreateLogger())
+      });
+
+      logger_ = factory.CreateLogger<GridWorker>();
+    }
+
+    public IConfiguration Configuration { get; set; }
+  
     public void Configure(IConfiguration configuration, IDictionary<string, string> clientOptions, AppsLoader appsLoader)
     {
       Configurations       = configuration;
@@ -102,7 +134,7 @@ namespace ArmoniK.DevelopmentKit.GridServer
         throw new WorkerApiException($"The method name of class {ServiceClass} is not found in the submit function");
       }
 
-      object[] arguments = functionData?[1] as object[];
+      object[] arguments = functionData[1] as object[];
 
       if (methodName == null) throw new WorkerApiException($"Method name is empty in Service class [{GridAppNamespace}.{GridServiceName}]");
       

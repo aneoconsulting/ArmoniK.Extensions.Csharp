@@ -89,7 +89,7 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Services
                                          pathToZipFile);
 
 
-          gridWorker_ = appsLoader_.GetGridWorkerInstance();
+          gridWorker_ = appsLoader_.GetGridWorkerInstance(Configuration);
           gridWorker_.Configure(Configuration,
                                 request.TaskOptions,
                                 appsLoader_);
