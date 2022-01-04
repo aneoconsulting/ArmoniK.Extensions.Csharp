@@ -19,14 +19,22 @@ using JetBrains.Annotations;
 
 namespace ArmoniK.DevelopmentKit.GridServer.Client
 {
+  /// <summary>
+  /// This class is instanciated by ServiceFactory and allows to execute task on ArmoniK
+  /// Grid.
+  /// </summary>
   public class Service : IDisposable
   {
+    /// <summary>
+    /// Propoerty Get or Set the SessionId
+    /// </summary>
     public SessionId SessionId { get; set; }
-    public Dictionary<string, Task> TaskWarehouse { get; set; } = new();
 
-    public ArmonikDataSynapseClientService ClientService { get; set; }
+    private Dictionary<string, Task> TaskWarehouse { get; set; } = new();
 
-    public string ServiceType { get; set; }
+    private ArmonikDataSynapseClientService ClientService { get; set; }
+
+    private string ServiceType { get; set; }
 
 
     private ProtoSerializer ProtoSerializer { get; }
@@ -42,7 +50,15 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
       ProtoSerializer = new ProtoSerializer();
     }
 
-
+    /// <summary>
+    /// This function execute code locally with the same configuration as Armonik Grid execution
+    /// The method needs the Service to execute, the method name to call and arguments of method to pass
+    /// </summary>
+    /// <param name="service">The instance of object containing the method to call</param>
+    /// <param name="methodName">The string name of the method</param>
+    /// <param name="arguments">the array of object to pass as arguments for the method</param>
+    /// <returns>Returns an object as result of the method call</returns>
+    /// <exception cref="WorkerApiException"></exception>
     [CanBeNull]
     public object LocalExecute(object service, string methodName, object[] arguments)
     {
@@ -67,7 +83,7 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
         object result = methodInfo.Invoke(service,
                                           array);
 
-        var sresult            = ProtoSerializer.SerializeMessage(new object[] { result });
+        var sresult = ProtoSerializer.SerializeMessage(new object[] { result });
         var objects = new ProtoSerializer().DeSerializeMessage(sresult);
 
         return objects?[0];
@@ -76,7 +92,13 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
       return null;
     }
 
-
+    /// <summary>
+    /// This method is used to execute task and waiting after the result.
+    /// the method will return the result of the execution until the grid returns the task result
+    /// </summary>
+    /// <param name="methodName">The string name of the method</param>
+    /// <param name="arguments">the array of object to pass as arguments for the method</param>
+    /// <returns>Returns an object as result of the method call</returns>
     public object Execute(string methodName, object[] arguments)
     {
       byte[] payload = ProtoSerializer.SerializeMessage(new object[] { methodName, arguments });
@@ -95,6 +117,12 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
       return result?[0];
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="methodName"></param>
+    /// <param name="arguments"></param>
+    /// <param name="handler"></param>
     public void Submit(string methodName, object[] arguments, IServiceInvocationHandler handler)
     {
       byte[] payload = ProtoSerializer.SerializeMessage(new object[] { methodName, arguments });
@@ -118,6 +146,7 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
 
           handler.HandleResponse(result?[0],
                                  taskId);
+
         }
         catch (Exception e)
         {

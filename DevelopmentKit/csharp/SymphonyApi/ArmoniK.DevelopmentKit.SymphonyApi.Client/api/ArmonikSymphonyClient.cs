@@ -32,7 +32,6 @@ using ArmoniK.DevelopmentKit.WorkerApi.Common;
 using ArmoniK.DevelopmentKit.WorkerApi.Common.Exceptions;
 
 using Google.Protobuf;
-using Google.Protobuf.WellKnownTypes;
 
 using Grpc.Net.Client;
 
@@ -45,46 +44,20 @@ using Serilog.Events;
 namespace ArmoniK.DevelopmentKit.SymphonyApi.Client
 {
   /// <summary>
-  /// The main object to communicate with the control Plane from the client side
-  /// The class will connect to the control plane to createSession, SubmitTask,
-  /// Wait for result and get the result.
-  /// See an example in the project ArmoniK.Samples in the sub project
-  /// https://github.com/aneoconsulting/ArmoniK.Samples/tree/main/Samples/SymphonyLike
-  /// Samples.ArmoniK.Sample.SymphonyClient
+  ///   The main object to communicate with the control Plane from the client side
+  ///   The class will connect to the control plane to createSession, SubmitTask,
+  ///   Wait for result and get the result.
+  ///   See an example in the project ArmoniK.Samples in the sub project
+  ///   https://github.com/aneoconsulting/ArmoniK.Samples/tree/main/Samples/SymphonyLike
+  ///   Samples.ArmoniK.Sample.SymphonyClient
   /// </summary>
   public class ArmonikSymphonyClient
   {
     private readonly  IConfigurationSection          controlPlanAddress_;
     internal readonly ILogger<ArmonikSymphonyClient> Logger;
-    private ClientService.ClientServiceClient ControlPlaneService { get; set; }
 
     /// <summary>
-    /// Returns the section key Grpc from appSettings.json
-    /// </summary>
-    public string SectionControlPlan { get; set; } = "Grpc";
-
-    /// <summary>
-    /// Set or Get TaskOptions with inside MaxDuration, Priority, AppName, VersionName and AppNamespace
-    /// </summary>
-    public TaskOptions TaskOptions { get; set; }
-
-    /// <summary>
-    /// Only used for internal DO NOT USED IT
-    /// Get or Set SessionId object stored during the call of SubmitTask, SubmitSubTask,
-    /// SubmitSubTaskWithDependencies or WaitForCompletion, WaitForSubTaskCompletion or GetResults
-    /// </summary>
-    public SessionId SessionId { get; private set; }
-
-    /// <summary>
-    /// Only used for internal DO NOT USED IT
-    /// Get or Set SubSessionId object stored during the call of SubmitTask, SubmitSubTask,
-    /// SubmitSubTaskWithDependencies or WaitForCompletion, WaitForSubTaskCompletion or GetResults
-    /// </summary>
-    public SessionId SubSessionId { get; set; }
-
-    /// <summary>
-    /// The ctor with IConfiguration and optional TaskOptions
-    /// 
+    ///   The ctor with IConfiguration and optional TaskOptions
     /// </summary>
     /// <param name="configuration">IConfiguration to set Client Data information and Grpc EndPoint</param>
     /// <param name="taskOptions">TaskOptions for any Session</param>
@@ -93,11 +66,11 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client
       controlPlanAddress_ = configuration.GetSection(SectionControlPlan);
 
       Log.Logger = new LoggerConfiguration()
-                   .MinimumLevel.Override("Microsoft",
-                                          LogEventLevel.Information)
-                   .Enrich.FromLogContext()
-                   .WriteTo.Console()
-                   .CreateBootstrapLogger();
+                  .MinimumLevel.Override("Microsoft",
+                                         LogEventLevel.Information)
+                  .Enrich.FromLogContext()
+                  .WriteTo.Console()
+                  .CreateBootstrapLogger();
 
       var factory = new LoggerFactory().AddSerilog();
 
@@ -107,8 +80,34 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client
       TaskOptions =   taskOptions;
     }
 
+    private ClientService.ClientServiceClient ControlPlaneService { get; set; }
+
     /// <summary>
-    /// Create the session to submit task
+    ///   Returns the section key Grpc from appSettings.json
+    /// </summary>
+    public string SectionControlPlan { get; set; } = "Grpc";
+
+    /// <summary>
+    ///   Set or Get TaskOptions with inside MaxDuration, Priority, AppName, VersionName and AppNamespace
+    /// </summary>
+    public TaskOptions TaskOptions { get; set; }
+
+    /// <summary>
+    ///   Only used for internal DO NOT USED IT
+    ///   Get or Set SessionId object stored during the call of SubmitTask, SubmitSubTask,
+    ///   SubmitSubTaskWithDependencies or WaitForCompletion, WaitForSubTaskCompletion or GetResults
+    /// </summary>
+    public SessionId SessionId { get; private set; }
+
+    /// <summary>
+    ///   Only used for internal DO NOT USED IT
+    ///   Get or Set SubSessionId object stored during the call of SubmitTask, SubmitSubTask,
+    ///   SubmitSubTaskWithDependencies or WaitForCompletion, WaitForSubTaskCompletion or GetResults
+    /// </summary>
+    public SessionId SubSessionId { get; set; }
+
+    /// <summary>
+    ///   Create the session to submit task
     /// </summary>
     /// <param name="taskOptions">Optional parameter to set TaskOptions during the Session creation</param>
     /// <returns></returns>
@@ -119,9 +118,9 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client
       ControlPlaneConnection();
 
       var sessionOptions = new SessionOptions
-      {
-        DefaultTaskOption = TaskOptions,
-      };
+                           {
+                             DefaultTaskOption = TaskOptions,
+                           };
       Logger.LogDebug("Creating Session... ");
 
       SessionId = ControlPlaneService.CreateSession(sessionOptions);
@@ -134,11 +133,11 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client
     private void ControlPlaneConnection()
     {
       var channel = GrpcChannel.ForAddress(controlPlanAddress_["Endpoint"]);
-      ControlPlaneService ??= new ClientService.ClientServiceClient(channel);
+      ControlPlaneService ??= new(channel);
     }
 
     /// <summary>
-    /// Create the SubSession to submit task
+    ///   Create the SubSession to submit task
     /// </summary>
     /// <returns></returns>
     private void CreateSubSession(string parentId)
@@ -149,28 +148,27 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client
         ControlPlaneConnection();
         if (SubSessionId is null)
         {
-          string taskId = parentId.CanUnPackTaskId() ? parentId.UnPackTaskId().Task : parentId;
+          var taskId = parentId.CanUnPackTaskId() ? parentId.UnPackTaskId().Task : parentId;
           var sessionOptions = new SessionOptions
-          {
-            DefaultTaskOption = TaskOptions,
-            ParentTask = new TaskId
-            {
-              Session    = SessionId.Session,
-              SubSession = SessionId.SubSession,
-              Task       = taskId
-            },
-          };
+                               {
+                                 DefaultTaskOption = TaskOptions,
+                                 ParentTask = new()
+                                              {
+                                                Session    = SessionId.Session,
+                                                SubSession = SessionId.SubSession,
+                                                Task       = taskId,
+                                              },
+                               };
           Logger.LogDebug($"Creating SubSession from Session :   {SessionId?.PackSessionId()}");
           SubSessionId = ControlPlaneService.CreateSession(sessionOptions);
-          Logger.LogDebug(
-            $"Created  SubSession from Session {SessionId?.PackSessionId()}" +
-            $" new SubSession {SubSessionId?.PackSessionId()} with ParentTask {sessionOptions.ParentTask.PackTaskId()}");
+          Logger.LogDebug($"Created  SubSession from Session {SessionId?.PackSessionId()}" +
+                          $" new SubSession {SubSessionId?.PackSessionId()} with ParentTask {sessionOptions.ParentTask.PackTaskId()}");
         }
       }
     }
 
     /// <summary>
-    /// Set connection to an already opened Session
+    ///   Set connection to an already opened Session
     /// </summary>
     /// <param name="session">SessionId previously opened</param>
     public void OpenSession(SessionId session)
@@ -184,15 +182,15 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client
     private static TaskOptions InitializeDefaultTaskOptions()
     {
       TaskOptions taskOptions = new()
-      {
-        MaxDuration = new Duration
-        {
-          Seconds = 300,
-        },
-        MaxRetries = 5,
-        Priority   = 1,
-        IdTag      = "ArmonikTag",
-      };
+                                {
+                                  MaxDuration = new()
+                                                {
+                                                  Seconds = 300,
+                                                },
+                                  MaxRetries = 5,
+                                  Priority   = 1,
+                                  IdTag      = "ArmonikTag",
+                                };
       taskOptions.Options.Add(AppsOptions.EngineTypeNameKey,
                               EngineType.Symphony.ToString());
 
@@ -207,28 +205,32 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client
     }
 
     /// <summary>
-    /// Wait for the taskIds and all its dependencies taskIds
+    ///   Wait for the taskIds and all its dependencies taskIds
     /// </summary>
     /// <param name="parentTaskId">The taskIds to </param>
     public void WaitSubtasksCompletion(string parentTaskId)
     {
-      var    taskFilter = new TaskFilter();
-      string taskId     = parentTaskId.CanUnPackTaskId() ? parentTaskId.UnPackTaskId().Task : parentTaskId;
+      var taskFilter = new TaskFilter();
+      var taskId     = parentTaskId.CanUnPackTaskId() ? parentTaskId.UnPackTaskId().Task : parentTaskId;
       taskFilter.IncludedTaskIds.Add(taskId);
       taskFilter.SessionId    = SessionId.Session;
       taskFilter.SubSessionId = parentTaskId.UnPackTaskId().SubSession;
-      Logger.LogDebug(
-        $"Wait for subTask {parentTaskId} coming from Session {SessionId.Session} " +
-        $"and subSession {SessionId.SubSession} with Task SubSession {parentTaskId.UnPackTaskId().SubSession}");
+      Logger.LogDebug($"Wait for subTask {parentTaskId} coming from Session {SessionId.Session} " +
+                      $"and subSession {SessionId.SubSession} with Task SubSession {parentTaskId.UnPackTaskId().SubSession}");
 
-      ControlPlaneService.WaitForSubTasksCompletion(taskFilter);
+      ControlPlaneService.WaitForSubTasksCompletion(new()
+                                                    {
+                                                      Filter                  = taskFilter,
+                                                      ThrowOnTaskCancellation = true,
+                                                      ThrowOnTaskError        = true,
+                                                    });
     }
 
     /// <summary>
-    /// User method to wait for only the parent task from the client
+    ///   User method to wait for only the parent task from the client
     /// </summary>
     /// <param name="taskId">
-    /// The task id of the task to wait for
+    ///   The task id of the task to wait for
     /// </param>
     public void WaitCompletion(string taskId)
     {
@@ -237,16 +239,20 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client
       taskFilter.SessionId    = SessionId.Session;
       taskFilter.SubSessionId = taskId.UnPackTaskId().SubSession;
 
-      Logger.LogDebug(
-        $"Wait for task {taskId} coming from Session {SessionId.Session} " +
-        $"and subSession {SessionId.SubSession} with Task SubSession {taskId.UnPackTaskId().SubSession}");
+      Logger.LogDebug($"Wait for task {taskId} coming from Session {SessionId.Session} " +
+                      $"and subSession {SessionId.SubSession} with Task SubSession {taskId.UnPackTaskId().SubSession}");
 
-      ControlPlaneService.WaitForCompletion(taskFilter);
+      ControlPlaneService.WaitForCompletion(new()
+                                            {
+                                              Filter                  = taskFilter,
+                                              ThrowOnTaskCancellation = true,
+                                              ThrowOnTaskError        = true,
+                                            });
     }
 
     /// <summary>
-    /// Method to GetResults when the result is returned by a task
-    /// The method WaitForCompletion should called before these method
+    ///   Method to GetResults when the result is returned by a task
+    ///   The method WaitForCompletion should called before these method
     /// </summary>
     /// <param name="taskIds">The Task Ids list of the tasks which the result is expected</param>
     /// <returns>return a dictionary with key taskId and payload</returns>
@@ -264,9 +270,8 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client
       taskFilter.SessionId    = SessionId.Session;
       taskFilter.SubSessionId = ids.Select(id => id.UnPackTaskId().SubSession).First();
 
-      Logger.LogDebug(
-        $"GetResults for tasks [{string.Join(", ", ids.Select(id => id.UnPackTaskId().Task))}] coming from Session {SessionId.Session} " +
-        $"and subSession {SessionId.SubSession} with Task SubSession {ids.Select(id => id.UnPackTaskId().SubSession).First()}");
+      Logger.LogDebug($"GetResults for tasks [{string.Join(", ", ids.Select(id => id.UnPackTaskId().Task))}] coming from Session {SessionId.Session} " +
+                      $"and subSession {SessionId.SubSession} with Task SubSession {ids.Select(id => id.UnPackTaskId().SubSession).First()}");
 
       var result = await ControlPlaneService.TryGetResultAsync(taskFilter);
 
@@ -277,12 +282,12 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client
 
 
     /// <summary>
-    /// User method to submit task from the client
-    ///  Need a client Service. In case of ServiceContainer
-    /// controlPlaneService can be null until the OpenSession is called
+    ///   User method to submit task from the client
+    ///   Need a client Service. In case of ServiceContainer
+    ///   controlPlaneService can be null until the OpenSession is called
     /// </summary>
     /// <param name="payloads">
-    /// The user payload list to execute. General used for subTasking.
+    ///   The user payload list to execute. General used for subTasking.
     /// </param>
     public IEnumerable<string> SubmitTasks(IEnumerable<byte[]> payloads)
     {
@@ -294,32 +299,30 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client
       foreach (var payload in payloads)
       {
         var taskRequest = new TaskRequest
-        {
-          Payload = new Payload
-          {
-            Data = ByteString.CopyFrom(payload),
-          },
-        };
+                          {
+                            Payload = new()
+                                      {
+                                        Data = ByteString.CopyFrom(payload),
+                                      },
+                          };
 
         requests.TaskRequests.Add(taskRequest);
       }
 
-      Logger.LogDebug(
-        $"{SessionId?.PackSessionId()} {SubSessionId?.PackSessionId()}: Calling SubmitTasks with CreateTask");
+      Logger.LogDebug($"{SessionId?.PackSessionId()} {SubSessionId?.PackSessionId()}: Calling SubmitTasks with CreateTask");
 
       requests.TaskOptions = TaskOptions;
       var requestReply = ControlPlaneService.CreateTask(requests);
 
-      Logger.LogDebug(
-        $"{SessionId?.PackSessionId()} {SubSessionId?.PackSessionId()}: " +
-        $"Called  SubmitTasks return [{string.Join(", ", requestReply.TaskIds.Select(id => id.PackTaskId()))}]");
+      Logger.LogDebug($"{SessionId?.PackSessionId()} {SubSessionId?.PackSessionId()}: " +
+                      $"Called  SubmitTasks return [{string.Join(", ", requestReply.TaskIds.Select(id => id.PackTaskId()))}]");
 
       return requestReply.TaskIds.Select(id => id.PackTaskId());
     }
 
     /// <summary>
-    /// The method to submit sub task inside a parent task
-    /// Use this method only on server side developpement
+    ///   The method to submit sub task inside a parent task
+    ///   Use this method only on server side developpement
     /// </summary>
     /// <param name="session">The session Id to attached the task </param>
     /// <param name="parentTaskId">The task Id of a parent task</param>
@@ -330,26 +333,33 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client
       OpenSession(session.UnPackSessionId());
       if (SubSessionId is null)
         CreateSubSession(parentTaskId);
-      var taskRequests = payloads.Select(p => new TaskRequest { Payload = new Payload { Data = ByteString.CopyFrom(p) } });
+      var taskRequests = payloads.Select(p => new TaskRequest
+                                              {
+                                                Payload = new()
+                                                          {
+                                                            Data = ByteString.CopyFrom(p),
+                                                          },
+                                              });
 
-      var createTaskRequest = new CreateTaskRequest { SessionId = SubSessionId };
+      var createTaskRequest = new CreateTaskRequest
+                              {
+                                SessionId = SubSessionId,
+                              };
       createTaskRequest.TaskRequests.Add(taskRequests);
       createTaskRequest.TaskOptions = TaskOptions;
 
-      Logger.LogDebug(
-        $"{SessionId?.PackSessionId()} {SubSessionId?.PackSessionId()}: Calling SubmitSubTasks with CreateTask");
+      Logger.LogDebug($"{SessionId?.PackSessionId()} {SubSessionId?.PackSessionId()}: Calling SubmitSubTasks with CreateTask");
 
       var createTaskReply = ControlPlaneService.CreateTask(createTaskRequest);
 
-      Logger.LogDebug(
-        $"{SessionId?.PackSessionId()} {SubSessionId?.PackSessionId()}: " +
-        $"Called  SubmitSubTasks return [{string.Join(", ", createTaskReply.TaskIds.Select(id => id.PackTaskId()))}]");
+      Logger.LogDebug($"{SessionId?.PackSessionId()} {SubSessionId?.PackSessionId()}: " +
+                      $"Called  SubmitSubTasks return [{string.Join(", ", createTaskReply.TaskIds.Select(id => id.PackTaskId()))}]");
       return createTaskReply.TaskIds.Select(id => id.PackTaskId());
     }
 
     /// <summary>
-    /// The method to submit several tasks with dependencies tasks. This task will wait for
-    /// to start until all dependencies are completed successfully
+    ///   The method to submit several tasks with dependencies tasks. This task will wait for
+    ///   to start until all dependencies are completed successfully
     /// </summary>
     /// <param name="session">The session Id where the task will be attached</param>
     /// <param name="payloadWithDependencies">A list of Tuple(taskId, Payload) in dependence of those created tasks</param>
@@ -360,32 +370,39 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client
       IEnumerable<Tuple<byte[], IList<string>>> withDependencies = payloadWithDependencies.ToList();
 
       var taskRequests = withDependencies.Select(p =>
-      {
-        var output = new TaskRequest { Payload = new Payload { Data = ByteString.CopyFrom(p.Item1) } };
-        output.DependenciesTaskIds.Add(p.Item2);
-        return output;
-      });
-      var createTaskRequest = new CreateTaskRequest { SessionId = session.UnPackSessionId() };
+                                                 {
+                                                   var output = new TaskRequest
+                                                                {
+                                                                  Payload = new()
+                                                                            {
+                                                                              Data = ByteString.CopyFrom(p.Item1),
+                                                                            },
+                                                                };
+                                                   output.DependenciesTaskIds.Add(p.Item2);
+                                                   return output;
+                                                 });
+      var createTaskRequest = new CreateTaskRequest
+                              {
+                                SessionId = session.UnPackSessionId(),
+                              };
       createTaskRequest.TaskRequests.Add(taskRequests);
 
       createTaskRequest.TaskOptions = TaskOptions;
 
-      Logger.LogDebug(
-        $"{SessionId?.PackSessionId()} {SubSessionId?.PackSessionId()}: Calling SubmitTasksWithDependencies with CreateTask");
+      Logger.LogDebug($"{SessionId?.PackSessionId()} {SubSessionId?.PackSessionId()}: Calling SubmitTasksWithDependencies with CreateTask");
 
       var createTaskReply = ControlPlaneService.CreateTask(createTaskRequest);
 
-      Logger.LogDebug(
-        $"{SessionId?.PackSessionId()} {SubSessionId?.PackSessionId()}: " +
-        $"Called  SubmitTasksWithDependencies return [{string.Join(", ", createTaskReply.TaskIds.Select(id => id.PackTaskId()))}] " +
-        $" with dependencies : {string.Join("\n\t", withDependencies.Select(p => $"[{string.Join(", ", p.Item2)}]"))}");
+      Logger.LogDebug($"{SessionId?.PackSessionId()} {SubSessionId?.PackSessionId()}: " +
+                      $"Called  SubmitTasksWithDependencies return [{string.Join(", ", createTaskReply.TaskIds.Select(id => id.PackTaskId()))}] " +
+                      $" with dependencies : {string.Join("\n\t", withDependencies.Select(p => $"[{string.Join(", ", p.Item2)}]"))}");
 
       return createTaskReply.TaskIds.Select(id => id.PackTaskId());
     }
 
     /// <summary>
-    /// The method to submit One SubTask with dependencies tasks. This task will wait for
-    /// to start until all dependencies are completed successfully
+    ///   The method to submit One SubTask with dependencies tasks. This task will wait for
+    ///   to start until all dependencies are completed successfully
     /// </summary>
     /// <param name="session">The session Id where the task will be attached</param>
     /// <param name="parentId">The parent Task who want to create the SubTask</param>
@@ -404,8 +421,8 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client
     }
 
     /// <summary>
-    /// The method to submit several tasks with dependencies tasks. This task will wait for
-    /// to start until all dependencies are completed successfully
+    ///   The method to submit several tasks with dependencies tasks. This task will wait for
+    ///   to start until all dependencies are completed successfully
     /// </summary>
     /// <param name="session">The session Id where the Subtask will be attached</param>
     /// <param name="parentTaskId">The parent Task who want to create the SubTasks</param>
@@ -415,7 +432,9 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client
     {
       OpenSession(session.UnPackSessionId());
       if (SubSessionId is null)
+      {
         CreateSubSession(parentTaskId);
+      }
       else
       {
         if (SubSessionId.SubSession != parentTaskId.UnPackTaskId().Task)
@@ -424,34 +443,38 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client
 
       IEnumerable<Tuple<byte[], IList<string>>> withDependencies = payloadWithDependencies.ToList();
       var taskRequests = withDependencies.Select(p =>
-      {
-        var output = new TaskRequest { Payload = new Payload { Data = ByteString.CopyFrom(p.Item1) } };
-        output.DependenciesTaskIds.Add(p.Item2.Select(t => t.UnPackTaskId().Task));
-        return output;
-      });
+                                                 {
+                                                   var output = new TaskRequest
+                                                                {
+                                                                  Payload = new()
+                                                                            {
+                                                                              Data = ByteString.CopyFrom(p.Item1),
+                                                                            },
+                                                                };
+                                                   output.DependenciesTaskIds.Add(p.Item2.Select(t => t.UnPackTaskId().Task));
+                                                   return output;
+                                                 });
       var createTaskRequest = new CreateTaskRequest
-      {
-        SessionId = SubSessionId
-      };
+                              {
+                                SessionId = SubSessionId,
+                              };
       createTaskRequest.TaskRequests.Add(taskRequests);
       createTaskRequest.TaskOptions = TaskOptions;
 
 
-      Logger.LogDebug(
-        $"{SessionId?.PackSessionId()} {SubSessionId?.PackSessionId()}: Calling SubmitTasksWithDependencies with CreateTask");
+      Logger.LogDebug($"{SessionId?.PackSessionId()} {SubSessionId?.PackSessionId()}: Calling SubmitTasksWithDependencies with CreateTask");
 
       var createTaskReply = ControlPlaneService.CreateTask(createTaskRequest);
 
-      Logger.LogDebug(
-        $"{SessionId?.PackSessionId()} {SubSessionId?.PackSessionId()}: " +
-        $"Called  SubmitSubtasksWithDependencies return [{string.Join(", ", createTaskReply.TaskIds.Select(id => id.PackTaskId()))}] " +
-        $" with dependencies : {string.Join("\n\t", withDependencies.Select(p => $"[{string.Join(", ", p.Item2)}]"))}");
+      Logger.LogDebug($"{SessionId?.PackSessionId()} {SubSessionId?.PackSessionId()}: " +
+                      $"Called  SubmitSubtasksWithDependencies return [{string.Join(", ", createTaskReply.TaskIds.Select(id => id.PackTaskId()))}] " +
+                      $" with dependencies : {string.Join("\n\t", withDependencies.Select(p => $"[{string.Join(", ", p.Item2)}]"))}");
 
       return createTaskReply.TaskIds.Select(id => id.PackTaskId());
     }
 
     /// <summary>
-    /// Try to find the result of One task. If there no result, the function return byte[0] 
+    ///   Try to find the result of One task. If there no result, the function return byte[0]
     /// </summary>
     /// <param name="taskId">The task Id trying to get result</param>
     /// <returns>Returns the result or byte[0] if there no result</returns>
@@ -461,30 +484,28 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client
       taskFilter.IncludedTaskIds.Add(taskId.UnPackTaskId().Task);
       taskFilter.SessionId    = SessionId.Session;
       taskFilter.SubSessionId = taskId.UnPackTaskId().SubSession;
-      Logger.LogDebug(
-        $"{SessionId?.PackSessionId()} {SubSessionId?.PackSessionId()}: " +
-        $"Calling TryGetResult for {taskId}");
+      Logger.LogDebug($"{SessionId?.PackSessionId()} {SubSessionId?.PackSessionId()}: " +
+                      $"Calling TryGetResult for {taskId}");
 
       var response = ControlPlaneService.TryGetResult(taskFilter);
-      Logger.LogDebug(
-        $"{SessionId?.PackSessionId()} {SubSessionId?.PackSessionId()}: " +
-        $"Called TryGetResult for  {taskId}");
+      Logger.LogDebug($"{SessionId?.PackSessionId()} {SubSessionId?.PackSessionId()}: " +
+                      $"Called TryGetResult for  {taskId}");
 
       return response.Payloads.Single().Data.ToByteArray();
     }
   }
 
   /// <summary>
-  /// The ArmonikSymphonyClient Extension to single task creation
+  ///   The ArmonikSymphonyClient Extension to single task creation
   /// </summary>
   public static class ArmonikSymphonyClientExt
   {
     /// <summary>
-    /// User method to submit task from the client
+    ///   User method to submit task from the client
     /// </summary>
     /// <param name="client">The client instance for extension</param>
     /// <param name="payload">
-    /// The user payload to execute.
+    ///   The user payload to execute.
     /// </param>
     public static string SubmitTask(this ArmonikSymphonyClient client, byte[] payload)
     {
@@ -493,8 +514,8 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client
     }
 
     /// <summary>
-    /// The method to submit sub task coming from a parent task
-    /// Use this method only on server side development
+    ///   The method to submit sub task coming from a parent task
+    ///   Use this method only on server side development
     /// </summary>
     /// <param name="client">The client instance for extension</param>
     /// <param name="parentTaskId">The task Id of a parent task</param>
@@ -508,8 +529,8 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client
     }
 
     /// <summary>
-    /// The method to submit One task with dependencies tasks. This task will wait for
-    /// to start until all dependencies are completed successfully
+    ///   The method to submit One task with dependencies tasks. This task will wait for
+    ///   to start until all dependencies are completed successfully
     /// </summary>
     /// <param name="client">The client instance for extension</param>
     /// <param name="payload">The payload to submit</param>
@@ -526,7 +547,7 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client
     }
 
     /// <summary>
-    /// Get the result of One task. If there no result, the function return byte[0] 
+    ///   Get the result of One task. If there no result, the function return byte[0]
     /// </summary>
     /// <param name="client">The client instance for extension</param>
     /// <param name="taskId">The task Id trying to get result</param>
@@ -534,11 +555,12 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client
     public static byte[] GetResult(this ArmonikSymphonyClient client, string taskId)
     {
       var results = client.GetResults(new List<string>
-                                        { taskId });
+                                      {
+                                        taskId,
+                                      });
       Task.WaitAll(results);
-      client.Logger.LogDebug(
-        $"{client.SessionId?.PackSessionId()} {client.SubSessionId?.PackSessionId()}: " +
-        $"Called GetResult for  {taskId}");
+      client.Logger.LogDebug($"{client.SessionId?.PackSessionId()} {client.SubSessionId?.PackSessionId()}: " +
+                             $"Called GetResult for  {taskId}");
 
       return results.Result.Single(t => t.Item1.Equals(taskId.UnPackTaskId().Task)).Item2;
     }

@@ -128,6 +128,7 @@ namespace ArmoniK.DevelopmentKit.GridServer
                 Priority = 1,
                 IdTag = "ArmonikTag",
             };
+
             taskOptions.Options.Add(AppsOptions.EngineTypeNameKey,
                                     EngineType.DataSynapse.ToString());
             
@@ -162,7 +163,12 @@ namespace ArmoniK.DevelopmentKit.GridServer
               $"Wait for task {taskId} coming from Session {SessionId.Session} " +
               $"and subSession {SessionId.SubSession} with Task SubSession {taskId}");
 
-            ControlPlaneService.WaitForCompletion(taskFilter);
+            ControlPlaneService.WaitForSubTasksCompletion(new()
+            {
+              Filter                  = taskFilter,
+              ThrowOnTaskCancellation = true,
+              ThrowOnTaskError        = true,
+            });
         }
 
         /// <summary>

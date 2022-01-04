@@ -22,23 +22,19 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using JetBrains.Annotations;
-using Microsoft.Extensions.DependencyInjection;
-
 
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace ArmoniK.Adapters.WorkerApi
 {
-    public static class ServiceCollectionExt
-    {
-        [PublicAPI]
-        public static IServiceCollection AddConfiguration
-        (
-            this IServiceCollection serviceCollection,
-            IConfiguration configuration
-        )
-        {
-            return serviceCollection;
-        }
-    }
+  public static class ServiceCollectionExt
+  {
+    [PublicAPI]
+    public static IServiceCollection AddConfiguration(
+      this IServiceCollection serviceCollection,
+      IConfiguration          configuration
+    )
+      => serviceCollection;
+  }
 }

@@ -22,6 +22,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 using ArmoniK.Core.gRPC.V1;
@@ -67,12 +68,10 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Services
         {
           var assemblyPath = String.Format("/tmp/packages/{0}/{1}/{0}.dll",
                                            request.TaskOptions[AppsOptions.GridAppNameKey],
-                                           request.TaskOptions[AppsOptions.GridAppVersionKey]
-          );
+                                           request.TaskOptions[AppsOptions.GridAppVersionKey]);
           SessionId = $"{request.Session}#{request.Subsession}";
           var pathToZipFile =
             $"{Configuration["target_data_path"]}/{request.TaskOptions[AppsOptions.GridAppNameKey]}-v{request.TaskOptions[AppsOptions.GridAppVersionKey]}.zip";
-
 
 
           gridWorker_?.SessionFinalize();
@@ -104,7 +103,10 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Services
                                          request);
 
 
-        return Task.FromResult(new ComputeReply { Result = ByteString.CopyFrom(result) });
+        return Task.FromResult(new ComputeReply
+        {
+          Result = ByteString.CopyFrom(result),
+        });
       }
       catch (WorkerApiException we)
       {
@@ -122,19 +124,32 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Services
 
     private static string ExtractException(Exception e)
     {
-      var message = $"Error Message : {e.Message}" +
-             $"\n\tStackTrace : {string.Join("\n\t", e.StackTrace)}";
-      int       level   = 1;
-      Exception current = e;
+      int             level   = 1;
+      Exception       current = e;
+      List<Exception> exList  = new();
+      exList.Add(e);
+
       while (current.InnerException != null)
       {
-        message = message + $"\nInnerException Msg : {current.Message}\n\t{string.Join("\n\t", current.InnerException.StackTrace)}";
+        current = current.InnerException;
+        exList.Add(current);
+        //message += $"\nInnerException : {current.GetType()} message : {current.Message}\n\t{string.Join("\n\t", current.StackTrace)}";
         level++;
 
-        if (level > 5)
+        if (level > 30)
           break;
+      }
 
-        current = current.InnerException;
+      exList.Reverse();
+      var message = $"Root Exception cause : {exList[0].GetType()} | message : {exList[0].Message}" +
+                    $"\n\tReversed StackTrace : \n\t{string.Join("\n\t", exList[0].StackTrace)}";
+
+      exList.RemoveAt(0);
+
+
+      foreach (var exception in exList)
+      {
+        message += $"\nFrom Exception : {exception.GetType()} message : {exception.Message}\n\t{string.Join("\n\t", exception.StackTrace)}";
       }
 
       return message;

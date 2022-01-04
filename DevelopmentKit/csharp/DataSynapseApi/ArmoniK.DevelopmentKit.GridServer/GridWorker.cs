@@ -129,7 +129,7 @@ namespace ArmoniK.DevelopmentKit.GridServer
       }
       catch (TargetInvocationException e)
       {
-        throw new WorkerApiException(e);
+        throw new WorkerApiException(e.InnerException);
       }
       catch (TargetParameterCountException e)
       {

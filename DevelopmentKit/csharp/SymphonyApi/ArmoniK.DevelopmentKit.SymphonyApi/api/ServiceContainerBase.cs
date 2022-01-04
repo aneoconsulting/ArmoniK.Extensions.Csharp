@@ -34,124 +34,129 @@ using Microsoft.Extensions.Configuration;
 namespace ArmoniK.DevelopmentKit.SymphonyApi
 {
   /// <summary>
-  /// The Class ServiceContainerBase (Old name was IServiceContainer) is an abstract class
-  /// that have to be implemented by each class wanted to be loaded as new Application
-  /// See an example in the project ArmoniK.Samples in the sub project
-  /// https://github.com/aneoconsulting/ArmoniK.Samples/tree/main/Samples/SymphonyLike
-  /// Samples.ArmoniK.Sample.SymphonyPackages
+  ///   The Class ServiceContainerBase (Old name was IServiceContainer) is an abstract class
+  ///   that have to be implemented by each class wanted to be loaded as new Application
+  ///   See an example in the project ArmoniK.Samples in the sub project
+  ///   https://github.com/aneoconsulting/ArmoniK.Samples/tree/main/Samples/SymphonyLike
+  ///   Samples.ArmoniK.Sample.SymphonyPackages
   /// </summary>
   public abstract class ServiceContainerBase
   {
     /// <summary>
-    /// Get or Set SubSessionId object stored during the call of SubmitTask, SubmitSubTask,
-    /// SubmitSubTaskWithDependencies or WaitForCompletion, WaitForSubTaskCompletion or GetResults
+    ///   Get or Set SubSessionId object stored during the call of SubmitTask, SubmitSubTask,
+    ///   SubmitSubTaskWithDependencies or WaitForCompletion, WaitForSubTaskCompletion or GetResults
     /// </summary>
     public SessionId SessionId { get; set; }
 
+
+    internal ArmonikSymphonyClient ClientService { get; set; }
+
     /// <summary>
-    /// The middleware triggers the invocation of this handler just after a Service Instance is started.
-    /// The application developer must put any service initialization into this handler.
-    /// Default implementation does nothing.
+    ///   Get or set the taskId (ONLY INTERNAL USED)
+    /// </summary>
+    public string TaskId { get; set; }
+
+    /// <summary>
+    ///   Get or Set Configuration
+    /// </summary>
+    public IConfiguration Configuration { get; set; }
+
+    /// <summary>
+    ///   The middleware triggers the invocation of this handler just after a Service Instance is started.
+    ///   The application developer must put any service initialization into this handler.
+    ///   Default implementation does nothing.
     /// </summary>
     /// <param name="serviceContext">
-    /// Holds all information on the state of the service at the start of the execution.
+    ///   Holds all information on the state of the service at the start of the execution.
     /// </param>
     public abstract void OnCreateService(ServiceContext serviceContext);
 
 
     /// <summary>
-    /// This handler is executed once after the callback OnCreateService and before the OnInvoke
+    ///   This handler is executed once after the callback OnCreateService and before the OnInvoke
     /// </summary>
     /// <param name="sessionContext">
-    /// Holds all information on the state of the session at the start of the execution.
+    ///   Holds all information on the state of the session at the start of the execution.
     /// </param>
     public abstract void OnSessionEnter(SessionContext sessionContext);
 
 
     /// <summary>
-    /// The middleware triggers the invocation of this handler every time a task input is
-    /// sent to the service to be processed.
-    /// The actual service logic should be implemented in this method. This is the only
-    /// method that is mandatory for the application developer to implement.
+    ///   The middleware triggers the invocation of this handler every time a task input is
+    ///   sent to the service to be processed.
+    ///   The actual service logic should be implemented in this method. This is the only
+    ///   method that is mandatory for the application developer to implement.
     /// </summary>
     /// <param name="sessionContext">
-    /// Holds all information on the state of the session at the start of the execution such as session ID.
+    ///   Holds all information on the state of the session at the start of the execution such as session ID.
     /// </param>
     /// <param name="taskContext">
-    /// Holds all information on the state of the task such as the task ID and the paykload.
+    ///   Holds all information on the state of the task such as the task ID and the paykload.
     /// </param>
     public abstract byte[] OnInvoke(SessionContext sessionContext, TaskContext taskContext);
 
 
     /// <summary>
-    /// The middleware triggers the invocation of this handler to unbind the Service Instance from its owning Session.
-    /// This handler should do any cleanup for any resources that were used in the onSessionEnter() method.
+    ///   The middleware triggers the invocation of this handler to unbind the Service Instance from its owning Session.
+    ///   This handler should do any cleanup for any resources that were used in the onSessionEnter() method.
     /// </summary>
     /// <param name="sessionContext">
-    /// Holds all information on the state of the session at the start of the execution such as session ID.
+    ///   Holds all information on the state of the session at the start of the execution such as session ID.
     /// </param>
     public abstract void OnSessionLeave(SessionContext sessionContext);
 
 
     /// <summary>
-    /// The middleware triggers the invocation of this handler just before a Service Instance is destroyed.
-    /// This handler should do any cleanup for any resources that were used in the onCreateService() method.
+    ///   The middleware triggers the invocation of this handler just before a Service Instance is destroyed.
+    ///   This handler should do any cleanup for any resources that were used in the onCreateService() method.
     /// </summary>
     /// <param name="serviceContext">
-    /// Holds all information on the state of the service at the start of the execution.
+    ///   Holds all information on the state of the service at the start of the execution.
     /// </param>
     public abstract void OnDestroyService(ServiceContext serviceContext);
 
     /// <summary>
-    /// User method to submit task from the service
+    ///   User method to submit task from the service
     /// </summary>
     /// <param name="sessionId">
-    /// The session id to attach the new task.
+    ///   The session id to attach the new task.
     /// </param>
     /// <param name="payloads">
-    /// The user payload list to execute. Generaly used for subtasking.
+    ///   The user payload list to execute. Generaly used for subtasking.
     /// </param>
-    public IEnumerable<string> SubmitTasks(IEnumerable<byte[]> payloads)
-    {
-      return ClientService.SubmitSubTasks(SessionId.PackSessionId(),
-                                          TaskId,
-                                          payloads);
-    }
+    public IEnumerable<string> SubmitTasks(IEnumerable<byte[]> payloads) => ClientService.SubmitSubTasks(SessionId.PackSessionId(),
+                                                                                                         TaskId,
+                                                                                                         payloads);
 
 
     /// <summary>
-    /// User method to submit task from the service
+    ///   User method to submit task from the service
     /// </summary>
     /// <param name="sessionId">
-    /// The session id to attach the new task.
+    ///   The session id to attach the new task.
     /// </param>
     /// <param name="payloads">
-    /// The user payload list to execute. Generaly used for subtasking.
+    ///   The user payload list to execute. Generaly used for subtasking.
     /// </param>
     /// <param name="parentTaskIds">The parent task Id attaching the subTask</param>
-    public IEnumerable<string> SubmitSubTasks(IEnumerable<byte[]> payloads, string parentTaskIds)
-    {
-      return ClientService.SubmitSubTasks(SessionId.PackSessionId(),
-                                          parentTaskIds,
-                                          payloads);
-    }
+    public IEnumerable<string> SubmitSubTasks(IEnumerable<byte[]> payloads, string parentTaskIds) => ClientService.SubmitSubTasks(SessionId.PackSessionId(),
+                                                                                                                                  parentTaskIds,
+                                                                                                                                  payloads);
 
     /// <summary>
-    /// The method to submit several tasks with dependencies tasks. This task will wait for
-    /// to start until all dependencies are completed successfully
+    ///   The method to submit several tasks with dependencies tasks. This task will wait for
+    ///   to start until all dependencies are completed successfully
     /// </summary>
     /// <param name="payloadWithDependencies">A list of Tuple(taskId, Payload) in dependence of those created tasks</param>
     /// <returns>return a list of taskIds of the created tasks </returns>
     public IEnumerable<string> SubmitTasksWithDependencies(IEnumerable<Tuple<byte[], IList<string>>> payloadWithDependencies)
-    {
-      return ClientService.SubmitSubtasksWithDependencies(SessionId.PackSessionId(),
-                                                          TaskId,
-                                                          payloadWithDependencies);
-    }
+      => ClientService.SubmitSubtasksWithDependencies(SessionId.PackSessionId(),
+                                                      TaskId,
+                                                      payloadWithDependencies);
 
     /// <summary>
-    /// The method to submit One Subtask with dependencies tasks. This task will wait for
-    /// to start until all dependencies are completed successfully
+    ///   The method to submit One Subtask with dependencies tasks. This task will wait for
+    ///   to start until all dependencies are completed successfully
     /// </summary>
     /// <param name="session">The session Id where the task will be attached</param>
     /// <param name="parentId">The parent Task who want to create the SubTask</param>
@@ -169,25 +174,23 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
     }
 
     /// <summary>
-    /// The method to submit several tasks with dependencies tasks. This task will wait for
-    /// to start until all dependencies are completed successfully
+    ///   The method to submit several tasks with dependencies tasks. This task will wait for
+    ///   to start until all dependencies are completed successfully
     /// </summary>
     /// <param name="session">The session Id where the Subtask will be attached</param>
     /// <param name="parentTaskId">The parent Task who want to create the SubTasks</param>
     /// <param name="payloadWithDependencies">A list of Tuple(taskId, Payload) in dependence of those created Subtasks</param>
     /// <returns>return a list of taskIds of the created Subtasks </returns>
     public IEnumerable<string> SubmitSubtasksWithDependencies(string parentId, IEnumerable<Tuple<byte[], IList<string>>> payloadWithDependencies)
-    {
-      return ClientService.SubmitSubtasksWithDependencies(SessionId.PackSessionId(),
-                                                          parentId,
-                                                          payloadWithDependencies);
-    }
+      => ClientService.SubmitSubtasksWithDependencies(SessionId.PackSessionId(),
+                                                      parentId,
+                                                      payloadWithDependencies);
 
     /// <summary>
-    /// User method to wait for only the parent task from the client
+    ///   User method to wait for only the parent task from the client
     /// </summary>
     /// <param name="taskId">
-    /// The task id of the task to wait for
+    ///   The task id of the task to wait for
     /// </param>
     public void WaitForCompletion(string taskId)
     {
@@ -196,10 +199,10 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
     }
 
     /// <summary>
-    /// User method to wait for SubTasks from the client
+    ///   User method to wait for SubTasks from the client
     /// </summary>
     /// <param name="taskId">
-    /// The task id of the Subtask
+    ///   The task id of the Subtask
     /// </param>
     public void WaitForSubTasksCompletion(string taskId)
     {
@@ -208,7 +211,7 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
     }
 
     /// <summary>
-    /// Get Result from compute reply
+    ///   Get Result from compute reply
     /// </summary>
     /// <param name="taskId">The task Id to get the result</param>
     /// <returns>return the customer payload</returns>
@@ -219,46 +222,33 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
       return ClientService.GetResult(taskId);
     }
 
-
-    internal ArmonikSymphonyClient ClientService { get; set; }
-
     /// <summary>
-    /// Get or set the taskId (ONLY INTERNAL USED)
-    /// </summary>
-    public string TaskId { get; set; }
-
-    /// <summary>
-    /// The configure method is an internal call to prepare the ServiceContainer.
-    /// Its holds several configuration coming from the Client call
+    ///   The configure method is an internal call to prepare the ServiceContainer.
+    ///   Its holds several configuration coming from the Client call
     /// </summary>
     /// <param name="configuration">The appSettings.json configuration prepared during the deployment</param>
     /// <param name="clientOptions">All data coming from Client within TaskOptions.Options </param>
     public void Configure(IConfiguration configuration, IDictionary<string, string> clientOptions)
     {
       Configuration = configuration;
-      ClientService = new ArmonikSymphonyClient(configuration);
+      ClientService = new(configuration);
 
       //Append or overwrite Dictionary Options in TaskOptions with one coming from client
       clientOptions.ToList()
                    .ForEach(pair => ClientService.TaskOptions.Options[pair.Key] = pair.Value);
     }
-
-    /// <summary>
-    /// Get or Set Configuration
-    /// </summary>
-    public IConfiguration Configuration { get; set; }
   }
 
   /// <summary>
-  /// This is the ServiceContainerBase extensions used to extend SubmitSubTasks
+  ///   This is the ServiceContainerBase extensions used to extend SubmitSubTasks
   /// </summary>
   public static class ServiceContainerBaseExt
   {
     /// <summary>
-    /// User method to submit task from the service
+    ///   User method to submit task from the service
     /// </summary>
     /// <param name="payload">
-    /// The user payload to execute. Generaly used for subtasking.
+    ///   The user payload to execute. Generaly used for subtasking.
     /// </param>
     public static string SubmitTask(this ServiceContainerBase serviceContainerBase, byte[] payload)
     {
@@ -267,10 +257,10 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
     }
 
     /// <summary>
-    /// User method to submit task from the service
+    ///   User method to submit task from the service
     /// </summary>
     /// <param name="payload">
-    /// The user payload to execute. Generaly used for subtasking.
+    ///   The user payload to execute. Generaly used for subtasking.
     /// </param>
     /// <param name="parentId">With one Parent task Id</param>
     public static string SubmitSubTask(this ServiceContainerBase serviceContainerBase, byte[] payload, string parentId)
@@ -280,21 +270,19 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
     }
 
     /// <summary>
-    /// User method to submit task from the service
+    ///   User method to submit task from the service
     /// </summary>
     /// <param name="payload">
-    /// The user payload to execute. Generaly used for subtasking.
+    ///   The user payload to execute. Generaly used for subtasking.
     /// </param>
     /// <param name="parentId">With one parent task Id</param>
     public static IEnumerable<string> SubmitSubTasks(this ServiceContainerBase serviceContainerBase, IEnumerable<byte[]> payload, string parentId)
-    {
-      return serviceContainerBase.SubmitSubTasks(payload,
-                                                 parentId);
-    }
+      => serviceContainerBase.SubmitSubTasks(payload,
+                                             parentId);
 
     /// <summary>
-    /// The method to submit One task with dependencies tasks. This task will wait for
-    /// to start until all dependencies are completed successfully
+    ///   The method to submit One task with dependencies tasks. This task will wait for
+    ///   to start until all dependencies are completed successfully
     /// </summary>
     /// <param name="payload">The payload to submit</param>
     /// <param name="dependencies">A list of task Id in dependence of this created task</param>
@@ -309,5 +297,5 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
                                                                                               dependencies),
                                                                                }).Single();
     }
-}
+  }
 }

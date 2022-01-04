@@ -19,15 +19,13 @@
 
 namespace ArmoniK.DevelopmentKit.SymphonyApi
 {
-
-    /// <summary>
-    ///
-    /// </summary>
-    public class ServiceContext
-    {
-        public string ApplicationName { get; set; }
-        public string ServiceName { get; set; }
-        public string ClientLibVersion { get; set; }
-        public string AppNamespace { get; set; }
-    }
+  /// <summary>
+  /// </summary>
+  public class ServiceContext
+  {
+    public string ApplicationName  { get; set; }
+    public string ServiceName      { get; set; }
+    public string ClientLibVersion { get; set; }
+    public string AppNamespace     { get; set; }
+  }
 }

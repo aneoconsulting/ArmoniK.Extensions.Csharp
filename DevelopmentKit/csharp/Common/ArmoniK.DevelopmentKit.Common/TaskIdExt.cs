@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-// This file is part of the ArmoniK project
+﻿// This file is part of the ArmoniK project
 // 
 // Copyright (C) ANEO, 2021-2021. All rights reserved.
 //   W. Kirschenmann   <wkirschenmann@aneo.fr>
@@ -26,47 +21,53 @@ using System.Threading.Tasks;
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+using System;
+
 using ArmoniK.Core.gRPC.V1;
 
 namespace ArmoniK.DevelopmentKit.Common
 {
-    public static class TaskIdExt
+  public static class TaskIdExt
+  {
+    /// <summary>
+    ///   Concatenate TaskId and SubSessionId into a string
+    /// </summary>
+    /// <param name="taskId"></param>
+    /// <returns></returns>
+    public static string PackTaskId(this TaskId taskId) => $"{taskId.SubSession}#{taskId.Task}";
+
+    /// <summary>
+    ///   Unpack TaskId and SubTaskId
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentException"></exception>
+    public static TaskId UnPackTaskId(this string id)
     {
-      /// <summary>
-      /// Concatenate TaskId and SubSessionId into a string
-      /// </summary>
-      /// <param name="taskId"></param>
-      /// <returns></returns>
-      public static string PackTaskId(this TaskId taskId) => $"{taskId.SubSession}#{taskId.Task}";
-
-      /// <summary>
-      /// Unpack TaskId and SubTaskId
-      /// </summary>
-      /// <param name="id"></param>
-      /// <returns></returns>
-      /// <exception cref="ArgumentException"></exception>
-      public static TaskId UnPackTaskId(this string id)
-      {
-        var split = id.Split('#');
-        if (split.Length != 2)
-          throw new ArgumentException("Id is not a valid TaskId",
-                                      nameof(id));
-        return new TaskId { SubSession = split[0], Task = split[1] };
-      }
-
-      /// <summary>
-      /// Unpack TaskId and SubTaskId
-      /// </summary>
-      /// <param name="id"></param>
-      /// <returns></returns>
-      /// <exception cref="ArgumentException"></exception>
-      public static bool CanUnPackTaskId(this string id)
-      {
-        var split = id.Split('#');
-        if (split.Length != 2)
-          return false;
-
-        return true;
-      }
+      var split = id.Split('#');
+      if (split.Length != 2)
+        throw new ArgumentException("Id is not a valid TaskId",
+                                    nameof(id));
+      return new()
+             {
+               SubSession = split[0],
+               Task       = split[1],
+             };
     }
+
+    /// <summary>
+    ///   Unpack TaskId and SubTaskId
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentException"></exception>
+    public static bool CanUnPackTaskId(this string id)
+    {
+      var split = id.Split('#');
+      if (split.Length != 2)
+        return false;
+
+      return true;
+    }
+  }
 }

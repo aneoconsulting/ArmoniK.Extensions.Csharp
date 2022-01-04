@@ -21,10 +21,10 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System.Runtime.Loader;
-using System.Reflection;
 using System;
 using System.IO;
+using System.Reflection;
+using System.Runtime.Loader;
 
 using ArmoniK.DevelopmentKit.WorkerApi.Common.Exceptions;
 
@@ -46,14 +46,14 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Common
 
     public AppsLoader(IConfiguration configuration, string engineTypeAssemblyName, string pathToZip)
     {
-      engineType_                    = EngineTypeHelper.ToEnum(engineTypeAssemblyName);
+      engineType_ = EngineTypeHelper.ToEnum(engineTypeAssemblyName);
 
       PathToZip = pathToZip;
 
       ArmoniKDevelopmentKitServerApi = new EngineTypes()[engineType_];
 
       var logger = LoggerFactory.Create(builder =>
-                                           builder.AddConfiguration(configuration)).CreateLogger<AppsLoader>();
+                                          builder.AddConfiguration(configuration)).CreateLogger<AppsLoader>();
 
       // Create a new context and mark it as 'collectible'.
       var tempLoadContextName = Guid.NewGuid().ToString();
@@ -86,17 +86,19 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Common
         throw new WorkerApiException($"Cannot load assembly from path [${localPathToAssemblyGridWorker}]");
       }
 
-      PathToAssemblyGridWorker = localPathToAssembly;
+      logger.LogInformation($"GridWorker assembly from path [${localPathToAssemblyGridWorker}]");
+
+      PathToAssemblyGridWorker = localPathToAssemblyGridWorker;
 
       var currentDomain = AppDomain.CurrentDomain;
-      currentDomain.AssemblyResolve += new (LoadFromSameFolder);
+      currentDomain.AssemblyResolve += new(LoadFromSameFolder);
 
       Assembly LoadFromSameFolder(object sender, ResolveEventArgs args)
       {
         var folderPath = Path.GetDirectoryName(PathToAssembly);
         var assemblyPath = Path.Combine(folderPath ?? "",
                                         new AssemblyName(args.Name).Name + ".dll");
-        if (!File.Exists(assemblyPath)) return null;
+
         Assembly assembly;
         try
         {
@@ -107,6 +109,7 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Common
           folderPath = "/app";
           assemblyPath = Path.Combine(folderPath,
                                       new AssemblyName(args.Name).Name + ".dll");
+
           if (!File.Exists(assemblyPath)) return null;
 
           assembly = Assembly.LoadFrom(assemblyPath);
@@ -115,6 +118,8 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Common
         return assembly;
       }
     }
+
+    public IConfiguration Configuration { get; }
 
     public string PathToZip { get; set; }
 
@@ -142,8 +147,7 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Common
         throw new WorkerApiException(e);
       }
 
-      throw new NullReferenceException(
-        $"Cannot find ServiceContainer named : {ArmoniKDevelopmentKitServerApi}.GridWorker in dll [{PathToAssemblyGridWorker}]");
+      throw new NullReferenceException($"Cannot find ServiceContainer named : {ArmoniKDevelopmentKitServerApi}.GridWorker in dll [{PathToAssemblyGridWorker}]");
     }
 
     public T GetServiceContainerInstance<T>(string appNamespace, string serviceContainerClassName)
@@ -159,8 +163,7 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Common
       }
 
       Dispose();
-      throw new NullReferenceException(
-        $"Cannot find ServiceContainer named : {appNamespace}.{serviceContainerClassName} in dll [{PathToAssembly}]");
+      throw new NullReferenceException($"Cannot find ServiceContainer named : {appNamespace}.{serviceContainerClassName} in dll [{PathToAssembly}]");
     }
 
     public void Dispose()
@@ -180,8 +183,10 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Common
     {
       if (pathToZipFile == null) throw new ArgumentNullException("pathToZipFile is a null argument");
 
-      if (engineType == null || engineType_ != EngineTypeHelper.ToEnum(engineType) || 
-          PathToZip == null || !pathToZipFile.Equals(PathToZip))
+      if (engineType == null ||
+          engineType_ != EngineTypeHelper.ToEnum(engineType) ||
+          PathToZip == null ||
+          !pathToZipFile.Equals(PathToZip))
         return true;
 
       return false;
