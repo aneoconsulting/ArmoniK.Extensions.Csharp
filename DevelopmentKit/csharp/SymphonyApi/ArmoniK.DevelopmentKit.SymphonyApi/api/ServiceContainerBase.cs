@@ -29,6 +29,8 @@ using ArmoniK.Core.gRPC.V1;
 using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.SymphonyApi.Client;
 
+using JetBrains.Annotations;
+
 using Microsoft.Extensions.Configuration;
 
 namespace ArmoniK.DevelopmentKit.SymphonyApi
@@ -40,6 +42,7 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
   ///   https://github.com/aneoconsulting/ArmoniK.Samples/tree/main/Samples/SymphonyLike
   ///   Samples.ArmoniK.Sample.SymphonyPackages
   /// </summary>
+  [PublicAPI]
   public abstract class ServiceContainerBase
   {
     /// <summary>
@@ -91,7 +94,7 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
     ///   Holds all information on the state of the session at the start of the execution such as session ID.
     /// </param>
     /// <param name="taskContext">
-    ///   Holds all information on the state of the task such as the task ID and the paykload.
+    ///   Holds all information on the state of the task such as the task ID and the payload.
     /// </param>
     public abstract byte[] OnInvoke(SessionContext sessionContext, TaskContext taskContext);
 
@@ -118,30 +121,27 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
     /// <summary>
     ///   User method to submit task from the service
     /// </summary>
-    /// <param name="sessionId">
-    ///   The session id to attach the new task.
-    /// </param>
     /// <param name="payloads">
-    ///   The user payload list to execute. Generaly used for subtasking.
+    ///   The user payload list to execute. Generally used for subtasking.
     /// </param>
-    public IEnumerable<string> SubmitTasks(IEnumerable<byte[]> payloads) => ClientService.SubmitSubTasks(SessionId.PackSessionId(),
-                                                                                                         TaskId,
-                                                                                                         payloads);
+    public IEnumerable<string> SubmitTasks(IEnumerable<byte[]> payloads)
+      => ClientService.SubmitSubTasks(SessionId.PackSessionId(),
+                                      TaskId,
+                                      payloads);
 
 
     /// <summary>
     ///   User method to submit task from the service
     /// </summary>
-    /// <param name="sessionId">
-    ///   The session id to attach the new task.
-    /// </param>
     /// <param name="payloads">
-    ///   The user payload list to execute. Generaly used for subtasking.
+    ///   The user payload list to execute. Generally used for subtasking.
     /// </param>
     /// <param name="parentTaskIds">The parent task Id attaching the subTask</param>
-    public IEnumerable<string> SubmitSubTasks(IEnumerable<byte[]> payloads, string parentTaskIds) => ClientService.SubmitSubTasks(SessionId.PackSessionId(),
-                                                                                                                                  parentTaskIds,
-                                                                                                                                  payloads);
+    [Obsolete]
+    public IEnumerable<string> SubmitSubTasks(IEnumerable<byte[]> payloads, string parentTaskIds)
+      => ClientService.SubmitSubTasks(SessionId.PackSessionId(),
+                                      parentTaskIds,
+                                      payloads);
 
     /// <summary>
     ///   The method to submit several tasks with dependencies tasks. This task will wait for
@@ -155,32 +155,30 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
                                                       payloadWithDependencies);
 
     /// <summary>
-    ///   The method to submit One Subtask with dependencies tasks. This task will wait for
+    ///   The method to submit one subtask with dependencies tasks. This task will wait for
     ///   to start until all dependencies are completed successfully
     /// </summary>
-    /// <param name="session">The session Id where the task will be attached</param>
     /// <param name="parentId">The parent Task who want to create the SubTask</param>
     /// <param name="payload">The payload to submit</param>
     /// <param name="dependencies">A list of task Id in dependence of this created SubTask</param>
     /// <returns>return the taskId of the created SubTask </returns>
+    [Obsolete]
     public string SubmitSubtaskWithDependencies(string parentId, byte[] payload, IList<string> dependencies)
-    {
-      return SubmitSubtasksWithDependencies(parentId,
-                                            new[]
-                                            {
-                                              Tuple.Create(payload,
-                                                           dependencies),
-                                            }).Single();
-    }
+      => SubmitSubtasksWithDependencies(parentId,
+                                        new[]
+                                        {
+                                          Tuple.Create(payload,
+                                                       dependencies),
+                                        }).Single();
 
     /// <summary>
     ///   The method to submit several tasks with dependencies tasks. This task will wait for
     ///   to start until all dependencies are completed successfully
     /// </summary>
-    /// <param name="session">The session Id where the Subtask will be attached</param>
-    /// <param name="parentTaskId">The parent Task who want to create the SubTasks</param>
+    /// <param name="parentId"></param>
     /// <param name="payloadWithDependencies">A list of Tuple(taskId, Payload) in dependence of those created Subtasks</param>
-    /// <returns>return a list of taskIds of the created Subtasks </returns>
+    /// <returns>return a list of taskIds of the created subtasks </returns>
+    [Obsolete]
     public IEnumerable<string> SubmitSubtasksWithDependencies(string parentId, IEnumerable<Tuple<byte[], IList<string>>> payloadWithDependencies)
       => ClientService.SubmitSubtasksWithDependencies(SessionId.PackSessionId(),
                                                       parentId,
@@ -247,55 +245,44 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
     /// <summary>
     ///   User method to submit task from the service
     /// </summary>
+    /// <param name="serviceContainerBase"></param>
     /// <param name="payload">
-    ///   The user payload to execute. Generaly used for subtasking.
+    ///   The user payload to execute. Generally used for subtasking.
     /// </param>
     public static string SubmitTask(this ServiceContainerBase serviceContainerBase, byte[] payload)
     {
-      return serviceContainerBase.SubmitSubTasks(new[] { payload },
-                                                 serviceContainerBase.TaskId).Single();
+      return serviceContainerBase.SubmitTasks(new[] { payload }).Single();
     }
 
     /// <summary>
     ///   User method to submit task from the service
     /// </summary>
+    /// <param name="serviceContainerBase"></param>
     /// <param name="payload">
-    ///   The user payload to execute. Generaly used for subtasking.
+    ///   The user payload to execute. Generally used for subtasking.
     /// </param>
     /// <param name="parentId">With one Parent task Id</param>
+    [Obsolete]
     public static string SubmitSubTask(this ServiceContainerBase serviceContainerBase, byte[] payload, string parentId)
     {
-      return serviceContainerBase.SubmitSubTasks(new[] { payload },
-                                                 serviceContainerBase.TaskId).Single();
+      return serviceContainerBase.SubmitSubTasks(new[] { payload }, parentId).Single();
     }
-
-    /// <summary>
-    ///   User method to submit task from the service
-    /// </summary>
-    /// <param name="payload">
-    ///   The user payload to execute. Generaly used for subtasking.
-    /// </param>
-    /// <param name="parentId">With one parent task Id</param>
-    public static IEnumerable<string> SubmitSubTasks(this ServiceContainerBase serviceContainerBase, IEnumerable<byte[]> payload, string parentId)
-      => serviceContainerBase.SubmitSubTasks(payload,
-                                             parentId);
 
     /// <summary>
     ///   The method to submit One task with dependencies tasks. This task will wait for
     ///   to start until all dependencies are completed successfully
     /// </summary>
+    /// <param name="serviceContainerBase"></param>
     /// <param name="payload">The payload to submit</param>
     /// <param name="dependencies">A list of task Id in dependence of this created task</param>
     /// <returns>return the taskId of the created task </returns>
     public static string SubmitTaskWithDependencies(this ServiceContainerBase serviceContainerBase, byte[] payload, IList<string> dependencies)
     {
-      return serviceContainerBase.ClientService.SubmitSubtasksWithDependencies(serviceContainerBase.SessionId.PackSessionId(),
-                                                                               serviceContainerBase.TaskId,
-                                                                               new[]
-                                                                               {
-                                                                                 Tuple.Create(payload,
-                                                                                              dependencies),
-                                                                               }).Single();
+      return serviceContainerBase.SubmitTasksWithDependencies(new[]
+                                                              {
+                                                                Tuple.Create(payload,
+                                                                             dependencies),
+                                                              }).Single();
     }
   }
 }

@@ -31,6 +31,7 @@ using Microsoft.Extensions.Logging;
 
 using Serilog;
 using Serilog.Events;
+#pragma warning disable CS1591
 
 namespace ArmoniK.DevelopmentKit.SymphonyApi
 {
