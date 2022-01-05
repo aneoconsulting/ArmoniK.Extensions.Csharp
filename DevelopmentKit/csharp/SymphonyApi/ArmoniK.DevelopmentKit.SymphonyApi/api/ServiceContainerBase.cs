@@ -247,14 +247,14 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
                                   .CreateLogger())
       });
 
-      Log = factory.CreateLogger<GridWorker>();
+      Log = factory.CreateLogger<ServiceContainerBase>();
       Log.LogInformation("Configuring ServiceContainerBase");
     }
 
     /// <summary>
     /// Get access to Logger with Log.Lo.
     /// </summary>
-    public ILogger<GridWorker> Log { get; set; }
+    public ILogger<ServiceContainerBase> Log { get; set; }
   }
 
   /// <summary>
