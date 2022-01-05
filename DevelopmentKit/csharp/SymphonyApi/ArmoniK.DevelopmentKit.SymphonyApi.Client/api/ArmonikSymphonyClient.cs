@@ -521,6 +521,7 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client
     /// <param name="parentTaskId">The task Id of a parent task</param>
     /// <param name="payloads">A lists of payloads creating a list of subTask</param>
     /// <returns>Return a list of taskId</returns>
+    [Obsolete]
     public static string SubmitSubTask(this ArmonikSymphonyClient client, string parentTaskId, byte[] payloads)
     {
       return client.SubmitSubTasks(client.SessionId.PackSessionId(),
