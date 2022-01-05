@@ -36,7 +36,7 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Common.Exceptions
     public WorkerApiException(string message) => message_ = message;
 
     public WorkerApiException(Exception e) : base(e.Message,
-                                                  e) => message_ = $"{message_} \ninnerEception message : {e.Message}";
+                                                  e) => message_ = $"{message_} with InnerException {e.GetType()} message : {e.Message}";
 
     public WorkerApiException(string message, ArgumentException e) : base(message,
                                                                           e)

@@ -32,6 +32,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
+using Serilog;
+
 namespace ArmoniK.DevelopmentKit.WorkerApi
 {
   public class Startup
@@ -66,6 +68,8 @@ namespace ArmoniK.DevelopmentKit.WorkerApi
     {
       if (env.IsDevelopment())
         app.UseDeveloperExceptionPage();
+
+      app.UseSerilogRequestLogging();
 
       app.UseRouting();
 

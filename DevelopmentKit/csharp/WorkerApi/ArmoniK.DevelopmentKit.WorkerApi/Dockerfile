@@ -7,9 +7,11 @@ EXPOSE 443
 
 FROM base AS tools
 WORKDIR /root/
-RUN apt-get update && apt-get install -y zip
-COPY ["tools/vs-debugger.zip", "/root/"]
-RUN unzip vs-debugger.zip && mv vs-debugger .vs-debugger && rm vs-debugger.zip
+RUN apt-get update && apt-get install -y curl
+RUN curl -sSL https://aka.ms/getvsdbgsh > getvsdbg.sh
+RUN bash getvsdbg.sh -v vs2019 -r linux-x64 -l .vs-debugger/vs2019
+RUN bash getvsdbg.sh -v vs2022 -r linux-x64 -l .vs-debugger/vs2022
+
 
 FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
 WORKDIR /src

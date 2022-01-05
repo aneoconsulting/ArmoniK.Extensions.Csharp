@@ -22,6 +22,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 using ArmoniK.Core.gRPC.V1;
@@ -39,10 +40,13 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Services
 {
   public class ComputerService : Core.gRPC.V1.ComputerService.ComputerServiceBase
   {
-    private readonly ILogger<ComputerService> logger_;
     private          AppsLoader               appsLoader_;
     private          IGridWorker              gridWorker_;
-    private          string                   sessionId_;
+    private readonly ILogger<ComputerService> logger_;
+
+
+    public IConfiguration Configuration { get; }
+    private string SessionId { get; set; }
 
     public ComputerService(IConfiguration           configuration,
                            ILogger<ComputerService> logger)
@@ -51,8 +55,6 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Services
       logger_       = logger;
     }
 
-    public IConfiguration Configuration { get; }
-
 
     /// <inheritdoc />
     public override Task<ComputeReply> Execute(ComputeRequest request, ServerCallContext context)
@@ -60,58 +62,97 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Services
       try
       {
         logger_.LogInformation($"Receive new task Session        {request.Session}#{request.Subsession} -> task {request.TaskId}");
-        logger_.LogInformation($"Previous Session#SubSession was {sessionId_ ?? "NOT SET"}");
+        logger_.LogInformation($"Previous Session#SubSession was {SessionId ?? "NOT SET"}");
 
-        if (string.IsNullOrEmpty(sessionId_) || !sessionId_.Equals($"{request.Session}#{request.Subsession}"))
+        if (string.IsNullOrEmpty(SessionId) || !SessionId.Equals($"{request.Session}#{request.Subsession}"))
         {
-          var assemblyPath = string.Format("/tmp/packages/{0}/{1}/{0}.dll",
+          var assemblyPath = String.Format("/tmp/packages/{0}/{1}/{0}.dll",
                                            request.TaskOptions[AppsOptions.GridAppNameKey],
                                            request.TaskOptions[AppsOptions.GridAppVersionKey]);
-          var pathToZipFile = string.Format("{0}/{1}-v{2}.zip",
-                                            Configuration["target_data_path"],
-                                            request.TaskOptions[AppsOptions.GridAppNameKey],
-                                            request.TaskOptions[AppsOptions.GridAppVersionKey]);
-          sessionId_ = $"{request.Session}#{request.Subsession}";
+          SessionId = $"{request.Session}#{request.Subsession}";
+          var pathToZipFile =
+            $"{Configuration["target_data_path"]}/{request.TaskOptions[AppsOptions.GridAppNameKey]}-v{request.TaskOptions[AppsOptions.GridAppVersionKey]}.zip";
 
-          if (gridWorker_ != null && appsLoader_ != null)
+
+          gridWorker_?.SessionFinalize();
+
+          if (appsLoader_ != null &&
+              appsLoader_.RequestNewAssembly(request.TaskOptions[AppsOptions.EngineTypeNameKey],
+                                             pathToZipFile))
           {
-            gridWorker_.SessionFinalize();
             appsLoader_.Dispose();
+            appsLoader_ = null;
           }
 
-          appsLoader_ = new(Configuration,
-                            assemblyPath,
-                            pathToZipFile);
-          //request.TaskOptions["GridWorkerNamespace"]
-          gridWorker_ = appsLoader_.GetGridWorkerInstance();
+          appsLoader_ ??= new AppsLoader(Configuration,
+                                         request.TaskOptions[AppsOptions.EngineTypeNameKey],
+                                         pathToZipFile);
+
+
+          gridWorker_ = appsLoader_.GetGridWorkerInstance(Configuration);
           gridWorker_.Configure(Configuration,
                                 request.TaskOptions,
                                 appsLoader_);
 
-          gridWorker_.InitializeSessionWorker(sessionId_);
+          gridWorker_.InitializeSessionWorker(SessionId);
         }
 
         logger_.LogInformation($"Executing task {request.TaskId}");
 
-        var result = gridWorker_.Execute(sessionId_,
+        var result = gridWorker_.Execute(SessionId,
                                          request);
 
 
         return Task.FromResult(new ComputeReply
-                               {
-                                 Result = ByteString.CopyFrom(result),
-                               });
+        {
+          Result = ByteString.CopyFrom(result),
+        });
       }
       catch (WorkerApiException we)
       {
-        logger_.LogError(we.Message);
-        throw; // TODO manage error code to return for gRPC
+        logger_.LogError(ExtractException(we));
+        throw new RpcException(new Status(StatusCode.Aborted,
+                                          ExtractException(we)));
       }
       catch (Exception e)
       {
-        logger_.LogError(e.Message);
-        throw; // TODO manage error code to return for gRPC
+        logger_.LogError(ExtractException(e));
+        throw new RpcException(new Status(StatusCode.Aborted,
+                                          ExtractException(e)));
       }
+    }
+
+    private static string ExtractException(Exception e)
+    {
+      int             level   = 1;
+      Exception       current = e;
+      List<Exception> exList  = new();
+      exList.Add(e);
+
+      while (current.InnerException != null)
+      {
+        current = current.InnerException;
+        exList.Add(current);
+        //message += $"\nInnerException : {current.GetType()} message : {current.Message}\n\t{string.Join("\n\t", current.StackTrace)}";
+        level++;
+
+        if (level > 30)
+          break;
+      }
+
+      exList.Reverse();
+      var message = $"Root Exception cause : {exList[0].GetType()} | message : {exList[0].Message}" +
+                    $"\n\tReversed StackTrace : \n\t{string.Join("\n\t", exList[0].StackTrace)}";
+
+      exList.RemoveAt(0);
+
+
+      foreach (var exception in exList)
+      {
+        message += $"\nFrom Exception : {exception.GetType()} message : {exception.Message}\n\t{string.Join("\n\t", exception.StackTrace)}";
+      }
+
+      return message;
     }
   }
 }

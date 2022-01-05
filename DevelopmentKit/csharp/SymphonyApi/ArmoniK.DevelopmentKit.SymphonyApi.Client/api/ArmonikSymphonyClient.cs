@@ -191,6 +191,9 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client
                                   Priority   = 1,
                                   IdTag      = "ArmonikTag",
                                 };
+      taskOptions.Options.Add(AppsOptions.EngineTypeNameKey,
+                              EngineType.Symphony.ToString());
+
       taskOptions.Options.Add(AppsOptions.GridAppNameKey,
                               "ArmoniK.Samples.SymphonyPackage");
       taskOptions.Options.Add(AppsOptions.GridAppVersionKey,

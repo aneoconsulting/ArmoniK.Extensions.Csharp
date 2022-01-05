@@ -24,6 +24,9 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
+using Serilog;
+using Serilog.Events;
+
 namespace ArmoniK.DevelopmentKit.WorkerApi
 {
   public class Program
@@ -37,6 +40,17 @@ namespace ArmoniK.DevelopmentKit.WorkerApi
     // For instructions on how to configure Kestrel and gRPC clients on macOS, visit https://go.microsoft.com/fwlink/?linkid=2099682
     public static IHostBuilder CreateHostBuilder(string[] args) =>
       Host.CreateDefaultBuilder(args)
-          .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });
+          .UseSerilog((context, services, configuration) => configuration
+                                                            .ReadFrom.Configuration(context.Configuration)
+                                                            .ReadFrom.Services(services)
+                                                            .MinimumLevel
+                                                            .Override("Microsoft.AspNetCore",
+                                                                      LogEventLevel.Debug)
+                                                            .Enrich.FromLogContext())
+          .ConfigureWebHostDefaults(webBuilder =>
+          {
+            webBuilder.UseStartup<Startup>()
+                      .ConfigureKestrel(options => options.Limits.MaxRequestBodySize = 2097152000);
+          });
   }
 }
