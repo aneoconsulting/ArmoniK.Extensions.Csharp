@@ -182,15 +182,12 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Common
 
     public bool RequestNewAssembly(string engineType, string pathToZipFile)
     {
-      if (pathToZipFile == null) throw new ArgumentNullException("pathToZipFile is a null argument");
+      if (pathToZipFile == null) throw new ArgumentNullException(nameof(pathToZipFile), "pathToZipFile is a null argument");
 
-      if (engineType == null ||
-          engineType_ != EngineTypeHelper.ToEnum(engineType) ||
-          PathToZip == null ||
-          !pathToZipFile.Equals(PathToZip))
-        return true;
-
-      return false;
+      return engineType == null ||
+             engineType_ != EngineTypeHelper.ToEnum(engineType) ||
+             PathToZip == null ||
+             !pathToZipFile.Equals(PathToZip);
     }
   }
 }

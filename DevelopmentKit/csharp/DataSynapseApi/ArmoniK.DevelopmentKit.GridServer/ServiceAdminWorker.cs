@@ -6,6 +6,9 @@ using ArmoniK.Core.gRPC.V1;
 
 using Microsoft.Extensions.Configuration;
 
+//TODO : remove pragma
+#pragma warning disable CS1591
+
 namespace ArmoniK.DevelopmentKit.GridServer
 {
     public class ServiceAdminWorker

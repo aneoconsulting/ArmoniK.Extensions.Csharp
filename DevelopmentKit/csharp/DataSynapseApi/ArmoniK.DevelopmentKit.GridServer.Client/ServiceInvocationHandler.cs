@@ -1,4 +1,7 @@
-﻿namespace ArmoniK.DevelopmentKit.GridServer.Client
+﻿//TODO : remove pragma
+#pragma warning disable CS1591
+
+namespace ArmoniK.DevelopmentKit.GridServer.Client
 {
     public interface IServiceInvocationHandler
     {

@@ -19,6 +19,9 @@ using Serilog.Events;
 
 namespace ArmoniK.DevelopmentKit.GridServer
 {
+    /// <summary>
+    /// TODO
+    /// </summary>
     public class ArmonikDataSynapseClientService
     {
         private readonly  IConfigurationSection                    controlPlanAddress_;
@@ -116,11 +119,15 @@ namespace ArmoniK.DevelopmentKit.GridServer
             SessionId ??= new () { Session = session };
         }
 
+        /// <summary>
+        /// TODO
+        /// </summary>
+        /// <returns></returns>
         public static TaskOptions InitializeDefaultTaskOptions()
         {
             TaskOptions taskOptions = new()
             {
-                MaxDuration = new Duration
+                MaxDuration = new()
                 {
                     Seconds = 40,
                 },
@@ -184,7 +191,7 @@ namespace ArmoniK.DevelopmentKit.GridServer
             if (taskIds == null) throw new ArgumentNullException(nameof(taskIds));
             var ids = taskIds.ToList();
 
-            if (!ids.Any()) throw new ArgumentException(nameof(taskIds));
+            if (!ids.Any()) throw new ArgumentException("Must contains at least one message", nameof(taskIds));
 
             var taskFilter = new TaskFilter();
             taskFilter.IncludedTaskIds.Add(ids);
@@ -304,12 +311,18 @@ namespace ArmoniK.DevelopmentKit.GridServer
         }
 
 
+        /// <summary>
+        /// TODO
+        /// </summary>
         public void CloseSession()
         {
           ControlPlaneService.CloseSession(SessionId);
           SessionId = null;
         }
 
+        /// <summary>
+        /// TODO
+        /// </summary>
         public void CancelSession()
         {
           ControlPlaneService.CancelSession(SessionId);

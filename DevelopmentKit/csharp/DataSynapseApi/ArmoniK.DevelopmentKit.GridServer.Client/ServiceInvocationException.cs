@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 using ArmoniK.DevelopmentKit.WorkerApi.Common.Exceptions;
 
+//TODO : remove pragma
+#pragma warning disable CS1591
+
 namespace ArmoniK.DevelopmentKit.GridServer.Client
 {
     public class ServiceInvocationException : Exception

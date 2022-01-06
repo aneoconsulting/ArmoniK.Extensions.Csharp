@@ -1,10 +1,11 @@
 ﻿using ArmoniK.Core.gRPC.V1;
 
+//TODO : remove pragma
+#pragma warning disable CS1591
+
 namespace ArmoniK.DevelopmentKit.GridServer
 {
     /// <summary>
-    ///
-    ///
     /// The ServiceInvocationContext class provides an interface for interacting with
     /// an invocation, such as getting the session and task IDs, while it is running on an
     /// Engine.This is an alternative to using, for example, the system properties when
@@ -22,11 +23,6 @@ namespace ArmoniK.DevelopmentKit.GridServer
       public SessionId SessionId { get; set; }
 
       public bool IsEquals(string session)
-      {
-        if (SessionId == null || session == null || !SessionId.Session.Equals(session))
-          return false;
-
-        return true;
-      }
+        => SessionId != null && session != null && SessionId.Session.Equals(session);
     }
 }

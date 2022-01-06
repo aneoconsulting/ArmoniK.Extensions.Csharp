@@ -263,7 +263,8 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client
       if (taskIds == null) throw new ArgumentNullException(nameof(taskIds));
       var ids = taskIds.ToList();
 
-      if (!ids.Any()) throw new ArgumentException(nameof(taskIds));
+      if (!ids.Any()) throw new ArgumentException("Must contains at least one message",
+                                                  nameof(taskIds));
 
       var taskFilter = new TaskFilter();
       taskFilter.IncludedTaskIds.Add(ids.Select(id => id.UnPackTaskId().Task));
@@ -521,7 +522,7 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client
     /// <param name="parentTaskId">The task Id of a parent task</param>
     /// <param name="payloads">A lists of payloads creating a list of subTask</param>
     /// <returns>Return a list of taskId</returns>
-    [Obsolete]
+    [Obsolete("This method should only be used on worker side.")]
     public static string SubmitSubTask(this ArmonikSymphonyClient client, string parentTaskId, byte[] payloads)
     {
       return client.SubmitSubTasks(client.SessionId.PackSessionId(),

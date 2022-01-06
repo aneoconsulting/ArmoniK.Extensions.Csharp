@@ -16,20 +16,15 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Common
     DataSynapse = 1,
   }
 
-  public class EngineTypeHelper
+  public static class EngineTypeHelper
   {
     public static EngineType ToEnum(string enumName)
-    {
-      switch (enumName)
-      {
-        case "Symphony":
-          return EngineType.Symphony;
-        case "DataSynapse":
-          return EngineType.DataSynapse;
-        default:
-          throw new KeyNotFoundException($"enumName, possible choice are [{string.Join(", ", typeof(EngineType).GetEnumNames())}]");
-      }
-    }
+      => enumName switch
+         {
+           "Symphony"    => EngineType.Symphony,
+           "DataSynapse" => EngineType.DataSynapse,
+           _             => throw new KeyNotFoundException($"enumName, possible choice are [{string.Join(", ", typeof(EngineType).GetEnumNames())}]")
+         };
   }
 
   public class EngineTypes

@@ -8,6 +8,9 @@ using Microsoft.Extensions.Configuration;
 
 using System.Text.Json;
 
+//TODO : remove pragma
+#pragma warning disable CS1591
+
 namespace ArmoniK.DevelopmentKit.GridServer.Client
 {
   public class ServiceAdmin : IDisposable

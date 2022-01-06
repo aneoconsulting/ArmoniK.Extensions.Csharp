@@ -6,6 +6,9 @@ using Grpc.Core;
 
 using Microsoft.Extensions.Configuration;
 
+//TODO : remove pragma
+#pragma warning disable CS1591
+
 namespace ArmoniK.DevelopmentKit.GridServer.Client
 {
     public class ServiceFactory
