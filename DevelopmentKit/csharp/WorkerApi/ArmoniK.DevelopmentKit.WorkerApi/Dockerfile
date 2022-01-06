@@ -1,6 +1,6 @@
 #See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
 
-FROM mcr.microsoft.com/dotnet/aspnet:5.0 AS base
+FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
 WORKDIR /app
 EXPOSE 80
 EXPOSE 443
@@ -13,7 +13,7 @@ RUN bash getvsdbg.sh -v vs2019 -r linux-x64 -l .vs-debugger/vs2019
 RUN bash getvsdbg.sh -v vs2022 -r linux-x64 -l .vs-debugger/vs2022
 
 
-FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
 COPY ["DevelopmentKit/csharp/WorkerApi/ArmoniK.DevelopmentKit.WorkerApi/ArmoniK.DevelopmentKit.WorkerApi.csproj", "DevelopmentKit/csharp/WorkerApi/ArmoniK.DevelopmentKit.WorkerApi/"]
 COPY ["DevelopmentKit/csharp/WorkerApi/ArmoniK.DevelopmentKit.WorkerApi.Common/ArmoniK.DevelopmentKit.WorkerApi.Common.csproj", "DevelopmentKit/csharp/WorkerApi/ArmoniK.DevelopmentKit.WorkerApi.Common/"]
