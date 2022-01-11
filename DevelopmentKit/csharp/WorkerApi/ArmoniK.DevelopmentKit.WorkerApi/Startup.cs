@@ -61,6 +61,7 @@ namespace ArmoniK.DevelopmentKit.WorkerApi
     {
       //services.AddConfiguration(Configuration);
       services.AddGrpc();
+      services.AddSingleton<ServiceRequestContext>();
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
