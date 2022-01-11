@@ -23,9 +23,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
 using ArmoniK.Core.gRPC.V1;
+using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.WorkerApi.Common;
 using ArmoniK.DevelopmentKit.WorkerApi.Common.Exceptions;
 
@@ -40,19 +42,19 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Services
 {
   public class ComputerService : Core.gRPC.V1.ComputerService.ComputerServiceBase
   {
-    private          AppsLoader               appsLoader_;
-    private          IGridWorker              gridWorker_;
     private readonly ILogger<ComputerService> logger_;
 
+    public ServiceRequestContext ServiceRequestContext { get; private set; }
 
     public IConfiguration Configuration { get; }
-    private string SessionId { get; set; }
 
     public ComputerService(IConfiguration           configuration,
-                           ILogger<ComputerService> logger)
+                           ILogger<ComputerService> logger,
+                           ServiceRequestContext    serviceRequestContext)
     {
-      Configuration = configuration;
-      logger_       = logger;
+      Configuration         = configuration;
+      logger_               = logger;
+      ServiceRequestContext = serviceRequestContext;
     }
 
 
@@ -62,45 +64,52 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Services
       try
       {
         logger_.LogInformation($"Receive new task Session        {request.Session}#{request.Subsession} -> task {request.TaskId}");
-        logger_.LogInformation($"Previous Session#SubSession was {SessionId ?? "NOT SET"}");
-
-        if (string.IsNullOrEmpty(SessionId) || !SessionId.Equals($"{request.Session}#{request.Subsession}"))
+        logger_.LogInformation($"Previous Session#SubSession was {ServiceRequestContext.SessionId?.Session ?? "NOT SET"}");
+        SessionId sessionIdCaller = new SessionId()
+        {
+          Session    = request.Session,
+          SubSession = request.Subsession
+        };
+        if (ServiceRequestContext.IsNewSessionId(sessionIdCaller))
         {
           var assemblyPath = String.Format("/tmp/packages/{0}/{1}/{0}.dll",
                                            request.TaskOptions[AppsOptions.GridAppNameKey],
                                            request.TaskOptions[AppsOptions.GridAppVersionKey]);
-          SessionId = $"{request.Session}#{request.Subsession}";
+          ServiceRequestContext.SessionId = sessionIdCaller;
+
           var pathToZipFile =
             $"{Configuration["target_data_path"]}/{request.TaskOptions[AppsOptions.GridAppNameKey]}-v{request.TaskOptions[AppsOptions.GridAppVersionKey]}.zip";
 
 
-          gridWorker_?.SessionFinalize();
+          ServiceRequestContext.GridWorker?.SessionFinalize();
 
-          if (appsLoader_ != null &&
-              appsLoader_.RequestNewAssembly(request.TaskOptions[AppsOptions.EngineTypeNameKey],
-                                             pathToZipFile))
+          if (ServiceRequestContext.AppsLoader != null &&
+              ServiceRequestContext.AppsLoader.RequestNewAssembly(request.TaskOptions[AppsOptions.EngineTypeNameKey],
+                                                                  pathToZipFile))
           {
-            appsLoader_.Dispose();
-            appsLoader_ = null;
+            ServiceRequestContext.AppsLoader.Dispose();
+            ServiceRequestContext.AppsLoader = null;
           }
 
-          appsLoader_ ??= new AppsLoader(Configuration,
-                                         request.TaskOptions[AppsOptions.EngineTypeNameKey],
-                                         pathToZipFile);
+          ServiceRequestContext.AppsLoader ??= new AppsLoader(Configuration,
+                                                              request.TaskOptions[AppsOptions.EngineTypeNameKey],
+                                                              pathToZipFile);
 
 
-          gridWorker_ = appsLoader_.GetGridWorkerInstance(Configuration);
-          gridWorker_.Configure(Configuration,
-                                request.TaskOptions,
-                                appsLoader_);
+          ServiceRequestContext.GridWorker = ServiceRequestContext.AppsLoader.GetGridWorkerInstance(Configuration);
+          ServiceRequestContext.GridWorker.Configure(Configuration,
+                                                     request.TaskOptions,
+                                                     ServiceRequestContext.AppsLoader);
 
-          gridWorker_.InitializeSessionWorker(SessionId);
+          ServiceRequestContext.GridWorker.InitializeSessionWorker(ServiceRequestContext.SessionId.PackSessionId());
         }
+
+        ServiceRequestContext.SessionId = sessionIdCaller;
 
         logger_.LogInformation($"Executing task {request.TaskId}");
 
-        var result = gridWorker_.Execute(SessionId,
-                                         request);
+        var result = ServiceRequestContext.GridWorker.Execute(ServiceRequestContext.SessionId.PackSessionId(),
+                                                              request);
 
 
         return Task.FromResult(new ComputeReply

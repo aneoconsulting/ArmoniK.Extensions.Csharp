@@ -46,12 +46,12 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
 
     public GridWorker(IConfiguration configuration)
     {
-      Log.Logger = new LoggerConfiguration()
-                   .MinimumLevel.Override("Microsoft",
-                                          LogEventLevel.Information)
-                   .Enrich.FromLogContext()
-                   .WriteTo.Console()
-                   .CreateBootstrapLogger();
+      //Log.Logger = new LoggerConfiguration()
+      //             .MinimumLevel.Override("Microsoft",
+      //                                    LogEventLevel.Information)
+      //             .Enrich.FromLogContext()
+      //             .WriteTo.Console()
+      //             .CreateBootstrapLogger();
       Configuration = configuration;
 
       var factory = new LoggerFactory(new[]
@@ -118,24 +118,22 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
 
     public void InitializeSessionWorker(string sessionId)
     {
-    }
-
-    public byte[] Execute(string session, ComputeRequest request)
-    {
-      if (string.IsNullOrEmpty(SessionId) || !session.Equals(SessionId))
+      if (string.IsNullOrEmpty(SessionId) || !sessionId.Equals(SessionId.UnPackSessionId().Session))
       {
         if (string.IsNullOrEmpty(SessionId))
         {
-          OnSessionEnter(session);
+          OnSessionEnter(sessionId);
         }
         else
         {
           OnSessionLeave();
-          OnSessionEnter(session);
+          OnSessionEnter(sessionId);
         }
       }
+}
 
-
+    public byte[] Execute(string session, ComputeRequest request)
+    {
       TaskId = new TaskId
       {
         Task       = request.TaskId,
