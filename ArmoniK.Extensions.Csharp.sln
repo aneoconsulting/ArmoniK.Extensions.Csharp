@@ -1,0 +1,83 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31912.275
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sources", "Sources", "{79DE0448-1BF2-48D2-8A33-243E402CFD27}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{CD412C3D-63D0-4726-B4C3-FEF701E4DCAF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GridServer", "GridServer", "{1A9BCE53-79D0-4761-B3A2-6967B610FA94}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArmoniK.DevelopmentKit.GridServer", "DataSynapseApi\ArmoniK.DevelopmentKit.GridServer\ArmoniK.DevelopmentKit.GridServer.csproj", "{F56C8472-0382-4E11-A6E1-23956E806B65}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArmoniK.DevelopmentKit.GridServer.Client", "DataSynapseApi\ArmoniK.DevelopmentKit.GridServer.Client\ArmoniK.DevelopmentKit.GridServer.Client.csproj", "{19B3633A-5F48-4E61-B1FE-491337513AE0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArmoniK.DevelopmentKit.SymphonyApi", "SymphonyApi\ArmoniK.DevelopmentKit.SymphonyApi\ArmoniK.DevelopmentKit.SymphonyApi.csproj", "{ACA181A5-E1B0-4F52-8A7C-37557BABC013}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArmoniK.DevelopmentKit.SymphonyApi.Client", "SymphonyApi\ArmoniK.DevelopmentKit.SymphonyApi.Client\ArmoniK.DevelopmentKit.SymphonyApi.Client.csproj", "{D111F3C7-EE59-465B-A183-A76D0F19FFA9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArmoniK.DevelopmentKit.WorkerApi", "WorkerApi\ArmoniK.DevelopmentKit.WorkerApi\ArmoniK.DevelopmentKit.WorkerApi.csproj", "{1A922DF7-0F98-468B-AA5C-D652FADF35BF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArmoniK.DevelopmentKit.WorkerApi.Common", "WorkerApi\ArmoniK.DevelopmentKit.WorkerApi.Common\ArmoniK.DevelopmentKit.WorkerApi.Common.csproj", "{68E88608-FB63-467C-9530-3DDB8AD6EB0F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorkerApiTests", "WorkerApi\tests\WorkerApiTests\WorkerApiTests.csproj", "{7DAEF2D6-D815-4BB5-9537-42B2EE46D5C6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Symphony", "Symphony", "{5623BACC-20F7-42A2-A4A6-D2B73495BB04}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WorkerApi", "WorkerApi", "{C4CB5823-7E24-412F-864B-6C26E886F368}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F56C8472-0382-4E11-A6E1-23956E806B65}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F56C8472-0382-4E11-A6E1-23956E806B65}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F56C8472-0382-4E11-A6E1-23956E806B65}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F56C8472-0382-4E11-A6E1-23956E806B65}.Release|Any CPU.Build.0 = Release|Any CPU
+		{19B3633A-5F48-4E61-B1FE-491337513AE0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19B3633A-5F48-4E61-B1FE-491337513AE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19B3633A-5F48-4E61-B1FE-491337513AE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{19B3633A-5F48-4E61-B1FE-491337513AE0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ACA181A5-E1B0-4F52-8A7C-37557BABC013}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ACA181A5-E1B0-4F52-8A7C-37557BABC013}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ACA181A5-E1B0-4F52-8A7C-37557BABC013}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ACA181A5-E1B0-4F52-8A7C-37557BABC013}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D111F3C7-EE59-465B-A183-A76D0F19FFA9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D111F3C7-EE59-465B-A183-A76D0F19FFA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D111F3C7-EE59-465B-A183-A76D0F19FFA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D111F3C7-EE59-465B-A183-A76D0F19FFA9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1A922DF7-0F98-468B-AA5C-D652FADF35BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A922DF7-0F98-468B-AA5C-D652FADF35BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A922DF7-0F98-468B-AA5C-D652FADF35BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A922DF7-0F98-468B-AA5C-D652FADF35BF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{68E88608-FB63-467C-9530-3DDB8AD6EB0F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68E88608-FB63-467C-9530-3DDB8AD6EB0F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68E88608-FB63-467C-9530-3DDB8AD6EB0F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68E88608-FB63-467C-9530-3DDB8AD6EB0F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7DAEF2D6-D815-4BB5-9537-42B2EE46D5C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7DAEF2D6-D815-4BB5-9537-42B2EE46D5C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7DAEF2D6-D815-4BB5-9537-42B2EE46D5C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7DAEF2D6-D815-4BB5-9537-42B2EE46D5C6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{1A9BCE53-79D0-4761-B3A2-6967B610FA94} = {79DE0448-1BF2-48D2-8A33-243E402CFD27}
+		{F56C8472-0382-4E11-A6E1-23956E806B65} = {1A9BCE53-79D0-4761-B3A2-6967B610FA94}
+		{19B3633A-5F48-4E61-B1FE-491337513AE0} = {1A9BCE53-79D0-4761-B3A2-6967B610FA94}
+		{ACA181A5-E1B0-4F52-8A7C-37557BABC013} = {5623BACC-20F7-42A2-A4A6-D2B73495BB04}
+		{D111F3C7-EE59-465B-A183-A76D0F19FFA9} = {5623BACC-20F7-42A2-A4A6-D2B73495BB04}
+		{1A922DF7-0F98-468B-AA5C-D652FADF35BF} = {C4CB5823-7E24-412F-864B-6C26E886F368}
+		{68E88608-FB63-467C-9530-3DDB8AD6EB0F} = {C4CB5823-7E24-412F-864B-6C26E886F368}
+		{7DAEF2D6-D815-4BB5-9537-42B2EE46D5C6} = {CD412C3D-63D0-4726-B4C3-FEF701E4DCAF}
+		{5623BACC-20F7-42A2-A4A6-D2B73495BB04} = {79DE0448-1BF2-48D2-8A33-243E402CFD27}
+		{C4CB5823-7E24-412F-864B-6C26E886F368} = {79DE0448-1BF2-48D2-8A33-243E402CFD27}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1285A466-2AF6-43E6-8DCC-2F93A5D5F02E}
+	EndGlobalSection
+EndGlobal
