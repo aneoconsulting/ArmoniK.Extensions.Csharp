@@ -12,20 +12,17 @@ RUN curl -sSL https://aka.ms/getvsdbgsh > getvsdbg.sh
 RUN bash getvsdbg.sh -v vs2019 -r linux-x64 -l .vs-debugger/vs2019
 RUN bash getvsdbg.sh -v vs2022 -r linux-x64 -l .vs-debugger/vs2022
 
-
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY ["DevelopmentKit/csharp/WorkerApi/ArmoniK.DevelopmentKit.WorkerApi/ArmoniK.DevelopmentKit.WorkerApi.csproj", "DevelopmentKit/csharp/WorkerApi/ArmoniK.DevelopmentKit.WorkerApi/"]
-COPY ["DevelopmentKit/csharp/WorkerApi/ArmoniK.DevelopmentKit.WorkerApi.Common/ArmoniK.DevelopmentKit.WorkerApi.Common.csproj", "DevelopmentKit/csharp/WorkerApi/ArmoniK.DevelopmentKit.WorkerApi.Common/"]
-COPY ["DevelopmentKit/csharp/Generated/src/ArmoniK.Csharp.csproj", "DevelopmentKit/csharp/Generated/src/"]
-COPY ["DevelopmentKit/csharp/Common/ArmoniK.DevelopmentKit.Common/ArmoniK.DevelopmentKit.Common.csproj", "DevelopmentKit/csharp/Common/ArmoniK.DevelopmentKit.Common/"]
-RUN dotnet restore "DevelopmentKit/csharp/WorkerApi/ArmoniK.DevelopmentKit.WorkerApi/ArmoniK.DevelopmentKit.WorkerApi.csproj"
+COPY ["WorkerApi/ArmoniK.DevelopmentKit.WorkerApi/ArmoniK.DevelopmentKit.WorkerApi.csproj", "WorkerApi/ArmoniK.DevelopmentKit.WorkerApi/"]
+COPY ["WorkerApi/ArmoniK.DevelopmentKit.WorkerApi.Common/ArmoniK.DevelopmentKit.WorkerApi.Common.csproj", "WorkerApi/ArmoniK.DevelopmentKit.WorkerApi.Common/"]
+RUN dotnet restore "WorkerApi/ArmoniK.DevelopmentKit.WorkerApi/ArmoniK.DevelopmentKit.WorkerApi.csproj"
 COPY . .
-WORKDIR "/src/DevelopmentKit/csharp/WorkerApi/ArmoniK.DevelopmentKit.WorkerApi"
+WORKDIR "/src/WorkerApi/ArmoniK.DevelopmentKit.WorkerApi"
 RUN dotnet build "ArmoniK.DevelopmentKit.WorkerApi.csproj" -c Debug -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "ArmoniK.DevelopmentKit.WorkerApi.csproj" -c Debug -r linux-x64 --self-contained true -o /app/publish
+RUN dotnet publish "ArmoniK.DevelopmentKit.WorkerApi.csproj" -c Denug -o /app/publish -r linux-x64 --self-contained true
 
 FROM base AS final
 WORKDIR /root
