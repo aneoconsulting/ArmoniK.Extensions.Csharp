@@ -91,17 +91,33 @@ jobs:
       run: |
         docker push dockerhubaneo/armonik_worker_dll:$VERSION
 
-  testInfraWorker:
+  testEndToEnd:
     needs:
       - versionning
       - buildWorker
     runs-on: ubuntu-latest
+    runs-on: ubuntu-latest
     steps:
-      - uses: aneoconsulting/ArmoniK/.github/actions/test-worker@JG/workflows
+      - name: Checkout
+        uses: actions/checkout@v2
         with:
-          version: JG/workflows
-          worker-image: dockerhubaneo/armonik_worker_dll
-          worker-tag: ${{ needs.versionning.outputs.version }}
+          ref: ${{ github.head_ref }}
+
+      - uses: aneoconsulting/ArmoniK@main
+
+      - name: Run EndToEnd.Tests
+        run: |
+         export CPIP=$(kubectl get svc control-plane -n armonik -o custom-columns="IP:.spec.clusterIP" --no-headers=true)
+         export CPPort=$(kubectl get svc control-plane -n armonik -o custom-columns="PORT:.spec.ports[*].port" --no-headers=true)
+         export Grpc__Endpoint=http://$CPIP:$CPPort
+
+         cd SymphonyApi/ArmoniK.DevelopmentKit.SymphonyApi.Tests/EndToEnd.Tests/
+         dotnet publish --self-contained -r linux-x64
+
+         sudo chown -R $USER:$USER /data
+         cp ../packages/ArmoniK.Samples.EndToEndTests-v1.0.0.zip /data
+
+         dotnet run
 
   tag:
     runs-on: ubuntu-latest
@@ -110,7 +126,7 @@ jobs:
       - versionning
       - buildWorker
       - buildProjects
-      - testInfraWorker
+      - testEndToEnd
     env:
       VERSION: ${{ needs.versionning.outputs.version }}
     steps:
