@@ -22,10 +22,9 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-
 using ArmoniK.Core.gRPC.V1;
 
-namespace ArmoniK.DevelopmentKit.Common
+namespace ArmoniK.DevelopmentKit.WorkerApi.Common
 {
   public static class SessionIdExtension
   {

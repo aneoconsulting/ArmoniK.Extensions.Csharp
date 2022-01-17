@@ -16,6 +16,7 @@ using Microsoft.Extensions.Logging;
 
 using Serilog;
 using Serilog.Events;
+using Serilog.Extensions.Logging;
 
 namespace ArmoniK.DevelopmentKit.GridServer
 {
@@ -62,19 +63,16 @@ namespace ArmoniK.DevelopmentKit.GridServer
         {
             controlPlanAddress_ = configuration.GetSection(SectionControlPlan);
 
-            Log.Logger = new LoggerConfiguration()
-                         .MinimumLevel.Override("Microsoft",
-                                                LogEventLevel.Information)
-                         .Enrich.FromLogContext()
-                         .WriteTo.Console()
-                         .CreateBootstrapLogger();
-
-            var factory = new LoggerFactory().AddSerilog();
+            var factory  = new LoggerFactory(new[]
+            {
+                new SerilogLoggerProvider(new LoggerConfiguration()
+                    .ReadFrom
+                    .Configuration(configuration)
+                    .Enrich.FromLogContext()
+                    .CreateLogger())
+            });
 
             Logger = factory.CreateLogger<ArmonikDataSynapseClientService>();
-
-            taskOptions ??= InitializeDefaultTaskOptions();
-            TaskOptions = taskOptions;
         }
 
         /// <summary>

@@ -5,7 +5,7 @@
     <Company>ANEO</Company>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <IsPackable>true</IsPackable>
-    <PackageOutputPath>..\..\..\..\publish</PackageOutputPath>
+    <PackageOutputPath>../../../publish</PackageOutputPath>
     <RuntimeIdentifiers>win-x64;linux-x64</RuntimeIdentifiers>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>

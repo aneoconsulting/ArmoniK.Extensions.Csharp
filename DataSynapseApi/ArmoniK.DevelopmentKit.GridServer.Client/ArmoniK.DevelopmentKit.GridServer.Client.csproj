@@ -8,7 +8,7 @@
     <Authors>$(Authors)</Authors>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <IsPackable>true</IsPackable>
-    <PackageOutputPath>..\..\..\..\publish</PackageOutputPath>
+    <PackageOutputPath>../../../publish</PackageOutputPath>
     <RuntimeIdentifier>linux-x64</RuntimeIdentifier>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
@@ -21,14 +21,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\WorkerApi\ArmoniK.DevelopmentKit.WorkerApi.Common\ArmoniK.DevelopmentKit.WorkerApi.Common.csproj" />
+    <ProjectReference
+      Include="..\..\WorkerApi\ArmoniK.DevelopmentKit.WorkerApi.Common\ArmoniK.DevelopmentKit.WorkerApi.Common.csproj" />
     <ProjectReference Include="..\ArmoniK.DevelopmentKit.GridServer\ArmoniK.DevelopmentKit.GridServer.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-	<PackageReference Include="ArmoniK.Api" Version="1.0.0" />
-	<PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="6.0.0" />
-	<PackageReference Include="Microsoft.Extensions.Logging.Console" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="6.0.0" />

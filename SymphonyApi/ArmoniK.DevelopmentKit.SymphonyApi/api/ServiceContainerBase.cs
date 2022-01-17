@@ -24,20 +24,16 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-
 using ArmoniK.Core.gRPC.V1;
-using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.SymphonyApi.Client;
-
+using ArmoniK.DevelopmentKit.WorkerApi.Common;
 using JetBrains.Annotations;
-
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-
 using Serilog;
 using Serilog.Extensions.Logging;
 
-namespace ArmoniK.DevelopmentKit.SymphonyApi
+namespace ArmoniK.DevelopmentKit.SymphonyApi.api
 {
   /// <summary>
   ///   The Class ServiceContainerBase (Old name was IServiceContainer) is an abstract class
@@ -126,7 +122,7 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
     ///   User method to submit task from the service
     /// </summary>
     /// <param name="payloads">
-    ///   The user payload list to execute. Generally used for subtasking.
+    ///   The user payload list to execute. Generally used for subTasking.
     /// </param>
     public IEnumerable<string> SubmitTasks(IEnumerable<byte[]> payloads)
       => ClientService.SubmitSubTasks(SessionId.PackSessionId(),
@@ -138,7 +134,7 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
     ///   User method to submit task from the service
     /// </summary>
     /// <param name="payloads">
-    ///   The user payload list to execute. Generally used for subtasking.
+    ///   The user payload list to execute. Generally used for subTasking.
     /// </param>
     /// <param name="parentTaskIds">The parent task Id attaching the subTask</param>
     [Obsolete]

@@ -44,7 +44,7 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Common
 
     private string ArmoniKDevelopmentKitServerApi { get; set; }
 
-    public AppsLoader(IConfiguration configuration, string engineTypeAssemblyName, string pathToZip)
+    public AppsLoader(IConfiguration configuration, LoggerFactory loggerFactory, string engineTypeAssemblyName, string pathToZip)
     {
       engineType_ = EngineTypeHelper.ToEnum(engineTypeAssemblyName);
 
@@ -52,8 +52,7 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Common
 
       ArmoniKDevelopmentKitServerApi = new EngineTypes()[engineType_];
 
-      var logger = LoggerFactory.Create(builder =>
-                                          builder.AddConfiguration(configuration)).CreateLogger<AppsLoader>();
+      var logger = loggerFactory.CreateLogger<AppsLoader>();
 
       // Create a new context and mark it as 'collectible'.
       var tempLoadContextName = Guid.NewGuid().ToString();
@@ -127,7 +126,7 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Common
 
     public string PathToAssemblyGridWorker { get; set; }
 
-    public IGridWorker GetGridWorkerInstance(IConfiguration configuration)
+    public IGridWorker GetGridWorkerInstance(IConfiguration configuration, LoggerFactory loggerFactory)
     {
       // Create an instance of a class from the assembly.
       try
@@ -136,10 +135,10 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Common
 
         if (classType != null)
         {
-          var gridworker = (IGridWorker)Activator.CreateInstance(classType,
-                                                                 configuration);
+          var gridWorker = (IGridWorker)Activator.CreateInstance(classType,
+                                                                 configuration, loggerFactory);
 
-          return gridworker;
+          return gridWorker;
         }
       }
       catch (Exception e)

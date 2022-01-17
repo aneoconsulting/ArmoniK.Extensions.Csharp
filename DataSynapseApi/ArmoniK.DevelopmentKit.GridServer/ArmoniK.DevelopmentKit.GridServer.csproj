@@ -8,7 +8,7 @@
     <Authors>$(Authors)</Authors>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <IsPackable>true</IsPackable>
-    <PackageOutputPath>..\..\..\..\publish</PackageOutputPath>
+    <PackageOutputPath>../../../publish</PackageOutputPath>
     <RuntimeIdentifier>linux-x64</RuntimeIdentifier>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>

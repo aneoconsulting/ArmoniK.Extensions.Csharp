@@ -24,6 +24,7 @@ using System.Linq;
 using ArmoniK.Attributes;
 using ArmoniK.Core.gRPC.V1;
 using ArmoniK.DevelopmentKit.Common;
+using ArmoniK.DevelopmentKit.SymphonyApi.api;
 using ArmoniK.DevelopmentKit.WorkerApi.Common;
 
 using Microsoft.Extensions.Configuration;
@@ -39,31 +40,17 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
   [XmlDocIgnore]
   public class GridWorker : IGridWorker
   {
-    private ILogger<GridWorker>  logger_;
+    private ILogger<GridWorker>  Logger { get; set; }
     private ServiceContainerBase serviceContainerBase_;
     private ServiceContext       serviceContext_;
     private SessionContext       sessionContext_;
 
-    public GridWorker(IConfiguration configuration)
+    public GridWorker(IConfiguration configuration, LoggerFactory factory)
     {
-      //Log.Logger = new LoggerConfiguration()
-      //             .MinimumLevel.Override("Microsoft",
-      //                                    LogEventLevel.Information)
-      //             .Enrich.FromLogContext()
-      //             .WriteTo.Console()
-      //             .CreateBootstrapLogger();
       Configuration = configuration;
 
-      var factory = new LoggerFactory(new[]
-      {
-        new SerilogLoggerProvider(new LoggerConfiguration()
-                                  .ReadFrom
-                                  .Configuration(Configuration)
-                                  .CreateLogger())
-      });
-
-      logger_ = factory.CreateLogger<GridWorker>();
-}
+      Logger = factory.CreateLogger<GridWorker>();
+    }
 
     public TaskOptions TaskOptions { get; set; }
 
@@ -86,7 +73,6 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
       GridAppVersion   = clientOptions[AppsOptions.GridAppVersionKey];
       GridAppNamespace = clientOptions[AppsOptions.GridAppNamespaceKey];
 
-
       serviceContext_ = new()
       {
         ApplicationName  = GridAppName,
@@ -100,7 +86,7 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
         ClientLibVersion = GridAppVersion,
       };
 
-      logger_.LogInformation("Loading ServiceContainer from Application package :  " +
+      Logger.LogInformation("Loading ServiceContainer from Application package :  " +
                              $"\n\tappName   :   {GridAppName}" +
                              $"\n\tvers      :   {GridAppVersion}" +
                              $"\n\tnameSpace :   {GridAppNamespace}");
@@ -111,7 +97,7 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
       serviceContainerBase_.Configure(configuration,
                                       clientOptions);
 
-      logger_.LogDebug("Call OnCreateService");
+      Logger.LogDebug("Call OnCreateService");
 
       OnCreateService();
     }

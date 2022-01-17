@@ -8,7 +8,7 @@
     <Authors>$(Authors)</Authors>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <IsPackable>true</IsPackable>
-    <PackageOutputPath>..\..\..\..\publish</PackageOutputPath>
+    <PackageOutputPath>../../../publish</PackageOutputPath>
     <RuntimeIdentifiers>win-x64;linux-x64</RuntimeIdentifiers>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
@@ -16,7 +16,6 @@
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugType>Embedded</DebugType>
     <IncludeSymbols>true</IncludeSymbols>
-    <!--<SymbolPackageFormat>snupkg</SymbolPackageFormat>-->
     <DefineConstants>DEBUG;TRACE</DefineConstants>
   </PropertyGroup>
 

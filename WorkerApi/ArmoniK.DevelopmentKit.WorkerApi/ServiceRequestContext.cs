@@ -26,6 +26,7 @@ using System;
 using ArmoniK.Core.gRPC.V1;
 using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.WorkerApi.Common;
+using Microsoft.Extensions.Logging;
 
 namespace ArmoniK.DevelopmentKit.WorkerApi
 {
@@ -34,6 +35,12 @@ namespace ArmoniK.DevelopmentKit.WorkerApi
         public SessionId SessionId { get; set; }
         public AppsLoader AppsLoader { get; set; }
         public IGridWorker GridWorker { get; set; }
+        public LoggerFactory LoggerFactory { get; set; }
+
+        public ServiceRequestContext(LoggerFactory loggerFactory)
+        {
+            LoggerFactory = loggerFactory;
+        }
 
         public bool IsNewSessionId(SessionId sessionId)
         {
