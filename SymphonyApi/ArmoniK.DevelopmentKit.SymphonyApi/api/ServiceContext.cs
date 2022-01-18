@@ -17,11 +17,15 @@
 
 */
 
+using ArmoniK.DevelopmentKit.WorkerApi.Common;
+
 #pragma warning disable CS1591
 namespace ArmoniK.DevelopmentKit.SymphonyApi
 {
   /// <summary>
   /// </summary>
+  /// 
+  [MarkDownDoc]
   public class ServiceContext
   {
     public string ApplicationName  { get; set; }

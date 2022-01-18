@@ -18,6 +18,9 @@
 */
 
 using System.Collections.Generic;
+
+using ArmoniK.DevelopmentKit.WorkerApi.Common;
+
 #pragma warning disable CS1591
 
 namespace ArmoniK.DevelopmentKit.SymphonyApi
@@ -25,6 +28,7 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
   /// <summary>
   ///   Provides the context for the task that is bound to the given service invocation
   /// </summary>
+  [MarkDownDoc]
   public class TaskContext
   {
     public byte[] Payload;

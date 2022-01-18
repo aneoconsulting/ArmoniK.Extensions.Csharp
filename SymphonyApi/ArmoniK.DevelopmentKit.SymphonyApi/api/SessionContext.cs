@@ -17,12 +17,15 @@
 
 */
 
+using ArmoniK.DevelopmentKit.WorkerApi.Common;
+
 namespace ArmoniK.DevelopmentKit.SymphonyApi
 {
   /// <summary>
   ///   Container for the information associated with a particular Session.
   ///   Such information may be required during the servicing of a task from a Session.
   /// </summary>
+  [MarkDownDoc]
   public class SessionContext
   {
     /// <summary>

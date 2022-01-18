@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 using ArmoniK.Core.gRPC.V1;
+using ArmoniK.DevelopmentKit.WorkerApi.Common;
 
 using Google.Protobuf.WellKnownTypes;
 
@@ -13,6 +14,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace ArmoniK.DevelopmentKit.GridServer.Client
 {
+  [MarkDownDoc]
   public class Properties
   {
     public Properties(IConfiguration configuration, TaskOptions options)

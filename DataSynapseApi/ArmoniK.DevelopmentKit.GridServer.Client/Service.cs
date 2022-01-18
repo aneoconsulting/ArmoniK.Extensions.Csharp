@@ -1,32 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using ArmoniK.Core.gRPC.V1;
-
-using Microsoft.Extensions.Configuration;
-
-using System.Text.Json;
-
-using ArmoniK.DevelopmentKit.Common;
+﻿using ArmoniK.Core.gRPC.V1;
+using ArmoniK.DevelopmentKit.WorkerApi.Common;
 using ArmoniK.DevelopmentKit.WorkerApi.Common.Exceptions;
-
 using JetBrains.Annotations;
+using Microsoft.Extensions.Configuration;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 #pragma warning disable CS1591
 
 namespace ArmoniK.DevelopmentKit.GridServer.Client
 {
   /// <summary>
-  /// This class is instanciated by ServiceFactory and allows to execute task on ArmoniK
+  /// This class is instantiated by ServiceFactory and allows to execute task on ArmoniK
   /// Grid.
   /// </summary>
+  [MarkDownDoc]
   public class Service : IDisposable
   {
     /// <summary>
-    /// Propoerty Get or Set the SessionId
+    /// Propoerty Get the SessionId
     /// </summary>
     public SessionId SessionId { get; set; }
 
@@ -36,9 +29,18 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
 
     private string ServiceType { get; set; }
 
-
     private ProtoSerializer ProtoSerializer { get; }
 
+    /// <summary>
+    /// The default constructor to open connection with the control plane
+    /// and create the session to ArmoniK
+    /// </summary>
+    /// <param name="configuration">The Iconfiguration with all parameters coming from appsettings.json or
+    /// coming from Environment variables</param>
+    /// <param name="serviceType"></param>
+    /// <param name="taskOptions">The task parameters to set MaxDuration,
+    /// MaxRetries and service which will called during the session
+    /// </param>
     public Service(IConfiguration configuration, string serviceType, TaskOptions taskOptions)
     {
       ClientService = new ArmonikDataSynapseClientService(configuration,
@@ -118,11 +120,11 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
     }
 
     /// <summary>
-    /// 
+    /// The method submit will execute task asynchronously on the server
     /// </summary>
-    /// <param name="methodName"></param>
-    /// <param name="arguments"></param>
-    /// <param name="handler"></param>
+    /// <param name="methodName">The name of the method inside the service</param>
+    /// <param name="arguments">A list of object that can be passed in parameters of the function</param>
+    /// <param name="handler">The handler callBack implemented as IServiceInvocationHandler to get response or result or error</param>
     public void Submit(string methodName, object[] arguments, IServiceInvocationHandler handler)
     {
       byte[] payload = ProtoSerializer.SerializeMessage(new object[] { methodName, arguments });
@@ -171,11 +173,18 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
       HandlerResponse?.Dispose();
     }
 
+    /// <summary>
+    /// The method to destroy the service and close the session
+    /// </summary>
     public void Destroy()
     {
       Dispose();
     }
 
+    /// <summary>
+    /// Check if this service has been destroyed before that call
+    /// </summary>
+    /// <returns>Returns true if the service was destroyed previously</returns>
     public bool IsDestroyed()
     {
       if (SessionId == null || ClientService == null)

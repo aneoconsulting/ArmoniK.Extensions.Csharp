@@ -43,6 +43,7 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.api
   ///   Samples.ArmoniK.Sample.SymphonyPackages
   /// </summary>
   [PublicAPI]
+  [MarkDownDoc]
   public abstract class ServiceContainerBase
   {
     /// <summary>

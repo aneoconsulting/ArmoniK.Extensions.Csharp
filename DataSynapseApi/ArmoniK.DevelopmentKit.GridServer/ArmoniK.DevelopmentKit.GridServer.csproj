@@ -11,6 +11,7 @@
     <PackageOutputPath>../../../publish</PackageOutputPath>
     <RuntimeIdentifier>linux-x64</RuntimeIdentifier>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">

@@ -51,6 +51,7 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client
   ///   https://github.com/aneoconsulting/ArmoniK.Samples/tree/main/Samples/SymphonyLike
   ///   Samples.ArmoniK.Sample.SymphonyClient
   /// </summary>
+  [MarkDownDoc]
   public class ArmonikSymphonyClient
   {
     private readonly  IConfigurationSection          controlPlanAddress_;

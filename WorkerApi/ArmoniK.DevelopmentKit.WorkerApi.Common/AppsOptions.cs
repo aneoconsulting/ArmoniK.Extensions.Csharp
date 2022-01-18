@@ -23,6 +23,7 @@
 
 namespace ArmoniK.DevelopmentKit.WorkerApi.Common
 {
+  [MarkDownDoc]
   public static class AppsOptions
   {
       public static string EngineTypeNameKey { get; } = "EngineType";

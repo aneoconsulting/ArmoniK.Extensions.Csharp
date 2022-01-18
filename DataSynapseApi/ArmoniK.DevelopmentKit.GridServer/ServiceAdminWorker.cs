@@ -6,12 +6,11 @@ using ArmoniK.Core.gRPC.V1;
 
 using Microsoft.Extensions.Configuration;
 
-//TODO : remove pragma
 #pragma warning disable CS1591
 
 namespace ArmoniK.DevelopmentKit.GridServer
 {
-    public class ServiceAdminWorker
+  public class ServiceAdminWorker
   {
     public SessionId SessionId { get; set; }
     public Dictionary<string, Task> TaskWarehouse { get; set; }
@@ -31,12 +30,15 @@ namespace ArmoniK.DevelopmentKit.GridServer
 
     public byte[] UploadResources(string path)
     {
-      DataSynapsePayload payload = new() { DataSynapseRequestType = DataSynapseRequestType.Upload };
-      string             taskId  = ClientService.SubmitTask(payload.Serialize());
+      DataSynapsePayload payload = new()
+      {
+        DataSynapseRequestType = DataSynapseRequestType.Upload
+      };
+      string taskId = ClientService.SubmitTask(payload.Serialize());
 
       ClientService.WaitCompletion(taskId);
 
-      return new byte[]{};
+      return new byte[] { };
     }
 
     public void DeployResources()

@@ -8,6 +8,7 @@
     <PackageOutputPath>../../../publish</PackageOutputPath>
     <RuntimeIdentifiers>win-x64;linux-x64</RuntimeIdentifiers>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
