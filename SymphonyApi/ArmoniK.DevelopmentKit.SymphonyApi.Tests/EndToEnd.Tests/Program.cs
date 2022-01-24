@@ -116,6 +116,7 @@ namespace ArmoniK.EndToEndTests
                                   })
                                   .Where(x => x != null)
                                   .Where(x => x.IsPublic &&
+                                              ! x.IsGenericType &&
                                               !typeof(Delegate).IsAssignableFrom(x) &&
                                               !x.GetCustomAttributes<ObsoleteAttribute>().Any() &&
                                               !x.GetCustomAttributes<DisabledAttribute>().Any())
@@ -125,7 +126,10 @@ namespace ArmoniK.EndToEndTests
 
       return serviceContainerTypes.Select(x => new Tuple<Type, MethodInfo[]>(x,
                                                                              GetMethods(x)))
-                                  .Where(x => x.Item2 != null).Select(x => new TestContext()
+                                  .Where(x => x.Item2 != null &&
+                                              x.Item2.Length > 0 &&
+                                              x.Item2.Any(m => m.GetCustomAttributes<EntryPointAttribute>().Any()))
+                                  .Select(x => new TestContext()
                                   {
                                     ClassCLient         = x.Item1,
                                     ClientClassInstance = Activator.CreateInstance(x.Item1),

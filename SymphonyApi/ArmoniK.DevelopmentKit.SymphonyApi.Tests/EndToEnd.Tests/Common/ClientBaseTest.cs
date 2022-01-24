@@ -83,7 +83,7 @@ namespace ArmoniK.EndToEndTests.Common
 
       var version = typeof(ClientBaseTest<T>).Assembly.GetName().Version;
       if (version != null)
-        TaskOptions.Options[AppsOptions.GridAppVersionKey] = version.ToString();
+        TaskOptions.Options[AppsOptions.GridAppVersionKey] = $"{version.Major}.{version.Minor}.{version.Build}";
       else
       {
         TaskOptions.Options[AppsOptions.GridAppVersionKey] = "1.0.0";
