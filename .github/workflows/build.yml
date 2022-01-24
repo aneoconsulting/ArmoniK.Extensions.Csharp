@@ -19,7 +19,7 @@ jobs:
     - name: Generate Version
       id: genver
       run: |
-        VERSION=$(docker run --rm -v $(pwd):/repo codacy/git-version /bin/git-version --folder=/repo --release-branch=release --dev-branch=master) 
+        VERSION=$(docker run --rm -v $(pwd):/repo codacy/git-version /bin/git-version --folder=/repo --release-branch=release --dev-branch=master)
         echo "::set-output name=version::$VERSION"
         echo $VERSION
 
@@ -114,7 +114,7 @@ jobs:
          dotnet publish --self-contained -r linux-x64
 
          sudo chown -R $USER:$USER /data
-         cp ./packages/ArmoniK.Samples.EndToEndTests-v1.0.0.zip /data
+         cp ./packages/ArmoniK.EndToEndTests-v1.0.0.zip /data
 
          dotnet run -r linux-x64
 
