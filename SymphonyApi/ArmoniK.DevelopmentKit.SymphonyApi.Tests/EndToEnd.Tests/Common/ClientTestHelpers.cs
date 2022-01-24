@@ -34,40 +34,22 @@ using Microsoft.Extensions.Logging;
 using Serilog;
 using Serilog.Extensions.Logging;
 
-namespace ArmoniK.Samples.EndToEndTests.Common
+namespace ArmoniK.EndToEndTests.Common
 {
-  public class ClientSideBaseTest<T>
+  public class ClientTestHelpers
   {
-    protected IConfiguration Configuration { get; set; }
-
-    protected ILogger<T> Log { get; set; }
-
-    protected TaskOptions TaskOptions { get; set; }
-
-    public ClientSideBaseTest()
+    public ClientTestHelpers()
     {
       var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory())
                                               .AddJsonFile("appsettings.json",
                                                            true,
                                                            true)
                                               .AddEnvironmentVariables();
-
-      Configuration = builder.Build();
-
-      var loggerConfig = new LoggerConfiguration()
-                         .ReadFrom.Configuration(Configuration)
-                         .Enrich.FromLogContext()
-                         .WriteTo.Console()
-                         .CreateBootstrapLogger();
-
-      var factory = new LoggerFactory(new[] { new SerilogLoggerProvider(loggerConfig), });
-
-      Log = factory.CreateLogger<T>();
     }
 
-    public virtual TaskOptions InitializeTaskOptions()
+    public static TaskOptions InitializeTaskOptions()
     {
-      TaskOptions = new()
+      TaskOptions taskOptions = new()
       {
         MaxDuration = new Duration
         {
@@ -77,15 +59,15 @@ namespace ArmoniK.Samples.EndToEndTests.Common
         Priority   = 1,
         IdTag      = "ArmonikTag",
       };
-      TaskOptions.Options.Add(AppsOptions.GridAppNameKey,
+      taskOptions.Options.Add(AppsOptions.GridAppNameKey,
                               "ArmoniK.Samples.EndToEndTests");
 
-      TaskOptions.Options.Add(AppsOptions.GridAppVersionKey,
+      taskOptions.Options.Add(AppsOptions.GridAppVersionKey,
                               "1.0.0");
 
-      TaskOptions.Options.Add(AppsOptions.GridAppNamespaceKey,
+      taskOptions.Options.Add(AppsOptions.GridAppNamespaceKey,
                               "ArmoniK.Samples.EndToEndTests");
-      return TaskOptions;
+      return taskOptions;
     }
   }
 }

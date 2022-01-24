@@ -26,7 +26,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Text.Json;
 
-namespace ArmoniK.Samples.EndToEndTests
+namespace ArmoniK.EndToEndTests.Common
 {
   public class ClientPayload
   {

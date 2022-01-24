@@ -21,35 +21,22 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Text;
-using System.Threading;
 
 using ArmoniK.Core.gRPC.V1;
 using ArmoniK.DevelopmentKit.SymphonyApi.Client;
 using ArmoniK.DevelopmentKit.WorkerApi.Common;
-using ArmoniK.Samples.EndToEndTests.Common;
+using ArmoniK.EndToEndTests.Common;
 
-using Google.Protobuf.WellKnownTypes;
-
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-using Serilog;
-using Serilog.Extensions.Logging;
-
-namespace ArmoniK.Samples.EndToEndTests.Tests
+namespace ArmoniK.EndToEndTests.Tests.SimpleComputeNSubtasking
 {
-  public class Client_1 : ClientSideBaseTest<Client_1>
+  public class SimpleComputeNSubtaskingClient : ClientBaseTest<SimpleComputeNSubtaskingClient>
   {
     [EntryPoint]
-    public void EntryPoint(string[] args)
+    public override void EntryPoint()
     {
-     
-
       var client = new ArmonikSymphonyClient(Configuration);
 
       Log.LogInformation("Configure taskOptions");
@@ -61,34 +48,6 @@ namespace ArmoniK.Samples.EndToEndTests.Tests
 
       Log.LogInformation("Running End to End test to compute Square value with SubTasking");
       ClientStartup1(client);
-    }
-
-    /// <summary>
-    ///   Initialize Setting for task i.e :
-    ///   Duration :
-    ///   The max duration of a task
-    ///   Priority :
-    ///   Work in Progress. Setting priority of task
-    ///   AppName  :
-    ///   The name of the Application dll (Without Extension)
-    ///   VersionName :
-    ///   The version of the package to unzip and execute
-    ///   Namespace :
-    ///   The namespace where the service can find
-    ///   the ServiceContainer object develop by the customer
-    /// </summary>
-    /// <returns></returns>
-    public override TaskOptions InitializeTaskOptions()
-    {
-      TaskOptions                                     = base.InitializeTaskOptions();
-
-      TaskOptions.Options[AppsOptions.GridAppNameKey] = "ArmoniK.Samples.EndToEndTests.Tests";
-
-      TaskOptions.Options[AppsOptions.GridAppVersionKey] = "1.0.0";
-
-      TaskOptions.Options[AppsOptions.GridAppNamespaceKey] = "ArmoniK.Samples.EndToEndTests";
-
-      return TaskOptions;
     }
 
     /// <summary>

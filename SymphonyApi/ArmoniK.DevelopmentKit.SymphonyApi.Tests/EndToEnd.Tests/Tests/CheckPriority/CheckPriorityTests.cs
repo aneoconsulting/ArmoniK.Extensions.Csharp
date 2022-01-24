@@ -31,13 +31,12 @@ using ArmoniK.DevelopmentKit.SymphonyApi;
 using ArmoniK.DevelopmentKit.SymphonyApi.api;
 using ArmoniK.DevelopmentKit.WorkerApi.Common;
 using ArmoniK.DevelopmentKit.WorkerApi.Common.Exceptions;
+using ArmoniK.EndToEndTests.Common;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-using Serilog;
-
-namespace ArmoniK.Samples.EndToEndTests
+namespace ArmoniK.EndToEndTests.Tests.CheckPriority
 {
   public class ServiceContainer : ServiceContainerBase
   {

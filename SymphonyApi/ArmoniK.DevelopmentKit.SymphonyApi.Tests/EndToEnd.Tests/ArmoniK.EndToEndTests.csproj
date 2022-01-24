@@ -13,7 +13,6 @@
 		<OutputPath>bin/$(Configuration)/</OutputPath>
 		<PublishDir>../publish/$(MSBuildProjectName)/$(Version)</PublishDir>
 		<PublishUrl>../publish/$(MSBuildProjectName)/$(Version)</PublishUrl>
-		<RestoreProjectStyle>PackageReference</RestoreProjectStyle>
 		<IsPackable>true</IsPackable>
 	</PropertyGroup>
   
@@ -39,11 +38,12 @@
 		<PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="6.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.0" />
 		<PackageReference Include="Grpc.AspNetCore" Version="2.41.0" />
+		<PackageReference Include="ArmoniK.Api" Version="1.0.0" />
 	</ItemGroup>
 
-	<ItemGroup>
+	<!--<ItemGroup>
 		<Content Update="publish" CopyToPublishDirectory="Never" />
-	</ItemGroup>
+	</ItemGroup>-->
 
 	<ItemGroup>
 		<Folder Include="Properties\PublishProfiles\" />
