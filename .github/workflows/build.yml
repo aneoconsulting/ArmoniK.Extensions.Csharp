@@ -102,7 +102,7 @@ jobs:
         with:
           ref: ${{ github.head_ref }}
 
-      - uses: aneoconsulting/ArmoniK@main
+      - uses: aneoconsulting/ArmoniK@monitoring
 
       - name: Run EndToEnd.Tests
         run: |
