@@ -21,7 +21,10 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+using System.IO;
+
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Hosting;
 
 using Serilog;
@@ -31,6 +34,8 @@ namespace ArmoniK.DevelopmentKit.WorkerApi
 {
   public class Program
   {
+    private static readonly string SocketPath = "/cache/armonik.sock";
+
     public static void Main(string[] args)
     {
       CreateHostBuilder(args).Build().Run();
@@ -50,7 +55,17 @@ namespace ArmoniK.DevelopmentKit.WorkerApi
           .ConfigureWebHostDefaults(webBuilder =>
           {
             webBuilder.UseStartup<Startup>()
-                      .ConfigureKestrel(options => options.Limits.MaxRequestBodySize = 2097152000);
+                      .ConfigureKestrel(options =>
+                      {
+                        options.Limits.MaxRequestBodySize = 2097152000;
+                        if (File.Exists(SocketPath))
+                        {
+                          File.Delete(SocketPath);
+                        }
+
+                        options.ListenUnixSocket(SocketPath,
+                                                 listenOptions => { listenOptions.Protocols = HttpProtocols.Http2; });
+                      });
           });
   }
 }
