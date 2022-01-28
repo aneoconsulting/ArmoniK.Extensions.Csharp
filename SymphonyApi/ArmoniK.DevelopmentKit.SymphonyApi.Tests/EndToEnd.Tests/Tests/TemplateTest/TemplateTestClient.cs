@@ -23,24 +23,24 @@
 
 using System.Collections.Generic;
 
-using ArmoniK.Core.gRPC.V1;
 using ArmoniK.DevelopmentKit.SymphonyApi.Client;
-using ArmoniK.DevelopmentKit.WorkerApi.Common;
 using ArmoniK.EndToEndTests.Common;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-namespace ArmoniK.EndToEndTests.Tests.SimpleComputeNSubtasking
+namespace ArmoniK.EndToEndTests.Tests.TemplateTest
 {
-  public class SimpleComputeNSubtaskingClient : ClientBaseTest<SimpleComputeNSubtaskingClient>
+  [Disabled]
+  public class TemplateTestClient : ClientBaseTest<TemplateTestClient>
   {
-    public SimpleComputeNSubtaskingClient(IConfiguration configuration, ILoggerFactory loggerFactory) :
+    public TemplateTestClient(IConfiguration configuration, ILoggerFactory loggerFactory) :
       base(configuration,
            loggerFactory)
     {
     }
 
+    [Disabled]
     [EntryPoint]
     public override void EntryPoint()
     {
@@ -65,18 +65,15 @@ namespace ArmoniK.EndToEndTests.Tests.SimpleComputeNSubtasking
     /// <param name="client">The client API to connect to the Control plane Service</param>
     /// <param name="taskId">The task which is waiting for</param>
     /// <returns></returns>
-    private byte[] WaitForSubTaskResult(ArmonikSymphonyClient client, string taskId)
+    private static byte[] WaitForSubTaskResult(ArmonikSymphonyClient client, string taskId)
     {
-      Log.LogInformation($"Wait for root task to finish [task {taskId}]");
-      client.WaitCompletion(taskId);
+      client.WaitSubtasksCompletion(taskId);
       var taskResult = client.GetResult(taskId);
       var result     = ClientPayload.Deserialize(taskResult);
 
       if (!string.IsNullOrEmpty(result.SubTaskId))
       {
-        Log.LogInformation($"Root task wait for subtask delegation [SubTask with dependencies {result.SubTaskId}]");
-        Log.LogInformation($"Wait for Sub task to finish [task {result.SubTaskId}]");
-        client.WaitCompletion(result.SubTaskId);
+        client.WaitSubtasksCompletion(result.SubTaskId);
         taskResult = client.GetResult(result.SubTaskId);
       }
 
@@ -99,7 +96,7 @@ namespace ArmoniK.EndToEndTests.Tests.SimpleComputeNSubtasking
       {
         IsRootTask = true,
         Numbers    = numbers,
-        Type       = ClientPayload.TaskType.ComputeSquare
+        Type       = ClientPayload.TaskType.ComputeSquare,
       };
       var taskId = client.SubmitTask(clientPaylaod.Serialize());
 

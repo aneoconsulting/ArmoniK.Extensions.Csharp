@@ -6,11 +6,14 @@ EXPOSE 80
 EXPOSE 443
 
 FROM base AS tools
-WORKDIR /root/
+
+RUN mkdir -p /root/.vs-debugger
+WORKDIR /root/.vs-debugger
+
 RUN apt-get update && apt-get install -y curl
 RUN curl -sSL https://aka.ms/getvsdbgsh > getvsdbg.sh
-RUN bash getvsdbg.sh -v vs2019 -r linux-x64 -l .vs-debugger/vs2019
-RUN bash getvsdbg.sh -v vs2022 -r linux-x64 -l .vs-debugger/vs2022
+RUN bash getvsdbg.sh -v vs2019 -r linux-x64 -l vs2019
+RUN bash getvsdbg.sh -v vs2022 -r linux-x64 -l vs2022
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src

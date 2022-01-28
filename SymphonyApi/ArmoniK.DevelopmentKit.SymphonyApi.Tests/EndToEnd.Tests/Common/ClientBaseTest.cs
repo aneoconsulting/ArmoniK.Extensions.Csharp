@@ -23,6 +23,7 @@
 
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 using ArmoniK.Core.gRPC.V1;
 using ArmoniK.DevelopmentKit.WorkerApi.Common;
@@ -44,26 +45,15 @@ namespace ArmoniK.EndToEndTests.Common
     protected ILogger<T> Log { get; set; }
 
     protected TaskOptions TaskOptions { get; set; }
+    protected ILoggerFactory LoggerFactory { get; set; }
 
-    public ClientBaseTest()
+    public ClientBaseTest(IConfiguration configuration, ILoggerFactory loggerFactory)
     {
-      var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory())
-                                              .AddJsonFile("appsettings.json",
-                                                           true,
-                                                           true)
-                                              .AddEnvironmentVariables();
+      Configuration = configuration;
 
-      Configuration = builder.Build();
+      LoggerFactory = loggerFactory;
 
-      var loggerConfig = new LoggerConfiguration()
-                         .ReadFrom.Configuration(Configuration)
-                         .Enrich.FromLogContext()
-                         .WriteTo.Console()
-                         .CreateBootstrapLogger();
-
-      var factory = new LoggerFactory(new[] { new SerilogLoggerProvider(loggerConfig), });
-
-      Log = factory.CreateLogger<T>();
+      Log = LoggerFactory.CreateLogger<T>();
     }
 
     public virtual TaskOptions InitializeTaskOptions()
@@ -101,5 +91,45 @@ namespace ArmoniK.EndToEndTests.Common
 
 
     public abstract void EntryPoint();
+  }
+
+  public static class TaskOptionsExt
+  {
+    public static TaskOptions SetVersion(this TaskOptions taskOptions, string version)
+    {
+      taskOptions.Options[AppsOptions.GridAppVersionKey] = version;
+
+      return taskOptions;
+    }
+
+    public static TaskOptions SetEngineType(this TaskOptions taskOptions, string engineType)
+    {
+      taskOptions.Options[AppsOptions.EngineTypeNameKey] = engineType;
+
+      return taskOptions;
+    }
+
+    public static TaskOptions SetNamespaceService(this TaskOptions taskOptions, string namespaceService)
+    {
+      taskOptions.Options[AppsOptions.GridAppNamespaceKey] = namespaceService;
+
+      return taskOptions;
+    }
+
+    public static TaskOptions SetApplicationName(this TaskOptions taskOptions, string applicationName)
+    {
+      taskOptions.Options[AppsOptions.GridAppNameKey] = applicationName;
+
+      return taskOptions;
+    }
+
+    public static TaskOptions SetSessionPriority(this TaskOptions taskOptions, int priority)
+    {
+      taskOptions.Priority = priority;
+
+      return taskOptions;
+    }
+
+
   }
 }

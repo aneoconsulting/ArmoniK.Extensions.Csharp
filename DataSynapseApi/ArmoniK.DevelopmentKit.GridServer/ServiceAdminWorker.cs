@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using ArmoniK.Core.gRPC.V1;
 
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
 #pragma warning disable CS1591
 
@@ -19,9 +20,10 @@ namespace ArmoniK.DevelopmentKit.GridServer
 
     public string ServiceType { get; set; }
 
-    public ServiceAdminWorker(IConfiguration configuration, TaskOptions taskOptions)
+    public ServiceAdminWorker(IConfiguration configuration, ILoggerFactory loggerFactory, TaskOptions taskOptions)
     {
       ClientService = new ArmonikDataSynapseClientService(configuration,
+                                                          loggerFactory,
                                                           taskOptions);
       SessionId = ClientService.CreateSession(taskOptions);
 

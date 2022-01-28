@@ -18,6 +18,7 @@
 */
 
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -81,10 +82,7 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
         AppNamespace     = GridAppNamespace,
       };
 
-      sessionContext_ = new()
-      {
-        ClientLibVersion = GridAppVersion,
-      };
+     
 
       Logger.LogInformation("Loading ServiceContainer from Application package :  " +
                              $"\n\tappName   :   {GridAppName}" +
@@ -158,6 +156,11 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
       OnSessionLeave();
     }
 
+    public void DestroyService()
+    {
+      OnDestroyService();
+    }
+
     public void OnCreateService()
     {
       serviceContainerBase_.OnCreateService(serviceContext_);
@@ -169,7 +172,12 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
     /// <param name="session"></param>
     public void OnSessionEnter(string session)
     {
-      sessionContext_.SessionId = session;
+      sessionContext_ = new()
+      {
+        ClientLibVersion = GridAppVersion,
+        SessionId        = session
+      };
+      SessionId                 = session;
 
       if (serviceContainerBase_.SessionId == null || string.IsNullOrEmpty(serviceContainerBase_.SessionId.Session))
         serviceContainerBase_.SessionId = session?.UnPackSessionId();
@@ -189,7 +197,7 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
       }
     }
 
-    public void OnExit()
+    public void OnDestroyService()
     {
       OnSessionLeave();
 
@@ -199,6 +207,12 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
         serviceContext_ = null;
         SessionId       = null;
       }
+    }
+
+    /// <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
+    public void Dispose()
+    {
+      OnDestroyService();
     }
   }
 }

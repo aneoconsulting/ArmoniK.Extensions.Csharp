@@ -52,67 +52,7 @@ namespace ArmoniK.EndToEndTests.Tests.CheckPriority
       //END USER PLEASE FIXME
     }
 
-    public byte[] ComputeSquare(TaskContext taskContext, ClientPayload clientPayload)
-    {
-      Log.LogInformation($"Enter in function : ComputeSquare with taskId {taskContext.TaskId}");
-
-      if (clientPayload.Numbers.Count == 0)
-        return new ClientPayload
-          {
-            Type   = ClientPayload.TaskType.Result,
-            Result = 0,
-          }
-          .Serialize(); // Nothing to do
-
-      if (clientPayload.Numbers.Count == 1)
-      {
-        var value = clientPayload.Numbers[0] * clientPayload.Numbers[0];
-        Log.LogInformation($"Compute {value}             with taskId {taskContext.TaskId}");
-
-        return new ClientPayload
-          {
-            Type   = ClientPayload.TaskType.Result,
-            Result = value,
-          }
-          .Serialize();
-      }
-      else // if (clientPayload.numbers.Count > 1)
-      {
-        var value  = clientPayload.Numbers[0];
-        var square = value * value;
-
-        var subTaskPaylaod = new ClientPayload();
-        clientPayload.Numbers.RemoveAt(0);
-        subTaskPaylaod.Numbers = clientPayload.Numbers;
-        subTaskPaylaod.Type    = clientPayload.Type;
-        Log.LogInformation($"Compute {value} in                 {taskContext.TaskId}");
-
-        Log.LogInformation($"Submitting subTask from task          : {taskContext.TaskId} from Session {SessionId.PackSessionId()}");
-        var subTaskId = this.SubmitTask(subTaskPaylaod.Serialize());
-        Log.LogInformation($"Submitted  subTask                    : {subTaskId}");
-
-        ClientPayload aggPayload = new()
-        {
-          Type   = ClientPayload.TaskType.Aggregation,
-          Result = square,
-        };
-
-        Log.LogInformation($"Submitting aggregate task             : {taskContext.TaskId} from Session {SessionId.PackSessionId()}");
-
-        var aggTaskId = this.SubmitTaskWithDependencies(aggPayload.Serialize(),
-                                                        new[] { subTaskId });
-        Log.LogInformation($"Submitted  SubmitTaskWithDependencies : {aggTaskId} with task dependencies      {subTaskId}");
-
-        return new ClientPayload
-          {
-            Type      = ClientPayload.TaskType.Aggregation,
-            SubTaskId = aggTaskId,
-          }
-          .Serialize(); //nothing to do
-      }
-    }
-
-    private void _1_Job_of_N_Tasks(TaskContext taskContext, byte[] payload, int nbTasks)
+    private string _1_Job_of_N_Tasks(TaskContext taskContext, byte[] payload, int nbTasks)
     {
       var payloads = new List<byte[]>(nbTasks);
       for (var i = 0; i < nbTasks; i++)
@@ -120,73 +60,87 @@ namespace ArmoniK.EndToEndTests.Tests.CheckPriority
 
       var sw          = Stopwatch.StartNew();
       var finalResult = 0;
-      var taskIds = SubmitTasks(payloads);
+      var taskIds     = SubmitTasks(payloads);
 
-      foreach (var taskId in taskIds)
+      var enumerable = taskIds as string[] ?? taskIds.ToArray();
+
+      var newPayload = new ClientPayload()
       {
-        var taskResult = GetResult(taskId);
-        finalResult += BitConverter.ToInt32(taskResult);
-      }
+        Type = ClientPayload.TaskType.Aggregation
+      };
+      var aggTaskId = SubmitSubtaskWithDependencies(TaskId,
+                                                    newPayload.Serialize(),
+                                                    taskIds.ToList());
+      
+
+     
 
       var elapsedMilliseconds = sw.ElapsedMilliseconds;
-      Log.LogInformation($"Server called {nbTasks} tasks in {elapsedMilliseconds} ms agregated result = {finalResult}");
+      Log.LogInformation($"Server called {nbTasks} tasks in {elapsedMilliseconds} ms");
+
+      return aggTaskId;
     }
 
-    public byte[] ComputeCube(TaskContext taskContext, ClientPayload clientPayload)
+    public double expm1(double x)
     {
-      var value = clientPayload.Numbers[0] * clientPayload.Numbers[0] * clientPayload.Numbers[0];
-      return new ClientPayload
-        {
-          Type   = ClientPayload.TaskType.Result,
-          Result = value,
-        }
-        .Serialize(); //nothing to do
+      return ((((((((((((((15.0 + x) * x + 210.0) * x + 2730.0) * x + 32760.0) * x + 360360.0) * x + 3603600.0) * x + 32432400.0) * x + 259459200.0) * x +
+                   1816214400.0) *
+                  x +
+                  10897286400.0) *
+                 x +
+                 54486432000.0) *
+                x +
+                217945728000.0) *
+               x +
+               653837184000.0) *
+              x +
+              1307674368000.0) *
+             x *
+             7.6471637318198164759011319857881e-13;
     }
 
     public override byte[] OnInvoke(SessionContext sessionContext, TaskContext taskContext)
     {
       var clientPayload = ClientPayload.Deserialize(taskContext.TaskInput);
 
-      if (clientPayload.Type == ClientPayload.TaskType.ComputeSquare)
-        return ComputeSquare(taskContext,
-                             clientPayload);
-
-      if (clientPayload.Type == ClientPayload.TaskType.ComputeCube)
-      {
-        return ComputeCube(taskContext,
-                           clientPayload);
-      }
 
       if (clientPayload.Type == ClientPayload.TaskType.Sleep)
       {
         Log.LogInformation($"Empty task, sessionId : {sessionContext.SessionId}, taskId : {taskContext.TaskId}, sessionId from task : {taskContext.SessionId}");
         Thread.Sleep(clientPayload.Sleep * 1000);
       }
+
+      if (clientPayload.Type == ClientPayload.TaskType.Expm1)
+      {
+        Log.LogInformation($"Expm1 task, sessionId : {sessionContext.SessionId}, taskId : {taskContext.TaskId}, sessionId from task : {taskContext.SessionId}");
+        for (int idx = 1000000000; idx > 0; idx--)
+        {
+          expm1(idx);
+        }
+      }
+      if (clientPayload.Type == ClientPayload.TaskType.Aggregation)
+      {
+        Log.LogInformation($"!!!! All subtask Finished sessionId : {sessionContext.SessionId}\n\n");
+      }
       else if (clientPayload.Type == ClientPayload.TaskType.JobOfNTasks)
       {
         var newPayload = new ClientPayload
         {
-          Type  = ClientPayload.TaskType.Sleep,
-          Sleep = clientPayload.Sleep,
+          Type = ClientPayload.TaskType.Expm1,
         };
 
         var bytePayload = newPayload.Serialize();
 
-        _1_Job_of_N_Tasks(taskContext,
+        var aggTaskId = _1_Job_of_N_Tasks(taskContext,
                           bytePayload,
-                          clientPayload.Numbers[0] - 1);
-
+                          clientPayload.SingleInput);
         return new ClientPayload
           {
-            Type   = ClientPayload.TaskType.Result,
-            Result = 42,
+            Type   = ClientPayload.TaskType.SubTask,
+            SubTaskId = aggTaskId
           }
           .Serialize(); //nothing to do
-      }
-      else if (clientPayload.Type == ClientPayload.TaskType.Aggregation)
-      {
-        return AggregateValues(taskContext,
-                               clientPayload);
+
       }
       else
       {

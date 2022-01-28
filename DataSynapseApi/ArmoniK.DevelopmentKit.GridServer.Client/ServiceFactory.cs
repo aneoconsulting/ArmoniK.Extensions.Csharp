@@ -1,6 +1,11 @@
 ﻿
 using ArmoniK.DevelopmentKit.WorkerApi.Common;
 
+using Microsoft.Extensions.Logging;
+
+using Serilog;
+using Serilog.Extensions.Logging;
+
 namespace ArmoniK.DevelopmentKit.GridServer.Client
 {
   [MarkDownDoc]
@@ -8,6 +13,7 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
   {
     private ServiceFactory()
     {
+      
     }
 
     private static ServiceFactory _instanceFactory;
@@ -24,7 +30,7 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
     }
 
     /// <summary>
-    /// The methode to create new Service
+    /// The method to create new Service
     /// </summary>
     /// <param name="serviceType">Future value no usage for now.
     /// This is the Service type reflection for method</param>
@@ -32,8 +38,16 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
     /// <returns>returns the new instantiated service</returns>
     public Service CreateService(string serviceType, Properties props)
     {
+      var factory = new LoggerFactory(new[]
+      {
+        new SerilogLoggerProvider(new LoggerConfiguration()
+                                  .ReadFrom
+                                  .Configuration(props.Configuration)
+                                  .CreateLogger())
+      });
       return new Service(props.Configuration,
                          serviceType,
+                         factory,
                          props.TaskOptions);
     }
   }

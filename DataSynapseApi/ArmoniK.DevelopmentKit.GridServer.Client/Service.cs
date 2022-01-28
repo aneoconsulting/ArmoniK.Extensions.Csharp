@@ -7,6 +7,8 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
+using Microsoft.Extensions.Logging;
+
 #pragma warning disable CS1591
 
 namespace ArmoniK.DevelopmentKit.GridServer.Client
@@ -41,9 +43,10 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
     /// <param name="taskOptions">The task parameters to set MaxDuration,
     /// MaxRetries and service which will called during the session
     /// </param>
-    public Service(IConfiguration configuration, string serviceType, TaskOptions taskOptions)
+    public Service(IConfiguration configuration, string serviceType, ILoggerFactory loggerFactory, TaskOptions taskOptions)
     {
       ClientService = new ArmonikDataSynapseClientService(configuration,
+                                                          loggerFactory,
                                                           taskOptions);
       SessionId = ClientService.CreateSession(taskOptions);
 

@@ -89,7 +89,7 @@ namespace ArmoniK.EndToEndTests.Tests.SimpleComputeNSubtasking
 
         Log.LogInformation($"Submitting subTask from task          : {taskContext.TaskId} from Session {SessionId.PackSessionId()}");
         var subTaskId = this.SubmitTask(subTaskPaylaod.Serialize());
-        Log.LogInformation($"Submitted  subTask                    : {subTaskId}");
+        Log.LogInformation($"Submitted  subTask                    : {subTaskId} with ParentTask {this.TaskId}");
 
         ClientPayload aggPayload = new()
         {
@@ -204,7 +204,7 @@ namespace ArmoniK.EndToEndTests.Tests.SimpleComputeNSubtasking
 
     private byte[] AggregateValues(TaskContext taskContext, ClientPayload clientPayload)
     {
-      Log.LogInformation($"Aggregate Task request result from Dependencies TaskIds : [{string.Join(", ", taskContext.DependenciesTaskIds)}]");
+      Log.LogInformation($"Aggregate Task {taskContext.TaskId} request result from Dependencies TaskIds : [{string.Join(", ", taskContext.DependenciesTaskIds)}]");
       var parentResult = GetResult(taskContext.DependenciesTaskIds?.Single());
 
       if (parentResult == null || parentResult.Length == 0)

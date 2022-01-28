@@ -64,21 +64,13 @@ namespace ArmoniK.DevelopmentKit.GridServer
     /// 
     /// </summary>
     /// <param name="configuration">IConfiguration to set Client Data information and Grpc EndPoint</param>
+    /// <param name="loggerFactory">The factory to create the logger for clientService</param>
     /// <param name="taskOptions">TaskOptions for any Session</param>
-    public ArmonikDataSynapseClientService(IConfiguration configuration, TaskOptions taskOptions = null)
+    public ArmonikDataSynapseClientService(IConfiguration configuration, ILoggerFactory loggerFactory, TaskOptions taskOptions = null)
     {
       controlPlanAddress_ = configuration.GetSection(SectionControlPlan);
 
-      var factory = new LoggerFactory(new[]
-      {
-        new SerilogLoggerProvider(new LoggerConfiguration()
-                                  .ReadFrom
-                                  .Configuration(configuration)
-                                  .Enrich.FromLogContext()
-                                  .CreateLogger())
-      });
-
-      Logger = factory.CreateLogger<ArmonikDataSynapseClientService>();
+      Logger = loggerFactory.CreateLogger<ArmonikDataSynapseClientService>();
     }
 
     /// <summary>

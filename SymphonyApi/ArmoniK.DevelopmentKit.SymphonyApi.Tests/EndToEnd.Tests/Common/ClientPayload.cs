@@ -41,6 +41,8 @@ namespace ArmoniK.EndToEndTests.Common
       Aggregation,
       SubTask,
       Undefined,
+      None,
+      Expm1
     }
 
     public bool IsRootTask { get; set; }
@@ -49,6 +51,7 @@ namespace ArmoniK.EndToEndTests.Common
     public int Result { get; set; }
     public string SubTaskId { get; set; }
     public int Sleep { get; set; }
+    public int SingleInput { get; set; }
 
     public byte[] Serialize()
     {

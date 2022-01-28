@@ -48,8 +48,9 @@ namespace ArmoniK.EndToEndTests
 {
   public class Program
   {
-    private static IConfiguration   Configuration { get; set; }
+    private static IConfiguration Configuration { get; set; }
     private static ILogger<Program> Logger { get; set; }
+    private static ILoggerFactory LoggerFactory { get; set; }
 
     private static void Main(string[] args)
     {
@@ -64,7 +65,7 @@ namespace ArmoniK.EndToEndTests
 
       Configuration = builder.Build();
 
-      var factory = new LoggerFactory(new[]
+      LoggerFactory = new LoggerFactory(new[]
       {
         new SerilogLoggerProvider(new LoggerConfiguration()
                                   .ReadFrom
@@ -72,16 +73,10 @@ namespace ArmoniK.EndToEndTests
                                   .CreateLogger())
       });
 
-      Logger = factory.CreateLogger<Program>();
+      Logger = LoggerFactory.CreateLogger<Program>();
 
-      var client = new ArmonikSymphonyClient(Configuration);
-
-      Logger.LogInformation("Configure taskOptions");
-      var taskOptions = InitializeTaskOptions();
-
-      //var sessionId = client.CreateSession(taskOptions);
-
-      //Logger.LogInformation($"New session created : {sessionId}");
+      var client = new ArmonikSymphonyClient(Configuration,
+                                             LoggerFactory);
 
       IEnumerable<TestContext> clientsContainers = RetrieveClientTests();
 
@@ -89,7 +84,9 @@ namespace ArmoniK.EndToEndTests
       {
         foreach (var methodTest in clientContainer.MethodTests)
         {
-          methodTest.Invoke(clientContainer.ClientClassInstance,null);
+          Logger.LogInformation($"\n\n-------- [TEST] : {clientContainer.ClassCLient} : {methodTest.Name}");
+          methodTest.Invoke(clientContainer.ClientClassInstance,
+                            null);
         }
       }
     }
@@ -116,26 +113,32 @@ namespace ArmoniK.EndToEndTests
                                   })
                                   .Where(x => x != null)
                                   .Where(x => x.IsPublic &&
-                                              ! x.IsGenericType &&
+                                              !x.IsGenericType &&
                                               !typeof(Delegate).IsAssignableFrom(x) &&
                                               !x.GetCustomAttributes<ObsoleteAttribute>().Any() &&
                                               !x.GetCustomAttributes<DisabledAttribute>().Any())
                                   .ToArray();
 
-      Logger.LogInformation($"List of tests : \n\t{string.Join("\n\t", serviceContainerTypes.Select(x => $"{x.Namespace}.{x.Name}"))}");
+      var results = serviceContainerTypes.Select(x => new Tuple<Type, MethodInfo[]>(x,
+                                                                                    GetMethods(x)))
+                                         .Where(x => x.Item2 != null &&
+                                                     x.Item2.Length > 0 &&
+                                                     x.Item2.Any(m => m.GetCustomAttributes<EntryPointAttribute>().Any()))
+                                         .Select(x => new TestContext()
+                                         {
+                                           ClassCLient = x.Item1,
+                                           ClientClassInstance = Activator.CreateInstance(x.Item1,
+                                                                                          Configuration,
+                                                                                          LoggerFactory),
+                                           NameSpaceTest = x.Item1.Namespace ?? string.Empty,
+                                           MethodTests   = x.Item2,
+                                         });
 
-      return serviceContainerTypes.Select(x => new Tuple<Type, MethodInfo[]>(x,
-                                                                             GetMethods(x)))
-                                  .Where(x => x.Item2 != null &&
-                                              x.Item2.Length > 0 &&
-                                              x.Item2.Any(m => m.GetCustomAttributes<EntryPointAttribute>().Any()))
-                                  .Select(x => new TestContext()
-                                  {
-                                    ClassCLient         = x.Item1,
-                                    ClientClassInstance = Activator.CreateInstance(x.Item1),
-                                    NameSpaceTest       = x.Item1.Namespace ?? string.Empty,
-                                    MethodTests = x.Item2,
-                                  });
+      var retrieveClientTests = results.ToList();
+
+      Logger.LogInformation($"List of tests : \n\t{string.Join("\n\t", retrieveClientTests.Select(x => $"{x.NameSpaceTest}.{x.ClassCLient}"))}");
+
+      return retrieveClientTests;
     }
 
 
@@ -145,50 +148,11 @@ namespace ArmoniK.EndToEndTests
                              BindingFlags.Instance |
                              BindingFlags.NonPublic |
                              BindingFlags.InvokeMethod)
-                 .Where(x => !x.IsSpecialName && 
-                                      !x.GetCustomAttributes<ObsoleteAttribute>().Any() &&
-                                      x.GetCustomAttributes<EntryPointAttribute>().Any() &&
-                                      !x.IsPrivate)
+                 .Where(x => !x.IsSpecialName &&
+                             !x.GetCustomAttributes<ObsoleteAttribute>().Any() &&
+                             x.GetCustomAttributes<EntryPointAttribute>().Any() &&
+                             !x.IsPrivate)
                  .ToArray();
-    }
-
-    /// <summary>
-    ///   Initialize Setting for task i.e :
-    ///   Duration :
-    ///   The max duration of a task
-    ///   Priority :
-    ///   Work in Progress. Setting priority of task
-    ///   AppName  :
-    ///   The name of the Application dll (Without Extension)
-    ///   VersionName :
-    ///   The version of the package to unzip and execute
-    ///   Namespace :
-    ///   The namespace where the service can find
-    ///   the ServiceContainer object develop by the customer
-    /// </summary>
-    /// <returns></returns>
-    private static TaskOptions InitializeTaskOptions()
-    {
-      TaskOptions taskOptions = new()
-      {
-        MaxDuration = new Duration
-        {
-          Seconds = 300,
-        },
-        MaxRetries = 5,
-        Priority   = 1,
-        IdTag      = "ArmonikTag",
-      };
-      taskOptions.Options.Add(AppsOptions.GridAppNameKey,
-                              "ArmoniK.Samples.EndToEndTests");
-
-      taskOptions.Options.Add(AppsOptions.GridAppVersionKey,
-                              "1.0.0");
-
-      taskOptions.Options.Add(AppsOptions.GridAppNamespaceKey,
-                              "ArmoniK.Samples.EndToEndTests");
-
-      return taskOptions;
     }
 
     /// <summary>

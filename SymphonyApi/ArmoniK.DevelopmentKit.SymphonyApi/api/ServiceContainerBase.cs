@@ -24,12 +24,16 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+
 using ArmoniK.Core.gRPC.V1;
 using ArmoniK.DevelopmentKit.SymphonyApi.Client;
 using ArmoniK.DevelopmentKit.WorkerApi.Common;
+
 using JetBrains.Annotations;
+
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+
 using Serilog;
 using Serilog.Extensions.Logging;
 
@@ -198,6 +202,16 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.api
     }
 
     /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="taskIds"></param>
+    public void WaitListCompletion(IEnumerable<string> taskIds)
+    {
+      ClientService.OpenSession(SessionId);
+      ClientService.WaitListCompletion(taskIds);
+    }
+
+    /// <summary>
     ///   User method to wait for SubTasks from the client
     /// </summary>
     /// <param name="taskId">
@@ -230,11 +244,6 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.api
     public void Configure(IConfiguration configuration, IDictionary<string, string> clientOptions)
     {
       Configuration = configuration;
-      ClientService = new(configuration);
-
-      //Append or overwrite Dictionary Options in TaskOptions with one coming from client
-      clientOptions.ToList()
-                   .ForEach(pair => ClientService.TaskOptions.Options[pair.Key] = pair.Value);
 
       var factory = new LoggerFactory(new[]
       {
@@ -243,6 +252,14 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.api
                                   .Configuration(Configuration)
                                   .CreateLogger())
       });
+
+      ClientService = new(configuration,
+                          factory);
+
+      //Append or overwrite Dictionary Options in TaskOptions with one coming from client
+      clientOptions.ToList()
+                   .ForEach(pair => ClientService.TaskOptions.Options[pair.Key] = pair.Value);
+
 
       Log = factory.CreateLogger<ServiceContainerBase>();
       Log.LogInformation("Configuring ServiceContainerBase");
@@ -268,7 +285,9 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.api
     /// </param>
     public static string SubmitTask(this ServiceContainerBase serviceContainerBase, byte[] payload)
     {
-      return serviceContainerBase.SubmitTasks(new[] { payload }).Single();
+      return serviceContainerBase.ClientService.SubmitSubTasks(serviceContainerBase.SessionId.PackSessionId(),
+                                                               serviceContainerBase.TaskId,
+                                                               new[] { payload }).Single();
     }
 
     /// <summary>
@@ -282,7 +301,8 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.api
     [Obsolete]
     public static string SubmitSubTask(this ServiceContainerBase serviceContainerBase, byte[] payload, string parentId)
     {
-      return serviceContainerBase.SubmitSubTasks(new[] { payload }, parentId).Single();
+      return serviceContainerBase.SubmitSubTasks(new[] { payload },
+                                                 parentId).Single();
     }
 
     /// <summary>
@@ -296,10 +316,10 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.api
     public static string SubmitTaskWithDependencies(this ServiceContainerBase serviceContainerBase, byte[] payload, IList<string> dependencies)
     {
       return serviceContainerBase.SubmitTasksWithDependencies(new[]
-                                                              {
-                                                                Tuple.Create(payload,
-                                                                             dependencies),
-                                                              }).Single();
+      {
+        Tuple.Create(payload,
+                     dependencies),
+      }).Single();
     }
   }
 }
