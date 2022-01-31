@@ -68,7 +68,6 @@ jobs:
     runs-on: ubuntu-latest
     needs:
       - versionning
-      - buildProjects
     env:
       VERSION: ${{ needs.versionning.outputs.version }}
     steps:
@@ -94,6 +93,7 @@ jobs:
   testEndToEnd:
     needs:
       - versionning
+      - buildProjects
       - buildWorker
     runs-on: ubuntu-latest
     steps:
