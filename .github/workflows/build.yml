@@ -102,7 +102,11 @@ jobs:
         with:
           ref: ${{ github.head_ref }}
 
-      - uses: aneoconsulting/ArmoniK@monitoring
+      - uses: aneoconsulting/ArmoniK@main
+        id: deploy-infra
+        with:
+          worker-image: dockerhubaneo/armonik_worker_dll
+          worker-tag: ${{ needs.versionning.outputs.version }}
 
       - name: Run EndToEnd.Tests
         run: |
