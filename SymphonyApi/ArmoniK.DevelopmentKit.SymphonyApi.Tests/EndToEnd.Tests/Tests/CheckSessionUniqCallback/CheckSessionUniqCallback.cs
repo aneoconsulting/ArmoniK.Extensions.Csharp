@@ -42,11 +42,31 @@ namespace ArmoniK.EndToEndTests.Tests.CheckSessionUniqCallback
   {
     private readonly IConfiguration configuration_;
     public           int            countCall;
+    public static    string         resultMessage;
 
     public ServiceContainer()
     {
-      countCall = 1000000;
-    
+      countCall     = 1000000;
+      resultMessage = $"new ServiceContainer Instance : {this.GetHashCode()}\n";
+    }
+
+    private string PrintStates(int resultCalls)
+    {
+      // service * 1000000 + session * 100000 + SessionEnter * 1000 + onInvoke * 1)
+
+
+      int subResult = (resultCalls / 1000);
+
+      var nbInvoke = resultCalls - subResult * 1000;
+
+      // service * 1000 + session * 100 + SessionEnter * 1)
+      int nbOnSessionEnter = subResult - (subResult / 100) * 100;
+
+      int createService = (resultCalls - 1000000 - nbOnSessionEnter * 1000 - nbInvoke) / 100000;
+
+
+      return $"Call State :\n\t{createService} createService(s)\n\t{nbOnSessionEnter} sessionEnter(s)\n\t{nbInvoke} nbInvoke(s)";
+
     }
 
     public override void OnCreateService(ServiceContext serviceContext)
@@ -54,6 +74,7 @@ namespace ArmoniK.EndToEndTests.Tests.CheckSessionUniqCallback
       //END USER PLEASE FIXME
       countCall += 100000;
       Log.LogInformation($"Call OnCreateService on service [InstanceID : {this.GetHashCode()}]");
+      resultMessage = $"{resultMessage}\nCall OnCreateService on service [InstanceID : {this.GetHashCode()}]";
     }
 
     public override void OnSessionEnter(SessionContext sessionContext)
@@ -61,24 +82,28 @@ namespace ArmoniK.EndToEndTests.Tests.CheckSessionUniqCallback
       //END USER PLEASE FIXME
       countCall += 1000;
       Log.LogInformation($"Call OnSessionEnter on service [InstanceID : {this.GetHashCode()}]");
+      resultMessage = $"{resultMessage}\nCall OnSessionEnter on service [InstanceID : {this.GetHashCode()}]";
+      
     }
-    
+
 
     public override byte[] OnInvoke(SessionContext sessionContext, TaskContext taskContext)
     {
       countCall += 1;
       Log.LogInformation($"Call OnInvoke on service [InstanceID : {this.GetHashCode()}]");
-
+      resultMessage = $"{resultMessage}\nCall OnInvoke on service [InstanceID : {this.GetHashCode()}]";
       var clientPayload = ClientPayload.Deserialize(taskContext.TaskInput);
-     
+      resultMessage = $"{resultMessage}\n{PrintStates(countCall)}";
+
       return new ClientPayload
         {
           Type   = ClientPayload.TaskType.Result,
           Result = countCall,
+          Message = resultMessage,
         }
         .Serialize(); //nothing to do
     }
-    
+
 
     public override void OnSessionLeave(SessionContext sessionContext)
     {

@@ -53,6 +53,8 @@ namespace ArmoniK.EndToEndTests.Common
     public int Sleep { get; set; }
     public int SingleInput { get; set; }
 
+    public string Message { get; set; }
+
     public byte[] Serialize()
     {
       var jsonString = JsonSerializer.Serialize(this);

@@ -23,10 +23,12 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 using ArmoniK.DevelopmentKit.SymphonyApi.Client;
 using ArmoniK.EndToEndTests.Common;
 
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
@@ -45,66 +47,100 @@ namespace ArmoniK.EndToEndTests.Tests.CheckSessionUniqCallback
     {
       var client = new ArmonikSymphonyClient(Configuration,
                                              LoggerFactory);
+      var countTask    = 0;
+      var countWait    = 0;
+      var countSession = 0;
 
-      Log.LogInformation("Configure taskOptions");
       var taskOptions = InitializeTaskOptions();
 
+
       var sessionId = client.CreateSession(taskOptions);
-
-      Log.LogInformation($"New session created : {sessionId}");
-
-      Log.LogInformation("Running End to End test to compute Square value with SubTasking");
+      Log.LogInformation($"INFO CLIENT : New session created {sessionId} num : {++countSession}");
 
       var payload = new ClientPayload
       {
         IsRootTask = true,
         Type       = ClientPayload.TaskType.None,
       };
+      Log.LogInformation($"\tINFO CLIENT : Submitted new task       num : {++countTask}");
       var taskId = client.SubmitTask(payload.Serialize());
 
+      Log.LogInformation($"\tINFO CLIENT : Waiting taskId {taskId}  num : {countTask}");
       var taskResult = WaitForSubTaskResult(client,
                                             taskId);
 
+      Log.LogInformation($"\tINFO CLIENT : Submitted new task       num : {++countTask}");
       taskId = client.SubmitTask(payload.Serialize());
 
+      Log.LogInformation($"\tINFO CLIENT : Waiting taskId {taskId}  num : {countTask}");
       taskResult = WaitForSubTaskResult(client,
-                                            taskId);
+                                        taskId);
 
       var result = ClientPayload.Deserialize(taskResult);
 
-      Log.LogInformation($"output result : {result.Result}");
-      var storeInitialNbCall = result.Result - 1000000 - 100000 - 1000 - 2;
+      Log.LogInformation($"\tINFO CLIENT stage of call after 2 submits in 1 session : {PrintStates(result.Result)}");
+      Log.LogInformation($"\tINFO SERVER                                            :\n\t{string.Join("\n\t", result.Message.Split("\n").Select(x => $"|\t{x}"))}");
 
+    var storeInitialNbCall = result.Result - 1000000 - 100000 - 1000 - 2;
+      
       sessionId = client.CreateSession(taskOptions);
 
-      Log.LogInformation($"New session created : {sessionId}");
+      Log.LogInformation($"INFO CLIENT : New session created : {sessionId}");
 
-      Log.LogInformation("Running End to End test to compute Square value with SubTasking");
 
-      
+      Log.LogInformation($"\tINFO CLIENT : Submitted new task       num : {++countTask}");
       taskId = client.SubmitTask(payload.Serialize());
 
-      taskResult = WaitForSubTaskResult(client,
-                                            taskId);
-
-      taskId = client.SubmitTask(payload.Serialize());
-
+      Log.LogInformation($"\tINFO CLIENT : Waiting taskId {taskId}  num : {countTask}");
       taskResult = WaitForSubTaskResult(client,
                                         taskId);
+
+      Log.LogInformation($"\tINFO CLIENT : Submitted new task       num : {++countTask}");
       taskId = client.SubmitTask(payload.Serialize());
 
+      Log.LogInformation($"\tINFO CLIENT : Waiting taskId {taskId}  num : {countTask}");
       taskResult = WaitForSubTaskResult(client,
                                         taskId);
+
+      Log.LogInformation($"\tINFO CLIENT : Submitted new task       num : {++countTask}");
       taskId = client.SubmitTask(payload.Serialize());
 
+      Log.LogInformation($"\tINFO CLIENT : Waiting taskId {taskId}  num : {countTask}");
+      taskResult = WaitForSubTaskResult(client,
+                                        taskId);
+
+      Log.LogInformation($"\tINFO CLIENT : Submitted new task       num : {++countTask}");
+      taskId = client.SubmitTask(payload.Serialize());
+
+      Log.LogInformation($"\tINFO CLIENT : Waiting taskId {taskId}  num : {countTask}");
       taskResult = WaitForSubTaskResult(client,
                                         taskId);
 
       result = ClientPayload.Deserialize(taskResult);
 
-      Log.LogInformation($"output result : {result.Result}");
+      Log.LogInformation($"\tINFO CLIENT stage of call after 6 submits in 2 sessions : {PrintStates(result.Result)}");
+      Log.LogInformation($"\tINFO SERVER                                             :\n\t{string.Join("\n\t", result.Message.Split("\n").Select(x => $"|\t{x}"))}");
       Assert.AreEqual(storeInitialNbCall + (1000000 + 100000 + 2 * 1000 + 6),
                       result.Result);
+    }
+
+    private string PrintStates(int resultCalls)
+    {
+      // service * 1000000 + session * 100000 + SessionEnter * 1000 + onInvoke * 1)
+      
+
+      int subResult        = (resultCalls / 1000);
+      
+      var nbInvoke         = resultCalls - subResult * 1000;
+
+      // service * 1000 + session * 100 + SessionEnter * 1)
+      int nbOnSessionEnter = subResult - (subResult / 100) * 100;
+
+      int createService = (resultCalls - 1000000 - nbOnSessionEnter * 1000 - nbInvoke) / 100000;
+
+
+      return $"\n\t{createService} createService(s)\n\t{nbOnSessionEnter} sessionEnter(s)\n\t{nbInvoke} nbInvoke(s)";
+
     }
 
     /// <summary>
@@ -128,6 +164,5 @@ namespace ArmoniK.EndToEndTests.Tests.CheckSessionUniqCallback
 
       return taskResult;
     }
-    
   }
 }
