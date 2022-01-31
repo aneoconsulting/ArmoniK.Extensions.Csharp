@@ -8,6 +8,8 @@ using Microsoft.Extensions.Configuration;
 
 using System.Text.Json;
 
+using Microsoft.Extensions.Logging;
+
 //TODO : remove pragma
 #pragma warning disable CS1591
 
@@ -22,9 +24,10 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
 
     public string ServiceType { get; set; }
 
-    public ServiceAdmin(IConfiguration configuration, TaskOptions taskOptions)
+    public ServiceAdmin(IConfiguration configuration, ILoggerFactory loggerFactory, TaskOptions taskOptions)
     {
       ClientService = new ArmonikDataSynapseClientService(configuration,
+                                                          loggerFactory,
                                                           taskOptions);
       SessionId = ClientService.CreateSession(taskOptions);
 

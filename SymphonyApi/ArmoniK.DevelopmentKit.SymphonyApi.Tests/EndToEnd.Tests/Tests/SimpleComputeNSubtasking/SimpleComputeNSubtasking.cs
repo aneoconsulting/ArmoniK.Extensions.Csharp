@@ -31,13 +31,12 @@ using ArmoniK.DevelopmentKit.SymphonyApi;
 using ArmoniK.DevelopmentKit.SymphonyApi.api;
 using ArmoniK.DevelopmentKit.WorkerApi.Common;
 using ArmoniK.DevelopmentKit.WorkerApi.Common.Exceptions;
+using ArmoniK.EndToEndTests.Common;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-using Serilog;
-
-namespace ArmoniK.Samples.EndToEndTests
+namespace ArmoniK.EndToEndTests.Tests.SimpleComputeNSubtasking
 {
   public class ServiceContainer : ServiceContainerBase
   {
@@ -90,7 +89,7 @@ namespace ArmoniK.Samples.EndToEndTests
 
         Log.LogInformation($"Submitting subTask from task          : {taskContext.TaskId} from Session {SessionId.PackSessionId()}");
         var subTaskId = this.SubmitTask(subTaskPaylaod.Serialize());
-        Log.LogInformation($"Submitted  subTask                    : {subTaskId}");
+        Log.LogInformation($"Submitted  subTask                    : {subTaskId} with ParentTask {this.TaskId}");
 
         ClientPayload aggPayload = new()
         {
@@ -205,7 +204,7 @@ namespace ArmoniK.Samples.EndToEndTests
 
     private byte[] AggregateValues(TaskContext taskContext, ClientPayload clientPayload)
     {
-      Log.LogInformation($"Aggregate Task request result from Dependencies TaskIds : [{string.Join(", ", taskContext.DependenciesTaskIds)}]");
+      Log.LogInformation($"Aggregate Task {taskContext.TaskId} request result from Dependencies TaskIds : [{string.Join(", ", taskContext.DependenciesTaskIds)}]");
       var parentResult = GetResult(taskContext.DependenciesTaskIds?.Single());
 
       if (parentResult == null || parentResult.Length == 0)

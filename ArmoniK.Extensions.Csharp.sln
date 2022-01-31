@@ -27,7 +27,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Symphony", "Symphony", "{56
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WorkerApi", "WorkerApi", "{C4CB5823-7E24-412F-864B-6C26E886F368}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArmoniK.Samples.EndToEndTests", "SymphonyApi\ArmoniK.DevelopmentKit.SymphonyApi.Tests\EndToEnd.Tests\ArmoniK.Samples.EndToEndTests.csproj", "{64C50702-824C-460C-80A6-EE1F57E1A96B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArmoniK.EndToEndTests", "SymphonyApi\ArmoniK.DevelopmentKit.SymphonyApi.Tests\EndToEnd.Tests\ArmoniK.EndToEndTests.csproj", "{64C50702-824C-460C-80A6-EE1F57E1A96B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

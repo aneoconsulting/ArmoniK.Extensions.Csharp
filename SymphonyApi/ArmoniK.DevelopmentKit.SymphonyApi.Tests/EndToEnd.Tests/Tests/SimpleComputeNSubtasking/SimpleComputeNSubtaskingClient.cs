@@ -21,36 +21,31 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Text;
-using System.Threading;
 
 using ArmoniK.Core.gRPC.V1;
 using ArmoniK.DevelopmentKit.SymphonyApi.Client;
 using ArmoniK.DevelopmentKit.WorkerApi.Common;
-using ArmoniK.Samples.EndToEndTests.Common;
-
-using Google.Protobuf.WellKnownTypes;
+using ArmoniK.EndToEndTests.Common;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-using Serilog;
-using Serilog.Extensions.Logging;
-
-namespace ArmoniK.Samples.EndToEndTests.Tests
+namespace ArmoniK.EndToEndTests.Tests.SimpleComputeNSubtasking
 {
-  public class Client_1 : ClientSideBaseTest<Client_1>
+  public class SimpleComputeNSubtaskingClient : ClientBaseTest<SimpleComputeNSubtaskingClient>
   {
-    [EntryPoint]
-    public void EntryPoint(string[] args)
+    public SimpleComputeNSubtaskingClient(IConfiguration configuration, ILoggerFactory loggerFactory) :
+      base(configuration,
+           loggerFactory)
     {
-     
+    }
 
-      var client = new ArmonikSymphonyClient(Configuration);
+    [EntryPoint]
+    public override void EntryPoint()
+    {
+      var client = new ArmonikSymphonyClient(Configuration,
+                                             LoggerFactory);
 
       Log.LogInformation("Configure taskOptions");
       var taskOptions = InitializeTaskOptions();
@@ -64,49 +59,24 @@ namespace ArmoniK.Samples.EndToEndTests.Tests
     }
 
     /// <summary>
-    ///   Initialize Setting for task i.e :
-    ///   Duration :
-    ///   The max duration of a task
-    ///   Priority :
-    ///   Work in Progress. Setting priority of task
-    ///   AppName  :
-    ///   The name of the Application dll (Without Extension)
-    ///   VersionName :
-    ///   The version of the package to unzip and execute
-    ///   Namespace :
-    ///   The namespace where the service can find
-    ///   the ServiceContainer object develop by the customer
-    /// </summary>
-    /// <returns></returns>
-    public override TaskOptions InitializeTaskOptions()
-    {
-      TaskOptions                                     = base.InitializeTaskOptions();
-
-      TaskOptions.Options[AppsOptions.GridAppNameKey] = "ArmoniK.Samples.EndToEndTests.Tests";
-
-      TaskOptions.Options[AppsOptions.GridAppVersionKey] = "1.0.0";
-
-      TaskOptions.Options[AppsOptions.GridAppNamespaceKey] = "ArmoniK.Samples.EndToEndTests";
-
-      return TaskOptions;
-    }
-
-    /// <summary>
     ///   Simple function to wait and get the result from subTasking and result delegation
     ///   to a subTask
     /// </summary>
     /// <param name="client">The client API to connect to the Control plane Service</param>
     /// <param name="taskId">The task which is waiting for</param>
     /// <returns></returns>
-    private static byte[] WaitForSubTaskResult(ArmonikSymphonyClient client, string taskId)
+    private byte[] WaitForSubTaskResult(ArmonikSymphonyClient client, string taskId)
     {
-      client.WaitSubtasksCompletion(taskId);
+      Log.LogInformation($"Wait for root task to finish [task {taskId}]");
+      client.WaitCompletion(taskId);
       var taskResult = client.GetResult(taskId);
       var result     = ClientPayload.Deserialize(taskResult);
 
       if (!string.IsNullOrEmpty(result.SubTaskId))
       {
-        client.WaitSubtasksCompletion(result.SubTaskId);
+        Log.LogInformation($"Root task wait for subtask delegation [SubTask with dependencies {result.SubTaskId}]");
+        Log.LogInformation($"Wait for Sub task to finish [task {result.SubTaskId}]");
+        client.WaitCompletion(result.SubTaskId);
         taskResult = client.GetResult(result.SubTaskId);
       }
 
@@ -129,7 +99,7 @@ namespace ArmoniK.Samples.EndToEndTests.Tests
       {
         IsRootTask = true,
         Numbers    = numbers,
-        Type       = ClientPayload.TaskType.ComputeSquare,
+        Type       = ClientPayload.TaskType.ComputeSquare
       };
       var taskId = client.SubmitTask(clientPaylaod.Serialize());
 

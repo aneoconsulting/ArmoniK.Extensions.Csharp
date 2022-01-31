@@ -14,15 +14,17 @@ using System.Reflection;
 namespace ArmoniK.DevelopmentKit.GridServer
 {
     [XmlDocIgnore]
-    public class GridWorker : IGridWorker, IDisposable
+    public class GridWorker : IGridWorker
     {
         private ILogger<GridWorker> Logger { get; set; }
-
+        
+        public ILoggerFactory LoggerFactory { get; set; }
         public GridWorker(IConfiguration configuration, LoggerFactory factory)
         {
             Configuration = configuration;
+            LoggerFactory = factory;
+            Logger        = factory.CreateLogger<GridWorker>();
 
-            Logger = factory.CreateLogger<GridWorker>();
         }
 
         public IConfiguration Configuration { get; set; }
@@ -78,7 +80,7 @@ namespace ArmoniK.DevelopmentKit.GridServer
                 Priority = 1,
             };
 
-            ServiceAdminWorker = new ServiceAdminWorker(Configurations,
+            ServiceAdminWorker = new ServiceAdminWorker(Configurations, LoggerFactory,
                 serviceAdminTaskOptions);
         }
 
@@ -183,9 +185,15 @@ namespace ArmoniK.DevelopmentKit.GridServer
             ServiceInvocationContext = null;
         }
 
+        public void DestroyService()
+        {
+          Dispose();
+        }
+
         /// <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
         public void Dispose()
         {
+            SessionFinalize();
             ServiceAdminWorker.Dispose();
         }
     }

@@ -40,6 +40,7 @@ using Microsoft.Extensions.Logging;
 
 using Serilog;
 using Serilog.Events;
+using Serilog.Extensions.Logging;
 
 namespace ArmoniK.DevelopmentKit.SymphonyApi.Client
 {
@@ -61,21 +62,22 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client
     ///   The ctor with IConfiguration and optional TaskOptions
     /// </summary>
     /// <param name="configuration">IConfiguration to set Client Data information and Grpc EndPoint</param>
+    /// <param name="loggerFactory">Factory to create logger in the client service</param>
     /// <param name="taskOptions">TaskOptions for any Session</param>
-    public ArmonikSymphonyClient(IConfiguration configuration, TaskOptions taskOptions = null)
+    public ArmonikSymphonyClient(IConfiguration configuration, ILoggerFactory loggerFactory, TaskOptions taskOptions = null)
     {
       controlPlanAddress_ = configuration.GetSection(SectionControlPlan);
 
-      Log.Logger = new LoggerConfiguration()
-                   .MinimumLevel.Override("Microsoft",
-                                          LogEventLevel.Information)
-                   .Enrich.FromLogContext()
-                   .WriteTo.Console()
-                   .CreateBootstrapLogger();
+      //var factory = new LoggerFactory(new[]
+      //{
+      //  new SerilogLoggerProvider(new LoggerConfiguration()
+      //                            .ReadFrom
+      //                            .Configuration(configuration)
+      //                            .Enrich.FromLogContext()
+      //                            .CreateLogger())
+      //});
 
-      var factory = new LoggerFactory().AddSerilog();
-
-      Logger = factory.CreateLogger<ArmonikSymphonyClient>();
+      Logger = loggerFactory.CreateLogger<ArmonikSymphonyClient>();
 
       taskOptions ??= InitializeDefaultTaskOptions();
       TaskOptions =   taskOptions;
@@ -183,7 +185,7 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client
       ControlPlaneConnection();
 
       if (SessionId == null) Logger.LogDebug($"Open Session {session.PackSessionId()}");
-      SessionId ??= session;
+      SessionId = session;
     }
 
     private static TaskOptions InitializeDefaultTaskOptions()
@@ -248,6 +250,31 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client
 
       Logger.LogDebug($"Wait for task {taskId} coming from Session {SessionId.Session} " +
                       $"and subSession {SessionId.SubSession} with Task SubSession {taskId.UnPackTaskId().SubSession}");
+
+      ControlPlaneService.WaitForCompletion(new()
+      {
+        Filter                  = taskFilter,
+        ThrowOnTaskCancellation = true,
+        ThrowOnTaskError        = true,
+      });
+    }
+
+    /// <summary>
+    ///   User method to wait for only the parent task from the client
+    /// </summary>
+    /// <param name="taskIds">List of taskIds
+    /// </param>
+    public void WaitListCompletion(IEnumerable<string> taskIds)
+    {
+      var taskFilter = new TaskFilter();
+      var ids = taskIds.ToList();
+      taskFilter.IncludedTaskIds.AddRange(ids.Select(x => x.UnPackTaskId().Task));
+
+      taskFilter.SessionId    = SessionId.Session;
+      taskFilter.SubSessionId = ids?.First().UnPackTaskId().SubSession;
+
+      Logger.LogDebug($"Wait for task taskIds LIST coming from Session {SessionId.Session} " +
+                      $"and subSession {SessionId.SubSession} with Task SubSession {ids.First().UnPackTaskId().SubSession}");
 
       ControlPlaneService.WaitForCompletion(new()
       {

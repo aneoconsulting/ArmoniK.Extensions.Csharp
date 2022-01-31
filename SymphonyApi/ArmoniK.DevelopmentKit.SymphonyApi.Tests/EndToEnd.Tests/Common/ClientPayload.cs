@@ -26,7 +26,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Text.Json;
 
-namespace ArmoniK.Samples.EndToEndTests
+namespace ArmoniK.EndToEndTests.Common
 {
   public class ClientPayload
   {
@@ -41,6 +41,8 @@ namespace ArmoniK.Samples.EndToEndTests
       Aggregation,
       SubTask,
       Undefined,
+      None,
+      Expm1
     }
 
     public bool IsRootTask { get; set; }
@@ -49,6 +51,9 @@ namespace ArmoniK.Samples.EndToEndTests
     public int Result { get; set; }
     public string SubTaskId { get; set; }
     public int Sleep { get; set; }
+    public int SingleInput { get; set; }
+
+    public string Message { get; set; }
 
     public byte[] Serialize()
     {

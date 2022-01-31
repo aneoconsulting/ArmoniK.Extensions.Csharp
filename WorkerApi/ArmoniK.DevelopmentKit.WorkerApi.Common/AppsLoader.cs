@@ -33,12 +33,12 @@ using Microsoft.Extensions.Logging;
 
 namespace ArmoniK.DevelopmentKit.WorkerApi.Common
 {
-  public class AppsLoader
+  public class AppsLoader : IDisposable
   {
     private Assembly assembly_;
 
-    private readonly AssemblyLoadContext loadContext_;
-    private readonly Assembly            assemblyGridWorker_;
+    private AssemblyLoadContext loadContext_;
+    private Assembly            assemblyGridWorker_;
 
     private readonly EngineType engineType_;
 
@@ -172,6 +172,7 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Common
       if (loadContext_ != null)
         // Unload the context.
         loadContext_.Unload();
+      loadContext_ = null;
     }
 
     ~AppsLoader()

@@ -21,6 +21,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+using System;
 using System.Collections.Generic;
 
 using ArmoniK.Core.gRPC.V1;
@@ -29,12 +30,14 @@ using Microsoft.Extensions.Configuration;
 
 namespace ArmoniK.DevelopmentKit.WorkerApi.Common
 {
-  public interface IGridWorker
+  public interface IGridWorker : IDisposable
   {
     public void   Configure(IConfiguration       configuration, IDictionary<string, string> clientOptions, AppsLoader appsLoader);
     public void   InitializeSessionWorker(string sessionId);
     public byte[] Execute(string                 session, ComputeRequest request);
 
     public void SessionFinalize();
+
+    public void DestroyService();
   }
 }

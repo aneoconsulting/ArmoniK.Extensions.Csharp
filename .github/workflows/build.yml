@@ -19,7 +19,7 @@ jobs:
     - name: Generate Version
       id: genver
       run: |
-        VERSION=$(docker run --rm -v $(pwd):/repo codacy/git-version /bin/git-version --folder=/repo --release-branch=release --dev-branch=master) 
+        VERSION=$(docker run --rm -v $(pwd):/repo codacy/git-version /bin/git-version --folder=/repo --release-branch=release --dev-branch=master)
         echo "::set-output name=version::$VERSION"
         echo $VERSION
 
@@ -68,7 +68,6 @@ jobs:
     runs-on: ubuntu-latest
     needs:
       - versionning
-      - buildProjects
     env:
       VERSION: ${{ needs.versionning.outputs.version }}
     steps:
@@ -94,6 +93,7 @@ jobs:
   testEndToEnd:
     needs:
       - versionning
+      - buildProjects
       - buildWorker
     runs-on: ubuntu-latest
     steps:
@@ -102,7 +102,11 @@ jobs:
         with:
           ref: ${{ github.head_ref }}
 
-      - uses: aneoconsulting/ArmoniK@monitoring
+      - uses: aneoconsulting/ArmoniK@main
+        id: deploy-infra
+        with:
+          worker-image: dockerhubaneo/armonik_worker_dll
+          worker-tag: ${{ needs.versionning.outputs.version }}
 
       - name: Run EndToEnd.Tests
         run: |
@@ -114,7 +118,7 @@ jobs:
          dotnet publish --self-contained -r linux-x64
 
          sudo chown -R $USER:$USER /data
-         cp ../packages/ArmoniK.Samples.EndToEndTests-v1.0.0.zip /data
+         cp ../packages/ArmoniK.EndToEndTests-v1.0.0.zip /data
 
          dotnet run -r linux-x64
 
