@@ -26,6 +26,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using ArmoniK.DevelopmentKit.SymphonyApi.Client;
+using ArmoniK.DevelopmentKit.SymphonyApi.Client.api;
 using ArmoniK.EndToEndTests.Common;
 
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
@@ -47,6 +48,7 @@ namespace ArmoniK.EndToEndTests.Tests.CheckSessionUniqCallback
     {
       var client = new ArmonikSymphonyClient(Configuration,
                                              LoggerFactory);
+      
       var countTask    = 0;
       var countWait    = 0;
       var countSession = 0;
@@ -54,8 +56,8 @@ namespace ArmoniK.EndToEndTests.Tests.CheckSessionUniqCallback
       var taskOptions = InitializeTaskOptions();
 
 
-      var sessionId = client.CreateSession(taskOptions);
-      Log.LogInformation($"INFO CLIENT : New session created {sessionId} num : {++countSession}");
+      var sessionService = client.CreateSession(taskOptions);
+      Log.LogInformation($"INFO CLIENT : New session created {sessionService} num : {++countSession}");
 
       var payload = new ClientPayload
       {
@@ -63,17 +65,17 @@ namespace ArmoniK.EndToEndTests.Tests.CheckSessionUniqCallback
         Type       = ClientPayload.TaskType.None,
       };
       Log.LogInformation($"\tINFO CLIENT : Submitted new task       num : {++countTask}");
-      var taskId = client.SubmitTask(payload.Serialize());
+      var taskId = sessionService.SubmitTask(payload.Serialize());
 
       Log.LogInformation($"\tINFO CLIENT : Waiting taskId {taskId}  num : {countTask}");
-      var taskResult = WaitForSubTaskResult(client,
+      var taskResult = WaitForSubTaskResult(sessionService,
                                             taskId);
 
       Log.LogInformation($"\tINFO CLIENT : Submitted new task       num : {++countTask}");
-      taskId = client.SubmitTask(payload.Serialize());
+      taskId = sessionService.SubmitTask(payload.Serialize());
 
       Log.LogInformation($"\tINFO CLIENT : Waiting taskId {taskId}  num : {countTask}");
-      taskResult = WaitForSubTaskResult(client,
+      taskResult = WaitForSubTaskResult(sessionService,
                                         taskId);
 
       var result = ClientPayload.Deserialize(taskResult);
@@ -83,37 +85,37 @@ namespace ArmoniK.EndToEndTests.Tests.CheckSessionUniqCallback
 
     var storeInitialNbCall = result.Result - 1000000 - 100000 - 1000 - 2;
       
-      sessionId = client.CreateSession(taskOptions);
+      sessionService = client.CreateSession(taskOptions);
 
-      Log.LogInformation($"INFO CLIENT : New session created : {sessionId}");
+      Log.LogInformation($"INFO CLIENT : New session created : {sessionService}");
 
 
       Log.LogInformation($"\tINFO CLIENT : Submitted new task       num : {++countTask}");
-      taskId = client.SubmitTask(payload.Serialize());
+      taskId = sessionService.SubmitTask(payload.Serialize());
 
       Log.LogInformation($"\tINFO CLIENT : Waiting taskId {taskId}  num : {countTask}");
-      taskResult = WaitForSubTaskResult(client,
+      taskResult = WaitForSubTaskResult(sessionService,
                                         taskId);
 
       Log.LogInformation($"\tINFO CLIENT : Submitted new task       num : {++countTask}");
-      taskId = client.SubmitTask(payload.Serialize());
+      taskId = sessionService.SubmitTask(payload.Serialize());
 
       Log.LogInformation($"\tINFO CLIENT : Waiting taskId {taskId}  num : {countTask}");
-      taskResult = WaitForSubTaskResult(client,
+      taskResult = WaitForSubTaskResult(sessionService,
                                         taskId);
 
       Log.LogInformation($"\tINFO CLIENT : Submitted new task       num : {++countTask}");
-      taskId = client.SubmitTask(payload.Serialize());
+      taskId = sessionService.SubmitTask(payload.Serialize());
 
       Log.LogInformation($"\tINFO CLIENT : Waiting taskId {taskId}  num : {countTask}");
-      taskResult = WaitForSubTaskResult(client,
+      taskResult = WaitForSubTaskResult(sessionService,
                                         taskId);
 
       Log.LogInformation($"\tINFO CLIENT : Submitted new task       num : {++countTask}");
-      taskId = client.SubmitTask(payload.Serialize());
+      taskId = sessionService.SubmitTask(payload.Serialize());
 
       Log.LogInformation($"\tINFO CLIENT : Waiting taskId {taskId}  num : {countTask}");
-      taskResult = WaitForSubTaskResult(client,
+      taskResult = WaitForSubTaskResult(sessionService,
                                         taskId);
 
       result = ClientPayload.Deserialize(taskResult);
@@ -147,19 +149,19 @@ namespace ArmoniK.EndToEndTests.Tests.CheckSessionUniqCallback
     ///   Simple function to wait and get the result from subTasking and result delegation
     ///   to a subTask
     /// </summary>
-    /// <param name="client">The client API to connect to the Control plane Service</param>
+    /// <param name="sessionService">The sessionService API to connect to the Control plane Service</param>
     /// <param name="taskId">The task which is waiting for</param>
     /// <returns></returns>
-    private static byte[] WaitForSubTaskResult(ArmonikSymphonyClient client, string taskId)
+    private static byte[] WaitForSubTaskResult(SessionService sessionService, string taskId)
     {
-      client.WaitSubtasksCompletion(taskId);
-      var taskResult = client.GetResult(taskId);
+      sessionService.WaitSubtasksCompletion(taskId);
+      var taskResult = sessionService.GetResult(taskId);
       var result     = ClientPayload.Deserialize(taskResult);
 
       if (!string.IsNullOrEmpty(result.SubTaskId))
       {
-        client.WaitSubtasksCompletion(result.SubTaskId);
-        taskResult = client.GetResult(result.SubTaskId);
+        sessionService.WaitSubtasksCompletion(result.SubTaskId);
+        taskResult = sessionService.GetResult(result.SubTaskId);
       }
 
       return taskResult;

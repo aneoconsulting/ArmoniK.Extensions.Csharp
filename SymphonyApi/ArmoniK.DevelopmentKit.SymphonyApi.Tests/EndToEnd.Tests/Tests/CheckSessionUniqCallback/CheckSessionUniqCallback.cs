@@ -46,6 +46,8 @@ namespace ArmoniK.EndToEndTests.Tests.CheckSessionUniqCallback
 
     public ServiceContainer()
     {
+      resultMessage ??= "";
+
       countCall     = 1000000;
       resultMessage = $"new ServiceContainer Instance : {this.GetHashCode()}\n";
     }

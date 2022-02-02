@@ -28,12 +28,15 @@ using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.SymphonyApi.api;
 using ArmoniK.DevelopmentKit.WorkerApi.Common;
 
+using Google.Protobuf.Collections;
+
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
 using Serilog;
 using Serilog.Events;
 using Serilog.Extensions.Logging;
+
 #pragma warning disable CS1591
 
 namespace ArmoniK.DevelopmentKit.SymphonyApi
@@ -41,7 +44,7 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
   [XmlDocIgnore]
   public class GridWorker : IGridWorker
   {
-    private ILogger<GridWorker>  Logger { get; set; }
+    private ILogger<GridWorker> Logger { get; set; }
     private ServiceContainerBase serviceContainerBase_;
     private ServiceContext       serviceContext_;
     private SessionContext       sessionContext_;
@@ -82,12 +85,11 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
         AppNamespace     = GridAppNamespace,
       };
 
-     
 
       Logger.LogInformation("Loading ServiceContainer from Application package :  " +
-                             $"\n\tappName   :   {GridAppName}" +
-                             $"\n\tvers      :   {GridAppVersion}" +
-                             $"\n\tnameSpace :   {GridAppNamespace}");
+                            $"\n\tappName   :   {GridAppName}" +
+                            $"\n\tvers      :   {GridAppVersion}" +
+                            $"\n\tnameSpace :   {GridAppNamespace}");
 
       serviceContainerBase_ = appsLoader.GetServiceContainerInstance<ServiceContainerBase>(GridAppNamespace,
                                                                                            "ServiceContainer");
@@ -100,21 +102,27 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
       OnCreateService();
     }
 
-    public void InitializeSessionWorker(string sessionId)
+    public void InitializeSessionWorker(string sessionId, IDictionary<string, string> requestTaskOptions)
     {
       if (string.IsNullOrEmpty(SessionId) || !sessionId.Equals(SessionId.UnPackSessionId().Session))
       {
         if (string.IsNullOrEmpty(SessionId))
         {
+          SessionId = sessionId;
+          serviceContainerBase_.ConfigureSession(SessionId?.UnPackSessionId(),
+                                                 requestTaskOptions);
           OnSessionEnter(sessionId);
         }
         else
         {
           OnSessionLeave();
+          SessionId = sessionId;
+          serviceContainerBase_.ConfigureSession(SessionId?.UnPackSessionId(),
+                                                 requestTaskOptions);
           OnSessionEnter(sessionId);
         }
       }
-}
+    }
 
     public byte[] Execute(string session, ComputeRequest request)
     {
@@ -124,8 +132,6 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
         SubSession = request.Subsession,
       }.PackTaskId();
 
-      SessionId                       = session;
-      serviceContainerBase_.SessionId = session?.UnPackSessionId();
 
       var taskContext = new TaskContext
       {
@@ -177,7 +183,7 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
         ClientLibVersion = GridAppVersion,
         SessionId        = session
       };
-      SessionId                 = session;
+      SessionId = session;
 
       if (serviceContainerBase_.SessionId == null || string.IsNullOrEmpty(serviceContainerBase_.SessionId.Session))
         serviceContainerBase_.SessionId = session?.UnPackSessionId();

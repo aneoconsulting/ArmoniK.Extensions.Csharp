@@ -26,15 +26,17 @@ using System.Collections.Generic;
 
 using ArmoniK.Core.gRPC.V1;
 
+using Google.Protobuf.Collections;
+
 using Microsoft.Extensions.Configuration;
 
 namespace ArmoniK.DevelopmentKit.WorkerApi.Common
 {
   public interface IGridWorker : IDisposable
   {
-    public void   Configure(IConfiguration       configuration, IDictionary<string, string> clientOptions, AppsLoader appsLoader);
-    public void   InitializeSessionWorker(string sessionId);
-    public byte[] Execute(string                 session, ComputeRequest request);
+    public void Configure(IConfiguration       configuration, IDictionary<string, string> clientOptions, AppsLoader appsLoader);
+    public void InitializeSessionWorker(string sessionId,     IDictionary<string, string> requestTaskOptions);
+    public byte[] Execute(string               session,       ComputeRequest              request);
 
     public void SessionFinalize();
 

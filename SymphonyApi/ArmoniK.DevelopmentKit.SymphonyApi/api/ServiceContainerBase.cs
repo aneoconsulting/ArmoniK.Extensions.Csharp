@@ -27,6 +27,7 @@ using System.Linq;
 
 using ArmoniK.Core.gRPC.V1;
 using ArmoniK.DevelopmentKit.SymphonyApi.Client;
+using ArmoniK.DevelopmentKit.SymphonyApi.Client.api;
 using ArmoniK.DevelopmentKit.WorkerApi.Common;
 
 using JetBrains.Annotations;
@@ -56,8 +57,14 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.api
     /// </summary>
     public SessionId SessionId { get; set; }
 
-
     internal ArmonikSymphonyClient ClientService { get; set; }
+
+    /// <summary>
+    /// Property to retrieve the sessionService previously created
+    /// </summary>
+    internal SessionService SessionService { get; set; }
+
+    internal IDictionary<string, string> ClientOptions { get; set; } = new Dictionary<string, string>();
 
     /// <summary>
     ///   Get or set the taskId (ONLY INTERNAL USED)
@@ -130,9 +137,8 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.api
     ///   The user payload list to execute. Generally used for subTasking.
     /// </param>
     public IEnumerable<string> SubmitTasks(IEnumerable<byte[]> payloads)
-      => ClientService.SubmitSubTasks(SessionId.PackSessionId(),
-                                      TaskId,
-                                      payloads);
+      => SessionService.SubmitSubTasks(TaskId,
+                                       payloads);
 
 
     /// <summary>
@@ -144,9 +150,8 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.api
     /// <param name="parentTaskIds">The parent task Id attaching the subTask</param>
     [Obsolete]
     public IEnumerable<string> SubmitSubTasks(IEnumerable<byte[]> payloads, string parentTaskIds)
-      => ClientService.SubmitSubTasks(SessionId.PackSessionId(),
-                                      parentTaskIds,
-                                      payloads);
+      => SessionService.SubmitSubTasks(parentTaskIds,
+                                       payloads);
 
     /// <summary>
     ///   The method to submit several tasks with dependencies tasks. This task will wait for
@@ -155,9 +160,8 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.api
     /// <param name="payloadWithDependencies">A list of Tuple(taskId, Payload) in dependence of those created tasks</param>
     /// <returns>return a list of taskIds of the created tasks </returns>
     public IEnumerable<string> SubmitTasksWithDependencies(IEnumerable<Tuple<byte[], IList<string>>> payloadWithDependencies)
-      => ClientService.SubmitSubtasksWithDependencies(SessionId.PackSessionId(),
-                                                      TaskId,
-                                                      payloadWithDependencies);
+      => SessionService.SubmitSubtasksWithDependencies(TaskId,
+                                                       payloadWithDependencies);
 
     /// <summary>
     ///   The method to submit one subtask with dependencies tasks. This task will wait for
@@ -183,11 +187,9 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.api
     /// <param name="parentId"></param>
     /// <param name="payloadWithDependencies">A list of Tuple(taskId, Payload) in dependence of those created Subtasks</param>
     /// <returns>return a list of taskIds of the created subtasks </returns>
-    [Obsolete]
     public IEnumerable<string> SubmitSubtasksWithDependencies(string parentId, IEnumerable<Tuple<byte[], IList<string>>> payloadWithDependencies)
-      => ClientService.SubmitSubtasksWithDependencies(SessionId.PackSessionId(),
-                                                      parentId,
-                                                      payloadWithDependencies);
+      => SessionService.SubmitSubtasksWithDependencies(parentId,
+                                                       payloadWithDependencies);
 
     /// <summary>
     ///   User method to wait for only the parent task from the client
@@ -195,20 +197,19 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.api
     /// <param name="taskId">
     ///   The task id of the task to wait for
     /// </param>
-    public void WaitForCompletion(string taskId)
+    public void WaitForTaskCompletion(string taskId)
     {
-      ClientService.OpenSession(SessionId);
-      ClientService.WaitCompletion(taskId);
+      //SessionService.OpenSession(SessionId);
+      SessionService.WaitForTaskCompletion(taskId);
     }
 
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="taskIds"></param>
-    public void WaitListCompletion(IEnumerable<string> taskIds)
+    /// <param name="taskIds">List of tasks to wait for</param>
+    public void WaitForTasksCompletion(IEnumerable<string> taskIds)
     {
-      ClientService.OpenSession(SessionId);
-      ClientService.WaitListCompletion(taskIds);
+      SessionService.WaitForTasksCompletion(taskIds);
     }
 
     /// <summary>
@@ -219,8 +220,7 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.api
     /// </param>
     public void WaitForSubTasksCompletion(string taskId)
     {
-      ClientService.OpenSession(SessionId);
-      ClientService.WaitSubtasksCompletion(taskId);
+      SessionService.WaitSubtasksCompletion(taskId);
     }
 
     /// <summary>
@@ -230,9 +230,9 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.api
     /// <returns>return the customer payload</returns>
     public byte[] GetResult(string taskId)
     {
-      ClientService.OpenSession(SessionId);
+      //ClientService.OpenSession(SessionId);
 
-      return ClientService.GetResult(taskId);
+      return SessionService.GetResult(taskId);
     }
 
     /// <summary>
@@ -245,6 +245,11 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.api
     {
       Configuration = configuration;
 
+
+      //Append or overwrite Dictionary Options in TaskOptions with one coming from client
+      clientOptions.ToList()
+                   .ForEach(pair => ClientOptions[pair.Key] = pair.Value);
+
       var factory = new LoggerFactory(new[]
       {
         new SerilogLoggerProvider(new LoggerConfiguration()
@@ -256,13 +261,25 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.api
       ClientService = new(configuration,
                           factory);
 
-      //Append or overwrite Dictionary Options in TaskOptions with one coming from client
-      clientOptions.ToList()
-                   .ForEach(pair => ClientService.TaskOptions.Options[pair.Key] = pair.Value);
-
-
       Log = factory.CreateLogger<ServiceContainerBase>();
       Log.LogInformation("Configuring ServiceContainerBase");
+    }
+
+    /// <summary>
+    /// Prepare Session and create SessionService with the specific session
+    /// </summary>
+    /// <param name="sessionId"></param>
+    /// <param name="requestTaskOptions"></param>
+    public void ConfigureSession(SessionId sessionId, IDictionary<string, string> requestTaskOptions)
+    {
+      SessionId = sessionId;
+
+      //Append or overwrite Dictionary Options in TaskOptions with one coming from client
+      requestTaskOptions.ToList()
+                        .ForEach(pair => ClientOptions[pair.Key] = pair.Value);
+
+      SessionService = ClientService.OpenSession(SessionId,
+                                                 ClientOptions);
     }
 
     /// <summary>
@@ -285,9 +302,8 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.api
     /// </param>
     public static string SubmitTask(this ServiceContainerBase serviceContainerBase, byte[] payload)
     {
-      return serviceContainerBase.ClientService.SubmitSubTasks(serviceContainerBase.SessionId.PackSessionId(),
-                                                               serviceContainerBase.TaskId,
-                                                               new[] { payload }).Single();
+      return serviceContainerBase.SessionService.SubmitSubTasks(serviceContainerBase.TaskId,
+                                                                new[] { payload }).Single();
     }
 
     /// <summary>

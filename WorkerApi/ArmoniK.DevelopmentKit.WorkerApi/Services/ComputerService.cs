@@ -105,7 +105,8 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Services
           serviceWorker.CloseSession();
 
           serviceWorker.GridWorker.InitializeSessionWorker(ServiceRequestContext.SessionId
-                                                                                .PackSessionId());
+                                                                                .PackSessionId(),
+                                                           request.TaskOptions);
         }
 
         ServiceRequestContext.SessionId = sessionIdCaller;

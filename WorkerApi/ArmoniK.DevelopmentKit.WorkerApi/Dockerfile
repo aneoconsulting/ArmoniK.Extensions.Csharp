@@ -25,7 +25,7 @@ WORKDIR "/src/WorkerApi/ArmoniK.DevelopmentKit.WorkerApi"
 RUN dotnet build "ArmoniK.DevelopmentKit.WorkerApi.csproj" -c Debug -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "ArmoniK.DevelopmentKit.WorkerApi.csproj" -c Denug -o /app/publish -r linux-x64 --self-contained true
+RUN dotnet publish "ArmoniK.DevelopmentKit.WorkerApi.csproj" -c Debug -o /app/publish -r linux-x64 --self-contained true
 
 FROM base AS final
 WORKDIR /root
