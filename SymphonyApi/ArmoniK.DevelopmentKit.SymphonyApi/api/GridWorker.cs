@@ -28,6 +28,8 @@ using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.SymphonyApi.api;
 using ArmoniK.DevelopmentKit.WorkerApi.Common;
 
+using Google.Protobuf.Collections;
+
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
@@ -100,23 +102,26 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
       OnCreateService();
     }
 
-    public void InitializeSessionWorker(string sessionId)
+    public void InitializeSessionWorker(string sessionId, IDictionary<string, string> requestTaskOptions)
     {
       if (string.IsNullOrEmpty(SessionId) || !sessionId.Equals(SessionId.UnPackSessionId().Session))
       {
         if (string.IsNullOrEmpty(SessionId))
         {
+          SessionId = sessionId;
+          serviceContainerBase_.ConfigureSession(SessionId?.UnPackSessionId(),
+                                                 requestTaskOptions);
           OnSessionEnter(sessionId);
         }
         else
         {
           OnSessionLeave();
+          SessionId = sessionId;
+          serviceContainerBase_.ConfigureSession(SessionId?.UnPackSessionId(),
+                                                 requestTaskOptions);
           OnSessionEnter(sessionId);
         }
       }
-
-      SessionId                       = sessionId;
-      serviceContainerBase_.SessionId = sessionId?.UnPackSessionId();
     }
 
     public byte[] Execute(string session, ComputeRequest request)

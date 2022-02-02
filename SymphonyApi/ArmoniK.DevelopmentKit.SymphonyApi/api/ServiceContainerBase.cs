@@ -134,8 +134,7 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.api
     ///   The user payload list to execute. Generally used for subTasking.
     /// </param>
     public IEnumerable<string> SubmitTasks(IEnumerable<byte[]> payloads)
-      => SessionService.SubmitSubTasks(SessionId.PackSessionId(),
-                                       TaskId,
+      => SessionService.SubmitSubTasks(TaskId,
                                        payloads);
 
 
@@ -148,8 +147,7 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.api
     /// <param name="parentTaskIds">The parent task Id attaching the subTask</param>
     [Obsolete]
     public IEnumerable<string> SubmitSubTasks(IEnumerable<byte[]> payloads, string parentTaskIds)
-      => SessionService.SubmitSubTasks(SessionId.PackSessionId(),
-                                       parentTaskIds,
+      => SessionService.SubmitSubTasks(parentTaskIds,
                                        payloads);
 
     /// <summary>
@@ -159,8 +157,7 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.api
     /// <param name="payloadWithDependencies">A list of Tuple(taskId, Payload) in dependence of those created tasks</param>
     /// <returns>return a list of taskIds of the created tasks </returns>
     public IEnumerable<string> SubmitTasksWithDependencies(IEnumerable<Tuple<byte[], IList<string>>> payloadWithDependencies)
-      => SessionService.SubmitSubtasksWithDependencies(SessionId.PackSessionId(),
-                                                       TaskId,
+      => SessionService.SubmitSubtasksWithDependencies(TaskId,
                                                        payloadWithDependencies);
 
     /// <summary>
@@ -188,8 +185,7 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.api
     /// <param name="payloadWithDependencies">A list of Tuple(taskId, Payload) in dependence of those created Subtasks</param>
     /// <returns>return a list of taskIds of the created subtasks </returns>
     public IEnumerable<string> SubmitSubtasksWithDependencies(string parentId, IEnumerable<Tuple<byte[], IList<string>>> payloadWithDependencies)
-      => SessionService.SubmitSubtasksWithDependencies(SessionId.PackSessionId(),
-                                                       parentId,
+      => SessionService.SubmitSubtasksWithDependencies(parentId,
                                                        payloadWithDependencies);
 
     /// <summary>
@@ -198,10 +194,10 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.api
     /// <param name="taskId">
     ///   The task id of the task to wait for
     /// </param>
-    public void WaitForCompletion(string taskId)
+    public void WaitForTaskCompletion(string taskId)
     {
       //SessionService.OpenSession(SessionId);
-      SessionService.WaitCompletion(taskId);
+      SessionService.WaitForTaskCompletion(taskId);
     }
 
     /// <summary>
@@ -262,12 +258,25 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.api
       ClientService = new(configuration,
                           factory);
 
+      Log = factory.CreateLogger<ServiceContainerBase>();
+      Log.LogInformation("Configuring ServiceContainerBase");
+    }
+
+    /// <summary>
+    /// Prepare Session and create SessionService with the specific session
+    /// </summary>
+    /// <param name="sessionId"></param>
+    /// <param name="requestTaskOptions"></param>
+    public void ConfigureSession(SessionId sessionId, IDictionary<string, string> requestTaskOptions)
+    {
+      SessionId = sessionId;
+
+      //Append or overwrite Dictionary Options in TaskOptions with one coming from client
+      requestTaskOptions.ToList()
+                        .ForEach(pair => ClientOptions[pair.Key] = pair.Value);
 
       SessionService = ClientService.OpenSession(SessionId,
                                                  ClientOptions);
-
-      Log = factory.CreateLogger<ServiceContainerBase>();
-      Log.LogInformation("Configuring ServiceContainerBase");
     }
 
     /// <summary>
@@ -290,8 +299,7 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.api
     /// </param>
     public static string SubmitTask(this ServiceContainerBase serviceContainerBase, byte[] payload)
     {
-      return serviceContainerBase.SessionService.SubmitSubTasks(serviceContainerBase.SessionId.PackSessionId(),
-                                                                serviceContainerBase.TaskId,
+      return serviceContainerBase.SessionService.SubmitSubTasks(serviceContainerBase.TaskId,
                                                                 new[] { payload }).Single();
     }
 

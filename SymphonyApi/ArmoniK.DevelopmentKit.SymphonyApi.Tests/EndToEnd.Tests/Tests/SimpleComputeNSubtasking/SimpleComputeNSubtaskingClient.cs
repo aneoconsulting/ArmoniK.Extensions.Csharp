@@ -69,7 +69,7 @@ namespace ArmoniK.EndToEndTests.Tests.SimpleComputeNSubtasking
     private byte[] WaitForSubTaskResult(SessionService sessionService, string taskId)
     {
       Log.LogInformation($"Wait for root task to finish [task {taskId}]");
-      sessionService.WaitCompletion(taskId);
+      sessionService.WaitForTaskCompletion(taskId);
       var taskResult = sessionService.GetResult(taskId);
       var result     = ClientPayload.Deserialize(taskResult);
 
@@ -77,7 +77,7 @@ namespace ArmoniK.EndToEndTests.Tests.SimpleComputeNSubtasking
       {
         Log.LogInformation($"Root task wait for subtask delegation [SubTask with dependencies {result.SubTaskId}]");
         Log.LogInformation($"Wait for Sub task to finish [task {result.SubTaskId}]");
-        sessionService.WaitCompletion(result.SubTaskId);
+        sessionService.WaitForTaskCompletion(result.SubTaskId);
         taskResult = sessionService.GetResult(result.SubTaskId);
       }
 

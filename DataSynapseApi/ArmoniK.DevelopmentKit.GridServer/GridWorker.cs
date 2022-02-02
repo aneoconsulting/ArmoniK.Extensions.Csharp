@@ -9,6 +9,8 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 
+using Google.Protobuf.Collections;
+
 #pragma warning disable CS1591
 
 namespace ArmoniK.DevelopmentKit.GridServer
@@ -59,7 +61,7 @@ namespace ArmoniK.DevelopmentKit.GridServer
 
         public IConfiguration Configurations { get; set; }
 
-        public void InitializeSessionWorker(string session)
+        public void InitializeSessionWorker(string session, IDictionary<string, string> requestTaskOptions)
         {
             if (session == null)
                 throw new ArgumentNullException($"Session is null in the Execute function");

@@ -115,7 +115,7 @@ namespace ArmoniK.EndToEndTests.Tests.CheckPriority
       else if (clientPayload.Type == ClientPayload.TaskType.Expm1)
       {
         Log.LogInformation($"Expm1 task, sessionId : {sessionContext.SessionId}, taskId : {taskContext.TaskId}, sessionId from task : {taskContext.SessionId}");
-        for (int idx = 10000; idx > 0; idx--)
+        for (int idx = 10; idx > 0; idx--)
         {
           expm1(idx);
         }
