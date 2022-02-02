@@ -2,7 +2,8 @@ name: DeployTest
 
 on:
   push:
-    paths:
+    branches: [ '**' ]
+    tags-ignore: [ '**' ]
 
 jobs:
   versionning:
