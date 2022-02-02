@@ -16,8 +16,10 @@ using Microsoft.Extensions.Logging;
 namespace ArmoniK.DevelopmentKit.SymphonyApi.Client.api
 {
   /// <summary>
-  /// 
+  /// The class SessionService will be create each time the function CreateSession or OpenSession will
+  /// be called by client or by the worker.
   /// </summary>
+  [MarkDownDoc]
   public class SessionService
   {
     /// <summary>

@@ -59,6 +59,9 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.api
 
     internal ArmonikSymphonyClient ClientService { get; set; }
 
+    /// <summary>
+    /// Property to retrieve the sessionService previously created
+    /// </summary>
     internal SessionService SessionService { get; set; }
 
     internal IDictionary<string, string> ClientOptions { get; set; } = new Dictionary<string, string>();

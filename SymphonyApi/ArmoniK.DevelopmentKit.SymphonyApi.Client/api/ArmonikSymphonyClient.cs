@@ -84,7 +84,7 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client
     ///   Create the session to submit task
     /// </summary>
     /// <param name="taskOptions">Optional parameter to set TaskOptions during the Session creation</param>
-    /// <returns></returns>
+    /// <returns>Returns the SessionService to submit, wait or get result</returns>
     public SessionService CreateSession(TaskOptions taskOptions = null)
     {
       ControlPlaneConnection();
@@ -93,11 +93,11 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client
     }
 
     /// <summary>
-    ///   Create the session to submit task
+    ///   Open the session already created to submit task
     /// </summary>
-    /// <param name="sessionId"></param>
-    /// <param name="clientOptions"></param>
-    /// <returns></returns>
+    /// <param name="sessionId">The sessionId string which will opened</param>
+    /// <param name="clientOptions">the customer taskOptions.Options send to the server by the client</param>
+    /// <returns>Returns the SessionService to submit, wait or get result</returns>
     public SessionService OpenSession(SessionId sessionId, IDictionary<string, string> clientOptions)
     {
       ControlPlaneConnection();

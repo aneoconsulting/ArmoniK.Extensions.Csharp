@@ -103,8 +103,8 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
     /// </summary>
     /// <param name="methodName">The string name of the method</param>
     /// <param name="arguments">the array of object to pass as arguments for the method</param>
-    /// <returns>Returns an object as result of the method call</returns>
-    public object Execute(string methodName, object[] arguments)
+    /// <returns>Returns a tuple with the taskId string and an object as result of the method call</returns>
+    public Tuple<string, object> Execute(string methodName, object[] arguments)
     {
       byte[] payload = ProtoSerializer.SerializeMessage(new object[] { methodName, arguments });
 
@@ -119,7 +119,7 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
       ClientService.WaitCompletion(taskId);
       var result = new ProtoSerializer().DeSerializeMessage(ClientService.GetResult(taskId));
 
-      return result?[0];
+      return new Tuple<string, object>(taskId, result?[0]);
     }
 
     /// <summary>
@@ -128,6 +128,7 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
     /// <param name="methodName">The name of the method inside the service</param>
     /// <param name="arguments">A list of object that can be passed in parameters of the function</param>
     /// <param name="handler">The handler callBack implemented as IServiceInvocationHandler to get response or result or error</param>
+    /// <returns>Return the taskId string</returns>
     public string Submit(string methodName, object[] arguments, IServiceInvocationHandler handler)
     {
       byte[] payload = ProtoSerializer.SerializeMessage(new object[] { methodName, arguments });

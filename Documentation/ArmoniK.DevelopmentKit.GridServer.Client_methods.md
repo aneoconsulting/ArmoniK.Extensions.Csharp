@@ -64,7 +64,7 @@ This function execute code locally with the same configuration as Armonik Grid e
 
 ---
 
-### [`Object Execute(String methodName, Object[] arguments)`](Service.md#object-executestring-methodname-object-arguments)
+### [`Tuple<String, Object> Execute(String methodName, Object[] arguments)`](Service.md#tuplestring-object-executestring-methodname-object-arguments)
 
 #### Description
 
@@ -79,11 +79,11 @@ This method is used to execute task and waiting after the result.  the method wi
 
 #### Returns
 
-`Object` : Returns an object as result of the method call
+`Tuple<String, Object>` : Returns a tuple with the taskId string and an object as result of the method call
 
 ---
 
-### [`void Submit(String methodName, Object[] arguments, IServiceInvocationHandler handler)`](Service.md#void-submitstring-methodname-object-arguments-iserviceinvocationhandler-handler)
+### [`String Submit(String methodName, Object[] arguments, IServiceInvocationHandler handler)`](Service.md#string-submitstring-methodname-object-arguments-iserviceinvocationhandler-handler)
 
 #### Description
 
@@ -99,7 +99,7 @@ The method submit will execute task asynchronously on the server
 
 #### Returns
 
-`void`
+`String` : Return the taskId string
 
 ---
 
@@ -154,7 +154,7 @@ Check if this service has been destroyed before that call
 
 #### Description
 
-The methode to create new Service
+The method to create new Service
 
 #### Parameters
 

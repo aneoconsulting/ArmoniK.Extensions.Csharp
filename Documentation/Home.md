@@ -46,8 +46,8 @@
 ### Methods:
 
 - [LocalExecute](ArmoniK.DevelopmentKit.GridServer.Client_methods.md#object-localexecuteobject-service-string-methodname-object-arguments)
-- [Execute](ArmoniK.DevelopmentKit.GridServer.Client_methods.md#object-executestring-methodname-object-arguments)
-- [Submit](ArmoniK.DevelopmentKit.GridServer.Client_methods.md#void-submitstring-methodname-object-arguments-iserviceinvocationhandler-handler)
+- [Execute](ArmoniK.DevelopmentKit.GridServer.Client_methods.md#tuplestring-object-executestring-methodname-object-arguments)
+- [Submit](ArmoniK.DevelopmentKit.GridServer.Client_methods.md#string-submitstring-methodname-object-arguments-iserviceinvocationhandler-handler)
 - [Dispose](ArmoniK.DevelopmentKit.GridServer.Client_methods.md#void-dispose)
 - [Destroy](ArmoniK.DevelopmentKit.GridServer.Client_methods.md#void-destroy)
 - [IsDestroyed](ArmoniK.DevelopmentKit.GridServer.Client_methods.md#boolean-isdestroyed)
@@ -100,10 +100,13 @@
 - [OnDestroyService](ArmoniK.DevelopmentKit.SymphonyApi.api_methods.md#void-ondestroyserviceservicecontext-servicecontext)
 - [SubmitTasks](ArmoniK.DevelopmentKit.SymphonyApi.api_methods.md#ienumerablestring-submittasksienumerablebyte-payloads)
 - [SubmitTasksWithDependencies](ArmoniK.DevelopmentKit.SymphonyApi.api_methods.md#ienumerablestring-submittaskswithdependenciesienumerabletuplebyte-iliststring-payloadwithdependencies)
-- [WaitForCompletion](ArmoniK.DevelopmentKit.SymphonyApi.api_methods.md#void-waitforcompletionstring-taskid)
+- [SubmitSubtasksWithDependencies](ArmoniK.DevelopmentKit.SymphonyApi.api_methods.md#ienumerablestring-submitsubtaskswithdependenciesstring-parentid-ienumerabletuplebyte-iliststring-payloadwithdependencies)
+- [WaitForTaskCompletion](ArmoniK.DevelopmentKit.SymphonyApi.api_methods.md#void-waitfortaskcompletionstring-taskid)
+- [WaitForTasksCompletion](ArmoniK.DevelopmentKit.SymphonyApi.api_methods.md#void-waitfortaskscompletionienumerablestring-taskids)
 - [WaitForSubTasksCompletion](ArmoniK.DevelopmentKit.SymphonyApi.api_methods.md#void-waitforsubtaskscompletionstring-taskid)
 - [GetResult](ArmoniK.DevelopmentKit.SymphonyApi.api_methods.md#byte-getresultstring-taskid)
 - [Configure](ArmoniK.DevelopmentKit.SymphonyApi.api_methods.md#void-configureiconfiguration-configuration-idictionarystring-string-clientoptions)
+- [ConfigureSession](ArmoniK.DevelopmentKit.SymphonyApi.api_methods.md#void-configuresessionsessionid-sessionid-idictionarystring-string-requesttaskoptions)
 
 ---
 
@@ -113,17 +116,30 @@
 
 ### Methods:
 
-- [CreateSession](ArmoniK.DevelopmentKit.SymphonyApi.Client_methods.md#string-createsessiontaskoptions-taskoptions--null)
-- [OpenSession](ArmoniK.DevelopmentKit.SymphonyApi.Client_methods.md#void-opensessionsessionid-session)
-- [WaitSubtasksCompletion](ArmoniK.DevelopmentKit.SymphonyApi.Client_methods.md#void-waitsubtaskscompletionstring-parenttaskid)
-- [WaitCompletion](ArmoniK.DevelopmentKit.SymphonyApi.Client_methods.md#void-waitcompletionstring-taskid)
-- [GetResults](ArmoniK.DevelopmentKit.SymphonyApi.Client_methods.md#taskienumerabletuplestring-byte-getresultsienumerablestring-taskids)
-- [SubmitTasks](ArmoniK.DevelopmentKit.SymphonyApi.Client_methods.md#ienumerablestring-submittasksienumerablebyte-payloads)
-- [SubmitSubTasks](ArmoniK.DevelopmentKit.SymphonyApi.Client_methods.md#ienumerablestring-submitsubtasksstring-session-string-parenttaskid-ienumerablebyte-payloads)
-- [SubmitTasksWithDependencies](ArmoniK.DevelopmentKit.SymphonyApi.Client_methods.md#ienumerablestring-submittaskswithdependenciesstring-session-ienumerabletuplebyte-iliststring-payloadwithdependencies)
-- [SubmitSubtaskWithDependencies](ArmoniK.DevelopmentKit.SymphonyApi.Client_methods.md#string-submitsubtaskwithdependenciesstring-session-string-parentid-byte-payload-iliststring-dependencies)
-- [SubmitSubtasksWithDependencies](ArmoniK.DevelopmentKit.SymphonyApi.Client_methods.md#ienumerablestring-submitsubtaskswithdependenciesstring-session-string-parenttaskid-ienumerabletuplebyte-iliststring-payloadwithdependencies)
-- [TryGetResult](ArmoniK.DevelopmentKit.SymphonyApi.Client_methods.md#byte-trygetresultstring-taskid)
+- [CreateSession](ArmoniK.DevelopmentKit.SymphonyApi.Client_methods.md#sessionservice-createsessiontaskoptions-taskoptions--null)
+- [OpenSession](ArmoniK.DevelopmentKit.SymphonyApi.Client_methods.md#sessionservice-opensessionsessionid-sessionid-idictionarystring-string-clientoptions)
+
+---
+
+## [ArmoniK.DevelopmentKit.SymphonyApi.Client.api](ArmoniK.DevelopmentKit.SymphonyApi.Client.api.md)
+
+### [Class `SessionService`](ArmoniK.DevelopmentKit.SymphonyApi.Client.api.md#sessionservice)
+
+### Methods:
+
+- [ToString](ArmoniK.DevelopmentKit.SymphonyApi.Client.api_methods.md#string-tostring)
+- [OpenSession](ArmoniK.DevelopmentKit.SymphonyApi.Client.api_methods.md#void-opensessionsessionid-session)
+- [GetResults](ArmoniK.DevelopmentKit.SymphonyApi.Client.api_methods.md#taskienumerabletuplestring-byte-getresultsienumerablestring-taskids)
+- [SubmitTasks](ArmoniK.DevelopmentKit.SymphonyApi.Client.api_methods.md#ienumerablestring-submittasksienumerablebyte-payloads)
+- [SubmitSubTasks](ArmoniK.DevelopmentKit.SymphonyApi.Client.api_methods.md#ienumerablestring-submitsubtasksstring-parenttaskid-ienumerablebyte-payloads)
+- [SubmitTasksWithDependencies](ArmoniK.DevelopmentKit.SymphonyApi.Client.api_methods.md#ienumerablestring-submittaskswithdependenciesienumerabletuplebyte-iliststring-payloadwithdependencies)
+- [SubmitSubtaskWithDependencies](ArmoniK.DevelopmentKit.SymphonyApi.Client.api_methods.md#string-submitsubtaskwithdependenciesstring-parentid-byte-payload-iliststring-dependencies)
+- [SubmitSubtasksWithDependencies](ArmoniK.DevelopmentKit.SymphonyApi.Client.api_methods.md#ienumerablestring-submitsubtaskswithdependenciesstring-parenttaskid-ienumerabletuplebyte-iliststring-payloadwithdependencies)
+- [TryGetResult](ArmoniK.DevelopmentKit.SymphonyApi.Client.api_methods.md#byte-trygetresultstring-taskid)
+- [TryGetResults](ArmoniK.DevelopmentKit.SymphonyApi.Client.api_methods.md#ienumerabletuplestring-byte-trygetresultsienumerablestring-taskids)
+- [WaitForTaskCompletion](ArmoniK.DevelopmentKit.SymphonyApi.Client.api_methods.md#void-waitfortaskcompletionstring-taskid)
+- [WaitSubtasksCompletion](ArmoniK.DevelopmentKit.SymphonyApi.Client.api_methods.md#void-waitsubtaskscompletionstring-parenttaskid)
+- [WaitForTasksCompletion](ArmoniK.DevelopmentKit.SymphonyApi.Client.api_methods.md#void-waitfortaskscompletionienumerablestring-taskids)
 
 ---
 
