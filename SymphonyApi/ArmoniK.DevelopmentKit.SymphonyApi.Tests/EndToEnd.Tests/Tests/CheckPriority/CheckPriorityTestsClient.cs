@@ -22,12 +22,14 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 using ArmoniK.Core.gRPC.V1;
 using ArmoniK.DevelopmentKit.SymphonyApi.Client;
+using ArmoniK.DevelopmentKit.SymphonyApi.Client.api;
 using ArmoniK.DevelopmentKit.WorkerApi.Common;
 using ArmoniK.EndToEndTests.Common;
 
@@ -49,42 +51,43 @@ namespace ArmoniK.EndToEndTests.Tests.CheckPriority
     {
       var client = new ArmonikSymphonyClient(Configuration,
                                              LoggerFactory);
-
-      for (int idx = 1; idx <= 10; idx++)
-      {
-        ClientStartup(client,
-                      idx,
-                      idx);
-      }
+      IEnumerable<Task> payloads = Enumerable.Range(1,
+                                                    9)
+                                             .Select(idx => ClientStartup(client,
+                                                                          idx,
+                                                                          idx));
+      Task.WaitAll(payloads.ToArray());
     }
 
     /// <summary>
     ///   Simple function to wait and get the result from subTasking and result delegation
     ///   to all subTasks
     /// </summary>
-    /// <param name="client">The client API to connect to the Control plane Service</param>
+    /// <param name="sessionService">The sessionService API to connect to the Control plane Service</param>
+    /// <param name="sessionId"></param>
     /// <param name="taskIds">The tasks which are waiting for</param>
     /// <returns></returns>
-    private static IEnumerable<Tuple<string, byte[]>> WaitForTasksResult(ArmonikSymphonyClient client, IEnumerable<string> taskIds)
+    private static IEnumerable<Tuple<string, byte[]>> WaitForTasksResult(SessionService sessionService, IEnumerable<string> taskIds)
     {
-      var ids = taskIds.ToList();
-
-      client.WaitListCompletion(ids);
-      var taskResult = client.GetResults(ids);
-      var result = taskResult.Result.Select(x =>
+      IEnumerable<string> ids = taskIds.ToList();
+      var results = new List<Tuple<string, byte[]>>()
       {
-        var data = ClientPayload.Deserialize(x.Item2);
-        if (!string.IsNullOrEmpty(data.SubTaskId))
-        {
-          client.WaitSubtasksCompletion(data.SubTaskId);
-          return new Tuple<string, byte[]>(x.Item1,
-                                           client.GetResult(data.SubTaskId));
-        }
+        Capacity = ids.Count(),
+      };
 
-        return x;
-      });
+      foreach (var id in ids)
+      {
+        sessionService.WaitCompletion(id);
+        var taskResult = sessionService.GetResult(id);
+        var data       = ClientPayload.Deserialize(taskResult);
+        if (string.IsNullOrEmpty(data.SubTaskId))
+          continue;
+        sessionService.WaitSubtasksCompletion(data.SubTaskId);
+        results.Add(new Tuple<string, byte[]>(id,
+                                              sessionService.GetResult(data.SubTaskId)));
+      }
 
-      return result;
+      return results;
     }
 
     /// <summary>
@@ -95,9 +98,9 @@ namespace ArmoniK.EndToEndTests.Tests.CheckPriority
     {
       var clientPaylaod = new ClientPayload
       {
-        IsRootTask = true,
-        SingleInput = 10, // 10 Subtasks
-        Type       = ClientPayload.TaskType.JobOfNTasks,
+        IsRootTask  = true,
+        SingleInput = 1, // 10 Subtasks
+        Type        = ClientPayload.TaskType.JobOfNTasks,
       };
 
       Log.LogInformation($"Configure taskOptions for Session {numSession} with lowPriority");
@@ -106,20 +109,23 @@ namespace ArmoniK.EndToEndTests.Tests.CheckPriority
 
       taskOptions.Priority = priority;
 
-      var sessionId = client.CreateSession(taskOptions);
+      var sessionService = client.CreateSession(taskOptions);
 
-      Log.LogInformation($"New session created : {sessionId}");
+      Log.LogInformation($"New session created : {sessionService}");
 
       Log.LogInformation($"Running 100 tasks End to End test with priority {priority}");
+      IEnumerable<byte[]> payloads = Enumerable.Repeat(0,
+                                                       10)
+                                               .Select(x => clientPaylaod.Serialize());
+      var taskIds = sessionService.SubmitTasks(payloads);
 
-      var taskIds = client.SubmitTasks(new List<short>(100)
-                                         .Select(x => clientPaylaod.Serialize()));
-
-      var taskResult = new Task(() =>
+      var taskResult = Task.Run(() =>
       {
-        var taskResult = WaitForTasksResult(client,
-                                            taskIds);
-        var result = ClientPayload.Deserialize(taskResult.First().Item2);
+        Log.LogInformation($"Session {numSession} is waiting for output result..");
+
+        var taskResult = WaitForTasksResult(sessionService, taskIds);
+
+        var result     = ClientPayload.Deserialize(taskResult.First().Item2);
 
         Log.LogInformation($"Session {numSession} has finished output result : {result.Result}");
       });

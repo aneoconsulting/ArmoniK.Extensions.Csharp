@@ -54,6 +54,8 @@ namespace ArmoniK.EndToEndTests.Tests.CheckPriority
 
     private string _1_Job_of_N_Tasks(TaskContext taskContext, byte[] payload, int nbTasks)
     {
+      Log.LogInformation($"Executing {nbTasks} Subtasks with Expm1 compute");
+
       var payloads = new List<byte[]>(nbTasks);
       for (var i = 0; i < nbTasks; i++)
         payloads.Add(payload);
@@ -68,7 +70,7 @@ namespace ArmoniK.EndToEndTests.Tests.CheckPriority
       {
         Type = ClientPayload.TaskType.Aggregation
       };
-      var aggTaskId = SubmitSubtaskWithDependencies(TaskId,
+      var aggTaskId = SubmitSubtaskWithDependencies(taskContext.TaskId,
                                                     newPayload.Serialize(),
                                                     taskIds.ToList());
       
@@ -110,15 +112,15 @@ namespace ArmoniK.EndToEndTests.Tests.CheckPriority
         Thread.Sleep(clientPayload.Sleep * 1000);
       }
 
-      if (clientPayload.Type == ClientPayload.TaskType.Expm1)
+      else if (clientPayload.Type == ClientPayload.TaskType.Expm1)
       {
         Log.LogInformation($"Expm1 task, sessionId : {sessionContext.SessionId}, taskId : {taskContext.TaskId}, sessionId from task : {taskContext.SessionId}");
-        for (int idx = 1000000000; idx > 0; idx--)
+        for (int idx = 10000; idx > 0; idx--)
         {
           expm1(idx);
         }
       }
-      if (clientPayload.Type == ClientPayload.TaskType.Aggregation)
+      else if (clientPayload.Type == ClientPayload.TaskType.Aggregation)
       {
         Log.LogInformation($"!!!! All subtask Finished sessionId : {sessionContext.SessionId}\n\n");
       }
@@ -134,6 +136,7 @@ namespace ArmoniK.EndToEndTests.Tests.CheckPriority
         var aggTaskId = _1_Job_of_N_Tasks(taskContext,
                           bytePayload,
                           clientPayload.SingleInput);
+
         return new ClientPayload
           {
             Type   = ClientPayload.TaskType.SubTask,

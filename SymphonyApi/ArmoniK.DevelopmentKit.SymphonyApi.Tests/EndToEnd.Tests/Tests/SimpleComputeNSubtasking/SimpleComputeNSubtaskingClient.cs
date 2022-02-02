@@ -25,6 +25,7 @@ using System.Collections.Generic;
 
 using ArmoniK.Core.gRPC.V1;
 using ArmoniK.DevelopmentKit.SymphonyApi.Client;
+using ArmoniK.DevelopmentKit.SymphonyApi.Client.api;
 using ArmoniK.DevelopmentKit.WorkerApi.Common;
 using ArmoniK.EndToEndTests.Common;
 
@@ -50,34 +51,34 @@ namespace ArmoniK.EndToEndTests.Tests.SimpleComputeNSubtasking
       Log.LogInformation("Configure taskOptions");
       var taskOptions = InitializeTaskOptions();
 
-      var sessionId = client.CreateSession(taskOptions);
+      var sessionService = client.CreateSession(taskOptions);
 
-      Log.LogInformation($"New session created : {sessionId}");
-
+      Log.LogInformation($"New session created : {sessionService}");
+      
       Log.LogInformation("Running End to End test to compute Square value with SubTasking");
-      ClientStartup1(client);
+      ClientStartup1(sessionService);
     }
 
     /// <summary>
     ///   Simple function to wait and get the result from subTasking and result delegation
     ///   to a subTask
     /// </summary>
-    /// <param name="client">The client API to connect to the Control plane Service</param>
+    /// <param name="sessionService">The sessionService to submit and wait for result</param>
     /// <param name="taskId">The task which is waiting for</param>
     /// <returns></returns>
-    private byte[] WaitForSubTaskResult(ArmonikSymphonyClient client, string taskId)
+    private byte[] WaitForSubTaskResult(SessionService sessionService, string taskId)
     {
       Log.LogInformation($"Wait for root task to finish [task {taskId}]");
-      client.WaitCompletion(taskId);
-      var taskResult = client.GetResult(taskId);
+      sessionService.WaitCompletion(taskId);
+      var taskResult = sessionService.GetResult(taskId);
       var result     = ClientPayload.Deserialize(taskResult);
 
       if (!string.IsNullOrEmpty(result.SubTaskId))
       {
         Log.LogInformation($"Root task wait for subtask delegation [SubTask with dependencies {result.SubTaskId}]");
         Log.LogInformation($"Wait for Sub task to finish [task {result.SubTaskId}]");
-        client.WaitCompletion(result.SubTaskId);
-        taskResult = client.GetResult(result.SubTaskId);
+        sessionService.WaitCompletion(result.SubTaskId);
+        taskResult = sessionService.GetResult(result.SubTaskId);
       }
 
       return taskResult;
@@ -86,8 +87,8 @@ namespace ArmoniK.EndToEndTests.Tests.SimpleComputeNSubtasking
     /// <summary>
     ///   The first test developed to validate dependencies subTasking
     /// </summary>
-    /// <param name="client"></param>
-    public void ClientStartup1(ArmonikSymphonyClient client)
+    /// <param name="sessionService"></param>
+    public void ClientStartup1(SessionService sessionService)
     {
       var numbers = new List<int>
       {
@@ -101,9 +102,9 @@ namespace ArmoniK.EndToEndTests.Tests.SimpleComputeNSubtasking
         Numbers    = numbers,
         Type       = ClientPayload.TaskType.ComputeSquare
       };
-      var taskId = client.SubmitTask(clientPaylaod.Serialize());
+      var taskId = sessionService.SubmitTask(clientPaylaod.Serialize());
 
-      var taskResult = WaitForSubTaskResult(client,
+      var taskResult = WaitForSubTaskResult(sessionService,
                                             taskId);
       var result = ClientPayload.Deserialize(taskResult);
 

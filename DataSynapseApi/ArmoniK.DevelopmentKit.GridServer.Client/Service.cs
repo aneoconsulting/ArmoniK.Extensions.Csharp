@@ -128,7 +128,7 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
     /// <param name="methodName">The name of the method inside the service</param>
     /// <param name="arguments">A list of object that can be passed in parameters of the function</param>
     /// <param name="handler">The handler callBack implemented as IServiceInvocationHandler to get response or result or error</param>
-    public void Submit(string methodName, object[] arguments, IServiceInvocationHandler handler)
+    public string Submit(string methodName, object[] arguments, IServiceInvocationHandler handler)
     {
       byte[] payload = ProtoSerializer.SerializeMessage(new object[] { methodName, arguments });
 
@@ -163,6 +163,8 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
       });
 
       TaskWarehouse[taskId] = HandlerResponse;
+
+      return taskId;
     }
 
     public Task HandlerResponse { get; set; }

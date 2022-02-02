@@ -31,6 +31,7 @@ using System.Text.RegularExpressions;
 
 using ArmoniK.Core.gRPC.V1;
 using ArmoniK.DevelopmentKit.SymphonyApi.Client;
+using ArmoniK.DevelopmentKit.SymphonyApi.Client.api;
 using ArmoniK.DevelopmentKit.WorkerApi.Common;
 using ArmoniK.EndToEndTests.Common;
 
@@ -159,19 +160,19 @@ namespace ArmoniK.EndToEndTests
     ///   Simple function to wait and get the result from subTasking and result delegation
     ///   to a subTask
     /// </summary>
-    /// <param name="client">The client API to connect to the Control plane Service</param>
+    /// <param name="sessionService">The sessionService API to connect to the Control plane Service</param>
     /// <param name="taskId">The task which is waiting for</param>
     /// <returns></returns>
-    private static byte[] WaitForSubTaskResult(ArmonikSymphonyClient client, string taskId)
+    private static byte[] WaitForSubTaskResult(SessionService sessionService, string taskId)
     {
-      client.WaitSubtasksCompletion(taskId);
-      var taskResult = client.GetResult(taskId);
+      sessionService.WaitSubtasksCompletion(taskId);
+      var taskResult = sessionService.GetResult(taskId);
       var result     = ClientPayload.Deserialize(taskResult);
 
       if (!string.IsNullOrEmpty(result.SubTaskId))
       {
-        client.WaitSubtasksCompletion(result.SubTaskId);
-        taskResult = client.GetResult(result.SubTaskId);
+        sessionService.WaitSubtasksCompletion(result.SubTaskId);
+        taskResult = sessionService.GetResult(result.SubTaskId);
       }
 
       return taskResult;
