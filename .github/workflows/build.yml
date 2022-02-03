@@ -10,19 +10,23 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       version: ${{ steps.genver.outputs.version }}
+      release: ${{ steps.genver.outputs.release }}
     steps:
     - name: Checkout
       uses: actions/checkout@v2
       with:
-        ref: ${{ github.head_ref }}
+        ref: ${{ github.ref }}
         fetch-depth: 0
 
     - name: Generate Version
       id: genver
       run: |
-        VERSION=$(docker run --rm -v $(pwd):/repo codacy/git-version /bin/git-version --folder=/repo --release-branch=release --dev-branch=master)
+        VERSION=$(docker run --rm -v $(pwd):/repo codacy/git-version /bin/git-version --folder=/repo --release-branch=${{ github.ref_name }}-pre --dev-branch=master)
         echo "::set-output name=version::$VERSION"
-        echo $VERSION
+        echo "VERSION : $VERSION"
+        RELEASE=$(docker run --rm -v $(pwd):/repo codacy/git-version /bin/git-version --folder=/repo --release-branch=${{ github.ref_name }} --dev-branch=master)
+        echo "::set-output name=release::$RELEASE"
+        echo "RELEASE : $RELEASE"
 
   buildProjects:
     runs-on: ubuntu-latest
@@ -30,17 +34,21 @@ jobs:
       - versionning
     env:
       VERSION: ${{ needs.versionning.outputs.version }}
+      RELEASE: ${{ needs.versionning.outputs.release }}
     steps:
     - name: Checkout
       uses: actions/checkout@v2
       with:
-        ref: ${{ github.head_ref }}
+        ref: ${{ github.ref }}
         submodules: true
 
     - name: Install .NET Core
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 6.x
+        source-url: https://pkgs.dev.azure.com/aneofr/ArmoniK/_packaging/ArmoniKPackages/nuget/v3/index.json
+      env:
+        NUGET_AUTH_TOKEN: ${{secrets.PAT_AZURE}}
 
     # find . -name "*.csproj" | xargs -I % echo dotnet build % -c Release
     - name: Build the package
@@ -54,7 +62,7 @@ jobs:
         dotnet build -c Release ./WorkerApi/tests/WorkerApiTests/WorkerApiTests.csproj
 
     # find . -name "*.csproj" | xargs -I % echo dotnet pack % -c Release -o /tmp/packages -p:PackageVersion=\$VERSION
-    - name: Pack the package
+    - name: Pack the package $VERSION
       run: |
         dotnet pack ./DataSynapseApi/ArmoniK.DevelopmentKit.GridServer/ArmoniK.DevelopmentKit.GridServer.csproj -c Release -o /tmp/packages -p:PackageVersion=$VERSION
         dotnet pack ./DataSynapseApi/ArmoniK.DevelopmentKit.GridServer.Client/ArmoniK.DevelopmentKit.GridServer.Client.csproj -c Release -o /tmp/packages -p:PackageVersion=$VERSION
@@ -62,8 +70,33 @@ jobs:
         dotnet pack ./SymphonyApi/ArmoniK.DevelopmentKit.SymphonyApi.Client/ArmoniK.DevelopmentKit.SymphonyApi.Client.csproj -c Release -o /tmp/packages -p:PackageVersion=$VERSION
         dotnet pack ./WorkerApi/ArmoniK.DevelopmentKit.WorkerApi.Common/ArmoniK.DevelopmentKit.WorkerApi.Common.csproj -c Release -o /tmp/packages -p:PackageVersion=$VERSION
 
+    - name: Store the package $VERSION
+      uses: actions/upload-artifact@v2
+      with:
+        name: prerelease-nugets
+        path: /tmp/packages/*.nupkg
+        retention-days: 5
+
+    - name: Pack the package $RELEASE
+      if: ${{ github.ref == 'refs/heads/release' }}
+      run: |
+        dotnet pack ./DataSynapseApi/ArmoniK.DevelopmentKit.GridServer/ArmoniK.DevelopmentKit.GridServer.csproj -c Release -o /tmp/releases -p:PackageVersion=$RELEASE
+        dotnet pack ./DataSynapseApi/ArmoniK.DevelopmentKit.GridServer.Client/ArmoniK.DevelopmentKit.GridServer.Client.csproj -c Release -o /tmp/releases -p:PackageVersion=$RELEASE
+        dotnet pack ./SymphonyApi/ArmoniK.DevelopmentKit.SymphonyApi/ArmoniK.DevelopmentKit.SymphonyApi.csproj -c Release -o /tmp/releases -p:PackageVersion=$RELEASE
+        dotnet pack ./SymphonyApi/ArmoniK.DevelopmentKit.SymphonyApi.Client/ArmoniK.DevelopmentKit.SymphonyApi.Client.csproj -c Release -o /tmp/releases -p:PackageVersion=$RELEASE
+        dotnet pack ./WorkerApi/ArmoniK.DevelopmentKit.WorkerApi.Common/ArmoniK.DevelopmentKit.WorkerApi.Common.csproj -c Release -o /tmp/releases -p:PackageVersion=$RELEASE
+
+    - name: Store the package $RELEASE
+      if: ${{ github.ref == 'refs/heads/release' }}
+      uses: actions/upload-artifact@v2
+      with:
+        name: release-nugets
+        path: /tmp/releases/*.nupkg
+        retention-days: 5
+
     - name: Push the package
-      run: dotnet nuget push /tmp/packages/ArmoniK.*.nupkg -k ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
+      run: |
+        dotnet nuget push /tmp/packages/ArmoniK.*.nupkg --api-key AzureArtifacts
 
   buildWorker:
     runs-on: ubuntu-latest
@@ -75,7 +108,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
       with:
-        ref: ${{ github.head_ref }}
+        ref: ${{ github.ref }}
         submodules: true
 
     - name: login
@@ -84,7 +117,6 @@ jobs:
 
     - name: build
       run: |
-        echo $VERSION
         docker build -t dockerhubaneo/armonik_worker_dll:$VERSION -f WorkerApi/ArmoniK.DevelopmentKit.WorkerApi/Dockerfile .
 
     - name: push
@@ -101,7 +133,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
         with:
-          ref: ${{ github.head_ref }}
+          ref: ${{ github.ref }}
 
       - uses: aneoconsulting/ArmoniK@main
         id: deploy-infra
@@ -123,23 +155,58 @@ jobs:
 
          dotnet run -r linux-x64
 
+  release-packages:
+    runs-on: ubuntu-latest
+    if: ${{ github.ref == 'refs/heads/release' }}
+    needs:
+      - versionning
+      - testEndToEnd
+    steps:
+      - name: Download a single artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: release-nugets
+
+      - name: Push the package
+        run: dotnet nuget push ./ArmoniK.*.nupkg -k ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
+
+  release-images:
+    runs-on: ubuntu-latest
+    if: ${{ github.ref == 'refs/heads/release' }}
+    needs:
+      - versionning
+      - testEndToEnd
+    env:
+      VERSION: ${{ needs.versionning.outputs.version }}
+      RELEASE: ${{ needs.versionning.outputs.release }}
+    steps:
+      - name: pull
+        run: |
+          docker pull dockerhubaneo/armonik_worker_dll:$VERSION
+
+      - name: tag
+        run: |
+          docker tag dockerhubaneo/armonik_worker_dll:$VERSION dockerhubaneo/armonik_worker_dll:RELEASE
+
+      - name: push
+        run: |
+          docker push dockerhubaneo/armonik_worker_dll:$RELEASE
+
   tag:
     runs-on: ubuntu-latest
     if: ${{ github.ref == 'refs/heads/release' }}
     needs:
       - versionning
-      - buildWorker
-      - buildProjects
       - testEndToEnd
     env:
-      VERSION: ${{ needs.versionning.outputs.version }}
+      RELEASE: ${{ needs.versionning.outputs.release }}
     steps:
     - name: Checkout
       uses: actions/checkout@v2
       with:
-        ref: ${{ github.head_ref }}
+        ref: ${{ github.ref }}
 
     - name: tag
       run: |
-        git tag $VERSION
-        git push origin $VERSION
+        git tag $RELEASE
+        git push origin $RELEASE
