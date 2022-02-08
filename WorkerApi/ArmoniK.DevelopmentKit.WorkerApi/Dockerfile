@@ -11,9 +11,9 @@ RUN mkdir -p /root/.vs-debugger
 WORKDIR /root/.vs-debugger
 
 RUN apt-get update && apt-get install -y curl
-RUN curl -sSL https://aka.ms/getvsdbgsh > getvsdbg.sh
-RUN bash getvsdbg.sh -v vs2019 -r linux-x64 -l vs2019
-RUN bash getvsdbg.sh -v vs2022 -r linux-x64 -l vs2022
+RUN curl -sSL https://aka.ms/getvsdbgsh > GetVsDbg.sh
+RUN bash GetVsDbg.sh -v vs2019 -r linux-x64 -l vs2019
+RUN bash GetVsDbg.sh -v vs2022 -r linux-x64 -l vs2022
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
