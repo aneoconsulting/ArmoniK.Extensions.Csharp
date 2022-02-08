@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFrameworks>net5.0;net6.0</TargetFrameworks>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerfileContext>..\..\..\..\..\..\..</DockerfileContext>
     <OutputType>Library</OutputType>
@@ -21,13 +21,33 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0|AnyCPU'">
+    <LangVersion>default</LangVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net5.0|AnyCPU'">
+    <LangVersion>default</LangVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0|AnyCPU'">
+    <LangVersion>default</LangVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net5.0|AnyCPU'">
+    <LangVersion>default</LangVersion>
+  </PropertyGroup>
+
   <ItemGroup>
-    <ProjectReference
-      Include="..\..\WorkerApi\ArmoniK.DevelopmentKit.WorkerApi.Common\ArmoniK.DevelopmentKit.WorkerApi.Common.csproj" />
-    <ProjectReference Include="..\ArmoniK.DevelopmentKit.GridServer\ArmoniK.DevelopmentKit.GridServer.csproj" />
+    <ProjectReference Include="..\..\WorkerApi\ArmoniK.DevelopmentKit.WorkerApi.Common\ArmoniK.DevelopmentKit.WorkerApi.Common.csproj" />
+    <ProjectReference Include="..\ArmoniK.DevelopmentKit.GridServer.Common\ArmoniK.DevelopmentKit.GridServer.Common.csproj" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="Armonik.Api" Version="1.0.0-local" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="JetBrains.Annotations" Version="2021.3.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0" />
@@ -42,6 +62,7 @@
     <PackageReference Include="Serilog.Sinks.Seq" Version="5.1.0" />
     <PackageReference Include="Serilog.Extensions.Hosting" Version="4.2.0" />
     <PackageReference Include="Serilog.AspNetCore" Version="4.1.0" />
+
   </ItemGroup>
 
   <Target Name="DeleteLocalCache" BeforeTargets="Pack">

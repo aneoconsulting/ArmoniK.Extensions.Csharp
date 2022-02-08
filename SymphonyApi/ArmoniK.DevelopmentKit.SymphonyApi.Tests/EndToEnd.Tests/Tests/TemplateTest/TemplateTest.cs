@@ -30,7 +30,6 @@ using System.Threading;
 using ArmoniK.DevelopmentKit.SymphonyApi;
 using ArmoniK.DevelopmentKit.SymphonyApi.api;
 using ArmoniK.DevelopmentKit.WorkerApi.Common;
-using ArmoniK.DevelopmentKit.WorkerApi.Common.Exceptions;
 using ArmoniK.EndToEndTests.Common;
 
 using Microsoft.Extensions.Configuration;

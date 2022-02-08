@@ -1,23 +1,24 @@
-﻿using ProtoBuf;
-
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 
-using ArmoniK.DevelopmentKit.WorkerApi.Common.Exceptions;
+using ArmoniK.DevelopmentKit.Common.Exceptions;
+
+using ProtoBuf;
 
 #pragma warning disable CS1591
 
 
-namespace ArmoniK.DevelopmentKit.GridServer
+namespace ArmoniK.DevelopmentKit.Common
 {
   public class ProtoSerializer
   {
-    public byte[] SerializeMessage(object[] values)
+    public byte[] SerializeMessageObjectArray(object[] values)
     {
-      using MemoryStream ms = new MemoryStream();
+      MemoryStream ms = new MemoryStream();
       foreach (var obj in values)
       {
         WriteNext(ms,
@@ -28,9 +29,39 @@ namespace ArmoniK.DevelopmentKit.GridServer
       return data;
     }
 
-    public object[] DeSerializeMessage(byte[] data)
+    public static byte[] SerializeMessageObject(object value)
     {
-      List<object> result = new();
+      MemoryStream ms = new MemoryStream();
+
+      WriteNext(ms,
+                value);
+
+
+      var data = ms.ToArray();
+      return data;
+    }
+
+    public object[] DeSerializeMessageObjectArray(byte[] data)
+    {
+      var result = new List<object>();
+
+      using (MemoryStream ms = new MemoryStream(data))
+      {
+        object obj;
+
+        while (ReadNext(ms,
+                        out obj))
+        {
+          result.Add(obj);
+        }
+      }
+
+      return result.Count == 0 ? null : result.ToArray();
+    }
+
+    public static object DeSerializeMessageObject(byte[] data)
+    {
+      var result = new List<object>();
 
       using (MemoryStream ms = new MemoryStream(data))
       {
@@ -58,7 +89,7 @@ namespace ArmoniK.DevelopmentKit.GridServer
     }
 
     // *** you need some mechanism to map types to fields
-    private IDictionary<int, Type> typeLookup = new Dictionary<int, Type>
+    private static IDictionary<int, Type> typeLookup = new Dictionary<int, Type>
     {
       { 1, typeof(int) },
       { 2, typeof(uint) },
@@ -77,13 +108,13 @@ namespace ArmoniK.DevelopmentKit.GridServer
       { 15, typeof(Array) },
     };
 
-    public void RegisterClass(Type clasType)
+    public static void RegisterClass(Type classType)
     {
       int max = typeLookup.Keys.Max();
-      typeLookup[max + 1] = clasType;
+      typeLookup[max + 1] = classType;
     }
 
-    public void WriteNext(Stream stream, object obj)
+    public static void WriteNext(Stream stream, object obj)
     {
       if (obj == null) obj = new Nullable();
 
@@ -92,11 +123,15 @@ namespace ArmoniK.DevelopmentKit.GridServer
       if (type.IsArray)
       {
         WriteNext(stream,
-                  new ProtoArray() { NbElement = ((Array)obj).Length });
+                  new ProtoArray()
+                  {
+                    NbElement = ((Array)obj).Length
+                  });
 
         foreach (var subObj in (Array)obj)
         {
-          WriteNext(stream, subObj);
+          WriteNext(stream,
+                    subObj);
         }
       }
       else
@@ -107,7 +142,7 @@ namespace ArmoniK.DevelopmentKit.GridServer
       }
     }
 
-    private void SerializeSingle(Stream stream, object obj, Type type)
+    private static void SerializeSingle(Stream stream, object obj, Type type)
     {
       int field = typeLookup.Single(pair => pair.Value == type).Key;
       Serializer.NonGeneric.SerializeWithLengthPrefix(stream,
@@ -116,7 +151,7 @@ namespace ArmoniK.DevelopmentKit.GridServer
                                                       field);
     }
 
-    public bool ReadNext(Stream stream, out object obj)
+    public static bool ReadNext(Stream stream, out object obj)
     {
       if (Serializer.NonGeneric.TryDeserializeWithLengthPrefix(stream,
                                                                PrefixStyle.Base128,
@@ -127,8 +162,8 @@ namespace ArmoniK.DevelopmentKit.GridServer
 
         if (obj is ProtoArray)
         {
-          var finalObj = new List<object>();
-          ProtoArray arrInfo = (ProtoArray)obj;
+          var        finalObj = new List<object>();
+          ProtoArray arrInfo  = (ProtoArray)obj;
           if (arrInfo.NbElement < 0) throw new WorkerApiException($"ProtoArray failure number of element [{arrInfo.NbElement}] < 0 ");
 
           for (int i = 0; i < arrInfo.NbElement; i++)
@@ -141,10 +176,18 @@ namespace ArmoniK.DevelopmentKit.GridServer
 
           obj = finalObj.ToArray();
         }
+
         return true;
       }
 
       return false;
+    }
+
+    public static T Deserialize<T>(string dataBase64String)
+    {
+      Object obj = DeSerializeMessageObject(Encoding.ASCII.GetBytes(dataBase64String));
+
+      return (T)obj;
     }
   }
 }

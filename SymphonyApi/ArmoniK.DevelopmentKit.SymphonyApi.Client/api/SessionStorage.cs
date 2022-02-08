@@ -4,7 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using ArmoniK.DevelopmentKit.WorkerApi.Common.Exceptions;
+using ArmoniK.DevelopmentKit.Common.Exceptions;
+#pragma warning disable CS1591
 
 namespace ArmoniK.DevelopmentKit.SymphonyApi.Client.api
 {

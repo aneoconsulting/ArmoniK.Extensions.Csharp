@@ -1,13 +1,16 @@
 ﻿using ArmoniK.Attributes;
 using ArmoniK.Core.gRPC.V1;
 using ArmoniK.DevelopmentKit.WorkerApi.Common;
-using ArmoniK.DevelopmentKit.WorkerApi.Common.Exceptions;
+
 using Google.Protobuf.WellKnownTypes;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+
+using ArmoniK.DevelopmentKit.Common;
+using ArmoniK.DevelopmentKit.Common.Exceptions;
 
 using Google.Protobuf.Collections;
 
@@ -104,7 +107,7 @@ namespace ArmoniK.DevelopmentKit.GridServer
 
             payload = dataSynapsePayload.ClientPayload;
 
-            var functionData = new ProtoSerializer().DeSerializeMessage(payload);
+            var functionData = new ProtoSerializer().DeSerializeMessageObjectArray(payload);
 
             string methodName;
             if (functionData != null && functionData.Length >= 1)
@@ -135,7 +138,7 @@ namespace ArmoniK.DevelopmentKit.GridServer
                     arguments);
                 if (result != null)
                 {
-                    return new ProtoSerializer().SerializeMessage(new[] { result });
+                    return new ProtoSerializer().SerializeMessageObjectArray(new[] { result });
                 }
             }
             catch (TargetException e)

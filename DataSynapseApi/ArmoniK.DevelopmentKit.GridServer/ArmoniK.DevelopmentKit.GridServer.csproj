@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFrameworks>net50;net60</TargetFrameworks>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerfileContext>..\..\..\..\..\..\..</DockerfileContext>
     <OutputType>Library</OutputType>
@@ -21,8 +21,26 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0|AnyCPU'">
+    <LangVersion>default</LangVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0|AnyCPU'">
+    <LangVersion>default</LangVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net5.0|AnyCPU'">
+    <LangVersion>default</LangVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net5.0|AnyCPU'">
+    <LangVersion>default</LangVersion>
+  </PropertyGroup>
+
   <ItemGroup>
+    <ProjectReference Include="..\..\Common\ArmoniK.DevelopmentKit.Common\ArmoniK.DevelopmentKit.Common.csproj" />
     <ProjectReference Include="..\..\WorkerApi\ArmoniK.DevelopmentKit.WorkerApi.Common\ArmoniK.DevelopmentKit.WorkerApi.Common.csproj" />
+    <ProjectReference Include="..\ArmoniK.DevelopmentKit.GridServer.Common\ArmoniK.DevelopmentKit.GridServer.Common.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -47,10 +65,17 @@
     <PackageReference Include="Serilog.Sinks.Seq" Version="5.1.0" />
     <PackageReference Include="Serilog.Extensions.Hosting" Version="4.2.0" />
     <PackageReference Include="Serilog.AspNetCore" Version="4.1.0" />
+    <!--<PackageReference Include="Armonik.MarkDownGen" Version="0.0.3" />-->
   </ItemGroup>
 
   <Target Name="DeleteLocalCache" BeforeTargets="Pack">
     <RemoveDir Directories="$(NugetPackageRoot)/$(PackageId.ToLower())/$(ArmonikVersion)" />
   </Target>
+
+  <!--<UsingTask TaskName="MarkDownTask" AssemblyFile="$(OutputPath)Armonik.MarkDown.VSTask.dll" />
+  <Target Name="MyTarget" AfterTargets="AfterBuild">
+
+    <MarkDownTask Namespace="ArmoniK.DevelopmentKit.*" DirectoryLibPath="bin\Debug\net5.0\linux-x64" OutputPath="md" />
+  </Target>-->
 
 </Project>

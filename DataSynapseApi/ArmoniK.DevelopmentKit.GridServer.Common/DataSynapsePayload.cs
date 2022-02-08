@@ -1,5 +1,9 @@
-﻿using System.Text.Json;
-//TODO : remove pragma
+﻿//TODO : remove pragma
+
+using ArmoniK.DevelopmentKit.Common;
+
+using Newtonsoft.Json;
+
 #pragma warning disable CS1591
 
 namespace ArmoniK.DevelopmentKit.GridServer
@@ -13,7 +17,7 @@ namespace ArmoniK.DevelopmentKit.GridServer
 
     public byte[] Serialize()
     {
-      string jsonString = JsonSerializer.Serialize(this);
+      string jsonString = ProtoSerializer.SerializeMessageObject(this).ToString();
       return System.Text.Encoding.ASCII.GetBytes(StringToBase64(jsonString));
     }
 
@@ -23,7 +27,7 @@ namespace ArmoniK.DevelopmentKit.GridServer
         return new DataSynapsePayload();
 
       var str = System.Text.Encoding.ASCII.GetString(payload);
-      return JsonSerializer.Deserialize<DataSynapsePayload>(Base64ToString(str));
+      return ProtoSerializer.Deserialize<DataSynapsePayload>(Base64ToString(str));
     }
 
     private static string StringToBase64(string serializedJson)

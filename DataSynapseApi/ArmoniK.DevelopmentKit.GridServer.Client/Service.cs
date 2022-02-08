@@ -1,11 +1,14 @@
-﻿using ArmoniK.Core.gRPC.V1;
-using ArmoniK.DevelopmentKit.WorkerApi.Common;
-using ArmoniK.DevelopmentKit.WorkerApi.Common.Exceptions;
+﻿using ArmoniK.DevelopmentKit.WorkerApi.Common;
+
 using JetBrains.Annotations;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+
+using ArmoniK.Core.gRPC.V1;
+using ArmoniK.DevelopmentKit.Common;
+using ArmoniK.DevelopmentKit.Common.Exceptions;
 
 using Microsoft.Extensions.Logging;
 
@@ -67,9 +70,9 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
     [CanBeNull]
     public object LocalExecute(object service, string methodName, object[] arguments)
     {
-      byte[] payload = ProtoSerializer.SerializeMessage(new object[] { methodName, arguments });
+      byte[] payload = ProtoSerializer.SerializeMessageObjectArray(new object[] { methodName, arguments });
 
-      object[] functionData = ProtoSerializer.DeSerializeMessage(payload);
+      object[] functionData = ProtoSerializer.DeSerializeMessageObjectArray(payload);
 
 
       if (functionData != null && functionData.Length >= 1)
@@ -88,8 +91,8 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
         object result = methodInfo.Invoke(service,
                                           array);
 
-        var sresult = ProtoSerializer.SerializeMessage(new object[] { result });
-        var objects = new ProtoSerializer().DeSerializeMessage(sresult);
+        var sresult = ProtoSerializer.SerializeMessageObjectArray(new object[] { result });
+        var objects = new ProtoSerializer().DeSerializeMessageObjectArray(sresult);
 
         return objects?[0];
       }
@@ -106,7 +109,7 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
     /// <returns>Returns a tuple with the taskId string and an object as result of the method call</returns>
     public Tuple<string, object> Execute(string methodName, object[] arguments)
     {
-      byte[] payload = ProtoSerializer.SerializeMessage(new object[] { methodName, arguments });
+      byte[] payload = ProtoSerializer.SerializeMessageObjectArray(new object[] { methodName, arguments });
 
       DataSynapsePayload dataSynapsePayload = new()
       {
@@ -117,7 +120,7 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
       string taskId = ClientService.SubmitTask(dataSynapsePayload.Serialize());
 
       ClientService.WaitCompletion(taskId);
-      var result = new ProtoSerializer().DeSerializeMessage(ClientService.GetResult(taskId));
+      var result = new ProtoSerializer().DeSerializeMessageObjectArray(ClientService.GetResult(taskId));
 
       return new Tuple<string, object>(taskId, result?[0]);
     }
@@ -131,7 +134,7 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
     /// <returns>Return the taskId string</returns>
     public string Submit(string methodName, object[] arguments, IServiceInvocationHandler handler)
     {
-      byte[] payload = ProtoSerializer.SerializeMessage(new object[] { methodName, arguments });
+      byte[] payload = ProtoSerializer.SerializeMessageObjectArray(new object[] { methodName, arguments });
 
       DataSynapsePayload dataSynapsePayload = new()
       {
@@ -147,7 +150,7 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
         {
           ClientService.WaitCompletion(taskId);
           byte[] byteResults = ClientService.GetResult(taskId);
-          var    result      = new ProtoSerializer().DeSerializeMessage(ClientService.GetResult(taskId));
+          var    result      = new ProtoSerializer().DeSerializeMessageObjectArray(ClientService.GetResult(taskId));
 
 
           handler.HandleResponse(result?[0],

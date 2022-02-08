@@ -30,7 +30,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 
-using ArmoniK.DevelopmentKit.WorkerApi.Common.Exceptions;
+using ArmoniK.DevelopmentKit.Common.Exceptions;
 
 namespace ArmoniK.DevelopmentKit.WorkerApi.Common
 {
