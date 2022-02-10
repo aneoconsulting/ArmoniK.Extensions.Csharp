@@ -186,7 +186,7 @@ jobs:
 
       - name: tag
         run: |
-          docker tag dockerhubaneo/armonik_worker_dll:$VERSION dockerhubaneo/armonik_worker_dll:RELEASE
+          docker tag dockerhubaneo/armonik_worker_dll:$VERSION dockerhubaneo/armonik_worker_dll:$RELEASE
 
       - name: push
         run: |
@@ -197,7 +197,8 @@ jobs:
     if: ${{ github.ref == 'refs/heads/release' }}
     needs:
       - versionning
-      - testEndToEnd
+      - release-images
+      - release-packages
     env:
       RELEASE: ${{ needs.versionning.outputs.release }}
     steps:
