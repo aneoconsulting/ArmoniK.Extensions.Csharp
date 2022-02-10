@@ -1,19 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Amazon;
-using Amazon.S3;
-using Amazon.S3.Model;
-
-using System;
 using System.IO;
 using System.Threading.Tasks;
 
+using Amazon.S3;
+using Amazon.S3.Model;
 
-namespace ArmoniK.DevelopmentKit.WorkerApi.Common
+namespace ArmoniK.DevelopmentKit.WorkerApi.Common.Adaptater
 {
   public class Program
   {
@@ -25,19 +17,20 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Common
 
     private const string filePath = @"to destination";
 
-    //public static void Main()
-    //{
-    //  //client = new AmazonS3Client(bucketRegion);
-    //  AmazonS3Config config = new AmazonS3Config();
-    //  config.ServiceURL = "";
-    //  client = new AmazonS3Client(
-    //  "XXXXXXXXXXXXXXXXXXX",
-    //  "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
-    //  config
-    //  );
-    //  WritingAnObjectAsync().Wait();
-    //  ReadObjectDataAsync().Wait();
-    //}
+    public static void Main()
+    {
+      //client = new AmazonS3Client(bucketRegion);
+      AmazonS3Config config = new AmazonS3Config();
+      config.ServiceURL = "EndPoint";
+      var client = new AmazonS3Client(
+        "XXXXXXXXXXXXXXXXXXX",
+        "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+      config
+
+      );
+      WritingAnObjectAsync().Wait();
+      ReadObjectDataAsync().Wait();
+    }
     static async Task ReadObjectDataAsync()
     {
       string responseBody = "";
@@ -48,18 +41,16 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Common
           BucketName = bucketName,
           Key        = keyName
         };
-        using (GetObjectResponse response = await client.GetObjectAsync(request))
-        using (Stream responseStream = response.ResponseStream)
-        using (StreamReader reader = new StreamReader(responseStream))
-        {
-          string title       = response.Metadata["x-amz-meta-title"]; // Assume you have "title" as medata added to the object.
-          string contentType = response.Headers["Content-Type"];
-          Console.WriteLine("Object metadata, Title: {0}",
-                            title);
-          Console.WriteLine("Content type: {0}",
-                            contentType);
-          responseBody = reader.ReadToEnd(); // Now you process the response body.
-        }
+        using var       response       = await client.GetObjectAsync(request);
+        await using var responseStream = response.ResponseStream;
+        using var       reader         = new StreamReader(responseStream);
+        var          title          = response.Metadata["x-amz-meta-title"]; // Assume you have "title" as medata added to the object.
+        var          contentType    = response.Headers["Content-Type"];
+        Console.WriteLine("Object metadata, Title: {0}",
+                          title);
+        Console.WriteLine("Content type: {0}",
+                          contentType);
+        responseBody = reader.ReadToEnd(); // Now you process the response body.
       }
       catch (AmazonS3Exception e)
       {
