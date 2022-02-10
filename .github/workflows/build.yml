@@ -180,6 +180,10 @@ jobs:
       VERSION: ${{ needs.versionning.outputs.version }}
       RELEASE: ${{ needs.versionning.outputs.release }}
     steps:
+      - name: login
+        run: |
+          echo ${{ secrets.DOCKER_HUB_TOKEN }} | docker login -u dhaneo1 --password-stdin
+
       - name: pull
         run: |
           docker pull dockerhubaneo/armonik_worker_dll:$VERSION
@@ -197,7 +201,6 @@ jobs:
     if: ${{ github.ref == 'refs/heads/release' }}
     needs:
       - versionning
-      - release-images
       - release-packages
     env:
       RELEASE: ${{ needs.versionning.outputs.release }}
