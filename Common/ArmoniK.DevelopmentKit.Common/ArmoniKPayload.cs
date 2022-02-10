@@ -1,14 +1,12 @@
 ﻿//TODO : remove pragma
 
-using ArmoniK.DevelopmentKit.Common;
-
 #pragma warning disable CS1591
 
-namespace ArmoniK.DevelopmentKit.GridServer
+namespace ArmoniK.DevelopmentKit.Common
 {
-  public class DataSynapsePayload
+  public class ArmoniKPayload
   {
-    public DataSynapseRequestType DataSynapseRequestType { get; set; }
+    public ArmonikRequestType ArmonikRequestType { get; set; }
 
     public byte[] ClientPayload { get; set; }
 
@@ -19,13 +17,13 @@ namespace ArmoniK.DevelopmentKit.GridServer
       return System.Text.Encoding.ASCII.GetBytes(StringToBase64(jsonString));
     }
 
-    public static DataSynapsePayload Deserialize(byte[] payload)
+    public static ArmoniKPayload Deserialize(byte[] payload)
     {
       if (payload == null || payload.Length == 0)
-        return new DataSynapsePayload();
+        return new ArmoniKPayload();
 
       var str = System.Text.Encoding.ASCII.GetString(payload);
-      return ProtoSerializer.Deserialize<DataSynapsePayload>(Base64ToString(str));
+      return ProtoSerializer.Deserialize<ArmoniKPayload>(Base64ToString(str));
     }
 
     private static string StringToBase64(string serializedJson)
@@ -42,7 +40,7 @@ namespace ArmoniK.DevelopmentKit.GridServer
     }
   }
 
-  public enum DataSynapseRequestType
+  public enum ArmonikRequestType
   {
     Execute,
     Upload,

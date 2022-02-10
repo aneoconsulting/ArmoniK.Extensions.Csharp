@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ArmoniK.DevelopmentKit.WorkerApi.Common
+namespace ArmoniK.DevelopmentKit.Common
 {
   public enum EngineType
   {

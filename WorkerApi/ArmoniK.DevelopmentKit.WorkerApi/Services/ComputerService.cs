@@ -38,6 +38,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
+using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.Common.Exceptions;
 
 namespace ArmoniK.DevelopmentKit.WorkerApi.Services

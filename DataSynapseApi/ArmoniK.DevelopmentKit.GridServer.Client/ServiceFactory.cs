@@ -1,5 +1,5 @@
 ﻿
-using ArmoniK.DevelopmentKit.WorkerApi.Common;
+using ArmoniK.DevelopmentKit.Common;
 
 using Microsoft.Extensions.Logging;
 
@@ -8,6 +8,9 @@ using Serilog.Extensions.Logging;
 
 namespace ArmoniK.DevelopmentKit.GridServer.Client
 {
+  /// <summary>
+  /// The service Factory to load service previously registered
+  /// </summary>
   [MarkDownDoc]
   public class ServiceFactory
   {

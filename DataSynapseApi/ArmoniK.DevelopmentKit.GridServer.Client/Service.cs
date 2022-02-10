@@ -1,6 +1,4 @@
-﻿using ArmoniK.DevelopmentKit.WorkerApi.Common;
-
-using JetBrains.Annotations;
+﻿using JetBrains.Annotations;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -32,17 +30,16 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
 
     private ArmonikDataSynapseClientService ClientService { get; set; }
 
-    private string ServiceType { get; set; }
-
     private ProtoSerializer ProtoSerializer { get; }
 
     /// <summary>
     /// The default constructor to open connection with the control plane
     /// and create the session to ArmoniK
     /// </summary>
-    /// <param name="configuration">The Iconfiguration with all parameters coming from appsettings.json or
+    /// <param name="configuration">The IConfiguration with all parameters coming from appsettings.json or
     /// coming from Environment variables</param>
     /// <param name="serviceType"></param>
+    /// <param name="loggerFactory">The logger factory to instantiate Logger with the current class type</param>
     /// <param name="taskOptions">The task parameters to set MaxDuration,
     /// MaxRetries and service which will called during the session
     /// </param>
@@ -52,8 +49,6 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
                                                           loggerFactory,
                                                           taskOptions);
       SessionId = ClientService.CreateSession(taskOptions);
-
-      ServiceType = serviceType;
 
       ProtoSerializer = new ProtoSerializer();
     }
@@ -91,8 +86,8 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
         object result = methodInfo.Invoke(service,
                                           array);
 
-        var sresult = ProtoSerializer.SerializeMessageObjectArray(new object[] { result });
-        var objects = new ProtoSerializer().DeSerializeMessageObjectArray(sresult);
+        var subResult = ProtoSerializer.SerializeMessageObjectArray(new object[] { result });
+        var objects = new ProtoSerializer().DeSerializeMessageObjectArray(subResult);
 
         return objects?[0];
       }

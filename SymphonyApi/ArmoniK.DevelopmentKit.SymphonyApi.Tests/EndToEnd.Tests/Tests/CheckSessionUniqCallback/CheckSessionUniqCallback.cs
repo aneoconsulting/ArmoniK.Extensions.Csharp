@@ -21,37 +21,27 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading;
-
 using ArmoniK.DevelopmentKit.SymphonyApi;
 using ArmoniK.DevelopmentKit.SymphonyApi.api;
-using ArmoniK.DevelopmentKit.WorkerApi.Common;
 using ArmoniK.EndToEndTests.Common;
-
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
 namespace ArmoniK.EndToEndTests.Tests.CheckSessionUniqCallback
 {
-  public class ServiceContainer : ServiceContainerBase
+  public sealed class ServiceContainer : ServiceContainerBase
   {
-    private readonly IConfiguration configuration_;
-    public           int            countCall;
-    public static    string         resultMessage;
+    private        int    countCall_;
+    private static string _resultMessage;
 
     public ServiceContainer()
     {
-      resultMessage ??= "";
+      _resultMessage ??= "";
 
-      countCall     = 1000000;
-      resultMessage = $"new ServiceContainer Instance : {this.GetHashCode()}\n";
+      countCall_     = 1000000;
+      _resultMessage = $"new ServiceContainer Instance : {this.GetHashCode()}\n";
     }
 
-    private string PrintStates(int resultCalls)
+    private static string PrintStates(int resultCalls)
     {
       // service * 1000000 + session * 100000 + SessionEnter * 1000 + onInvoke * 1)
 
@@ -67,40 +57,37 @@ namespace ArmoniK.EndToEndTests.Tests.CheckSessionUniqCallback
 
 
       return $"Call State :\n\t{createService} createService(s)\n\t{nbOnSessionEnter} sessionEnter(s)\n\t{nbInvoke} nbInvoke(s)";
-
     }
 
     public override void OnCreateService(ServiceContext serviceContext)
     {
       //END USER PLEASE FIXME
-      countCall += 100000;
+      countCall_ += 100000;
       Log.LogInformation($"Call OnCreateService on service [InstanceID : {this.GetHashCode()}]");
-      resultMessage = $"{resultMessage}\nCall OnCreateService on service [InstanceID : {this.GetHashCode()}]";
+      _resultMessage = $"{_resultMessage}\nCall OnCreateService on service [InstanceID : {this.GetHashCode()}]";
     }
 
     public override void OnSessionEnter(SessionContext sessionContext)
     {
       //END USER PLEASE FIXME
-      countCall += 1000;
+      countCall_ += 1000;
       Log.LogInformation($"Call OnSessionEnter on service [InstanceID : {this.GetHashCode()}]");
-      resultMessage = $"{resultMessage}\nCall OnSessionEnter on service [InstanceID : {this.GetHashCode()}]";
-      
+      _resultMessage = $"{_resultMessage}\nCall OnSessionEnter on service [InstanceID : {this.GetHashCode()}]";
     }
 
 
     public override byte[] OnInvoke(SessionContext sessionContext, TaskContext taskContext)
     {
-      countCall += 1;
+      countCall_ += 1;
       Log.LogInformation($"Call OnInvoke on service [InstanceID : {this.GetHashCode()}]");
-      resultMessage = $"{resultMessage}\nCall OnInvoke on service [InstanceID : {this.GetHashCode()}]";
-      var clientPayload = ClientPayload.Deserialize(taskContext.TaskInput);
-      resultMessage = $"{resultMessage}\n{PrintStates(countCall)}";
+      _resultMessage = $"{_resultMessage}\nCall OnInvoke on service [InstanceID : {this.GetHashCode()}]";
+      _resultMessage = $"{_resultMessage}\n{PrintStates(countCall_)}";
 
       return new ClientPayload
         {
-          Type   = ClientPayload.TaskType.Result,
-          Result = countCall,
-          Message = resultMessage,
+          Type    = ClientPayload.TaskType.Result,
+          Result  = countCall_,
+          Message = _resultMessage,
         }
         .Serialize(); //nothing to do
     }

@@ -26,6 +26,7 @@ using System.IO;
 using System.Reflection;
 using System.Runtime.Loader;
 
+using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.Common.Exceptions;
 
 using Microsoft.Extensions.Configuration;

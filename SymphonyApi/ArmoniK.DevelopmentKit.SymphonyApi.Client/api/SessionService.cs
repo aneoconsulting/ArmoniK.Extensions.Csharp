@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using ArmoniK.Core.gRPC.V1;
 using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.Common.Exceptions;
-using ArmoniK.DevelopmentKit.WorkerApi.Common;
 
 using Google.Protobuf;
 
@@ -60,8 +59,8 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client.api
                           TaskOptions                       taskOptions    = null,
                           SessionOptions                    sessionOptions = null)
     {
-      Logger = loggerFactory.CreateLogger<SessionService>();
-
+      Logger        = loggerFactory.CreateLogger<SessionService>();
+      LoggerFactory = loggerFactory;
 
       taskOptions ??= SessionOptions?.DefaultTaskOption;
       taskOptions ??= InitializeDefaultTaskOptions();
@@ -306,7 +305,6 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client.api
     ///   The method to submit sub task inside a parent task
     ///   Use this method only on server side developpement
     /// </summary>
-    /// <param name="session">The session Id to attached the task </param>
     /// <param name="parentTaskId">The task Id of a parent task</param>
     /// <param name="payloads">A lists of payloads creating a list of subTask</param>
     /// <returns>Return a list of taskId</returns>
@@ -343,7 +341,6 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client.api
     ///   The method to submit several tasks with dependencies tasks. This task will wait for
     ///   to start until all dependencies are completed successfully
     /// </summary>
-    /// <param name="session">The session Id where the task will be attached</param>
     /// <param name="payloadWithDependencies">A list of Tuple(taskId, Payload) in dependence of those created tasks</param>
     /// <returns>return a list of taskIds of the created tasks </returns>
     public IEnumerable<string> SubmitTasksWithDependencies(IEnumerable<Tuple<byte[], IList<string>>> payloadWithDependencies)
@@ -385,7 +382,6 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client.api
     ///   The method to submit One SubTask with dependencies tasks. This task will wait for
     ///   to start until all dependencies are completed successfully
     /// </summary>
-    /// <param name="session">The session Id where the task will be attached</param>
     /// <param name="parentId">The parent Task who want to create the SubTask</param>
     /// <param name="payload">The payload to submit</param>
     /// <param name="dependencies">A list of task Id in dependence of this created SubTask</param>
@@ -404,7 +400,6 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client.api
     ///   The method to submit several tasks with dependencies tasks. This task will wait for
     ///   to start until all dependencies are completed successfully
     /// </summary>
-    /// <param name="session">The session Id where the Subtask will be attached</param>
     /// <param name="parentTaskId">The parent Task who want to create the SubTasks</param>
     /// <param name="payloadWithDependencies">A list of Tuple(taskId, Payload) in dependence of those created Subtasks</param>
     /// <returns>return a list of taskIds of the created Subtasks </returns>

@@ -1,22 +1,13 @@
-﻿using System;
+﻿using ArmoniK.Core.gRPC.V1;
+using ArmoniK.DevelopmentKit.Common;
+using Google.Protobuf;
+using Grpc.Net.Client;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
-using ArmoniK.Core.gRPC.V1;
-using ArmoniK.DevelopmentKit.WorkerApi.Common;
-
-using Google.Protobuf;
-using Google.Protobuf.WellKnownTypes;
-
-using Grpc.Net.Client;
-
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
-
-using Serilog;
-using Serilog.Events;
-using Serilog.Extensions.Logging;
 
 namespace ArmoniK.DevelopmentKit.GridServer
 {
@@ -71,6 +62,8 @@ namespace ArmoniK.DevelopmentKit.GridServer
       controlPlanAddress_ = configuration.GetSection(SectionControlPlan);
 
       Logger = loggerFactory.CreateLogger<ArmonikDataSynapseClientService>();
+
+      if (taskOptions != null) TaskOptions = taskOptions;
     }
 
     /// <summary>

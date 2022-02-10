@@ -19,7 +19,7 @@
 
 using System.Collections.Generic;
 
-using ArmoniK.DevelopmentKit.WorkerApi.Common;
+using ArmoniK.DevelopmentKit.Common;
 
 #pragma warning disable CS1591
 

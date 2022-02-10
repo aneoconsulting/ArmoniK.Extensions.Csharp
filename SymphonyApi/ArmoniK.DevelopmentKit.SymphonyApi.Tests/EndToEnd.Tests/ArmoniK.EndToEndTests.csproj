@@ -1,19 +1,18 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
 	<PropertyGroup>
-    <TargetFrameworks>net5.0;net6.0</TargetFrameworks>
+    <TargetFrameworks>net6.0;net5.0</TargetFrameworks>
 		<PackageId>$(MSBuildProjectName)</PackageId>
 		<Version>1.0.0</Version>
 		<Authors>ANEO</Authors>
 		<Company>ANEO</Company>
-		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<AppendRuntimeIdentifierToOutputPath>true</AppendRuntimeIdentifierToOutputPath>
 		<AppendTargetFrameworkToOutputPath>true</AppendTargetFrameworkToOutputPath>
 		<RuntimeIdentifier>win-x64</RuntimeIdentifier>
 		<OutputPath>bin/$(Configuration)/</OutputPath>
 		<PublishDir>../publish/$(MSBuildProjectName)/$(Version)</PublishDir>
 		<PublishUrl>../publish/$(MSBuildProjectName)/$(Version)</PublishUrl>
-		<IsPackable>true</IsPackable>
+
 	</PropertyGroup>
   
 	<PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
@@ -24,28 +23,15 @@
 		<PublishUrl>../publish/$(MSBuildProjectName)/$(Version)</PublishUrl>
 	</PropertyGroup>
   
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net5.0|AnyCPU'">
-    <LangVersion>default</LangVersion>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0|AnyCPU'">
-    <LangVersion>default</LangVersion>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0|AnyCPU'">
-    <LangVersion>default</LangVersion>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net5.0|AnyCPU'">
-    <LangVersion>default</LangVersion>
-  </PropertyGroup>
-
   <ItemGroup>
     <RuntimeHostConfigurationOption Include="System.Globalization.Invariant" Value="true" />
   </ItemGroup>
 
-
   <ItemGroup>
+    <PackageReference Include="Armonik.Api" Version="1.1.2" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net5.0' Or '$(TargetFramework)' == 'net6.0'">
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.0" />
@@ -54,7 +40,6 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.0" />
     <PackageReference Include="Grpc.AspNetCore" Version="2.41.0" />
-    <PackageReference Include="ArmoniK.Api" Version="1.0.0" />
   </ItemGroup>
 
   <!--<ItemGroup>
@@ -66,6 +51,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Common\ArmoniK.DevelopmentKit.Common\ArmoniK.DevelopmentKit.Common.csproj" />
     <ProjectReference Include="..\..\ArmoniK.DevelopmentKit.SymphonyApi.Client\ArmoniK.DevelopmentKit.SymphonyApi.Client.csproj" />
     <ProjectReference Include="..\..\ArmoniK.DevelopmentKit.SymphonyApi\ArmoniK.DevelopmentKit.SymphonyApi.csproj" />
   </ItemGroup>
@@ -73,10 +59,6 @@
   <Target Name="CreateDirectories" AfterTargets="AfterPublish">
     <MakeDir Directories="../packages" />
   </Target>
-
-  <ItemGroup>
-    <PackageReference Include="Armonik.Api" Version="1.0.0-local" />
-  </ItemGroup>
 
 	<Target Name="ZipOutputPath" AfterTargets="CreateDirectories">
 		<ZipDirectory SourceDirectory="../publish/" DestinationFile="../packages/$(MSBuildProjectName)-v$(Version).zip" Overwrite="true" />

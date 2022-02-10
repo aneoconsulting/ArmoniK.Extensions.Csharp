@@ -37,6 +37,7 @@ using Microsoft.Extensions.Logging;
 
 namespace ArmoniK.EndToEndTests.Tests.CheckPriority
 {
+  [Disabled]
   public class CheckPriorityTestsClient : ClientBaseTest<CheckPriorityTestsClient>
   {
     public CheckPriorityTestsClient(IConfiguration configuration, ILoggerFactory loggerFactory) : base(configuration,

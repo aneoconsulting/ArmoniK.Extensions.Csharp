@@ -1,5 +1,6 @@
-﻿using ArmoniK.DevelopmentKit.WorkerApi.Common;
-using System;
+﻿using System;
+
+using ArmoniK.DevelopmentKit.Common;
 
 //TODO : remove pragma
 #pragma warning disable CS1591

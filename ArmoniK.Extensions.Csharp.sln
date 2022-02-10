@@ -27,9 +27,16 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WorkerApi", "WorkerApi", "{
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArmoniK.EndToEndTests", "SymphonyApi\ArmoniK.DevelopmentKit.SymphonyApi.Tests\EndToEnd.Tests\ArmoniK.EndToEndTests.csproj", "{64C50702-824C-460C-80A6-EE1F57E1A96B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArmoniK.DevelopmentKit.GridServer.Common", "DataSynapseApi\ArmoniK.DevelopmentKit.GridServer.Common\ArmoniK.DevelopmentKit.GridServer.Common.csproj", "{10D0A198-0E03-41E9-A0D5-9DC03C6ADCCE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArmoniK.DevelopmentKit.GridServer.Common", "DataSynapseApi\ArmoniK.DevelopmentKit.GridServer.Common\ArmoniK.DevelopmentKit.GridServer.Common.csproj", "{10D0A198-0E03-41E9-A0D5-9DC03C6ADCCE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArmoniK.DevelopmentKit.Common", "Common\ArmoniK.DevelopmentKit.Common\ArmoniK.DevelopmentKit.Common.csproj", "{DFF976DF-D921-4E76-A0D2-012549CC7A0B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArmoniK.DevelopmentKit.Common", "Common\ArmoniK.DevelopmentKit.Common\ArmoniK.DevelopmentKit.Common.csproj", "{DFF976DF-D921-4E76-A0D2-012549CC7A0B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{29622951-3654-41F0-9393-11D6737FD1F0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0977490A-4959-4F0C-BAE6-1EEB38476A1B}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -89,7 +96,8 @@ Global
 		{C4CB5823-7E24-412F-864B-6C26E886F368} = {79DE0448-1BF2-48D2-8A33-243E402CFD27}
 		{64C50702-824C-460C-80A6-EE1F57E1A96B} = {CD412C3D-63D0-4726-B4C3-FEF701E4DCAF}
 		{10D0A198-0E03-41E9-A0D5-9DC03C6ADCCE} = {1A9BCE53-79D0-4761-B3A2-6967B610FA94}
-		{DFF976DF-D921-4E76-A0D2-012549CC7A0B} = {C4CB5823-7E24-412F-864B-6C26E886F368}
+		{DFF976DF-D921-4E76-A0D2-012549CC7A0B} = {29622951-3654-41F0-9393-11D6737FD1F0}
+		{29622951-3654-41F0-9393-11D6737FD1F0} = {79DE0448-1BF2-48D2-8A33-243E402CFD27}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1285A466-2AF6-43E6-8DCC-2F93A5D5F02E}
