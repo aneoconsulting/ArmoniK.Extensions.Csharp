@@ -120,7 +120,7 @@ jobs:
          sudo chown -R $USER:$USER /data
          cp ../packages/ArmoniK.EndToEndTests-v1.0.0.zip /data
 
-         dotnet run -r linux-x64
+         dotnet run -r linux-x64 -f net5.0
 
   tag:
     runs-on: ubuntu-latest
