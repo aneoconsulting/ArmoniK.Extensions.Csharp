@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFrameworks>net5.0;net6.0</TargetFrameworks>
     <Company>ANEO</Company>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <IsPackable>true</IsPackable>
@@ -23,6 +23,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Armonik.Api" Version="1.1.2" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net5.0' Or '$(TargetFramework)' == 'net6.0'">
     <PackageReference Include="Google.Protobuf" Version="3.19.1" />
     <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="6.0.0" />
@@ -37,11 +41,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\WorkerApi\ArmoniK.DevelopmentKit.WorkerApi.Common\ArmoniK.DevelopmentKit.WorkerApi.Common.csproj" />
+    <ProjectReference Include="..\..\Common\ArmoniK.DevelopmentKit.Common\ArmoniK.DevelopmentKit.Common.csproj" />
   </ItemGroup>
 
   <Target Name="DeleteLocalCache" BeforeTargets="Pack">
-    <RemoveDir Directories="$(NugetPackageRoot)/$(PackageId.ToLower())/$(ArmonikVersion)" />
+    <RemoveDir Directories="$(NugetPackageRoot)/$(PackageId.ToLower())/$(Version)" />
   </Target>
 
 </Project>

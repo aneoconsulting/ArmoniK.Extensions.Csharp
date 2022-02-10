@@ -17,7 +17,7 @@
 
 */
 
-using ArmoniK.DevelopmentKit.WorkerApi.Common;
+using ArmoniK.DevelopmentKit.Common;
 
 #pragma warning disable CS1591
 namespace ArmoniK.DevelopmentKit.SymphonyApi

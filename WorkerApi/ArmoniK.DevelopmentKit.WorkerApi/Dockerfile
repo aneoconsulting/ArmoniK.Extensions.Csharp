@@ -11,21 +11,23 @@ RUN mkdir -p /root/.vs-debugger
 WORKDIR /root/.vs-debugger
 
 RUN apt-get update && apt-get install -y curl
-RUN curl -sSL https://aka.ms/getvsdbgsh > getvsdbg.sh
-RUN bash getvsdbg.sh -v vs2019 -r linux-x64 -l vs2019
-RUN bash getvsdbg.sh -v vs2022 -r linux-x64 -l vs2022
+RUN curl -sSL https://aka.ms/getvsdbgsh > GetVsDbg.sh
+RUN bash GetVsDbg.sh -v vs2019 -r linux-x64 -l vs2019
+RUN bash GetVsDbg.sh -v vs2022 -r linux-x64 -l vs2022
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
 COPY ["WorkerApi/ArmoniK.DevelopmentKit.WorkerApi/ArmoniK.DevelopmentKit.WorkerApi.csproj", "WorkerApi/ArmoniK.DevelopmentKit.WorkerApi/"]
+COPY ["Common/ArmoniK.DevelopmentKit.Common/ArmoniK.DevelopmentKit.Common.csproj", "Common/ArmoniK.DevelopmentKit.Common/"]
 COPY ["WorkerApi/ArmoniK.DevelopmentKit.WorkerApi.Common/ArmoniK.DevelopmentKit.WorkerApi.Common.csproj", "WorkerApi/ArmoniK.DevelopmentKit.WorkerApi.Common/"]
 RUN dotnet restore "WorkerApi/ArmoniK.DevelopmentKit.WorkerApi/ArmoniK.DevelopmentKit.WorkerApi.csproj"
 COPY . .
+RUN find \( -iname obj -o -iname bin \) -exec rm -rf {} +
 WORKDIR "/src/WorkerApi/ArmoniK.DevelopmentKit.WorkerApi"
-RUN dotnet build "ArmoniK.DevelopmentKit.WorkerApi.csproj" -c Debug -o /app/build
+RUN dotnet build "ArmoniK.DevelopmentKit.WorkerApi.csproj" -c Debug -f net5.0 -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "ArmoniK.DevelopmentKit.WorkerApi.csproj" -c Debug -o /app/publish -r linux-x64 --self-contained true
+RUN dotnet publish "ArmoniK.DevelopmentKit.WorkerApi.csproj" -c Debug -f net5.0 -o /app/publish -r linux-x64 --self-contained true
 
 FROM base AS final
 WORKDIR /root

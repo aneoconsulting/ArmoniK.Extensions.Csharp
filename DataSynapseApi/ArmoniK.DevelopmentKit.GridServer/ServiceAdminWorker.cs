@@ -16,15 +16,15 @@ namespace ArmoniK.DevelopmentKit.GridServer
     public SessionId SessionId { get; set; }
     public Dictionary<string, Task> TaskWarehouse { get; set; }
 
-    public ArmonikDataSynapseClientService ClientService { get; set; }
+    public ArmonikDataSynapsePollingService ClientService { get; set; }
 
     public string ServiceType { get; set; }
 
     public ServiceAdminWorker(IConfiguration configuration, ILoggerFactory loggerFactory, TaskOptions taskOptions)
     {
-      ClientService = new ArmonikDataSynapseClientService(configuration,
-                                                          loggerFactory,
-                                                          taskOptions);
+      ClientService = new ArmonikDataSynapsePollingService(configuration,
+                                                           loggerFactory,
+                                                           taskOptions);
       SessionId = ClientService.CreateSession(taskOptions);
 
       ServiceType = "ServiceAdmin";

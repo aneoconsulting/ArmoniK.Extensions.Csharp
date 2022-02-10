@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-
-using ArmoniK.Core.gRPC.V1;
-using ArmoniK.DevelopmentKit.WorkerApi.Common;
-
+﻿using ArmoniK.Core.gRPC.V1;
+using ArmoniK.DevelopmentKit.Common;
 using Google.Protobuf.WellKnownTypes;
-
 using Microsoft.Extensions.Configuration;
+using System;
 
 //TODO : remove pragma
 #pragma warning disable CS1591

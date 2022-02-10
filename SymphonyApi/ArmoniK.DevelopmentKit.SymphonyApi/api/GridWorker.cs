@@ -18,24 +18,17 @@
 */
 
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
 using ArmoniK.Attributes;
 using ArmoniK.Core.gRPC.V1;
 using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.SymphonyApi.api;
-using ArmoniK.DevelopmentKit.WorkerApi.Common;
-
-using Google.Protobuf.Collections;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
+using System.Linq;
 
-using Serilog;
-using Serilog.Events;
-using Serilog.Extensions.Logging;
+using ArmoniK.DevelopmentKit.WorkerApi.Common;
 
 #pragma warning disable CS1591
 

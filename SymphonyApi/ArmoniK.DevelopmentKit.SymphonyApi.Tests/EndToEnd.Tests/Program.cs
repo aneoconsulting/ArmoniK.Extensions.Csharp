@@ -21,27 +21,19 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Text.RegularExpressions;
-
-using ArmoniK.Core.gRPC.V1;
-using ArmoniK.DevelopmentKit.SymphonyApi.Client;
-using ArmoniK.DevelopmentKit.SymphonyApi.Client.api;
-using ArmoniK.DevelopmentKit.WorkerApi.Common;
 using ArmoniK.EndToEndTests.Common;
-
-using Google.Protobuf.WellKnownTypes;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
 using Serilog;
 using Serilog.Extensions.Logging;
+
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Reflection;
 
 using Type = System.Type;
 
@@ -53,7 +45,7 @@ namespace ArmoniK.EndToEndTests
     private static ILogger<Program> Logger { get; set; }
     private static ILoggerFactory LoggerFactory { get; set; }
 
-    private static void Main(string[] args)
+    private static void Main()
     {
       Console.WriteLine("Hello Armonik End to End Tests !");
 
@@ -76,16 +68,16 @@ namespace ArmoniK.EndToEndTests
 
       Logger = LoggerFactory.CreateLogger<Program>();
 
-      var client = new ArmonikSymphonyClient(Configuration,
-                                             LoggerFactory);
-
       IEnumerable<TestContext> clientsContainers = RetrieveClientTests();
 
       foreach (var clientContainer in clientsContainers)
       {
+        if (clientContainer.MethodTests == null)
+          continue;
+
         foreach (var methodTest in clientContainer.MethodTests)
         {
-          Logger.LogInformation($"\n\n-------- [TEST] : {clientContainer.ClassCLient} : {methodTest.Name}");
+          Logger.LogInformation($"\n\n-------- [TEST] : {clientContainer.ClassClient} : {methodTest.Name}");
           methodTest.Invoke(clientContainer.ClientClassInstance,
                             null);
         }
@@ -127,7 +119,7 @@ namespace ArmoniK.EndToEndTests
                                                      x.Item2.Any(m => m.GetCustomAttributes<EntryPointAttribute>().Any()))
                                          .Select(x => new TestContext()
                                          {
-                                           ClassCLient = x.Item1,
+                                           ClassClient = x.Item1,
                                            ClientClassInstance = Activator.CreateInstance(x.Item1,
                                                                                           Configuration,
                                                                                           LoggerFactory),
@@ -137,7 +129,7 @@ namespace ArmoniK.EndToEndTests
 
       var retrieveClientTests = results.ToList();
 
-      Logger.LogInformation($"List of tests : \n\t{string.Join("\n\t", retrieveClientTests.Select(x => $"{x.NameSpaceTest}.{x.ClassCLient}"))}");
+      Logger.LogInformation($"List of tests : \n\t{string.Join("\n\t", retrieveClientTests.Select(x => $"{x.NameSpaceTest}.{x.ClassClient}"))}");
 
       return retrieveClientTests;
     }
@@ -154,28 +146,6 @@ namespace ArmoniK.EndToEndTests
                              x.GetCustomAttributes<EntryPointAttribute>().Any() &&
                              !x.IsPrivate)
                  .ToArray();
-    }
-
-    /// <summary>
-    ///   Simple function to wait and get the result from subTasking and result delegation
-    ///   to a subTask
-    /// </summary>
-    /// <param name="sessionService">The sessionService API to connect to the Control plane Service</param>
-    /// <param name="taskId">The task which is waiting for</param>
-    /// <returns></returns>
-    private static byte[] WaitForSubTaskResult(SessionService sessionService, string taskId)
-    {
-      sessionService.WaitSubtasksCompletion(taskId);
-      var taskResult = sessionService.GetResult(taskId);
-      var result     = ClientPayload.Deserialize(taskResult);
-
-      if (!string.IsNullOrEmpty(result.SubTaskId))
-      {
-        sessionService.WaitSubtasksCompletion(result.SubTaskId);
-        taskResult = sessionService.GetResult(result.SubTaskId);
-      }
-
-      return taskResult;
     }
   }
 }

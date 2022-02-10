@@ -30,7 +30,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 
-using ArmoniK.DevelopmentKit.WorkerApi.Common.Exceptions;
+using ArmoniK.DevelopmentKit.Common.Exceptions;
 
 namespace ArmoniK.DevelopmentKit.WorkerApi.Common
 {
@@ -96,20 +96,10 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Common
 
     public static string GetLocalPathToAssembly(string pathToZip)
     {
-      string filePathNoExt;
-      //Remove directory from path
-      try
-      {
-        filePathNoExt = Path.GetFileNameWithoutExtension(pathToZip);
-      }
-      catch (ArgumentException e)
-      {
-        throw new WorkerApiException(e);
-      }
-
       var assemblyInfo    = ExtractNameAndVersion(pathToZip);
-      var assemblyName    = assemblyInfo.ElementAt(0);
-      var assemblyVersion = assemblyInfo.ElementAt(1);
+      var info            = assemblyInfo as string[] ?? assemblyInfo.ToArray();
+      var assemblyName    = info.ElementAt(0);
+      var assemblyVersion = info.ElementAt(1);
       var basePath        = $"{RootAppPath}/{assemblyName}/{assemblyVersion}";
 
       return $"{basePath}/{assemblyName}.dll";
@@ -117,27 +107,16 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Common
 
     /// <summary>
     /// </summary>
-    /// <param name="appVolume"></param>
     /// <param name="assemblyNameFilePath"></param>
     /// <param name="waitForArchiver"></param>
     /// <returns></returns>
     /// <exception cref="WorkerApiException"></exception>
     public static bool ArchiveAlreadyExtracted(string assemblyNameFilePath, int waitForArchiver = 300)
     {
-      string filePathNoExt;
-      //Remove directory from path
-      try
-      {
-        filePathNoExt = Path.GetFileNameWithoutExtension(assemblyNameFilePath);
-      }
-      catch (ArgumentException e)
-      {
-        throw new WorkerApiException(e);
-      }
-
       var assemblyInfo    = ExtractNameAndVersion(assemblyNameFilePath);
-      var assemblyName    = assemblyInfo.ElementAt(0);
-      var assemblyVersion = assemblyInfo.ElementAt(1);
+      var info            = assemblyInfo as string[] ?? assemblyInfo.ToArray();
+      var assemblyName    = info.ElementAt(0);
+      var assemblyVersion = info.ElementAt(1);
       var basePath        = $"{RootAppPath}/{assemblyName}/{assemblyVersion}";
 
       if (Directory.Exists($"{RootAppPath}/{assemblyName}/{assemblyVersion}"))
@@ -181,8 +160,9 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Common
         throw new WorkerApiException("Cannot yet extract or manage raw data other than zip archive");
 
       var assemblyInfo    = ExtractNameAndVersion(assemblyNameFilePath);
-      var assemblyVersion = assemblyInfo.ElementAt(1);
-      var assemblyName    = assemblyInfo.ElementAt(0);
+      var info            = assemblyInfo as string[] ?? assemblyInfo.ToArray();
+      var assemblyVersion = info.ElementAt(1);
+      var assemblyName    = info.ElementAt(0);
 
 
       var pathToAssembly    = $"{RootAppPath}/{assemblyName}/{assemblyVersion}/{assemblyName}.dll";

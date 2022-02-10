@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFrameworks>net5.0;net6.0</TargetFrameworks>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerfileContext>..\..\..\..\..\..\..</DockerfileContext>
     <OutputType>Library</OutputType>
@@ -20,14 +20,13 @@
     <!--<SymbolPackageFormat>snupkg</SymbolPackageFormat>-->
     <DefineConstants>DEBUG;TRACE</DefineConstants>
   </PropertyGroup>
-
+  
   <ItemGroup>
-    <ProjectReference
-      Include="..\..\WorkerApi\ArmoniK.DevelopmentKit.WorkerApi.Common\ArmoniK.DevelopmentKit.WorkerApi.Common.csproj" />
-    <ProjectReference Include="..\ArmoniK.DevelopmentKit.GridServer\ArmoniK.DevelopmentKit.GridServer.csproj" />
+    <PackageReference Include="Armonik.Api" Version="1.1.2" />
   </ItemGroup>
 
-  <ItemGroup>
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net5.0' Or '$(TargetFramework)' == 'net6.0'">
+    <PackageReference Include="JetBrains.Annotations" Version="2021.3.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0" />
@@ -42,6 +41,12 @@
     <PackageReference Include="Serilog.Sinks.Seq" Version="5.1.0" />
     <PackageReference Include="Serilog.Extensions.Hosting" Version="4.2.0" />
     <PackageReference Include="Serilog.AspNetCore" Version="4.1.0" />
+
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Common\ArmoniK.DevelopmentKit.Common\ArmoniK.DevelopmentKit.Common.csproj" />
+    <ProjectReference Include="..\ArmoniK.DevelopmentKit.GridServer.Common\ArmoniK.DevelopmentKit.GridServer.Common.csproj" />
   </ItemGroup>
 
   <Target Name="DeleteLocalCache" BeforeTargets="Pack">

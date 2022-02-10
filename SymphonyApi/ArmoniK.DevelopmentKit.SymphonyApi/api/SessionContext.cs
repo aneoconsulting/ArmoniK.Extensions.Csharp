@@ -17,7 +17,7 @@
 
 */
 
-using ArmoniK.DevelopmentKit.WorkerApi.Common;
+using ArmoniK.DevelopmentKit.Common;
 
 namespace ArmoniK.DevelopmentKit.SymphonyApi
 {

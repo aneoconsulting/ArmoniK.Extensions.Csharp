@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFrameworks>net5.0;net6.0</TargetFrameworks>
     <Company>ANEO</Company>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <IsPackable>true</IsPackable>
@@ -20,7 +20,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ArmoniK.Api" Version="1.0.0" />
+    <PackageReference Include="Armonik.Api" Version="1.1.2" />
+    <PackageReference Include="AWSSDK.S3" Version="3.7.7.19" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net6.0' Or '$(TargetFramework)' == 'net5.0' ">
     <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="6.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.14.0" />
@@ -42,8 +46,12 @@
     <PackageReference Include="JetBrains.Annotations" Version="2021.3.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\Common\ArmoniK.DevelopmentKit.Common\ArmoniK.DevelopmentKit.Common.csproj" />
+  </ItemGroup>
+
   <Target Name="DeleteLocalCache" BeforeTargets="Pack">
-    <RemoveDir Directories="$(NugetPackageRoot)/$(PackageId.ToLower())/$(ArmonikVersion)" />
+    <RemoveDir Directories="$(NugetPackageRoot)/$(PackageId.ToLower())/$(Version)" />
   </Target>
 
 </Project>

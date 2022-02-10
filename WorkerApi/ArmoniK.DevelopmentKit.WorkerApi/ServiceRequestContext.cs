@@ -26,8 +26,8 @@ using System.Collections.Generic;
 
 using ArmoniK.Core.gRPC.V1;
 using ArmoniK.DevelopmentKit.Common;
+using ArmoniK.DevelopmentKit.Common.Exceptions;
 using ArmoniK.DevelopmentKit.WorkerApi.Common;
-using ArmoniK.DevelopmentKit.WorkerApi.Common.Exceptions;
 
 using Google.Protobuf.Collections;
 

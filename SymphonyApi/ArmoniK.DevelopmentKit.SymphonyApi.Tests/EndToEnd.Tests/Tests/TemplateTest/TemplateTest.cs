@@ -21,28 +21,14 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading;
-
 using ArmoniK.DevelopmentKit.SymphonyApi;
 using ArmoniK.DevelopmentKit.SymphonyApi.api;
-using ArmoniK.DevelopmentKit.WorkerApi.Common;
-using ArmoniK.DevelopmentKit.WorkerApi.Common.Exceptions;
 using ArmoniK.EndToEndTests.Common;
-
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 
 namespace ArmoniK.EndToEndTests.Tests.TemplateTest
 {
-  [Disabled]
   public class ServiceContainer : ServiceContainerBase
   {
-    private readonly IConfiguration configuration_;
-
     public override void OnCreateService(ServiceContext serviceContext)
     {
       //END USER PLEASE FIXME
@@ -56,7 +42,7 @@ namespace ArmoniK.EndToEndTests.Tests.TemplateTest
 
     public override byte[] OnInvoke(SessionContext sessionContext, TaskContext taskContext)
     {
-      var clientPayload = ClientPayload.Deserialize(taskContext.TaskInput);
+      _ = ClientPayload.Deserialize(taskContext.TaskInput);
 
       /////////////////// TO SERVER SIDE TEST HERE //////////////////////////////////////////
 

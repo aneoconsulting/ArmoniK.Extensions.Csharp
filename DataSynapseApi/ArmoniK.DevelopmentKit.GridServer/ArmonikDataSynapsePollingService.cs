@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using ArmoniK.Core.gRPC.V1;
+using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.WorkerApi.Common;
 
 using Google.Protobuf;
@@ -29,10 +30,10 @@ namespace ArmoniK.DevelopmentKit.GridServer
   ///   Samples.ArmoniK.Sample.SymphonyClient
   /// </summary>
   [MarkDownDoc]
-  public class ArmonikDataSynapseClientService
+  public class ArmonikDataSynapsePollingService
   {
-    private readonly  IConfigurationSection                    controlPlanAddress_;
-    internal readonly ILogger<ArmonikDataSynapseClientService> Logger;
+    private readonly  IConfigurationSection                     controlPlanAddress_;
+    internal readonly ILogger<ArmonikDataSynapsePollingService> Logger;
     private ClientService.ClientServiceClient ControlPlaneService { get; set; }
 
     /// <summary>
@@ -66,11 +67,11 @@ namespace ArmoniK.DevelopmentKit.GridServer
     /// <param name="configuration">IConfiguration to set Client Data information and Grpc EndPoint</param>
     /// <param name="loggerFactory">The factory to create the logger for clientService</param>
     /// <param name="taskOptions">TaskOptions for any Session</param>
-    public ArmonikDataSynapseClientService(IConfiguration configuration, ILoggerFactory loggerFactory, TaskOptions taskOptions = null)
+    public ArmonikDataSynapsePollingService(IConfiguration configuration, ILoggerFactory loggerFactory, TaskOptions taskOptions = null)
     {
       controlPlanAddress_ = configuration.GetSection(SectionControlPlan);
 
-      Logger = loggerFactory.CreateLogger<ArmonikDataSynapseClientService>();
+      Logger = loggerFactory.CreateLogger<ArmonikDataSynapsePollingService>();
     }
 
     /// <summary>
@@ -349,7 +350,7 @@ namespace ArmoniK.DevelopmentKit.GridServer
     /// <param name="payload">
     /// The user payload to execute.
     /// </param>
-    public static string SubmitTask(this ArmonikDataSynapseClientService client, byte[] payload)
+    public static string SubmitTask(this ArmonikDataSynapsePollingService client, byte[] payload)
     {
       return client.SubmitTasks(new[] { payload })
                    .Single();
@@ -363,7 +364,7 @@ namespace ArmoniK.DevelopmentKit.GridServer
     /// <param name="payload">The payload to submit</param>
     /// <param name="dependencies">A list of task Id in dependence of this created task</param>
     /// <returns>return the taskId of the created task </returns>
-    public static string SubmitTaskWithDependencies(this ArmonikDataSynapseClientService client, byte[] payload, IList<string> dependencies)
+    public static string SubmitTaskWithDependencies(this ArmonikDataSynapsePollingService client, byte[] payload, IList<string> dependencies)
     {
       return client.SubmitTasksWithDependencies(client.SessionId.Session,
                                                 new[]
@@ -379,7 +380,7 @@ namespace ArmoniK.DevelopmentKit.GridServer
     /// <param name="client">The client instance for extension</param>
     /// <param name="taskId">The task Id trying to get result</param>
     /// <returns>Returns the result or byte[0] if there no result</returns>
-    public static byte[] GetResult(this ArmonikDataSynapseClientService client, string taskId)
+    public static byte[] GetResult(this ArmonikDataSynapsePollingService client, string taskId)
     {
       var results = client.GetResults(new List<string>
       {

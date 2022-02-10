@@ -148,12 +148,12 @@ jobs:
          export Grpc__Endpoint=http://$CPIP:$CPPort
 
          cd SymphonyApi/ArmoniK.DevelopmentKit.SymphonyApi.Tests/EndToEnd.Tests/
-         dotnet publish --self-contained -r linux-x64
+         dotnet publish --self-contained -r linux-x64 -f net5.0
 
          sudo chown -R $USER:$USER /data
          cp ../packages/ArmoniK.EndToEndTests-v1.0.0.zip /data
 
-         dotnet run -r linux-x64
+         dotnet run -r linux-x64 -f net5.0
 
   release-packages:
     runs-on: ubuntu-latest

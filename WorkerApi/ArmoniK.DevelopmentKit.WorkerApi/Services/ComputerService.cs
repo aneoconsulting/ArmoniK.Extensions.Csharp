@@ -23,7 +23,6 @@
 
 using ArmoniK.Core.gRPC.V1;
 using ArmoniK.DevelopmentKit.WorkerApi.Common;
-using ArmoniK.DevelopmentKit.WorkerApi.Common.Exceptions;
 
 using Google.Protobuf;
 
@@ -38,6 +37,9 @@ using Serilog.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+
+using ArmoniK.DevelopmentKit.Common;
+using ArmoniK.DevelopmentKit.Common.Exceptions;
 
 namespace ArmoniK.DevelopmentKit.WorkerApi.Services
 {

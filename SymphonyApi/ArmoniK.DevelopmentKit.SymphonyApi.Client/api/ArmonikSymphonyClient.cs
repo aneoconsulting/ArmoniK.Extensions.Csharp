@@ -29,8 +29,6 @@ using System.Threading.Tasks;
 using ArmoniK.Core.gRPC.V1;
 using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.SymphonyApi.Client.api;
-using ArmoniK.DevelopmentKit.WorkerApi.Common;
-using ArmoniK.DevelopmentKit.WorkerApi.Common.Exceptions;
 
 using Google.Protobuf;
 
@@ -65,7 +63,6 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client
     /// </summary>
     /// <param name="configuration">IConfiguration to set Client Data information and Grpc EndPoint</param>
     /// <param name="loggerFactory">Factory to create logger in the client service</param>
-    /// <param name="taskOptions">TaskOptions for any Session</param>
     public ArmonikSymphonyClient(IConfiguration configuration, ILoggerFactory loggerFactory)
     {
       controlPlanAddress_ = configuration.GetSection(SectionControlPlan);

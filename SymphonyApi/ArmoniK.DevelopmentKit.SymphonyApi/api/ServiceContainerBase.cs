@@ -26,9 +26,9 @@ using System.Collections.Generic;
 using System.Linq;
 
 using ArmoniK.Core.gRPC.V1;
+using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.SymphonyApi.Client;
 using ArmoniK.DevelopmentKit.SymphonyApi.Client.api;
-using ArmoniK.DevelopmentKit.WorkerApi.Common;
 
 using JetBrains.Annotations;
 
@@ -148,7 +148,6 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.api
     ///   The user payload list to execute. Generally used for subTasking.
     /// </param>
     /// <param name="parentTaskIds">The parent task Id attaching the subTask</param>
-    [Obsolete]
     public IEnumerable<string> SubmitSubTasks(IEnumerable<byte[]> payloads, string parentTaskIds)
       => SessionService.SubmitSubTasks(parentTaskIds,
                                        payloads);
@@ -167,28 +166,24 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.api
     ///   The method to submit one subtask with dependencies tasks. This task will wait for
     ///   to start until all dependencies are completed successfully
     /// </summary>
-    /// <param name="parentId">The parent Task who want to create the SubTask</param>
     /// <param name="payload">The payload to submit</param>
     /// <param name="dependencies">A list of task Id in dependence of this created SubTask</param>
     /// <returns>return the taskId of the created SubTask </returns>
-    [Obsolete]
-    public string SubmitSubtaskWithDependencies(string parentId, byte[] payload, IList<string> dependencies)
-      => SubmitSubtasksWithDependencies(parentId,
-                                        new[]
-                                        {
-                                          Tuple.Create(payload,
-                                                       dependencies),
-                                        }).Single();
+    public string SubmitSubtaskWithDependencies(byte[] payload, IList<string> dependencies)
+      => SubmitSubtasksWithDependencies(new[]
+      {
+        Tuple.Create(payload,
+                     dependencies),
+      }).Single();
 
     /// <summary>
     ///   The method to submit several tasks with dependencies tasks. This task will wait for
     ///   to start until all dependencies are completed successfully
     /// </summary>
-    /// <param name="parentId"></param>
     /// <param name="payloadWithDependencies">A list of Tuple(taskId, Payload) in dependence of those created Subtasks</param>
     /// <returns>return a list of taskIds of the created subtasks </returns>
-    public IEnumerable<string> SubmitSubtasksWithDependencies(string parentId, IEnumerable<Tuple<byte[], IList<string>>> payloadWithDependencies)
-      => SessionService.SubmitSubtasksWithDependencies(parentId,
+    public IEnumerable<string> SubmitSubtasksWithDependencies(IEnumerable<Tuple<byte[], IList<string>>> payloadWithDependencies)
+      => SessionService.SubmitSubtasksWithDependencies(TaskId,
                                                        payloadWithDependencies);
 
     /// <summary>
@@ -244,7 +239,6 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.api
     public void Configure(IConfiguration configuration, IDictionary<string, string> clientOptions)
     {
       Configuration = configuration;
-
 
       //Append or overwrite Dictionary Options in TaskOptions with one coming from client
       clientOptions.ToList()

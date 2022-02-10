@@ -27,21 +27,19 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 
+using ArmoniK.DevelopmentKit.Common;
+using ArmoniK.DevelopmentKit.Common.Exceptions;
 using ArmoniK.DevelopmentKit.SymphonyApi;
 using ArmoniK.DevelopmentKit.SymphonyApi.api;
 using ArmoniK.DevelopmentKit.WorkerApi.Common;
-using ArmoniK.DevelopmentKit.WorkerApi.Common.Exceptions;
 using ArmoniK.EndToEndTests.Common;
 
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
 namespace ArmoniK.EndToEndTests.Tests.SimpleComputeNSubtasking
 {
   public class ServiceContainer : ServiceContainerBase
   {
-    private readonly IConfiguration configuration_;
-
     public override void OnCreateService(ServiceContext serviceContext)
     {
       //END USER PLEASE FIXME
@@ -112,7 +110,7 @@ namespace ArmoniK.EndToEndTests.Tests.SimpleComputeNSubtasking
       }
     }
 
-    private void _1_Job_of_N_Tasks(TaskContext taskContext, byte[] payload, int nbTasks)
+    private void Job_of_N_Tasks(byte[] payload, int nbTasks)
     {
       var payloads = new List<byte[]>(nbTasks);
       for (var i = 0; i < nbTasks; i++)
@@ -120,7 +118,7 @@ namespace ArmoniK.EndToEndTests.Tests.SimpleComputeNSubtasking
 
       var sw          = Stopwatch.StartNew();
       var finalResult = 0;
-      var taskIds = SubmitTasks(payloads);
+      var taskIds     = SubmitTasks(payloads);
 
       foreach (var taskId in taskIds)
       {
@@ -172,9 +170,8 @@ namespace ArmoniK.EndToEndTests.Tests.SimpleComputeNSubtasking
 
         var bytePayload = newPayload.Serialize();
 
-        _1_Job_of_N_Tasks(taskContext,
-                          bytePayload,
-                          clientPayload.Numbers[0] - 1);
+        Job_of_N_Tasks(bytePayload,
+                       clientPayload.Numbers[0] - 1);
 
         return new ClientPayload
           {

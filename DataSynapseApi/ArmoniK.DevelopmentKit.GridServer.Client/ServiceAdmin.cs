@@ -36,10 +36,10 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
 
     public void UploadResources(string path)
     {
-      DataSynapsePayload payload = new() { DataSynapseRequestType = DataSynapseRequestType.Upload };
-      string             taskId  = ClientService.SubmitTask(payload.Serialize());
+      //DataSynapsePayload payload = new() { ArmonikRequestType = ArmonikRequestType.Upload };
+      //string             taskId  = ClientService.SubmitTask(payload.Serialize());
 
-      ClientService.WaitCompletion(taskId);
+      //ClientService.WaitCompletion(taskId);
     }
 
     public void DeployResources()

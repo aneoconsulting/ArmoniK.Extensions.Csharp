@@ -1,8 +1,7 @@
 ﻿using ArmoniK.Core.gRPC.V1;
+using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.WorkerApi.Common;
 
-//TODO : remove pragma
-#pragma warning disable CS1591
 
 namespace ArmoniK.DevelopmentKit.GridServer
 {

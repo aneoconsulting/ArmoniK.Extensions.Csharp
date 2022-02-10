@@ -21,27 +21,20 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
+using ArmoniK.DevelopmentKit.Common.Exceptions;
+using ArmoniK.DevelopmentKit.SymphonyApi;
+using ArmoniK.DevelopmentKit.SymphonyApi.api;
+using ArmoniK.EndToEndTests.Common;
+using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 
-using ArmoniK.DevelopmentKit.SymphonyApi;
-using ArmoniK.DevelopmentKit.SymphonyApi.api;
-using ArmoniK.DevelopmentKit.WorkerApi.Common;
-using ArmoniK.DevelopmentKit.WorkerApi.Common.Exceptions;
-using ArmoniK.EndToEndTests.Common;
-
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
-
 namespace ArmoniK.EndToEndTests.Tests.CheckPriority
 {
   public class ServiceContainer : ServiceContainerBase
   {
-    private readonly IConfiguration configuration_;
-
     public override void OnCreateService(ServiceContext serviceContext)
     {
       //END USER PLEASE FIXME
@@ -52,38 +45,31 @@ namespace ArmoniK.EndToEndTests.Tests.CheckPriority
       //END USER PLEASE FIXME
     }
 
-    private string _1_Job_of_N_Tasks(TaskContext taskContext, byte[] payload, int nbTasks)
+    private string Job_of_N_Tasks(byte[] payload, int nbTasks)
     {
-      Log.LogInformation($"Executing {nbTasks} Subtasks with Expm1 compute");
+      Log.LogInformation($"Executing {nbTasks} Subtasks with ExpM1 compute");
 
       var payloads = new List<byte[]>(nbTasks);
       for (var i = 0; i < nbTasks; i++)
         payloads.Add(payload);
 
-      var sw          = Stopwatch.StartNew();
-      var finalResult = 0;
-      var taskIds     = SubmitTasks(payloads);
-
-      var enumerable = taskIds as string[] ?? taskIds.ToArray();
-
+      var sw      = Stopwatch.StartNew();
+      var taskIds = SubmitTasks(payloads);
       var newPayload = new ClientPayload()
       {
         Type = ClientPayload.TaskType.Aggregation
       };
-      var aggTaskId = SubmitSubtaskWithDependencies(taskContext.TaskId,
-                                                    newPayload.Serialize(),
+
+      var aggTaskId = SubmitSubtaskWithDependencies(newPayload.Serialize(),
                                                     taskIds.ToList());
       
-
-     
-
       var elapsedMilliseconds = sw.ElapsedMilliseconds;
       Log.LogInformation($"Server called {nbTasks} tasks in {elapsedMilliseconds} ms");
 
       return aggTaskId;
     }
 
-    public double expm1(double x)
+    private static double ExpM1(double x)
     {
       return ((((((((((((((15.0 + x) * x + 210.0) * x + 2730.0) * x + 32760.0) * x + 360360.0) * x + 3603600.0) * x + 32432400.0) * x + 259459200.0) * x +
                    1816214400.0) *
@@ -114,10 +100,10 @@ namespace ArmoniK.EndToEndTests.Tests.CheckPriority
 
       else if (clientPayload.Type == ClientPayload.TaskType.Expm1)
       {
-        Log.LogInformation($"Expm1 task, sessionId : {sessionContext.SessionId}, taskId : {taskContext.TaskId}, sessionId from task : {taskContext.SessionId}");
+        Log.LogInformation($"ExpM1 task, sessionId : {sessionContext.SessionId}, taskId : {taskContext.TaskId}, sessionId from task : {taskContext.SessionId}");
         for (int idx = 10; idx > 0; idx--)
         {
-          expm1(idx);
+          _ = ExpM1(idx);
         }
       }
       else if (clientPayload.Type == ClientPayload.TaskType.Aggregation)
@@ -133,17 +119,15 @@ namespace ArmoniK.EndToEndTests.Tests.CheckPriority
 
         var bytePayload = newPayload.Serialize();
 
-        var aggTaskId = _1_Job_of_N_Tasks(taskContext,
-                          bytePayload,
-                          clientPayload.SingleInput);
+        var aggTaskId = Job_of_N_Tasks(bytePayload,
+                                       clientPayload.SingleInput);
 
         return new ClientPayload
           {
-            Type   = ClientPayload.TaskType.SubTask,
+            Type      = ClientPayload.TaskType.SubTask,
             SubTaskId = aggTaskId
           }
           .Serialize(); //nothing to do
-
       }
       else
       {
@@ -157,32 +141,6 @@ namespace ArmoniK.EndToEndTests.Tests.CheckPriority
           Result = 42,
         }
         .Serialize(); //nothing to do
-    }
-
-    private byte[] AggregateValues(TaskContext taskContext, ClientPayload clientPayload)
-    {
-      Log.LogInformation($"Aggregate Task request result from Dependencies TaskIds : [{string.Join(", ", taskContext.DependenciesTaskIds)}]");
-      var parentResult = GetResult(taskContext.DependenciesTaskIds?.Single());
-
-      if (parentResult == null || parentResult.Length == 0)
-        throw new WorkerApiException($"Cannot retrieve Result from taskId {taskContext.DependenciesTaskIds?.Single()}");
-
-      var parentResultPayload = ClientPayload.Deserialize(parentResult);
-      if (parentResultPayload.SubTaskId != null)
-      {
-        parentResult        = GetResult(parentResultPayload.SubTaskId);
-        parentResultPayload = ClientPayload.Deserialize(parentResult);
-      }
-
-      var value = clientPayload.Result + parentResultPayload.Result;
-
-      ClientPayload childResult = new()
-      {
-        Type   = ClientPayload.TaskType.Result,
-        Result = value,
-      };
-
-      return childResult.Serialize();
     }
 
     public override void OnSessionLeave(SessionContext sessionContext)
