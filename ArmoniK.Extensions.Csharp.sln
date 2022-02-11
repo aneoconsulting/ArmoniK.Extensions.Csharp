@@ -38,7 +38,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArmoniK.Extensions.Common.StreamWrapper", "Common\StreamWrapper\ArmoniK.Extensions.Common.StreamWrapper.csproj", "{FC4C2302-07E4-486B-83C9-639EEEF04171}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArmoniK.Extensions.Common.StreamWrapper", "Common\StreamWrapper\src\ArmoniK.Extensions.Common.StreamWrapper.csproj", "{FC4C2302-07E4-486B-83C9-639EEEF04171}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
