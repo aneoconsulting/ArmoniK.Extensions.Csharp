@@ -151,7 +151,7 @@ jobs:
 
     - name: build
       run: |
-        docker build -t dockerhubaneo/armonik_streamwrapper_test:$VERSION -f Common/StreamWrapper/Dockerfile .
+        docker build -t dockerhubaneo/armonik_streamwrapper_test:$VERSION -f Common/StreamWrapper/tests/Server/Dockerfile .
 
     - name: push
       run: |
