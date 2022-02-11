@@ -38,6 +38,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArmoniK.Extensions.Common.StreamWrapper", "Common\StreamWrapper\ArmoniK.Extensions.Common.StreamWrapper.csproj", "{FC4C2302-07E4-486B-83C9-639EEEF04171}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -80,6 +82,10 @@ Global
 		{DFF976DF-D921-4E76-A0D2-012549CC7A0B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DFF976DF-D921-4E76-A0D2-012549CC7A0B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DFF976DF-D921-4E76-A0D2-012549CC7A0B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC4C2302-07E4-486B-83C9-639EEEF04171}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC4C2302-07E4-486B-83C9-639EEEF04171}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC4C2302-07E4-486B-83C9-639EEEF04171}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC4C2302-07E4-486B-83C9-639EEEF04171}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -98,6 +104,7 @@ Global
 		{10D0A198-0E03-41E9-A0D5-9DC03C6ADCCE} = {1A9BCE53-79D0-4761-B3A2-6967B610FA94}
 		{DFF976DF-D921-4E76-A0D2-012549CC7A0B} = {29622951-3654-41F0-9393-11D6737FD1F0}
 		{29622951-3654-41F0-9393-11D6737FD1F0} = {79DE0448-1BF2-48D2-8A33-243E402CFD27}
+		{FC4C2302-07E4-486B-83C9-639EEEF04171} = {29622951-3654-41F0-9393-11D6737FD1F0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1285A466-2AF6-43E6-8DCC-2F93A5D5F02E}
