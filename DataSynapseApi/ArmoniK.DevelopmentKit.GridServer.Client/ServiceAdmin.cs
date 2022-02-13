@@ -1,14 +1,9 @@
-﻿using System;
+﻿using ArmoniK.Core.gRPC.V1;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-
-using ArmoniK.Core.gRPC.V1;
-
-using Microsoft.Extensions.Configuration;
-
-using System.Text.Json;
-
-using Microsoft.Extensions.Logging;
 
 //TODO : remove pragma
 #pragma warning disable CS1591

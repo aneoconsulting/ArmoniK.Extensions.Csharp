@@ -1,15 +1,22 @@
-﻿using ArmoniK.Core.gRPC.V1;
-using ArmoniK.DevelopmentKit.Common;
-using Google.Protobuf;
+﻿#if NET5_0_OR_GREATER
 using Grpc.Net.Client;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
+#else
+using Grpc.Core;
+#endif
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ArmoniK.DevelopmentKit.GridServer
+using ArmoniK.Core.gRPC.V1;
+using ArmoniK.DevelopmentKit.Common;
+
+using Google.Protobuf;
+
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+
+namespace ArmoniK.DevelopmentKit.GridServer.Client
 {
   /// <summary>
   ///   The main object to communicate with the control Plane from the client side
@@ -92,7 +99,15 @@ namespace ArmoniK.DevelopmentKit.GridServer
 
     private void ControlPlaneConnection()
     {
+#if NET5_0_OR_GREATER
       var channel = GrpcChannel.ForAddress(controlPlanAddress_["Endpoint"]);
+#else
+      Environment.SetEnvironmentVariable("GRPC_DNS_RESOLVER",
+                                         "native");
+      var uri = new Uri(controlPlanAddress_["Endpoint"]);
+      var channel = new Channel($"{uri.Host}:{uri.Port}",
+                                ChannelCredentials.Insecure);
+#endif
       ControlPlaneService ??= new ClientService.ClientServiceClient(channel);
     }
 

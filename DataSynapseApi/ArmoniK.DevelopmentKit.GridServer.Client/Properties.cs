@@ -43,21 +43,14 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
       get { return $"{Protocol}{ConnectionAddress}:{ConnectionPort}"; }
       set
       {
-        string[] composedConnectionString = value.Split("//");
-        if (composedConnectionString == null || composedConnectionString.Length <= 1)
-          throw new ArgumentNullException($"Protocol not found in the ConnectionString");
+        var uri = new Uri(value);
 
-        Protocol = composedConnectionString[0];
+        Protocol = uri.Scheme;
 
-        string[] addressAndPort = composedConnectionString[1].Split(":");
-
-        if (addressAndPort == null || addressAndPort.Length <= 1)
-          throw new ArgumentException("Address and Port should be present in the connectionString");
-
-        ConnectionAddress = addressAndPort[0];
+        ConnectionAddress = uri.Host;
         try
         {
-          ConnectionPort = int.Parse(addressAndPort[1]);
+          ConnectionPort = uri.Port;
         }
         catch (FormatException e)
         {
