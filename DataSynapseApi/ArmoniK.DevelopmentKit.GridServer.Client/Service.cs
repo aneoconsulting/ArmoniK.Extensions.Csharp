@@ -1,5 +1,7 @@
 ﻿using JetBrains.Annotations;
+
 using Microsoft.Extensions.Configuration;
+
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -22,7 +24,23 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
   public class Service : IDisposable
   {
     /// <summary>
-    /// Propoerty Get the SessionId
+    /// Class to return TaskId and the result
+    /// </summary>
+    public class ServiceResult
+    {
+      /// <summary>
+      /// The getter to return the taskId
+      /// </summary>
+      public string TaskId { get; set; }
+
+      /// <summary>
+      /// The getter to return the result in object type format
+      /// </summary>
+      public object Result { get; set; }
+    }
+
+    /// <summary>
+    /// Property Get the SessionId
     /// </summary>
     public SessionId SessionId { get; set; }
 
@@ -63,36 +81,21 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
     /// <returns>Returns an object as result of the method call</returns>
     /// <exception cref="WorkerApiException"></exception>
     [CanBeNull]
-    public object LocalExecute(object service, string methodName, object[] arguments)
+    public ServiceResult LocalExecute(object service, string methodName, object[] arguments)
     {
-      byte[] payload = ProtoSerializer.SerializeMessageObjectArray(new object[] { methodName, arguments });
-
-      object[] functionData = ProtoSerializer.DeSerializeMessageObjectArray(payload);
-
-
-      if (functionData != null && functionData.Length >= 1)
-      {
-        methodName = Convert.ToString(functionData[0]);
-      }
-
-      if (methodName == null) throw new WorkerApiException("Null function");
-
       var methodInfo = service.GetType().GetMethod(methodName);
 
-      object[] array = functionData?[1] as object[];
+      if (methodInfo == null)
+        throw new InvalidOperationException($"MethodName [{methodName}] was not found");
 
-      if (methodInfo != null)
+      var result = methodInfo.Invoke(service,
+                                     arguments);
+
+      return new ServiceResult()
       {
-        object result = methodInfo.Invoke(service,
-                                          array);
-
-        var subResult = ProtoSerializer.SerializeMessageObjectArray(new object[] { result });
-        var objects = new ProtoSerializer().DeSerializeMessageObjectArray(subResult);
-
-        return objects?[0];
-      }
-
-      return null;
+        TaskId = Guid.NewGuid().ToString(),
+        Result = result,
+      };
     }
 
     /// <summary>
@@ -102,42 +105,65 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
     /// <param name="methodName">The string name of the method</param>
     /// <param name="arguments">the array of object to pass as arguments for the method</param>
     /// <returns>Returns a tuple with the taskId string and an object as result of the method call</returns>
-    public Tuple<string, object> Execute(string methodName, object[] arguments)
+    public ServiceResult Execute(string methodName, object[] arguments)
     {
-      byte[] payload = ProtoSerializer.SerializeMessageObjectArray(new object[] { methodName, arguments });
-
-      DataSynapsePayload dataSynapsePayload = new()
+      ArmonikPayload dataSynapsePayload = new()
       {
-        DataSynapseRequestType = DataSynapseRequestType.Execute,
-        ClientPayload          = payload
+        ArmonikRequestType = ArmonikRequestType.Execute,
+        MethodName         = methodName,
+        ClientPayload      = ProtoSerializer.SerializeMessageObjectArray(arguments)
       };
 
       string taskId = ClientService.SubmitTask(dataSynapsePayload.Serialize());
 
       ClientService.WaitCompletion(taskId);
-      var result = new ProtoSerializer().DeSerializeMessageObjectArray(ClientService.GetResult(taskId));
+      var result = ProtoSerializer.DeSerializeMessageObjectArray(ClientService.GetResult(taskId));
 
-      return new Tuple<string, object>(taskId, result?[0]);
+      return new ServiceResult()
+      {
+        TaskId = taskId,
+        Result = result?[0],
+      };
     }
 
     /// <summary>
-    /// The method submit will execute task asynchronously on the server
+    /// This method is used to execute task and waiting after the result.
+    /// the method will return the result of the execution until the grid returns the task result
     /// </summary>
-    /// <param name="methodName">The name of the method inside the service</param>
-    /// <param name="arguments">A list of object that can be passed in parameters of the function</param>
-    /// <param name="handler">The handler callBack implemented as IServiceInvocationHandler to get response or result or error</param>
-    /// <returns>Return the taskId string</returns>
-    public string Submit(string methodName, object[] arguments, IServiceInvocationHandler handler)
+    /// <param name="methodName">The string name of the method</param>
+    /// <param name="arguments">the array of object to pass as arguments for the method</param>
+    /// <returns>Returns a tuple with the taskId string and an object as result of the method call</returns>
+    public ServiceResult Execute(string methodName, byte[] dataArg)
     {
-      byte[] payload = ProtoSerializer.SerializeMessageObjectArray(new object[] { methodName, arguments });
-
-      DataSynapsePayload dataSynapsePayload = new()
+      ArmonikPayload dataSynapsePayload = new()
       {
-        DataSynapseRequestType = DataSynapseRequestType.Execute,
-        ClientPayload          = payload
+        ArmonikRequestType  = ArmonikRequestType.Execute,
+        MethodName          = methodName,
+        ClientPayload       = dataArg,
+        SerializedArguments = true,
       };
 
-      string taskId = ClientService.SubmitTask(dataSynapsePayload.Serialize());
+      var taskId = ClientService.SubmitTask(dataSynapsePayload.Serialize());
+
+      ClientService.WaitCompletion(taskId);
+      var result = ProtoSerializer.DeSerializeMessageObjectArray(ClientService.GetResult(taskId));
+
+      return new ServiceResult()
+      {
+        TaskId = taskId,
+        Result = result?[0],
+      };
+    }
+
+    /// <summary>
+    /// The function submit where all information are already ready to send with class ArmonikPayload
+    /// </summary>
+    /// <param name="dataSynapsePayload">Th armonikPayload to pass with Function name and serialized arguments</param>
+    /// <param name="handler">The handler callBack for Error and response</param>
+    /// <returns>Return the taskId</returns>
+    public string Submit(ArmonikPayload dataSynapsePayload, IServiceInvocationHandler handler)
+    {
+      var taskId = ClientService.SubmitTask(dataSynapsePayload.Serialize());
 
       HandlerResponse = Task.Run(() =>
       {
@@ -145,12 +171,11 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
         {
           ClientService.WaitCompletion(taskId);
           byte[] byteResults = ClientService.GetResult(taskId);
-          var    result      = new ProtoSerializer().DeSerializeMessageObjectArray(ClientService.GetResult(taskId));
+          var    result      = ProtoSerializer.DeSerializeMessageObjectArray(ClientService.GetResult(taskId));
 
 
           handler.HandleResponse(result?[0],
                                  taskId);
-
         }
         catch (Exception e)
         {
@@ -164,6 +189,48 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
       TaskWarehouse[taskId] = HandlerResponse;
 
       return taskId;
+    }
+
+
+    /// <summary>
+    /// The method submit will execute task asynchronously on the server
+    /// </summary>
+    /// <param name="methodName">The name of the method inside the service</param>
+    /// <param name="arguments">A list of object that can be passed in parameters of the function</param>
+    /// <param name="handler">The handler callBack implemented as IServiceInvocationHandler to get response or result or error</param>
+    /// <returns>Return the taskId string</returns>
+    public string Submit(string methodName, object[] arguments, IServiceInvocationHandler handler)
+    {
+      ArmonikPayload dataSynapsePayload = new()
+      {
+        ArmonikRequestType = ArmonikRequestType.Execute,
+        MethodName         = methodName,
+        ClientPayload      = ProtoSerializer.SerializeMessageObjectArray(arguments)
+      };
+
+      return Submit(dataSynapsePayload,
+                    handler);
+    }
+
+    /// <summary>
+    /// The method submit with One serialized argument that will be already serialized for byte[] MethodName(byte[] argument).
+    /// </summary>
+    /// <param name="methodName">The name of the method inside the service</param>
+    /// <param name="argument">One serialized argument that will already serialize for MethodName.</param>
+    /// <param name="handler">The handler callBack implemented as IServiceInvocationHandler to get response or result or error</param>
+    /// <returns>Return the taskId string</returns>
+    public string Submit(string methodName, byte[] argument, IServiceInvocationHandler handler)
+    {
+      ArmonikPayload dataSynapsePayload = new()
+      {
+        ArmonikRequestType  = ArmonikRequestType.Execute,
+        MethodName          = methodName,
+        ClientPayload       = argument,
+        SerializedArguments = true,
+      };
+
+      return Submit(dataSynapsePayload,
+                    handler);
     }
 
     public Task HandlerResponse { get; set; }

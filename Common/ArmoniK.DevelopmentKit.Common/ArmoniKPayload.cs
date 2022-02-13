@@ -1,29 +1,39 @@
 ﻿//TODO : remove pragma
 
+using ProtoBuf;
+
 #pragma warning disable CS1591
 
 namespace ArmoniK.DevelopmentKit.Common
 {
-  public class ArmoniKPayload
+  [ProtoContract]
+  public class ArmonikPayload
   {
+    [ProtoMember(1)]
     public ArmonikRequestType ArmonikRequestType { get; set; }
 
+    [ProtoMember(2)]
+    public string MethodName { get; set; }
+
+    [ProtoMember(3)]
     public byte[] ClientPayload { get; set; }
+
+    [ProtoMember(4)] public bool SerializedArguments { get; set; }
+
+
 
 
     public byte[] Serialize()
     {
-      string jsonString = ProtoSerializer.SerializeMessageObject(this).ToString();
-      return System.Text.Encoding.ASCII.GetBytes(StringToBase64(jsonString));
+      return ProtoSerializer.SerializeMessageObject(this);
     }
 
-    public static ArmoniKPayload Deserialize(byte[] payload)
+    public static ArmonikPayload Deserialize(byte[] payload)
     {
       if (payload == null || payload.Length == 0)
-        return new ArmoniKPayload();
+        return new ArmonikPayload();
 
-      var str = System.Text.Encoding.ASCII.GetString(payload);
-      return ProtoSerializer.Deserialize<ArmoniKPayload>(Base64ToString(str));
+      return ProtoSerializer.Deserialize<ArmonikPayload>(payload);
     }
 
     private static string StringToBase64(string serializedJson)
