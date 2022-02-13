@@ -14,7 +14,7 @@
 		<PublishUrl>../publish/$(MSBuildProjectName)/$(Version)</PublishUrl>
 
 	</PropertyGroup>
-  
+
 	<PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
 		<DebugType>embedded</DebugType>
 		<IncludeSymbols>true</IncludeSymbols>
@@ -22,13 +22,13 @@
 		<PublishDir>../publish/$(MSBuildProjectName)/$(Version)</PublishDir>
 		<PublishUrl>../publish/$(MSBuildProjectName)/$(Version)</PublishUrl>
 	</PropertyGroup>
-  
+
   <ItemGroup>
     <RuntimeHostConfigurationOption Include="System.Globalization.Invariant" Value="true" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Armonik.Api" Version="1.1.2" />
+    <PackageReference Include="Armonik.Api" Version="1.1.4" />
   </ItemGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'net5.0' Or '$(TargetFramework)' == 'net6.0'">
@@ -64,4 +64,4 @@
 		<ZipDirectory SourceDirectory="../publish/" DestinationFile="../packages/$(MSBuildProjectName)-v$(Version).zip" Overwrite="true" />
 	</Target>
 
-</Project> 
+</Project>

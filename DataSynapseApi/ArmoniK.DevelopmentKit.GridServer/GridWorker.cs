@@ -35,7 +35,7 @@ namespace ArmoniK.DevelopmentKit.GridServer
 
     public void Configure(IConfiguration              configuration,
                           IDictionary<string, string> clientOptions,
-                          AppsLoader                  appsLoader)
+                          IAppsLoader                  appsLoader)
     {
       Configurations       = configuration;
       ClientServiceOptions = clientOptions;

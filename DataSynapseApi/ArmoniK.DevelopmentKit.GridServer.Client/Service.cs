@@ -131,7 +131,7 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
     /// the method will return the result of the execution until the grid returns the task result
     /// </summary>
     /// <param name="methodName">The string name of the method</param>
-    /// <param name="arguments">the array of object to pass as arguments for the method</param>
+    /// <param name="dataArg">the array of byte to pass as argument for the methodName(byte[] dataArg)</param>
     /// <returns>Returns a tuple with the taskId string and an object as result of the method call</returns>
     public ServiceResult Execute(string methodName, byte[] dataArg)
     {

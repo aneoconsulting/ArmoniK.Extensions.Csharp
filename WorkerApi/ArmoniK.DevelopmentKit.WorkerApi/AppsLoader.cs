@@ -28,13 +28,14 @@ using System.Runtime.Loader;
 
 using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.Common.Exceptions;
+using ArmoniK.DevelopmentKit.WorkerApi.Common;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-namespace ArmoniK.DevelopmentKit.WorkerApi.Common
+namespace ArmoniK.DevelopmentKit.WorkerApi
 {
-  public class AppsLoader : IDisposable
+  public class AppsLoader : IAppsLoader
   {
     private Assembly assembly_;
 
@@ -191,4 +192,6 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Common
              !pathToZipFile.Equals(PathToZip);
     }
   }
+
+  
 }
