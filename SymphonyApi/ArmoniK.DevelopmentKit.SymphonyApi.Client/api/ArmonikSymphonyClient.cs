@@ -109,9 +109,9 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client
 #if NET5_0_OR_GREATER
       var channel = GrpcChannel.ForAddress(controlPlanAddress_["Endpoint"]);
 #else
+      Environment.SetEnvironmentVariable("GRPC_DNS_RESOLVER", "native");
       var uri = new Uri(controlPlanAddress_["Endpoint"]);
-      var channel = new Channel(uri.Host,
-                                uri.Port,
+      var channel = new Channel($"{uri.Host}:{uri.Port}",
                                 ChannelCredentials.Insecure);
 #endif
       ControlPlaneService ??= new ClientService.ClientServiceClient(channel);
