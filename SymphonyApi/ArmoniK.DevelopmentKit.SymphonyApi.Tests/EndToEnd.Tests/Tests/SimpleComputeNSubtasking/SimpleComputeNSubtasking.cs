@@ -123,7 +123,7 @@ namespace ArmoniK.EndToEndTests.Tests.SimpleComputeNSubtasking
       foreach (var taskId in taskIds)
       {
         var taskResult = GetResult(taskId);
-        finalResult += BitConverter.ToInt32(taskResult);
+        finalResult += BitConverter.ToInt32(taskResult, 0);
       }
 
       var elapsedMilliseconds = sw.ElapsedMilliseconds;
