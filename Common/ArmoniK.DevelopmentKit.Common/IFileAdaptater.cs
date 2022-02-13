@@ -6,12 +6,8 @@ using System.Threading.Tasks;
 
 namespace ArmoniK.DevelopmentKit.Common
 {
-  internal interface IFileAdaptater
+  public interface IFileAdaptater
   {
-
-    public void DownloadFile(string sourceFilePath, string destFilePath)
-    {
-
-    }
+    public void DownloadFile(string sourceFilePath, string destFilePath);
   }
 }

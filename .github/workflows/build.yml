@@ -53,6 +53,7 @@ jobs:
     # find . -name "*.csproj" | xargs -I % echo dotnet build % -c Release
     - name: Build the package
       run: |
+        dotnet build -c Release ./Common/ArmoniK.DevelopmentKit.Common/ArmoniK.DevelopmentKit.Common.csproj
         dotnet build -c Release ./DataSynapseApi/ArmoniK.DevelopmentKit.GridServer/ArmoniK.DevelopmentKit.GridServer.csproj
         dotnet build -c Release ./DataSynapseApi/ArmoniK.DevelopmentKit.GridServer.Client/ArmoniK.DevelopmentKit.GridServer.Client.csproj
         dotnet build -c Release ./SymphonyApi/ArmoniK.DevelopmentKit.SymphonyApi/ArmoniK.DevelopmentKit.SymphonyApi.csproj
@@ -64,6 +65,7 @@ jobs:
     # find . -name "*.csproj" | xargs -I % echo dotnet pack % -c Release -o /tmp/packages -p:PackageVersion=\$GENVERSION
     - name: Pack the package VERSION
       run: |
+        dotnet pack ./Common/ArmoniK.DevelopmentKit.Common/ArmoniK.DevelopmentKit.Common.csproj -c Release -o /tmp/packages -p:PackageVersion=$GENVERSION
         dotnet pack ./DataSynapseApi/ArmoniK.DevelopmentKit.GridServer/ArmoniK.DevelopmentKit.GridServer.csproj -c Release -o /tmp/packages -p:PackageVersion=$GENVERSION
         dotnet pack ./DataSynapseApi/ArmoniK.DevelopmentKit.GridServer.Client/ArmoniK.DevelopmentKit.GridServer.Client.csproj -c Release -o /tmp/packages -p:PackageVersion=$GENVERSION
         dotnet pack ./SymphonyApi/ArmoniK.DevelopmentKit.SymphonyApi/ArmoniK.DevelopmentKit.SymphonyApi.csproj -c Release -o /tmp/packages -p:PackageVersion=$GENVERSION
@@ -80,6 +82,7 @@ jobs:
     - name: Pack the package RELEASE
       if: ${{ github.ref == 'refs/heads/release' }}
       run: |
+        dotnet pack ./Common/ArmoniK.DevelopmentKit.Common/ArmoniK.DevelopmentKit.Common.csproj -c Release -o /tmp/releases -p:PackageVersion=$GENRELEASE
         dotnet pack ./DataSynapseApi/ArmoniK.DevelopmentKit.GridServer/ArmoniK.DevelopmentKit.GridServer.csproj -c Release -o /tmp/releases -p:PackageVersion=$GENRELEASE
         dotnet pack ./DataSynapseApi/ArmoniK.DevelopmentKit.GridServer.Client/ArmoniK.DevelopmentKit.GridServer.Client.csproj -c Release -o /tmp/releases -p:PackageVersion=$GENRELEASE
         dotnet pack ./SymphonyApi/ArmoniK.DevelopmentKit.SymphonyApi/ArmoniK.DevelopmentKit.SymphonyApi.csproj -c Release -o /tmp/releases -p:PackageVersion=$GENRELEASE
@@ -180,13 +183,17 @@ jobs:
       VERSION: ${{ needs.versionning.outputs.version }}
       RELEASE: ${{ needs.versionning.outputs.release }}
     steps:
+      - name: login
+        run: |
+          echo ${{ secrets.DOCKER_HUB_TOKEN }} | docker login -u dhaneo1 --password-stdin
+
       - name: pull
         run: |
           docker pull dockerhubaneo/armonik_worker_dll:$VERSION
 
       - name: tag
         run: |
-          docker tag dockerhubaneo/armonik_worker_dll:$VERSION dockerhubaneo/armonik_worker_dll:RELEASE
+          docker tag dockerhubaneo/armonik_worker_dll:$VERSION dockerhubaneo/armonik_worker_dll:$RELEASE
 
       - name: push
         run: |
@@ -197,7 +204,7 @@ jobs:
     if: ${{ github.ref == 'refs/heads/release' }}
     needs:
       - versionning
-      - testEndToEnd
+      - release-packages
     env:
       RELEASE: ${{ needs.versionning.outputs.release }}
     steps:

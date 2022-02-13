@@ -34,7 +34,7 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Common
 {
   public interface IGridWorker : IDisposable
   {
-    public void Configure(IConfiguration       configuration, IDictionary<string, string> clientOptions, AppsLoader appsLoader);
+    public void Configure(IConfiguration       configuration, IDictionary<string, string> clientOptions, IAppsLoader appsLoader);
     public void InitializeSessionWorker(string sessionId,     IDictionary<string, string> requestTaskOptions);
     public byte[] Execute(string               session,       ComputeRequest              request);
 

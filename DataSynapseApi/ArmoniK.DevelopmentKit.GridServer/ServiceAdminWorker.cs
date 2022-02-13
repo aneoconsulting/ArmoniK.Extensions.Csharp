@@ -6,6 +6,7 @@ using ArmoniK.Core.gRPC.V1;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using ArmoniK.DevelopmentKit.Common;
 
 #pragma warning disable CS1591
 
@@ -32,9 +33,9 @@ namespace ArmoniK.DevelopmentKit.GridServer
 
     public byte[] UploadResources(string path)
     {
-      DataSynapsePayload payload = new()
+      ArmonikPayload payload = new()
       {
-        DataSynapseRequestType = DataSynapseRequestType.Upload
+        ArmonikRequestType = ArmonikRequestType.Upload
       };
       string taskId = ClientService.SubmitTask(payload.Serialize());
 

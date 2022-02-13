@@ -22,24 +22,21 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 using ArmoniK.Core.gRPC.V1;
 using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.SymphonyApi.Client.api;
 
-using Google.Protobuf;
-
+#if NET5_0_OR_GREATER
 using Grpc.Net.Client;
+#else
+using Grpc.Core;
+#endif
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-using Serilog;
-using Serilog.Events;
-using Serilog.Extensions.Logging;
+using System.Collections.Generic;
 
 namespace ArmoniK.DevelopmentKit.SymphonyApi.Client
 {
@@ -54,8 +51,8 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client
   [MarkDownDoc]
   public class ArmonikSymphonyClient
   {
-    private readonly  IConfigurationSection          controlPlanAddress_;
-    internal readonly ILogger<ArmonikSymphonyClient> Logger;
+    private readonly IConfigurationSection          controlPlanAddress_;
+    private readonly ILogger<ArmonikSymphonyClient> Logger;
     private ILoggerFactory LoggerFactory { get; set; }
 
     /// <summary>
@@ -86,7 +83,9 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client
     {
       ControlPlaneConnection();
 
-      return new SessionService(LoggerFactory, ControlPlaneService, taskOptions);
+      return new SessionService(LoggerFactory,
+                                ControlPlaneService,
+                                taskOptions);
     }
 
     /// <summary>
@@ -101,13 +100,21 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client
 
       return new SessionService(LoggerFactory,
                                 ControlPlaneService,
-                                sessionId, clientOptions);
+                                sessionId,
+                                clientOptions);
     }
 
     private void ControlPlaneConnection()
     {
+#if NET5_0_OR_GREATER
       var channel = GrpcChannel.ForAddress(controlPlanAddress_["Endpoint"]);
-      ControlPlaneService ??= new(channel);
+#else
+      Environment.SetEnvironmentVariable("GRPC_DNS_RESOLVER", "native");
+      var uri = new Uri(controlPlanAddress_["Endpoint"]);
+      var channel = new Channel($"{uri.Host}:{uri.Port}",
+                                ChannelCredentials.Insecure);
+#endif
+      ControlPlaneService ??= new ClientService.ClientServiceClient(channel);
     }
   }
 }
