@@ -5,8 +5,6 @@
   </PropertyGroup> -->
 
   <PropertyGroup>
-    <!-- <TargetFrameworks Condition=" '$(IsLinux)' == 'true' ">net5.0;net6.0</TargetFrameworks>
-    <TargetFrameworks Condition=" '$(IsWindows)' == 'true' ">net472;net5.0;net6.0</TargetFrameworks> -->
     <TargetFrameworks>net472;net5.0;net6.0</TargetFrameworks>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerfileContext>..\..\..\..\..\..\..</DockerfileContext>
@@ -25,7 +23,6 @@
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugType>Embedded</DebugType>
     <IncludeSymbols>true</IncludeSymbols>
-    <!--<SymbolPackageFormat>snupkg</SymbolPackageFormat>-->
     <DefineConstants>DEBUG;TRACE</DefineConstants>
   </PropertyGroup>
 
