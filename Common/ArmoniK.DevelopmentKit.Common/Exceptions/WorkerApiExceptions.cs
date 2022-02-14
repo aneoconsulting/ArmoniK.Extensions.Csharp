@@ -62,6 +62,15 @@ namespace ArmoniK.DevelopmentKit.Common.Exceptions
       => message_ = message;
 
     /// <summary>
+    /// The ctor with new message and the previous thrown exception
+    /// </summary>
+    /// <param name="message">The new message that will override the one from the previous exception</param>
+    /// <param name="e">The previous exception</param>
+    public WorkerApiException(string message, Exception e) : base(message,
+                                                                          e)
+      => message_ = message;
+
+    /// <summary>
     /// Overriding the Message property
     /// </summary>
     public override string Message => message_;

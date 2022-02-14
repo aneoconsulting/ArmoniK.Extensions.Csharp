@@ -68,14 +68,14 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Services
       {
         Logger.LogInformation($"Receive new task Session        {request.Session}#{request.Subsession} -> task {request.TaskId}");
         Logger.LogInformation($"Previous Session#SubSession was {ServiceRequestContext.SessionId?.Session ?? "NOT SET"}");
-        SessionId sessionIdCaller = new SessionId()
+        var sessionIdCaller = new SessionId
         {
           Session    = request.Session,
-          SubSession = request.Subsession
+          SubSession = request.Subsession,
         };
 
-        var pathToZipFile =
-          $"{Configuration["target_data_path"]}/{request.TaskOptions[AppsOptions.GridAppNameKey]}-v{request.TaskOptions[AppsOptions.GridAppVersionKey]}.zip";
+        var fileName          = $"{request.TaskOptions[AppsOptions.GridAppNameKey]}-v{request.TaskOptions[AppsOptions.GridAppVersionKey]}.zip";
+        var localDirectoryZip = $"{Configuration["target_data_path"]}";
 
         var engineTypeName = request.TaskOptions.ContainsKey(AppsOptions.EngineTypeNameKey)
           ? request.TaskOptions[AppsOptions.EngineTypeNameKey]
@@ -91,13 +91,17 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Services
           ? request.TaskOptions[AppsOptions.GridAppNamespaceKey]
           : "UnknownNamespaceService avoid previous validation !!";
 
+        var fileAdaptater = ServiceRequestContext.CreateOrGetFileAdaptater(Configuration,
+                                                                           localDirectoryZip);
+
 
         var serviceId = ServiceRequestContext.CreateOrGetArmonikService(Configuration,
                                                                         engineTypeName,
-                                                                        pathToZipFile,
+                                                                        fileAdaptater,
+                                                                        fileName,
                                                                         request.TaskOptions);
 
-        ArmonikServiceWorker serviceWorker = ServiceRequestContext.GetService(serviceId);
+        var serviceWorker = ServiceRequestContext.GetService(serviceId);
 
 
         if (ServiceRequestContext.IsNewSessionId(sessionIdCaller))
