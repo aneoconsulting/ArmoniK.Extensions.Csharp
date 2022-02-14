@@ -81,6 +81,18 @@ namespace ArmoniK.Extensions.Common.StreamWrapper.Tests.Client
         DefaultTaskOption = taskOptions,
         Id                = sessionId,
       });
+      switch (session.ResultCase)
+      {
+        case CreateSessionReply.ResultOneofCase.Error:
+          throw new Exception("Error while creating session : " + session.Error);
+        case CreateSessionReply.ResultOneofCase.None:
+          throw new Exception("Issue with Server !");
+        case CreateSessionReply.ResultOneofCase.Ok:
+          break;
+        default:
+          throw new ArgumentOutOfRangeException();
+      }
+
       Console.WriteLine($"Session Created");
 
       TestPayload payload = new TestPayload
@@ -98,6 +110,8 @@ namespace ArmoniK.Extensions.Common.StreamWrapper.Tests.Client
       await client.CreateTasksAsync(sessionId,
                                     taskOptions,
                                     new[] { req });
+
+      Console.WriteLine($"Task Created");
 
       var resreq = new ResultRequest
       {
