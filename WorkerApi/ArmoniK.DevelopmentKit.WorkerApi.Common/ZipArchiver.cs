@@ -30,6 +30,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 
+using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.Common.Exceptions;
 
 namespace ArmoniK.DevelopmentKit.WorkerApi.Common
@@ -107,39 +108,49 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Common
 
     /// <summary>
     /// </summary>
-    /// <param name="assemblyNameFilePath"></param>
+    /// <param name="fileAdaptater"></param>
+    /// <param name="fileName"></param>
     /// <param name="waitForArchiver"></param>
     /// <returns></returns>
     /// <exception cref="WorkerApiException"></exception>
-    public static bool ArchiveAlreadyExtracted(string assemblyNameFilePath, int waitForArchiver = 300)
+    public static bool ArchiveAlreadyExtracted(IFileAdaptater fileAdaptater, string fileName, int waitForArchiver = 300)
     {
-      var assemblyInfo    = ExtractNameAndVersion(assemblyNameFilePath);
+      var assemblyInfo = ExtractNameAndVersion(Path.Combine(fileAdaptater.DestinationDirPath,
+                                                            fileName));
       var info            = assemblyInfo as string[] ?? assemblyInfo.ToArray();
       var assemblyName    = info.ElementAt(0);
       var assemblyVersion = info.ElementAt(1);
       var basePath        = $"{RootAppPath}/{assemblyName}/{assemblyVersion}";
 
-      if (Directory.Exists($"{RootAppPath}/{assemblyName}/{assemblyVersion}"))
+      //Download File
+      if (!File.Exists(Path.Combine(fileAdaptater.DestinationDirPath,
+                                    fileName)))
       {
-        //Now at least if dll exist or if a lock file exists and wait for unlock
-        if (File.Exists($"{basePath}/{assemblyName}.dll"))
-          return true;
+        fileAdaptater.DownloadFile(fileName);
+      }
 
-        if (File.Exists($"{basePath}/{assemblyName}.lock"))
-        {
-          var retry       = 0;
-          var loopingWait = 2; // 2 secs
 
-          if (waitForArchiver == 0) return true;
+      if (!Directory.Exists($"{RootAppPath}/{assemblyName}/{assemblyVersion}"))
+        return false;
+      
+      //Now at least if dll exist or if a lock file exists and wait for unlock
+      if (File.Exists($"{basePath}/{assemblyName}.dll"))
+        return true;
 
-          while (!File.Exists($"{basePath}/{assemblyName}.lock"))
-          {
-            Thread.Sleep(loopingWait * 1000);
-            retry++;
-            if (retry > waitForArchiver >> 2)
-              throw new WorkerApiException($"Wait for unlock unzip was timeout after {waitForArchiver * 2} seconds");
-          }
-        }
+      if (!File.Exists($"{basePath}/{assemblyName}.lock"))
+        throw new FileNotFoundException($"Cannot find Service. Assembly name {basePath}/{assemblyName}.dll");
+
+      var retry       = 0;
+      var loopingWait = 2; // 2 secs
+
+      if (waitForArchiver == 0) return true;
+
+      while (!File.Exists($"{basePath}/{assemblyName}.lock"))
+      {
+        Thread.Sleep(loopingWait * 1000);
+        retry++;
+        if (retry > waitForArchiver >> 2)
+          throw new WorkerApiException($"Wait for unlock unzip was timeout after {waitForArchiver * 2} seconds");
       }
 
       return false;
@@ -147,19 +158,20 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Common
 
     /// <summary>
     ///   Unzip Archive if the temporary folder doesn't contain the
-    ///   foler convention path should exist in /tmp/{AppName}/{AppVersion/AppName.dll
+    ///   folder convention path should exist in /tmp/packages/{AppName}/{AppVersion/AppName.dll
     /// </summary>
-    /// <param name="assemblyNameFilePath">
+    /// <param name="fileAdaptater">
     ///   The path to the zip file
     ///   Pattern for zip file has to be {AppName}-v{AppVersion}.zip
     /// </param>
+    /// <param name="fileName"></param>
     /// <returns>return string containing the path to the client assembly (.dll) </returns>
-    public static string UnzipArchive(string assemblyNameFilePath)
+    public static string UnzipArchive(IFileAdaptater fileAdaptater, string fileName)
     {
-      if (!IsZipFile(assemblyNameFilePath))
+      if (!IsZipFile(fileName))
         throw new WorkerApiException("Cannot yet extract or manage raw data other than zip archive");
 
-      var assemblyInfo    = ExtractNameAndVersion(assemblyNameFilePath);
+      var assemblyInfo    = ExtractNameAndVersion(fileName);
       var info            = assemblyInfo as string[] ?? assemblyInfo.ToArray();
       var assemblyVersion = info.ElementAt(1);
       var assemblyName    = info.ElementAt(0);
@@ -168,8 +180,7 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Common
       var pathToAssembly    = $"{RootAppPath}/{assemblyName}/{assemblyVersion}/{assemblyName}.dll";
       var pathToAssemblyDir = $"{RootAppPath}/{assemblyName}/{assemblyVersion}";
 
-      if (ArchiveAlreadyExtracted(assemblyNameFilePath,
-                                  0))
+      if (ArchiveAlreadyExtracted(fileAdaptater, fileName, 20))
         return pathToAssembly;
 
       if (!Directory.Exists(pathToAssemblyDir))
@@ -211,7 +222,7 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Common
 
         try
         {
-          ZipFile.ExtractToDirectory(assemblyNameFilePath,
+          ZipFile.ExtractToDirectory(Path.Combine(fileAdaptater.DestinationDirPath, fileName),
                                      RootAppPath);
         }
         catch (Exception e)
@@ -224,6 +235,8 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Common
                             textLength);
         }
       }
+
+      File.Delete(lockFileName);
 
       //Check now if the assembly is present
       if (!File.Exists(pathToAssembly))

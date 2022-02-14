@@ -23,11 +23,13 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 
 using ArmoniK.Core.gRPC.V1;
 using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.Common.Exceptions;
 using ArmoniK.DevelopmentKit.WorkerApi.Common;
+using ArmoniK.DevelopmentKit.WorkerApi.Common.Adaptater;
 
 using Google.Protobuf.Collections;
 
@@ -132,7 +134,8 @@ namespace ArmoniK.DevelopmentKit.WorkerApi
 
     public ServiceId CreateOrGetArmonikService(IConfiguration           configuration,
                                                string                   engineTypeName,
-                                               string                   pathToZipFile,
+                                               IFileAdaptater           fileAdaptater,
+                                               string                   fileName,
                                                MapField<string, string> requestTaskOptions)
     {
       if (!requestTaskOptions.ContainsKey(AppsOptions.GridAppNamespaceKey))
@@ -141,7 +144,8 @@ namespace ArmoniK.DevelopmentKit.WorkerApi
       }
 
       var serviceId = GenerateServiceId(engineTypeName,
-                                        pathToZipFile,
+                                        Path.Combine(fileAdaptater.DestinationDirPath,
+                                                     fileName),
                                         requestTaskOptions[AppsOptions.GridAppNamespaceKey]);
 
       if (ServicesMapper.ContainsKey(serviceId.Key))
@@ -150,7 +154,8 @@ namespace ArmoniK.DevelopmentKit.WorkerApi
       var appsLoader = new AppsLoader(configuration,
                                       LoggerFactory,
                                       engineTypeName,
-                                      pathToZipFile);
+                                      fileAdaptater,
+                                      fileName);
 
       var armonikServiceWorker = new ArmonikServiceWorker()
       {
@@ -158,7 +163,7 @@ namespace ArmoniK.DevelopmentKit.WorkerApi
         GridWorker = appsLoader.GetGridWorkerInstance(configuration,
                                                       LoggerFactory)
       };
-      
+
       ServicesMapper[serviceId.Key] = armonikServiceWorker;
 
       if (!armonikServiceWorker.Initialized)
@@ -176,13 +181,33 @@ namespace ArmoniK.DevelopmentKit.WorkerApi
     }
 
     public static ServiceId GenerateServiceId(string engineTypeName,
-                                              string pathToZipFile,
+                                              string uniqueKey,
                                               string namespaceService)
     {
       return new ServiceId(engineTypeName,
-                                    pathToZipFile,
-                                    namespaceService);
+                           uniqueKey,
+                           namespaceService);
     }
 
+    public static IFileAdaptater CreateOrGetFileAdaptater(IConfiguration configuration, string localDirectoryZip)
+    {
+      var sectionStorage = configuration.GetSection("FileStorageType");
+      if (sectionStorage.Exists() && configuration["FileStorageType"] == "FS")
+      {
+        return new FsAdaptater(localDirectoryZip);
+      }
+
+      if ((sectionStorage.Exists() && configuration["FileStorageType"] == "S3") ||
+          !sectionStorage.Exists())
+      {
+        return new S3Adaptater(configuration.GetSection("S3Storage")["ServiceURL"],
+                               configuration.GetSection("S3Storage")["BucketName"],
+                               configuration.GetSection("S3Storage")["AccessKeyId"],
+                               configuration.GetSection("S3Storage")["SecretAccessKey"],
+                               "");
+      }
+
+      throw new WorkerApiException("Cannot find the FileStorageType in the IConfiguration. Please make sure you have properly set the field [FileStorageType]");
+    }
   }
 }
