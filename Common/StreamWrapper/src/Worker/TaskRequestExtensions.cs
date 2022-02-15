@@ -35,7 +35,6 @@ namespace ArmoniK.Extensions.Common.StreamWrapper.Worker
   [PublicAPI]
   public static class TaskRequestExtensions
   {
-    
     public static IEnumerable<ProcessReply.Types.CreateLargeTaskRequest> ToRequestStream(this IEnumerable<TaskRequest> taskRequests,
                                                                                          TaskOptions                   taskOptions,
                                                                                          int                           chunkMaxSize)
@@ -85,23 +84,18 @@ namespace ArmoniK.Extensions.Common.StreamWrapper.Worker
                    {
                      InitTask = new()
                                 {
-                                  DataDependencies =
-                                  {
-                                    taskRequest.DataDependencies,
-                                  },
-                                  ExpectedOutputKeys =
-                                  {
-                                    taskRequest.ExpectedOutputKeys,
-                                  },
-                                  Id       = taskRequest.Id,
-                                  LastTask = isLast,
-                                  PayloadChunk = new()
-                                                 {
-                                                   DataComplete = taskRequest.Payload.Length < chunkMaxSize,
-                                                   Data = taskRequest.Payload.Length < chunkMaxSize
-                                                            ? taskRequest.Payload
-                                                            : ByteString.CopyFrom(taskRequest.Payload.Span[..chunkMaxSize]),
-                                                 },
+                                  Header = new()
+                                           {
+                                             DataDependencies =
+                                             {
+                                               taskRequest.DataDependencies,
+                                             },
+                                             ExpectedOutputKeys =
+                                             {
+                                               taskRequest.ExpectedOutputKeys,
+                                             },
+                                             Id = taskRequest.Id,
+                                           },
                                 },
                    };
 
@@ -129,6 +123,18 @@ namespace ArmoniK.Extensions.Common.StreamWrapper.Worker
                      };
 
         start = nextStart;
+      }
+
+      if(isLast)
+      {
+        yield return new()
+                    {
+                      InitTask = new()
+                                 {
+                                   LastTask = true,
+                                 },
+                    };
+
       }
     }
   }

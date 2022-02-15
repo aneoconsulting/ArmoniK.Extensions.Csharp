@@ -54,8 +54,11 @@ namespace ArmoniK.Extensions.Common.StreamWrapper.Client
       {
         await stream.RequestStream.WriteAsync(createLargeTaskRequest);
       }
-
     }
+
+
+
+    
 
     public static IEnumerable<CreateLargeTaskRequest> ToRequestStream(this IEnumerable<TaskRequest> taskRequests,
                                                                       string                        sessionId,
@@ -108,30 +111,25 @@ namespace ArmoniK.Extensions.Common.StreamWrapper.Client
                    {
                      InitTask = new()
                                 {
-                                  DataDependencies =
-                                  {
-                                    taskRequest.DataDependencies,
-                                  },
-                                  ExpectedOutputKeys =
-                                  {
-                                    taskRequest.ExpectedOutputKeys,
-                                  },
-                                  Id       = taskRequest.Id,
-                                  LastTask = isLast,
-                                  PayloadChunk = new()
-                                                 {
-                                                   DataComplete = taskRequest.Payload.Length < chunkMaxSize,
-                                                   Data = taskRequest.Payload.Length < chunkMaxSize
-                                                            ? taskRequest.Payload
-                                                            : ByteString.CopyFrom(taskRequest.Payload.Span[..chunkMaxSize]),
-                                                 },
+                                  Header = new()
+                                           {
+                                             DataDependencies =
+                                             {
+                                               taskRequest.DataDependencies,
+                                             },
+                                             ExpectedOutputKeys =
+                                             {
+                                               taskRequest.ExpectedOutputKeys,
+                                             },
+                                             Id       = taskRequest.Id,
+                                           },
                                 },
                    };
 
       if (taskRequest.Payload.Length < chunkMaxSize)
         yield break;
 
-      var start = chunkMaxSize;
+      var start = 0;
 
       while (start < taskRequest.Payload.Length)
       {
@@ -153,6 +151,19 @@ namespace ArmoniK.Extensions.Common.StreamWrapper.Client
 
         start = nextStart;
       }
+
+      if (isLast)
+      {
+        yield return new()
+                    {
+                      InitTask = new()
+                                 {
+                                   LastTask = true,
+                                 },
+                    };
+
+      }
+
     }
   }
 }

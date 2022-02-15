@@ -39,7 +39,7 @@ namespace ArmoniK.Extensions.Common.StreamWrapper.Worker
   {
     public static async Task<TaskHandler> Create(IAsyncStreamReader<ProcessRequest> requestStream,
                                                  IServerStreamWriter<ProcessReply>  responseStream,
-                                                 ConfigurationReply                 configuration,
+                                                 Configuration                 configuration,
                                                  CancellationToken                  cancellationToken)
     {
       var output = new TaskHandler(requestStream,
@@ -56,7 +56,7 @@ namespace ArmoniK.Extensions.Common.StreamWrapper.Worker
 
     private TaskHandler(IAsyncStreamReader<ProcessRequest> requestStream,
                         IServerStreamWriter<ProcessReply>  responseStream,
-                        ConfigurationReply                 configuration,
+                        Configuration                 configuration,
                         CancellationToken                  cancellationToken)
     {
       requestStream_     = requestStream;
@@ -135,11 +135,8 @@ namespace ArmoniK.Extensions.Common.StreamWrapper.Worker
         if (!string.IsNullOrEmpty(initData.Key))
         {
           var chunks    = new List<ByteString>();
-          var dataChunk = initData.DataChunk;
 
-          chunks.Add(dataChunk.Data);
-
-          while (!dataChunk.DataComplete)
+          while(true)
           {
             if (!await requestStream_.MoveNext())
               throw new InvalidOperationException("Request stream ended unexpectedly.");
@@ -148,9 +145,14 @@ namespace ArmoniK.Extensions.Common.StreamWrapper.Worker
                 requestStream_.Current.Compute.TypeCase != ProcessRequest.Types.ComputeRequest.TypeOneofCase.Data)
               throw new InvalidOperationException("Expected a Compute request type with Payload to continue the stream.");
 
-            dataChunk = requestStream_.Current.Compute.Data;
+            var dataChunk = requestStream_.Current.Compute.Data;
 
-            chunks.Add(dataChunk.Data);
+            if(dataChunk.TypeCase == DataChunk.TypeOneofCase.Data)
+              chunks.Add(dataChunk.Data);
+            if(dataChunk.TypeCase == DataChunk.TypeOneofCase.None)
+              throw new InvalidOperationException("Expected a Compute request type with a DataChunk Payload to continue the stream.");
+            if (dataChunk.TypeCase == DataChunk.TypeOneofCase.DataComplete)
+              break;
           }
 
           var size = chunks.Sum(s => s.Length);
@@ -190,7 +192,10 @@ namespace ArmoniK.Extensions.Common.StreamWrapper.Worker
     public IReadOnlyDictionary<string, byte[]> DataDependencies { get; private set; }
 
     /// <inheritdoc />
-    public ConfigurationReply Configuration { get; init; }
+    public IList<string> ExpectedResults { get; set; }
+
+    /// <inheritdoc />
+    public Configuration Configuration { get; init; }
 
     /// <inheritdoc />
     public async Task CreateTasksAsync(IEnumerable<TaskRequest> tasks, TaskOptions taskOptions)
@@ -263,21 +268,13 @@ namespace ArmoniK.Extensions.Common.StreamWrapper.Worker
                                  Init = new()
                                         {
                                           Key = key,
-                                          ResultChunk = new()
-                                                        {
-                                                          DataComplete = data.Length < Configuration.DataChunkMaxSize,
-                                                          Data = data.Length < Configuration.DataChunkMaxSize
-                                                                   ? ByteString.CopyFrom(data)
-                                                                   : ByteString.CopyFrom(data.AsMemory()
-                                                                                             .Span[..Configuration.DataChunkMaxSize]),
-                                                        },
                                         }
                                },
                       RequestId = requestId,
                     };
 
         await responseStream_.WriteAsync(reply);
-        var start = Configuration.DataChunkMaxSize;
+        var start = 0;
 
         while (start < data.Length)
         {
@@ -305,6 +302,19 @@ namespace ArmoniK.Extensions.Common.StreamWrapper.Worker
 
           start = nextStart;
         }
+
+        reply = new()
+                {
+                  Result = new()
+                           {
+                             Init = new()
+                                    {
+                                      LastResult = true,
+                                    },
+                           },
+                };
+
+        await responseStream_.WriteAsync(reply);
 
 
       }
