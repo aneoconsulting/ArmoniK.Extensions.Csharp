@@ -28,6 +28,10 @@ using ArmoniK.Api.gRPC.V1;
 using ArmoniK.Extensions.Common.StreamWrapper.Tests.Common;
 using ArmoniK.Extensions.Common.StreamWrapper.Worker;
 
+using Microsoft.Extensions.Logging;
+
+using TaskStatus = ArmoniK.Api.gRPC.V1.TaskStatus;
+
 namespace ArmoniK.Extensions.Common.StreamWrapper.Tests.Server
 {
   public class WorkerService : WorkerStreamWrapper
@@ -50,18 +54,29 @@ namespace ArmoniK.Extensions.Common.StreamWrapper.Tests.Server
                                  result.Serialize());
           output = new Output
           {
-            Ok = new Empty()
+            Ok = new Empty(),
+            Status = TaskStatus.Completed,
           };
         }
       }
       catch (Exception ex)
       {
-        output.Error = new Output.Types.Error
+        logger_.LogError(ex, "Error while computing task");
+
+        output = new Output
         {
-          Details = ex.StackTrace,
+          Error = new Output.Types.Error
+          {
+            Details = ex.StackTrace,
+          },
+          Status = TaskStatus.Error,
         };
       }
       return Task.FromResult(output);
+    }
+
+    public WorkerService(ILoggerFactory loggerFactory) : base(loggerFactory)
+    {
     }
   }
 }

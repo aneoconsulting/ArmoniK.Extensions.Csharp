@@ -69,8 +69,8 @@ namespace ArmoniK.Extensions.Common.StreamWrapper.Tests.Client
       var channel = GrpcChannel.ForAddress(endpoint);
       var client  = new Submitter.SubmitterClient(channel);
 
-      string sessionId = System.Guid.NewGuid() + "my test session";
-      string taskId    = System.Guid.NewGuid() + "my task";
+      string sessionId = System.Guid.NewGuid() + "mytestsession";
+      string taskId    = System.Guid.NewGuid() + "mytask";
 
       var taskOptions = new TaskOptions
       {
@@ -131,11 +131,7 @@ namespace ArmoniK.Extensions.Common.StreamWrapper.Tests.Client
           throw new ArgumentOutOfRangeException();
       }
 
-      var request = new ResultRequest
-      {
-        Key     = taskId,
-        Session = sessionId,
-      };
+      
 
       var waitForCompletion = client.WaitForCompletion(new WaitRequest
       {
@@ -162,7 +158,13 @@ namespace ArmoniK.Extensions.Common.StreamWrapper.Tests.Client
 
       Console.WriteLine(waitForCompletion.ToString());
 
-      var streamingCall = client.TryGetResultStream(request);
+      var streamingCall = client.TryGetResultStream(new()
+      {
+        Key     = taskId,
+        Session = sessionId,
+      });
+
+      var result = new List<byte>();
 
       try
       {
@@ -171,12 +173,20 @@ namespace ArmoniK.Extensions.Common.StreamWrapper.Tests.Client
           switch (reply.TypeCase)
           {
             case ResultReply.TypeOneofCase.Result:
-            {
-              var resultPayload = TestPayload.Deserialize(reply.Result.Data.ToByteArray());
-
-              Console.WriteLine($"Payload Type : {resultPayload.Type}");
+              if (reply.Result.DataComplete)
+              {
+                var resultPayload = TestPayload.Deserialize(result.ToArray());
+                Console.WriteLine($"Payload Type : {resultPayload.Type}");
+                if (resultPayload.Type == TestPayload.TaskType.Result)
+                {
+                  Console.WriteLine($"Result : {BitConverter.ToInt32(resultPayload.DataBytes)}");
+                }
+              }
+              else
+              {
+                result.AddRange(reply.Result.Data.ToByteArray());
+              }
               break;
-            }
             case ResultReply.TypeOneofCase.None:
               throw new Exception("Issue with Server !");
             case ResultReply.TypeOneofCase.Error:

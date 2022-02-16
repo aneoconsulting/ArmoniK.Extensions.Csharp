@@ -30,11 +30,22 @@ using Grpc.Core;
 
 using JetBrains.Annotations;
 
+using Microsoft.Extensions.Logging;
+
 namespace ArmoniK.Extensions.Common.StreamWrapper.Worker
 {
   [PublicAPI]
   public class WorkerStreamWrapper : Api.gRPC.V1.Worker.WorkerBase
   {
+    public           ILogger<WorkerStreamWrapper> logger_;
+    private readonly ILoggerFactory               loggerFactory_;
+
+    public WorkerStreamWrapper(ILoggerFactory loggerFactory)
+    {
+      logger_ = loggerFactory.CreateLogger<WorkerStreamWrapper>();
+      loggerFactory_ = loggerFactory;
+    }
+
     /// <inheritdoc />
     public sealed override async Task Process(IAsyncStreamReader<ProcessRequest> requestStream,
                                               IServerStreamWriter<ProcessReply>  responseStream,
@@ -46,8 +57,10 @@ namespace ArmoniK.Extensions.Common.StreamWrapper.Worker
                                                  {
                                                    DataChunkMaxSize = 50 * 1024,
                                                  },
-                                                 context.CancellationToken);
+                                                 context.CancellationToken,
+                                                 loggerFactory_.CreateLogger<TaskHandler>());
 
+      logger_.LogDebug("Execute Process");
       var output = await Process(taskHandler);
 
       await responseStream.WriteAsync(new ()

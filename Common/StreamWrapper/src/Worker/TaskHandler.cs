@@ -33,19 +33,23 @@ using Google.Protobuf;
 
 using Grpc.Core;
 
+using Microsoft.Extensions.Logging;
+
 namespace ArmoniK.Extensions.Common.StreamWrapper.Worker
 {
   public class TaskHandler : ITaskHandler
   {
     public static async Task<TaskHandler> Create(IAsyncStreamReader<ProcessRequest> requestStream,
                                                  IServerStreamWriter<ProcessReply>  responseStream,
-                                                 Configuration                 configuration,
-                                                 CancellationToken                  cancellationToken)
+                                                 Configuration                      configuration,
+                                                 CancellationToken                  cancellationToken,
+                                                 ILogger<TaskHandler>               logger)
     {
       var output = new TaskHandler(requestStream,
                                    responseStream,
                                    configuration,
-                                   cancellationToken);
+                                   cancellationToken,
+                                   logger);
       await output.Init();
       return output;
     }
@@ -56,13 +60,15 @@ namespace ArmoniK.Extensions.Common.StreamWrapper.Worker
 
     private TaskHandler(IAsyncStreamReader<ProcessRequest> requestStream,
                         IServerStreamWriter<ProcessReply>  responseStream,
-                        Configuration                 configuration,
-                        CancellationToken                  cancellationToken)
+                        Configuration                      configuration,
+                        CancellationToken                  cancellationToken,
+                        ILogger<TaskHandler>               logger)
     {
       requestStream_     = requestStream;
       responseStream_    = responseStream;
       cancellationToken_ = cancellationToken;
       Configuration      = configuration;
+      logger_            = logger;
     }
 
     protected async Task Init()
@@ -273,6 +279,7 @@ namespace ArmoniK.Extensions.Common.StreamWrapper.Worker
                       RequestId = requestId,
                     };
 
+        logger_.LogTrace(reply.ToString());
         await responseStream_.WriteAsync(reply);
         var start = 0;
 
@@ -281,9 +288,6 @@ namespace ArmoniK.Extensions.Common.StreamWrapper.Worker
           var chunkSize = Math.Min(Configuration.DataChunkMaxSize,
                                    data.Length - start);
 
-          var nextStart = start + chunkSize;
-
-
           reply = new()
                   {
                     Result = new()
@@ -291,17 +295,34 @@ namespace ArmoniK.Extensions.Common.StreamWrapper.Worker
                                Data = new()
                                       {
 
-                                        DataComplete = nextStart < data.Length,
                                         Data = ByteString.CopyFrom(data.AsMemory().Span.Slice(start,
                                                                                               chunkSize)),
                                       },
                              },
+                    RequestId = requestId,
                   };
 
+          logger_.LogTrace(reply.ToString());
           await responseStream_.WriteAsync(reply);
 
-          start = nextStart;
+          start += chunkSize;
         }
+
+        reply = new()
+        {
+          Result = new()
+          {
+            Data = new()
+            {
+
+              DataComplete = true,
+            },
+          },
+          RequestId = requestId,
+        };
+
+        logger_.LogTrace(reply.ToString());
+        await responseStream_.WriteAsync(reply);
 
         reply = new()
                 {
@@ -312,8 +333,10 @@ namespace ArmoniK.Extensions.Common.StreamWrapper.Worker
                                       LastResult = true,
                                     },
                            },
+                    RequestId = requestId,
                 };
 
+        logger_.LogTrace(reply.ToString());
         await responseStream_.WriteAsync(reply);
 
 
@@ -326,6 +349,7 @@ namespace ArmoniK.Extensions.Common.StreamWrapper.Worker
 
     private int messageCounter_;
 
-    private readonly SemaphoreSlim semaphore_ = new(1);
+    private readonly SemaphoreSlim        semaphore_ = new(1);
+    private readonly ILogger<TaskHandler> logger_;
   }
 }
