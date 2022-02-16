@@ -21,10 +21,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 using System;
 using System.Collections.Generic;
-using System.Threading;
 using System.Threading.Tasks;
 
 using ArmoniK.Api.gRPC.V1;
@@ -38,25 +36,14 @@ using Grpc.Core;
 using Grpc.Net.Client;
 
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using Microsoft.VisualStudio.TestPlatform.Common.Interfaces;
 
 using NUnit.Framework;
-
-using Serilog;
-using Serilog.Formatting.Compact;
-
-using TaskStatus = ArmoniK.Api.gRPC.V1.TaskStatus;
 
 namespace ArmoniK.Extensions.Common.StreamWrapper.Tests.Client
 {
   [TestFixture]
   internal class StreamWrapperTests
   {
-    private Submitter.SubmitterClient client_;
-
     [SetUp]
     public void SetUp()
     {
@@ -72,16 +59,19 @@ namespace ArmoniK.Extensions.Common.StreamWrapper.Tests.Client
 
       Console.WriteLine($"endpoint : {endpoint}");
       var channel = GrpcChannel.ForAddress(endpoint);
-      client_  = new Submitter.SubmitterClient(channel);
-
+      client_ = new Submitter.SubmitterClient(channel);
     }
 
-    [TestCase(2, ExpectedResult = 4)]
-    [TestCase(4, ExpectedResult = 16)]
+    private Submitter.SubmitterClient client_;
+
+    [TestCase(2,
+              ExpectedResult = 4)]
+    [TestCase(4,
+              ExpectedResult = 16)]
     public async Task<int> Square(int input)
     {
-      string sessionId = System.Guid.NewGuid() + "mytestsession";
-      string taskId    = System.Guid.NewGuid() + "mytask";
+      var sessionId = Guid.NewGuid() + "mytestsession";
+      var taskId    = Guid.NewGuid() + "mytask";
 
       var taskOptions = new TaskOptions
       {
@@ -90,7 +80,7 @@ namespace ArmoniK.Extensions.Common.StreamWrapper.Tests.Client
         Priority    = 1,
       };
 
-      Console.WriteLine($"Creating Session");
+      Console.WriteLine("Creating Session");
       var session = client_.CreateSession(new CreateSessionRequest
       {
         DefaultTaskOption = taskOptions,
@@ -110,7 +100,7 @@ namespace ArmoniK.Extensions.Common.StreamWrapper.Tests.Client
 
       Console.WriteLine("Session Created");
 
-      TestPayload payload = new TestPayload
+      var payload = new TestPayload
       {
         Type      = TestPayload.TaskType.Compute,
         DataBytes = BitConverter.GetBytes(input),
@@ -120,14 +110,17 @@ namespace ArmoniK.Extensions.Common.StreamWrapper.Tests.Client
       {
         Id      = taskId,
         Payload = ByteString.CopyFrom(payload.Serialize()),
-        ExpectedOutputKeys = { taskId },
+        ExpectedOutputKeys =
+        {
+          taskId,
+        },
       };
 
       Console.WriteLine("TaskRequest Created");
 
       var createTaskReply = await client_.CreateTasksAsync(sessionId,
-                                    taskOptions,
-                                    new[] { req });
+                                                           taskOptions,
+                                                           new[] { req });
 
       switch (createTaskReply.DataCase)
       {
@@ -162,12 +155,12 @@ namespace ArmoniK.Extensions.Common.StreamWrapper.Tests.Client
           //},
         },
         StopOnFirstTaskCancellation = true,
-        StopOnFirstTaskError = true,
+        StopOnFirstTaskError        = true,
       });
 
       Console.WriteLine(waitForCompletion.ToString());
 
-      var streamingCall = client_.TryGetResultStream(new()
+      var streamingCall = client_.TryGetResultStream(new ResultRequest
       {
         Key     = taskId,
         Session = sessionId,
@@ -178,7 +171,6 @@ namespace ArmoniK.Extensions.Common.StreamWrapper.Tests.Client
       try
       {
         await foreach (var reply in streamingCall.ResponseStream.ReadAllAsync())
-        {
           switch (reply.TypeCase)
           {
             case ResultReply.TypeOneofCase.Result:
@@ -197,6 +189,7 @@ namespace ArmoniK.Extensions.Common.StreamWrapper.Tests.Client
               {
                 result.AddRange(reply.Result.Data.ToByteArray());
               }
+
               break;
             case ResultReply.TypeOneofCase.None:
               throw new Exception("Issue with Server !");
@@ -207,12 +200,12 @@ namespace ArmoniK.Extensions.Common.StreamWrapper.Tests.Client
             default:
               throw new ArgumentOutOfRangeException();
           }
-        }
       }
       catch (RpcException ex) when (ex.StatusCode == StatusCode.Cancelled)
       {
         Console.WriteLine("Stream cancelled.");
       }
+
       return 0;
     }
   }
