@@ -37,11 +37,11 @@ namespace ArmoniK.Extensions.Common.StreamWrapper.Client
   [PublicAPI]
   public static class SubmitterClientExt
   {
-    public static async Task CreateTasksAsync(this Submitter.SubmitterClient client,
-                                              string                         sessionId,
-                                              TaskOptions                    taskOptions,
-                                              IEnumerable<TaskRequest>       taskRequests,
-                                              CancellationToken              cancellationToken = default)
+    public static async Task<CreateTaskReply> CreateTasksAsync(this Submitter.SubmitterClient client,
+                                                               string                         sessionId,
+                                                               TaskOptions                    taskOptions,
+                                                               IEnumerable<TaskRequest>       taskRequests,
+                                                               CancellationToken              cancellationToken = default)
     {
       var serviceConfiguration = await client.GetServiceConfigurationAsync(new(),
                                                                            cancellationToken: cancellationToken);
@@ -54,6 +54,8 @@ namespace ArmoniK.Extensions.Common.StreamWrapper.Client
       {
         await stream.RequestStream.WriteAsync(createLargeTaskRequest);
       }
+
+      return await stream.ResponseAsync;
     }
 
 
@@ -126,9 +128,6 @@ namespace ArmoniK.Extensions.Common.StreamWrapper.Client
                                 },
                    };
 
-      if (taskRequest.Payload.Length < chunkMaxSize)
-        yield break;
-
       var start = 0;
 
       while (start < taskRequest.Payload.Length)
@@ -136,21 +135,25 @@ namespace ArmoniK.Extensions.Common.StreamWrapper.Client
         var chunkSize = Math.Min(chunkMaxSize,
                                  taskRequest.Payload.Length - start);
 
-        var nextStart = start + chunkSize;
-
-
         yield return new()
                      {
                        TaskPayload = new()
                                      {
-                                       DataComplete = nextStart < taskRequest.Payload.Length,
                                        Data = ByteString.CopyFrom(taskRequest.Payload.Span.Slice(start,
                                                                                                  chunkSize)),
                                      },
                      };
 
-        start = nextStart;
+        start += chunkSize;
       }
+
+      yield return new()
+      {
+        TaskPayload = new()
+        {
+          DataComplete = true,
+        },
+      };
 
       if (isLast)
       {

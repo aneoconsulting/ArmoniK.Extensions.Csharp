@@ -40,12 +40,12 @@ namespace ArmoniK.Extensions.Common.StreamWrapper.Worker
                                                                                          int                           chunkMaxSize)
     {
       yield return new()
-                   {
-                     InitRequest = new()
-                                   {
-                                     TaskOptions = taskOptions,
-                                   },
-                   };
+      {
+        InitRequest = new()
+        {
+          TaskOptions = taskOptions,
+        },
+      };
 
       using var taskRequestEnumerator = taskRequests.GetEnumerator();
 
@@ -81,61 +81,63 @@ namespace ArmoniK.Extensions.Common.StreamWrapper.Worker
                                                                                          int              chunkMaxSize)
     {
       yield return new()
-                   {
-                     InitTask = new()
-                                {
-                                  Header = new()
-                                           {
-                                             DataDependencies =
-                                             {
-                                               taskRequest.DataDependencies,
-                                             },
-                                             ExpectedOutputKeys =
-                                             {
-                                               taskRequest.ExpectedOutputKeys,
-                                             },
-                                             Id = taskRequest.Id,
-                                           },
-                                },
-                   };
+      {
+        InitTask = new()
+        {
+          Header = new()
+          {
+            DataDependencies =
+            {
+              taskRequest.DataDependencies,
+            },
+            ExpectedOutputKeys =
+            {
+              taskRequest.ExpectedOutputKeys,
+            },
+            Id = taskRequest.Id,
+          },
+        },
+      };
 
-      if (taskRequest.Payload.Length < chunkMaxSize)
-        yield break;
-
-      var start = chunkMaxSize;
+      var start = 0;
 
       while (start < taskRequest.Payload.Length)
       {
         var chunkSize = Math.Min(chunkMaxSize,
                                  taskRequest.Payload.Length - start);
 
-        var nextStart = start + chunkSize;
-
-
         yield return new()
-                     {
-                       TaskPayload = new()
-                                     {
-                                       DataComplete = nextStart < taskRequest.Payload.Length,
-                                       Data = ByteString.CopyFrom(taskRequest.Payload.Span.Slice(start,
-                                                                                                 chunkSize)),
-                                     },
-                     };
+        {
+          TaskPayload = new()
+          {
+            Data = ByteString.CopyFrom(taskRequest.Payload.Span.Slice(start,
+                                                                      chunkSize)),
+          },
+        };
 
-        start = nextStart;
+        start += chunkSize;
       }
 
-      if(isLast)
+      yield return new()
+      {
+        TaskPayload = new()
+        {
+          DataComplete = true,
+        },
+      };
+
+      if (isLast)
       {
         yield return new()
-                    {
-                      InitTask = new()
-                                 {
-                                   LastTask = true,
-                                 },
-                    };
+        {
+          InitTask = new()
+          {
+            LastTask = true,
+          },
+        };
 
       }
+
     }
   }
 }

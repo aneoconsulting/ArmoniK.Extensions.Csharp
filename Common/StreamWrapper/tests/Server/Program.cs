@@ -33,6 +33,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
 using Serilog;
+using Serilog.Formatting.Compact;
 
 namespace ArmoniK.Extensions.Common.StreamWrapper.Tests.Server
 {
@@ -42,15 +43,9 @@ namespace ArmoniK.Extensions.Common.StreamWrapper.Tests.Server
 
     public static int Main(string[] args)
     {
-      Log.Logger = new LoggerConfiguration()
-                   .Enrich.FromLogContext()
-                   .WriteTo.Console()
-                   .CreateBootstrapLogger();
-
       try
       {
         Log.Information("Starting web host");
-
 
         var builder = WebApplication.CreateBuilder(args);
 
@@ -62,20 +57,16 @@ namespace ArmoniK.Extensions.Common.StreamWrapper.Tests.Server
                .AddEnvironmentVariables()
                .AddCommandLine(args);
 
-        builder.Logging.AddSerilog();
+        Log.Logger = new LoggerConfiguration().ReadFrom.Configuration(builder.Configuration)
+                                              .WriteTo.Console(new CompactJsonFormatter())
+                                              .Enrich.FromLogContext()
+                                              .CreateLogger();
 
-        var serilogLogger = new LoggerConfiguration().ReadFrom.Configuration(builder.Configuration)
-                                                     .Enrich.FromLogContext()
-                                                     .CreateLogger();
-
-        var loggerFactory = LoggerFactory.Create(loggingBuilder => loggingBuilder.AddSerilog(serilogLogger));
+        var loggerFactory = LoggerFactory.Create(loggingBuilder => loggingBuilder.AddSerilog(Log.Logger));
         var logger        = loggerFactory.CreateLogger("root");
 
         builder.Host
-               .UseSerilog((context, services, config)
-                             => config.ReadFrom.Configuration(context.Configuration)
-                                      .ReadFrom.Services(services)
-                                      .Enrich.FromLogContext());
+               .UseSerilog(Log.Logger);
 
         builder.WebHost.ConfigureKestrel(options =>
         {
