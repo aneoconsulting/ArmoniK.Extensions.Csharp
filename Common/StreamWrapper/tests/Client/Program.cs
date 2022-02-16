@@ -41,6 +41,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.VisualStudio.TestPlatform.Common.Interfaces;
+
+using NUnit.Framework;
 
 using Serilog;
 using Serilog.Formatting.Compact;
@@ -49,26 +52,34 @@ using TaskStatus = ArmoniK.Api.gRPC.V1.TaskStatus;
 
 namespace ArmoniK.Extensions.Common.StreamWrapper.Tests.Client
 {
-  internal class Program
+  [TestFixture]
+  internal class StreamWrapperTests
   {
-    public static void Main(string[] args)
-    {
-      Run().GetAwaiter().GetResult();
-    }
+    private Submitter.SubmitterClient client_;
 
-    public static async Task Run()
+    [SetUp]
+    public void SetUp()
     {
-      Console.WriteLine("Hello Test");
+      Dictionary<string, string> baseConfig = new()
+      {
+        { "Grpc:Endpoint", "http://localhost:5001" },
+      };
 
-      var builder              = new ConfigurationBuilder().AddEnvironmentVariables();
+      var builder              = new ConfigurationBuilder().AddInMemoryCollection(baseConfig).AddEnvironmentVariables();
       var configuration        = builder.Build();
       var configurationSection = configuration.GetSection(Options.Grpc.SettingSection);
       var endpoint             = configurationSection.GetValue<string>("Endpoint");
 
       Console.WriteLine($"endpoint : {endpoint}");
       var channel = GrpcChannel.ForAddress(endpoint);
-      var client  = new Submitter.SubmitterClient(channel);
+      client_  = new Submitter.SubmitterClient(channel);
 
+    }
+
+    [TestCase(2, ExpectedResult = 4)]
+    [TestCase(4, ExpectedResult = 16)]
+    public async Task<int> Square(int input)
+    {
       string sessionId = System.Guid.NewGuid() + "mytestsession";
       string taskId    = System.Guid.NewGuid() + "mytask";
 
@@ -80,7 +91,7 @@ namespace ArmoniK.Extensions.Common.StreamWrapper.Tests.Client
       };
 
       Console.WriteLine($"Creating Session");
-      var session = client.CreateSession(new CreateSessionRequest
+      var session = client_.CreateSession(new CreateSessionRequest
       {
         DefaultTaskOption = taskOptions,
         Id                = sessionId,
@@ -102,7 +113,7 @@ namespace ArmoniK.Extensions.Common.StreamWrapper.Tests.Client
       TestPayload payload = new TestPayload
       {
         Type      = TestPayload.TaskType.Compute,
-        DataBytes = BitConverter.GetBytes(2),
+        DataBytes = BitConverter.GetBytes(input),
       };
 
       var req = new TaskRequest
@@ -114,7 +125,7 @@ namespace ArmoniK.Extensions.Common.StreamWrapper.Tests.Client
 
       Console.WriteLine("TaskRequest Created");
 
-      var createTaskReply = await client.CreateTasksAsync(sessionId,
+      var createTaskReply = await client_.CreateTasksAsync(sessionId,
                                     taskOptions,
                                     new[] { req });
 
@@ -131,9 +142,7 @@ namespace ArmoniK.Extensions.Common.StreamWrapper.Tests.Client
           throw new ArgumentOutOfRangeException();
       }
 
-      
-
-      var waitForCompletion = client.WaitForCompletion(new WaitRequest
+      var waitForCompletion = client_.WaitForCompletion(new WaitRequest
       {
         Filter = new TaskFilter
         {
@@ -158,7 +167,7 @@ namespace ArmoniK.Extensions.Common.StreamWrapper.Tests.Client
 
       Console.WriteLine(waitForCompletion.ToString());
 
-      var streamingCall = client.TryGetResultStream(new()
+      var streamingCall = client_.TryGetResultStream(new()
       {
         Key     = taskId,
         Session = sessionId,
@@ -179,7 +188,9 @@ namespace ArmoniK.Extensions.Common.StreamWrapper.Tests.Client
                 Console.WriteLine($"Payload Type : {resultPayload.Type}");
                 if (resultPayload.Type == TestPayload.TaskType.Result)
                 {
-                  Console.WriteLine($"Result : {BitConverter.ToInt32(resultPayload.DataBytes)}");
+                  var output = BitConverter.ToInt32(resultPayload.DataBytes);
+                  Console.WriteLine($"Result : {output}");
+                  return output;
                 }
               }
               else
@@ -202,6 +213,7 @@ namespace ArmoniK.Extensions.Common.StreamWrapper.Tests.Client
       {
         Console.WriteLine("Stream cancelled.");
       }
+      return 0;
     }
   }
 }

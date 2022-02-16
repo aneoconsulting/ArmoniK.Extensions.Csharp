@@ -31,6 +31,9 @@
 	  <PackageReference Include="Serilog.Settings.Configuration" Version="3.3.0" />
 	  <PackageReference Include="Serilog.Sinks.Console" Version="4.0.1" />
 	  <PackageReference Include="Serilog.Formatting.Compact" Version="1.1.0" />
+	  <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.0.0" />
+	  <PackageReference Include="NUnit" Version="3.13.2" />
+	  <PackageReference Include="NUnit3TestAdapter" Version="4.2.0" />
 	</ItemGroup>
 
 	<ItemGroup>
