@@ -11,11 +11,15 @@ namespace ArmoniK.Extensions.Common.StreamWrapper.Tests.Common
       Undefined,
       None,
       Compute,
+      Error,
+      Transfer,
     }
 
     public byte [] DataBytes { get; set; }
 
     public TaskType Type { get; set; }
+
+    public string ResultKey { get; set; }
 
     public byte[] Serialize()
     {

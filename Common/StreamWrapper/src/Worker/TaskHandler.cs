@@ -81,9 +81,10 @@ namespace ArmoniK.Extensions.Common.StreamWrapper.Worker
         throw new InvalidOperationException("Expected a Compute request type with InitRequest to start the stream.");
 
       var initRequest = requestStream_.Current.Compute.InitRequest;
-      SessionId   = initRequest.SessionId;
-      TaskId      = initRequest.TaskId;
-      TaskOptions = initRequest.TaskOptions;
+      SessionId       = initRequest.SessionId;
+      TaskId          = initRequest.TaskId;
+      TaskOptions     = initRequest.TaskOptions;
+      ExpectedResults = initRequest.ExpectedOutputKeys;
 
       if (initRequest.Payload.DataComplete)
         Payload = initRequest.Payload.Data.ToByteArray();

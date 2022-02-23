@@ -28,6 +28,8 @@ using ArmoniK.Api.gRPC.V1;
 using ArmoniK.Extensions.Common.StreamWrapper.Tests.Common;
 using ArmoniK.Extensions.Common.StreamWrapper.Worker;
 
+using Google.Protobuf;
+
 using Microsoft.Extensions.Logging;
 
 using TaskStatus = ArmoniK.Api.gRPC.V1.TaskStatus;
@@ -36,27 +38,66 @@ namespace ArmoniK.Extensions.Common.StreamWrapper.Tests.Server
 {
   public class WorkerService : WorkerStreamWrapper
   {
-    public override Task<Output> Process(ITaskHandler taskHandler)
+    public override async Task<Output> Process(ITaskHandler taskHandler)
     {
       var output = new Output();
+      logger_.LogDebug("ExpectedResults {expectedResults}", taskHandler.ExpectedResults);
       try
       {
         var payload = TestPayload.Deserialize(taskHandler.Payload);
-        if (payload != null && payload.Type == TestPayload.TaskType.Compute)
+        if (payload != null)
         {
-          int input = BitConverter.ToInt32(payload.DataBytes);
-          var result = new TestPayload
+          switch (payload.Type)
           {
-            Type      = TestPayload.TaskType.Result,
-            DataBytes = BitConverter.GetBytes(input * input),
-          };
-          taskHandler.SendResult(taskHandler.TaskId,
-                                 result.Serialize());
-          output = new Output
-          {
-            Ok = new Empty(),
-            Status = TaskStatus.Completed,
-          };
+            case TestPayload.TaskType.Compute:
+            {
+              int input = BitConverter.ToInt32(payload.DataBytes);
+              var result = new TestPayload
+              {
+                Type      = TestPayload.TaskType.Result,
+                DataBytes = BitConverter.GetBytes(input * input),
+              };
+              await taskHandler.SendResult(payload.ResultKey,
+                                           result.Serialize());
+              output = new Output
+              {
+                Ok     = new Empty(),
+                Status = TaskStatus.Completed,
+              };
+              break;
+            }
+            case TestPayload.TaskType.Result:
+              break;
+            case TestPayload.TaskType.Undefined:
+              break;
+            case TestPayload.TaskType.None:
+              break;
+            case TestPayload.TaskType.Error:
+              throw new Exception("Expected exception in Task");
+            case TestPayload.TaskType.Transfer:
+              var taskId = "transfer" + Guid.NewGuid();
+
+              payload.Type = TestPayload.TaskType.Compute;
+              var req = new TaskRequest
+              {
+                Id      = taskId,
+                Payload = ByteString.CopyFrom(payload.Serialize()),
+                ExpectedOutputKeys =
+                {
+                  payload.ResultKey,
+                },
+              };
+              await taskHandler.CreateTasksAsync(new[] { req });
+              logger_.LogDebug("Sub Task created : {subtaskid}", taskId);
+              output = new Output
+              {
+                Ok     = new Empty(),
+                Status = TaskStatus.Completed,
+              };
+              break;
+            default:
+              throw new ArgumentOutOfRangeException();
+          }
         }
       }
       catch (Exception ex)
@@ -67,12 +108,12 @@ namespace ArmoniK.Extensions.Common.StreamWrapper.Tests.Server
         {
           Error = new Output.Types.Error
           {
-            Details = ex.StackTrace,
+            Details = ex.Message + ex.StackTrace,
           },
           Status = TaskStatus.Error,
         };
       }
-      return Task.FromResult(output);
+      return output;
     }
 
     public WorkerService(ILoggerFactory loggerFactory) : base(loggerFactory)
