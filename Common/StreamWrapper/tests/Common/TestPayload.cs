@@ -13,6 +13,8 @@ namespace ArmoniK.Extensions.Common.StreamWrapper.Tests.Common
       Compute,
       Error,
       Transfer,
+      DatadepTransfer,
+      DatadepCompute,
     }
 
     public byte [] DataBytes { get; set; }

@@ -30,6 +30,8 @@ using ArmoniK.Api.gRPC.V1;
 
 using Google.Protobuf;
 
+using Grpc.Core;
+
 using JetBrains.Annotations;
 
 namespace ArmoniK.Extensions.Common.StreamWrapper.Client
@@ -167,6 +169,36 @@ namespace ArmoniK.Extensions.Common.StreamWrapper.Client
 
       }
 
+    }
+
+    public static async Task<byte[]> GetResultAsync(this Submitter.SubmitterClient client,
+                                                               ResultRequest resultRequest,
+                                                               CancellationToken              cancellationToken = default)
+    {
+      var streamingCall = client.TryGetResultStream(resultRequest);
+
+      var result = new List<byte>();
+
+      await foreach (var reply in streamingCall.ResponseStream.ReadAllAsync(cancellationToken))
+        switch (reply.TypeCase)
+        {
+          case ResultReply.TypeOneofCase.Result:
+            if (!reply.Result.DataComplete)
+            {
+              result.AddRange(reply.Result.Data.ToByteArray());
+            }
+            break;
+          case ResultReply.TypeOneofCase.None:
+            throw new Exception("Issue with Server !");
+          case ResultReply.TypeOneofCase.Error:
+            throw new Exception($"Error in task {reply.Error.TaskId}");
+          case ResultReply.TypeOneofCase.NotCompletedTask:
+            throw new Exception($"Task {reply.NotCompletedTask} not completed");
+          default:
+            throw new ArgumentOutOfRangeException();
+        }
+
+      return result.ToArray();
     }
   }
 }

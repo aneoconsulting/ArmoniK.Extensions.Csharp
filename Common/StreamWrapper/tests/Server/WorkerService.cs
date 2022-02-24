@@ -22,6 +22,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 using ArmoniK.Api.gRPC.V1;
@@ -38,20 +39,24 @@ namespace ArmoniK.Extensions.Common.StreamWrapper.Tests.Server
 {
   public class WorkerService : WorkerStreamWrapper
   {
+    public WorkerService(ILoggerFactory loggerFactory) : base(loggerFactory)
+    {
+    }
+
     public override async Task<Output> Process(ITaskHandler taskHandler)
     {
       var output = new Output();
-      logger_.LogDebug("ExpectedResults {expectedResults}", taskHandler.ExpectedResults);
+      logger_.LogDebug("ExpectedResults {expectedResults}",
+                       taskHandler.ExpectedResults);
       try
       {
         var payload = TestPayload.Deserialize(taskHandler.Payload);
         if (payload != null)
-        {
           switch (payload.Type)
           {
             case TestPayload.TaskType.Compute:
             {
-              int input = BitConverter.ToInt32(payload.DataBytes);
+              var input = BitConverter.ToInt32(payload.DataBytes);
               var result = new TestPayload
               {
                 Type      = TestPayload.TaskType.Result,
@@ -75,6 +80,7 @@ namespace ArmoniK.Extensions.Common.StreamWrapper.Tests.Server
             case TestPayload.TaskType.Error:
               throw new Exception("Expected exception in Task");
             case TestPayload.TaskType.Transfer:
+            {
               var taskId = "transfer" + Guid.NewGuid();
 
               payload.Type = TestPayload.TaskType.Compute;
@@ -88,21 +94,106 @@ namespace ArmoniK.Extensions.Common.StreamWrapper.Tests.Server
                 },
               };
               await taskHandler.CreateTasksAsync(new[] { req });
-              logger_.LogDebug("Sub Task created : {subtaskid}", taskId);
+              logger_.LogDebug("Sub Task created : {subtaskid}",
+                               taskId);
               output = new Output
               {
                 Ok     = new Empty(),
                 Status = TaskStatus.Completed,
               };
+            }
+              break;
+            case TestPayload.TaskType.DatadepTransfer:
+            {
+              var         taskId = "DatadepTransfer-" + Guid.NewGuid();
+              TaskRequest req;
+              if (taskHandler.ExpectedResults.Count != 2)
+                throw new ArgumentOutOfRangeException();
+
+              var resId = taskHandler.ExpectedResults.First();
+              var depId = taskHandler.ExpectedResults.Last();
+              var input = BitConverter.ToInt32(payload.DataBytes);
+
+              payload.Type = TestPayload.TaskType.DatadepCompute;
+
+              req = new TaskRequest
+              {
+                Id      = taskId,
+                Payload = ByteString.CopyFrom(payload.Serialize()),
+                ExpectedOutputKeys =
+                {
+                  resId,
+                },
+                DataDependencies =
+                {
+                  depId,
+                },
+              };
+
+              logger_.LogDebug("DataDepTransfer Input {input}", input);
+              var result = new TestPayload
+              {
+                Type      = TestPayload.TaskType.Result,
+                DataBytes = BitConverter.GetBytes(input * input),
+              };
+              await taskHandler.SendResult(depId,
+                                           result.Serialize());
+
+              await taskHandler.CreateTasksAsync(new[] { req });
+              logger_.LogDebug("Sub Task created : {subtaskid}",
+                               taskId);
+
+              output = new Output
+              {
+                Ok     = new Empty(),
+                Status = TaskStatus.Completed,
+              };
+            }
+              break;
+            case TestPayload.TaskType.DatadepCompute:
+            {
+              if (taskHandler.ExpectedResults.Count != 1)
+                throw new ArgumentOutOfRangeException();
+              if (taskHandler.DataDependencies.Count != 1)
+                throw new ArgumentOutOfRangeException();
+
+              var resId    = taskHandler.ExpectedResults.First();
+              var input    = BitConverter.ToInt32(payload.DataBytes);
+              var payload2 = TestPayload.Deserialize(taskHandler.DataDependencies.Values.First());
+
+              if (payload2.Type != TestPayload.TaskType.Result)
+                throw new Exception();
+
+              var input2 = BitConverter.ToInt32(payload2.DataBytes);
+              
+              logger_.LogDebug("DataDepCompute Input1 {input}",
+                               input);
+              logger_.LogDebug("DataDepCompute Input2 {input}",
+                               input2);
+
+              var result = new TestPayload
+              {
+                Type      = TestPayload.TaskType.Result,
+                DataBytes = BitConverter.GetBytes(input * input + input2),
+              };
+              await taskHandler.SendResult(resId,
+                                           result.Serialize());
+
+              output = new Output
+              {
+                Ok     = new Empty(),
+                Status = TaskStatus.Completed,
+              };
+            }
               break;
             default:
               throw new ArgumentOutOfRangeException();
           }
-        }
       }
       catch (Exception ex)
       {
-        logger_.LogError(ex, "Error while computing task");
+        logger_.LogError(ex,
+                         "Error while computing task");
 
         output = new Output
         {
@@ -113,11 +204,8 @@ namespace ArmoniK.Extensions.Common.StreamWrapper.Tests.Server
           Status = TaskStatus.Error,
         };
       }
-      return output;
-    }
 
-    public WorkerService(ILoggerFactory loggerFactory) : base(loggerFactory)
-    {
+      return output;
     }
   }
 }

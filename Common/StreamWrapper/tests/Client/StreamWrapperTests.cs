@@ -176,42 +176,13 @@ internal class StreamWrapperTests
 
     var result = new List<byte>();
 
-    try
+    var resultPayload = TestPayload.Deserialize(await client_.GetResultAsync(resultRequest));
+    Console.WriteLine($"Payload Type : {resultPayload.Type}");
+    if (resultPayload.Type == TestPayload.TaskType.Result)
     {
-      await foreach (var reply in streamingCall.ResponseStream.ReadAllAsync())
-        switch (reply.TypeCase)
-        {
-          case ResultReply.TypeOneofCase.Result:
-            if (reply.Result.DataComplete)
-            {
-              var resultPayload = TestPayload.Deserialize(result.ToArray());
-              Console.WriteLine($"Payload Type : {resultPayload.Type}");
-              if (resultPayload.Type == TestPayload.TaskType.Result)
-              {
-                var output = BitConverter.ToInt32(resultPayload.DataBytes);
-                Console.WriteLine($"Result : {output}");
-                return output;
-              }
-            }
-            else
-            {
-              result.AddRange(reply.Result.Data.ToByteArray());
-            }
-
-            break;
-          case ResultReply.TypeOneofCase.None:
-            throw new Exception("Issue with Server !");
-          case ResultReply.TypeOneofCase.Error:
-            throw new Exception($"Error in task {reply.Error.TaskId}");
-          case ResultReply.TypeOneofCase.NotCompletedTask:
-            throw new Exception($"Task {reply.NotCompletedTask} not completed");
-          default:
-            throw new ArgumentOutOfRangeException();
-        }
-    }
-    catch (RpcException ex) when (ex.StatusCode == StatusCode.Cancelled)
-    {
-      Console.WriteLine("Stream cancelled.");
+      var output = BitConverter.ToInt32(resultPayload.DataBytes);
+      Console.WriteLine($"Result : {output}");
+      return output;
     }
 
     return 0;
@@ -449,40 +420,15 @@ internal class StreamWrapperTests
         Key     = request.Id,
         Session = sessionId,
       };
-      var streamingCall = client_.TryGetResultStream(resultRequest);
 
-      var result = new List<byte>();
-
-      await foreach (var reply in streamingCall.ResponseStream.ReadAllAsync())
-        switch (reply.TypeCase)
-        {
-          case ResultReply.TypeOneofCase.Result:
-            if (reply.Result.DataComplete)
-            {
-              var resultPayload = TestPayload.Deserialize(result.ToArray());
-              Console.WriteLine($"Payload Type : {resultPayload.Type}");
-              if (resultPayload.Type == TestPayload.TaskType.Result)
-              {
-                var output = BitConverter.ToInt32(resultPayload.DataBytes);
-                Console.WriteLine($"Result : {output}");
-                return output;
-              }
-            }
-            else
-            {
-              result.AddRange(reply.Result.Data.ToByteArray());
-            }
-
-            break;
-          case ResultReply.TypeOneofCase.None:
-            throw new Exception("Issue with Server !");
-          case ResultReply.TypeOneofCase.Error:
-            throw new Exception($"Error in task {reply.Error.TaskId}");
-          case ResultReply.TypeOneofCase.NotCompletedTask:
-            throw new Exception($"Task {reply.NotCompletedTask} not completed");
-          default:
-            throw new ArgumentOutOfRangeException();
-        }
+      var resultPayload = TestPayload.Deserialize(await client_.GetResultAsync(resultRequest));
+      Console.WriteLine($"Payload Type : {resultPayload.Type}");
+      if (resultPayload.Type == TestPayload.TaskType.Result)
+      {
+        var output = BitConverter.ToInt32(resultPayload.DataBytes);
+        Console.WriteLine($"Result : {output}");
+        return output;
+      }
 
       return 0;
     });
@@ -490,5 +436,182 @@ internal class StreamWrapperTests
     var sum = resultList.Aggregate((t1, t2) => Task.FromResult(t1.Result + t2.Result));
     Assert.AreEqual(n * (n - 1) * (2 * n - 1) / 6,
                     sum.Result);
+  }
+
+  [Test]
+  public async Task MultipleDataDependencies([Values(1,
+                                                     5)]
+                                             int n)
+  {
+    var sessionId = Guid.NewGuid() + "-MultipleDatadependencies";
+
+
+    var taskOptions = new TaskOptions
+    {
+      MaxDuration = Duration.FromTimeSpan(TimeSpan.FromHours(1)),
+      MaxRetries = 2,
+      Priority = 1,
+    };
+
+    Console.WriteLine("Creating Session");
+    var session = client_.CreateSession(new CreateSessionRequest
+    {
+      DefaultTaskOption = taskOptions,
+      Id = sessionId,
+    });
+    switch (session.ResultCase)
+    {
+      case CreateSessionReply.ResultOneofCase.Error:
+        throw new Exception("Error while creating session : " + session.Error);
+      case CreateSessionReply.ResultOneofCase.None:
+        throw new Exception("Issue with Server !");
+      case CreateSessionReply.ResultOneofCase.Ok:
+        break;
+      default:
+        throw new ArgumentOutOfRangeException();
+    }
+
+    Console.WriteLine("Session Created");
+
+    var taskRequestList = new List<TaskRequest>();
+
+    for (var i = 0; i < n; i++)
+    {
+      var taskId = "datadep-" + i + "-" + Guid.NewGuid();
+
+      var payload = new TestPayload
+      {
+        Type      = TestPayload.TaskType.DatadepTransfer,
+        DataBytes = BitConverter.GetBytes(i + 5),
+        ResultKey = taskId,
+      };
+
+      var req = new TaskRequest
+      {
+        Id = taskId,
+        Payload = ByteString.CopyFrom(payload.Serialize()),
+        ExpectedOutputKeys =
+        {
+          taskId + "-res1",
+          taskId + "-res2",
+        },
+      };
+      taskRequestList.Add(req);
+    }
+
+    Console.WriteLine("TaskRequest Created");
+
+    var createTaskReply = await client_.CreateTasksAsync(sessionId,
+                                                         taskOptions,
+                                                         taskRequestList);
+
+    switch (createTaskReply.DataCase)
+    {
+      case CreateTaskReply.DataOneofCase.NonSuccessfullIds:
+        throw new Exception($"NonSuccessfullIds : {createTaskReply.NonSuccessfullIds}");
+      case CreateTaskReply.DataOneofCase.None:
+        throw new Exception("Issue with Server !");
+      case CreateTaskReply.DataOneofCase.Successfull:
+        Console.WriteLine("Task Created");
+        break;
+      default:
+        throw new ArgumentOutOfRangeException();
+    }
+
+    var waitForCompletion = client_.WaitForCompletion(new WaitRequest
+    {
+      Filter = new TaskFilter
+      {
+        Task = new TaskFilter.Types.IdsRequest
+        {
+          Ids =
+          {
+            taskRequestList.Select(request => request.Id),
+          },
+        },
+      },
+      StopOnFirstTaskCancellation = true,
+      StopOnFirstTaskError = true,
+    });
+
+    Console.WriteLine(waitForCompletion.ToString());
+
+    var resultAvailability1 = taskRequestList.Select(request =>
+    {
+      var resultRequest = new ResultRequest
+      {
+        Key = request.Id + "-res1",
+        Session = sessionId,
+      };
+      var availabilityReply = client_.WaitForAvailability(resultRequest);
+      Console.WriteLine(availabilityReply.ToString());
+      return availabilityReply.TypeCase;
+    });
+
+    Assert.IsTrue(resultAvailability1.All(t => t == AvailabilityReply.TypeOneofCase.Ok));
+
+    var resultAvailability2 = taskRequestList.Select(request =>
+    {
+      var resultRequest = new ResultRequest
+      {
+        Key     = request.Id + "-res1",
+        Session = sessionId,
+      };
+      var availabilityReply = client_.WaitForAvailability(resultRequest);
+      Console.WriteLine(availabilityReply.ToString());
+      return availabilityReply.TypeCase;
+    });
+
+    Assert.IsTrue(resultAvailability2.All(t => t == AvailabilityReply.TypeOneofCase.Ok));
+
+    var resultTypeOneofCases = taskRequestList.Select(request =>
+    {
+      var resultRequest = new ResultRequest
+      {
+        Key = request.Id,
+        Session = sessionId,
+      };
+      var taskOutput = client_.TryGetTaskOutput(resultRequest);
+      Console.WriteLine(taskOutput.ToString());
+      return taskOutput.TypeCase;
+    });
+
+    Assert.IsTrue(resultTypeOneofCases.All(t => t == Output.TypeOneofCase.Ok));
+
+    var results = taskRequestList.Select(async request =>
+    {
+      var resultRequest1 = new ResultRequest
+      {
+        Key = request.Id + "-res1",
+        Session = sessionId,
+      };
+      var resultBytes1   = await client_.GetResultAsync(resultRequest1);
+      if (resultBytes1.Length == 0)
+      {
+        throw new Exception();
+      }
+      var resultPayload1 = TestPayload.Deserialize(resultBytes1);
+
+      var resultRequest2 = new ResultRequest
+      {
+        Key     = request.Id + "-res2",
+        Session = sessionId,
+      };
+      var resultBytes2 = await client_.GetResultAsync(resultRequest2);
+      if (resultBytes2.Length == 0)
+      {
+        throw new Exception();
+      }
+      var resultPayload2 = TestPayload.Deserialize(resultBytes2);
+
+      var resultInt1 = BitConverter.ToInt32(resultPayload1.DataBytes);
+      var resultInt2 = BitConverter.ToInt32(resultPayload2.DataBytes);
+
+      Console.WriteLine($"Result1 {resultInt1}");
+      Console.WriteLine($"Result2 {resultInt2}");
+
+      return 2 * resultInt2 == resultInt1;
+    });
+    Assert.IsTrue(results.All(task => task.Result));
   }
 }
