@@ -20,7 +20,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Armonik.Api" Version="1.1.4-newtaskcreationapi.6.4de15f4" />
+    <PackageReference Include="Armonik.Api" Version="2.0.0" />
     <PackageReference Include="JetBrains.Annotations" Version="2021.3.0" />
   </ItemGroup>
 
