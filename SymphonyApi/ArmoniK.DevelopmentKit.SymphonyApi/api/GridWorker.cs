@@ -64,7 +64,7 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
 
     public string TaskId { get; set; }
 
-    public void Configure(IConfiguration configuration, IDictionary<string, string> clientOptions, AppsLoader appsLoader)
+    public void Configure(IConfiguration configuration, IDictionary<string, string> clientOptions, IAppsLoader appsLoader)
     {
       GridAppName      = clientOptions[AppsOptions.GridAppNameKey];
       GridAppVersion   = clientOptions[AppsOptions.GridAppVersionKey];
@@ -81,7 +81,7 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
 
       Logger.LogInformation("Loading ServiceContainer from Application package :  " +
                             $"\n\tappName   :   {GridAppName}" +
-                            $"\n\tvers      :   {GridAppVersion}" +
+                            $"\n\tversion   :   {GridAppVersion}" +
                             $"\n\tnameSpace :   {GridAppNamespace}");
 
       serviceContainerBase_ = appsLoader.GetServiceContainerInstance<ServiceContainerBase>(GridAppNamespace,

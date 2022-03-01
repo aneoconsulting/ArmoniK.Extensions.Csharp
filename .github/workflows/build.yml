@@ -60,7 +60,6 @@ jobs:
         dotnet build ./Common/StreamWrapper/tests/Server/ArmoniK.Extensions.Common.StreamWrapper.Tests.Server.csproj -c Release
         dotnet build ./DataSynapseApi/ArmoniK.DevelopmentKit.GridServer/ArmoniK.DevelopmentKit.GridServer.csproj -c Release
         dotnet build ./DataSynapseApi/ArmoniK.DevelopmentKit.GridServer.Client/ArmoniK.DevelopmentKit.GridServer.Client.csproj -c Release
-        dotnet build ./DataSynapseApi/ArmoniK.DevelopmentKit.GridServer.Common/ArmoniK.DevelopmentKit.GridServer.Common.csproj -c Release
         dotnet build ./SymphonyApi/ArmoniK.DevelopmentKit.SymphonyApi/ArmoniK.DevelopmentKit.SymphonyApi.csproj -c Release
         dotnet build ./SymphonyApi/ArmoniK.DevelopmentKit.SymphonyApi.Client/ArmoniK.DevelopmentKit.SymphonyApi.Client.csproj -c Release
         dotnet build ./SymphonyApi/ArmoniK.DevelopmentKit.SymphonyApi.Tests/EndToEnd.Tests/ArmoniK.EndToEndTests.csproj -c Release
@@ -71,6 +70,7 @@ jobs:
     # find . -name "*.csproj" | xargs -I % echo dotnet pack % -c Release -o /tmp/packages -p:PackageVersion=\$GENVERSION
     - name: Pack the package VERSION
       run: |
+        dotnet pack ./Common/ArmoniK.DevelopmentKit.Common/ArmoniK.DevelopmentKit.Common.csproj -c Release -o /tmp/packages -p:PackageVersion=$GENVERSION
         dotnet pack ./DataSynapseApi/ArmoniK.DevelopmentKit.GridServer/ArmoniK.DevelopmentKit.GridServer.csproj -c Release -o /tmp/packages -p:PackageVersion=$GENVERSION
         dotnet pack ./DataSynapseApi/ArmoniK.DevelopmentKit.GridServer.Client/ArmoniK.DevelopmentKit.GridServer.Client.csproj -c Release -o /tmp/packages -p:PackageVersion=$GENVERSION
         dotnet pack ./SymphonyApi/ArmoniK.DevelopmentKit.SymphonyApi/ArmoniK.DevelopmentKit.SymphonyApi.csproj -c Release -o /tmp/packages -p:PackageVersion=$GENVERSION
@@ -88,6 +88,7 @@ jobs:
     - name: Pack the package RELEASE
       if: ${{ github.ref == 'refs/heads/release' }}
       run: |
+        dotnet pack ./Common/ArmoniK.DevelopmentKit.Common/ArmoniK.DevelopmentKit.Common.csproj -c Release -o /tmp/releases -p:PackageVersion=$GENRELEASE
         dotnet pack ./DataSynapseApi/ArmoniK.DevelopmentKit.GridServer/ArmoniK.DevelopmentKit.GridServer.csproj -c Release -o /tmp/releases -p:PackageVersion=$GENRELEASE
         dotnet pack ./DataSynapseApi/ArmoniK.DevelopmentKit.GridServer.Client/ArmoniK.DevelopmentKit.GridServer.Client.csproj -c Release -o /tmp/releases -p:PackageVersion=$GENRELEASE
         dotnet pack ./SymphonyApi/ArmoniK.DevelopmentKit.SymphonyApi/ArmoniK.DevelopmentKit.SymphonyApi.csproj -c Release -o /tmp/releases -p:PackageVersion=$GENRELEASE

@@ -1,13 +1,10 @@
-﻿using System;
+﻿using ArmoniK.DevelopmentKit.Common.Exceptions;
+using ProtoBuf;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-
-using ArmoniK.DevelopmentKit.Common.Exceptions;
-
-using ProtoBuf;
 
 #pragma warning disable CS1591
 
@@ -41,7 +38,7 @@ namespace ArmoniK.DevelopmentKit.Common
       return data;
     }
 
-    public object[] DeSerializeMessageObjectArray(byte[] data)
+    public static object[] DeSerializeMessageObjectArray(byte[] data)
     {
       var result = new List<object>();
 
@@ -61,20 +58,14 @@ namespace ArmoniK.DevelopmentKit.Common
 
     public static object DeSerializeMessageObject(byte[] data)
     {
-      var result = new List<object>();
-
       using (MemoryStream ms = new MemoryStream(data))
       {
         object obj;
 
-        while (ReadNext(ms,
-                        out obj))
-        {
-          result.Add(obj);
-        }
+        ReadNext(ms,
+                 out obj);
+        return obj;
       }
-
-      return result.Count == 0 ? null : result.ToArray();
     }
 
     [ProtoContract]
@@ -106,6 +97,7 @@ namespace ArmoniK.DevelopmentKit.Common
       { 13, typeof(IEnumerable) },
       { 14, typeof(IDictionary) },
       { 15, typeof(Array) },
+      { 16, typeof(ArmonikPayload) },
     };
 
     public static void RegisterClass(Type classType)
@@ -183,9 +175,9 @@ namespace ArmoniK.DevelopmentKit.Common
       return false;
     }
 
-    public static T Deserialize<T>(string dataBase64String)
+    public static T Deserialize<T>(byte[] dataPayloadInBytes)
     {
-      Object obj = DeSerializeMessageObject(Encoding.ASCII.GetBytes(dataBase64String));
+      var obj = DeSerializeMessageObject(dataPayloadInBytes);
 
       return (T)obj;
     }

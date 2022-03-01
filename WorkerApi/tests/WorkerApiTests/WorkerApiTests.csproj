@@ -29,4 +29,10 @@
     <PackageReference Include="coverlet.collector" Version="3.0.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Common\ArmoniK.DevelopmentKit.Common\ArmoniK.DevelopmentKit.Common.csproj" />
+    <ProjectReference Include="..\..\ArmoniK.DevelopmentKit.WorkerApi.Common\ArmoniK.DevelopmentKit.WorkerApi.Common.csproj" />
+    <ProjectReference Include="..\..\ArmoniK.DevelopmentKit.WorkerApi\ArmoniK.DevelopmentKit.WorkerApi.csproj" />
+  </ItemGroup>
+
 </Project>

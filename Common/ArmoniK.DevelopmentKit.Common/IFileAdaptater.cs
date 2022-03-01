@@ -6,12 +6,20 @@ using System.Threading.Tasks;
 
 namespace ArmoniK.DevelopmentKit.Common
 {
-  internal interface IFileAdaptater
+  /// <summary>
+  /// The interface to download file 
+  /// </summary>
+  public interface IFileAdaptater
   {
-
-    public void DownloadFile(string sourceFilePath, string destFilePath)
-    {
-
-    }
+    /// <summary>
+    /// Get The directory where the file will be downloaded
+    /// </summary>
+    public string DestinationDirPath { get; set; }
+    /// <summary>
+    /// The method to download file from form remote server
+    /// </summary>
+    /// <param name="fileName">The filename with extension and without directory path</param>
+    /// <returns>Returns the path where the file has been downloaded</returns>
+    public string DownloadFile(string fileName);
   }
 }

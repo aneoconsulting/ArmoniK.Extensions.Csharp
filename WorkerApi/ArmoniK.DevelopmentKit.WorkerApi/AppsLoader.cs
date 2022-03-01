@@ -28,32 +28,34 @@ using System.Runtime.Loader;
 
 using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.Common.Exceptions;
+using ArmoniK.DevelopmentKit.WorkerApi.Common;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-namespace ArmoniK.DevelopmentKit.WorkerApi.Common
+namespace ArmoniK.DevelopmentKit.WorkerApi
 {
-  public class AppsLoader : IDisposable
+  public class AppsLoader : IAppsLoader
   {
     private Assembly assembly_;
 
-    private AssemblyLoadContext loadContext_;
-    private Assembly            assemblyGridWorker_;
-
-    private readonly EngineType engineType_;
+    private          AssemblyLoadContext loadContext_;
+    private readonly Assembly            assemblyGridWorker_;
+    private          ILogger<AppsLoader> logger_;
+    private readonly EngineType          engineType_;
 
     private string ArmoniKDevelopmentKitServerApi { get; set; }
 
-    public AppsLoader(IConfiguration configuration, LoggerFactory loggerFactory, string engineTypeAssemblyName, string pathToZip)
+    public AppsLoader(IConfiguration configuration, ILoggerFactory loggerFactory, string engineTypeAssemblyName, 
+                      IFileAdaptater fileAdaptater, string fileName)
     {
       engineType_ = EngineTypeHelper.ToEnum(engineTypeAssemblyName);
 
-      PathToZip = pathToZip;
+      FileAdaptater = fileAdaptater;
 
       ArmoniKDevelopmentKitServerApi = new EngineTypes()[engineType_];
 
-      var logger = loggerFactory.CreateLogger<AppsLoader>();
+      logger_ = loggerFactory.CreateLogger<AppsLoader>();
 
       // Create a new context and mark it as 'collectible'.
       var tempLoadContextName = Guid.NewGuid().ToString();
@@ -61,16 +63,16 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Common
       loadContext_ = new AssemblyLoadContext(tempLoadContextName,
                                              true);
 
-      if (!ZipArchiver.ArchiveAlreadyExtracted(PathToZip))
-        ZipArchiver.UnzipArchive(PathToZip);
+      if (!ZipArchiver.ArchiveAlreadyExtracted(fileAdaptater, fileName))
+        ZipArchiver.UnzipArchive(fileAdaptater, fileName);
 
-      var localPathToAssembly = ZipArchiver.GetLocalPathToAssembly(PathToZip);
+      var localPathToAssembly = ZipArchiver.GetLocalPathToAssembly(Path.Combine(fileAdaptater.DestinationDirPath, fileName));
 
       assembly_ = loadContext_.LoadFromAssemblyPath(localPathToAssembly);
 
       if (assembly_ == null)
       {
-        logger.LogError($"Cannot load assembly from path [${localPathToAssembly}]");
+        logger_.LogError($"Cannot load assembly from path [${localPathToAssembly}]");
         throw new WorkerApiException($"Cannot load assembly from path [${localPathToAssembly}]");
       }
 
@@ -82,16 +84,16 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Common
 
       if (assemblyGridWorker_ == null)
       {
-        logger.LogError($"Cannot load assembly from path [${localPathToAssemblyGridWorker}]");
+        logger_.LogError($"Cannot load assembly from path [${localPathToAssemblyGridWorker}]");
         throw new WorkerApiException($"Cannot load assembly from path [${localPathToAssemblyGridWorker}]");
       }
 
-      logger.LogInformation($"GridWorker assembly from path [${localPathToAssemblyGridWorker}]");
+      logger_.LogInformation($"GridWorker assembly from path [${localPathToAssemblyGridWorker}]");
 
       PathToAssemblyGridWorker = localPathToAssemblyGridWorker;
 
       var currentDomain = AppDomain.CurrentDomain;
-      currentDomain.AssemblyResolve += new(LoadFromSameFolder);
+      currentDomain.AssemblyResolve += new ResolveEventHandler(LoadFromSameFolder);
 
       Assembly LoadFromSameFolder(object sender, ResolveEventArgs args)
       {
@@ -121,7 +123,7 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Common
 
     public IConfiguration Configuration { get; }
 
-    public string PathToZip { get; set; }
+    public IFileAdaptater FileAdaptater { get; set; }
 
     public string PathToAssembly { get; set; }
 
@@ -187,8 +189,10 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Common
 
       return engineType == null ||
              engineType_ != EngineTypeHelper.ToEnum(engineType) ||
-             PathToZip == null ||
-             !pathToZipFile.Equals(PathToZip);
+             FileAdaptater == null ||
+             !pathToZipFile.Equals(FileAdaptater);
     }
   }
+
+  
 }

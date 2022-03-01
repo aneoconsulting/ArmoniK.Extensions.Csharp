@@ -1,113 +1,122 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Amazon;
-using Amazon.S3;
+﻿using Amazon.S3;
 using Amazon.S3.Model;
+
+using ArmoniK.DevelopmentKit.Common;
 
 using System;
 using System.IO;
 using System.Threading.Tasks;
 
-
-namespace ArmoniK.DevelopmentKit.WorkerApi.Common
+namespace ArmoniK.DevelopmentKit.WorkerApi.Common.Adaptater
 {
-  public class Program
+  public class S3Adaptater : IFileAdaptater
   {
-    private static IAmazonS3 client;
-    private const  string    bucketName = "my-bucket";
-    private const  string    keyName    = "first_key";
-    private const  string    keyName1   = "first_key";
-    private const  string    keyName2   = "second_key";
+    private AmazonS3Config ConfigAmazonS3 { get; set; }
 
-    private const string filePath = @"to destination";
+    private string LocalZipDir { get; set; }
 
-    //public static void Main()
-    //{
-    //  //client = new AmazonS3Client(bucketRegion);
-    //  AmazonS3Config config = new AmazonS3Config();
-    //  config.ServiceURL = "";
-    //  client = new AmazonS3Client(
-    //  "XXXXXXXXXXXXXXXXXXX",
-    //  "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
-    //  config
-    //  );
-    //  WritingAnObjectAsync().Wait();
-    //  ReadObjectDataAsync().Wait();
-    //}
-    static async Task ReadObjectDataAsync()
+    private string RemoteS3Path { get; set; }
+
+    private string BucketName { get; set; }
+
+    private string AwsSessionToken { get; set; }
+
+    private AmazonS3Client Client { get; set; }
+
+    /// <summary>
+    /// Get the directory where the file will be downloaded
+    /// </summary>
+    public string DestinationDirPath { get; set; }
+
+    public S3Adaptater(string endPointRegion,
+                       string bucketName,
+                       string awsAccessKeyId,
+                       string awsSecretAccessKey,
+                       string remoteS3Path,
+                       string localZipDir = "/tmp/packages/zip")
     {
-      string responseBody = "";
-      try
+      var config = new AmazonS3Config
       {
-        GetObjectRequest request = new GetObjectRequest
-        {
-          BucketName = bucketName,
-          Key        = keyName
-        };
-        using (GetObjectResponse response = await client.GetObjectAsync(request))
-        using (Stream responseStream = response.ResponseStream)
-        using (StreamReader reader = new StreamReader(responseStream))
-        {
-          string title       = response.Metadata["x-amz-meta-title"]; // Assume you have "title" as medata added to the object.
-          string contentType = response.Headers["Content-Type"];
-          Console.WriteLine("Object metadata, Title: {0}",
-                            title);
-          Console.WriteLine("Content type: {0}",
-                            contentType);
-          responseBody = reader.ReadToEnd(); // Now you process the response body.
-        }
-      }
-      catch (AmazonS3Exception e)
+        ServiceURL = endPointRegion,
+      };
+
+      BucketName   = bucketName;
+      RemoteS3Path = remoteS3Path;
+      LocalZipDir  = localZipDir;
+
+      Client = string.IsNullOrEmpty(awsAccessKeyId)
+        ? new AmazonS3Client(config)
+        : new AmazonS3Client(awsAccessKeyId,
+                             awsSecretAccessKey,
+                             config);
+
+      DestinationDirPath = localZipDir;
+
+      if (!Directory.Exists(DestinationDirPath))
       {
-        // If bucket or object does not exist
-        Console.WriteLine("Error encountered ***. Message:'{0}' when reading object",
-                          e.Message);
-      }
-      catch (Exception e)
-      {
-        Console.WriteLine("Unknown encountered on server. Message:'{0}' when reading object",
-                          e.Message);
+        Directory.CreateDirectory(DestinationDirPath);
       }
     }
 
-    static async Task WritingAnObjectAsync()
+
+    public async Task DownloadFileAsync(string fileName)
     {
+      var ms = new MemoryStream();
+
+      var r = await Client.GetObjectAsync(new GetObjectRequest()
+      {
+        BucketName = BucketName,
+        Key        = fileName,
+      });
+      var stream2 = new BufferedStream(r.ResponseStream);
+
+      var file = new FileStream(Path.Combine(LocalZipDir,
+                                             fileName),
+                                FileMode.Create,
+                                FileAccess.Write);
       try
       {
-        // 1. Put object-specify only key name for the new object.
-        var putRequest1 = new PutObjectRequest
+        var buffer = new byte[0x2000];
+        var count  = 0;
+        while ((count = stream2.Read(buffer,
+                                     0,
+                                     buffer.Length)) >
+               0)
         {
-          BucketName  = bucketName,
-          Key         = keyName1,
-          ContentBody = "sample text"
-        };
-        PutObjectResponse response1 = await client.PutObjectAsync(putRequest1);
-        // 2. Put the object-set ContentType and add metadata.
-        var putRequest2 = new PutObjectRequest
+          ms.Write(buffer,
+                   0,
+                   count);
+        }
+
+        ms.WriteTo(file);
+        file.Close();
+        ms.Close();
+      }
+      catch (AmazonS3Exception amazonS3Exception)
+      {
+        if (amazonS3Exception.ErrorCode != null && (amazonS3Exception.ErrorCode.Equals("InvalidAccessKeyId") || amazonS3Exception.ErrorCode.Equals("InvalidSecurity")))
         {
-          BucketName  = bucketName,
-          Key         = keyName2,
-          FilePath    = filePath,
-          ContentType = "text/plain"
-        };
-        putRequest2.Metadata.Add("x-amz-meta-title",
-                                 "someTitle");
-        PutObjectResponse response2 = await client.PutObjectAsync(putRequest2);
+          throw new Exception("Check the provided AWS Credentials.");
+        }
+        else
+        {
+          throw new Exception("Error occurred: " + amazonS3Exception.Message);
+        }
       }
-      catch (AmazonS3Exception e)
-      {
-        Console.WriteLine("Error encountered ***. Message:'{0}' when writing an object",
-                          e.Message);
-      }
-      catch (Exception e)
-      {
-        Console.WriteLine("Unknown encountered on server. Message:'{0}' when writing an object",
-                          e.Message);
-      }
+    }
+
+
+    /// <summary>
+    /// The method to download file from form remote server
+    /// </summary>
+    /// <param name="fileName">The filename with extension and without directory path</param>
+    /// <returns>Returns the path where the file has been downloaded</returns>
+    public string DownloadFile(string fileName)
+    {
+      DownloadFileAsync(fileName).Wait();
+
+      return Path.Combine(DestinationDirPath,
+                          fileName);
     }
   }
 }

@@ -75,7 +75,7 @@ namespace ArmoniK.EndToEndTests.Tests.CheckSessionUniqCallback
       var result = ClientPayload.Deserialize(taskResult);
 
       Log.LogInformation($"\tINFO CLIENT stage of call after 2 submits in 1 session : {PrintStates(result.Result)}");
-      Log.LogInformation($"\tINFO SERVER                                            :\n\t{string.Join("\n\t", result.Message.Split("\n").Select(x => $"|\t{x}"))}");
+      Log.LogInformation($"\tINFO SERVER                                            :\n\t{string.Join("\n\t", result.Message.Split('\n').Select(x => $"|\t{x}"))}");
 
       var storeInitialNbCall = result.Result - 1000000 - 100000 - 1000 - 2;
 
@@ -115,7 +115,7 @@ namespace ArmoniK.EndToEndTests.Tests.CheckSessionUniqCallback
       result = ClientPayload.Deserialize(taskResult);
 
       Log.LogInformation($"\tINFO CLIENT stage of call after 6 submits in 2 sessions : {PrintStates(result.Result)}");
-      Log.LogInformation($"\tINFO SERVER                                             :\n\t{string.Join("\n\t", result.Message.Split("\n").Select(x => $"|\t{x}"))}");
+      Log.LogInformation($"\tINFO SERVER                                             :\n\t{string.Join("\n\t", result.Message.Split('\n').Select(x => $"|\t{x}"))}");
       Assert.AreEqual(storeInitialNbCall + (1000000 + 100000 + 2 * 1000 + 6),
                       result.Result);
     }
