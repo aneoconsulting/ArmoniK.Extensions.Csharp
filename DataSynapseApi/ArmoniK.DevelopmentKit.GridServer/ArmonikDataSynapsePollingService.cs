@@ -1,13 +1,10 @@
-﻿using ArmoniK.Core.gRPC.V1;
+﻿using ArmoniK.Api.gRPC.V1;
 using ArmoniK.DevelopmentKit.Common;
-using Google.Protobuf;
-using Grpc.Net.Client;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace ArmoniK.DevelopmentKit.GridServer
 {
@@ -24,7 +21,6 @@ namespace ArmoniK.DevelopmentKit.GridServer
   {
     private readonly  IConfigurationSection                     controlPlanAddress_;
     internal readonly ILogger<ArmonikDataSynapsePollingService> Logger;
-    private ClientService.ClientServiceClient ControlPlaneService { get; set; }
 
     /// <summary>
     /// Returns the section key Grpc from appSettings.json
@@ -41,14 +37,7 @@ namespace ArmoniK.DevelopmentKit.GridServer
     /// Get or Set SessionId object stored during the call of SubmitTask, SubmitSubTask,
     /// SubmitSubTaskWithDependencies or WaitForCompletion, WaitForSubTaskCompletion or GetResults
     /// </summary>
-    public SessionId SessionId { get; private set; }
-
-    /// <summary>
-    /// Only used for internal DO NOT USED IT
-    /// Get or Set SubSessionId object stored during the call of SubmitTask, SubmitSubTask,
-    /// SubmitSubTaskWithDependencies or WaitForCompletion, WaitForSubTaskCompletion or GetResults
-    /// </summary>
-    public SessionId SubSessionId { get; set; }
+    public Session SessionId { get; private set; }
 
     /// <summary>
     /// The ctor with IConfiguration and optional TaskOptions
@@ -62,51 +51,6 @@ namespace ArmoniK.DevelopmentKit.GridServer
       controlPlanAddress_ = configuration.GetSection(SectionControlPlan);
 
       Logger = loggerFactory.CreateLogger<ArmonikDataSynapsePollingService>();
-    }
-
-    /// <summary>
-    /// Create the session to submit task
-    /// </summary>
-    /// <param name="taskOptions">Optional parameter to set TaskOptions during the Session creation</param>
-    /// <returns></returns>
-    public SessionId CreateSession(TaskOptions taskOptions = null)
-    {
-      if (taskOptions != null) TaskOptions = taskOptions;
-
-      ControlPlaneConnection();
-
-      var sessionOptions = new SessionOptions
-      {
-        DefaultTaskOption = TaskOptions,
-      };
-      Logger.LogDebug("Creating Session... ");
-
-      SessionId = ControlPlaneService.CreateSession(sessionOptions);
-      Logger.LogDebug($"Session Created {SessionId.Session}");
-
-
-      return SessionId;
-    }
-
-    private void ControlPlaneConnection()
-    {
-      var channel = GrpcChannel.ForAddress(controlPlanAddress_["Endpoint"]);
-      ControlPlaneService ??= new ClientService.ClientServiceClient(channel);
-    }
-
-    /// <summary>
-    /// Set connection to an already opened Session
-    /// </summary>
-    /// <param name="session">SessionId previously opened</param>
-    public void OpenSession(string session)
-    {
-      ControlPlaneConnection();
-
-      if (SessionId == null) Logger.LogDebug($"Open Session {session}");
-      SessionId ??= new()
-      {
-        Session = session
-      };
     }
 
     /// <summary>
@@ -125,7 +69,6 @@ namespace ArmoniK.DevelopmentKit.GridServer
         },
         MaxRetries = 2,
         Priority   = 1,
-        IdTag      = "ArmonikTag",
       };
 
       taskOptions.Options.Add(AppsOptions.EngineTypeNameKey,
@@ -146,60 +89,6 @@ namespace ArmoniK.DevelopmentKit.GridServer
       return taskOptions;
     }
 
-    /// <summary>
-    /// User method to wait for only the parent task from the client
-    /// </summary>
-    /// <param name="taskId">
-    /// The task id of the task to wait for
-    /// </param>
-    public void WaitCompletion(string taskId)
-    {
-      var taskFilter = new TaskFilter();
-      taskFilter.IncludedTaskIds.Add(taskId);
-      taskFilter.SessionId = SessionId.Session;
-
-      Logger.LogDebug($"Wait for task {taskId} coming from Session {SessionId.Session} " +
-                      $"and subSession {SessionId.SubSession} with Task SubSession {taskId}");
-
-      ControlPlaneService.WaitForSubTasksCompletion(new()
-      {
-        Filter                  = taskFilter,
-        ThrowOnTaskCancellation = true,
-        ThrowOnTaskError        = true,
-      });
-    }
-
-    /// <summary>
-    /// Method to GetResults when the result is returned by a task
-    /// The method WaitForCompletion should called before these method
-    /// </summary>
-    /// <param name="taskIds">The Task Ids list of the tasks which the result is expected</param>
-    /// <returns>return a dictionary with key taskId and payload</returns>
-    /// <exception cref="ArgumentNullException"></exception>
-    /// <exception cref="ArgumentException"></exception>
-    public async Task<IEnumerable<Tuple<string, byte[]>>> GetResults(IEnumerable<string> taskIds)
-    {
-      if (taskIds == null) throw new ArgumentNullException(nameof(taskIds));
-      var ids = taskIds.ToList();
-
-      if (!ids.Any())
-        throw new ArgumentException("Must contains at least one message",
-                                    nameof(taskIds));
-
-      var taskFilter = new TaskFilter();
-      taskFilter.IncludedTaskIds.Add(ids);
-      taskFilter.SessionId = SessionId.Session;
-
-      Logger.LogDebug($"GetResults for tasks [{string.Join(", ", ids)}] coming from Session {SessionId.Session} " +
-                      $"and subSession {SessionId.SubSession} with Task SubSession {ids.Select(id => id).First()}");
-
-      var result = await ControlPlaneService.TryGetResultAsync(taskFilter);
-
-
-      return result.Payloads.Select(p => new Tuple<string, byte[]>(p.TaskId.Task,
-                                                                   p.Data?.Data?.ToByteArray()));
-    }
-
 
     /// <summary>
     /// User method to submit task from the client
@@ -211,33 +100,7 @@ namespace ArmoniK.DevelopmentKit.GridServer
     /// </param>
     public IEnumerable<string> SubmitTasks(IEnumerable<byte[]> payloads)
     {
-      CreateTaskRequest requests = new();
-
-      requests.SessionId = SessionId;
-
-
-      foreach (var payload in payloads)
-      {
-        var taskRequest = new TaskRequest
-        {
-          Payload = new Payload
-          {
-            Data = ByteString.CopyFrom(payload),
-          },
-        };
-
-        requests.TaskRequests.Add(taskRequest);
-      }
-
-      Logger.LogDebug($"{SessionId?.Session} {SubSessionId?.Session}: Calling SubmitTasks with CreateTask");
-
-      requests.TaskOptions = TaskOptions;
-      var requestReply = ControlPlaneService.CreateTask(requests);
-
-      Logger.LogDebug($"{SessionId?.Session} {SubSessionId?.Session}: " +
-                      $"Called  SubmitTasks return [{string.Join(", ", requestReply.TaskIds)}]");
-
-      return requestReply.TaskIds.Select(id => id.Task);
+      throw new NotImplementedException("Polling agent service is not implemented for GridServer");
     }
 
     /// <summary>
@@ -249,41 +112,7 @@ namespace ArmoniK.DevelopmentKit.GridServer
     /// <returns>return a list of taskIds of the created tasks </returns>
     public IEnumerable<string> SubmitTasksWithDependencies(string session, IEnumerable<Tuple<byte[], IList<string>>> payloadWithDependencies)
     {
-      OpenSession(session);
-      IEnumerable<Tuple<byte[], IList<string>>> withDependencies = payloadWithDependencies.ToList();
-
-      var taskRequests = withDependencies.Select(p =>
-      {
-        var output = new TaskRequest
-        {
-          Payload = new Payload
-          {
-            Data = ByteString.CopyFrom(p.Item1)
-          }
-        };
-        output.DependenciesTaskIds.Add(p.Item2);
-        return output;
-      });
-      var createTaskRequest = new CreateTaskRequest
-      {
-        SessionId = new()
-        {
-          Session = session
-        }
-      };
-      createTaskRequest.TaskRequests.Add(taskRequests);
-
-      createTaskRequest.TaskOptions = TaskOptions;
-
-      Logger.LogDebug($"{SessionId?.Session} {SubSessionId?.Session}: Calling SubmitTasksWithDependencies with CreateTask");
-
-      var createTaskReply = ControlPlaneService.CreateTask(createTaskRequest);
-
-      Logger.LogDebug($"{SessionId?.Session} {SubSessionId?.Session}: " +
-                      $"Called  SubmitTasksWithDependencies return [{string.Join(", ", createTaskReply.TaskIds.Select(id => id.Task))}] " +
-                      $" with dependencies : {string.Join("\n\t", withDependencies.Select(p => $"[{string.Join(", ", p.Item2)}]"))}");
-
-      return createTaskReply.TaskIds.Select(id => id.Task);
+      throw new NotImplementedException("Polling agent service is not implemented for GridServer");
     }
 
 
@@ -294,18 +123,7 @@ namespace ArmoniK.DevelopmentKit.GridServer
     /// <returns>Returns the result or byte[0] if there no result</returns>
     public byte[] TryGetResult(string taskId)
     {
-      var taskFilter = new TaskFilter();
-      taskFilter.IncludedTaskIds.Add(taskId);
-      taskFilter.SessionId = SessionId.Session;
-
-      Logger.LogDebug($"{SessionId?.Session} {SubSessionId?.Session}: " +
-                      $"Calling TryGetResult for {taskId}");
-
-      var response = ControlPlaneService.TryGetResult(taskFilter);
-      Logger.LogDebug($"{SessionId?.Session} {SubSessionId?.Session}: " +
-                      $"Called TryGetResult for  {taskId}");
-
-      return response.Payloads.Single().Data.ToByteArray();
+      throw new NotImplementedException("Polling agent service is not implemented for GridServer");
     }
 
 
@@ -315,8 +133,7 @@ namespace ArmoniK.DevelopmentKit.GridServer
     /// </summary>
     public void CloseSession()
     {
-      ControlPlaneService.CloseSession(SessionId);
-      SessionId = null;
+      throw new NotImplementedException("Polling agent service is not implemented for GridServer");
     }
 
     /// <summary>
@@ -324,14 +141,14 @@ namespace ArmoniK.DevelopmentKit.GridServer
     /// </summary>
     public void CancelSession()
     {
-      ControlPlaneService.CancelSession(SessionId);
+      throw new NotImplementedException("Polling agent service is not implemented for GridServer");
     }
   }
 
   /// <summary>
   /// The ArmonikSymphonyClient Extension to single task creation
   /// </summary>
-  public static class ArmonikDataSynapseClientServiceExt
+  public static class ArmonikDataSynapsePollingServiceExt
   {
     /// <summary>
     /// User method to submit task from the client
@@ -356,12 +173,7 @@ namespace ArmoniK.DevelopmentKit.GridServer
     /// <returns>return the taskId of the created task </returns>
     public static string SubmitTaskWithDependencies(this ArmonikDataSynapsePollingService client, byte[] payload, IList<string> dependencies)
     {
-      return client.SubmitTasksWithDependencies(client.SessionId.Session,
-                                                new[]
-                                                {
-                                                  Tuple.Create(payload,
-                                                               dependencies),
-                                                }).Single();
+      throw new NotImplementedException("Polling agent service is not implemented for GridServer");
     }
 
     /// <summary>
@@ -372,15 +184,7 @@ namespace ArmoniK.DevelopmentKit.GridServer
     /// <returns>Returns the result or byte[0] if there no result</returns>
     public static byte[] GetResult(this ArmonikDataSynapsePollingService client, string taskId)
     {
-      var results = client.GetResults(new List<string>
-      {
-        taskId
-      });
-      Task.WaitAll(results);
-      client.Logger.LogDebug($"{client.SessionId?.Session} {client.SubSessionId?.Session}: " +
-                             $"Called GetResult for  {taskId}");
-
-      return results.Result.Single(t => t.Item1.Equals(taskId)).Item2;
+      throw new NotImplementedException("Polling agent service is not implemented for GridServer");
     }
   }
 }

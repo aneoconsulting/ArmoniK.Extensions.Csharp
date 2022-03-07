@@ -42,14 +42,17 @@ namespace ArmoniK.EndToEndTests.Common
       SubTask,
       Undefined,
       None,
-      Expm1
+      Expm1,
+      AggregationNTask,
     }
 
     public bool IsRootTask { get; set; }
     public TaskType Type { get; set; }
     public List<int> Numbers { get; set; }
     public int Result { get; set; }
-    public string SubTaskId { get; set; }
+    public byte[] Payload { get; set; }
+
+    //public string SubTaskId { get; set; }
     public int Sleep { get; set; }
     public int SingleInput { get; set; }
 

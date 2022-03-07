@@ -1,4 +1,9 @@
-﻿using ArmoniK.Api.gRPC.V1;
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+
+using ArmoniK.Api.gRPC.V1;
 using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.Extensions.Common.StreamWrapper.Client;
 
@@ -7,12 +12,7 @@ using Google.Protobuf.WellKnownTypes;
 
 using Microsoft.Extensions.Logging;
 
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-
-namespace ArmoniK.DevelopmentKit.SymphonyApi.Client.api
+namespace ArmoniK.DevelopmentKit.GridServer.Client
 {
   /// <summary>
   /// The class SessionService will be create each time the function CreateSession or OpenSession will
@@ -103,28 +103,32 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client.api
         return "Session_Not_ready";
     }
 
-    private static TaskOptions InitializeDefaultTaskOptions()
+    public static TaskOptions InitializeDefaultTaskOptions()
     {
       TaskOptions taskOptions = new()
       {
         MaxDuration = new()
         {
-          Seconds = 300,
+          Seconds = 40,
         },
-        MaxRetries = 3,
+        MaxRetries = 2,
         Priority   = 1,
       };
+
       taskOptions.Options.Add(AppsOptions.EngineTypeNameKey,
-                              EngineType.Symphony.ToString());
+                              EngineType.DataSynapse.ToString());
 
       taskOptions.Options.Add(AppsOptions.GridAppNameKey,
-                              "ArmoniK.Samples.SymphonyPackage");
+                              "ArmoniK.DevelopmentKit.GridServer");
+
       taskOptions.Options.Add(AppsOptions.GridAppVersionKey,
                               "1.0.0");
-      taskOptions.Options.Add(AppsOptions.GridAppNamespaceKey,
-                              "ArmoniK.Samples.Symphony.Packages");
 
-      CopyTaskOptionsForClient(taskOptions);
+      taskOptions.Options.Add(AppsOptions.GridAppNamespaceKey,
+                              "ArmoniK.DevelopmentKit.GridServer");
+
+      taskOptions.Options.Add(AppsOptions.GridServiceNameKey,
+                              "FallBackServerAdder");
 
       return taskOptions;
     }
@@ -166,7 +170,12 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client.api
       var       sessionId = Guid.NewGuid().ToString();
       var createSessionRequest = new CreateSessionRequest
       {
-        DefaultTaskOption = TaskOptions,
+        DefaultTaskOption = new TaskOptions
+        {
+          MaxDuration = Duration.FromTimeSpan(TimeSpan.FromHours(1)),
+          MaxRetries  = 2,
+          Priority    = 1,
+        },
         Id = sessionId,
       };
       var session = ControlPlaneService.CreateSession(createSessionRequest);
@@ -226,7 +235,7 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client.api
       return SubmitTasksWithDependencies(payloads.Select(payload =>
       {
         return new Tuple<byte[], IList<string>>(payload,
-                                                null);
+                                                new List<string>());
       }));
     }
 
@@ -267,27 +276,27 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client.api
         {
           Id      = taskId,
           Payload = ByteString.CopyFrom(payload),
-         
+
           ExpectedOutputKeys =
           {
             taskId,
           },
         };
-       
+
         if (dependencies != null && dependencies.Count != 0)
         {
           taskRequest.DataDependencies.AddRange(dependencies);
 
           Logger.LogDebug("Dependencies : {dep}",
                           string.Join(", ",
-                                      dependencies?.Select(item => item.ToString())));
+                                      dependencies.Select(item => item.ToString())));
         }
 
         taskRequests.Add(taskRequest);
       }
 
       var createTaskReply = ControlPlaneService.CreateTasksAsync(SessionId.Id,
-                                                                 TaskOptions,
+                                                                 null,
                                                                  taskRequests).Result;
       switch (createTaskReply.DataCase)
       {
@@ -375,7 +384,7 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client.api
         case AvailabilityReply.TypeOneofCase.Ok:
           break;
         case AvailabilityReply.TypeOneofCase.Error:
-          throw new Exception($"Task in Error - {taskId}\nMessage :\n{string.Join("Inner message:\n", availabilityReply.Error.Error)}");
+          throw new Exception($"Task in Error - {taskId}");
         case AvailabilityReply.TypeOneofCase.NotCompletedTask:
           if (throwIfNone)
             throw new DataException("Task was not yet completed");
@@ -397,12 +406,13 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client.api
         case Output.TypeOneofCase.Ok:
           break;
         case Output.TypeOneofCase.Error:
-          throw new Exception($"Task in Error - {taskId}\nMessage :\n{taskOutput.Error.Details}");
+          throw new Exception($"Task in Error - {taskId}");
         default:
           throw new ArgumentOutOfRangeException();
       }
 
       var response = ControlPlaneService.GetResultAsync(resultRequest);
+
       return response.Result;
     }
 
@@ -456,7 +466,6 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client.api
     ///   Wait for the taskIds and all its dependencies taskIds
     /// </summary>
     /// <param name="parentTaskId">The taskIds to </param>
-    [Obsolete]
     public void WaitSubtasksCompletion(string parentTaskId)
     {
       using var _ = Logger.LogFunction(parentTaskId);

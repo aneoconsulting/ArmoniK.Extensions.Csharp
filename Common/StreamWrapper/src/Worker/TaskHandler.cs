@@ -71,7 +71,7 @@ namespace ArmoniK.Extensions.Common.StreamWrapper.Worker
       logger_            = logger;
     }
 
-    protected async Task Init()
+    private async Task Init()
     {
       if (!await requestStream_.MoveNext())
         throw new InvalidOperationException("Request stream ended unexpectedly.");
@@ -202,7 +202,7 @@ namespace ArmoniK.Extensions.Common.StreamWrapper.Worker
     public IList<string> ExpectedResults { get; set; }
 
     /// <inheritdoc />
-    public Configuration Configuration { get; init; }
+    public Configuration Configuration { get; set; }
 
     /// <inheritdoc />
     public async Task CreateTasksAsync(IEnumerable<TaskRequest> tasks, TaskOptions taskOptions)

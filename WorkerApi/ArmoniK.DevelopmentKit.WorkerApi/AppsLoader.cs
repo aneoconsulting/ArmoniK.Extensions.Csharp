@@ -129,7 +129,7 @@ namespace ArmoniK.DevelopmentKit.WorkerApi
 
     public string PathToAssemblyGridWorker { get; set; }
 
-    public IGridWorker GetGridWorkerInstance(IConfiguration configuration, LoggerFactory loggerFactory)
+    public IGridWorker GetGridWorkerInstance(IConfiguration configuration, ILoggerFactory loggerFactory)
     {
       // Create an instance of a class from the assembly.
       try

@@ -63,7 +63,7 @@ namespace ArmoniK.EndToEndTests.Tests.CheckSessionUniqCallback
     {
       //END USER PLEASE FIXME
       countCall_ += 100000;
-      Log.LogInformation($"Call OnCreateService on service [InstanceID : {this.GetHashCode()}]");
+      Logger.LogInformation($"Call OnCreateService on service [InstanceID : {this.GetHashCode()}]");
       _resultMessage = $"{_resultMessage}\nCall OnCreateService on service [InstanceID : {this.GetHashCode()}]";
     }
 
@@ -71,7 +71,7 @@ namespace ArmoniK.EndToEndTests.Tests.CheckSessionUniqCallback
     {
       //END USER PLEASE FIXME
       countCall_ += 1000;
-      Log.LogInformation($"Call OnSessionEnter on service [InstanceID : {this.GetHashCode()}]");
+      Logger.LogInformation($"Call OnSessionEnter on service [InstanceID : {this.GetHashCode()}]");
       _resultMessage = $"{_resultMessage}\nCall OnSessionEnter on service [InstanceID : {this.GetHashCode()}]";
     }
 
@@ -79,7 +79,7 @@ namespace ArmoniK.EndToEndTests.Tests.CheckSessionUniqCallback
     public override byte[] OnInvoke(SessionContext sessionContext, TaskContext taskContext)
     {
       countCall_ += 1;
-      Log.LogInformation($"Call OnInvoke on service [InstanceID : {this.GetHashCode()}]");
+      Logger.LogInformation($"Call OnInvoke on service [InstanceID : {this.GetHashCode()}]");
       _resultMessage = $"{_resultMessage}\nCall OnInvoke on service [InstanceID : {this.GetHashCode()}]";
       _resultMessage = $"{_resultMessage}\n{PrintStates(countCall_)}";
 

@@ -22,7 +22,9 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System.IO;
+
 using ArmoniK.DevelopmentKit.WorkerApi.Services;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -30,60 +32,61 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+
 using Serilog;
 using Serilog.Extensions.Logging;
+using Serilog.Formatting.Compact;
 
 namespace ArmoniK.DevelopmentKit.WorkerApi
 {
-    public class Startup
+  public class Startup
+  {
+    public Startup(IWebHostEnvironment env)
     {
-        public Startup(IWebHostEnvironment env)
-        {
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json",
-                    true,
-                    true)
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json",
-                    true)
-                .AddEnvironmentVariables();
+      var builder = new ConfigurationBuilder()
+                    .SetBasePath(Directory.GetCurrentDirectory())
+                    .AddJsonFile("appsettings.json",
+                                 true,
+                                 true)
+                    .AddJsonFile($"appsettings.{env.EnvironmentName}.json",
+                                 true)
+                    .AddEnvironmentVariables();
 
-            Configuration = builder.Build();
+      Configuration = builder.Build();
 
-            LoggerFactory = new LoggerFactory(new[]
-            {
-                new SerilogLoggerProvider(new LoggerConfiguration()
-                    .ReadFrom
-                    .Configuration(Configuration)
-                    .Enrich.FromLogContext()
-                    .CreateLogger())
-            });
-        }
-
-        public LoggerFactory LoggerFactory { get; set; }
-
-        public IConfiguration Configuration { get; }
-
-        // This method gets called by the runtime. Use this method to add services to the container.
-        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
-        public void ConfigureServices(IServiceCollection services)
-        {
-            //services.AddConfiguration(Configuration);
-            services.AddGrpc();
-            services.AddSingleton<ServiceRequestContext>(new ServiceRequestContext(LoggerFactory));
-        }
-
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-        {
-            if (env.IsDevelopment())
-                app.UseDeveloperExceptionPage();
-
-            app.UseSerilogRequestLogging();
-
-            app.UseRouting();
-
-            app.UseEndpoints(endpoints => endpoints.MapGrpcService<ComputerService>());
-        }
+      Log.Logger = new LoggerConfiguration().ReadFrom.Configuration(Configuration)
+                                            .WriteTo.Console(new CompactJsonFormatter())
+                                            .Enrich.FromLogContext()
+                                            .CreateLogger();
+      var loggerFactory = Microsoft.Extensions.Logging.LoggerFactory.Create(loggingBuilder => loggingBuilder.AddSerilog(Log.Logger));
+      LoggerFactory = loggerFactory;
     }
+
+    public ILoggerFactory LoggerFactory { get; set; }
+
+    public IConfiguration Configuration { get; }
+
+    // This method gets called by the runtime. Use this method to add services to the container.
+    // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
+    public void ConfigureServices(IServiceCollection services)
+    {
+      //services.AddConfiguration(Configuration);
+      services.AddGrpc();
+      services.AddLogging();
+      services.AddSingleton<ServiceRequestContext>(new ServiceRequestContext(LoggerFactory));
+    }
+
+    // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+    {
+      if (env.IsDevelopment())
+        app.UseDeveloperExceptionPage();
+
+      app.UseSerilogRequestLogging();
+
+      app.UseRouting();
+
+      app.UseEndpoints(endpoints => endpoints.MapGrpcService<ComputerService>());
+    }
+  }
 }

@@ -23,7 +23,7 @@
 
 using System;
 
-using ArmoniK.Core.gRPC.V1;
+using ArmoniK.Api.gRPC.V1;
 using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.SymphonyApi.Client.api;
 
@@ -67,7 +67,7 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client
       Logger              = loggerFactory.CreateLogger<ArmonikSymphonyClient>();
     }
 
-    private ClientService.ClientServiceClient ControlPlaneService { get; set; }
+    private Submitter.SubmitterClient ControlPlaneService { get; set; }
 
     /// <summary>
     ///   Returns the section key Grpc from appSettings.json
@@ -94,7 +94,7 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client
     /// <param name="sessionId">The sessionId string which will opened</param>
     /// <param name="clientOptions">the customer taskOptions.Options send to the server by the client</param>
     /// <returns>Returns the SessionService to submit, wait or get result</returns>
-    public SessionService OpenSession(SessionId sessionId, IDictionary<string, string> clientOptions)
+    public SessionService OpenSession(Session sessionId, IDictionary<string, string> clientOptions = null)
     {
       ControlPlaneConnection();
 
@@ -114,7 +114,7 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client
       var channel = new Channel($"{uri.Host}:{uri.Port}",
                                 ChannelCredentials.Insecure);
 #endif
-      ControlPlaneService ??= new ClientService.ClientServiceClient(channel);
+      ControlPlaneService ??= new Submitter.SubmitterClient(channel);
     }
   }
 }

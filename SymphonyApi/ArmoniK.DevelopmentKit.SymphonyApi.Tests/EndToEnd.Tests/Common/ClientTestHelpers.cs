@@ -23,7 +23,7 @@
 
 using System.IO;
 
-using ArmoniK.Core.gRPC.V1;
+using ArmoniK.Api.gRPC.V1;
 using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.WorkerApi.Common;
 
@@ -58,7 +58,6 @@ namespace ArmoniK.EndToEndTests.Common
         },
         MaxRetries = 5,
         Priority   = 1,
-        IdTag      = "ArmonikTag",
       };
       taskOptions.Options.Add(AppsOptions.GridAppNameKey,
                               "ArmoniK.Samples.EndToEndTests");

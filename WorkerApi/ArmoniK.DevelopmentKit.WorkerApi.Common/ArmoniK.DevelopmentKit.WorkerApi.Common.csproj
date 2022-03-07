@@ -69,6 +69,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Common\ArmoniK.DevelopmentKit.Common\ArmoniK.DevelopmentKit.Common.csproj" />
+    <ProjectReference Include="..\..\Common\StreamWrapper\src\ArmoniK.Extensions.Common.StreamWrapper.csproj" />
   </ItemGroup>
 
   <Target Name="DeleteLocalCache" BeforeTargets="Pack">

@@ -61,22 +61,19 @@ namespace ArmoniK.Extensions.Common.StreamWrapper.Client
     }
 
 
-
-    
-
     public static IEnumerable<CreateLargeTaskRequest> ToRequestStream(this IEnumerable<TaskRequest> taskRequests,
                                                                       string                        sessionId,
                                                                       TaskOptions                   taskOptions,
                                                                       int                           chunkMaxSize)
     {
       yield return new()
-                   {
-                     InitRequest = new()
-                                   {
-                                     SessionId   = sessionId,
-                                     TaskOptions = taskOptions,
-                                   },
-                   };
+      {
+        InitRequest = new()
+        {
+          SessionId   = sessionId,
+          TaskOptions = taskOptions,
+        },
+      };
 
       using var taskRequestEnumerator = taskRequests.GetEnumerator();
 
@@ -89,7 +86,6 @@ namespace ArmoniK.Extensions.Common.StreamWrapper.Client
 
       while (taskRequestEnumerator.MoveNext())
       {
-
         foreach (var createLargeTaskRequest in currentRequest.ToRequestStream(false,
                                                                               chunkMaxSize))
         {
@@ -112,23 +108,23 @@ namespace ArmoniK.Extensions.Common.StreamWrapper.Client
                                                                       int              chunkMaxSize)
     {
       yield return new()
-                   {
-                     InitTask = new()
-                                {
-                                  Header = new()
-                                           {
-                                             DataDependencies =
-                                             {
-                                               taskRequest.DataDependencies,
-                                             },
-                                             ExpectedOutputKeys =
-                                             {
-                                               taskRequest.ExpectedOutputKeys,
-                                             },
-                                             Id       = taskRequest.Id,
-                                           },
-                                },
-                   };
+      {
+        InitTask = new()
+        {
+          Header = new()
+          {
+            DataDependencies =
+            {
+              taskRequest.DataDependencies,
+            },
+            ExpectedOutputKeys =
+            {
+              taskRequest.ExpectedOutputKeys,
+            },
+            Id = taskRequest.Id,
+          },
+        },
+      };
 
       var start = 0;
 
@@ -138,13 +134,13 @@ namespace ArmoniK.Extensions.Common.StreamWrapper.Client
                                  taskRequest.Payload.Length - start);
 
         yield return new()
-                     {
-                       TaskPayload = new()
-                                     {
-                                       Data = ByteString.CopyFrom(taskRequest.Payload.Span.Slice(start,
-                                                                                                 chunkSize)),
-                                     },
-                     };
+        {
+          TaskPayload = new()
+          {
+            Data = ByteString.CopyFrom(taskRequest.Payload.Span.Slice(start,
+                                                                      chunkSize)),
+          },
+        };
 
         start += chunkSize;
       }
@@ -160,20 +156,53 @@ namespace ArmoniK.Extensions.Common.StreamWrapper.Client
       if (isLast)
       {
         yield return new()
-                    {
-                      InitTask = new()
-                                 {
-                                   LastTask = true,
-                                 },
-                    };
-
+        {
+          InitTask = new()
+          {
+            LastTask = true,
+          },
+        };
       }
-
     }
-
+#if NET472_OR_GREATER
     public static async Task<byte[]> GetResultAsync(this Submitter.SubmitterClient client,
-                                                               ResultRequest resultRequest,
-                                                               CancellationToken              cancellationToken = default)
+                                                    ResultRequest                  resultRequest,
+                                                    CancellationToken              cancellationToken = default)
+    {
+      var streamingCall = client.TryGetResultStream(resultRequest);
+
+      var result = new List<byte>();
+
+      while (await streamingCall.ResponseStream.MoveNext(cancellationToken))
+      {
+        var reply = streamingCall.ResponseStream.Current;
+
+        switch (reply.TypeCase)
+        {
+          case ResultReply.TypeOneofCase.Result:
+            if (!reply.Result.DataComplete)
+            {
+              result.AddRange(reply.Result.Data.ToByteArray());
+            }
+
+            break;
+          case ResultReply.TypeOneofCase.None:
+            throw new Exception("Issue with Server !");
+          case ResultReply.TypeOneofCase.Error:
+            throw new Exception($"Error in task {reply.Error.TaskId}");
+          case ResultReply.TypeOneofCase.NotCompletedTask:
+            throw new Exception($"Task {reply.NotCompletedTask} not completed");
+          default:
+            throw new ArgumentOutOfRangeException();
+        }
+      } 
+
+      return result.ToArray();
+    }
+#else
+    public static async Task<byte[]> GetResultAsync(this Submitter.SubmitterClient client,
+                                                    ResultRequest                  resultRequest,
+                                                    CancellationToken              cancellationToken = default)
     {
       var streamingCall = client.TryGetResultStream(resultRequest);
 
@@ -187,6 +216,7 @@ namespace ArmoniK.Extensions.Common.StreamWrapper.Client
             {
               result.AddRange(reply.Result.Data.ToByteArray());
             }
+
             break;
           case ResultReply.TypeOneofCase.None:
             throw new Exception("Issue with Server !");
@@ -200,5 +230,6 @@ namespace ArmoniK.Extensions.Common.StreamWrapper.Client
 
       return result.ToArray();
     }
+#endif
   }
 }

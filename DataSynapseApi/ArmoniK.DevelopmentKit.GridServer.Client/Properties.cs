@@ -1,4 +1,4 @@
-﻿using ArmoniK.Core.gRPC.V1;
+﻿using ArmoniK.Api.gRPC.V1;
 using ArmoniK.DevelopmentKit.Common;
 using Google.Protobuf.WellKnownTypes;
 using Microsoft.Extensions.Configuration;
@@ -35,7 +35,6 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
       },
       MaxRetries = 5,
       Priority   = 1,
-      IdTag      = "ArmonikTag",
     };
 
     public string ConnectionString

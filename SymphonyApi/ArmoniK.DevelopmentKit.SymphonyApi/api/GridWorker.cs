@@ -19,16 +19,18 @@
 
 
 using ArmoniK.Attributes;
-using ArmoniK.Core.gRPC.V1;
+using ArmoniK.Api.gRPC.V1;
 using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.SymphonyApi.api;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+
 using System.Collections.Generic;
 using System.Linq;
 
 using ArmoniK.DevelopmentKit.WorkerApi.Common;
+using ArmoniK.Extensions.Common.StreamWrapper.Worker;
 
 #pragma warning disable CS1591
 
@@ -37,12 +39,12 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
   [XmlDocIgnore]
   public class GridWorker : IGridWorker
   {
-    private ILogger<GridWorker> Logger { get; set; }
+    public ILogger<GridWorker> Logger { get; set; }
     private ServiceContainerBase serviceContainerBase_;
     private ServiceContext       serviceContext_;
     private SessionContext       sessionContext_;
 
-    public GridWorker(IConfiguration configuration, LoggerFactory factory)
+    public GridWorker(IConfiguration configuration, ILoggerFactory factory)
     {
       Configuration = configuration;
 
@@ -60,11 +62,11 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
     public IConfiguration Configuration { get; set; }
 
 
-    public string SessionId { get; set; }
+    public Session SessionId { get; set; }
 
-    public string TaskId { get; set; }
+    public TaskId TaskId { get; set; }
 
-    public void Configure(IConfiguration configuration, IDictionary<string, string> clientOptions, IAppsLoader appsLoader)
+    public void Configure(IConfiguration configuration, IReadOnlyDictionary<string, string> clientOptions, IAppsLoader appsLoader)
     {
       GridAppName      = clientOptions[AppsOptions.GridAppNameKey];
       GridAppVersion   = clientOptions[AppsOptions.GridAppVersionKey];
@@ -89,20 +91,22 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
 
       serviceContainerBase_.Configure(configuration,
                                       clientOptions);
-
       Logger.LogDebug("Call OnCreateService");
 
       OnCreateService();
     }
 
-    public void InitializeSessionWorker(string sessionId, IDictionary<string, string> requestTaskOptions)
+    public void InitializeSessionWorker(Session sessionId, IReadOnlyDictionary<string, string> requestTaskOptions)
     {
-      if (string.IsNullOrEmpty(SessionId) || !sessionId.Equals(SessionId.UnPackSessionId().Session))
+      Logger.BeginPropertyScope(("SessionId", sessionId));
+      serviceContainerBase_.Logger.BeginPropertyScope(("SessionId", sessionId));
+
+      if (SessionId == null || !sessionId.Equals(SessionId))
       {
-        if (string.IsNullOrEmpty(SessionId))
+        if (SessionId == null)
         {
           SessionId = sessionId;
-          serviceContainerBase_.ConfigureSession(SessionId?.UnPackSessionId(),
+          serviceContainerBase_.ConfigureSession(SessionId,
                                                  requestTaskOptions);
           OnSessionEnter(sessionId);
         }
@@ -110,38 +114,37 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
         {
           OnSessionLeave();
           SessionId = sessionId;
-          serviceContainerBase_.ConfigureSession(SessionId?.UnPackSessionId(),
+          serviceContainerBase_.ConfigureSession(SessionId,
                                                  requestTaskOptions);
           OnSessionEnter(sessionId);
         }
       }
     }
 
-    public byte[] Execute(string session, ComputeRequest request)
+    public byte[] Execute(Session session, ITaskHandler taskHandler)
     {
       TaskId = new TaskId
       {
-        Task       = request.TaskId,
-        SubSession = request.Subsession,
-      }.PackTaskId();
+        Task = taskHandler.TaskId,
+      };
 
+      Logger.BeginPropertyScope(("TaskId", TaskId));
+      serviceContainerBase_.Logger.BeginPropertyScope(("TaskId", TaskId.Task));
 
       var taskContext = new TaskContext
       {
-        TaskId    = TaskId,
-        TaskInput = request.Payload.ToByteArray(),
-        SessionId = session,
-        DependenciesTaskIds = request.Dependencies.Select(t =>
-                                                            new TaskId
-                                                            {
-                                                              Task       = t,
-                                                              SubSession = request.Subsession,
-                                                            }.PackTaskId()),
-        ClientOptions = request.TaskOptions,
+        TaskId              = TaskId.Task,
+        TaskInput           = taskHandler.Payload,
+        SessionId           = session.Id,
+        DependenciesTaskIds = taskHandler.DataDependencies.Select(t => t.Key),
+        DataDependencies    = taskHandler.DataDependencies,
+        ClientOptions = taskHandler.TaskOptions.ToDictionary(id => id.Key,
+                                                             id => id.Value),
       };
 
+      serviceContainerBase_.ConfigureSessionService(taskHandler);
       serviceContainerBase_.TaskId = TaskId;
-
+      Logger.LogInformation($"Check Enrich with taskId");
       var clientPayload = serviceContainerBase_.OnInvoke(sessionContext_,
                                                          taskContext);
 
@@ -169,19 +172,19 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
     ///   The internal function onSessionEnter to openSession for clientService under GridWorker
     /// </summary>
     /// <param name="session"></param>
-    public void OnSessionEnter(string session)
+    public void OnSessionEnter(Session session)
     {
       sessionContext_ = new()
       {
         ClientLibVersion = GridAppVersion,
-        SessionId        = session
+        SessionId        = session.Id,
       };
       SessionId = session;
 
-      if (serviceContainerBase_.SessionId == null || string.IsNullOrEmpty(serviceContainerBase_.SessionId.Session))
-        serviceContainerBase_.SessionId = session?.UnPackSessionId();
+      if (serviceContainerBase_.SessionId == null || string.IsNullOrEmpty(serviceContainerBase_.SessionId.Id))
+        serviceContainerBase_.SessionId = session;
 
-      serviceContainerBase_.SessionId = session?.UnPackSessionId();
+      serviceContainerBase_.SessionId = session;
 
       serviceContainerBase_.OnSessionEnter(sessionContext_);
     }

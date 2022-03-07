@@ -31,6 +31,7 @@
   </Target>
 
 <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.0" />
     <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.0" PrivateAssets="All" />
 </ItemGroup>
 
@@ -44,8 +45,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Armonik.Api" Version="1.1.4" />
+    <PackageReference Include="Armonik.Api" Version="2.0.0" />
     <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.0" PrivateAssets="All" />
+    <PackageReference Include="System.Reactive" Version="5.0.0" />
   </ItemGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'net5.0' Or '$(TargetFramework)' == 'net6.0'">
@@ -58,6 +60,9 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="protobuf-net" Version="3.0.101" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net472' Or '$(TargetFramework)' == 'net452'">
   </ItemGroup>
 
   <Target Name="DeleteLocalCache" BeforeTargets="Pack">

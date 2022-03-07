@@ -1,4 +1,4 @@
-﻿using ArmoniK.Core.gRPC.V1;
+﻿using ArmoniK.Api.gRPC.V1;
 using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.WorkerApi.Common;
 
@@ -24,7 +24,7 @@ namespace ArmoniK.DevelopmentKit.GridServer
       /// <summary>
       /// Get the sessionId created by an createSession call before. 
       /// </summary>
-      public SessionId SessionId { get; set; }
+      public Session SessionId { get; set; }
 
       /// <summary>
       /// Check if the session is the same as previously created
@@ -32,6 +32,6 @@ namespace ArmoniK.DevelopmentKit.GridServer
       /// <param name="session"></param>
       /// <returns>Return boolean True if SessionId is null or equals to session parameters</returns>
       public bool IsEquals(string session)
-        => SessionId != null && session != null && SessionId.Session.Equals(session);
+        => SessionId != null && session != null && SessionId.Id.Equals(session);
     }
 }

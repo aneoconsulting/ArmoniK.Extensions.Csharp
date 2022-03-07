@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-using ArmoniK.Core.gRPC.V1;
+using ArmoniK.Api.gRPC.V1;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -14,7 +14,7 @@ namespace ArmoniK.DevelopmentKit.GridServer
 {
   public class ServiceAdminWorker
   {
-    public SessionId SessionId { get; set; }
+    public Session SessionId { get; set; }
     public Dictionary<string, Task> TaskWarehouse { get; set; }
 
     public ArmonikDataSynapsePollingService ClientService { get; set; }
@@ -26,9 +26,7 @@ namespace ArmoniK.DevelopmentKit.GridServer
       ClientService = new ArmonikDataSynapsePollingService(configuration,
                                                            loggerFactory,
                                                            taskOptions);
-      SessionId = ClientService.CreateSession(taskOptions);
-
-      ServiceType = "ServiceAdmin";
+      throw new NotImplementedException("Service Admin Worker need to move into Poling agent");
     }
 
     public byte[] UploadResources(string path)
@@ -37,9 +35,9 @@ namespace ArmoniK.DevelopmentKit.GridServer
       {
         ArmonikRequestType = ArmonikRequestType.Upload
       };
-      string taskId = ClientService.SubmitTask(payload.Serialize());
+      var taskId = ClientService.SubmitTask(payload.Serialize());
 
-      ClientService.WaitCompletion(taskId);
+      throw new NotImplementedException("Service Admin Worker need to move into Poling agent");
 
       return new byte[] { };
     }
