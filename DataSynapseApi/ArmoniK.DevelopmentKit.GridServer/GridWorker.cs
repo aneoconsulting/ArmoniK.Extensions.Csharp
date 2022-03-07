@@ -86,11 +86,6 @@ namespace ArmoniK.DevelopmentKit.GridServer
         MaxRetries = 5,
         Priority   = 1,
       };
-
-      //TODO : Need to implement Service AdminWorker into Polling Agent
-      //ServiceAdminWorker = new ServiceAdminWorker(Configurations,
-      //                                            LoggerFactory,
-      //                                            serviceAdminTaskOptions);
     }
 
     public ServiceAdminWorker ServiceAdminWorker { get; set; }
