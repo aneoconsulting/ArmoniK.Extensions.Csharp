@@ -214,7 +214,7 @@ jobs:
          export CPPort=$(kubectl get svc control-plane -n armonik -o custom-columns="PORT:.spec.ports[*].port" --no-headers=true)
          export Grpc__Endpoint=http://$CPIP:$CPPort
 
-         cd Common/StreamWrapper
+         cd Common/StreamWrapper/tests/Client
          dotnet build
          dotnet run
 
