@@ -23,10 +23,11 @@
 
 using System;
 
-using ArmoniK.Core.gRPC.V1;
+using ArmoniK.Api.gRPC.V1;
 
 namespace ArmoniK.DevelopmentKit.Common
 {
+  [Obsolete]
   public static class SessionIdExtension
   {
     /// <summary>
@@ -34,7 +35,7 @@ namespace ArmoniK.DevelopmentKit.Common
     /// </summary>
     /// <param name="sessionId"></param>
     /// <returns></returns>
-    public static string PackSessionId(this SessionId sessionId) => $"{sessionId.Session}#{sessionId.SubSession}";
+    public static string PackSessionId(this Session sessionId) => $"{sessionId.Id}#Obsolete";
 
     /// <summary>
     ///   Unpack SessionId and SubSessionId
@@ -42,7 +43,7 @@ namespace ArmoniK.DevelopmentKit.Common
     /// <param name="id"></param>
     /// <returns></returns>
     /// <exception cref="ArgumentException"></exception>
-    public static SessionId UnPackSessionId(this string id)
+    public static Session UnPackSessionId(this string id)
     {
       var split = id.Split('#');
       if (split.Length != 2)
@@ -50,8 +51,7 @@ namespace ArmoniK.DevelopmentKit.Common
                                     nameof(id));
       return new()
              {
-               Session    = split[0],
-               SubSession = split[1],
+               Id    = split[0],
              };
     }
   }

@@ -47,7 +47,7 @@ namespace ArmoniK.EndToEndTests.Tests.CheckPriority
 
     private string Job_of_N_Tasks(byte[] payload, int nbTasks)
     {
-      Log.LogInformation($"Executing {nbTasks} Subtasks with ExpM1 compute");
+      Logger.LogInformation($"Executing {nbTasks} Subtasks with ExpM1 compute");
 
       var payloads = new List<byte[]>(nbTasks);
       for (var i = 0; i < nbTasks; i++)
@@ -64,7 +64,7 @@ namespace ArmoniK.EndToEndTests.Tests.CheckPriority
                                                     taskIds.ToList());
       
       var elapsedMilliseconds = sw.ElapsedMilliseconds;
-      Log.LogInformation($"Server called {nbTasks} tasks in {elapsedMilliseconds} ms");
+      Logger.LogInformation($"Server called {nbTasks} tasks in {elapsedMilliseconds} ms");
 
       return aggTaskId;
     }
@@ -94,13 +94,13 @@ namespace ArmoniK.EndToEndTests.Tests.CheckPriority
 
       if (clientPayload.Type == ClientPayload.TaskType.Sleep)
       {
-        Log.LogInformation($"Empty task, sessionId : {sessionContext.SessionId}, taskId : {taskContext.TaskId}, sessionId from task : {taskContext.SessionId}");
+        Logger.LogInformation($"Empty task, sessionId : {sessionContext.SessionId}, taskId : {taskContext.TaskId}, sessionId from task : {taskContext.SessionId}");
         Thread.Sleep(clientPayload.Sleep * 1000);
       }
 
       else if (clientPayload.Type == ClientPayload.TaskType.Expm1)
       {
-        Log.LogInformation($"ExpM1 task, sessionId : {sessionContext.SessionId}, taskId : {taskContext.TaskId}, sessionId from task : {taskContext.SessionId}");
+        Logger.LogInformation($"ExpM1 task, sessionId : {sessionContext.SessionId}, taskId : {taskContext.TaskId}, sessionId from task : {taskContext.SessionId}");
         for (int idx = 10; idx > 0; idx--)
         {
           _ = ExpM1(idx);
@@ -108,7 +108,7 @@ namespace ArmoniK.EndToEndTests.Tests.CheckPriority
       }
       else if (clientPayload.Type == ClientPayload.TaskType.Aggregation)
       {
-        Log.LogInformation($"!!!! All subtask Finished sessionId : {sessionContext.SessionId}\n\n");
+        Logger.LogInformation($"!!!! All subtask Finished sessionId : {sessionContext.SessionId}\n\n");
       }
       else if (clientPayload.Type == ClientPayload.TaskType.JobOfNTasks)
       {
@@ -122,16 +122,11 @@ namespace ArmoniK.EndToEndTests.Tests.CheckPriority
         var aggTaskId = Job_of_N_Tasks(bytePayload,
                                        clientPayload.SingleInput);
 
-        return new ClientPayload
-          {
-            Type      = ClientPayload.TaskType.SubTask,
-            SubTaskId = aggTaskId
-          }
-          .Serialize(); //nothing to do
+        return null;
       }
       else
       {
-        Log.LogInformation($"Task type is unManaged {clientPayload.Type}");
+        Logger.LogInformation($"Task type is unManaged {clientPayload.Type}");
         throw new WorkerApiException($"Task type is unManaged {clientPayload.Type}");
       }
 

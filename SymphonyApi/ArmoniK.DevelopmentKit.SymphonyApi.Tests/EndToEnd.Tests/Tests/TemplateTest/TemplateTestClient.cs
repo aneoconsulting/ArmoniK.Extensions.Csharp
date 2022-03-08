@@ -66,18 +66,10 @@ namespace ArmoniK.EndToEndTests.Tests.TemplateTest
     /// <param name="sessionService">The sessionService API to connect to the Control plane Service</param>
     /// <param name="taskId">The task which is waiting for</param>
     /// <returns></returns>
-    private static byte[] WaitForSubTaskResult(SessionService sessionService, string taskId)
+    private static byte[] WaitForTaskResult(SessionService sessionService, string taskId)
     {
-      sessionService.WaitSubtasksCompletion(taskId);
       var taskResult = sessionService.GetResult(taskId);
-      var result     = ClientPayload.Deserialize(taskResult);
-
-      if (!string.IsNullOrEmpty(result.SubTaskId))
-      {
-        sessionService.WaitSubtasksCompletion(result.SubTaskId);
-        taskResult = sessionService.GetResult(result.SubTaskId);
-      }
-
+      
       return taskResult;
     }
 
@@ -101,7 +93,7 @@ namespace ArmoniK.EndToEndTests.Tests.TemplateTest
       };
       var taskId = sessionService.SubmitTask(clientPaylaod.Serialize());
 
-      var taskResult = WaitForSubTaskResult(sessionService,
+      var taskResult = WaitForTaskResult(sessionService,
                                             taskId);
       var result = ClientPayload.Deserialize(taskResult);
 

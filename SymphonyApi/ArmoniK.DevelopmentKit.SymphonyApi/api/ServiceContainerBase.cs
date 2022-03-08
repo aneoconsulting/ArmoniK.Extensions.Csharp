@@ -21,14 +21,9 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
-using ArmoniK.Core.gRPC.V1;
+using ArmoniK.Api.gRPC.V1;
 using ArmoniK.DevelopmentKit.Common;
-using ArmoniK.DevelopmentKit.SymphonyApi.Client;
-using ArmoniK.DevelopmentKit.SymphonyApi.Client.api;
+using ArmoniK.Extensions.Common.StreamWrapper.Worker;
 
 using JetBrains.Annotations;
 
@@ -37,6 +32,12 @@ using Microsoft.Extensions.Logging;
 
 using Serilog;
 using Serilog.Extensions.Logging;
+using Serilog.Formatting.Compact;
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace ArmoniK.DevelopmentKit.SymphonyApi.api
 {
@@ -55,26 +56,31 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.api
     ///   Get or Set SubSessionId object stored during the call of SubmitTask, SubmitSubTask,
     ///   SubmitSubTaskWithDependencies or WaitForCompletion, WaitForSubTaskCompletion or GetResults
     /// </summary>
-    public SessionId SessionId { get; set; }
-
-    internal ArmonikSymphonyClient ClientService { get; set; }
+    public Session SessionId { get; set; }
 
     /// <summary>
     /// Property to retrieve the sessionService previously created
     /// </summary>
-    internal SessionService SessionService { get; set; }
+    internal SessionPollingService SessionService { get; set; }
+
+    //internal ITaskHandler TaskHandler { get; set; }
 
     internal IDictionary<string, string> ClientOptions { get; set; } = new Dictionary<string, string>();
 
     /// <summary>
     ///   Get or set the taskId (ONLY INTERNAL USED)
     /// </summary>
-    public string TaskId { get; set; }
+    public TaskId TaskId { get; set; }
 
     /// <summary>
     ///   Get or Set Configuration
     /// </summary>
     public IConfiguration Configuration { get; set; }
+
+    /// <summary>
+    /// The logger factory to create new Logger in sub class caller
+    /// </summary>
+    public ILoggerFactory LoggerFactory { get; set; }
 
     /// <summary>
     ///   The middleware triggers the invocation of this handler just after a Service Instance is started.
@@ -137,8 +143,7 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.api
     ///   The user payload list to execute. Generally used for subTasking.
     /// </param>
     public IEnumerable<string> SubmitTasks(IEnumerable<byte[]> payloads)
-      => SessionService.SubmitSubTasks(TaskId,
-                                       payloads);
+      => SessionService.SubmitTasks(payloads);
 
 
     /// <summary>
@@ -148,6 +153,7 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.api
     ///   The user payload list to execute. Generally used for subTasking.
     /// </param>
     /// <param name="parentTaskIds">The parent task Id attaching the subTask</param>
+    [Obsolete]
     public IEnumerable<string> SubmitSubTasks(IEnumerable<byte[]> payloads, string parentTaskIds)
       => SessionService.SubmitSubTasks(parentTaskIds,
                                        payloads);
@@ -157,10 +163,11 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.api
     ///   to start until all dependencies are completed successfully
     /// </summary>
     /// <param name="payloadWithDependencies">A list of Tuple(taskId, Payload) in dependence of those created tasks</param>
+    /// <param name="resultForParent">Up result to parent task</param>
     /// <returns>return a list of taskIds of the created tasks </returns>
-    public IEnumerable<string> SubmitTasksWithDependencies(IEnumerable<Tuple<byte[], IList<string>>> payloadWithDependencies)
-      => SessionService.SubmitSubtasksWithDependencies(TaskId,
-                                                       payloadWithDependencies);
+    public IEnumerable<string> SubmitTasksWithDependencies(IEnumerable<Tuple<byte[], IList<string>>> payloadWithDependencies, bool resultForParent = false)
+      => SessionService.SubmitTasksWithDependencies(payloadWithDependencies,
+                                                    resultForParent);
 
     /// <summary>
     ///   The method to submit one subtask with dependencies tasks. This task will wait for
@@ -169,6 +176,7 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.api
     /// <param name="payload">The payload to submit</param>
     /// <param name="dependencies">A list of task Id in dependence of this created SubTask</param>
     /// <returns>return the taskId of the created SubTask </returns>
+    [Obsolete]
     public string SubmitSubtaskWithDependencies(byte[] payload, IList<string> dependencies)
       => SubmitSubtasksWithDependencies(new[]
       {
@@ -182,9 +190,9 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.api
     /// </summary>
     /// <param name="payloadWithDependencies">A list of Tuple(taskId, Payload) in dependence of those created Subtasks</param>
     /// <returns>return a list of taskIds of the created subtasks </returns>
+    [Obsolete]
     public IEnumerable<string> SubmitSubtasksWithDependencies(IEnumerable<Tuple<byte[], IList<string>>> payloadWithDependencies)
-      => SessionService.SubmitSubtasksWithDependencies(TaskId,
-                                                       payloadWithDependencies);
+      => SessionService.SubmitTasksWithDependencies(payloadWithDependencies);
 
     /// <summary>
     ///   User method to wait for only the parent task from the client
@@ -192,19 +200,18 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.api
     /// <param name="taskId">
     ///   The task id of the task to wait for
     /// </param>
+    [Obsolete]
     public void WaitForTaskCompletion(string taskId)
     {
-      //SessionService.OpenSession(SessionId);
-      SessionService.WaitForTaskCompletion(taskId);
     }
 
     /// <summary>
     /// 
     /// </summary>
     /// <param name="taskIds">List of tasks to wait for</param>
+    [Obsolete]
     public void WaitForTasksCompletion(IEnumerable<string> taskIds)
     {
-      SessionService.WaitForTasksCompletion(taskIds);
     }
 
     /// <summary>
@@ -213,9 +220,10 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.api
     /// <param name="taskId">
     ///   The task id of the Subtask
     /// </param>
+    /// 
+    [Obsolete]
     public void WaitForSubTasksCompletion(string taskId)
     {
-      SessionService.WaitSubtasksCompletion(taskId);
     }
 
     /// <summary>
@@ -223,11 +231,9 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.api
     /// </summary>
     /// <param name="taskId">The task Id to get the result</param>
     /// <returns>return the customer payload</returns>
-    public byte[] GetResult(string taskId)
+    public byte[] GetDependenciesResult(string taskId)
     {
-      //ClientService.OpenSession(SessionId);
-
-      return SessionService.GetResult(taskId);
+      return SessionService.GetDependenciesResult(taskId);
     }
 
     /// <summary>
@@ -236,7 +242,7 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.api
     /// </summary>
     /// <param name="configuration">The appSettings.json configuration prepared during the deployment</param>
     /// <param name="clientOptions">All data coming from Client within TaskOptions.Options </param>
-    public void Configure(IConfiguration configuration, IDictionary<string, string> clientOptions)
+    public void Configure(IConfiguration configuration, IReadOnlyDictionary<string, string> clientOptions)
     {
       Configuration = configuration;
 
@@ -244,19 +250,13 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.api
       clientOptions.ToList()
                    .ForEach(pair => ClientOptions[pair.Key] = pair.Value);
 
-      var factory = new LoggerFactory(new[]
-      {
-        new SerilogLoggerProvider(new LoggerConfiguration()
-                                  .ReadFrom
-                                  .Configuration(Configuration)
-                                  .CreateLogger())
-      });
-
-      ClientService = new(configuration,
-                          factory);
-
-      Log = factory.CreateLogger<ServiceContainerBase>();
-      Log.LogInformation("Configuring ServiceContainerBase");
+      var logger = new LoggerConfiguration().ReadFrom.Configuration(Configuration)
+                                            .WriteTo.Console(new CompactJsonFormatter())
+                                            .Enrich.FromLogContext()
+                                            .CreateLogger();
+      LoggerFactory = Microsoft.Extensions.Logging.LoggerFactory.Create(loggingBuilder => loggingBuilder.AddSerilog(logger));
+      Logger        = LoggerFactory.CreateLogger<ServiceContainerBase>();
+      Logger.LogInformation("Configuring ServiceContainerBase");
     }
 
     /// <summary>
@@ -264,22 +264,28 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.api
     /// </summary>
     /// <param name="sessionId"></param>
     /// <param name="requestTaskOptions"></param>
-    public void ConfigureSession(SessionId sessionId, IDictionary<string, string> requestTaskOptions)
+    public void ConfigureSession(Session sessionId, IReadOnlyDictionary<string, string> requestTaskOptions)
     {
       SessionId = sessionId;
 
       //Append or overwrite Dictionary Options in TaskOptions with one coming from client
       requestTaskOptions.ToList()
                         .ForEach(pair => ClientOptions[pair.Key] = pair.Value);
-
-      SessionService = ClientService.OpenSession(SessionId,
-                                                 ClientOptions);
     }
 
     /// <summary>
-    /// Get access to Logger with Log.Lo.
+    /// Configure Service for actual session. Connect the worker to the current pollingAgent
     /// </summary>
-    public ILogger<ServiceContainerBase> Log { get; set; }
+    /// <param name="taskHandler"></param>
+    public void ConfigureSessionService(ITaskHandler taskHandler)
+    {
+      SessionService = new SessionPollingService(LoggerFactory, taskHandler);
+    }
+
+    /// <summary>ginScope
+    /// Get access to Logger with Logger.Lo.
+    /// </summary>
+    public ILogger<ServiceContainerBase> Logger { get; set; }
   }
 
   /// <summary>
@@ -296,8 +302,7 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.api
     /// </param>
     public static string SubmitTask(this ServiceContainerBase serviceContainerBase, byte[] payload)
     {
-      return serviceContainerBase.SessionService.SubmitSubTasks(serviceContainerBase.TaskId,
-                                                                new[] { payload }).Single();
+      return serviceContainerBase.SessionService.SubmitTasks(new[] { payload }).Single();
     }
 
     /// <summary>
@@ -322,14 +327,23 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.api
     /// <param name="serviceContainerBase"></param>
     /// <param name="payload">The payload to submit</param>
     /// <param name="dependencies">A list of task Id in dependence of this created task</param>
+    /// <param name="resultForParent"></param>
     /// <returns>return the taskId of the created task </returns>
-    public static string SubmitTaskWithDependencies(this ServiceContainerBase serviceContainerBase, byte[] payload, IList<string> dependencies)
+    public static string SubmitTaskWithDependencies(this ServiceContainerBase serviceContainerBase, byte[] payload, IList<string> dependencies, bool resultForParent = false)
     {
       return serviceContainerBase.SubmitTasksWithDependencies(new[]
       {
         Tuple.Create(payload,
                      dependencies),
-      }).Single();
+      }, resultForParent).Single();
+    }
+
+
+    private static void SubmitDelegateTaskWithDependencies(this ServiceContainerBase                     serviceContainerBase,
+                                                           IEnumerable<string>                           taskIds,
+                                                           Func<IEnumerable<Tuple<string, byte[]>>, int> func)
+    {
+      throw new NotImplementedException();
     }
   }
 }

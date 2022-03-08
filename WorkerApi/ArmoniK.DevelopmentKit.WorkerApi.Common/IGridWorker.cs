@@ -24,7 +24,8 @@
 using System;
 using System.Collections.Generic;
 
-using ArmoniK.Core.gRPC.V1;
+using ArmoniK.Api.gRPC.V1;
+using ArmoniK.Extensions.Common.StreamWrapper.Worker;
 
 using Google.Protobuf.Collections;
 
@@ -34,9 +35,9 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Common
 {
   public interface IGridWorker : IDisposable
   {
-    public void Configure(IConfiguration       configuration, IDictionary<string, string> clientOptions, IAppsLoader appsLoader);
-    public void InitializeSessionWorker(string sessionId,     IDictionary<string, string> requestTaskOptions);
-    public byte[] Execute(string               session,       ComputeRequest              request);
+    public void Configure(IConfiguration        configuration, IReadOnlyDictionary<string, string> clientOptions, IAppsLoader appsLoader);
+    public void InitializeSessionWorker(Session sessionId,     IReadOnlyDictionary<string, string> requestTaskOptions);
+    public byte[] Execute(ITaskHandler          taskHandler);
 
     public void SessionFinalize();
 

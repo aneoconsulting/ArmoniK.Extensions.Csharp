@@ -51,5 +51,7 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
 
       set => Payload = value;
     }
+
+    public IReadOnlyDictionary<string, byte[]> DataDependencies { get; set; }
   }
 }

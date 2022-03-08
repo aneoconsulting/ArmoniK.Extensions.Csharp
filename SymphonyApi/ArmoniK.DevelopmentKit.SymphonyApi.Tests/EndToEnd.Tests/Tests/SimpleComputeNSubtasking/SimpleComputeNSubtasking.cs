@@ -52,7 +52,7 @@ namespace ArmoniK.EndToEndTests.Tests.SimpleComputeNSubtasking
 
     public byte[] ComputeSquare(TaskContext taskContext, ClientPayload clientPayload)
     {
-      Log.LogInformation($"Enter in function : ComputeSquare with taskId {taskContext.TaskId}");
+      Logger.LogInformation($"Enter in function : ComputeSquare with taskId {taskContext.TaskId}");
 
       if (clientPayload.Numbers.Count == 0)
         return new ClientPayload
@@ -65,7 +65,7 @@ namespace ArmoniK.EndToEndTests.Tests.SimpleComputeNSubtasking
       if (clientPayload.Numbers.Count == 1)
       {
         var value = clientPayload.Numbers[0] * clientPayload.Numbers[0];
-        Log.LogInformation($"Compute {value}             with taskId {taskContext.TaskId}");
+        Logger.LogInformation($"Compute {value}             with taskId {taskContext.TaskId}");
 
         return new ClientPayload
           {
@@ -79,15 +79,15 @@ namespace ArmoniK.EndToEndTests.Tests.SimpleComputeNSubtasking
         var value  = clientPayload.Numbers[0];
         var square = value * value;
 
-        var subTaskPaylaod = new ClientPayload();
+        var subTaskPayload = new ClientPayload();
         clientPayload.Numbers.RemoveAt(0);
-        subTaskPaylaod.Numbers = clientPayload.Numbers;
-        subTaskPaylaod.Type    = clientPayload.Type;
-        Log.LogInformation($"Compute {value} in                 {taskContext.TaskId}");
+        subTaskPayload.Numbers = clientPayload.Numbers;
+        subTaskPayload.Type    = clientPayload.Type;
+        Logger.LogInformation($"Compute {value} in                 {taskContext.TaskId}");
 
-        Log.LogInformation($"Submitting subTask from task          : {taskContext.TaskId} from Session {SessionId.PackSessionId()}");
-        var subTaskId = this.SubmitTask(subTaskPaylaod.Serialize());
-        Log.LogInformation($"Submitted  subTask                    : {subTaskId} with ParentTask {this.TaskId}");
+        Logger.LogInformation($"Submitting subTask from task          : {taskContext.TaskId} from Session {SessionId}");
+        var subTaskId = this.SubmitTask(subTaskPayload.Serialize());
+        Logger.LogInformation($"Submitted  subTask                    : {subTaskId} with ParentTask {this.TaskId}");
 
         ClientPayload aggPayload = new()
         {
@@ -95,18 +95,21 @@ namespace ArmoniK.EndToEndTests.Tests.SimpleComputeNSubtasking
           Result = square,
         };
 
-        Log.LogInformation($"Submitting aggregate task             : {taskContext.TaskId} from Session {SessionId.PackSessionId()}");
+        Logger.LogInformation($"Submitting aggregate task             : {taskContext.TaskId} from Session {SessionId}");
 
         var aggTaskId = this.SubmitTaskWithDependencies(aggPayload.Serialize(),
-                                                        new[] { subTaskId });
-        Log.LogInformation($"Submitted  SubmitTaskWithDependencies : {aggTaskId} with task dependencies      {subTaskId}");
+                                                        new[] { subTaskId },
+                                                        true);
 
-        return new ClientPayload
-          {
-            Type      = ClientPayload.TaskType.Aggregation,
-            SubTaskId = aggTaskId,
-          }
-          .Serialize(); //nothing to do
+        Logger.LogInformation($"Submitted  SubmitTaskWithDependencies : {aggTaskId} with task dependencies      {subTaskId}");
+
+        //return new ClientPayload
+        //  {
+        //    Type      = ClientPayload.TaskType.Aggregation,
+        //    SubTaskId = aggTaskId,
+        //  }
+        //  .Serialize(); //nothing to do
+        return null;
       }
     }
 
@@ -116,19 +119,21 @@ namespace ArmoniK.EndToEndTests.Tests.SimpleComputeNSubtasking
       for (var i = 0; i < nbTasks; i++)
         payloads.Add(payload);
 
-      var sw          = Stopwatch.StartNew();
-      var finalResult = 0;
-      var taskIds     = SubmitTasks(payloads);
+      var sw      = Stopwatch.StartNew();
+      var taskIds = SubmitTasks(payloads);
 
-      foreach (var taskId in taskIds)
+      ClientPayload aggPayload = new()
       {
-        var taskResult = GetResult(taskId);
-        finalResult += BitConverter.ToInt32(taskResult, 0);
-      }
+        Type = ClientPayload.TaskType.AggregationNTask,
+      };
+      ;
+      this.SubmitTaskWithDependencies(aggPayload.Serialize(),
+                                      taskIds.ToList());
 
       var elapsedMilliseconds = sw.ElapsedMilliseconds;
-      Log.LogInformation($"Server called {nbTasks} tasks in {elapsedMilliseconds} ms agregated result = {finalResult}");
+      Logger.LogInformation($"Server called {nbTasks} tasks in {elapsedMilliseconds} ms");
     }
+
 
     public byte[] ComputeCube(TaskContext taskContext, ClientPayload clientPayload)
     {
@@ -157,7 +162,7 @@ namespace ArmoniK.EndToEndTests.Tests.SimpleComputeNSubtasking
 
       if (clientPayload.Type == ClientPayload.TaskType.Sleep)
       {
-        Log.LogInformation($"Empty task, sessionId : {sessionContext.SessionId}, taskId : {taskContext.TaskId}, sessionId from task : {taskContext.SessionId}");
+        Logger.LogInformation($"Empty task, sessionId : {sessionContext.SessionId}, taskId : {taskContext.TaskId}, sessionId from task : {taskContext.SessionId}");
         Thread.Sleep(clientPayload.Sleep * 1000);
       }
       else if (clientPayload.Type == ClientPayload.TaskType.JobOfNTasks)
@@ -180,6 +185,11 @@ namespace ArmoniK.EndToEndTests.Tests.SimpleComputeNSubtasking
           }
           .Serialize(); //nothing to do
       }
+      else if (clientPayload.Type == ClientPayload.TaskType.AggregationNTask)
+      {
+        return AggregateValuesNTasks(taskContext,
+                                     clientPayload);
+      }
       else if (clientPayload.Type == ClientPayload.TaskType.Aggregation)
       {
         return AggregateValues(taskContext,
@@ -187,7 +197,7 @@ namespace ArmoniK.EndToEndTests.Tests.SimpleComputeNSubtasking
       }
       else
       {
-        Log.LogInformation($"Task type is unManaged {clientPayload.Type}");
+        Logger.LogInformation($"Task type is unManaged {clientPayload.Type}");
         throw new WorkerApiException($"Task type is unManaged {clientPayload.Type}");
       }
 
@@ -199,20 +209,41 @@ namespace ArmoniK.EndToEndTests.Tests.SimpleComputeNSubtasking
         .Serialize(); //nothing to do
     }
 
+    private byte[] AggregateValuesNTasks(TaskContext taskContext, ClientPayload clientPayload)
+    {
+      var finalResult = 0;
+
+      foreach (var pair in taskContext.DataDependencies)
+      {
+        var taskResult = pair.Value;
+        finalResult += BitConverter.ToInt32(taskResult,
+                                            0);
+      }
+
+      ClientPayload childResult = new()
+      {
+        Type   = ClientPayload.TaskType.Result,
+        Result = finalResult,
+      };
+
+      return childResult.Serialize();
+    }
+
     private byte[] AggregateValues(TaskContext taskContext, ClientPayload clientPayload)
     {
-      Log.LogInformation($"Aggregate Task {taskContext.TaskId} request result from Dependencies TaskIds : [{string.Join(", ", taskContext.DependenciesTaskIds)}]");
-      var parentResult = GetResult(taskContext.DependenciesTaskIds?.Single());
+      Logger.LogInformation($"Aggregate Task {taskContext.TaskId} request result from Dependencies TaskIds : [{string.Join(", ", taskContext.DependenciesTaskIds)}]");
+      var parentResult = taskContext.DataDependencies?.Single().Value;
 
       if (parentResult == null || parentResult.Length == 0)
         throw new WorkerApiException($"Cannot retrieve Result from taskId {taskContext.DependenciesTaskIds?.Single()}");
 
       var parentResultPayload = ClientPayload.Deserialize(parentResult);
-      if (parentResultPayload.SubTaskId != null)
-      {
-        parentResult        = GetResult(parentResultPayload.SubTaskId);
-        parentResultPayload = ClientPayload.Deserialize(parentResult);
-      }
+      //if (parentResultPayload.SubTaskId != null)
+      //{
+      //  //parentResult        = GetResult(parentResultPayload.SubTaskId);
+      //  //parentResultPayload = ClientPayload.Deserialize(parentResult);
+      //  throw new WorkerApiException($"There should received a new SubTask here");
+      //}
 
       var value = clientPayload.Result + parentResultPayload.Result;
 

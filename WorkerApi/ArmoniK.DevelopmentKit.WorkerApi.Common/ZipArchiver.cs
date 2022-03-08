@@ -75,7 +75,7 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Common
       }
 
       // Instantiate the regular expression object.
-      var pat = @"(.*)-v([\d\w]+\.[\d\w]+\.[\d\w]+)";
+      var pat = @"(.*)-v(.+)";
 
       var r = new Regex(pat,
                         RegexOptions.IgnoreCase);
@@ -132,7 +132,7 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Common
 
       if (!Directory.Exists($"{RootAppPath}/{assemblyName}/{assemblyVersion}"))
         return false;
-      
+
       //Now at least if dll exist or if a lock file exists and wait for unlock
       if (File.Exists($"{basePath}/{assemblyName}.dll"))
         return true;
@@ -180,7 +180,9 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Common
       var pathToAssembly    = $"{RootAppPath}/{assemblyName}/{assemblyVersion}/{assemblyName}.dll";
       var pathToAssemblyDir = $"{RootAppPath}/{assemblyName}/{assemblyVersion}";
 
-      if (ArchiveAlreadyExtracted(fileAdaptater, fileName, 20))
+      if (ArchiveAlreadyExtracted(fileAdaptater,
+                                  fileName,
+                                  20))
         return pathToAssembly;
 
       if (!Directory.Exists(pathToAssemblyDir))
@@ -222,7 +224,8 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Common
 
         try
         {
-          ZipFile.ExtractToDirectory(Path.Combine(fileAdaptater.DestinationDirPath, fileName),
+          ZipFile.ExtractToDirectory(Path.Combine(fileAdaptater.DestinationDirPath,
+                                                  fileName),
                                      RootAppPath);
         }
         catch (Exception e)

@@ -53,14 +53,19 @@ jobs:
     # find . -name "*.csproj" | xargs -I % echo dotnet build % -c Release
     - name: Build the package
       run: |
-        dotnet build -c Release ./Common/ArmoniK.DevelopmentKit.Common/ArmoniK.DevelopmentKit.Common.csproj
-        dotnet build -c Release ./DataSynapseApi/ArmoniK.DevelopmentKit.GridServer/ArmoniK.DevelopmentKit.GridServer.csproj
-        dotnet build -c Release ./DataSynapseApi/ArmoniK.DevelopmentKit.GridServer.Client/ArmoniK.DevelopmentKit.GridServer.Client.csproj
-        dotnet build -c Release ./SymphonyApi/ArmoniK.DevelopmentKit.SymphonyApi/ArmoniK.DevelopmentKit.SymphonyApi.csproj
-        dotnet build -c Release ./SymphonyApi/ArmoniK.DevelopmentKit.SymphonyApi.Client/ArmoniK.DevelopmentKit.SymphonyApi.Client.csproj
-        dotnet build -c Release ./WorkerApi/ArmoniK.DevelopmentKit.WorkerApi/ArmoniK.DevelopmentKit.WorkerApi.csproj
-        dotnet build -c Release ./WorkerApi/ArmoniK.DevelopmentKit.WorkerApi.Common/ArmoniK.DevelopmentKit.WorkerApi.Common.csproj
-        dotnet build -c Release ./WorkerApi/tests/WorkerApiTests/WorkerApiTests.csproj
+        dotnet build ./Common/ArmoniK.DevelopmentKit.Common/ArmoniK.DevelopmentKit.Common.csproj -c Release
+        dotnet build ./Common/StreamWrapper/src/ArmoniK.Extensions.Common.StreamWrapper.csproj -c Release
+        dotnet build ./Common/StreamWrapper/tests/Client/ArmoniK.Extensions.Common.StreamWrapper.Tests.Client.csproj -c Release
+        dotnet build ./Common/StreamWrapper/tests/Common/ArmoniK.Extensions.Common.StreamWrapper.Tests.Common.csproj -c Release
+        dotnet build ./Common/StreamWrapper/tests/Server/ArmoniK.Extensions.Common.StreamWrapper.Tests.Server.csproj -c Release
+        dotnet build ./DataSynapseApi/ArmoniK.DevelopmentKit.GridServer/ArmoniK.DevelopmentKit.GridServer.csproj -c Release
+        dotnet build ./DataSynapseApi/ArmoniK.DevelopmentKit.GridServer.Client/ArmoniK.DevelopmentKit.GridServer.Client.csproj -c Release
+        dotnet build ./SymphonyApi/ArmoniK.DevelopmentKit.SymphonyApi/ArmoniK.DevelopmentKit.SymphonyApi.csproj -c Release
+        dotnet build ./SymphonyApi/ArmoniK.DevelopmentKit.SymphonyApi.Client/ArmoniK.DevelopmentKit.SymphonyApi.Client.csproj -c Release
+        dotnet build ./SymphonyApi/ArmoniK.DevelopmentKit.SymphonyApi.Tests/EndToEnd.Tests/ArmoniK.EndToEndTests.csproj -c Release
+        dotnet build ./WorkerApi/ArmoniK.DevelopmentKit.WorkerApi/ArmoniK.DevelopmentKit.WorkerApi.csproj -c Release
+        dotnet build ./WorkerApi/ArmoniK.DevelopmentKit.WorkerApi.Common/ArmoniK.DevelopmentKit.WorkerApi.Common.csproj -c Release
+        dotnet build ./WorkerApi/tests/WorkerApiTests/WorkerApiTests.csproj -c Release
 
     # find . -name "*.csproj" | xargs -I % echo dotnet pack % -c Release -o /tmp/packages -p:PackageVersion=\$GENVERSION
     - name: Pack the package VERSION
@@ -71,6 +76,7 @@ jobs:
         dotnet pack ./SymphonyApi/ArmoniK.DevelopmentKit.SymphonyApi/ArmoniK.DevelopmentKit.SymphonyApi.csproj -c Release -o /tmp/packages -p:PackageVersion=$GENVERSION
         dotnet pack ./SymphonyApi/ArmoniK.DevelopmentKit.SymphonyApi.Client/ArmoniK.DevelopmentKit.SymphonyApi.Client.csproj -c Release -o /tmp/packages -p:PackageVersion=$GENVERSION
         dotnet pack ./WorkerApi/ArmoniK.DevelopmentKit.WorkerApi.Common/ArmoniK.DevelopmentKit.WorkerApi.Common.csproj -c Release -o /tmp/packages -p:PackageVersion=$GENVERSION
+        dotnet pack ./Common/StreamWrapper/src/ArmoniK.Extensions.Common.StreamWrapper.csproj -c Release -c Release -o /tmp/packages -p:PackageVersion=$GENVERSION
 
     - name: Store the package VERSION
       uses: actions/upload-artifact@v2
@@ -88,6 +94,7 @@ jobs:
         dotnet pack ./SymphonyApi/ArmoniK.DevelopmentKit.SymphonyApi/ArmoniK.DevelopmentKit.SymphonyApi.csproj -c Release -o /tmp/releases -p:PackageVersion=$GENRELEASE
         dotnet pack ./SymphonyApi/ArmoniK.DevelopmentKit.SymphonyApi.Client/ArmoniK.DevelopmentKit.SymphonyApi.Client.csproj -c Release -o /tmp/releases -p:PackageVersion=$GENRELEASE
         dotnet pack ./WorkerApi/ArmoniK.DevelopmentKit.WorkerApi.Common/ArmoniK.DevelopmentKit.WorkerApi.Common.csproj -c Release -o /tmp/releases -p:PackageVersion=$GENRELEASE
+        dotnet pack ./Common/StreamWrapper/src/ArmoniK.Extensions.Common.StreamWrapper.csproj -c Release -c Release -o /tmp/releases -p:PackageVersion=$GENRELEASE
 
     - name: Store the package RELEASE
       if: ${{ github.ref == 'refs/heads/release' }}
@@ -101,7 +108,7 @@ jobs:
       run: |
         dotnet nuget push /tmp/packages/ArmoniK.*.nupkg --api-key AzureArtifacts
 
-  buildWorker:
+  buildWorkerEnd2End:
     runs-on: ubuntu-latest
     needs:
       - versionning
@@ -126,11 +133,36 @@ jobs:
       run: |
         docker push dockerhubaneo/armonik_worker_dll:$VERSION
 
+  buildWorkerStreamWrapperTest:
+    runs-on: ubuntu-latest
+    needs:
+      - versionning
+    env:
+      VERSION: ${{ needs.versionning.outputs.version }}
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        ref: ${{ github.ref }}
+        submodules: true
+
+    - name: login
+      run: |
+        echo ${{ secrets.DOCKER_HUB_TOKEN }} | docker login -u dhaneo1 --password-stdin
+
+    - name: build
+      run: |
+        docker build -t dockerhubaneo/armonik_streamwrapper_test:$VERSION -f Common/StreamWrapper/tests/Server/Dockerfile .
+
+    - name: push
+      run: |
+        docker push dockerhubaneo/armonik_streamwrapper_test:$VERSION
+
   testEndToEnd:
     needs:
       - versionning
       - buildProjects
-      - buildWorker
+      - buildWorkerEnd2End
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -154,9 +186,37 @@ jobs:
          dotnet publish --self-contained -r linux-x64 -f net5.0
 
          sudo chown -R $USER:$USER /data
-         cp ../packages/ArmoniK.EndToEndTests-v1.0.0.zip /data
+         cp ../packages/ArmoniK.EndToEndTests-v1.0.0-700.zip /data
 
          dotnet run -r linux-x64 -f net5.0
+
+  testStreamWrapper:
+    needs:
+      - versionning
+      - buildProjects
+      - buildWorkerStreamWrapperTest
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.ref }}
+
+      - uses: aneoconsulting/ArmoniK@main
+        id: deploy-infra
+        with:
+          worker-image: dockerhubaneo/armonik_streamwrapper_test
+          worker-tag: ${{ needs.versionning.outputs.version }}
+
+      - name: Run StreamWrapper.Tests
+        run: |
+         export CPIP=$(kubectl get svc control-plane -n armonik -o custom-columns="IP:.spec.clusterIP" --no-headers=true)
+         export CPPort=$(kubectl get svc control-plane -n armonik -o custom-columns="PORT:.spec.ports[*].port" --no-headers=true)
+         export Grpc__Endpoint=http://$CPIP:$CPPort
+
+         cd Common/StreamWrapper/tests/Client
+         dotnet build
+         dotnet run
 
   release-packages:
     runs-on: ubuntu-latest
@@ -164,6 +224,7 @@ jobs:
     needs:
       - versionning
       - testEndToEnd
+      - testStreamWrapper
     steps:
       - name: Download a single artifact
         uses: actions/download-artifact@v2
@@ -179,9 +240,15 @@ jobs:
     needs:
       - versionning
       - testEndToEnd
+      - testStreamWrapper
     env:
       VERSION: ${{ needs.versionning.outputs.version }}
       RELEASE: ${{ needs.versionning.outputs.release }}
+    strategy:
+      matrix:
+        image:
+          - dockerhubaneo/armonik_worker_dll
+          - dockerhubaneo/armonik_streamwrapper_test
     steps:
       - name: login
         run: |
@@ -189,15 +256,15 @@ jobs:
 
       - name: pull
         run: |
-          docker pull dockerhubaneo/armonik_worker_dll:$VERSION
+          docker pull ${{ matrix.image }}:$VERSION
 
       - name: tag
         run: |
-          docker tag dockerhubaneo/armonik_worker_dll:$VERSION dockerhubaneo/armonik_worker_dll:$RELEASE
+          docker tag ${{ matrix.image }}:$VERSION ${{ matrix.image }}:$RELEASE
 
       - name: push
         run: |
-          docker push dockerhubaneo/armonik_worker_dll:$RELEASE
+          docker push ${{ matrix.image }}:$RELEASE
 
   tag:
     runs-on: ubuntu-latest

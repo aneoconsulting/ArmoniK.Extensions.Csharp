@@ -23,7 +23,7 @@
 
 using System.Collections.Generic;
 
-using ArmoniK.Core.gRPC.V1;
+using ArmoniK.Api.gRPC.V1;
 using ArmoniK.DevelopmentKit.SymphonyApi.Client;
 using ArmoniK.DevelopmentKit.SymphonyApi.Client.api;
 using ArmoniK.DevelopmentKit.WorkerApi.Common;
@@ -73,13 +73,13 @@ namespace ArmoniK.EndToEndTests.Tests.SimpleComputeNSubtasking
       var taskResult = sessionService.GetResult(taskId);
       var result     = ClientPayload.Deserialize(taskResult);
 
-      if (!string.IsNullOrEmpty(result.SubTaskId))
-      {
-        Log.LogInformation($"Root task wait for subtask delegation [SubTask with dependencies {result.SubTaskId}]");
-        Log.LogInformation($"Wait for Sub task to finish [task {result.SubTaskId}]");
-        sessionService.WaitForTaskCompletion(result.SubTaskId);
-        taskResult = sessionService.GetResult(result.SubTaskId);
-      }
+      //if (!string.IsNullOrEmpty(result.SubTaskId))
+      //{
+      //  Logger.LogInformation($"Root task wait for subtask delegation [SubTask with dependencies {result.SubTaskId}]");
+      //  Logger.LogInformation($"Wait for Sub task to finish [task {result.SubTaskId}]");
+      //  sessionService.WaitForTaskCompletion(result.SubTaskId);
+      //  taskResult = sessionService.GetResult(result.SubTaskId);
+      //}
 
       return taskResult;
     }

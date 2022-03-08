@@ -1,0 +1,37 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net472;net5.0;net6.0</TargetFrameworks>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerfileContext>..\..\..\..\..\..\..</DockerfileContext>
+    <OutputType>Library</OutputType>
+    <Authors>$(Authors)</Authors>
+    <Company>ANEO</Company>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <IsPackable>true</IsPackable>
+    <PackageOutputPath>../../../../publish</PackageOutputPath>
+    <RuntimeIdentifiers>win-x64;linux-x64</RuntimeIdentifiers>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugType>Embedded</DebugType>
+    <IncludeSymbols>true</IncludeSymbols>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)'=='Release'">
+    <Optimize>true</Optimize>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="JetBrains.Annotations" Version="2021.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\ArmoniK.DevelopmentKit.Common\ArmoniK.DevelopmentKit.Common.csproj" />
+  </ItemGroup>
+
+</Project>

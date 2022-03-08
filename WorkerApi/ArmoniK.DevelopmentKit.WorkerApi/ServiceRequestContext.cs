@@ -21,22 +21,18 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
-using System.IO;
-
-using ArmoniK.Core.gRPC.V1;
+using ArmoniK.Api.gRPC.V1;
 using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.Common.Exceptions;
 using ArmoniK.DevelopmentKit.WorkerApi.Common;
 using ArmoniK.DevelopmentKit.WorkerApi.Common.Adaptater;
 
-using Google.Protobuf.Collections;
-
-using JetBrains.Annotations;
-
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+
+using System;
+using System.Collections.Generic;
+using System.IO;
 
 namespace ArmoniK.DevelopmentKit.WorkerApi
 {
@@ -74,7 +70,7 @@ namespace ArmoniK.DevelopmentKit.WorkerApi
       GridWorker?.SessionFinalize();
     }
 
-    public void Configure(IConfiguration configuration, MapField<string, string> requestTaskOptions)
+    public void Configure(IConfiguration configuration, IReadOnlyDictionary<string, string> requestTaskOptions)
     {
       if (!Initialized)
       {
@@ -97,22 +93,22 @@ namespace ArmoniK.DevelopmentKit.WorkerApi
 
   public class ServiceRequestContext
   {
-    public SessionId SessionId { get; set; }
+    public Session SessionId { get; set; }
 
-    public LoggerFactory LoggerFactory { get; set; }
+    public ILoggerFactory LoggerFactory { get; set; }
     private IDictionary<string, ArmonikServiceWorker> ServicesMapper { get; set; }
 
-    public ServiceRequestContext(LoggerFactory loggerFactory)
+    public ServiceRequestContext(ILoggerFactory loggerFactory)
     {
       LoggerFactory  = loggerFactory;
       ServicesMapper = new Dictionary<string, ArmonikServiceWorker>();
     }
 
-    public bool IsNewSessionId(SessionId sessionId)
+    public bool IsNewSessionId(Session sessionId)
     {
       if (SessionId == null) return true;
 
-      return SessionId.Session != sessionId.Session;
+      return SessionId.Id != sessionId.Id;
     }
 
     public bool IsNewSessionId(string sessionId)
@@ -121,22 +117,19 @@ namespace ArmoniK.DevelopmentKit.WorkerApi
 
       if (SessionId == null) return true;
 
-      SessionId currentSessionId = sessionId.CanUnPackTaskId()
-        ? sessionId.UnPackSessionId()
-        : new SessionId()
-        {
-          Session    = sessionId,
-          SubSession = sessionId
-        };
+      var currentSessionId = new Session()
+      {
+        Id = sessionId,
+      };
 
       return IsNewSessionId(currentSessionId);
     }
 
-    public ServiceId CreateOrGetArmonikService(IConfiguration           configuration,
-                                               string                   engineTypeName,
-                                               IFileAdaptater           fileAdaptater,
-                                               string                   fileName,
-                                               MapField<string, string> requestTaskOptions)
+    public ServiceId CreateOrGetArmonikService(IConfiguration                      configuration,
+                                               string                              engineTypeName,
+                                               IFileAdaptater                      fileAdaptater,
+                                               string                              fileName,
+                                               IReadOnlyDictionary<string, string> requestTaskOptions)
     {
       if (!requestTaskOptions.ContainsKey(AppsOptions.GridAppNamespaceKey))
       {

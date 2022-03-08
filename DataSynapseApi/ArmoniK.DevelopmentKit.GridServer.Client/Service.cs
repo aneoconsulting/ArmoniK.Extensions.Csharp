@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-using ArmoniK.Core.gRPC.V1;
+using ArmoniK.Api.gRPC.V1;
 using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.Common.Exceptions;
 
@@ -42,7 +42,7 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
     /// <summary>
     /// Property Get the SessionId
     /// </summary>
-    public SessionId SessionId { get; set; }
+    public SessionService SessionService { get; set; }
 
     public Dictionary<string, Task> TaskWarehouse { get; set; } = new();
 
@@ -66,7 +66,7 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
       ClientService = new ArmonikDataSynapseClientService(configuration,
                                                           loggerFactory,
                                                           taskOptions);
-      SessionId = ClientService.CreateSession(taskOptions);
+      SessionService = ClientService.CreateSession(taskOptions);
 
       ProtoSerializer = new ProtoSerializer();
     }
@@ -114,10 +114,10 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
         ClientPayload      = ProtoSerializer.SerializeMessageObjectArray(arguments)
       };
 
-      string taskId = ClientService.SubmitTask(dataSynapsePayload.Serialize());
+      string taskId = SessionService.SubmitTask(dataSynapsePayload.Serialize());
 
-      ClientService.WaitCompletion(taskId);
-      var result = ProtoSerializer.DeSerializeMessageObjectArray(ClientService.GetResult(taskId));
+      SessionService.WaitForTaskCompletion(taskId);
+      var result = ProtoSerializer.DeSerializeMessageObjectArray(SessionService.GetResult(taskId));
 
       return new ServiceResult()
       {
@@ -143,10 +143,10 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
         SerializedArguments = true,
       };
 
-      var taskId = ClientService.SubmitTask(dataSynapsePayload.Serialize());
+      var taskId = SessionService.SubmitTask(dataSynapsePayload.Serialize());
 
-      ClientService.WaitCompletion(taskId);
-      var result = ProtoSerializer.DeSerializeMessageObjectArray(ClientService.GetResult(taskId));
+      SessionService.WaitForTaskCompletion(taskId);
+      var result = ProtoSerializer.DeSerializeMessageObjectArray(SessionService.GetResult(taskId));
 
       return new ServiceResult()
       {
@@ -163,15 +163,15 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
     /// <returns>Return the taskId</returns>
     public string Submit(ArmonikPayload dataSynapsePayload, IServiceInvocationHandler handler)
     {
-      var taskId = ClientService.SubmitTask(dataSynapsePayload.Serialize());
+      var taskId = SessionService.SubmitTask(dataSynapsePayload.Serialize());
 
       HandlerResponse = Task.Run(() =>
       {
         try
         {
-          ClientService.WaitCompletion(taskId);
-          byte[] byteResults = ClientService.GetResult(taskId);
-          var    result      = ProtoSerializer.DeSerializeMessageObjectArray(ClientService.GetResult(taskId));
+          SessionService.WaitForTaskCompletion(taskId);
+          byte[] byteResults = SessionService.GetResult(taskId);
+          var    result      = ProtoSerializer.DeSerializeMessageObjectArray(byteResults);
 
 
           handler.HandleResponse(result?[0],
@@ -238,8 +238,7 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
     /// <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
     public void Dispose()
     {
-      ClientService?.CloseSession();
-      SessionId     = null;
+      SessionService = null;
       ClientService = null;
       HandlerResponse?.Dispose();
     }
@@ -258,7 +257,7 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
     /// <returns>Returns true if the service was destroyed previously</returns>
     public bool IsDestroyed()
     {
-      if (SessionId == null || ClientService == null)
+      if (SessionService == null || ClientService == null)
         return true;
 
       return false;

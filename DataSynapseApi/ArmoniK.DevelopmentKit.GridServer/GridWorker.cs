@@ -1,5 +1,5 @@
 ﻿using ArmoniK.Attributes;
-using ArmoniK.Core.gRPC.V1;
+using ArmoniK.Api.gRPC.V1;
 using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.Common.Exceptions;
 using ArmoniK.DevelopmentKit.WorkerApi.Common;
@@ -13,6 +13,8 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 
+using ArmoniK.Extensions.Common.StreamWrapper.Worker;
+
 #pragma warning disable CS1591
 
 namespace ArmoniK.DevelopmentKit.GridServer
@@ -24,7 +26,7 @@ namespace ArmoniK.DevelopmentKit.GridServer
 
     public ILoggerFactory LoggerFactory { get; set; }
 
-    public GridWorker(IConfiguration configuration, LoggerFactory factory)
+    public GridWorker(IConfiguration configuration, ILoggerFactory factory)
     {
       Configuration = configuration;
       LoggerFactory = factory;
@@ -33,9 +35,9 @@ namespace ArmoniK.DevelopmentKit.GridServer
 
     public IConfiguration Configuration { get; set; }
 
-    public void Configure(IConfiguration              configuration,
-                          IDictionary<string, string> clientOptions,
-                          IAppsLoader                  appsLoader)
+    public void Configure(IConfiguration                      configuration,
+                          IReadOnlyDictionary<string, string> clientOptions,
+                          IAppsLoader                         appsLoader)
     {
       Configurations       = configuration;
       ClientServiceOptions = clientOptions;
@@ -60,23 +62,23 @@ namespace ArmoniK.DevelopmentKit.GridServer
 
     public string GridAppName { get; set; }
 
-    public IDictionary<string, string> ClientServiceOptions { get; set; }
+    public IReadOnlyDictionary<string, string> ClientServiceOptions { get; set; }
 
     public IConfiguration Configurations { get; set; }
 
-    public void InitializeSessionWorker(string session, IDictionary<string, string> requestTaskOptions)
+    public void InitializeSessionWorker(Session session, IReadOnlyDictionary<string, string> requestTaskOptions)
     {
       if (session == null)
         throw new ArgumentNullException($"Session is null in the Execute function");
 
       ServiceInvocationContext ??= new ServiceInvocationContext()
       {
-        SessionId = session.UnPackSessionId()
+        SessionId = session
       };
+      Logger.BeginPropertyScope(("SessionId", session));
 
       TaskOptions serviceAdminTaskOptions = new()
       {
-        IdTag = "ServiceAdminTask-",
         MaxDuration = new Duration()
         {
           Seconds = 3600,
@@ -84,10 +86,6 @@ namespace ArmoniK.DevelopmentKit.GridServer
         MaxRetries = 5,
         Priority   = 1,
       };
-
-      ServiceAdminWorker = new ServiceAdminWorker(Configurations,
-                                                  LoggerFactory,
-                                                  serviceAdminTaskOptions);
     }
 
     public ServiceAdminWorker ServiceAdminWorker { get; set; }
@@ -95,11 +93,14 @@ namespace ArmoniK.DevelopmentKit.GridServer
     public ServiceInvocationContext ServiceInvocationContext { get; set; }
 
 
-    public byte[] Execute(string session, ComputeRequest request)
+    public byte[] Execute(ITaskHandler taskHandler)
     {
-      byte[] payload = request.Payload.ToByteArray();
+      using var _ = Logger.BeginPropertyScope(("SessionId", taskHandler.SessionId),
+                                              ("TaskId", $"{taskHandler.TaskId}"));
 
-      ArmonikPayload dataSynapsePayload = ArmonikPayload.Deserialize(payload);
+      var payload = taskHandler.Payload;
+
+      var dataSynapsePayload = ArmonikPayload.Deserialize(payload);
 
       if (dataSynapsePayload.ArmonikRequestType != ArmonikRequestType.Execute)
       {

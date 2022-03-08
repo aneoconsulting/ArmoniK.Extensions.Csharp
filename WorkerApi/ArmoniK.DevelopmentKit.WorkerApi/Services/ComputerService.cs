@@ -21,29 +21,25 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using ArmoniK.Core.gRPC.V1;
-using ArmoniK.DevelopmentKit.WorkerApi.Common;
-
-using Google.Protobuf;
-
-using Grpc.Core;
+using ArmoniK.Api.gRPC.V1;
+using ArmoniK.DevelopmentKit.Common;
+using ArmoniK.DevelopmentKit.Common.Exceptions;
+using ArmoniK.Extensions.Common.StreamWrapper.Worker;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-using Serilog;
-using Serilog.Extensions.Logging;
-
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
-using ArmoniK.DevelopmentKit.Common;
-using ArmoniK.DevelopmentKit.Common.Exceptions;
+using TaskStatus = ArmoniK.Api.gRPC.V1.TaskStatus;
+using WorkerApiException = ArmoniK.DevelopmentKit.Common.Exceptions.WorkerApiException;
 
 namespace ArmoniK.DevelopmentKit.WorkerApi.Services
 {
-  public class ComputerService : Core.gRPC.V1.ComputerService.ComputerServiceBase
+  public class ComputerService : WorkerStreamWrapper
   {
     private ILogger<ComputerService> Logger { get; set; }
 
@@ -51,44 +47,55 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Services
 
     public IConfiguration Configuration { get; }
 
-    public ComputerService(IConfiguration           configuration,
-                           ILogger<ComputerService> logger,
-                           ServiceRequestContext    serviceRequestContext)
+    public ComputerService(IConfiguration        configuration,
+                           ServiceRequestContext serviceRequestContext) : base(serviceRequestContext.LoggerFactory)
     {
       Configuration         = configuration;
-      Logger                = logger;
+      Logger                = serviceRequestContext.LoggerFactory.CreateLogger<ComputerService>();
       ServiceRequestContext = serviceRequestContext;
     }
 
-
-    /// <inheritdoc />
-    public override Task<ComputeReply> Execute(ComputeRequest request, ServerCallContext context)
+    public override async Task<Output> Process(ITaskHandler taskHandler)
     {
+      using var scopedLog = Logger.BeginNamedScope("Execute task",
+                                                    ("Session", taskHandler.SessionId),
+                                                    ("TaskId", taskHandler.TaskId));
+      Logger.LogTrace("DataDependencies {DataDependencies}",
+                       taskHandler.DataDependencies.Keys);
+      Logger.LogTrace("ExpectedResults {ExpectedResults}",
+                       taskHandler.ExpectedResults);
+
+      Output output;
       try
       {
-        Logger.LogInformation($"Receive new task Session        {request.Session}#{request.Subsession} -> task {request.TaskId}");
-        Logger.LogInformation($"Previous Session#SubSession was {ServiceRequestContext.SessionId?.Session ?? "NOT SET"}");
-        var sessionIdCaller = new SessionId
+        var sessionIdCaller = new Session
         {
-          Session    = request.Session,
-          SubSession = request.Subsession,
+          Id = taskHandler.SessionId,
         };
+        var taskId = new TaskId
+        {
+          Task = taskHandler.TaskId,
+        };
+        Logger.BeginPropertyScope(("TaskId", taskId.Task),
+                                  ("SessionId", sessionIdCaller));
 
-        var fileName          = $"{request.TaskOptions[AppsOptions.GridAppNameKey]}-v{request.TaskOptions[AppsOptions.GridAppVersionKey]}.zip";
+        Logger.LogInformation($"Receive new task Session        {sessionIdCaller} -> task {taskId}");
+        Logger.LogInformation($"Previous Session#SubSession was {ServiceRequestContext.SessionId?.Id ?? "NOT SET"}");
+
+        var fileName          = $"{taskHandler.TaskOptions[AppsOptions.GridAppNameKey]}-v{taskHandler.TaskOptions[AppsOptions.GridAppVersionKey]}.zip";
         var localDirectoryZip = $"{Configuration["target_data_path"]}";
 
-        var engineTypeName = request.TaskOptions.ContainsKey(AppsOptions.EngineTypeNameKey)
-          ? request.TaskOptions[AppsOptions.EngineTypeNameKey]
+        var engineTypeName = taskHandler.TaskOptions.ContainsKey(AppsOptions.EngineTypeNameKey)
+          ? taskHandler.TaskOptions[AppsOptions.EngineTypeNameKey]
           : EngineType.Symphony.ToString();
 
-
-        if (!request.TaskOptions.ContainsKey(AppsOptions.GridAppNamespaceKey))
+        if (!taskHandler.TaskOptions.ContainsKey(AppsOptions.GridAppNamespaceKey))
         {
           throw new WorkerApiException("Cannot find namespace service in TaskOptions. Please set the namespace");
         }
 
-        var namespaceService = request.TaskOptions.ContainsKey(AppsOptions.GridAppNamespaceKey)
-          ? request.TaskOptions[AppsOptions.GridAppNamespaceKey]
+        var _ = taskHandler.TaskOptions.ContainsKey(AppsOptions.GridAppNamespaceKey)
+          ? taskHandler.TaskOptions[AppsOptions.GridAppNamespaceKey]
           : "UnknownNamespaceService avoid previous validation !!";
 
         var fileAdaptater = ServiceRequestContext.CreateOrGetFileAdaptater(Configuration,
@@ -99,7 +106,7 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Services
                                                                         engineTypeName,
                                                                         fileAdaptater,
                                                                         fileName,
-                                                                        request.TaskOptions);
+                                                                        taskHandler.TaskOptions);
 
         var serviceWorker = ServiceRequestContext.GetService(serviceId);
 
@@ -110,42 +117,67 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Services
 
           serviceWorker.CloseSession();
 
-          serviceWorker.GridWorker.InitializeSessionWorker(ServiceRequestContext.SessionId
-                                                                                .PackSessionId(),
-                                                           request.TaskOptions);
+          serviceWorker.GridWorker.InitializeSessionWorker(ServiceRequestContext.SessionId,
+                                                           taskHandler.TaskOptions);
         }
 
         ServiceRequestContext.SessionId = sessionIdCaller;
 
-        Logger.LogInformation($"Executing task {request.TaskId}");
+        Logger.LogInformation($"Executing task");
 
-        var result = serviceWorker.GridWorker.Execute(ServiceRequestContext.SessionId.PackSessionId(),
-                                                      request);
-
-
-        return Task.FromResult(new ComputeReply
+        var result = serviceWorker.GridWorker.Execute(taskHandler);
+        if (result != null && result.Length != 0)
         {
-          Result = ByteString.CopyFrom(result),
-        });
+          await taskHandler.SendResult(taskHandler.ExpectedResults.Single(),
+                                       result);
+        }
+
+        output = new Output
+        {
+          Ok     = new Empty(),
+          Status = TaskStatus.Completed,
+        };
       }
-      catch (WorkerApiException we)
+      catch (WorkerApiException ex)
       {
-        Logger.LogError(ExtractException(we));
-        throw new RpcException(new Status(StatusCode.Aborted,
-                                          ExtractException(we)));
+        Logger.LogError(ex,
+                        "Failure while computing task");
+
+        output = new Output
+        {
+          Error = new Output.Types.Error
+          {
+            Details      = ex.Message + ex.StackTrace,
+            KillSubTasks = true,
+          },
+          Status = TaskStatus.Failed,
+        };
       }
-      catch (Exception e)
+      catch (Exception ex)
       {
-        Logger.LogError(ExtractException(e));
-        throw new RpcException(new Status(StatusCode.Aborted,
-                                          ExtractException(e)));
+        Logger.LogError(ex,
+                         "Error while computing task");
+
+        output = new Output
+        {
+          Error = new Output.Types.Error
+          {
+            Details      = ex.Message + ex.StackTrace,
+            KillSubTasks = true,
+          },
+          Status = TaskStatus.Error,
+        };
       }
+
+      Logger.LogTrace($"Output : {output}");
+
+      return output;
     }
 
     private static string ExtractException(Exception e)
     {
-      int             level   = 1;
-      Exception       current = e;
+      var             level   = 1;
+      var             current = e;
       List<Exception> exList  = new();
       exList.Add(e);
 

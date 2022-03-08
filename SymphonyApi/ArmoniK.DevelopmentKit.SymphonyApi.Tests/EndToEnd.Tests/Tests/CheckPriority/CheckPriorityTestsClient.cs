@@ -74,36 +74,7 @@ namespace ArmoniK.EndToEndTests.Tests.CheckPriority
     /// <returns></returns>
     private static IEnumerable<Tuple<string, byte[]>> WaitForTasksResult(SessionService sessionService, IEnumerable<string> taskIds)
     {
-      //IEnumerable<string> ids = taskIds.ToList();
-      //var results = new List<Tuple<string, byte[]>>()
-      //{
-      //  Capacity = ids.Count(),
-      //};
-      //foreach (var id in ids)
-      //{
-      //  sessionService.WaitForTaskCompletion(id);
-      //  var taskResult = sessionService.GetResult(id);
-      //  var data       = ClientPayload.Deserialize(taskResult);
-      //  if (string.IsNullOrEmpty(data.SubTaskId))
-      //    continue;
-      //  sessionService.WaitSubtasksCompletion(data.SubTaskId);
-      //  results.Add(new Tuple<string, byte[]>(id,
-      //                                        sessionService.GetResult(data.SubTaskId)));
-      //}
-
-      sessionService.WaitForTasksCompletion(taskIds);
-      var taskResults = sessionService.GetResults(taskIds);
-
-      Task.WaitAll(taskResults);
-
-      return taskResults.Result.Select(taskResult =>
-      {
-        var data = ClientPayload.Deserialize(taskResult.Item2);
-        if (!string.IsNullOrEmpty(data.SubTaskId))
-          sessionService.WaitSubtasksCompletion(data.SubTaskId);
-        return new Tuple<string, byte[]>(taskResult.Item1,
-                                         sessionService.GetResult(data.SubTaskId));
-      });
+      return sessionService.GetResults(taskIds);
     }
 
     /// <summary>
@@ -128,7 +99,7 @@ namespace ArmoniK.EndToEndTests.Tests.CheckPriority
       var sessionService = client.CreateSession(taskOptions);
 
 
-      //Log.LogInformation($"Running 1 fat tasks End to End test with priority {priority}");
+      //Logger.LogInformation($"Running 1 fat tasks End to End test with priority {priority}");
       IEnumerable<byte[]> payloads = Enumerable.Repeat(0,
                                                        10)
                                                .Select(x => clientPaylaod.Serialize());

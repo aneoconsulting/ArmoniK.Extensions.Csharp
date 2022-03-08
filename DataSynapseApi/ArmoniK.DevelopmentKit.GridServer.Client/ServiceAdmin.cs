@@ -1,4 +1,4 @@
-﻿using ArmoniK.Core.gRPC.V1;
+﻿using ArmoniK.Api.gRPC.V1;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System;
@@ -12,7 +12,7 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
 {
   public class ServiceAdmin : IDisposable
   {
-    public SessionId SessionId { get; set; }
+    public Session SessionId { get; set; }
     public Dictionary<string, Task> TaskWarehouse { get; set; }
 
     public ArmonikDataSynapseClientService ClientService { get; set; }
@@ -24,7 +24,7 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
       ClientService = new ArmonikDataSynapseClientService(configuration,
                                                           loggerFactory,
                                                           taskOptions);
-      SessionId = ClientService.CreateSession(taskOptions);
+      throw new NotImplementedException("Service Admin need to move into Poling agent");
 
       ServiceType = "ServiceAdmin";
     }
