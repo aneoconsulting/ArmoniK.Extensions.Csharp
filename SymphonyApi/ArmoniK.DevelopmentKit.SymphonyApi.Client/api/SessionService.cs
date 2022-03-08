@@ -120,7 +120,7 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client.api
       taskOptions.Options.Add(AppsOptions.GridAppNameKey,
                               "ArmoniK.Samples.SymphonyPackage");
       taskOptions.Options.Add(AppsOptions.GridAppVersionKey,
-                              "1.0.0");
+                              "1.X.X");
       taskOptions.Options.Add(AppsOptions.GridAppNamespaceKey,
                               "ArmoniK.Samples.Symphony.Packages");
 

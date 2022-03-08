@@ -327,6 +327,7 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.api
     /// <param name="serviceContainerBase"></param>
     /// <param name="payload">The payload to submit</param>
     /// <param name="dependencies">A list of task Id in dependence of this created task</param>
+    /// <param name="resultForParent"></param>
     /// <returns>return the taskId of the created task </returns>
     public static string SubmitTaskWithDependencies(this ServiceContainerBase serviceContainerBase, byte[] payload, IList<string> dependencies, bool resultForParent = false)
     {

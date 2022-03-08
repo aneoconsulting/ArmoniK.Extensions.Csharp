@@ -35,6 +35,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using TaskStatus = ArmoniK.Api.gRPC.V1.TaskStatus;
+using WorkerApiException = ArmoniK.DevelopmentKit.Common.Exceptions.WorkerApiException;
 
 namespace ArmoniK.DevelopmentKit.WorkerApi.Services
 {
@@ -137,6 +138,21 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Services
           Status = TaskStatus.Completed,
         };
       }
+      catch (WorkerApiException ex)
+      {
+        Logger.LogError(ex,
+                        "Failure while computing task");
+
+        output = new Output
+        {
+          Error = new Output.Types.Error
+          {
+            Details      = ex.Message + ex.StackTrace,
+            KillSubTasks = true,
+          },
+          Status = TaskStatus.Failed,
+        };
+      }
       catch (Exception ex)
       {
         Logger.LogError(ex,
@@ -152,6 +168,8 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Services
           Status = TaskStatus.Error,
         };
       }
+
+      Logger.LogTrace($"Output : {output}");
 
       return output;
     }

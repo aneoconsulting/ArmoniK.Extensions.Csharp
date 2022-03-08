@@ -122,7 +122,7 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
                               "ArmoniK.DevelopmentKit.GridServer");
 
       taskOptions.Options.Add(AppsOptions.GridAppVersionKey,
-                              "1.0.0");
+                              "1.X.X");
 
       taskOptions.Options.Add(AppsOptions.GridAppNamespaceKey,
                               "ArmoniK.DevelopmentKit.GridServer");
@@ -170,13 +170,8 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
       var       sessionId = Guid.NewGuid().ToString();
       var createSessionRequest = new CreateSessionRequest
       {
-        DefaultTaskOption = new TaskOptions
-        {
-          MaxDuration = Duration.FromTimeSpan(TimeSpan.FromHours(1)),
-          MaxRetries  = 2,
-          Priority    = 1,
-        },
-        Id = sessionId,
+        DefaultTaskOption = TaskOptions,
+        Id                = sessionId,
       };
       var session = ControlPlaneService.CreateSession(createSessionRequest);
       switch (session.ResultCase)
@@ -235,7 +230,7 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
       return SubmitTasksWithDependencies(payloads.Select(payload =>
       {
         return new Tuple<byte[], IList<string>>(payload,
-                                                new List<string>());
+                                                null);
       }));
     }
 
@@ -296,7 +291,7 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
       }
 
       var createTaskReply = ControlPlaneService.CreateTasksAsync(SessionId.Id,
-                                                                 null,
+                                                                 TaskOptions,
                                                                  taskRequests).Result;
       switch (createTaskReply.DataCase)
       {

@@ -250,18 +250,6 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.api
     }
 
     /// <summary>
-    ///   The method to submit several tasks with dependencies tasks. This task will wait for
-    ///   to start until all dependencies are completed successfully
-    /// </summary>
-    /// <param name="payloadsWithDependencies">A list of Tuple(taskId, Payload) in dependence of those created tasks</param>
-    /// <returns>return a list of taskIds of the created tasks </returns>
-    public IEnumerable<string> SubmitDelegateWithDependencies(IEnumerable<Tuple<byte[], IList<string>>> payloadsWithDependencies)
-    {
-      return SubmitTasksWithDependencies(payloadsWithDependencies,
-                                         true);
-    }
-
-    /// <summary>
     ///   The method to submit One SubTask with dependencies tasks. This task will wait for
     ///   to start until all dependencies are completed successfully
     /// </summary>

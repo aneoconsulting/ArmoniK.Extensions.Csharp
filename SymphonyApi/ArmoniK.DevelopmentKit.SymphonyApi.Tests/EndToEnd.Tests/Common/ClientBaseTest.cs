@@ -21,8 +21,10 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 
 using ArmoniK.Api.gRPC.V1;
@@ -70,13 +72,13 @@ namespace ArmoniK.EndToEndTests.Common
       };
       
       TaskOptions.Options[AppsOptions.GridAppNameKey] = "ArmoniK.EndToEndTests";
-
-      var version = typeof(ClientBaseTest<T>).Assembly.GetName().Version;
+      string version = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).ProductVersion;
+      //var    version         = typeof(ClientBaseTest<T>).Assembly.GetName().Version;
       if (version != null)
-        TaskOptions.Options[AppsOptions.GridAppVersionKey] = $"{version.Major}.{version.Minor}.{version.Build}";
+        TaskOptions.Options[AppsOptions.GridAppVersionKey] = version;
       else
       {
-        TaskOptions.Options[AppsOptions.GridAppVersionKey] = "1.0.0";
+        TaskOptions.Options[AppsOptions.GridAppVersionKey] = "1.0.0-700";
       }
 
       TaskOptions.Options[AppsOptions.GridAppNamespaceKey] = typeof(T).Namespace;
