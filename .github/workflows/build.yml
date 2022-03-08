@@ -186,7 +186,7 @@ jobs:
          dotnet publish --self-contained -r linux-x64 -f net5.0
 
          sudo chown -R $USER:$USER /data
-         cp ../packages/ArmoniK.EndToEndTests-v1.0.0.zip /data
+         cp ../packages/ArmoniK.EndToEndTests-v1.0.0-700.zip /data
 
          dotnet run -r linux-x64 -f net5.0
 
