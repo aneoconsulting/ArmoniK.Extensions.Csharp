@@ -37,7 +37,7 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Common
   {
     public void Configure(IConfiguration        configuration, IReadOnlyDictionary<string, string> clientOptions, IAppsLoader appsLoader);
     public void InitializeSessionWorker(Session sessionId,     IReadOnlyDictionary<string, string> requestTaskOptions);
-    public byte[] Execute(Session               session,       ITaskHandler                        taskHandler);
+    public byte[] Execute(ITaskHandler          taskHandler);
 
     public void SessionFinalize();
 

@@ -93,9 +93,9 @@ namespace ArmoniK.DevelopmentKit.GridServer
     public ServiceInvocationContext ServiceInvocationContext { get; set; }
 
 
-    public byte[] Execute(Session session, ITaskHandler taskHandler)
+    public byte[] Execute(ITaskHandler taskHandler)
     {
-      using var _ = Logger.BeginPropertyScope(("SessionId", session),
+      using var _ = Logger.BeginPropertyScope(("SessionId", taskHandler.SessionId),
                                               ("TaskId", $"{taskHandler.TaskId}"));
 
       var payload = taskHandler.Payload;

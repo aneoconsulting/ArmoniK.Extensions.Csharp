@@ -39,7 +39,7 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
   [XmlDocIgnore]
   public class GridWorker : IGridWorker
   {
-    public ILogger<GridWorker> Logger { get; set; }
+    private ILogger<GridWorker> Logger { get; set; }
     private ServiceContainerBase serviceContainerBase_;
     private ServiceContext       serviceContext_;
     private SessionContext       sessionContext_;
@@ -121,7 +121,7 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
       }
     }
 
-    public byte[] Execute(Session session, ITaskHandler taskHandler)
+    public byte[] Execute(ITaskHandler taskHandler)
     {
       TaskId = new TaskId
       {
@@ -135,7 +135,7 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
       {
         TaskId              = TaskId.Task,
         TaskInput           = taskHandler.Payload,
-        SessionId           = session.Id,
+        SessionId           = taskHandler.SessionId,
         DependenciesTaskIds = taskHandler.DataDependencies.Select(t => t.Key),
         DataDependencies    = taskHandler.DataDependencies,
         ClientOptions = taskHandler.TaskOptions.ToDictionary(id => id.Key,
