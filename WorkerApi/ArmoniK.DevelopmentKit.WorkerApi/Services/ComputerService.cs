@@ -124,8 +124,7 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Services
 
         Logger.LogInformation($"Executing task");
 
-        var result = serviceWorker.GridWorker.Execute(ServiceRequestContext.SessionId,
-                                                      taskHandler);
+        var result = serviceWorker.GridWorker.Execute(taskHandler);
         if (result != null && result.Length != 0)
         {
           await taskHandler.SendResult(taskHandler.ExpectedResults.Single(),
