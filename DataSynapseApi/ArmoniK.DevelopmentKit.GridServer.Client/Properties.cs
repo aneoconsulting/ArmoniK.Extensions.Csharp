@@ -42,7 +42,7 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
       }
 
       if (connectionAddress != null) ConnectionAddress = connectionAddress;
-      if (connectionPort == 0) ConnectionPort          = connectionPort;
+      if (connectionPort != 0) ConnectionPort          = connectionPort;
       if (protocol != null) Protocol                   = protocol;
 
       //Check if Uri is correct
