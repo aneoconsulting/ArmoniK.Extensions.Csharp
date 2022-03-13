@@ -62,7 +62,7 @@ jobs:
         dotnet build ./DataSynapseApi/ArmoniK.DevelopmentKit.GridServer.Client/ArmoniK.DevelopmentKit.GridServer.Client.csproj -c Release
         dotnet build ./SymphonyApi/ArmoniK.DevelopmentKit.SymphonyApi/ArmoniK.DevelopmentKit.SymphonyApi.csproj -c Release
         dotnet build ./SymphonyApi/ArmoniK.DevelopmentKit.SymphonyApi.Client/ArmoniK.DevelopmentKit.SymphonyApi.Client.csproj -c Release
-        dotnet build ./SymphonyApi/ArmoniK.DevelopmentKit.SymphonyApi.Tests/EndToEnd.Tests/ArmoniK.EndToEndTests.csproj -c Release
+        dotnet build ./Common/EndToEnd.Tests/ArmoniK.EndToEndTests.csproj -c Release
         dotnet build ./WorkerApi/ArmoniK.DevelopmentKit.WorkerApi/ArmoniK.DevelopmentKit.WorkerApi.csproj -c Release
         dotnet build ./WorkerApi/ArmoniK.DevelopmentKit.WorkerApi.Common/ArmoniK.DevelopmentKit.WorkerApi.Common.csproj -c Release
         dotnet build ./WorkerApi/tests/WorkerApiTests/WorkerApiTests.csproj -c Release
@@ -182,7 +182,7 @@ jobs:
          export CPPort=$(kubectl get svc control-plane -n armonik -o custom-columns="PORT:.spec.ports[*].port" --no-headers=true)
          export Grpc__Endpoint=http://$CPIP:$CPPort
 
-         cd SymphonyApi/ArmoniK.DevelopmentKit.SymphonyApi.Tests/EndToEnd.Tests/
+         cd Common/EndToEnd.Tests/
          dotnet publish --self-contained -r linux-x64 -f net5.0
 
          sudo chown -R $USER:$USER /data
