@@ -59,7 +59,7 @@ namespace ArmoniK.EndToEndTests.Common
       Log = LoggerFactory.CreateLogger<T>();
     }
 
-    public virtual TaskOptions InitializeTaskOptions()
+    protected virtual TaskOptions InitializeTaskOptions()
     {
       TaskOptions = new()
       {

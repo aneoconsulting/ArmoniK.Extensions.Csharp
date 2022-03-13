@@ -9,7 +9,8 @@ using System.Collections.Generic;
 using ArmoniK.Api.gRPC.V1;
 using ArmoniK.DevelopmentKit.Common;
 
-using Microsoft.Extensions.Configuration;
+using Google.Protobuf.WellKnownTypes;
+
 using Microsoft.Extensions.Logging;
 
 namespace ArmoniK.DevelopmentKit.GridServer.Client
@@ -25,34 +26,15 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
   [MarkDownDoc]
   public class ArmonikDataSynapseClientService
   {
-    private readonly  IConfigurationSection                    controlPlanAddress_;
-    internal readonly ILogger<ArmonikDataSynapseClientService> Logger;
+    private readonly Properties properties_;
+    private ILogger<ArmonikDataSynapseClientService> Logger { get; set; }
     private Submitter.SubmitterClient ControlPlaneService { get; set; }
 
-    /// <summary>
-    /// Returns the section key Grpc from appSettings.json
-    /// </summary>
-    public static string SectionControlPlan { get; } = "Grpc";
 
     /// <summary>
     /// Set or Get TaskOptions with inside MaxDuration, Priority, AppName, VersionName and AppNamespace
     /// </summary>
-    public TaskOptions TaskOptions { get; set; }
-
-    /// <summary>
-    /// Only used for internal DO NOT USED IT
-    /// Get or Set SessionId object stored during the call of SubmitTask, SubmitSubTask,
-    /// SubmitSubTaskWithDependencies or WaitForCompletion, WaitForSubTaskCompletion or GetResults
-    /// </summary>
-    public Session SessionId { get; private set; }
-
-    /// <summary>
-    /// Only used for internal DO NOT USED IT
-    /// Get or Set SubSessionId object stored during the call of SubmitTask, SubmitSubTask,
-    /// SubmitSubTaskWithDependencies or WaitForCompletion, WaitForSubTaskCompletion or GetResults
-    /// </summary>
-    public Session SubSessionId { get; set; }
-
+    private TaskOptions TaskOptions { get; set; }
 
     private ILoggerFactory LoggerFactory { get; set; }
 
@@ -60,16 +42,15 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
     /// The ctor with IConfiguration and optional TaskOptions
     /// 
     /// </summary>
-    /// <param name="configuration">IConfiguration to set Client Data information and Grpc EndPoint</param>
     /// <param name="loggerFactory">The factory to create the logger for clientService</param>
-    /// <param name="taskOptions">TaskOptions for any Session</param>
-    public ArmonikDataSynapseClientService(IConfiguration configuration, ILoggerFactory loggerFactory, TaskOptions taskOptions = null)
+    /// <param name="properties">Properties containing TaskOption and connection string to the control plane</param>
+    public ArmonikDataSynapseClientService(ILoggerFactory loggerFactory, Properties properties)
     {
-      controlPlanAddress_ = configuration.GetSection(SectionControlPlan);
-      LoggerFactory       = loggerFactory;
-      Logger              = loggerFactory.CreateLogger<ArmonikDataSynapseClientService>();
+      properties_   = properties;
+      LoggerFactory = loggerFactory;
+      Logger        = loggerFactory.CreateLogger<ArmonikDataSynapseClientService>();
 
-      if (taskOptions != null) TaskOptions = taskOptions;
+      TaskOptions = properties_.TaskOptions;
     }
 
     /// <summary>
@@ -87,17 +68,17 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
 
       return new SessionService(LoggerFactory,
                                 ControlPlaneService,
-                                taskOptions);
+                                TaskOptions);
     }
 
     private void ControlPlaneConnection()
     {
 #if NET5_0_OR_GREATER
-      var channel = GrpcChannel.ForAddress(controlPlanAddress_["Endpoint"]);
+      var channel = GrpcChannel.ForAddress(properties_.ConnectionString);
 #else
       Environment.SetEnvironmentVariable("GRPC_DNS_RESOLVER",
                                          "native");
-      var uri = new Uri(controlPlanAddress_["Endpoint"]);
+      var uri = new Uri(properties_.ConnectionString);
       var channel = new Channel($"{uri.Host}:{uri.Port}",
                                 ChannelCredentials.Insecure);
 #endif
@@ -132,7 +113,7 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
     {
       TaskOptions taskOptions = new()
       {
-        MaxDuration = new()
+        MaxDuration = new Duration
         {
           Seconds = 40,
         },
@@ -147,7 +128,7 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
                               "ArmoniK.DevelopmentKit.GridServer");
 
       taskOptions.Options.Add(AppsOptions.GridAppVersionKey,
-                              "1.0.0");
+                              "1.X.X");
 
       taskOptions.Options.Add(AppsOptions.GridAppNamespaceKey,
                               "ArmoniK.DevelopmentKit.GridServer");

@@ -395,13 +395,13 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
       {
         case Output.TypeOneofCase.None:
           if (throwIfNone)
-            throw new Exception("Issue with Server !");
+            throw new Exception("Issue with Server ! : ");
           else
             return new byte[] { };
         case Output.TypeOneofCase.Ok:
           break;
         case Output.TypeOneofCase.Error:
-          throw new Exception($"Task in Error - {taskId}");
+          throw new Exception($"Task in Error - {taskId} : {taskOutput.Error.Details}");
         default:
           throw new ArgumentOutOfRangeException();
       }

@@ -1,5 +1,7 @@
 ﻿using ArmoniK.DevelopmentKit.Common.Exceptions;
+
 using ProtoBuf;
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -80,44 +82,52 @@ namespace ArmoniK.DevelopmentKit.Common
     }
 
     // *** you need some mechanism to map types to fields
-    private static IDictionary<int, Type> typeLookup = new Dictionary<int, Type>
+    private static IDictionary<int, Type> typeLookup = new List<Type>
     {
-      { 1, typeof(int) },
-      { 2, typeof(uint) },
-      { 3, typeof(long) },
-      { 4, typeof(ulong) },
-      { 5, typeof(double) },
-      { 6, typeof(float) },
-      { 7, typeof(short) },
-      { 8, typeof(byte[]) },
-      { 9, typeof(byte) },
-      { 10, typeof(string) },
-      { 11, typeof(Nullable) },
-      { 12, typeof(ProtoArray) },
-      { 13, typeof(IEnumerable) },
-      { 14, typeof(IDictionary) },
-      { 15, typeof(Array) },
-      { 16, typeof(ArmonikPayload) },
-    };
+      typeof(int),
+      typeof(int[]),
+      typeof(uint),
+      typeof(uint[]),
+      typeof(long),
+      typeof(long[]),
+      typeof(ulong),
+      typeof(ulong[]),
+      typeof(double),
+      typeof(double[]),
+      typeof(float),
+      typeof(float[]),
+      typeof(short),
+      typeof(short[]),
+      typeof(byte),
+      typeof(byte[]),
+      typeof(string),
+      typeof(string[]),
+      typeof(Nullable),
+      typeof(ProtoArray),
+      typeof(IEnumerable),
+      typeof(IDictionary),
+      typeof(Array),
+      typeof(ArmonikPayload),
+    }.Select((t, idx) => new {idx, t}).ToDictionary(x => x.idx, x=> x.t);
 
     public static void RegisterClass(Type classType)
     {
-      int max = typeLookup.Keys.Max();
+      var max = typeLookup.Keys.Max();
       typeLookup[max + 1] = classType;
     }
 
-    public static void WriteNext(Stream stream, object obj)
+    private static void WriteNext(Stream stream, object obj)
     {
-      if (obj == null) obj = new Nullable();
+      obj ??= new Nullable();
 
-      Type type = obj.GetType();
+      var type = obj.GetType();
 
-      if (type.IsArray)
+      if (type.IsArray && typeLookup.All(pair => pair.Value.Name != type.Name))
       {
         WriteNext(stream,
                   new ProtoArray()
                   {
-                    NbElement = ((Array)obj).Length
+                    NbElement = ((Array)obj).Length,
                   });
 
         foreach (var subObj in (Array)obj)
@@ -143,36 +153,36 @@ namespace ArmoniK.DevelopmentKit.Common
                                                       field);
     }
 
-    public static bool ReadNext(Stream stream, out object obj)
+    private static bool ReadNext(Stream stream, out object obj)
     {
-      if (Serializer.NonGeneric.TryDeserializeWithLengthPrefix(stream,
-                                                               PrefixStyle.Base128,
-                                                               field => typeLookup[field],
-                                                               out obj))
+      if (!Serializer.NonGeneric.TryDeserializeWithLengthPrefix(stream,
+                                                                PrefixStyle.Base128,
+                                                                field => typeLookup[field],
+                                                                out obj))
       {
-        if (obj is Nullable) obj = null;
-
-        if (obj is ProtoArray)
-        {
-          var        finalObj = new List<object>();
-          ProtoArray arrInfo  = (ProtoArray)obj;
-          if (arrInfo.NbElement < 0) throw new WorkerApiException($"ProtoArray failure number of element [{arrInfo.NbElement}] < 0 ");
-
-          for (int i = 0; i < arrInfo.NbElement; i++)
-          {
-            if (!ReadNext(stream,
-                          out var subObj)) throw new WorkerApiException($"Fail to iterate over ProtoArray with Element {arrInfo.NbElement} at index [{i}]");
-
-            finalObj.Add(subObj);
-          }
-
-          obj = finalObj.ToArray();
-        }
-
-        return true;
+        return false;
       }
 
-      return false;
+      if (obj is Nullable) obj = null;
+
+      if (obj is ProtoArray)
+      {
+        var finalObj = new List<object>();
+        var arrInfo  = (ProtoArray)obj;
+        if (arrInfo.NbElement < 0) throw new WorkerApiException($"ProtoArray failure number of element [{arrInfo.NbElement}] < 0 ");
+
+        for (var i = 0; i < arrInfo.NbElement; i++)
+        {
+          if (!ReadNext(stream,
+                        out var subObj)) throw new WorkerApiException($"Fail to iterate over ProtoArray with Element {arrInfo.NbElement} at index [{i}]");
+
+          finalObj.Add(subObj);
+        }
+
+        obj = finalObj.ToArray();
+      }
+
+      return true;
     }
 
     public static T Deserialize<T>(byte[] dataPayloadInBytes)

@@ -60,7 +60,7 @@ namespace ArmoniK.EndToEndTests.Tests.CheckPriority
         Type = ClientPayload.TaskType.Aggregation
       };
 
-      var aggTaskId = SubmitSubtaskWithDependencies(newPayload.Serialize(),
+      var aggTaskId = this.SubmitTaskWithDependencies(newPayload.Serialize(),
                                                     taskIds.ToList());
       
       var elapsedMilliseconds = sw.ElapsedMilliseconds;

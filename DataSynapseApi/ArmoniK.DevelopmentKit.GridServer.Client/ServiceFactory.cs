@@ -48,10 +48,9 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
                                   .Configuration(props.Configuration)
                                   .CreateLogger())
       });
-      return new Service(props.Configuration,
-                         serviceType,
+      return new Service(serviceType,
                          factory,
-                         props.TaskOptions);
+                         props);
     }
   }
 }

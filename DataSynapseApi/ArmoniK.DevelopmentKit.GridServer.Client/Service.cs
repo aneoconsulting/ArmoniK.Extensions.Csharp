@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 using ArmoniK.Api.gRPC.V1;
@@ -42,9 +43,9 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
     /// <summary>
     /// Property Get the SessionId
     /// </summary>
-    public SessionService SessionService { get; set; }
+    private SessionService SessionService { get; set; }
 
-    public Dictionary<string, Task> TaskWarehouse { get; set; } = new();
+    private Dictionary<string, Task> TaskWarehouse { get; set; } = new();
 
     private ArmonikDataSynapseClientService ClientService { get; set; }
 
@@ -58,15 +59,12 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
     /// coming from Environment variables</param>
     /// <param name="serviceType"></param>
     /// <param name="loggerFactory">The logger factory to instantiate Logger with the current class type</param>
-    /// <param name="taskOptions">The task parameters to set MaxDuration,
-    /// MaxRetries and service which will called during the session
-    /// </param>
-    public Service(IConfiguration configuration, string serviceType, ILoggerFactory loggerFactory, TaskOptions taskOptions)
+    /// <param name="properties">The properties containing TaskOptions and information to communicate with Control plane and </param>
+    public Service(string serviceType, ILoggerFactory loggerFactory, Properties properties)
     {
-      ClientService = new ArmonikDataSynapseClientService(configuration,
-                                                          loggerFactory,
-                                                          taskOptions);
-      SessionService = ClientService.CreateSession(taskOptions);
+      ClientService = new ArmonikDataSynapseClientService(loggerFactory,
+                                                          properties);
+      SessionService = ClientService.CreateSession(properties.TaskOptions);
 
       ProtoSerializer = new ProtoSerializer();
     }
@@ -169,7 +167,6 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
       {
         try
         {
-          SessionService.WaitForTaskCompletion(taskId);
           byte[] byteResults = SessionService.GetResult(taskId);
           var    result      = ProtoSerializer.DeSerializeMessageObjectArray(byteResults);
 
@@ -234,10 +231,20 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
     }
 
     public Task HandlerResponse { get; set; }
+    public string SessionId => SessionService?.SessionId.Id;
 
     /// <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
     public void Dispose()
     {
+      try
+      {
+        Task.WaitAll(TaskWarehouse.Values.ToArray());
+      }
+      catch (Exception)
+      {
+        // ignored
+      }
+
       SessionService = null;
       ClientService = null;
       HandlerResponse?.Dispose();

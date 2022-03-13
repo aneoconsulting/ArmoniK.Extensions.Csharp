@@ -21,16 +21,12 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System.Collections.Generic;
-
-using ArmoniK.Api.gRPC.V1;
 using ArmoniK.DevelopmentKit.SymphonyApi.Client;
 using ArmoniK.DevelopmentKit.SymphonyApi.Client.api;
-using ArmoniK.DevelopmentKit.WorkerApi.Common;
 using ArmoniK.EndToEndTests.Common;
-
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
 
 namespace ArmoniK.EndToEndTests.Tests.SimpleComputeNSubtasking
 {
@@ -69,7 +65,7 @@ namespace ArmoniK.EndToEndTests.Tests.SimpleComputeNSubtasking
     private byte[] WaitForSubTaskResult(SessionService sessionService, string taskId)
     {
       Log.LogInformation($"Wait for root task to finish [task {taskId}]");
-      sessionService.WaitForTaskCompletion(taskId);
+     
       var taskResult = sessionService.GetResult(taskId);
       var result     = ClientPayload.Deserialize(taskResult);
 

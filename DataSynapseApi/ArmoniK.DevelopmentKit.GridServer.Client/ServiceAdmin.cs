@@ -12,6 +12,7 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
 {
   public class ServiceAdmin : IDisposable
   {
+    private static ServiceAdmin serviceAdmin_;
     public Session SessionId { get; set; }
     public Dictionary<string, Task> TaskWarehouse { get; set; }
 
@@ -19,11 +20,10 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
 
     public string ServiceType { get; set; }
 
-    public ServiceAdmin(IConfiguration configuration, ILoggerFactory loggerFactory, TaskOptions taskOptions)
+    public ServiceAdmin(IConfiguration configuration, ILoggerFactory loggerFactory, Properties properties)
     {
-      ClientService = new ArmonikDataSynapseClientService(configuration,
-                                                          loggerFactory,
-                                                          taskOptions);
+      ClientService = new ArmonikDataSynapseClientService(loggerFactory,
+                                                          properties);
       throw new NotImplementedException("Service Admin need to move into Poling agent");
 
       ServiceType = "ServiceAdmin";
@@ -85,6 +85,19 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
     /// <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
     public void Dispose()
     {
+    }
+
+    public static ServiceAdmin CreateInstance(IConfiguration configuration, ILoggerFactory loggerFactory, Properties properties)
+    {
+      serviceAdmin_ ??= new ServiceAdmin(configuration,
+                                         loggerFactory,
+                                         properties);
+      return serviceAdmin_;
+    }
+
+    public string UploadResource(string filepath)
+    {
+      return Guid.NewGuid().ToString();
     }
   }
 }

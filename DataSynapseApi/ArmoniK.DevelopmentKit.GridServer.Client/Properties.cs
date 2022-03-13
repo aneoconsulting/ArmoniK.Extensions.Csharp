@@ -1,10 +1,12 @@
 ﻿using ArmoniK.Api.gRPC.V1;
 using ArmoniK.DevelopmentKit.Common;
+
 using Google.Protobuf.WellKnownTypes;
+
 using Microsoft.Extensions.Configuration;
+
 using System;
 
-//TODO : remove pragma
 #pragma warning disable CS1591
 
 namespace ArmoniK.DevelopmentKit.GridServer.Client
@@ -12,20 +14,45 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
   [MarkDownDoc]
   public class Properties
   {
-    public Properties(IConfiguration configuration, TaskOptions options)
+    public Uri ControlPlaneUri { get; set; }
+
+    /// <summary>
+    /// Returns the section key Grpc from appSettings.json
+    /// </summary>
+    private static string SectionControlPlan { get; } = "Grpc";
+
+    private static string SectionEndPoint { get; } = "Endpoint";
+
+    public Properties(IConfiguration configuration,
+                      TaskOptions    options,
+                      string         connectionAddress = null,
+                      int            connectionPort    = 0,
+                      string         protocol          = null)
     {
       TaskOptions   = options;
       Configuration = configuration;
+     
+      try
+      {
+        ConnectionString = configuration.GetSection(SectionControlPlan)[SectionEndPoint];
+      }
+      catch (Exception)
+      {
+        ConnectionString = $"err://NoEndPoint:0";
+      }
+
+      if (connectionAddress != null) ConnectionAddress = connectionAddress;
+      if (connectionPort == 0) ConnectionPort          = connectionPort;
+      if (protocol != null) Protocol                   = protocol;
+
+      //Check if Uri is correct
+      if (Protocol == "err://" || ConnectionAddress == "NoEndPoint" || ConnectionPort == 0)
+        throw new ArgumentException($"Issue with the connection point : {ConnectionString}");
+
+      ControlPlaneUri = new Uri(ConnectionString);
     }
 
     public IConfiguration Configuration { get; set; }
-
-    public Properties(string connectionAddress, int connectionPort, TaskOptions options)
-    {
-      ConnectionPort    = connectionPort;
-      ConnectionAddress = connectionAddress;
-      TaskOptions       = options;
-    }
 
     public static TaskOptions DefaultTaskOptions = new()
     {
@@ -39,17 +66,17 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
 
     public string ConnectionString
     {
-      get { return $"{Protocol}{ConnectionAddress}:{ConnectionPort}"; }
+      get { return $"{Protocol}://{ConnectionAddress}:{ConnectionPort}"; }
       set
       {
-        var uri = new Uri(value);
-
-        Protocol = uri.Scheme;
-
-        ConnectionAddress = uri.Host;
         try
         {
-          ConnectionPort = uri.Port;
+          var uri = new Uri(value);
+
+          Protocol = uri.Scheme;
+
+          ConnectionAddress = uri.Host;
+          ConnectionPort    = uri.Port;
         }
         catch (FormatException e)
         {
