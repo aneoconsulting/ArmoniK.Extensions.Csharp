@@ -32,6 +32,7 @@ using System.Linq;
 
 namespace ArmoniK.EndToEndTests.Tests.CheckSessionUniqCallback
 {
+  [Disabled]
   public class CheckSessionUniqCallbackClient : ClientBaseTest<CheckSessionUniqCallbackClient>
   {
     public CheckSessionUniqCallbackClient(IConfiguration configuration, ILoggerFactory loggerFactory) :
