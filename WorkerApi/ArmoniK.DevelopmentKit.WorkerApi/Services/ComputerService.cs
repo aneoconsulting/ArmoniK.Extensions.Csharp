@@ -58,12 +58,12 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Services
     public override async Task<Output> Process(ITaskHandler taskHandler)
     {
       using var scopedLog = Logger.BeginNamedScope("Execute task",
-                                                    ("Session", taskHandler.SessionId),
-                                                    ("TaskId", taskHandler.TaskId));
+                                                   ("Session", taskHandler.SessionId),
+                                                   ("TaskId", taskHandler.TaskId));
       Logger.LogTrace("DataDependencies {DataDependencies}",
-                       taskHandler.DataDependencies.Keys);
+                      taskHandler.DataDependencies.Keys);
       Logger.LogTrace("ExpectedResults {ExpectedResults}",
-                       taskHandler.ExpectedResults);
+                      taskHandler.ExpectedResults);
 
       Output output;
       try
@@ -81,6 +81,17 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Services
 
         Logger.LogInformation($"Receive new task Session        {sessionIdCaller} -> task {taskId}");
         Logger.LogInformation($"Previous Session#SubSession was {ServiceRequestContext.SessionId?.Id ?? "NOT SET"}");
+
+        var keyOkList = new[] { AppsOptions.GridAppNameKey, AppsOptions.GridAppVersionKey, AppsOptions.GridAppNamespaceKey, }.Select(
+          key => (key,
+            val: taskHandler.TaskOptions.ContainsKey(key))).ToArray();
+
+        if (keyOkList.Any(el => el.val == false))
+        {
+          throw new WorkerApiException(
+            $"Error in TaskOptions.Options : One of Keys is missing [{string.Join(";", keyOkList.Where(x => x.Item2 == false).Select(el => $"{el.key} => {el.val}"))}]");
+        }
+
 
         var fileName          = $"{taskHandler.TaskOptions[AppsOptions.GridAppNameKey]}-v{taskHandler.TaskOptions[AppsOptions.GridAppVersionKey]}.zip";
         var localDirectoryZip = $"{Configuration["target_data_path"]}";
@@ -153,10 +164,11 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Services
           Status = TaskStatus.Failed,
         };
       }
+
       catch (Exception ex)
       {
         Logger.LogError(ex,
-                         "Error while computing task");
+                        "Error while computing task");
 
         output = new Output
         {
@@ -170,7 +182,6 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Services
       }
 
       Logger.LogTrace($"Output : {output}");
-
       return output;
     }
 

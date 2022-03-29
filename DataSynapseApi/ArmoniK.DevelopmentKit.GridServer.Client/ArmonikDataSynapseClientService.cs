@@ -73,14 +73,24 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
 
     private void ControlPlaneConnection()
     {
+      //AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport",
+      //                     true);
+
+      var uri = new Uri(properties_.ConnectionString);
+
+
 #if NET5_0_OR_GREATER
       var channel = GrpcChannel.ForAddress(properties_.ConnectionString);
 #else
+      var credentials = ChannelCredentials.Insecure;
+
+      if (properties_.Protocol.ToLower().Contains("https") || uri.Scheme.ToLower().Contains("https"))
+        credentials = ChannelCredentials.SecureSsl;
       Environment.SetEnvironmentVariable("GRPC_DNS_RESOLVER",
                                          "native");
-      var uri = new Uri(properties_.ConnectionString);
+
       var channel = new Channel($"{uri.Host}:{uri.Port}",
-                                ChannelCredentials.Insecure);
+                                credentials);
 #endif
       ControlPlaneService ??= new Submitter.SubmitterClient(channel);
     }

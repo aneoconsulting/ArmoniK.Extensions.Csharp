@@ -45,5 +45,6 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
     /// </summary>
     /// <value></value>
     public string ClientLibVersion { get; set; }
+
   }
 }

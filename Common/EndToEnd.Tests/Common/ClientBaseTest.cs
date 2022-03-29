@@ -83,6 +83,8 @@ namespace ArmoniK.EndToEndTests.Common
 
       TaskOptions.Options[AppsOptions.GridAppNamespaceKey] = typeof(T).Namespace;
 
+      TaskOptions.Options[AppsOptions.EngineTypeNameKey] = EngineType.Symphony.ToString();
+
       return TaskOptions;
     }
 

@@ -106,13 +106,23 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client
 
     private void ControlPlaneConnection()
     {
+      //AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport",
+      //                     true);
+
+      var uri         = new Uri(controlPlanAddress_["Endpoint"]);
+
 #if NET5_0_OR_GREATER
-      var channel = GrpcChannel.ForAddress(controlPlanAddress_["Endpoint"]);
+      var channel = GrpcChannel.ForAddress($"{uri.Host}:{uri.Port}");
 #else
-      Environment.SetEnvironmentVariable("GRPC_DNS_RESOLVER", "native");
-      var uri = new Uri(controlPlanAddress_["Endpoint"]);
-      var channel = new Channel($"{uri.Host}:{uri.Port}",
-                                ChannelCredentials.Insecure);
+      var credentials = ChannelCredentials.Insecure;
+
+      if (uri.Scheme.ToLower().Contains("https"))
+        credentials = ChannelCredentials.SecureSsl;
+
+      Environment.SetEnvironmentVariable("GRPC_DNS_RESOLVER",
+                                         "native");
+
+      var channel = new Channel($"{uri.Host}:{uri.Port}", credentials);
 #endif
       ControlPlaneService ??= new Submitter.SubmitterClient(channel);
     }

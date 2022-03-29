@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Threading;
 
 namespace ArmoniK.DevelopmentKit.SymphonyApi.Client.api
 {
@@ -55,8 +56,7 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client.api
 
       taskOptions ??= InitializeDefaultTaskOptions();
 
-      TaskOptions = taskOptions;
-      CopyTaskOptionsForClient(TaskOptions);
+      TaskOptions = CopyTaskOptionsForClient(taskOptions);
 
       ControlPlaneService = controlPlaneService;
 
@@ -124,17 +124,28 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client.api
       taskOptions.Options.Add(AppsOptions.GridAppNamespaceKey,
                               "ArmoniK.Samples.Symphony.Packages");
 
-      CopyTaskOptionsForClient(taskOptions);
-
       return taskOptions;
     }
 
 
-    private static void CopyTaskOptionsForClient(TaskOptions taskOptions)
+    private static TaskOptions CopyTaskOptionsForClient(TaskOptions taskOptions)
     {
-      taskOptions.Options["MaxDuration"] = taskOptions.MaxDuration.Seconds.ToString();
-      taskOptions.Options["MaxRetries"]  = taskOptions.MaxRetries.ToString();
-      taskOptions.Options["Priority"]    = taskOptions.Priority.ToString();
+      var res = new TaskOptions
+      {
+        MaxDuration = taskOptions.MaxDuration,
+        MaxRetries  = taskOptions.MaxRetries,
+        Priority    = taskOptions.Priority,
+        Options =
+        {
+          ["MaxDuration"] = taskOptions.MaxDuration.Seconds.ToString(),
+          ["MaxRetries"]  = taskOptions.MaxRetries.ToString(),
+          ["Priority"]    = taskOptions.Priority.ToString(),
+        },
+      };
+      taskOptions.Options.ToList()
+                 .ForEach(pair => res.Options[pair.Key] = pair.Value);
+
+      return res;
     }
 
     private TaskOptions CopyClientToTaskOptions(IDictionary<string, string> clientOptions)
@@ -167,7 +178,7 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client.api
       var createSessionRequest = new CreateSessionRequest
       {
         DefaultTaskOption = TaskOptions,
-        Id = sessionId,
+        Id                = sessionId,
       };
       var session = ControlPlaneService.CreateSession(createSessionRequest);
       switch (session.ResultCase)
@@ -206,9 +217,9 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client.api
     /// <returns>return a dictionary with key taskId and payload</returns>
     /// <exception cref="ArgumentNullException"></exception>
     /// <exception cref="ArgumentException"></exception>
-    public IEnumerable<Tuple<string, byte[]>> GetResults(IEnumerable<string> taskIds)
+    public IEnumerable<Tuple<string, byte[]>> GetResults(IEnumerable<string> taskIds, CancellationToken cancellationToken = default)
     {
-      return TryGetResults(taskIds,
+      return TryGetResults(taskIds,cancellationToken,
                            true);
     }
 
@@ -267,13 +278,13 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client.api
         {
           Id      = taskId,
           Payload = ByteString.CopyFrom(payload),
-         
+
           ExpectedOutputKeys =
           {
             taskId,
           },
         };
-       
+
         if (dependencies != null && dependencies.Count != 0)
         {
           taskRequest.DataDependencies.AddRange(dependencies);
@@ -340,10 +351,11 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client.api
     /// Gets the result from a task
     /// </summary>
     /// <param name="taskId">The task Id</param>
+    /// <param name="cancellationToken"></param>
     /// <returns>returns the result in byte[]</returns>
-    public byte[] GetResult(string taskId)
+    public byte[] GetResult(string taskId, CancellationToken cancellationToken = default)
     {
-      return TryGetResult(taskId,
+      return TryGetResult(taskId, cancellationToken,
                           true);
     }
 
@@ -351,36 +363,34 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client.api
     ///   Try to find the result of One task. If there no result, the function return byte[0]
     /// </summary>
     /// <param name="taskId">The task Id trying to get result</param>
+    /// <param name="cancellationToken"></param>
     /// <param name="throwIfNone">Set to true if you want to set up to except when no result is received</param>
     /// <returns>Returns the result or byte[0] if there no result</returns>
-    public byte[] TryGetResult(string taskId, bool throwIfNone = false)
+    public byte[] TryGetResult(string taskId, CancellationToken cancellationToken = default, bool throwIfNone = false)
     {
       using var _ = Logger.LogFunction(taskId);
+      
+      WaitForTaskCompletion(taskId);
+
       var resultRequest = new ResultRequest
       {
         Key     = taskId,
         Session = SessionId.Id,
       };
 
-      var availabilityReply = ControlPlaneService.WaitForAvailability(resultRequest);
+      var availabilityReply = ControlPlaneService.WaitForAvailability(resultRequest,
+                                                                      cancellationToken: cancellationToken);
 
       switch (availabilityReply.TypeCase)
       {
         case AvailabilityReply.TypeOneofCase.None:
-          if (throwIfNone)
-            throw new Exception("Issue with Server !");
-          else
-            return new byte[] { };
-
+          throw new Exception("Issue with Server !");
         case AvailabilityReply.TypeOneofCase.Ok:
           break;
         case AvailabilityReply.TypeOneofCase.Error:
           throw new Exception($"Task in Error - {taskId}\nMessage :\n{string.Join("Inner message:\n", availabilityReply.Error.Error)}");
         case AvailabilityReply.TypeOneofCase.NotCompletedTask:
-          if (throwIfNone)
-            throw new DataException("Task was not yet completed");
-          else
-            return new byte[] { };
+          throw new DataException($"Task {taskId} was not yet completed");
         default:
           throw new ArgumentOutOfRangeException();
       }
@@ -390,10 +400,7 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client.api
       switch (taskOutput.TypeCase)
       {
         case Output.TypeOneofCase.None:
-          if (throwIfNone)
-            throw new Exception("Issue with Server !");
-          else
-            return new byte[] { };
+          throw new Exception("Issue with Server !");
         case Output.TypeOneofCase.Ok:
           break;
         case Output.TypeOneofCase.Error:
@@ -402,7 +409,7 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client.api
           throw new ArgumentOutOfRangeException();
       }
 
-      var response = ControlPlaneService.GetResultAsync(resultRequest);
+      var response = ControlPlaneService.GetResultAsync(resultRequest, cancellationToken: cancellationToken);
       return response.Result;
     }
 
@@ -410,13 +417,14 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client.api
     /// Try to get result of a list of taskIds 
     /// </summary>
     /// <param name="taskIds"></param>
+    /// <param name="cancellationToken">A optional default token to cancel</param>
     /// <param name="throwIfNone">Set to true if you want to set up to except when no result is received</param>
     /// <returns>Returns an Enumerable pair of </returns>
-    public IEnumerable<Tuple<string, byte[]>> TryGetResults(IEnumerable<string> taskIds, bool throwIfNone = false)
+    public IEnumerable<Tuple<string, byte[]>> TryGetResults(IEnumerable<string> taskIds, CancellationToken cancellationToken = default, bool throwIfNone = false)
     {
       return taskIds.Select(id =>
       {
-        var res = TryGetResult(id,
+        var res = TryGetResult(id, cancellationToken,
                                throwIfNone);
 
         return res.Length == 0

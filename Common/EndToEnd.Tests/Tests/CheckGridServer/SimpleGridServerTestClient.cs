@@ -21,32 +21,19 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.CodeDom;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-
 using ArmoniK.Api.gRPC.V1;
 using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.GridServer.Client;
-using ArmoniK.DevelopmentKit.SymphonyApi.Client;
-using ArmoniK.DevelopmentKit.SymphonyApi.Client.api;
 using ArmoniK.EndToEndTests.Common;
-
-using Google.Protobuf.WellKnownTypes;
-
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-
-using Serilog;
-using Serilog.Events;
-
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using SessionService = ArmoniK.DevelopmentKit.SymphonyApi.Client.api.SessionService;
 
 namespace ArmoniK.EndToEndTests.Tests.CheckGridServer
 {
-
   public class SimpleGridServerTestClient : ClientBaseTest<SimpleGridServerTestClient>, IServiceInvocationHandler
   {
     public SimpleGridServerTestClient(IConfiguration configuration, ILoggerFactory loggerFactory) :
@@ -56,7 +43,6 @@ namespace ArmoniK.EndToEndTests.Tests.CheckGridServer
     }
 
 
-    [Disabled]
     [EntryPoint]
     public override void EntryPoint()
     {
@@ -65,8 +51,10 @@ namespace ArmoniK.EndToEndTests.Tests.CheckGridServer
 
       taskOptions.Options[AppsOptions.GridServiceNameKey] = "SimpleServiceContainer";
 
+      //var props = new Properties(Configuration,
+      //                           taskOptions);
       var props = new Properties(Configuration,
-                                 taskOptions);
+                                 taskOptions, "https://ANEO-SB2-8454-wsl.local", 5001);
 
       //var resourceId = ServiceAdmin.CreateInstance(Configuration, LoggerFactory,props).UploadResource("filePath");
 

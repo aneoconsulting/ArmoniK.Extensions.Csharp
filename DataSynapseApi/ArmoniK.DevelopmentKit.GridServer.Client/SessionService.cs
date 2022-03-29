@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Linq;
 
 using ArmoniK.Api.gRPC.V1;
@@ -55,8 +56,7 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
 
       taskOptions ??= InitializeDefaultTaskOptions();
 
-      TaskOptions = taskOptions;
-      CopyTaskOptionsForClient(TaskOptions);
+      TaskOptions = CopyTaskOptionsForClient(taskOptions);
 
       ControlPlaneService = controlPlaneService;
 
@@ -134,11 +134,22 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
     }
 
 
-    private static void CopyTaskOptionsForClient(TaskOptions taskOptions)
+    private static TaskOptions CopyTaskOptionsForClient(TaskOptions taskOptions)
     {
-      taskOptions.Options["MaxDuration"] = taskOptions.MaxDuration.Seconds.ToString();
-      taskOptions.Options["MaxRetries"]  = taskOptions.MaxRetries.ToString();
-      taskOptions.Options["Priority"]    = taskOptions.Priority.ToString();
+      var res = new TaskOptions
+      {
+        MaxDuration = taskOptions.MaxDuration,
+        MaxRetries  = taskOptions.MaxRetries,
+        Priority    = taskOptions.Priority,
+        Options =
+        {
+          ["MaxDuration"] = taskOptions.MaxDuration.Seconds.ToString(),
+          ["MaxRetries"]  = taskOptions.MaxRetries.ToString(),
+          ["Priority"]    = taskOptions.Priority.ToString(),
+        },
+      };
+
+      return res;
     }
 
     private TaskOptions CopyClientToTaskOptions(IDictionary<string, string> clientOptions)
@@ -201,21 +212,6 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
       if (SessionId == null) Logger.LogDebug($"Open Session {session.Id}");
       SessionId = session;
     }
-
-    /// <summary>
-    ///   Method to GetResults when the result is returned by a task
-    ///   The method WaitForCompletion should called before these method
-    /// </summary>
-    /// <param name="taskIds">The Task Ids list of the tasks which the result is expected</param>
-    /// <returns>return a dictionary with key taskId and payload</returns>
-    /// <exception cref="ArgumentNullException"></exception>
-    /// <exception cref="ArgumentException"></exception>
-    public IEnumerable<Tuple<string, byte[]>> GetResults(IEnumerable<string> taskIds)
-    {
-      return TryGetResults(taskIds,
-                           true);
-    }
-
 
     /// <summary>
     ///   User method to submit task from the client
@@ -339,54 +335,58 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
       throw new NotImplementedException("This function is obsolete please use SubmitTasksWithDependencies");
     }
 
-
-    /// <summary>
-    /// Gets the result from a task
-    /// </summary>
-    /// <param name="taskId">The task Id</param>
-    /// <returns>returns the result in byte[]</returns>
-    public byte[] GetResult(string taskId)
-    {
-      return TryGetResult(taskId,
-                          true);
-    }
-
     /// <summary>
     ///   Try to find the result of One task. If there no result, the function return byte[0]
     /// </summary>
     /// <param name="taskId">The task Id trying to get result</param>
-    /// <param name="throwIfNone">Set to true if you want to set up to except when no result is received</param>
     /// <returns>Returns the result or byte[0] if there no result</returns>
-    public byte[] TryGetResult(string taskId, bool throwIfNone = false)
+    public byte[] GetResult(string taskId)
     {
       using var _ = Logger.LogFunction(taskId);
       var resultRequest = new ResultRequest
       {
-        Key     = taskId,
+        Key = taskId,
         Session = SessionId.Id,
       };
 
-      var availabilityReply = ControlPlaneService.WaitForAvailability(resultRequest);
+      var retry = 3;
+      var success = false;
 
-      switch (availabilityReply.TypeCase)
+      while (retry >= 0 && success == false)
       {
-        case AvailabilityReply.TypeOneofCase.None:
-          if (throwIfNone)
-            throw new Exception("Issue with Server !");
-          else
-            return new byte[] { };
+        try
+        {
+          success = true;
+          var availabilityReply = ControlPlaneService.WaitForAvailability(resultRequest);
 
-        case AvailabilityReply.TypeOneofCase.Ok:
-          break;
-        case AvailabilityReply.TypeOneofCase.Error:
-          throw new Exception($"Task in Error - {taskId}");
-        case AvailabilityReply.TypeOneofCase.NotCompletedTask:
-          if (throwIfNone)
-            throw new DataException("Task was not yet completed");
-          else
-            return new byte[] { };
-        default:
-          throw new ArgumentOutOfRangeException();
+          switch (availabilityReply.TypeCase)
+          {
+            case AvailabilityReply.TypeOneofCase.None:
+              throw new Exception("Issue with Server !");
+
+            case AvailabilityReply.TypeOneofCase.Ok:
+              break;
+            case AvailabilityReply.TypeOneofCase.Error:
+              throw new Exception($"Task in Error - {taskId}");
+            case AvailabilityReply.TypeOneofCase.NotCompletedTask:
+              throw new DataException("Task was not yet completed");
+            default:
+              throw new ArgumentOutOfRangeException();
+          }
+        }
+        catch (IOException e)
+        {
+          success = false;
+
+          if (retry <= 0)
+            throw new Exception($"After 3 retries, Cannot established communication with control plane",
+                                e);
+        }
+
+        if (!success)
+        {
+          retry--;
+        }
       }
 
       var taskOutput = ControlPlaneService.TryGetTaskOutput(resultRequest);
@@ -394,10 +394,7 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
       switch (taskOutput.TypeCase)
       {
         case Output.TypeOneofCase.None:
-          if (throwIfNone)
-            throw new Exception("Issue with Server ! : ");
-          else
-            return new byte[] { };
+          throw new Exception("Issue with Server ! : ");
         case Output.TypeOneofCase.Ok:
           break;
         case Output.TypeOneofCase.Error:
@@ -411,6 +408,45 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
       return response.Result;
     }
 
+    /// <summary>
+    ///   Method to GetResults when the result is returned by a task
+    ///   The method WaitForCompletion should called before these method
+    /// </summary>
+    /// <param name="taskIds">The Task Ids list of the tasks which the result is expected</param>
+    /// <returns>return a dictionary with key taskId and payload</returns>
+    /// <exception cref="ArgumentNullException"></exception>
+    /// <exception cref="ArgumentException"></exception>
+    public IEnumerable<Tuple<string, byte[]>> GetResults(IEnumerable<string> taskIds)
+    {
+      return taskIds.Select(id =>
+      {
+        var res = TryGetResult(id);
+
+        return new Tuple<string, byte[]>(id,
+                                         res);
+      });
+    }
+
+    /// <summary>
+    ///   Try to find the result of One task. If there no result, the function return byte[0]
+    /// </summary>
+    /// <param name="taskId">The task Id trying to get result</param>
+    /// <param name="WaitForResult">Set to true if you want to set up to except when no result is received</param>
+    /// <returns>Returns the result or byte[0] if there no result</returns>
+    public byte[] TryGetResult(string taskId, bool WaitForResult = false)
+    {
+      using var _ = Logger.LogFunction(taskId);
+      var resultRequest = new ResultRequest
+      {
+        Key     = taskId,
+        Session = SessionId.Id,
+      };
+
+      var resultReply = ControlPlaneService.TryGetResultAsync(resultRequest);
+
+      return resultReply.Result;
+    }
+    
     /// <summary>
     /// Try to get result of a list of taskIds 
     /// </summary>
@@ -461,6 +497,7 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
     ///   Wait for the taskIds and all its dependencies taskIds
     /// </summary>
     /// <param name="parentTaskId">The taskIds to </param>
+    [Obsolete]
     public void WaitSubtasksCompletion(string parentTaskId)
     {
       using var _ = Logger.LogFunction(parentTaskId);

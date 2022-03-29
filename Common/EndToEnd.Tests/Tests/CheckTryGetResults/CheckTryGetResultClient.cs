@@ -38,6 +38,7 @@ using Microsoft.Extensions.Logging;
 namespace ArmoniK.EndToEndTests.Tests.CheckTryGetResults
 {
   [UsedImplicitly]
+  [Disabled]
   public class CheckTryGetResultsClient : ClientBaseTest<CheckTryGetResultsClient>
   {
     public CheckTryGetResultsClient(IConfiguration configuration, ILoggerFactory loggerFactory) : base(configuration,
@@ -52,7 +53,7 @@ namespace ArmoniK.EndToEndTests.Tests.CheckTryGetResults
 
       var client = new ArmonikSymphonyClient(Configuration,
                                              LoggerFactory);
-      Log.LogInformation("------   Start 9 Session with Rand Priority with 10 tasks each with 1 Subtask    -------");
+      Log.LogInformation("------   Start 2 Sessions  with 100 tasks  -------");
       var payloadsTasks = Enumerable.Range(1,
                                            2)
                                     .Select(idx => new Task(() => ClientStartup(client,
@@ -70,7 +71,7 @@ namespace ArmoniK.EndToEndTests.Tests.CheckTryGetResults
     /// <param name="taskIds">The tasks which are waiting for</param>
     /// <returns></returns>
     /// 
-    private static IEnumerable<Tuple<string, byte[]>> WaitForTasksResult(SessionService sessionService, IEnumerable<string> taskIds)
+    private IEnumerable<Tuple<string, byte[]>> WaitForTasksResult(SessionService sessionService, IEnumerable<string> taskIds)
     {
       var ids     = taskIds.ToList();
       var missing = ids;
@@ -83,9 +84,15 @@ namespace ArmoniK.EndToEndTests.Tests.CheckTryGetResults
         var listPartialResults = partialResults.ToList();
 
         if (listPartialResults.Count() != 0)
+        {
           results.AddRange(listPartialResults);
+          Log.LogInformation($"------   Get {listPartialResults.Count()} result(s)  -------");
+        }
 
         missing = ids.Where(x => listPartialResults.ToList().All(rId => rId.Item1 != x)).ToList();
+
+        if (missing.Count != 0)
+          Log.LogInformation($"------   Still missing {missing.Count()} result(s)  -------");
       }
 
       return results;
