@@ -47,7 +47,7 @@ namespace ArmoniK.EndToEndTests.Common
 
     protected ILogger<T> Log { get; set; }
 
-    protected TaskOptions TaskOptions { get; set; }
+    //protected TaskOptions TaskOptions { get; set; }
     protected ILoggerFactory LoggerFactory { get; set; }
 
     public ClientBaseTest(IConfiguration configuration, ILoggerFactory loggerFactory)
@@ -61,7 +61,7 @@ namespace ArmoniK.EndToEndTests.Common
 
     protected virtual TaskOptions InitializeTaskOptions()
     {
-      TaskOptions = new()
+      TaskOptions res = new()
       {
         MaxDuration = new Duration
         {
@@ -70,27 +70,24 @@ namespace ArmoniK.EndToEndTests.Common
         MaxRetries = 5,
         Priority   = 1,
       };
-      
-      TaskOptions.Options[AppsOptions.GridAppNameKey] = "ArmoniK.EndToEndTests";
+
+      res.Options[AppsOptions.GridAppNameKey] = "ArmoniK.EndToEndTests";
       string version = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).ProductVersion;
       //var    version         = typeof(ClientBaseTest<T>).Assembly.GetName().Version;
       if (version != null)
-        TaskOptions.Options[AppsOptions.GridAppVersionKey] = version;
+        res.Options[AppsOptions.GridAppVersionKey] = version;
       else
       {
-        TaskOptions.Options[AppsOptions.GridAppVersionKey] = "1.0.0-700";
+        res.Options[AppsOptions.GridAppVersionKey] = "1.0.0-700";
       }
 
-      TaskOptions.Options[AppsOptions.GridAppNamespaceKey] = typeof(T).Namespace;
+      res.Options[AppsOptions.GridAppNamespaceKey] = typeof(T).Namespace;
 
-      return TaskOptions;
+      res.Options[AppsOptions.EngineTypeNameKey] = EngineType.Symphony.ToString();
+
+      return res;
     }
-
-    public void SetNamespaceTest(string namespaceTest)
-    {
-      TaskOptions.Options[AppsOptions.GridAppNamespaceKey] = namespaceTest;
-    }
-
+    
 
     public abstract void EntryPoint();
   }

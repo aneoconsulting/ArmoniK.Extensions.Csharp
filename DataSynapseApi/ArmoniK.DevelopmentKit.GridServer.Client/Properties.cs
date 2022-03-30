@@ -23,6 +23,17 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
 
     private static string SectionEndPoint { get; } = "Endpoint";
 
+    public Properties(TaskOptions options,
+                      string      connectionAddress = null,
+                      int         connectionPort    = 0,
+                      string      protocol          = null) : this(new ConfigurationBuilder().Build(),
+                                                                   options,
+                                                                   connectionAddress,
+                                                                   connectionPort,
+                                                                   protocol)
+    {
+    }
+
     public Properties(IConfiguration configuration,
                       TaskOptions    options,
                       string         connectionAddress = null,
@@ -31,7 +42,7 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
     {
       TaskOptions   = options;
       Configuration = configuration;
-     
+
       try
       {
         ConnectionString = configuration.GetSection(SectionControlPlan)[SectionEndPoint];
@@ -41,9 +52,17 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
         ConnectionString = $"err://NoEndPoint:0";
       }
 
-      if (connectionAddress != null) ConnectionAddress = connectionAddress;
-      if (connectionPort != 0) ConnectionPort          = connectionPort;
-      if (protocol != null) Protocol                   = protocol;
+      if (connectionAddress != null)
+      {
+        var uri = new Uri(connectionAddress);
+        ConnectionAddress = uri.Host;
+
+        if (!string.IsNullOrEmpty(uri.Scheme))
+          Protocol = uri.Scheme;
+      }
+
+      if (connectionPort != 0) ConnectionPort = connectionPort;
+      if (protocol != null) Protocol          = protocol;
 
       //Check if Uri is correct
       if (Protocol == "err://" || ConnectionAddress == "NoEndPoint" || ConnectionPort == 0)
@@ -86,7 +105,7 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
       }
     }
 
-    public string Protocol { get; set; }
+    public string Protocol { get; set; } = "http";
 
     public string ConnectionAddress { get; set; }
 

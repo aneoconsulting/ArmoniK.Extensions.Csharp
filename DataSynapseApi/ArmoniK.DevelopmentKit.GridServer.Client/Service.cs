@@ -55,7 +55,6 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
     /// The default constructor to open connection with the control plane
     /// and create the session to ArmoniK
     /// </summary>
-    /// <param name="configuration">The IConfiguration with all parameters coming from appsettings.json or
     /// coming from Environment variables</param>
     /// <param name="serviceType"></param>
     /// <param name="loggerFactory">The logger factory to instantiate Logger with the current class type</param>

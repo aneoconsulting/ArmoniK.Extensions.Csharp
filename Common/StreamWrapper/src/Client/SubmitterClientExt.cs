@@ -199,6 +199,42 @@ namespace ArmoniK.Extensions.Common.StreamWrapper.Client
 
       return result.ToArray();
     }
+
+    public static async Task<byte[]> TryGetResultAsync(this Submitter.SubmitterClient client,
+                                                    ResultRequest                  resultRequest,
+                                                    CancellationToken              cancellationToken = default)
+    {
+      var streamingCall = client.TryGetResultStream(resultRequest);
+
+      var result = new List<byte>();
+
+      while (await streamingCall.ResponseStream.MoveNext(cancellationToken))
+      {
+        var reply = streamingCall.ResponseStream.Current;
+
+        switch (reply.TypeCase)
+        {
+          case ResultReply.TypeOneofCase.Result:
+            if (!reply.Result.DataComplete)
+            {
+              result.AddRange(reply.Result.Data.ToByteArray());
+            }
+
+            break;
+          case ResultReply.TypeOneofCase.None:
+            return new byte[] { };
+
+          case ResultReply.TypeOneofCase.Error:
+            throw new Exception($"Error in task {reply.Error.TaskId}");
+          case ResultReply.TypeOneofCase.NotCompletedTask:
+            return new byte[] { };
+          default:
+            throw new ArgumentOutOfRangeException();
+        }
+      }
+
+      return result.ToArray();
+    }
 #else
     public static async Task<byte[]> GetResultAsync(this Submitter.SubmitterClient client,
                                                     ResultRequest                  resultRequest,
@@ -224,6 +260,37 @@ namespace ArmoniK.Extensions.Common.StreamWrapper.Client
             throw new Exception($"Error in task {reply.Error.TaskId}");
           case ResultReply.TypeOneofCase.NotCompletedTask:
             throw new Exception($"Task {reply.NotCompletedTask} not completed");
+          default:
+            throw new ArgumentOutOfRangeException();
+        }
+
+      return result.ToArray();
+    }
+
+    public static async Task<byte[]> TryGetResultAsync(this Submitter.SubmitterClient client,
+                                                       ResultRequest                  resultRequest,
+                                                       CancellationToken              cancellationToken = default)
+    {
+      var streamingCall = client.TryGetResultStream(resultRequest);
+
+      var result = new List<byte>();
+
+      await foreach (var reply in streamingCall.ResponseStream.ReadAllAsync(cancellationToken))
+        switch (reply.TypeCase)
+        {
+          case ResultReply.TypeOneofCase.Result:
+            if (!reply.Result.DataComplete)
+            {
+              result.AddRange(reply.Result.Data.ToByteArray());
+            }
+
+            break;
+          case ResultReply.TypeOneofCase.None:
+            return new byte[] { };
+          case ResultReply.TypeOneofCase.Error:
+            throw new Exception($"Error in task {reply.Error.TaskId}");
+          case ResultReply.TypeOneofCase.NotCompletedTask:
+            return new byte[] { };
           default:
             throw new ArgumentOutOfRangeException();
         }
