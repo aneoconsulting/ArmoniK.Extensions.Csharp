@@ -54,12 +54,12 @@ namespace ArmoniK.EndToEndTests.Tests.CheckGridServer
       //var props = new Properties(Configuration,
       //                           taskOptions);
       var props = new Properties(Configuration,
-                                 taskOptions, "https://ANEO-SB2-8454-wsl.local", 5001);
+                                 taskOptions, "http://ANEO-SB2-8454-wsl.local", 5001);
 
       //var resourceId = ServiceAdmin.CreateInstance(Configuration, LoggerFactory,props).UploadResource("filePath");
 
 
-      using var cs = ServiceFactory.GetInstance().CreateService(TaskOptions.Options[AppsOptions.GridAppNameKey],
+      using var cs = ServiceFactory.GetInstance().CreateService(taskOptions.Options[AppsOptions.GridAppNameKey],
                                                                 props);
 
       Log.LogInformation("Configure taskOptions");

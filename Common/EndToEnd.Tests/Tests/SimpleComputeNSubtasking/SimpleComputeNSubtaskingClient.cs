@@ -30,7 +30,6 @@ using System.Collections.Generic;
 
 namespace ArmoniK.EndToEndTests.Tests.SimpleComputeNSubtasking
 {
-  [Disabled]
   public class SimpleComputeNSubtaskingClient : ClientBaseTest<SimpleComputeNSubtaskingClient>
   {
     public SimpleComputeNSubtaskingClient(IConfiguration configuration, ILoggerFactory loggerFactory) :

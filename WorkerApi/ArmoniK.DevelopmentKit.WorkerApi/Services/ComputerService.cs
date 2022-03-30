@@ -181,7 +181,7 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Services
         };
       }
 
-      Logger.LogTrace($"Output : {output}");
+      //Logger.LogTrace($"Output : {output}");
       return output;
     }
 

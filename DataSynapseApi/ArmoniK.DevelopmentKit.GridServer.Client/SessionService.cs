@@ -149,6 +149,9 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
         },
       };
 
+      taskOptions.Options.ToList()
+                 .ForEach(pair => res.Options[pair.Key] = pair.Value);
+
       return res;
     }
 
@@ -345,11 +348,11 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
       using var _ = Logger.LogFunction(taskId);
       var resultRequest = new ResultRequest
       {
-        Key = taskId,
+        Key     = taskId,
         Session = SessionId.Id,
       };
 
-      var retry = 3;
+      var retry   = 3;
       var success = false;
 
       while (retry >= 0 && success == false)
@@ -446,7 +449,7 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
 
       return resultReply.Result;
     }
-    
+
     /// <summary>
     /// Try to get result of a list of taskIds 
     /// </summary>

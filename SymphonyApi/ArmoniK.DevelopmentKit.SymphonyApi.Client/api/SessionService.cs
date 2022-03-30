@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace ArmoniK.DevelopmentKit.SymphonyApi.Client.api
 {
@@ -214,13 +215,20 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client.api
     ///   The method WaitForCompletion should called before these method
     /// </summary>
     /// <param name="taskIds">The Task Ids list of the tasks which the result is expected</param>
+    /// <param name="cancellationToken">The cancellation token</param>
     /// <returns>return a dictionary with key taskId and payload</returns>
     /// <exception cref="ArgumentNullException"></exception>
     /// <exception cref="ArgumentException"></exception>
     public IEnumerable<Tuple<string, byte[]>> GetResults(IEnumerable<string> taskIds, CancellationToken cancellationToken = default)
     {
-      return TryGetResults(taskIds,cancellationToken,
-                           true);
+      return taskIds.Select(id =>
+      {
+        var res = GetResult(id,
+                            cancellationToken);
+
+        return new Tuple<string, byte[]>(id,
+                                         res);
+      });
     }
 
 
@@ -348,28 +356,16 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client.api
 
 
     /// <summary>
-    /// Gets the result from a task
-    /// </summary>
-    /// <param name="taskId">The task Id</param>
-    /// <param name="cancellationToken"></param>
-    /// <returns>returns the result in byte[]</returns>
-    public byte[] GetResult(string taskId, CancellationToken cancellationToken = default)
-    {
-      return TryGetResult(taskId, cancellationToken,
-                          true);
-    }
-
-    /// <summary>
     ///   Try to find the result of One task. If there no result, the function return byte[0]
     /// </summary>
     /// <param name="taskId">The task Id trying to get result</param>
     /// <param name="cancellationToken"></param>
     /// <param name="throwIfNone">Set to true if you want to set up to except when no result is received</param>
     /// <returns>Returns the result or byte[0] if there no result</returns>
-    public byte[] TryGetResult(string taskId, CancellationToken cancellationToken = default, bool throwIfNone = false)
+    public byte[] GetResult(string taskId, CancellationToken cancellationToken = default)
     {
       using var _ = Logger.LogFunction(taskId);
-      
+
       WaitForTaskCompletion(taskId);
 
       var resultRequest = new ResultRequest
@@ -409,8 +405,43 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client.api
           throw new ArgumentOutOfRangeException();
       }
 
-      var response = ControlPlaneService.GetResultAsync(resultRequest, cancellationToken: cancellationToken);
+      var response = ControlPlaneService.GetResultAsync(resultRequest,
+                                                        cancellationToken: cancellationToken);
       return response.Result;
+    }
+
+    /// <summary>
+    ///   Try to find the result of One task. If there no result, the function return byte[0]
+    /// </summary>
+    /// <param name="taskId">The task Id trying to get result</param>
+    /// <param name="cancellationToken">The cancellation Token</param>
+    /// <param name="WaitForResult">Set to true if you want to set up to except when no result is received</param>
+    /// <returns>Returns the result or byte[0] if there no result</returns>
+    public byte[] TryGetResult(string taskId, CancellationToken cancellationToken = default, bool WaitForResult = false)
+    {
+      using var _ = Logger.LogFunction(taskId);
+      var resultRequest = new ResultRequest
+      {
+        Key     = taskId,
+        Session = SessionId.Id,
+      };
+      var result = new byte[] { };
+
+      try
+      {
+        var resultReply = ControlPlaneService.TryGetResultAsync(resultRequest,
+                                                                cancellationToken);
+        resultReply.Wait(cancellationToken);
+        
+        return resultReply.Result;
+
+      }
+      catch (Exception ex)
+      {
+        Logger.LogError("Issue with TryGetResult", ex);
+      }
+
+      return result;
     }
 
     /// <summary>
@@ -424,7 +455,8 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client.api
     {
       return taskIds.Select(id =>
       {
-        var res = TryGetResult(id, cancellationToken,
+        var res = TryGetResult(id,
+                               cancellationToken,
                                throwIfNone);
 
         return res.Length == 0
@@ -562,24 +594,6 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client.api
         Tuple.Create(payload,
                      dependencies),
       }).Single();
-    }
-
-    /// <summary>
-    ///   Get the result of One task. If there no result, the function return byte[0]
-    /// </summary>
-    /// <param name="client">The client instance for extension</param>
-    /// <param name="taskId">The task Id trying to get result</param>
-    /// <returns>Returns the result or byte[0] if there no result</returns>
-    public static byte[] GetResult(this SessionService client, string taskId)
-    {
-      var results = client.GetResults(new List<string>
-      {
-        taskId,
-      });
-      client.Logger.LogDebug($"{client.SessionId} " +
-                             $"Called GetResult for  {taskId}");
-
-      return results.Single(t => t.Item1.Equals(taskId)).Item2;
     }
   }
 }

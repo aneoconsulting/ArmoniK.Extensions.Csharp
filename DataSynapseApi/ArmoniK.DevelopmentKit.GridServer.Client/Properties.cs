@@ -54,7 +54,11 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
 
       if (connectionAddress != null)
       {
-        ConnectionAddress = connectionAddress;
+        var uri = new Uri(connectionAddress);
+        ConnectionAddress = uri.Host;
+
+        if (!string.IsNullOrEmpty(uri.Scheme))
+          Protocol = uri.Scheme;
       }
 
       if (connectionPort != 0) ConnectionPort = connectionPort;

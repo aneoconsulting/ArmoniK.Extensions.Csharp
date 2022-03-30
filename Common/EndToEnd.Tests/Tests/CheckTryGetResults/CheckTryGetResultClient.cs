@@ -24,6 +24,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 using ArmoniK.DevelopmentKit.SymphonyApi.Client;
@@ -38,7 +39,6 @@ using Microsoft.Extensions.Logging;
 namespace ArmoniK.EndToEndTests.Tests.CheckTryGetResults
 {
   [UsedImplicitly]
-  [Disabled]
   public class CheckTryGetResultsClient : ClientBaseTest<CheckTryGetResultsClient>
   {
     public CheckTryGetResultsClient(IConfiguration configuration, ILoggerFactory loggerFactory) : base(configuration,
@@ -79,7 +79,7 @@ namespace ArmoniK.EndToEndTests.Tests.CheckTryGetResults
 
       while (missing.Count != 0)
       {
-        var partialResults = sessionService.TryGetResults(ids);
+        var partialResults = sessionService.TryGetResults(missing);
 
         var listPartialResults = partialResults.ToList();
 
@@ -89,10 +89,12 @@ namespace ArmoniK.EndToEndTests.Tests.CheckTryGetResults
           Log.LogInformation($"------   Get {listPartialResults.Count()} result(s)  -------");
         }
 
-        missing = ids.Where(x => listPartialResults.ToList().All(rId => rId.Item1 != x)).ToList();
+        missing = missing.Where(x => listPartialResults.ToList().All(rId => rId.Item1 != x)).ToList();
 
-        if (missing.Count != 0)
+        if (missing.Count != 0) 
           Log.LogInformation($"------   Still missing {missing.Count()} result(s)  -------");
+
+        Thread.Sleep(1000);
       }
 
       return results;

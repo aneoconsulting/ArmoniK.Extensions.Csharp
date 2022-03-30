@@ -5,12 +5,16 @@ using Grpc.Core;
 #endif
 using System;
 using System.Collections.Generic;
+using System.Net.Http;
 
 using ArmoniK.Api.gRPC.V1;
 using ArmoniK.DevelopmentKit.Common;
 
 using Google.Protobuf.WellKnownTypes;
 
+using Grpc.Core;
+
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
 namespace ArmoniK.DevelopmentKit.GridServer.Client
@@ -76,16 +80,37 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
       //AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport",
       //                     true);
 
-      var uri = new Uri(properties_.ConnectionString);
+      var uri  = new Uri(properties_.ConnectionString);
+      var conf = properties_.Configuration;
+      Logger.LogInformation($"Connecting to armoniK  : {uri} port : {uri.Port}");
+      Logger.LogInformation($"HTTPS Activated: {uri.Scheme == Uri.UriSchemeHttps}");
 
+
+      var credentials = uri.Scheme == Uri.UriSchemeHttps ? new SslCredentials() : ChannelCredentials.Insecure;
 
 #if NET5_0_OR_GREATER
-      var channel = GrpcChannel.ForAddress(properties_.ConnectionString);
-#else
-      var credentials = ChannelCredentials.Insecure;
+ HttpClientHandler httpClientHandler = null;
+if (conf != null &&
+          conf.GetSection("Grpc").Exists() &&
+          conf.GetSection("Grpc").GetSection("SSLValidation").Exists() &&
+          conf.GetSection("Grpc")["SSLValidation"] == "disable")
+      {
+        httpClientHandler = new HttpClientHandler()
+        {
+          ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator,
+        };
+      }
+      var channelOptions = new GrpcChannelOptions()
+      {
+        Credentials = uri.Scheme == Uri.UriSchemeHttps ? new SslCredentials() : ChannelCredentials.Insecure,
+        HttpHandler = httpClientHandler,
+        LoggerFactory = LoggerFactory,
+      };
 
-      if (properties_.Protocol.ToLower().Contains("https") || uri.Scheme.ToLower().Contains("https"))
-        credentials = ChannelCredentials.SecureSsl;
+      var channel = GrpcChannel.ForAddress(properties_.ConnectionString,
+                                           channelOptions);
+
+#else
       Environment.SetEnvironmentVariable("GRPC_DNS_RESOLVER",
                                          "native");
 
