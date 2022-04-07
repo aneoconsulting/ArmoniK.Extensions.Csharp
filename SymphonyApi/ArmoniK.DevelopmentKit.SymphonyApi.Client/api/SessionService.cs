@@ -389,7 +389,9 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client.api
     {
       using var _ = Logger.LogFunction(taskId);
 
-      WaitForTaskCompletion(taskId);
+      var res = TryGetResult(taskId,
+                             cancellationToken);
+      if (res.Length != 0) return res;
 
       var resultRequest = new ResultRequest
       {
@@ -414,6 +416,10 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client.api
           throw new ArgumentOutOfRangeException();
       }
 
+      res = TryGetResult(taskId,
+                         cancellationToken);
+      if (res.Length != 0) return res;
+
       var taskOutput = ControlPlaneService.TryGetTaskOutput(resultRequest);
 
       switch (taskOutput.TypeCase)
@@ -428,9 +434,14 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client.api
           throw new ArgumentOutOfRangeException();
       }
 
-      var response = ControlPlaneService.GetResultAsync(resultRequest,
-                                                        cancellationToken: cancellationToken);
-      return response.Result;
+      res = TryGetResult(taskId,
+                         cancellationToken);
+
+      if (res.Length != 0) return res;
+      else
+      {
+        throw new ArgumentException($"Cannot retrieve result for taskId {taskId}");
+      }
     }
 
     /// <summary>
@@ -455,13 +466,13 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client.api
         var resultReply = ControlPlaneService.TryGetResultAsync(resultRequest,
                                                                 cancellationToken);
         resultReply.Wait(cancellationToken);
-        
-        return resultReply.Result;
 
+        return resultReply.Result;
       }
       catch (Exception ex)
       {
-        Logger.LogError("Issue with TryGetResult", ex);
+        Logger.LogError("Issue with TryGetResult",
+                        ex);
       }
 
       return result;
