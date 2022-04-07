@@ -133,7 +133,7 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Common
       if (!Directory.Exists($"{RootAppPath}/{assemblyName}/{assemblyVersion}"))
         return false;
 
-      //Now at least if dll exist or if a lock file exists and wait for unlock
+      //Now at least if dll exists or if a lock file exists and wait for unlock
       if (File.Exists($"{basePath}/{assemblyName}.dll"))
         return true;
 
