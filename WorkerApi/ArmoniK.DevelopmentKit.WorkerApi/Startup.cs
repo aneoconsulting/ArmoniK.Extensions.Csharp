@@ -21,21 +21,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.IO;
-
+using ArmoniK.DevelopmentKit.WorkerApi.Common;
 using ArmoniK.DevelopmentKit.WorkerApi.Services;
-
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-
 using Serilog;
-using Serilog.Extensions.Logging;
-using Serilog.Formatting.Compact;
+using System.IO;
 
 namespace ArmoniK.DevelopmentKit.WorkerApi
 {
@@ -54,12 +49,7 @@ namespace ArmoniK.DevelopmentKit.WorkerApi
 
       Configuration = builder.Build();
 
-      Log.Logger = new LoggerConfiguration().ReadFrom.Configuration(Configuration)
-                                            .WriteTo.Console(new CompactJsonFormatter())
-                                            .Enrich.FromLogContext()
-                                            .CreateLogger();
-      var loggerFactory = Microsoft.Extensions.Logging.LoggerFactory.Create(loggingBuilder => loggingBuilder.AddSerilog(Log.Logger));
-      LoggerFactory = loggerFactory;
+      LoggerFactory = GridWorkerExt.GetDefaultLoggerFactory(Configuration);
     }
 
     public ILoggerFactory LoggerFactory { get; set; }

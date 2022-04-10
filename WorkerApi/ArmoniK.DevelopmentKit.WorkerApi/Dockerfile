@@ -35,4 +35,6 @@ WORKDIR /root
 COPY --from=tools /root/.vs-debugger .vs-debugger
 WORKDIR /app
 COPY --from=publish /app/publish .
+ENV LD_LIBRARY_PATH=.:$LD_LIBRARY_PATH
+
 ENTRYPOINT ["dotnet", "ArmoniK.DevelopmentKit.WorkerApi.dll"]

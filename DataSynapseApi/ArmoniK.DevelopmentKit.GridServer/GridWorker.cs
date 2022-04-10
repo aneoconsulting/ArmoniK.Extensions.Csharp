@@ -36,6 +36,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.Loader;
 
 using ArmoniK.Extensions.Common.StreamWrapper.Worker;
 
@@ -135,55 +136,59 @@ namespace ArmoniK.DevelopmentKit.GridServer
       if (methodName == null)
         throw new WorkerApiException($"Method name is empty in Service class [{GridAppNamespace}.{GridServiceName}]");
 
-      
 
       var arguments = dataSynapsePayload.SerializedArguments
         ? new object[] { dataSynapsePayload.ClientPayload }
         : ProtoSerializer.DeSerializeMessageObjectArray(dataSynapsePayload.ClientPayload);
 
-      var methodInfo = ServiceClass.GetType().GetMethod(methodName,
-                                                        arguments.Select(x => x.GetType()).ToArray());
-      if (methodInfo == null)
-        throw new WorkerApiException($"Cannot found method [{methodName}({string.Join(", ", arguments.Select(x => x.GetType().Name))})] in Service class [{GridAppNamespace}.{GridServiceName}]");
+      using (AssemblyLoadContext.GetLoadContext(ServiceClass.GetType().Assembly)!.EnterContextualReflection())
+      {
+        var methodInfo = ServiceClass.GetType().GetMethod(methodName,
+                                                          arguments.Select(x => x.GetType()).ToArray());
+        if (methodInfo == null)
+          throw new WorkerApiException(
+            $"Cannot found method [{methodName}({string.Join(", ", arguments.Select(x => x.GetType().Name))})] in Service class [{GridAppNamespace}.{GridServiceName}]");
 
-      try
-      {
-        
-        var result = methodInfo.IsStatic ? methodInfo.Invoke(null,
-                                                             arguments) : methodInfo.Invoke(ServiceClass,
-                                                                                         arguments);
-        if (result != null)
+        try
         {
-          return new ProtoSerializer().SerializeMessageObjectArray(new[] { result });
+          var result = methodInfo.IsStatic
+            ? methodInfo.Invoke(null,
+                                arguments)
+            : methodInfo.Invoke(ServiceClass,
+                                arguments);
+          if (result != null)
+          {
+            return new ProtoSerializer().SerializeMessageObjectArray(new[] { result });
+          }
         }
-      }
-      catch (TargetException e)
-      {
-        throw new WorkerApiException(e);
-      }
-      catch (ArgumentException e)
-      {
-        throw new WorkerApiException(e);
-      }
-      catch (TargetInvocationException e)
-      {
-        throw new WorkerApiException(e.InnerException);
-      }
-      catch (TargetParameterCountException e)
-      {
-        throw new WorkerApiException(e);
-      }
-      catch (MethodAccessException e)
-      {
-        throw new WorkerApiException(e);
-      }
-      catch (InvalidOperationException e)
-      {
-        throw new WorkerApiException(e);
-      }
-      catch (Exception e)
-      {
-        throw new WorkerApiException(e);
+        catch (TargetException e)
+        {
+          throw new WorkerApiException(e);
+        }
+        catch (ArgumentException e)
+        {
+          throw new WorkerApiException(e);
+        }
+        catch (TargetInvocationException e)
+        {
+          throw new WorkerApiException(e.InnerException);
+        }
+        catch (TargetParameterCountException e)
+        {
+          throw new WorkerApiException(e);
+        }
+        catch (MethodAccessException e)
+        {
+          throw new WorkerApiException(e);
+        }
+        catch (InvalidOperationException e)
+        {
+          throw new WorkerApiException(e);
+        }
+        catch (Exception e)
+        {
+          throw new WorkerApiException(e);
+        }
       }
 
       return new byte[] { };

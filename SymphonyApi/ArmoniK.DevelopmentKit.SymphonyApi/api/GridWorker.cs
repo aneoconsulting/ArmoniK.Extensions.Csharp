@@ -21,19 +21,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using ArmoniK.Attributes;
 using ArmoniK.Api.gRPC.V1;
+using ArmoniK.Attributes;
 using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.SymphonyApi.api;
-
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
-
-using System.Collections.Generic;
-using System.Linq;
-
 using ArmoniK.DevelopmentKit.WorkerApi.Common;
 using ArmoniK.Extensions.Common.StreamWrapper.Worker;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.Loader;
+
 
 #pragma warning disable CS1591
 
@@ -46,6 +45,12 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
     private ServiceContainerBase serviceContainerBase_;
     private ServiceContext       serviceContext_;
     private SessionContext       sessionContext_;
+
+    public GridWorker()
+    {
+      Configuration = GridWorkerExt.GetDefaultConfiguration();
+      Logger        = GridWorkerExt.GetDefaultLoggerFactory(Configuration).CreateLogger<GridWorker>();
+    }
 
     public GridWorker(IConfiguration configuration, ILoggerFactory factory)
     {
@@ -102,24 +107,28 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
     public void InitializeSessionWorker(Session sessionId, IReadOnlyDictionary<string, string> requestTaskOptions)
     {
       Logger.BeginPropertyScope(("SessionId", sessionId));
-      serviceContainerBase_.Logger.BeginPropertyScope(("SessionId", sessionId));
 
-      if (SessionId == null || !sessionId.Equals(SessionId))
+      using (AssemblyLoadContext.EnterContextualReflection(serviceContainerBase_.GetType().Assembly))
       {
-        if (SessionId == null)
+        serviceContainerBase_.Logger.BeginPropertyScope(("SessionId", sessionId));
+
+        if (SessionId == null || !sessionId.Equals(SessionId))
         {
-          SessionId = sessionId;
-          serviceContainerBase_.ConfigureSession(SessionId,
-                                                 requestTaskOptions);
-          OnSessionEnter(sessionId);
-        }
-        else
-        {
-          OnSessionLeave();
-          SessionId = sessionId;
-          serviceContainerBase_.ConfigureSession(SessionId,
-                                                 requestTaskOptions);
-          OnSessionEnter(sessionId);
+          if (SessionId == null)
+          {
+            SessionId = sessionId;
+            serviceContainerBase_.ConfigureSession(SessionId,
+                                                   requestTaskOptions);
+            OnSessionEnter(sessionId);
+          }
+          else
+          {
+            OnSessionLeave();
+            SessionId = sessionId;
+            serviceContainerBase_.ConfigureSession(SessionId,
+                                                   requestTaskOptions);
+            OnSessionEnter(sessionId);
+          }
         }
       }
     }
@@ -132,27 +141,30 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
       };
 
       Logger.BeginPropertyScope(("TaskId", TaskId));
-      serviceContainerBase_.Logger.BeginPropertyScope(("TaskId", TaskId.Task));
-
-      var taskContext = new TaskContext
+      using (AssemblyLoadContext.EnterContextualReflection(serviceContainerBase_.GetType().Assembly))
       {
-        TaskId              = TaskId.Task,
-        TaskInput           = taskHandler.Payload,
-        SessionId           = taskHandler.SessionId,
-        DependenciesTaskIds = taskHandler.DataDependencies.Select(t => t.Key),
-        DataDependencies    = taskHandler.DataDependencies,
-        ClientOptions = taskHandler.TaskOptions.ToDictionary(id => id.Key,
-                                                             id => id.Value),
-      };
+        serviceContainerBase_.Logger.BeginPropertyScope(("TaskId", TaskId.Task));
 
-      serviceContainerBase_.ConfigureSessionService(taskHandler);
-      serviceContainerBase_.TaskId = TaskId;
-      Logger.LogInformation($"Check Enrich with taskId");
-      var clientPayload = serviceContainerBase_.OnInvoke(sessionContext_,
-                                                         taskContext);
+        var taskContext = new TaskContext
+        {
+          TaskId              = TaskId.Task,
+          TaskInput           = taskHandler.Payload,
+          SessionId           = taskHandler.SessionId,
+          DependenciesTaskIds = taskHandler.DataDependencies.Select(t => t.Key),
+          DataDependencies    = taskHandler.DataDependencies,
+          ClientOptions = taskHandler.TaskOptions.ToDictionary(id => id.Key,
+                                                               id => id.Value),
+        };
 
-      // Return to user the taskId, could be any other information
-      return clientPayload;
+        serviceContainerBase_.ConfigureSessionService(taskHandler);
+        serviceContainerBase_.TaskId = TaskId;
+        Logger.LogInformation($"Check Enrich with taskId");
+        var clientPayload = serviceContainerBase_.OnInvoke(sessionContext_,
+                                                           taskContext);
+
+        // Return to user the taskId, could be any other information
+        return clientPayload;
+      }
     }
 
 
@@ -168,7 +180,10 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
 
     public void OnCreateService()
     {
-      serviceContainerBase_.OnCreateService(serviceContext_);
+      using (AssemblyLoadContext.EnterContextualReflection(serviceContainerBase_.GetType().Assembly))
+      {
+        serviceContainerBase_.OnCreateService(serviceContext_);
+      }
     }
 
     /// <summary>
@@ -206,11 +221,14 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
     {
       OnSessionLeave();
 
-      if (serviceContext_ != null)
+      using (AssemblyLoadContext.EnterContextualReflection(serviceContainerBase_.GetType().Assembly))
       {
-        serviceContainerBase_.OnDestroyService(serviceContext_);
-        serviceContext_ = null;
-        SessionId       = null;
+        if (serviceContext_ != null)
+        {
+          serviceContainerBase_.OnDestroyService(serviceContext_);
+          serviceContext_ = null;
+          SessionId       = null;
+        }
       }
     }
 
