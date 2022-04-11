@@ -21,19 +21,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using ArmoniK.Attributes;
 using ArmoniK.Api.gRPC.V1;
+using ArmoniK.Attributes;
 using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.SymphonyApi.api;
+using ArmoniK.DevelopmentKit.WorkerApi.Common;
+using ArmoniK.Extensions.Common.StreamWrapper.Worker;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Loader;
 
-using ArmoniK.DevelopmentKit.WorkerApi.Common;
-using ArmoniK.Extensions.Common.StreamWrapper.Worker;
 
 #pragma warning disable CS1591
 
@@ -46,6 +47,12 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
     private ServiceContainerBase serviceContainerBase_;
     private ServiceContext       serviceContext_;
     private SessionContext       sessionContext_;
+
+    public GridWorker()
+    {
+      Configuration = GridWorkerExt.GetDefaultConfiguration();
+      Logger        = GridWorkerExt.GetDefaultLoggerFactory(Configuration).CreateLogger<GridWorker>();
+    }
 
     public GridWorker(IConfiguration configuration, ILoggerFactory factory)
     {
@@ -102,6 +109,8 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
     public void InitializeSessionWorker(Session sessionId, IReadOnlyDictionary<string, string> requestTaskOptions)
     {
       Logger.BeginPropertyScope(("SessionId", sessionId));
+
+
       serviceContainerBase_.Logger.BeginPropertyScope(("SessionId", sessionId));
 
       if (SessionId == null || !sessionId.Equals(SessionId))
@@ -132,6 +141,8 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
       };
 
       Logger.BeginPropertyScope(("TaskId", TaskId));
+
+
       serviceContainerBase_.Logger.BeginPropertyScope(("TaskId", TaskId.Task));
 
       var taskContext = new TaskContext
@@ -168,7 +179,10 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
 
     public void OnCreateService()
     {
-      serviceContainerBase_.OnCreateService(serviceContext_);
+      using (AssemblyLoadContext.EnterContextualReflection(serviceContainerBase_.GetType().Assembly))
+      {
+        serviceContainerBase_.OnCreateService(serviceContext_);
+      }
     }
 
     /// <summary>

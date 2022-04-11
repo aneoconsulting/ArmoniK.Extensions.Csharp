@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
 	<PropertyGroup>
-    <TargetFrameworks>net472;net6.0;net5.0</TargetFrameworks>
+    <TargetFrameworks>net6.0;net5.0</TargetFrameworks>
 		<PackageId>$(MSBuildProjectName)</PackageId>
 		<Version>1.0.0-700</Version>
 		<Authors>ANEO</Authors>

@@ -36,6 +36,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.Loader;
 
 using ArmoniK.Extensions.Common.StreamWrapper.Worker;
 
@@ -135,7 +136,6 @@ namespace ArmoniK.DevelopmentKit.GridServer
       if (methodName == null)
         throw new WorkerApiException($"Method name is empty in Service class [{GridAppNamespace}.{GridServiceName}]");
 
-      
 
       var arguments = dataSynapsePayload.SerializedArguments
         ? new object[] { dataSynapsePayload.ClientPayload }
@@ -144,14 +144,16 @@ namespace ArmoniK.DevelopmentKit.GridServer
       var methodInfo = ServiceClass.GetType().GetMethod(methodName,
                                                         arguments.Select(x => x.GetType()).ToArray());
       if (methodInfo == null)
-        throw new WorkerApiException($"Cannot found method [{methodName}({string.Join(", ", arguments.Select(x => x.GetType().Name))})] in Service class [{GridAppNamespace}.{GridServiceName}]");
+        throw new WorkerApiException(
+          $"Cannot found method [{methodName}({string.Join(", ", arguments.Select(x => x.GetType().Name))})] in Service class [{GridAppNamespace}.{GridServiceName}]");
 
       try
       {
-        
-        var result = methodInfo.IsStatic ? methodInfo.Invoke(null,
-                                                             arguments) : methodInfo.Invoke(ServiceClass,
-                                                                                         arguments);
+        var result = methodInfo.IsStatic
+          ? methodInfo.Invoke(null,
+                              arguments)
+          : methodInfo.Invoke(ServiceClass,
+                              arguments);
         if (result != null)
         {
           return new ProtoSerializer().SerializeMessageObjectArray(new[] { result });
@@ -185,6 +187,7 @@ namespace ArmoniK.DevelopmentKit.GridServer
       {
         throw new WorkerApiException(e);
       }
+
 
       return new byte[] { };
     }
