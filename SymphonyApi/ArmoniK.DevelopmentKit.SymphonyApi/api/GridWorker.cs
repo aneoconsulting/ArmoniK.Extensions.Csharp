@@ -27,8 +27,10 @@ using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.SymphonyApi.api;
 using ArmoniK.DevelopmentKit.WorkerApi.Common;
 using ArmoniK.Extensions.Common.StreamWrapper.Worker;
+
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Loader;
@@ -108,27 +110,25 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
     {
       Logger.BeginPropertyScope(("SessionId", sessionId));
 
-      using (AssemblyLoadContext.EnterContextualReflection(serviceContainerBase_.GetType().Assembly))
-      {
-        serviceContainerBase_.Logger.BeginPropertyScope(("SessionId", sessionId));
 
-        if (SessionId == null || !sessionId.Equals(SessionId))
+      serviceContainerBase_.Logger.BeginPropertyScope(("SessionId", sessionId));
+
+      if (SessionId == null || !sessionId.Equals(SessionId))
+      {
+        if (SessionId == null)
         {
-          if (SessionId == null)
-          {
-            SessionId = sessionId;
-            serviceContainerBase_.ConfigureSession(SessionId,
-                                                   requestTaskOptions);
-            OnSessionEnter(sessionId);
-          }
-          else
-          {
-            OnSessionLeave();
-            SessionId = sessionId;
-            serviceContainerBase_.ConfigureSession(SessionId,
-                                                   requestTaskOptions);
-            OnSessionEnter(sessionId);
-          }
+          SessionId = sessionId;
+          serviceContainerBase_.ConfigureSession(SessionId,
+                                                 requestTaskOptions);
+          OnSessionEnter(sessionId);
+        }
+        else
+        {
+          OnSessionLeave();
+          SessionId = sessionId;
+          serviceContainerBase_.ConfigureSession(SessionId,
+                                                 requestTaskOptions);
+          OnSessionEnter(sessionId);
         }
       }
     }
@@ -141,30 +141,29 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
       };
 
       Logger.BeginPropertyScope(("TaskId", TaskId));
-      using (AssemblyLoadContext.EnterContextualReflection(serviceContainerBase_.GetType().Assembly))
+
+
+      serviceContainerBase_.Logger.BeginPropertyScope(("TaskId", TaskId.Task));
+
+      var taskContext = new TaskContext
       {
-        serviceContainerBase_.Logger.BeginPropertyScope(("TaskId", TaskId.Task));
+        TaskId              = TaskId.Task,
+        TaskInput           = taskHandler.Payload,
+        SessionId           = taskHandler.SessionId,
+        DependenciesTaskIds = taskHandler.DataDependencies.Select(t => t.Key),
+        DataDependencies    = taskHandler.DataDependencies,
+        ClientOptions = taskHandler.TaskOptions.ToDictionary(id => id.Key,
+                                                             id => id.Value),
+      };
 
-        var taskContext = new TaskContext
-        {
-          TaskId              = TaskId.Task,
-          TaskInput           = taskHandler.Payload,
-          SessionId           = taskHandler.SessionId,
-          DependenciesTaskIds = taskHandler.DataDependencies.Select(t => t.Key),
-          DataDependencies    = taskHandler.DataDependencies,
-          ClientOptions = taskHandler.TaskOptions.ToDictionary(id => id.Key,
-                                                               id => id.Value),
-        };
+      serviceContainerBase_.ConfigureSessionService(taskHandler);
+      serviceContainerBase_.TaskId = TaskId;
+      Logger.LogInformation($"Check Enrich with taskId");
+      var clientPayload = serviceContainerBase_.OnInvoke(sessionContext_,
+                                                         taskContext);
 
-        serviceContainerBase_.ConfigureSessionService(taskHandler);
-        serviceContainerBase_.TaskId = TaskId;
-        Logger.LogInformation($"Check Enrich with taskId");
-        var clientPayload = serviceContainerBase_.OnInvoke(sessionContext_,
-                                                           taskContext);
-
-        // Return to user the taskId, could be any other information
-        return clientPayload;
-      }
+      // Return to user the taskId, could be any other information
+      return clientPayload;
     }
 
 
@@ -221,14 +220,11 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
     {
       OnSessionLeave();
 
-      using (AssemblyLoadContext.EnterContextualReflection(serviceContainerBase_.GetType().Assembly))
+      if (serviceContext_ != null)
       {
-        if (serviceContext_ != null)
-        {
-          serviceContainerBase_.OnDestroyService(serviceContext_);
-          serviceContext_ = null;
-          SessionId       = null;
-        }
+        serviceContainerBase_.OnDestroyService(serviceContext_);
+        serviceContext_ = null;
+        SessionId       = null;
       }
     }
 

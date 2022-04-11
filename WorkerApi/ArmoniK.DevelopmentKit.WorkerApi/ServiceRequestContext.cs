@@ -34,6 +34,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
+using ArmoniK.Extensions.Common.StreamWrapper.Worker;
+
 namespace ArmoniK.DevelopmentKit.WorkerApi
 {
   public class ServiceId
@@ -67,27 +69,55 @@ namespace ArmoniK.DevelopmentKit.WorkerApi
 
     public void CloseSession()
     {
-      GridWorker?.SessionFinalize();
+      using (AppsLoader.UserAssemblyLoadContext.EnterContextualReflection())
+      {
+        GridWorker?.SessionFinalize();
+      }
     }
 
     public void Configure(IConfiguration configuration, IReadOnlyDictionary<string, string> requestTaskOptions)
     {
-      if (!Initialized)
+      if (Initialized)
+        return;
+
+      using (AppsLoader.UserAssemblyLoadContext.EnterContextualReflection())
       {
         GridWorker.Configure(configuration,
                              requestTaskOptions,
                              AppsLoader);
-        Initialized = true;
       }
+
+      Initialized = true;
     }
 
     /// <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
     public void Dispose()
     {
-      GridWorker?.Dispose();
+      using (AppsLoader.UserAssemblyLoadContext.EnterContextualReflection())
+      {
+        GridWorker?.Dispose();
+      }
+
       GridWorker = null;
       AppsLoader.Dispose();
       AppsLoader = null;
+    }
+
+    public void InitializeSessionWorker(Session sessionId, IReadOnlyDictionary<string, string> taskHandlerTaskOptions)
+    {
+      using (AppsLoader.UserAssemblyLoadContext.EnterContextualReflection())
+      {
+        GridWorker.InitializeSessionWorker(sessionId,
+                                           taskHandlerTaskOptions);
+      }
+    }
+
+    public byte[] Execute(ITaskHandler taskHandler)
+    {
+      using (AppsLoader.UserAssemblyLoadContext.EnterContextualReflection())
+      {
+        return GridWorker.Execute(taskHandler);
+      }
     }
   }
 

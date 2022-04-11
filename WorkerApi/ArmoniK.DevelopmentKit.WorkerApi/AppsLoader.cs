@@ -47,6 +47,8 @@ namespace ArmoniK.DevelopmentKit.WorkerApi
 
     private string ArmoniKDevelopmentKitServerApi { get; set; }
 
+    public AssemblyLoadContext UserAssemblyLoadContext => loadContext_;
+
     public AppsLoader(IConfiguration configuration,
                       ILoggerFactory loggerFactory,
                       string         engineTypeAssemblyName,
@@ -139,7 +141,7 @@ namespace ArmoniK.DevelopmentKit.WorkerApi
       // Create an instance of a class from the assembly.
       try
       {
-        using (loadContext_.EnterContextualReflection())
+        using (UserAssemblyLoadContext.EnterContextualReflection())
         {
           var classType = assemblyGridWorker_.GetType($"{ArmoniKDevelopmentKitServerApi}.GridWorker");
 
@@ -166,7 +168,7 @@ namespace ArmoniK.DevelopmentKit.WorkerApi
 
     public T GetServiceContainerInstance<T>(string appNamespace, string serviceContainerClassName)
     {
-      using (loadContext_.EnterContextualReflection())
+      using (UserAssemblyLoadContext.EnterContextualReflection())
       {
 
         // Create an instance of a class from the assembly.

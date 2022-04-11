@@ -141,55 +141,53 @@ namespace ArmoniK.DevelopmentKit.GridServer
         ? new object[] { dataSynapsePayload.ClientPayload }
         : ProtoSerializer.DeSerializeMessageObjectArray(dataSynapsePayload.ClientPayload);
 
-      using (AssemblyLoadContext.GetLoadContext(ServiceClass.GetType().Assembly)!.EnterContextualReflection())
-      {
-        var methodInfo = ServiceClass.GetType().GetMethod(methodName,
-                                                          arguments.Select(x => x.GetType()).ToArray());
-        if (methodInfo == null)
-          throw new WorkerApiException(
-            $"Cannot found method [{methodName}({string.Join(", ", arguments.Select(x => x.GetType().Name))})] in Service class [{GridAppNamespace}.{GridServiceName}]");
+      var methodInfo = ServiceClass.GetType().GetMethod(methodName,
+                                                        arguments.Select(x => x.GetType()).ToArray());
+      if (methodInfo == null)
+        throw new WorkerApiException(
+          $"Cannot found method [{methodName}({string.Join(", ", arguments.Select(x => x.GetType().Name))})] in Service class [{GridAppNamespace}.{GridServiceName}]");
 
-        try
+      try
+      {
+        var result = methodInfo.IsStatic
+          ? methodInfo.Invoke(null,
+                              arguments)
+          : methodInfo.Invoke(ServiceClass,
+                              arguments);
+        if (result != null)
         {
-          var result = methodInfo.IsStatic
-            ? methodInfo.Invoke(null,
-                                arguments)
-            : methodInfo.Invoke(ServiceClass,
-                                arguments);
-          if (result != null)
-          {
-            return new ProtoSerializer().SerializeMessageObjectArray(new[] { result });
-          }
-        }
-        catch (TargetException e)
-        {
-          throw new WorkerApiException(e);
-        }
-        catch (ArgumentException e)
-        {
-          throw new WorkerApiException(e);
-        }
-        catch (TargetInvocationException e)
-        {
-          throw new WorkerApiException(e.InnerException);
-        }
-        catch (TargetParameterCountException e)
-        {
-          throw new WorkerApiException(e);
-        }
-        catch (MethodAccessException e)
-        {
-          throw new WorkerApiException(e);
-        }
-        catch (InvalidOperationException e)
-        {
-          throw new WorkerApiException(e);
-        }
-        catch (Exception e)
-        {
-          throw new WorkerApiException(e);
+          return new ProtoSerializer().SerializeMessageObjectArray(new[] { result });
         }
       }
+      catch (TargetException e)
+      {
+        throw new WorkerApiException(e);
+      }
+      catch (ArgumentException e)
+      {
+        throw new WorkerApiException(e);
+      }
+      catch (TargetInvocationException e)
+      {
+        throw new WorkerApiException(e.InnerException);
+      }
+      catch (TargetParameterCountException e)
+      {
+        throw new WorkerApiException(e);
+      }
+      catch (MethodAccessException e)
+      {
+        throw new WorkerApiException(e);
+      }
+      catch (InvalidOperationException e)
+      {
+        throw new WorkerApiException(e);
+      }
+      catch (Exception e)
+      {
+        throw new WorkerApiException(e);
+      }
+
 
       return new byte[] { };
     }
