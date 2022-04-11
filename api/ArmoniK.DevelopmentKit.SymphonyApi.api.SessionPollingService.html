@@ -82,32 +82,11 @@ be called by client or by the worker.</p>
     <div class="level0"><span class="xref">System.Object</span></div>
     <div class="level1"><span class="xref">SessionPollingService</span></div>
   </div>
-  <div class="inheritedMembers">
-    <h5>Inherited Members</h5>
-    <div>
-      <span class="xref">System.Object.Equals(System.Object)</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.Equals(System.Object, System.Object)</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.GetHashCode()</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.GetType()</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.MemberwiseClone()</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.ReferenceEquals(System.Object, System.Object)</span>
-    </div>
-  </div>
   <h6><strong>Namespace</strong>: <a class="xref" href="ArmoniK.DevelopmentKit.SymphonyApi.api.html">ArmoniK.DevelopmentKit.SymphonyApi.api</a></h6>
   <h6><strong>Assembly</strong>: ArmoniK.DevelopmentKit.SymphonyApi.dll</h6>
   <h5 id="ArmoniK_DevelopmentKit_SymphonyApi_api_SessionPollingService_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public class SessionPollingService</code></pre>
+    <pre><code class="lang-csharp hljs">public class SessionPollingService : object</code></pre>
   </div>
   <h3 id="constructors">Constructors
   </h3>
@@ -322,28 +301,27 @@ SubmitSubTaskWithDependencies or WaitForCompletion, WaitForSubTaskCompletion or 
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Collections.Generic.IDictionary</span>&lt;<span class="xref">System.String</span>, <span class="xref">System.Byte</span>[]&gt;</td>
+        <td><span class="xref">IDictionary</span>&lt;<span class="xref">System.String</span>, <span class="xref">System.Byte</span>[]&gt;</td>
         <td></td>
       </tr>
     </tbody>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/master/apiSpec/new?filename=ArmoniK_DevelopmentKit_SymphonyApi_api_SessionPollingService_SubmitSubTasks_System_String_System_Collections_Generic_IEnumerable_System_Byte____.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.SubmitSubTasks(System.String%2CSystem.Collections.Generic.IEnumerable%7BSystem.Byte%5B%5D%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/master/apiSpec/new?filename=ArmoniK_DevelopmentKit_SymphonyApi_api_SessionPollingService_SubmitSubTasks_System_String_IEnumerable_System_Byte____.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.SubmitSubTasks(System.String%2CIEnumerable%7BSystem.Byte%5B%5D%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/master/SymphonyApi/ArmoniK.DevelopmentKit.SymphonyApi/api/SessionPollingService.cs/#L213">View Source</a>
   </span>
   <a id="ArmoniK_DevelopmentKit_SymphonyApi_api_SessionPollingService_SubmitSubTasks_" data-uid="ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.SubmitSubTasks*"></a>
-  <h4 id="ArmoniK_DevelopmentKit_SymphonyApi_api_SessionPollingService_SubmitSubTasks_System_String_System_Collections_Generic_IEnumerable_System_Byte____" data-uid="ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.SubmitSubTasks(System.String,System.Collections.Generic.IEnumerable{System.Byte[]})">SubmitSubTasks(String, IEnumerable&lt;Byte[]&gt;)</h4>
+  <h4 id="ArmoniK_DevelopmentKit_SymphonyApi_api_SessionPollingService_SubmitSubTasks_System_String_IEnumerable_System_Byte____" data-uid="ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.SubmitSubTasks(System.String,IEnumerable{System.Byte[]})">SubmitSubTasks(String, IEnumerable&lt;Byte[]&gt;)</h4>
   <div class="markdown level1 summary"><p>The method to submit sub task inside a parent task
 Use this method only on server side development</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">[Obsolete]
-public IEnumerable&lt;string&gt; SubmitSubTasks(string parentTaskId, IEnumerable&lt;byte[]&gt; payloads)</code></pre>
+    <pre><code class="lang-csharp hljs">public IEnumerable&lt;string&gt; SubmitSubTasks(string parentTaskId, IEnumerable&lt;byte[]&gt; payloads)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -362,7 +340,7 @@ public IEnumerable&lt;string&gt; SubmitSubTasks(string parentTaskId, IEnumerable
 </td>
       </tr>
       <tr>
-        <td><span class="xref">System.Collections.Generic.IEnumerable</span>&lt;<span class="xref">System.Byte</span>[]&gt;</td>
+        <td><span class="xref">IEnumerable</span>&lt;<span class="xref">System.Byte</span>[]&gt;</td>
         <td><span class="parametername">payloads</span></td>
         <td><p>A lists of payloads creating a list of subTask</p>
 </td>
@@ -379,7 +357,7 @@ public IEnumerable&lt;string&gt; SubmitSubTasks(string parentTaskId, IEnumerable
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Collections.Generic.IEnumerable</span>&lt;<span class="xref">System.String</span>&gt;</td>
+        <td><span class="xref">IEnumerable</span>&lt;<span class="xref">System.String</span>&gt;</td>
         <td><p>Return a list of taskId</p>
 </td>
       </tr>
@@ -387,21 +365,20 @@ public IEnumerable&lt;string&gt; SubmitSubTasks(string parentTaskId, IEnumerable
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/master/apiSpec/new?filename=ArmoniK_DevelopmentKit_SymphonyApi_api_SessionPollingService_SubmitSubtasksWithDependencies_System_String_System_Collections_Generic_IEnumerable_System_Tuple_System_Byte___System_Collections_Generic_IList_System_String____.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.SubmitSubtasksWithDependencies(System.String%2CSystem.Collections.Generic.IEnumerable%7BSystem.Tuple%7BSystem.Byte%5B%5D%2CSystem.Collections.Generic.IList%7BSystem.String%7D%7D%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/master/apiSpec/new?filename=ArmoniK_DevelopmentKit_SymphonyApi_api_SessionPollingService_SubmitSubtasksWithDependencies_System_String_IEnumerable_Tuple_System_Byte___IList_System_String____.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.SubmitSubtasksWithDependencies(System.String%2CIEnumerable%7BTuple%7BSystem.Byte%5B%5D%2CIList%7BSystem.String%7D%7D%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/master/SymphonyApi/ArmoniK.DevelopmentKit.SymphonyApi/api/SessionPollingService.cs/#L296">View Source</a>
   </span>
   <a id="ArmoniK_DevelopmentKit_SymphonyApi_api_SessionPollingService_SubmitSubtasksWithDependencies_" data-uid="ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.SubmitSubtasksWithDependencies*"></a>
-  <h4 id="ArmoniK_DevelopmentKit_SymphonyApi_api_SessionPollingService_SubmitSubtasksWithDependencies_System_String_System_Collections_Generic_IEnumerable_System_Tuple_System_Byte___System_Collections_Generic_IList_System_String____" data-uid="ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.SubmitSubtasksWithDependencies(System.String,System.Collections.Generic.IEnumerable{System.Tuple{System.Byte[],System.Collections.Generic.IList{System.String}}})">SubmitSubtasksWithDependencies(String, IEnumerable&lt;Tuple&lt;Byte[], IList&lt;String&gt;&gt;&gt;)</h4>
+  <h4 id="ArmoniK_DevelopmentKit_SymphonyApi_api_SessionPollingService_SubmitSubtasksWithDependencies_System_String_IEnumerable_Tuple_System_Byte___IList_System_String____" data-uid="ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.SubmitSubtasksWithDependencies(System.String,IEnumerable{Tuple{System.Byte[],IList{System.String}}})">SubmitSubtasksWithDependencies(String, IEnumerable&lt;Tuple&lt;Byte[], IList&lt;String&gt;&gt;&gt;)</h4>
   <div class="markdown level1 summary"><p>The method to submit several tasks with dependencies tasks. This task will wait for
 to start until all dependencies are completed successfully</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">[Obsolete]
-public IEnumerable&lt;string&gt; SubmitSubtasksWithDependencies(string parentTaskId, IEnumerable&lt;Tuple&lt;byte[], IList&lt;string&gt;&gt;&gt; payloadWithDependencies)</code></pre>
+    <pre><code class="lang-csharp hljs">public IEnumerable&lt;string&gt; SubmitSubtasksWithDependencies(string parentTaskId, IEnumerable&lt;Tuple&lt;byte[], IList&lt;string&gt;&gt;&gt; payloadWithDependencies)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -420,7 +397,7 @@ public IEnumerable&lt;string&gt; SubmitSubtasksWithDependencies(string parentTas
 </td>
       </tr>
       <tr>
-        <td><span class="xref">System.Collections.Generic.IEnumerable</span>&lt;<span class="xref">System.Tuple</span>&lt;<span class="xref">System.Byte</span>[], <span class="xref">System.Collections.Generic.IList</span>&lt;<span class="xref">System.String</span>&gt;&gt;&gt;</td>
+        <td><span class="xref">IEnumerable</span>&lt;<span class="xref">Tuple</span>&lt;<span class="xref">System.Byte</span>[], <span class="xref">IList</span>&lt;<span class="xref">System.String</span>&gt;&gt;&gt;</td>
         <td><span class="parametername">payloadWithDependencies</span></td>
         <td><p>A list of Tuple(taskId, Payload) in dependence of those created Subtasks</p>
 </td>
@@ -437,7 +414,7 @@ public IEnumerable&lt;string&gt; SubmitSubtasksWithDependencies(string parentTas
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Collections.Generic.IEnumerable</span>&lt;<span class="xref">System.String</span>&gt;</td>
+        <td><span class="xref">IEnumerable</span>&lt;<span class="xref">System.String</span>&gt;</td>
         <td><p>return a list of taskIds of the created Subtasks</p>
 </td>
       </tr>
@@ -445,21 +422,20 @@ public IEnumerable&lt;string&gt; SubmitSubtasksWithDependencies(string parentTas
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/master/apiSpec/new?filename=ArmoniK_DevelopmentKit_SymphonyApi_api_SessionPollingService_SubmitSubtaskWithDependencies_System_String_System_Byte___System_Collections_Generic_IList_System_String__.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.SubmitSubtaskWithDependencies(System.String%2CSystem.Byte%5B%5D%2CSystem.Collections.Generic.IList%7BSystem.String%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/master/apiSpec/new?filename=ArmoniK_DevelopmentKit_SymphonyApi_api_SessionPollingService_SubmitSubtaskWithDependencies_System_String_System_Byte___IList_System_String__.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.SubmitSubtaskWithDependencies(System.String%2CSystem.Byte%5B%5D%2CIList%7BSystem.String%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/master/SymphonyApi/ArmoniK.DevelopmentKit.SymphonyApi/api/SessionPollingService.cs/#L283">View Source</a>
   </span>
   <a id="ArmoniK_DevelopmentKit_SymphonyApi_api_SessionPollingService_SubmitSubtaskWithDependencies_" data-uid="ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.SubmitSubtaskWithDependencies*"></a>
-  <h4 id="ArmoniK_DevelopmentKit_SymphonyApi_api_SessionPollingService_SubmitSubtaskWithDependencies_System_String_System_Byte___System_Collections_Generic_IList_System_String__" data-uid="ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.SubmitSubtaskWithDependencies(System.String,System.Byte[],System.Collections.Generic.IList{System.String})">SubmitSubtaskWithDependencies(String, Byte[], IList&lt;String&gt;)</h4>
+  <h4 id="ArmoniK_DevelopmentKit_SymphonyApi_api_SessionPollingService_SubmitSubtaskWithDependencies_System_String_System_Byte___IList_System_String__" data-uid="ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.SubmitSubtaskWithDependencies(System.String,System.Byte[],IList{System.String})">SubmitSubtaskWithDependencies(String, Byte[], IList&lt;String&gt;)</h4>
   <div class="markdown level1 summary"><p>The method to submit One SubTask with dependencies tasks. This task will wait for
 to start until all dependencies are completed successfully</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">[Obsolete]
-public string SubmitSubtaskWithDependencies(string parentId, byte[] payload, IList&lt;string&gt; dependencies)</code></pre>
+    <pre><code class="lang-csharp hljs">public string SubmitSubtaskWithDependencies(string parentId, byte[] payload, IList&lt;string&gt; dependencies)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -484,7 +460,7 @@ public string SubmitSubtaskWithDependencies(string parentId, byte[] payload, ILi
 </td>
       </tr>
       <tr>
-        <td><span class="xref">System.Collections.Generic.IList</span>&lt;<span class="xref">System.String</span>&gt;</td>
+        <td><span class="xref">IList</span>&lt;<span class="xref">System.String</span>&gt;</td>
         <td><span class="parametername">dependencies</span></td>
         <td><p>A list of task Id in dependence of this created SubTask</p>
 </td>
@@ -509,13 +485,13 @@ public string SubmitSubtaskWithDependencies(string parentId, byte[] payload, ILi
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/master/apiSpec/new?filename=ArmoniK_DevelopmentKit_SymphonyApi_api_SessionPollingService_SubmitTasks_System_Collections_Generic_IEnumerable_System_Byte____.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.SubmitTasks(System.Collections.Generic.IEnumerable%7BSystem.Byte%5B%5D%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/master/apiSpec/new?filename=ArmoniK_DevelopmentKit_SymphonyApi_api_SessionPollingService_SubmitTasks_IEnumerable_System_Byte____.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.SubmitTasks(IEnumerable%7BSystem.Byte%5B%5D%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/master/SymphonyApi/ArmoniK.DevelopmentKit.SymphonyApi/api/SessionPollingService.cs/#L167">View Source</a>
   </span>
   <a id="ArmoniK_DevelopmentKit_SymphonyApi_api_SessionPollingService_SubmitTasks_" data-uid="ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.SubmitTasks*"></a>
-  <h4 id="ArmoniK_DevelopmentKit_SymphonyApi_api_SessionPollingService_SubmitTasks_System_Collections_Generic_IEnumerable_System_Byte____" data-uid="ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.SubmitTasks(System.Collections.Generic.IEnumerable{System.Byte[]})">SubmitTasks(IEnumerable&lt;Byte[]&gt;)</h4>
+  <h4 id="ArmoniK_DevelopmentKit_SymphonyApi_api_SessionPollingService_SubmitTasks_IEnumerable_System_Byte____" data-uid="ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.SubmitTasks(IEnumerable{System.Byte[]})">SubmitTasks(IEnumerable&lt;Byte[]&gt;)</h4>
   <div class="markdown level1 summary"><p>User method to submit task from the client
 Need a client Service. In case of ServiceContainer
 pollingAgentService can be null until the OpenSession is called</p>
@@ -536,7 +512,7 @@ pollingAgentService can be null until the OpenSession is called</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Collections.Generic.IEnumerable</span>&lt;<span class="xref">System.Byte</span>[]&gt;</td>
+        <td><span class="xref">IEnumerable</span>&lt;<span class="xref">System.Byte</span>[]&gt;</td>
         <td><span class="parametername">payloads</span></td>
         <td><p>The user payload list to execute. General used for subTasking.</p>
 </td>
@@ -553,20 +529,20 @@ pollingAgentService can be null until the OpenSession is called</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Collections.Generic.IEnumerable</span>&lt;<span class="xref">System.String</span>&gt;</td>
+        <td><span class="xref">IEnumerable</span>&lt;<span class="xref">System.String</span>&gt;</td>
         <td></td>
       </tr>
     </tbody>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/master/apiSpec/new?filename=ArmoniK_DevelopmentKit_SymphonyApi_api_SessionPollingService_SubmitTasksWithDependencies_System_Collections_Generic_IEnumerable_System_Tuple_System_Byte___System_Collections_Generic_IList_System_String____System_Boolean_.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.SubmitTasksWithDependencies(System.Collections.Generic.IEnumerable%7BSystem.Tuple%7BSystem.Byte%5B%5D%2CSystem.Collections.Generic.IList%7BSystem.String%7D%7D%7D%2CSystem.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/master/apiSpec/new?filename=ArmoniK_DevelopmentKit_SymphonyApi_api_SessionPollingService_SubmitTasksWithDependencies_IEnumerable_Tuple_System_Byte___IList_System_String____System_Boolean_.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.SubmitTasksWithDependencies(IEnumerable%7BTuple%7BSystem.Byte%5B%5D%2CIList%7BSystem.String%7D%7D%7D%2CSystem.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/master/SymphonyApi/ArmoniK.DevelopmentKit.SymphonyApi/api/SessionPollingService.cs/#L227">View Source</a>
   </span>
   <a id="ArmoniK_DevelopmentKit_SymphonyApi_api_SessionPollingService_SubmitTasksWithDependencies_" data-uid="ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.SubmitTasksWithDependencies*"></a>
-  <h4 id="ArmoniK_DevelopmentKit_SymphonyApi_api_SessionPollingService_SubmitTasksWithDependencies_System_Collections_Generic_IEnumerable_System_Tuple_System_Byte___System_Collections_Generic_IList_System_String____System_Boolean_" data-uid="ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.SubmitTasksWithDependencies(System.Collections.Generic.IEnumerable{System.Tuple{System.Byte[],System.Collections.Generic.IList{System.String}}},System.Boolean)">SubmitTasksWithDependencies(IEnumerable&lt;Tuple&lt;Byte[], IList&lt;String&gt;&gt;&gt;, Boolean)</h4>
+  <h4 id="ArmoniK_DevelopmentKit_SymphonyApi_api_SessionPollingService_SubmitTasksWithDependencies_IEnumerable_Tuple_System_Byte___IList_System_String____System_Boolean_" data-uid="ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.SubmitTasksWithDependencies(IEnumerable{Tuple{System.Byte[],IList{System.String}}},System.Boolean)">SubmitTasksWithDependencies(IEnumerable&lt;Tuple&lt;Byte[], IList&lt;String&gt;&gt;&gt;, Boolean)</h4>
   <div class="markdown level1 summary"><p>The method to submit several tasks with dependencies tasks. This task will wait for
 to start until all dependencies are completed successfully</p>
 </div>
@@ -586,7 +562,7 @@ to start until all dependencies are completed successfully</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Collections.Generic.IEnumerable</span>&lt;<span class="xref">System.Tuple</span>&lt;<span class="xref">System.Byte</span>[], <span class="xref">System.Collections.Generic.IList</span>&lt;<span class="xref">System.String</span>&gt;&gt;&gt;</td>
+        <td><span class="xref">IEnumerable</span>&lt;<span class="xref">Tuple</span>&lt;<span class="xref">System.Byte</span>[], <span class="xref">IList</span>&lt;<span class="xref">System.String</span>&gt;&gt;&gt;</td>
         <td><span class="parametername">payloadsWithDependencies</span></td>
         <td><p>A list of Tuple(taskId, Payload) in dependence of those created tasks</p>
 </td>
@@ -608,7 +584,7 @@ to start until all dependencies are completed successfully</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Collections.Generic.IEnumerable</span>&lt;<span class="xref">System.String</span>&gt;</td>
+        <td><span class="xref">IEnumerable</span>&lt;<span class="xref">System.String</span>&gt;</td>
         <td><p>return a list of taskIds of the created tasks</p>
 </td>
       </tr>
@@ -646,8 +622,6 @@ to start until all dependencies are completed successfully</p>
       </tr>
     </tbody>
   </table>
-  <h5 class="overrides">Overrides</h5>
-  <div><span class="xref">System.Object.ToString()</span></div>
   <h3 id="extensionmethods">Extension Methods</h3>
   <div>
       <a class="xref" href="ArmoniK.DevelopmentKit.SymphonyApi.api.SessionServiceExt.html#ArmoniK_DevelopmentKit_SymphonyApi_api_SessionServiceExt_SubmitTask_ArmoniK_DevelopmentKit_SymphonyApi_api_SessionPollingService_System_Byte___">SessionServiceExt.SubmitTask(SessionPollingService, Byte[])</a>
@@ -656,7 +630,7 @@ to start until all dependencies are completed successfully</p>
       <a class="xref" href="ArmoniK.DevelopmentKit.SymphonyApi.api.SessionServiceExt.html#ArmoniK_DevelopmentKit_SymphonyApi_api_SessionServiceExt_SubmitSubTask_ArmoniK_DevelopmentKit_SymphonyApi_api_SessionPollingService_System_String_System_Byte___">SessionServiceExt.SubmitSubTask(SessionPollingService, String, Byte[])</a>
   </div>
   <div>
-      <a class="xref" href="ArmoniK.DevelopmentKit.SymphonyApi.api.SessionServiceExt.html#ArmoniK_DevelopmentKit_SymphonyApi_api_SessionServiceExt_SubmitTaskWithDependencies_ArmoniK_DevelopmentKit_SymphonyApi_api_SessionPollingService_System_Byte___System_Collections_Generic_IList_System_String__">SessionServiceExt.SubmitTaskWithDependencies(SessionPollingService, Byte[], IList&lt;String&gt;)</a>
+      <a class="xref" href="ArmoniK.DevelopmentKit.SymphonyApi.api.SessionServiceExt.html#ArmoniK_DevelopmentKit_SymphonyApi_api_SessionServiceExt_SubmitTaskWithDependencies_ArmoniK_DevelopmentKit_SymphonyApi_api_SessionPollingService_System_Byte___IList_System_String__">SessionServiceExt.SubmitTaskWithDependencies(SessionPollingService, Byte[], IList&lt;String&gt;)</a>
   </div>
 </article>
           </div>

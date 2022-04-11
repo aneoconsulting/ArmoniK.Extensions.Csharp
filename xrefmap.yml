@@ -798,13 +798,13 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.GridServer.ArmonikDataSynapsePollingService.SessionId
   nameWithType: ArmonikDataSynapsePollingService.SessionId
-- uid: ArmoniK.DevelopmentKit.GridServer.ArmonikDataSynapsePollingService.SubmitTasks(System.Collections.Generic.IEnumerable{System.Byte[]})
+- uid: ArmoniK.DevelopmentKit.GridServer.ArmonikDataSynapsePollingService.SubmitTasks(IEnumerable{System.Byte[]})
   name: SubmitTasks(IEnumerable<Byte[]>)
-  href: api/ArmoniK.DevelopmentKit.GridServer.ArmonikDataSynapsePollingService.html#ArmoniK_DevelopmentKit_GridServer_ArmonikDataSynapsePollingService_SubmitTasks_System_Collections_Generic_IEnumerable_System_Byte____
-  commentId: M:ArmoniK.DevelopmentKit.GridServer.ArmonikDataSynapsePollingService.SubmitTasks(System.Collections.Generic.IEnumerable{System.Byte[]})
+  href: api/ArmoniK.DevelopmentKit.GridServer.ArmonikDataSynapsePollingService.html#ArmoniK_DevelopmentKit_GridServer_ArmonikDataSynapsePollingService_SubmitTasks_IEnumerable_System_Byte____
+  commentId: M:ArmoniK.DevelopmentKit.GridServer.ArmonikDataSynapsePollingService.SubmitTasks(IEnumerable{System.Byte[]})
   name.vb: SubmitTasks(IEnumerable(Of Byte()))
-  fullName: ArmoniK.DevelopmentKit.GridServer.ArmonikDataSynapsePollingService.SubmitTasks(System.Collections.Generic.IEnumerable<System.Byte[]>)
-  fullName.vb: ArmoniK.DevelopmentKit.GridServer.ArmonikDataSynapsePollingService.SubmitTasks(System.Collections.Generic.IEnumerable(Of System.Byte()))
+  fullName: ArmoniK.DevelopmentKit.GridServer.ArmonikDataSynapsePollingService.SubmitTasks(IEnumerable<System.Byte[]>)
+  fullName.vb: ArmoniK.DevelopmentKit.GridServer.ArmonikDataSynapsePollingService.SubmitTasks(IEnumerable(Of System.Byte()))
   nameWithType: ArmonikDataSynapsePollingService.SubmitTasks(IEnumerable<Byte[]>)
   nameWithType.vb: ArmonikDataSynapsePollingService.SubmitTasks(IEnumerable(Of Byte()))
 - uid: ArmoniK.DevelopmentKit.GridServer.ArmonikDataSynapsePollingService.SubmitTasks*
@@ -814,13 +814,13 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.GridServer.ArmonikDataSynapsePollingService.SubmitTasks
   nameWithType: ArmonikDataSynapsePollingService.SubmitTasks
-- uid: ArmoniK.DevelopmentKit.GridServer.ArmonikDataSynapsePollingService.SubmitTasksWithDependencies(System.String,System.Collections.Generic.IEnumerable{System.Tuple{System.Byte[],System.Collections.Generic.IList{System.String}}})
+- uid: ArmoniK.DevelopmentKit.GridServer.ArmonikDataSynapsePollingService.SubmitTasksWithDependencies(System.String,IEnumerable{Tuple{System.Byte[],IList{System.String}}})
   name: SubmitTasksWithDependencies(String, IEnumerable<Tuple<Byte[], IList<String>>>)
-  href: api/ArmoniK.DevelopmentKit.GridServer.ArmonikDataSynapsePollingService.html#ArmoniK_DevelopmentKit_GridServer_ArmonikDataSynapsePollingService_SubmitTasksWithDependencies_System_String_System_Collections_Generic_IEnumerable_System_Tuple_System_Byte___System_Collections_Generic_IList_System_String____
-  commentId: M:ArmoniK.DevelopmentKit.GridServer.ArmonikDataSynapsePollingService.SubmitTasksWithDependencies(System.String,System.Collections.Generic.IEnumerable{System.Tuple{System.Byte[],System.Collections.Generic.IList{System.String}}})
+  href: api/ArmoniK.DevelopmentKit.GridServer.ArmonikDataSynapsePollingService.html#ArmoniK_DevelopmentKit_GridServer_ArmonikDataSynapsePollingService_SubmitTasksWithDependencies_System_String_IEnumerable_Tuple_System_Byte___IList_System_String____
+  commentId: M:ArmoniK.DevelopmentKit.GridServer.ArmonikDataSynapsePollingService.SubmitTasksWithDependencies(System.String,IEnumerable{Tuple{System.Byte[],IList{System.String}}})
   name.vb: SubmitTasksWithDependencies(String, IEnumerable(Of Tuple(Of Byte(), IList(Of String))))
-  fullName: ArmoniK.DevelopmentKit.GridServer.ArmonikDataSynapsePollingService.SubmitTasksWithDependencies(System.String, System.Collections.Generic.IEnumerable<System.Tuple<System.Byte[], System.Collections.Generic.IList<System.String>>>)
-  fullName.vb: ArmoniK.DevelopmentKit.GridServer.ArmonikDataSynapsePollingService.SubmitTasksWithDependencies(System.String, System.Collections.Generic.IEnumerable(Of System.Tuple(Of System.Byte(), System.Collections.Generic.IList(Of System.String))))
+  fullName: ArmoniK.DevelopmentKit.GridServer.ArmonikDataSynapsePollingService.SubmitTasksWithDependencies(System.String, IEnumerable<Tuple<System.Byte[], IList<System.String>>>)
+  fullName.vb: ArmoniK.DevelopmentKit.GridServer.ArmonikDataSynapsePollingService.SubmitTasksWithDependencies(System.String, IEnumerable(Of Tuple(Of System.Byte(), IList(Of System.String))))
   nameWithType: ArmonikDataSynapsePollingService.SubmitTasksWithDependencies(String, IEnumerable<Tuple<Byte[], IList<String>>>)
   nameWithType.vb: ArmonikDataSynapsePollingService.SubmitTasksWithDependencies(String, IEnumerable(Of Tuple(Of Byte(), IList(Of String))))
 - uid: ArmoniK.DevelopmentKit.GridServer.ArmonikDataSynapsePollingService.SubmitTasksWithDependencies*
@@ -891,13 +891,13 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.GridServer.ArmonikDataSynapsePollingServiceExt.SubmitTask
   nameWithType: ArmonikDataSynapsePollingServiceExt.SubmitTask
-- uid: ArmoniK.DevelopmentKit.GridServer.ArmonikDataSynapsePollingServiceExt.SubmitTaskWithDependencies(ArmoniK.DevelopmentKit.GridServer.ArmonikDataSynapsePollingService,System.Byte[],System.Collections.Generic.IList{System.String})
+- uid: ArmoniK.DevelopmentKit.GridServer.ArmonikDataSynapsePollingServiceExt.SubmitTaskWithDependencies(ArmoniK.DevelopmentKit.GridServer.ArmonikDataSynapsePollingService,System.Byte[],IList{System.String})
   name: SubmitTaskWithDependencies(ArmonikDataSynapsePollingService, Byte[], IList<String>)
-  href: api/ArmoniK.DevelopmentKit.GridServer.ArmonikDataSynapsePollingServiceExt.html#ArmoniK_DevelopmentKit_GridServer_ArmonikDataSynapsePollingServiceExt_SubmitTaskWithDependencies_ArmoniK_DevelopmentKit_GridServer_ArmonikDataSynapsePollingService_System_Byte___System_Collections_Generic_IList_System_String__
-  commentId: M:ArmoniK.DevelopmentKit.GridServer.ArmonikDataSynapsePollingServiceExt.SubmitTaskWithDependencies(ArmoniK.DevelopmentKit.GridServer.ArmonikDataSynapsePollingService,System.Byte[],System.Collections.Generic.IList{System.String})
+  href: api/ArmoniK.DevelopmentKit.GridServer.ArmonikDataSynapsePollingServiceExt.html#ArmoniK_DevelopmentKit_GridServer_ArmonikDataSynapsePollingServiceExt_SubmitTaskWithDependencies_ArmoniK_DevelopmentKit_GridServer_ArmonikDataSynapsePollingService_System_Byte___IList_System_String__
+  commentId: M:ArmoniK.DevelopmentKit.GridServer.ArmonikDataSynapsePollingServiceExt.SubmitTaskWithDependencies(ArmoniK.DevelopmentKit.GridServer.ArmonikDataSynapsePollingService,System.Byte[],IList{System.String})
   name.vb: SubmitTaskWithDependencies(ArmonikDataSynapsePollingService, Byte(), IList(Of String))
-  fullName: ArmoniK.DevelopmentKit.GridServer.ArmonikDataSynapsePollingServiceExt.SubmitTaskWithDependencies(ArmoniK.DevelopmentKit.GridServer.ArmonikDataSynapsePollingService, System.Byte[], System.Collections.Generic.IList<System.String>)
-  fullName.vb: ArmoniK.DevelopmentKit.GridServer.ArmonikDataSynapsePollingServiceExt.SubmitTaskWithDependencies(ArmoniK.DevelopmentKit.GridServer.ArmonikDataSynapsePollingService, System.Byte(), System.Collections.Generic.IList(Of System.String))
+  fullName: ArmoniK.DevelopmentKit.GridServer.ArmonikDataSynapsePollingServiceExt.SubmitTaskWithDependencies(ArmoniK.DevelopmentKit.GridServer.ArmonikDataSynapsePollingService, System.Byte[], IList<System.String>)
+  fullName.vb: ArmoniK.DevelopmentKit.GridServer.ArmonikDataSynapsePollingServiceExt.SubmitTaskWithDependencies(ArmoniK.DevelopmentKit.GridServer.ArmonikDataSynapsePollingService, System.Byte(), IList(Of System.String))
   nameWithType: ArmonikDataSynapsePollingServiceExt.SubmitTaskWithDependencies(ArmonikDataSynapsePollingService, Byte[], IList<String>)
   nameWithType.vb: ArmonikDataSynapsePollingServiceExt.SubmitTaskWithDependencies(ArmonikDataSynapsePollingService, Byte(), IList(Of String))
 - uid: ArmoniK.DevelopmentKit.GridServer.ArmonikDataSynapsePollingServiceExt.SubmitTaskWithDependencies*
@@ -2074,13 +2074,13 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.GridServer.GridWorker.Configurations
   nameWithType: GridWorker.Configurations
-- uid: ArmoniK.DevelopmentKit.GridServer.GridWorker.Configure(IConfiguration,System.Collections.Generic.IReadOnlyDictionary{System.String,System.String},ArmoniK.DevelopmentKit.WorkerApi.Common.IAppsLoader)
+- uid: ArmoniK.DevelopmentKit.GridServer.GridWorker.Configure(IConfiguration,IReadOnlyDictionary{System.String,System.String},ArmoniK.DevelopmentKit.WorkerApi.Common.IAppsLoader)
   name: Configure(IConfiguration, IReadOnlyDictionary<String, String>, IAppsLoader)
-  href: api/ArmoniK.DevelopmentKit.GridServer.GridWorker.html#ArmoniK_DevelopmentKit_GridServer_GridWorker_Configure_IConfiguration_System_Collections_Generic_IReadOnlyDictionary_System_String_System_String__ArmoniK_DevelopmentKit_WorkerApi_Common_IAppsLoader_
-  commentId: M:ArmoniK.DevelopmentKit.GridServer.GridWorker.Configure(IConfiguration,System.Collections.Generic.IReadOnlyDictionary{System.String,System.String},ArmoniK.DevelopmentKit.WorkerApi.Common.IAppsLoader)
+  href: api/ArmoniK.DevelopmentKit.GridServer.GridWorker.html#ArmoniK_DevelopmentKit_GridServer_GridWorker_Configure_IConfiguration_IReadOnlyDictionary_System_String_System_String__ArmoniK_DevelopmentKit_WorkerApi_Common_IAppsLoader_
+  commentId: M:ArmoniK.DevelopmentKit.GridServer.GridWorker.Configure(IConfiguration,IReadOnlyDictionary{System.String,System.String},ArmoniK.DevelopmentKit.WorkerApi.Common.IAppsLoader)
   name.vb: Configure(IConfiguration, IReadOnlyDictionary(Of String, String), IAppsLoader)
-  fullName: ArmoniK.DevelopmentKit.GridServer.GridWorker.Configure(IConfiguration, System.Collections.Generic.IReadOnlyDictionary<System.String, System.String>, ArmoniK.DevelopmentKit.WorkerApi.Common.IAppsLoader)
-  fullName.vb: ArmoniK.DevelopmentKit.GridServer.GridWorker.Configure(IConfiguration, System.Collections.Generic.IReadOnlyDictionary(Of System.String, System.String), ArmoniK.DevelopmentKit.WorkerApi.Common.IAppsLoader)
+  fullName: ArmoniK.DevelopmentKit.GridServer.GridWorker.Configure(IConfiguration, IReadOnlyDictionary<System.String, System.String>, ArmoniK.DevelopmentKit.WorkerApi.Common.IAppsLoader)
+  fullName.vb: ArmoniK.DevelopmentKit.GridServer.GridWorker.Configure(IConfiguration, IReadOnlyDictionary(Of System.String, System.String), ArmoniK.DevelopmentKit.WorkerApi.Common.IAppsLoader)
   nameWithType: GridWorker.Configure(IConfiguration, IReadOnlyDictionary<String, String>, IAppsLoader)
   nameWithType.vb: GridWorker.Configure(IConfiguration, IReadOnlyDictionary(Of String, String), IAppsLoader)
 - uid: ArmoniK.DevelopmentKit.GridServer.GridWorker.Configure*
@@ -2181,13 +2181,13 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.GridServer.GridWorker.GridServiceName
   nameWithType: GridWorker.GridServiceName
-- uid: ArmoniK.DevelopmentKit.GridServer.GridWorker.InitializeSessionWorker(Session,System.Collections.Generic.IReadOnlyDictionary{System.String,System.String})
+- uid: ArmoniK.DevelopmentKit.GridServer.GridWorker.InitializeSessionWorker(Session,IReadOnlyDictionary{System.String,System.String})
   name: InitializeSessionWorker(Session, IReadOnlyDictionary<String, String>)
-  href: api/ArmoniK.DevelopmentKit.GridServer.GridWorker.html#ArmoniK_DevelopmentKit_GridServer_GridWorker_InitializeSessionWorker_Session_System_Collections_Generic_IReadOnlyDictionary_System_String_System_String__
-  commentId: M:ArmoniK.DevelopmentKit.GridServer.GridWorker.InitializeSessionWorker(Session,System.Collections.Generic.IReadOnlyDictionary{System.String,System.String})
+  href: api/ArmoniK.DevelopmentKit.GridServer.GridWorker.html#ArmoniK_DevelopmentKit_GridServer_GridWorker_InitializeSessionWorker_Session_IReadOnlyDictionary_System_String_System_String__
+  commentId: M:ArmoniK.DevelopmentKit.GridServer.GridWorker.InitializeSessionWorker(Session,IReadOnlyDictionary{System.String,System.String})
   name.vb: InitializeSessionWorker(Session, IReadOnlyDictionary(Of String, String))
-  fullName: ArmoniK.DevelopmentKit.GridServer.GridWorker.InitializeSessionWorker(Session, System.Collections.Generic.IReadOnlyDictionary<System.String, System.String>)
-  fullName.vb: ArmoniK.DevelopmentKit.GridServer.GridWorker.InitializeSessionWorker(Session, System.Collections.Generic.IReadOnlyDictionary(Of System.String, System.String))
+  fullName: ArmoniK.DevelopmentKit.GridServer.GridWorker.InitializeSessionWorker(Session, IReadOnlyDictionary<System.String, System.String>)
+  fullName.vb: ArmoniK.DevelopmentKit.GridServer.GridWorker.InitializeSessionWorker(Session, IReadOnlyDictionary(Of System.String, System.String))
   nameWithType: GridWorker.InitializeSessionWorker(Session, IReadOnlyDictionary<String, String>)
   nameWithType.vb: GridWorker.InitializeSessionWorker(Session, IReadOnlyDictionary(Of String, String))
 - uid: ArmoniK.DevelopmentKit.GridServer.GridWorker.InitializeSessionWorker*
@@ -2539,13 +2539,13 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.Configuration
   nameWithType: ServiceContainerBase.Configuration
-- uid: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.Configure(IConfiguration,System.Collections.Generic.IReadOnlyDictionary{System.String,System.String})
+- uid: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.Configure(IConfiguration,IReadOnlyDictionary{System.String,System.String})
   name: Configure(IConfiguration, IReadOnlyDictionary<String, String>)
-  href: api/ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.html#ArmoniK_DevelopmentKit_SymphonyApi_api_ServiceContainerBase_Configure_IConfiguration_System_Collections_Generic_IReadOnlyDictionary_System_String_System_String__
-  commentId: M:ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.Configure(IConfiguration,System.Collections.Generic.IReadOnlyDictionary{System.String,System.String})
+  href: api/ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.html#ArmoniK_DevelopmentKit_SymphonyApi_api_ServiceContainerBase_Configure_IConfiguration_IReadOnlyDictionary_System_String_System_String__
+  commentId: M:ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.Configure(IConfiguration,IReadOnlyDictionary{System.String,System.String})
   name.vb: Configure(IConfiguration, IReadOnlyDictionary(Of String, String))
-  fullName: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.Configure(IConfiguration, System.Collections.Generic.IReadOnlyDictionary<System.String, System.String>)
-  fullName.vb: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.Configure(IConfiguration, System.Collections.Generic.IReadOnlyDictionary(Of System.String, System.String))
+  fullName: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.Configure(IConfiguration, IReadOnlyDictionary<System.String, System.String>)
+  fullName.vb: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.Configure(IConfiguration, IReadOnlyDictionary(Of System.String, System.String))
   nameWithType: ServiceContainerBase.Configure(IConfiguration, IReadOnlyDictionary<String, String>)
   nameWithType.vb: ServiceContainerBase.Configure(IConfiguration, IReadOnlyDictionary(Of String, String))
 - uid: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.Configure*
@@ -2555,13 +2555,13 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.Configure
   nameWithType: ServiceContainerBase.Configure
-- uid: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.ConfigureSession(Session,System.Collections.Generic.IReadOnlyDictionary{System.String,System.String})
+- uid: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.ConfigureSession(Session,IReadOnlyDictionary{System.String,System.String})
   name: ConfigureSession(Session, IReadOnlyDictionary<String, String>)
-  href: api/ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.html#ArmoniK_DevelopmentKit_SymphonyApi_api_ServiceContainerBase_ConfigureSession_Session_System_Collections_Generic_IReadOnlyDictionary_System_String_System_String__
-  commentId: M:ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.ConfigureSession(Session,System.Collections.Generic.IReadOnlyDictionary{System.String,System.String})
+  href: api/ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.html#ArmoniK_DevelopmentKit_SymphonyApi_api_ServiceContainerBase_ConfigureSession_Session_IReadOnlyDictionary_System_String_System_String__
+  commentId: M:ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.ConfigureSession(Session,IReadOnlyDictionary{System.String,System.String})
   name.vb: ConfigureSession(Session, IReadOnlyDictionary(Of String, String))
-  fullName: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.ConfigureSession(Session, System.Collections.Generic.IReadOnlyDictionary<System.String, System.String>)
-  fullName.vb: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.ConfigureSession(Session, System.Collections.Generic.IReadOnlyDictionary(Of System.String, System.String))
+  fullName: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.ConfigureSession(Session, IReadOnlyDictionary<System.String, System.String>)
+  fullName.vb: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.ConfigureSession(Session, IReadOnlyDictionary(Of System.String, System.String))
   nameWithType: ServiceContainerBase.ConfigureSession(Session, IReadOnlyDictionary<String, String>)
   nameWithType.vb: ServiceContainerBase.ConfigureSession(Session, IReadOnlyDictionary(Of String, String))
 - uid: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.ConfigureSession*
@@ -2701,13 +2701,13 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.SessionId
   nameWithType: ServiceContainerBase.SessionId
-- uid: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.SubmitSubTasks(System.Collections.Generic.IEnumerable{System.Byte[]},System.String)
+- uid: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.SubmitSubTasks(IEnumerable{System.Byte[]},System.String)
   name: SubmitSubTasks(IEnumerable<Byte[]>, String)
-  href: api/ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.html#ArmoniK_DevelopmentKit_SymphonyApi_api_ServiceContainerBase_SubmitSubTasks_System_Collections_Generic_IEnumerable_System_Byte____System_String_
-  commentId: M:ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.SubmitSubTasks(System.Collections.Generic.IEnumerable{System.Byte[]},System.String)
+  href: api/ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.html#ArmoniK_DevelopmentKit_SymphonyApi_api_ServiceContainerBase_SubmitSubTasks_IEnumerable_System_Byte____System_String_
+  commentId: M:ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.SubmitSubTasks(IEnumerable{System.Byte[]},System.String)
   name.vb: SubmitSubTasks(IEnumerable(Of Byte()), String)
-  fullName: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.SubmitSubTasks(System.Collections.Generic.IEnumerable<System.Byte[]>, System.String)
-  fullName.vb: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.SubmitSubTasks(System.Collections.Generic.IEnumerable(Of System.Byte()), System.String)
+  fullName: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.SubmitSubTasks(IEnumerable<System.Byte[]>, System.String)
+  fullName.vb: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.SubmitSubTasks(IEnumerable(Of System.Byte()), System.String)
   nameWithType: ServiceContainerBase.SubmitSubTasks(IEnumerable<Byte[]>, String)
   nameWithType.vb: ServiceContainerBase.SubmitSubTasks(IEnumerable(Of Byte()), String)
 - uid: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.SubmitSubTasks*
@@ -2717,13 +2717,13 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.SubmitSubTasks
   nameWithType: ServiceContainerBase.SubmitSubTasks
-- uid: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.SubmitSubtasksWithDependencies(System.Collections.Generic.IEnumerable{System.Tuple{System.Byte[],System.Collections.Generic.IList{System.String}}})
+- uid: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.SubmitSubtasksWithDependencies(IEnumerable{Tuple{System.Byte[],IList{System.String}}})
   name: SubmitSubtasksWithDependencies(IEnumerable<Tuple<Byte[], IList<String>>>)
-  href: api/ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.html#ArmoniK_DevelopmentKit_SymphonyApi_api_ServiceContainerBase_SubmitSubtasksWithDependencies_System_Collections_Generic_IEnumerable_System_Tuple_System_Byte___System_Collections_Generic_IList_System_String____
-  commentId: M:ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.SubmitSubtasksWithDependencies(System.Collections.Generic.IEnumerable{System.Tuple{System.Byte[],System.Collections.Generic.IList{System.String}}})
+  href: api/ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.html#ArmoniK_DevelopmentKit_SymphonyApi_api_ServiceContainerBase_SubmitSubtasksWithDependencies_IEnumerable_Tuple_System_Byte___IList_System_String____
+  commentId: M:ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.SubmitSubtasksWithDependencies(IEnumerable{Tuple{System.Byte[],IList{System.String}}})
   name.vb: SubmitSubtasksWithDependencies(IEnumerable(Of Tuple(Of Byte(), IList(Of String))))
-  fullName: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.SubmitSubtasksWithDependencies(System.Collections.Generic.IEnumerable<System.Tuple<System.Byte[], System.Collections.Generic.IList<System.String>>>)
-  fullName.vb: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.SubmitSubtasksWithDependencies(System.Collections.Generic.IEnumerable(Of System.Tuple(Of System.Byte(), System.Collections.Generic.IList(Of System.String))))
+  fullName: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.SubmitSubtasksWithDependencies(IEnumerable<Tuple<System.Byte[], IList<System.String>>>)
+  fullName.vb: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.SubmitSubtasksWithDependencies(IEnumerable(Of Tuple(Of System.Byte(), IList(Of System.String))))
   nameWithType: ServiceContainerBase.SubmitSubtasksWithDependencies(IEnumerable<Tuple<Byte[], IList<String>>>)
   nameWithType.vb: ServiceContainerBase.SubmitSubtasksWithDependencies(IEnumerable(Of Tuple(Of Byte(), IList(Of String))))
 - uid: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.SubmitSubtasksWithDependencies*
@@ -2733,13 +2733,13 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.SubmitSubtasksWithDependencies
   nameWithType: ServiceContainerBase.SubmitSubtasksWithDependencies
-- uid: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.SubmitSubtaskWithDependencies(System.Byte[],System.Collections.Generic.IList{System.String})
+- uid: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.SubmitSubtaskWithDependencies(System.Byte[],IList{System.String})
   name: SubmitSubtaskWithDependencies(Byte[], IList<String>)
-  href: api/ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.html#ArmoniK_DevelopmentKit_SymphonyApi_api_ServiceContainerBase_SubmitSubtaskWithDependencies_System_Byte___System_Collections_Generic_IList_System_String__
-  commentId: M:ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.SubmitSubtaskWithDependencies(System.Byte[],System.Collections.Generic.IList{System.String})
+  href: api/ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.html#ArmoniK_DevelopmentKit_SymphonyApi_api_ServiceContainerBase_SubmitSubtaskWithDependencies_System_Byte___IList_System_String__
+  commentId: M:ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.SubmitSubtaskWithDependencies(System.Byte[],IList{System.String})
   name.vb: SubmitSubtaskWithDependencies(Byte(), IList(Of String))
-  fullName: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.SubmitSubtaskWithDependencies(System.Byte[], System.Collections.Generic.IList<System.String>)
-  fullName.vb: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.SubmitSubtaskWithDependencies(System.Byte(), System.Collections.Generic.IList(Of System.String))
+  fullName: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.SubmitSubtaskWithDependencies(System.Byte[], IList<System.String>)
+  fullName.vb: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.SubmitSubtaskWithDependencies(System.Byte(), IList(Of System.String))
   nameWithType: ServiceContainerBase.SubmitSubtaskWithDependencies(Byte[], IList<String>)
   nameWithType.vb: ServiceContainerBase.SubmitSubtaskWithDependencies(Byte(), IList(Of String))
 - uid: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.SubmitSubtaskWithDependencies*
@@ -2749,13 +2749,13 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.SubmitSubtaskWithDependencies
   nameWithType: ServiceContainerBase.SubmitSubtaskWithDependencies
-- uid: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.SubmitTasks(System.Collections.Generic.IEnumerable{System.Byte[]})
+- uid: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.SubmitTasks(IEnumerable{System.Byte[]})
   name: SubmitTasks(IEnumerable<Byte[]>)
-  href: api/ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.html#ArmoniK_DevelopmentKit_SymphonyApi_api_ServiceContainerBase_SubmitTasks_System_Collections_Generic_IEnumerable_System_Byte____
-  commentId: M:ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.SubmitTasks(System.Collections.Generic.IEnumerable{System.Byte[]})
+  href: api/ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.html#ArmoniK_DevelopmentKit_SymphonyApi_api_ServiceContainerBase_SubmitTasks_IEnumerable_System_Byte____
+  commentId: M:ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.SubmitTasks(IEnumerable{System.Byte[]})
   name.vb: SubmitTasks(IEnumerable(Of Byte()))
-  fullName: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.SubmitTasks(System.Collections.Generic.IEnumerable<System.Byte[]>)
-  fullName.vb: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.SubmitTasks(System.Collections.Generic.IEnumerable(Of System.Byte()))
+  fullName: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.SubmitTasks(IEnumerable<System.Byte[]>)
+  fullName.vb: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.SubmitTasks(IEnumerable(Of System.Byte()))
   nameWithType: ServiceContainerBase.SubmitTasks(IEnumerable<Byte[]>)
   nameWithType.vb: ServiceContainerBase.SubmitTasks(IEnumerable(Of Byte()))
 - uid: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.SubmitTasks*
@@ -2765,13 +2765,13 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.SubmitTasks
   nameWithType: ServiceContainerBase.SubmitTasks
-- uid: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.SubmitTasksWithDependencies(System.Collections.Generic.IEnumerable{System.Tuple{System.Byte[],System.Collections.Generic.IList{System.String}}},System.Boolean)
+- uid: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.SubmitTasksWithDependencies(IEnumerable{Tuple{System.Byte[],IList{System.String}}},System.Boolean)
   name: SubmitTasksWithDependencies(IEnumerable<Tuple<Byte[], IList<String>>>, Boolean)
-  href: api/ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.html#ArmoniK_DevelopmentKit_SymphonyApi_api_ServiceContainerBase_SubmitTasksWithDependencies_System_Collections_Generic_IEnumerable_System_Tuple_System_Byte___System_Collections_Generic_IList_System_String____System_Boolean_
-  commentId: M:ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.SubmitTasksWithDependencies(System.Collections.Generic.IEnumerable{System.Tuple{System.Byte[],System.Collections.Generic.IList{System.String}}},System.Boolean)
+  href: api/ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.html#ArmoniK_DevelopmentKit_SymphonyApi_api_ServiceContainerBase_SubmitTasksWithDependencies_IEnumerable_Tuple_System_Byte___IList_System_String____System_Boolean_
+  commentId: M:ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.SubmitTasksWithDependencies(IEnumerable{Tuple{System.Byte[],IList{System.String}}},System.Boolean)
   name.vb: SubmitTasksWithDependencies(IEnumerable(Of Tuple(Of Byte(), IList(Of String))), Boolean)
-  fullName: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.SubmitTasksWithDependencies(System.Collections.Generic.IEnumerable<System.Tuple<System.Byte[], System.Collections.Generic.IList<System.String>>>, System.Boolean)
-  fullName.vb: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.SubmitTasksWithDependencies(System.Collections.Generic.IEnumerable(Of System.Tuple(Of System.Byte(), System.Collections.Generic.IList(Of System.String))), System.Boolean)
+  fullName: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.SubmitTasksWithDependencies(IEnumerable<Tuple<System.Byte[], IList<System.String>>>, System.Boolean)
+  fullName.vb: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.SubmitTasksWithDependencies(IEnumerable(Of Tuple(Of System.Byte(), IList(Of System.String))), System.Boolean)
   nameWithType: ServiceContainerBase.SubmitTasksWithDependencies(IEnumerable<Tuple<Byte[], IList<String>>>, Boolean)
   nameWithType.vb: ServiceContainerBase.SubmitTasksWithDependencies(IEnumerable(Of Tuple(Of Byte(), IList(Of String))), Boolean)
 - uid: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.SubmitTasksWithDependencies*
@@ -2820,13 +2820,13 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.WaitForTaskCompletion
   nameWithType: ServiceContainerBase.WaitForTaskCompletion
-- uid: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.WaitForTasksCompletion(System.Collections.Generic.IEnumerable{System.String})
+- uid: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.WaitForTasksCompletion(IEnumerable{System.String})
   name: WaitForTasksCompletion(IEnumerable<String>)
-  href: api/ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.html#ArmoniK_DevelopmentKit_SymphonyApi_api_ServiceContainerBase_WaitForTasksCompletion_System_Collections_Generic_IEnumerable_System_String__
-  commentId: M:ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.WaitForTasksCompletion(System.Collections.Generic.IEnumerable{System.String})
+  href: api/ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.html#ArmoniK_DevelopmentKit_SymphonyApi_api_ServiceContainerBase_WaitForTasksCompletion_IEnumerable_System_String__
+  commentId: M:ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.WaitForTasksCompletion(IEnumerable{System.String})
   name.vb: WaitForTasksCompletion(IEnumerable(Of String))
-  fullName: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.WaitForTasksCompletion(System.Collections.Generic.IEnumerable<System.String>)
-  fullName.vb: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.WaitForTasksCompletion(System.Collections.Generic.IEnumerable(Of System.String))
+  fullName: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.WaitForTasksCompletion(IEnumerable<System.String>)
+  fullName.vb: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.WaitForTasksCompletion(IEnumerable(Of System.String))
   nameWithType: ServiceContainerBase.WaitForTasksCompletion(IEnumerable<String>)
   nameWithType.vb: ServiceContainerBase.WaitForTasksCompletion(IEnumerable(Of String))
 - uid: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.WaitForTasksCompletion*
@@ -2874,13 +2874,13 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBaseExt.SubmitTask
   nameWithType: ServiceContainerBaseExt.SubmitTask
-- uid: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBaseExt.SubmitTaskWithDependencies(ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase,System.Byte[],System.Collections.Generic.IList{System.String},System.Boolean)
+- uid: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBaseExt.SubmitTaskWithDependencies(ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase,System.Byte[],IList{System.String},System.Boolean)
   name: SubmitTaskWithDependencies(ServiceContainerBase, Byte[], IList<String>, Boolean)
-  href: api/ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBaseExt.html#ArmoniK_DevelopmentKit_SymphonyApi_api_ServiceContainerBaseExt_SubmitTaskWithDependencies_ArmoniK_DevelopmentKit_SymphonyApi_api_ServiceContainerBase_System_Byte___System_Collections_Generic_IList_System_String__System_Boolean_
-  commentId: M:ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBaseExt.SubmitTaskWithDependencies(ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase,System.Byte[],System.Collections.Generic.IList{System.String},System.Boolean)
+  href: api/ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBaseExt.html#ArmoniK_DevelopmentKit_SymphonyApi_api_ServiceContainerBaseExt_SubmitTaskWithDependencies_ArmoniK_DevelopmentKit_SymphonyApi_api_ServiceContainerBase_System_Byte___IList_System_String__System_Boolean_
+  commentId: M:ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBaseExt.SubmitTaskWithDependencies(ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase,System.Byte[],IList{System.String},System.Boolean)
   name.vb: SubmitTaskWithDependencies(ServiceContainerBase, Byte(), IList(Of String), Boolean)
-  fullName: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBaseExt.SubmitTaskWithDependencies(ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase, System.Byte[], System.Collections.Generic.IList<System.String>, System.Boolean)
-  fullName.vb: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBaseExt.SubmitTaskWithDependencies(ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase, System.Byte(), System.Collections.Generic.IList(Of System.String), System.Boolean)
+  fullName: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBaseExt.SubmitTaskWithDependencies(ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase, System.Byte[], IList<System.String>, System.Boolean)
+  fullName.vb: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBaseExt.SubmitTaskWithDependencies(ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase, System.Byte(), IList(Of System.String), System.Boolean)
   nameWithType: ServiceContainerBaseExt.SubmitTaskWithDependencies(ServiceContainerBase, Byte[], IList<String>, Boolean)
   nameWithType.vb: ServiceContainerBaseExt.SubmitTaskWithDependencies(ServiceContainerBase, Byte(), IList(Of String), Boolean)
 - uid: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBaseExt.SubmitTaskWithDependencies*
@@ -2948,13 +2948,13 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.SessionId
   nameWithType: SessionPollingService.SessionId
-- uid: ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.SubmitSubTasks(System.String,System.Collections.Generic.IEnumerable{System.Byte[]})
+- uid: ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.SubmitSubTasks(System.String,IEnumerable{System.Byte[]})
   name: SubmitSubTasks(String, IEnumerable<Byte[]>)
-  href: api/ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.html#ArmoniK_DevelopmentKit_SymphonyApi_api_SessionPollingService_SubmitSubTasks_System_String_System_Collections_Generic_IEnumerable_System_Byte____
-  commentId: M:ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.SubmitSubTasks(System.String,System.Collections.Generic.IEnumerable{System.Byte[]})
+  href: api/ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.html#ArmoniK_DevelopmentKit_SymphonyApi_api_SessionPollingService_SubmitSubTasks_System_String_IEnumerable_System_Byte____
+  commentId: M:ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.SubmitSubTasks(System.String,IEnumerable{System.Byte[]})
   name.vb: SubmitSubTasks(String, IEnumerable(Of Byte()))
-  fullName: ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.SubmitSubTasks(System.String, System.Collections.Generic.IEnumerable<System.Byte[]>)
-  fullName.vb: ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.SubmitSubTasks(System.String, System.Collections.Generic.IEnumerable(Of System.Byte()))
+  fullName: ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.SubmitSubTasks(System.String, IEnumerable<System.Byte[]>)
+  fullName.vb: ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.SubmitSubTasks(System.String, IEnumerable(Of System.Byte()))
   nameWithType: SessionPollingService.SubmitSubTasks(String, IEnumerable<Byte[]>)
   nameWithType.vb: SessionPollingService.SubmitSubTasks(String, IEnumerable(Of Byte()))
 - uid: ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.SubmitSubTasks*
@@ -2964,13 +2964,13 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.SubmitSubTasks
   nameWithType: SessionPollingService.SubmitSubTasks
-- uid: ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.SubmitSubtasksWithDependencies(System.String,System.Collections.Generic.IEnumerable{System.Tuple{System.Byte[],System.Collections.Generic.IList{System.String}}})
+- uid: ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.SubmitSubtasksWithDependencies(System.String,IEnumerable{Tuple{System.Byte[],IList{System.String}}})
   name: SubmitSubtasksWithDependencies(String, IEnumerable<Tuple<Byte[], IList<String>>>)
-  href: api/ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.html#ArmoniK_DevelopmentKit_SymphonyApi_api_SessionPollingService_SubmitSubtasksWithDependencies_System_String_System_Collections_Generic_IEnumerable_System_Tuple_System_Byte___System_Collections_Generic_IList_System_String____
-  commentId: M:ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.SubmitSubtasksWithDependencies(System.String,System.Collections.Generic.IEnumerable{System.Tuple{System.Byte[],System.Collections.Generic.IList{System.String}}})
+  href: api/ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.html#ArmoniK_DevelopmentKit_SymphonyApi_api_SessionPollingService_SubmitSubtasksWithDependencies_System_String_IEnumerable_Tuple_System_Byte___IList_System_String____
+  commentId: M:ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.SubmitSubtasksWithDependencies(System.String,IEnumerable{Tuple{System.Byte[],IList{System.String}}})
   name.vb: SubmitSubtasksWithDependencies(String, IEnumerable(Of Tuple(Of Byte(), IList(Of String))))
-  fullName: ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.SubmitSubtasksWithDependencies(System.String, System.Collections.Generic.IEnumerable<System.Tuple<System.Byte[], System.Collections.Generic.IList<System.String>>>)
-  fullName.vb: ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.SubmitSubtasksWithDependencies(System.String, System.Collections.Generic.IEnumerable(Of System.Tuple(Of System.Byte(), System.Collections.Generic.IList(Of System.String))))
+  fullName: ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.SubmitSubtasksWithDependencies(System.String, IEnumerable<Tuple<System.Byte[], IList<System.String>>>)
+  fullName.vb: ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.SubmitSubtasksWithDependencies(System.String, IEnumerable(Of Tuple(Of System.Byte(), IList(Of System.String))))
   nameWithType: SessionPollingService.SubmitSubtasksWithDependencies(String, IEnumerable<Tuple<Byte[], IList<String>>>)
   nameWithType.vb: SessionPollingService.SubmitSubtasksWithDependencies(String, IEnumerable(Of Tuple(Of Byte(), IList(Of String))))
 - uid: ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.SubmitSubtasksWithDependencies*
@@ -2980,13 +2980,13 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.SubmitSubtasksWithDependencies
   nameWithType: SessionPollingService.SubmitSubtasksWithDependencies
-- uid: ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.SubmitSubtaskWithDependencies(System.String,System.Byte[],System.Collections.Generic.IList{System.String})
+- uid: ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.SubmitSubtaskWithDependencies(System.String,System.Byte[],IList{System.String})
   name: SubmitSubtaskWithDependencies(String, Byte[], IList<String>)
-  href: api/ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.html#ArmoniK_DevelopmentKit_SymphonyApi_api_SessionPollingService_SubmitSubtaskWithDependencies_System_String_System_Byte___System_Collections_Generic_IList_System_String__
-  commentId: M:ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.SubmitSubtaskWithDependencies(System.String,System.Byte[],System.Collections.Generic.IList{System.String})
+  href: api/ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.html#ArmoniK_DevelopmentKit_SymphonyApi_api_SessionPollingService_SubmitSubtaskWithDependencies_System_String_System_Byte___IList_System_String__
+  commentId: M:ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.SubmitSubtaskWithDependencies(System.String,System.Byte[],IList{System.String})
   name.vb: SubmitSubtaskWithDependencies(String, Byte(), IList(Of String))
-  fullName: ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.SubmitSubtaskWithDependencies(System.String, System.Byte[], System.Collections.Generic.IList<System.String>)
-  fullName.vb: ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.SubmitSubtaskWithDependencies(System.String, System.Byte(), System.Collections.Generic.IList(Of System.String))
+  fullName: ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.SubmitSubtaskWithDependencies(System.String, System.Byte[], IList<System.String>)
+  fullName.vb: ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.SubmitSubtaskWithDependencies(System.String, System.Byte(), IList(Of System.String))
   nameWithType: SessionPollingService.SubmitSubtaskWithDependencies(String, Byte[], IList<String>)
   nameWithType.vb: SessionPollingService.SubmitSubtaskWithDependencies(String, Byte(), IList(Of String))
 - uid: ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.SubmitSubtaskWithDependencies*
@@ -2996,13 +2996,13 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.SubmitSubtaskWithDependencies
   nameWithType: SessionPollingService.SubmitSubtaskWithDependencies
-- uid: ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.SubmitTasks(System.Collections.Generic.IEnumerable{System.Byte[]})
+- uid: ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.SubmitTasks(IEnumerable{System.Byte[]})
   name: SubmitTasks(IEnumerable<Byte[]>)
-  href: api/ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.html#ArmoniK_DevelopmentKit_SymphonyApi_api_SessionPollingService_SubmitTasks_System_Collections_Generic_IEnumerable_System_Byte____
-  commentId: M:ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.SubmitTasks(System.Collections.Generic.IEnumerable{System.Byte[]})
+  href: api/ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.html#ArmoniK_DevelopmentKit_SymphonyApi_api_SessionPollingService_SubmitTasks_IEnumerable_System_Byte____
+  commentId: M:ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.SubmitTasks(IEnumerable{System.Byte[]})
   name.vb: SubmitTasks(IEnumerable(Of Byte()))
-  fullName: ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.SubmitTasks(System.Collections.Generic.IEnumerable<System.Byte[]>)
-  fullName.vb: ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.SubmitTasks(System.Collections.Generic.IEnumerable(Of System.Byte()))
+  fullName: ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.SubmitTasks(IEnumerable<System.Byte[]>)
+  fullName.vb: ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.SubmitTasks(IEnumerable(Of System.Byte()))
   nameWithType: SessionPollingService.SubmitTasks(IEnumerable<Byte[]>)
   nameWithType.vb: SessionPollingService.SubmitTasks(IEnumerable(Of Byte()))
 - uid: ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.SubmitTasks*
@@ -3012,13 +3012,13 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.SubmitTasks
   nameWithType: SessionPollingService.SubmitTasks
-- uid: ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.SubmitTasksWithDependencies(System.Collections.Generic.IEnumerable{System.Tuple{System.Byte[],System.Collections.Generic.IList{System.String}}},System.Boolean)
+- uid: ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.SubmitTasksWithDependencies(IEnumerable{Tuple{System.Byte[],IList{System.String}}},System.Boolean)
   name: SubmitTasksWithDependencies(IEnumerable<Tuple<Byte[], IList<String>>>, Boolean)
-  href: api/ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.html#ArmoniK_DevelopmentKit_SymphonyApi_api_SessionPollingService_SubmitTasksWithDependencies_System_Collections_Generic_IEnumerable_System_Tuple_System_Byte___System_Collections_Generic_IList_System_String____System_Boolean_
-  commentId: M:ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.SubmitTasksWithDependencies(System.Collections.Generic.IEnumerable{System.Tuple{System.Byte[],System.Collections.Generic.IList{System.String}}},System.Boolean)
+  href: api/ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.html#ArmoniK_DevelopmentKit_SymphonyApi_api_SessionPollingService_SubmitTasksWithDependencies_IEnumerable_Tuple_System_Byte___IList_System_String____System_Boolean_
+  commentId: M:ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.SubmitTasksWithDependencies(IEnumerable{Tuple{System.Byte[],IList{System.String}}},System.Boolean)
   name.vb: SubmitTasksWithDependencies(IEnumerable(Of Tuple(Of Byte(), IList(Of String))), Boolean)
-  fullName: ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.SubmitTasksWithDependencies(System.Collections.Generic.IEnumerable<System.Tuple<System.Byte[], System.Collections.Generic.IList<System.String>>>, System.Boolean)
-  fullName.vb: ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.SubmitTasksWithDependencies(System.Collections.Generic.IEnumerable(Of System.Tuple(Of System.Byte(), System.Collections.Generic.IList(Of System.String))), System.Boolean)
+  fullName: ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.SubmitTasksWithDependencies(IEnumerable<Tuple<System.Byte[], IList<System.String>>>, System.Boolean)
+  fullName.vb: ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.SubmitTasksWithDependencies(IEnumerable(Of Tuple(Of System.Byte(), IList(Of System.String))), System.Boolean)
   nameWithType: SessionPollingService.SubmitTasksWithDependencies(IEnumerable<Tuple<Byte[], IList<String>>>, Boolean)
   nameWithType.vb: SessionPollingService.SubmitTasksWithDependencies(IEnumerable(Of Tuple(Of Byte(), IList(Of String))), Boolean)
 - uid: ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.SubmitTasksWithDependencies*
@@ -3105,13 +3105,13 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.SymphonyApi.api.SessionServiceExt.SubmitTask
   nameWithType: SessionServiceExt.SubmitTask
-- uid: ArmoniK.DevelopmentKit.SymphonyApi.api.SessionServiceExt.SubmitTaskWithDependencies(ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService,System.Byte[],System.Collections.Generic.IList{System.String})
+- uid: ArmoniK.DevelopmentKit.SymphonyApi.api.SessionServiceExt.SubmitTaskWithDependencies(ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService,System.Byte[],IList{System.String})
   name: SubmitTaskWithDependencies(SessionPollingService, Byte[], IList<String>)
-  href: api/ArmoniK.DevelopmentKit.SymphonyApi.api.SessionServiceExt.html#ArmoniK_DevelopmentKit_SymphonyApi_api_SessionServiceExt_SubmitTaskWithDependencies_ArmoniK_DevelopmentKit_SymphonyApi_api_SessionPollingService_System_Byte___System_Collections_Generic_IList_System_String__
-  commentId: M:ArmoniK.DevelopmentKit.SymphonyApi.api.SessionServiceExt.SubmitTaskWithDependencies(ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService,System.Byte[],System.Collections.Generic.IList{System.String})
+  href: api/ArmoniK.DevelopmentKit.SymphonyApi.api.SessionServiceExt.html#ArmoniK_DevelopmentKit_SymphonyApi_api_SessionServiceExt_SubmitTaskWithDependencies_ArmoniK_DevelopmentKit_SymphonyApi_api_SessionPollingService_System_Byte___IList_System_String__
+  commentId: M:ArmoniK.DevelopmentKit.SymphonyApi.api.SessionServiceExt.SubmitTaskWithDependencies(ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService,System.Byte[],IList{System.String})
   name.vb: SubmitTaskWithDependencies(SessionPollingService, Byte(), IList(Of String))
-  fullName: ArmoniK.DevelopmentKit.SymphonyApi.api.SessionServiceExt.SubmitTaskWithDependencies(ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService, System.Byte[], System.Collections.Generic.IList<System.String>)
-  fullName.vb: ArmoniK.DevelopmentKit.SymphonyApi.api.SessionServiceExt.SubmitTaskWithDependencies(ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService, System.Byte(), System.Collections.Generic.IList(Of System.String))
+  fullName: ArmoniK.DevelopmentKit.SymphonyApi.api.SessionServiceExt.SubmitTaskWithDependencies(ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService, System.Byte[], IList<System.String>)
+  fullName.vb: ArmoniK.DevelopmentKit.SymphonyApi.api.SessionServiceExt.SubmitTaskWithDependencies(ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService, System.Byte(), IList(Of System.String))
   nameWithType: SessionServiceExt.SubmitTaskWithDependencies(SessionPollingService, Byte[], IList<String>)
   nameWithType.vb: SessionServiceExt.SubmitTaskWithDependencies(SessionPollingService, Byte(), IList(Of String))
 - uid: ArmoniK.DevelopmentKit.SymphonyApi.api.SessionServiceExt.SubmitTaskWithDependencies*
@@ -3572,6 +3572,12 @@ references:
   commentId: T:ArmoniK.DevelopmentKit.SymphonyApi.GridWorker
   fullName: ArmoniK.DevelopmentKit.SymphonyApi.GridWorker
   nameWithType: GridWorker
+- uid: ArmoniK.DevelopmentKit.SymphonyApi.GridWorker.#ctor
+  name: GridWorker()
+  href: api/ArmoniK.DevelopmentKit.SymphonyApi.GridWorker.html#ArmoniK_DevelopmentKit_SymphonyApi_GridWorker__ctor
+  commentId: M:ArmoniK.DevelopmentKit.SymphonyApi.GridWorker.#ctor
+  fullName: ArmoniK.DevelopmentKit.SymphonyApi.GridWorker.GridWorker()
+  nameWithType: GridWorker.GridWorker()
 - uid: ArmoniK.DevelopmentKit.SymphonyApi.GridWorker.#ctor(IConfiguration,ILoggerFactory)
   name: GridWorker(IConfiguration, ILoggerFactory)
   href: api/ArmoniK.DevelopmentKit.SymphonyApi.GridWorker.html#ArmoniK_DevelopmentKit_SymphonyApi_GridWorker__ctor_IConfiguration_ILoggerFactory_
@@ -3598,13 +3604,13 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.SymphonyApi.GridWorker.Configuration
   nameWithType: GridWorker.Configuration
-- uid: ArmoniK.DevelopmentKit.SymphonyApi.GridWorker.Configure(IConfiguration,System.Collections.Generic.IReadOnlyDictionary{System.String,System.String},ArmoniK.DevelopmentKit.WorkerApi.Common.IAppsLoader)
+- uid: ArmoniK.DevelopmentKit.SymphonyApi.GridWorker.Configure(IConfiguration,IReadOnlyDictionary{System.String,System.String},ArmoniK.DevelopmentKit.WorkerApi.Common.IAppsLoader)
   name: Configure(IConfiguration, IReadOnlyDictionary<String, String>, IAppsLoader)
-  href: api/ArmoniK.DevelopmentKit.SymphonyApi.GridWorker.html#ArmoniK_DevelopmentKit_SymphonyApi_GridWorker_Configure_IConfiguration_System_Collections_Generic_IReadOnlyDictionary_System_String_System_String__ArmoniK_DevelopmentKit_WorkerApi_Common_IAppsLoader_
-  commentId: M:ArmoniK.DevelopmentKit.SymphonyApi.GridWorker.Configure(IConfiguration,System.Collections.Generic.IReadOnlyDictionary{System.String,System.String},ArmoniK.DevelopmentKit.WorkerApi.Common.IAppsLoader)
+  href: api/ArmoniK.DevelopmentKit.SymphonyApi.GridWorker.html#ArmoniK_DevelopmentKit_SymphonyApi_GridWorker_Configure_IConfiguration_IReadOnlyDictionary_System_String_System_String__ArmoniK_DevelopmentKit_WorkerApi_Common_IAppsLoader_
+  commentId: M:ArmoniK.DevelopmentKit.SymphonyApi.GridWorker.Configure(IConfiguration,IReadOnlyDictionary{System.String,System.String},ArmoniK.DevelopmentKit.WorkerApi.Common.IAppsLoader)
   name.vb: Configure(IConfiguration, IReadOnlyDictionary(Of String, String), IAppsLoader)
-  fullName: ArmoniK.DevelopmentKit.SymphonyApi.GridWorker.Configure(IConfiguration, System.Collections.Generic.IReadOnlyDictionary<System.String, System.String>, ArmoniK.DevelopmentKit.WorkerApi.Common.IAppsLoader)
-  fullName.vb: ArmoniK.DevelopmentKit.SymphonyApi.GridWorker.Configure(IConfiguration, System.Collections.Generic.IReadOnlyDictionary(Of System.String, System.String), ArmoniK.DevelopmentKit.WorkerApi.Common.IAppsLoader)
+  fullName: ArmoniK.DevelopmentKit.SymphonyApi.GridWorker.Configure(IConfiguration, IReadOnlyDictionary<System.String, System.String>, ArmoniK.DevelopmentKit.WorkerApi.Common.IAppsLoader)
+  fullName.vb: ArmoniK.DevelopmentKit.SymphonyApi.GridWorker.Configure(IConfiguration, IReadOnlyDictionary(Of System.String, System.String), ArmoniK.DevelopmentKit.WorkerApi.Common.IAppsLoader)
   nameWithType: GridWorker.Configure(IConfiguration, IReadOnlyDictionary<String, String>, IAppsLoader)
   nameWithType.vb: GridWorker.Configure(IConfiguration, IReadOnlyDictionary(Of String, String), IAppsLoader)
 - uid: ArmoniK.DevelopmentKit.SymphonyApi.GridWorker.Configure*
@@ -3692,13 +3698,13 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.SymphonyApi.GridWorker.GridAppVersion
   nameWithType: GridWorker.GridAppVersion
-- uid: ArmoniK.DevelopmentKit.SymphonyApi.GridWorker.InitializeSessionWorker(Session,System.Collections.Generic.IReadOnlyDictionary{System.String,System.String})
+- uid: ArmoniK.DevelopmentKit.SymphonyApi.GridWorker.InitializeSessionWorker(Session,IReadOnlyDictionary{System.String,System.String})
   name: InitializeSessionWorker(Session, IReadOnlyDictionary<String, String>)
-  href: api/ArmoniK.DevelopmentKit.SymphonyApi.GridWorker.html#ArmoniK_DevelopmentKit_SymphonyApi_GridWorker_InitializeSessionWorker_Session_System_Collections_Generic_IReadOnlyDictionary_System_String_System_String__
-  commentId: M:ArmoniK.DevelopmentKit.SymphonyApi.GridWorker.InitializeSessionWorker(Session,System.Collections.Generic.IReadOnlyDictionary{System.String,System.String})
+  href: api/ArmoniK.DevelopmentKit.SymphonyApi.GridWorker.html#ArmoniK_DevelopmentKit_SymphonyApi_GridWorker_InitializeSessionWorker_Session_IReadOnlyDictionary_System_String_System_String__
+  commentId: M:ArmoniK.DevelopmentKit.SymphonyApi.GridWorker.InitializeSessionWorker(Session,IReadOnlyDictionary{System.String,System.String})
   name.vb: InitializeSessionWorker(Session, IReadOnlyDictionary(Of String, String))
-  fullName: ArmoniK.DevelopmentKit.SymphonyApi.GridWorker.InitializeSessionWorker(Session, System.Collections.Generic.IReadOnlyDictionary<System.String, System.String>)
-  fullName.vb: ArmoniK.DevelopmentKit.SymphonyApi.GridWorker.InitializeSessionWorker(Session, System.Collections.Generic.IReadOnlyDictionary(Of System.String, System.String))
+  fullName: ArmoniK.DevelopmentKit.SymphonyApi.GridWorker.InitializeSessionWorker(Session, IReadOnlyDictionary<System.String, System.String>)
+  fullName.vb: ArmoniK.DevelopmentKit.SymphonyApi.GridWorker.InitializeSessionWorker(Session, IReadOnlyDictionary(Of System.String, System.String))
   nameWithType: GridWorker.InitializeSessionWorker(Session, IReadOnlyDictionary<String, String>)
   nameWithType.vb: GridWorker.InitializeSessionWorker(Session, IReadOnlyDictionary(Of String, String))
 - uid: ArmoniK.DevelopmentKit.SymphonyApi.GridWorker.InitializeSessionWorker*
@@ -4156,6 +4162,19 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.WorkerApi.AppsLoader.RequestNewAssembly
   nameWithType: AppsLoader.RequestNewAssembly
+- uid: ArmoniK.DevelopmentKit.WorkerApi.AppsLoader.UserAssemblyLoadContext
+  name: UserAssemblyLoadContext
+  href: api/ArmoniK.DevelopmentKit.WorkerApi.AppsLoader.html#ArmoniK_DevelopmentKit_WorkerApi_AppsLoader_UserAssemblyLoadContext
+  commentId: P:ArmoniK.DevelopmentKit.WorkerApi.AppsLoader.UserAssemblyLoadContext
+  fullName: ArmoniK.DevelopmentKit.WorkerApi.AppsLoader.UserAssemblyLoadContext
+  nameWithType: AppsLoader.UserAssemblyLoadContext
+- uid: ArmoniK.DevelopmentKit.WorkerApi.AppsLoader.UserAssemblyLoadContext*
+  name: UserAssemblyLoadContext
+  href: api/ArmoniK.DevelopmentKit.WorkerApi.AppsLoader.html#ArmoniK_DevelopmentKit_WorkerApi_AppsLoader_UserAssemblyLoadContext_
+  commentId: Overload:ArmoniK.DevelopmentKit.WorkerApi.AppsLoader.UserAssemblyLoadContext
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.WorkerApi.AppsLoader.UserAssemblyLoadContext
+  nameWithType: AppsLoader.UserAssemblyLoadContext
 - uid: ArmoniK.DevelopmentKit.WorkerApi.ArmonikServiceWorker
   name: ArmonikServiceWorker
   href: api/ArmoniK.DevelopmentKit.WorkerApi.ArmonikServiceWorker.html
@@ -4230,6 +4249,19 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.WorkerApi.ArmonikServiceWorker.Dispose
   nameWithType: ArmonikServiceWorker.Dispose
+- uid: ArmoniK.DevelopmentKit.WorkerApi.ArmonikServiceWorker.Execute(ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler)
+  name: Execute(ITaskHandler)
+  href: api/ArmoniK.DevelopmentKit.WorkerApi.ArmonikServiceWorker.html#ArmoniK_DevelopmentKit_WorkerApi_ArmonikServiceWorker_Execute_ArmoniK_Extensions_Common_StreamWrapper_Worker_ITaskHandler_
+  commentId: M:ArmoniK.DevelopmentKit.WorkerApi.ArmonikServiceWorker.Execute(ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler)
+  fullName: ArmoniK.DevelopmentKit.WorkerApi.ArmonikServiceWorker.Execute(ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler)
+  nameWithType: ArmonikServiceWorker.Execute(ITaskHandler)
+- uid: ArmoniK.DevelopmentKit.WorkerApi.ArmonikServiceWorker.Execute*
+  name: Execute
+  href: api/ArmoniK.DevelopmentKit.WorkerApi.ArmonikServiceWorker.html#ArmoniK_DevelopmentKit_WorkerApi_ArmonikServiceWorker_Execute_
+  commentId: Overload:ArmoniK.DevelopmentKit.WorkerApi.ArmonikServiceWorker.Execute
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.WorkerApi.ArmonikServiceWorker.Execute
+  nameWithType: ArmonikServiceWorker.Execute
 - uid: ArmoniK.DevelopmentKit.WorkerApi.ArmonikServiceWorker.GridWorker
   name: GridWorker
   href: api/ArmoniK.DevelopmentKit.WorkerApi.ArmonikServiceWorker.html#ArmoniK_DevelopmentKit_WorkerApi_ArmonikServiceWorker_GridWorker
@@ -4256,6 +4288,22 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.WorkerApi.ArmonikServiceWorker.Initialized
   nameWithType: ArmonikServiceWorker.Initialized
+- uid: ArmoniK.DevelopmentKit.WorkerApi.ArmonikServiceWorker.InitializeSessionWorker(Session,IReadOnlyDictionary{System.String,System.String})
+  name: InitializeSessionWorker(Session, IReadOnlyDictionary<String, String>)
+  href: api/ArmoniK.DevelopmentKit.WorkerApi.ArmonikServiceWorker.html#ArmoniK_DevelopmentKit_WorkerApi_ArmonikServiceWorker_InitializeSessionWorker_Session_IReadOnlyDictionary_System_String_System_String__
+  commentId: M:ArmoniK.DevelopmentKit.WorkerApi.ArmonikServiceWorker.InitializeSessionWorker(Session,IReadOnlyDictionary{System.String,System.String})
+  name.vb: InitializeSessionWorker(Session, IReadOnlyDictionary(Of String, String))
+  fullName: ArmoniK.DevelopmentKit.WorkerApi.ArmonikServiceWorker.InitializeSessionWorker(Session, IReadOnlyDictionary<System.String, System.String>)
+  fullName.vb: ArmoniK.DevelopmentKit.WorkerApi.ArmonikServiceWorker.InitializeSessionWorker(Session, IReadOnlyDictionary(Of System.String, System.String))
+  nameWithType: ArmonikServiceWorker.InitializeSessionWorker(Session, IReadOnlyDictionary<String, String>)
+  nameWithType.vb: ArmonikServiceWorker.InitializeSessionWorker(Session, IReadOnlyDictionary(Of String, String))
+- uid: ArmoniK.DevelopmentKit.WorkerApi.ArmonikServiceWorker.InitializeSessionWorker*
+  name: InitializeSessionWorker
+  href: api/ArmoniK.DevelopmentKit.WorkerApi.ArmonikServiceWorker.html#ArmoniK_DevelopmentKit_WorkerApi_ArmonikServiceWorker_InitializeSessionWorker_
+  commentId: Overload:ArmoniK.DevelopmentKit.WorkerApi.ArmonikServiceWorker.InitializeSessionWorker
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.WorkerApi.ArmonikServiceWorker.InitializeSessionWorker
+  nameWithType: ArmonikServiceWorker.InitializeSessionWorker
 - uid: ArmoniK.DevelopmentKit.WorkerApi.Common
   name: ArmoniK.DevelopmentKit.WorkerApi.Common
   href: api/ArmoniK.DevelopmentKit.WorkerApi.Common.html
@@ -4390,6 +4438,38 @@ references:
   commentId: T:ArmoniK.DevelopmentKit.WorkerApi.Common.Archiver
   fullName: ArmoniK.DevelopmentKit.WorkerApi.Common.Archiver
   nameWithType: Archiver
+- uid: ArmoniK.DevelopmentKit.WorkerApi.Common.GridWorkerExt
+  name: GridWorkerExt
+  href: api/ArmoniK.DevelopmentKit.WorkerApi.Common.GridWorkerExt.html
+  commentId: T:ArmoniK.DevelopmentKit.WorkerApi.Common.GridWorkerExt
+  fullName: ArmoniK.DevelopmentKit.WorkerApi.Common.GridWorkerExt
+  nameWithType: GridWorkerExt
+- uid: ArmoniK.DevelopmentKit.WorkerApi.Common.GridWorkerExt.GetDefaultConfiguration
+  name: GetDefaultConfiguration()
+  href: api/ArmoniK.DevelopmentKit.WorkerApi.Common.GridWorkerExt.html#ArmoniK_DevelopmentKit_WorkerApi_Common_GridWorkerExt_GetDefaultConfiguration
+  commentId: M:ArmoniK.DevelopmentKit.WorkerApi.Common.GridWorkerExt.GetDefaultConfiguration
+  fullName: ArmoniK.DevelopmentKit.WorkerApi.Common.GridWorkerExt.GetDefaultConfiguration()
+  nameWithType: GridWorkerExt.GetDefaultConfiguration()
+- uid: ArmoniK.DevelopmentKit.WorkerApi.Common.GridWorkerExt.GetDefaultConfiguration*
+  name: GetDefaultConfiguration
+  href: api/ArmoniK.DevelopmentKit.WorkerApi.Common.GridWorkerExt.html#ArmoniK_DevelopmentKit_WorkerApi_Common_GridWorkerExt_GetDefaultConfiguration_
+  commentId: Overload:ArmoniK.DevelopmentKit.WorkerApi.Common.GridWorkerExt.GetDefaultConfiguration
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.WorkerApi.Common.GridWorkerExt.GetDefaultConfiguration
+  nameWithType: GridWorkerExt.GetDefaultConfiguration
+- uid: ArmoniK.DevelopmentKit.WorkerApi.Common.GridWorkerExt.GetDefaultLoggerFactory(IConfiguration)
+  name: GetDefaultLoggerFactory(IConfiguration)
+  href: api/ArmoniK.DevelopmentKit.WorkerApi.Common.GridWorkerExt.html#ArmoniK_DevelopmentKit_WorkerApi_Common_GridWorkerExt_GetDefaultLoggerFactory_IConfiguration_
+  commentId: M:ArmoniK.DevelopmentKit.WorkerApi.Common.GridWorkerExt.GetDefaultLoggerFactory(IConfiguration)
+  fullName: ArmoniK.DevelopmentKit.WorkerApi.Common.GridWorkerExt.GetDefaultLoggerFactory(IConfiguration)
+  nameWithType: GridWorkerExt.GetDefaultLoggerFactory(IConfiguration)
+- uid: ArmoniK.DevelopmentKit.WorkerApi.Common.GridWorkerExt.GetDefaultLoggerFactory*
+  name: GetDefaultLoggerFactory
+  href: api/ArmoniK.DevelopmentKit.WorkerApi.Common.GridWorkerExt.html#ArmoniK_DevelopmentKit_WorkerApi_Common_GridWorkerExt_GetDefaultLoggerFactory_
+  commentId: Overload:ArmoniK.DevelopmentKit.WorkerApi.Common.GridWorkerExt.GetDefaultLoggerFactory
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.WorkerApi.Common.GridWorkerExt.GetDefaultLoggerFactory
+  nameWithType: GridWorkerExt.GetDefaultLoggerFactory
 - uid: ArmoniK.DevelopmentKit.WorkerApi.Common.IAppsLoader
   name: IAppsLoader
   href: api/ArmoniK.DevelopmentKit.WorkerApi.Common.IAppsLoader.html
@@ -4489,6 +4569,38 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.WorkerApi.Common.IGridWorker.SessionFinalize
   nameWithType: IGridWorker.SessionFinalize
+- uid: ArmoniK.DevelopmentKit.WorkerApi.Common.WorkerHelpers
+  name: WorkerHelpers
+  href: api/ArmoniK.DevelopmentKit.WorkerApi.Common.WorkerHelpers.html
+  commentId: T:ArmoniK.DevelopmentKit.WorkerApi.Common.WorkerHelpers
+  fullName: ArmoniK.DevelopmentKit.WorkerApi.Common.WorkerHelpers
+  nameWithType: WorkerHelpers
+- uid: ArmoniK.DevelopmentKit.WorkerApi.Common.WorkerHelpers.#ctor(ILoggerFactory)
+  name: WorkerHelpers(ILoggerFactory)
+  href: api/ArmoniK.DevelopmentKit.WorkerApi.Common.WorkerHelpers.html#ArmoniK_DevelopmentKit_WorkerApi_Common_WorkerHelpers__ctor_ILoggerFactory_
+  commentId: M:ArmoniK.DevelopmentKit.WorkerApi.Common.WorkerHelpers.#ctor(ILoggerFactory)
+  fullName: ArmoniK.DevelopmentKit.WorkerApi.Common.WorkerHelpers.WorkerHelpers(ILoggerFactory)
+  nameWithType: WorkerHelpers.WorkerHelpers(ILoggerFactory)
+- uid: ArmoniK.DevelopmentKit.WorkerApi.Common.WorkerHelpers.#ctor*
+  name: WorkerHelpers
+  href: api/ArmoniK.DevelopmentKit.WorkerApi.Common.WorkerHelpers.html#ArmoniK_DevelopmentKit_WorkerApi_Common_WorkerHelpers__ctor_
+  commentId: Overload:ArmoniK.DevelopmentKit.WorkerApi.Common.WorkerHelpers.#ctor
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.WorkerApi.Common.WorkerHelpers.WorkerHelpers
+  nameWithType: WorkerHelpers.WorkerHelpers
+- uid: ArmoniK.DevelopmentKit.WorkerApi.Common.WorkerHelpers.LoggerFactory
+  name: LoggerFactory
+  href: api/ArmoniK.DevelopmentKit.WorkerApi.Common.WorkerHelpers.html#ArmoniK_DevelopmentKit_WorkerApi_Common_WorkerHelpers_LoggerFactory
+  commentId: P:ArmoniK.DevelopmentKit.WorkerApi.Common.WorkerHelpers.LoggerFactory
+  fullName: ArmoniK.DevelopmentKit.WorkerApi.Common.WorkerHelpers.LoggerFactory
+  nameWithType: WorkerHelpers.LoggerFactory
+- uid: ArmoniK.DevelopmentKit.WorkerApi.Common.WorkerHelpers.LoggerFactory*
+  name: LoggerFactory
+  href: api/ArmoniK.DevelopmentKit.WorkerApi.Common.WorkerHelpers.html#ArmoniK_DevelopmentKit_WorkerApi_Common_WorkerHelpers_LoggerFactory_
+  commentId: Overload:ArmoniK.DevelopmentKit.WorkerApi.Common.WorkerHelpers.LoggerFactory
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.WorkerApi.Common.WorkerHelpers.LoggerFactory
+  nameWithType: WorkerHelpers.LoggerFactory
 - uid: ArmoniK.DevelopmentKit.WorkerApi.Common.ZipArchiver
   name: ZipArchiver
   href: api/ArmoniK.DevelopmentKit.WorkerApi.Common.ZipArchiver.html
@@ -5439,11 +5551,11 @@ references:
   fullName: ArmoniK.EndToEndTests.Program
   nameWithType: Program
 - uid: ArmoniK.EndToEndTests.Program.GetMethods(System.Type)
-  name: GetMethods(Type)
+  name: GetMethods(System.Type)
   href: api/ArmoniK.EndToEndTests.Program.html#ArmoniK_EndToEndTests_Program_GetMethods_System_Type_
   commentId: M:ArmoniK.EndToEndTests.Program.GetMethods(System.Type)
   fullName: ArmoniK.EndToEndTests.Program.GetMethods(System.Type)
-  nameWithType: Program.GetMethods(Type)
+  nameWithType: Program.GetMethods(System.Type)
 - uid: ArmoniK.EndToEndTests.Program.GetMethods*
   name: GetMethods
   href: api/ArmoniK.EndToEndTests.Program.html#ArmoniK_EndToEndTests_Program_GetMethods_
@@ -5463,13 +5575,13 @@ references:
   commentId: T:ArmoniK.EndToEndTests.Tests.CheckGridServer.SelectExtensions
   fullName: ArmoniK.EndToEndTests.Tests.CheckGridServer.SelectExtensions
   nameWithType: SelectExtensions
-- uid: ArmoniK.EndToEndTests.Tests.CheckGridServer.SelectExtensions.ConvertToArray(System.Collections.Generic.IEnumerable{System.Byte})
+- uid: ArmoniK.EndToEndTests.Tests.CheckGridServer.SelectExtensions.ConvertToArray(IEnumerable{System.Byte})
   name: ConvertToArray(IEnumerable<Byte>)
-  href: api/ArmoniK.EndToEndTests.Tests.CheckGridServer.SelectExtensions.html#ArmoniK_EndToEndTests_Tests_CheckGridServer_SelectExtensions_ConvertToArray_System_Collections_Generic_IEnumerable_System_Byte__
-  commentId: M:ArmoniK.EndToEndTests.Tests.CheckGridServer.SelectExtensions.ConvertToArray(System.Collections.Generic.IEnumerable{System.Byte})
+  href: api/ArmoniK.EndToEndTests.Tests.CheckGridServer.SelectExtensions.html#ArmoniK_EndToEndTests_Tests_CheckGridServer_SelectExtensions_ConvertToArray_IEnumerable_System_Byte__
+  commentId: M:ArmoniK.EndToEndTests.Tests.CheckGridServer.SelectExtensions.ConvertToArray(IEnumerable{System.Byte})
   name.vb: ConvertToArray(IEnumerable(Of Byte))
-  fullName: ArmoniK.EndToEndTests.Tests.CheckGridServer.SelectExtensions.ConvertToArray(System.Collections.Generic.IEnumerable<System.Byte>)
-  fullName.vb: ArmoniK.EndToEndTests.Tests.CheckGridServer.SelectExtensions.ConvertToArray(System.Collections.Generic.IEnumerable(Of System.Byte))
+  fullName: ArmoniK.EndToEndTests.Tests.CheckGridServer.SelectExtensions.ConvertToArray(IEnumerable<System.Byte>)
+  fullName.vb: ArmoniK.EndToEndTests.Tests.CheckGridServer.SelectExtensions.ConvertToArray(IEnumerable(Of System.Byte))
   nameWithType: SelectExtensions.ConvertToArray(IEnumerable<Byte>)
   nameWithType.vb: SelectExtensions.ConvertToArray(IEnumerable(Of Byte))
 - uid: ArmoniK.EndToEndTests.Tests.CheckGridServer.SelectExtensions.ConvertToArray*

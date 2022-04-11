@@ -5,10 +5,10 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Class ServiceInvocationContext
+    <title>Class GridWorkerExt
    </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Class ServiceInvocationContext
+    <meta name="title" content="Class GridWorkerExt
    ">
     <meta name="generator" content="docfx 2.59.2.0">
     
@@ -68,54 +68,66 @@
         </div>
         <div class="article row grid-right">
           <div class="col-md-10">
-            <article class="content wrap" id="_content" data-uid="ArmoniK.DevelopmentKit.GridServer.ServiceInvocationContext">
+            <article class="content wrap" id="_content" data-uid="ArmoniK.DevelopmentKit.WorkerApi.Common.GridWorkerExt">
   
   
-  <h1 id="ArmoniK_DevelopmentKit_GridServer_ServiceInvocationContext" data-uid="ArmoniK.DevelopmentKit.GridServer.ServiceInvocationContext" class="text-break">Class ServiceInvocationContext
+  <h1 id="ArmoniK_DevelopmentKit_WorkerApi_Common_GridWorkerExt" data-uid="ArmoniK.DevelopmentKit.WorkerApi.Common.GridWorkerExt" class="text-break">Class GridWorkerExt
   </h1>
-  <div class="markdown level0 summary"><p>The ServiceInvocationContext class provides an interface for interacting with
-an invocation, such as getting the session and task IDs, while it is running on an
-Engine.This is an alternative to using, for example, the system properties when
-running a Java Service.Using this class enables immediate updating of invocation
-information.In contrast, setting the INVOCATION_INFO system property only
-updates at the end of the invocation.
-The ServiceInvocationContext object can be reused; the method calls always
-apply to the currently executing Service Session and invocation.Make all method
-calls by a service, update, or init method; if not, the method call might throw
-an IllegalStateException or return invalid data.Note that you cannot call this
-method from a different thread; it will fail if it is not called from the main thread.</p>
-</div>
+  <div class="markdown level0 summary"></div>
   <div class="markdown level0 conceptual"></div>
   <div class="inheritance">
     <h5>Inheritance</h5>
     <div class="level0"><span class="xref">System.Object</span></div>
-    <div class="level1"><span class="xref">ServiceInvocationContext</span></div>
+    <div class="level1"><span class="xref">GridWorkerExt</span></div>
   </div>
-  <h6><strong>Namespace</strong>: <a class="xref" href="ArmoniK.DevelopmentKit.GridServer.html">ArmoniK.DevelopmentKit.GridServer</a></h6>
-  <h6><strong>Assembly</strong>: ArmoniK.DevelopmentKit.GridServer.dll</h6>
-  <h5 id="ArmoniK_DevelopmentKit_GridServer_ServiceInvocationContext_syntax">Syntax</h5>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetHashCode()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetType()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.MemberwiseClone()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ReferenceEquals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ToString()</span>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="ArmoniK.DevelopmentKit.WorkerApi.Common.html">ArmoniK.DevelopmentKit.WorkerApi.Common</a></h6>
+  <h6><strong>Assembly</strong>: ArmoniK.DevelopmentKit.WorkerApi.Common.dll</h6>
+  <h5 id="ArmoniK_DevelopmentKit_WorkerApi_Common_GridWorkerExt_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public class ServiceInvocationContext : object</code></pre>
+    <pre><code class="lang-csharp hljs">public class GridWorkerExt</code></pre>
   </div>
-  <h3 id="properties">Properties
+  <h3 id="methods">Methods
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/master/apiSpec/new?filename=ArmoniK_DevelopmentKit_GridServer_ServiceInvocationContext_SessionId.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.GridServer.ServiceInvocationContext.SessionId%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/master/apiSpec/new?filename=ArmoniK_DevelopmentKit_WorkerApi_Common_GridWorkerExt_GetDefaultConfiguration.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.WorkerApi.Common.GridWorkerExt.GetDefaultConfiguration%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/master/DataSynapseApi/ArmoniK.DevelopmentKit.GridServer/ServiceInvocationContext.cs/#L50">View Source</a>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/master/WorkerApi/ArmoniK.DevelopmentKit.WorkerApi.Common/WorkerHelpers.cs/#L15">View Source</a>
   </span>
-  <a id="ArmoniK_DevelopmentKit_GridServer_ServiceInvocationContext_SessionId_" data-uid="ArmoniK.DevelopmentKit.GridServer.ServiceInvocationContext.SessionId*"></a>
-  <h4 id="ArmoniK_DevelopmentKit_GridServer_ServiceInvocationContext_SessionId" data-uid="ArmoniK.DevelopmentKit.GridServer.ServiceInvocationContext.SessionId">SessionId</h4>
-  <div class="markdown level1 summary"><p>Get the sessionId created by an createSession call before.</p>
-</div>
+  <a id="ArmoniK_DevelopmentKit_WorkerApi_Common_GridWorkerExt_GetDefaultConfiguration_" data-uid="ArmoniK.DevelopmentKit.WorkerApi.Common.GridWorkerExt.GetDefaultConfiguration*"></a>
+  <h4 id="ArmoniK_DevelopmentKit_WorkerApi_Common_GridWorkerExt_GetDefaultConfiguration" data-uid="ArmoniK.DevelopmentKit.WorkerApi.Common.GridWorkerExt.GetDefaultConfiguration">GetDefaultConfiguration()</h4>
+  <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Session SessionId { get; set; }</code></pre>
+    <pre><code class="lang-csharp hljs">public static IConfiguration GetDefaultConfiguration()</code></pre>
   </div>
-  <h5 class="propertyValue">Property Value</h5>
+  <h5 class="returns">Returns</h5>
   <table class="table table-bordered table-striped table-condensed">
     <thead>
       <tr>
@@ -125,28 +137,25 @@ method from a different thread; it will fail if it is not called from the main t
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">Session</span></td>
+        <td><span class="xref">IConfiguration</span></td>
         <td></td>
       </tr>
     </tbody>
   </table>
-  <h3 id="methods">Methods
-  </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/master/apiSpec/new?filename=ArmoniK_DevelopmentKit_GridServer_ServiceInvocationContext_IsEquals_System_String_.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.GridServer.ServiceInvocationContext.IsEquals(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/master/apiSpec/new?filename=ArmoniK_DevelopmentKit_WorkerApi_Common_GridWorkerExt_GetDefaultLoggerFactory_IConfiguration_.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.WorkerApi.Common.GridWorkerExt.GetDefaultLoggerFactory(IConfiguration)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/master/DataSynapseApi/ArmoniK.DevelopmentKit.GridServer/ServiceInvocationContext.cs/#L57">View Source</a>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/master/WorkerApi/ArmoniK.DevelopmentKit.WorkerApi.Common/WorkerHelpers.cs/#L27">View Source</a>
   </span>
-  <a id="ArmoniK_DevelopmentKit_GridServer_ServiceInvocationContext_IsEquals_" data-uid="ArmoniK.DevelopmentKit.GridServer.ServiceInvocationContext.IsEquals*"></a>
-  <h4 id="ArmoniK_DevelopmentKit_GridServer_ServiceInvocationContext_IsEquals_System_String_" data-uid="ArmoniK.DevelopmentKit.GridServer.ServiceInvocationContext.IsEquals(System.String)">IsEquals(String)</h4>
-  <div class="markdown level1 summary"><p>Check if the session is the same as previously created</p>
-</div>
+  <a id="ArmoniK_DevelopmentKit_WorkerApi_Common_GridWorkerExt_GetDefaultLoggerFactory_" data-uid="ArmoniK.DevelopmentKit.WorkerApi.Common.GridWorkerExt.GetDefaultLoggerFactory*"></a>
+  <h4 id="ArmoniK_DevelopmentKit_WorkerApi_Common_GridWorkerExt_GetDefaultLoggerFactory_IConfiguration_" data-uid="ArmoniK.DevelopmentKit.WorkerApi.Common.GridWorkerExt.GetDefaultLoggerFactory(IConfiguration)">GetDefaultLoggerFactory(IConfiguration)</h4>
+  <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public bool IsEquals(string session)</code></pre>
+    <pre><code class="lang-csharp hljs">public static ILoggerFactory GetDefaultLoggerFactory(IConfiguration configuration = null)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -159,8 +168,8 @@ method from a different thread; it will fail if it is not called from the main t
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.String</span></td>
-        <td><span class="parametername">session</span></td>
+        <td><span class="xref">IConfiguration</span></td>
+        <td><span class="parametername">configuration</span></td>
         <td></td>
       </tr>
     </tbody>
@@ -175,9 +184,8 @@ method from a different thread; it will fail if it is not called from the main t
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Boolean</span></td>
-        <td><p>Return boolean True if SessionId is null or equals to session parameters</p>
-</td>
+        <td><span class="xref">ILoggerFactory</span></td>
+        <td></td>
       </tr>
     </tbody>
   </table>
@@ -189,10 +197,10 @@ method from a different thread; it will fail if it is not called from the main t
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/master/apiSpec/new?filename=ArmoniK_DevelopmentKit_GridServer_ServiceInvocationContext.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.GridServer.ServiceInvocationContext%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/master/apiSpec/new?filename=ArmoniK_DevelopmentKit_WorkerApi_Common_GridWorkerExt.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.WorkerApi.Common.GridWorkerExt%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/master/DataSynapseApi/ArmoniK.DevelopmentKit.GridServer/ServiceInvocationContext.cs/#L44" class="contribution-link">View Source</a>
+                    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/master/WorkerApi/ArmoniK.DevelopmentKit.WorkerApi.Common/WorkerHelpers.cs/#L13" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>

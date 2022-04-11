@@ -90,35 +90,11 @@ Samples.ArmoniK.Sample.SymphonyPackages</p>
       <div class="level2"><a class="xref" href="ArmoniK.EndToEndTests.Tests.SimpleComputeNSubtasking.ServiceContainer.html">ServiceContainer</a></div>
       <div class="level2"><a class="xref" href="ArmoniK.EndToEndTests.Tests.TemplateTest.ServiceContainer.html">ServiceContainer</a></div>
   </div>
-  <div class="inheritedMembers">
-    <h5>Inherited Members</h5>
-    <div>
-      <span class="xref">System.Object.Equals(System.Object)</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.Equals(System.Object, System.Object)</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.GetHashCode()</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.GetType()</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.MemberwiseClone()</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.ReferenceEquals(System.Object, System.Object)</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.ToString()</span>
-    </div>
-  </div>
   <h6><strong>Namespace</strong>: <a class="xref" href="ArmoniK.DevelopmentKit.SymphonyApi.api.html">ArmoniK.DevelopmentKit.SymphonyApi.api</a></h6>
   <h6><strong>Assembly</strong>: ArmoniK.DevelopmentKit.SymphonyApi.dll</h6>
   <h5 id="ArmoniK_DevelopmentKit_SymphonyApi_api_ServiceContainerBase_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public abstract class ServiceContainerBase</code></pre>
+    <pre><code class="lang-csharp hljs">public abstract class ServiceContainerBase : object</code></pre>
   </div>
   <h3 id="properties">Properties
   </h3>
@@ -283,13 +259,13 @@ SubmitSubTaskWithDependencies or WaitForCompletion, WaitForSubTaskCompletion or 
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/master/apiSpec/new?filename=ArmoniK_DevelopmentKit_SymphonyApi_api_ServiceContainerBase_Configure_IConfiguration_System_Collections_Generic_IReadOnlyDictionary_System_String_System_String__.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.Configure(IConfiguration%2CSystem.Collections.Generic.IReadOnlyDictionary%7BSystem.String%2CSystem.String%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/master/apiSpec/new?filename=ArmoniK_DevelopmentKit_SymphonyApi_api_ServiceContainerBase_Configure_IConfiguration_IReadOnlyDictionary_System_String_System_String__.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.Configure(IConfiguration%2CIReadOnlyDictionary%7BSystem.String%2CSystem.String%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/master/SymphonyApi/ArmoniK.DevelopmentKit.SymphonyApi/api/ServiceContainerBase.cs/#L245">View Source</a>
   </span>
   <a id="ArmoniK_DevelopmentKit_SymphonyApi_api_ServiceContainerBase_Configure_" data-uid="ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.Configure*"></a>
-  <h4 id="ArmoniK_DevelopmentKit_SymphonyApi_api_ServiceContainerBase_Configure_IConfiguration_System_Collections_Generic_IReadOnlyDictionary_System_String_System_String__" data-uid="ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.Configure(IConfiguration,System.Collections.Generic.IReadOnlyDictionary{System.String,System.String})">Configure(IConfiguration, IReadOnlyDictionary&lt;String, String&gt;)</h4>
+  <h4 id="ArmoniK_DevelopmentKit_SymphonyApi_api_ServiceContainerBase_Configure_IConfiguration_IReadOnlyDictionary_System_String_System_String__" data-uid="ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.Configure(IConfiguration,IReadOnlyDictionary{System.String,System.String})">Configure(IConfiguration, IReadOnlyDictionary&lt;String, String&gt;)</h4>
   <div class="markdown level1 summary"><p>The configure method is an internal call to prepare the ServiceContainer.
 Its holds several configuration coming from the Client call</p>
 </div>
@@ -315,7 +291,7 @@ Its holds several configuration coming from the Client call</p>
 </td>
       </tr>
       <tr>
-        <td><span class="xref">System.Collections.Generic.IReadOnlyDictionary</span>&lt;<span class="xref">System.String</span>, <span class="xref">System.String</span>&gt;</td>
+        <td><span class="xref">IReadOnlyDictionary</span>&lt;<span class="xref">System.String</span>, <span class="xref">System.String</span>&gt;</td>
         <td><span class="parametername">clientOptions</span></td>
         <td><p>All data coming from Client within TaskOptions.Options</p>
 </td>
@@ -324,13 +300,13 @@ Its holds several configuration coming from the Client call</p>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/master/apiSpec/new?filename=ArmoniK_DevelopmentKit_SymphonyApi_api_ServiceContainerBase_ConfigureSession_Session_System_Collections_Generic_IReadOnlyDictionary_System_String_System_String__.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.ConfigureSession(Session%2CSystem.Collections.Generic.IReadOnlyDictionary%7BSystem.String%2CSystem.String%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/master/apiSpec/new?filename=ArmoniK_DevelopmentKit_SymphonyApi_api_ServiceContainerBase_ConfigureSession_Session_IReadOnlyDictionary_System_String_System_String__.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.ConfigureSession(Session%2CIReadOnlyDictionary%7BSystem.String%2CSystem.String%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/master/SymphonyApi/ArmoniK.DevelopmentKit.SymphonyApi/api/ServiceContainerBase.cs/#L267">View Source</a>
   </span>
   <a id="ArmoniK_DevelopmentKit_SymphonyApi_api_ServiceContainerBase_ConfigureSession_" data-uid="ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.ConfigureSession*"></a>
-  <h4 id="ArmoniK_DevelopmentKit_SymphonyApi_api_ServiceContainerBase_ConfigureSession_Session_System_Collections_Generic_IReadOnlyDictionary_System_String_System_String__" data-uid="ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.ConfigureSession(Session,System.Collections.Generic.IReadOnlyDictionary{System.String,System.String})">ConfigureSession(Session, IReadOnlyDictionary&lt;String, String&gt;)</h4>
+  <h4 id="ArmoniK_DevelopmentKit_SymphonyApi_api_ServiceContainerBase_ConfigureSession_Session_IReadOnlyDictionary_System_String_System_String__" data-uid="ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.ConfigureSession(Session,IReadOnlyDictionary{System.String,System.String})">ConfigureSession(Session, IReadOnlyDictionary&lt;String, String&gt;)</h4>
   <div class="markdown level1 summary"><p>Prepare Session and create SessionService with the specific session</p>
 </div>
   <div class="markdown level1 conceptual"></div>
@@ -354,7 +330,7 @@ Its holds several configuration coming from the Client call</p>
         <td></td>
       </tr>
       <tr>
-        <td><span class="xref">System.Collections.Generic.IReadOnlyDictionary</span>&lt;<span class="xref">System.String</span>, <span class="xref">System.String</span>&gt;</td>
+        <td><span class="xref">IReadOnlyDictionary</span>&lt;<span class="xref">System.String</span>, <span class="xref">System.String</span>&gt;</td>
         <td><span class="parametername">requestTaskOptions</span></td>
         <td></td>
       </tr>
@@ -643,20 +619,19 @@ This handler should do any cleanup for any resources that were used in the onSes
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/master/apiSpec/new?filename=ArmoniK_DevelopmentKit_SymphonyApi_api_ServiceContainerBase_SubmitSubTasks_System_Collections_Generic_IEnumerable_System_Byte____System_String_.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.SubmitSubTasks(System.Collections.Generic.IEnumerable%7BSystem.Byte%5B%5D%7D%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/master/apiSpec/new?filename=ArmoniK_DevelopmentKit_SymphonyApi_api_ServiceContainerBase_SubmitSubTasks_IEnumerable_System_Byte____System_String_.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.SubmitSubTasks(IEnumerable%7BSystem.Byte%5B%5D%7D%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/master/SymphonyApi/ArmoniK.DevelopmentKit.SymphonyApi/api/ServiceContainerBase.cs/#L156">View Source</a>
   </span>
   <a id="ArmoniK_DevelopmentKit_SymphonyApi_api_ServiceContainerBase_SubmitSubTasks_" data-uid="ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.SubmitSubTasks*"></a>
-  <h4 id="ArmoniK_DevelopmentKit_SymphonyApi_api_ServiceContainerBase_SubmitSubTasks_System_Collections_Generic_IEnumerable_System_Byte____System_String_" data-uid="ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.SubmitSubTasks(System.Collections.Generic.IEnumerable{System.Byte[]},System.String)">SubmitSubTasks(IEnumerable&lt;Byte[]&gt;, String)</h4>
+  <h4 id="ArmoniK_DevelopmentKit_SymphonyApi_api_ServiceContainerBase_SubmitSubTasks_IEnumerable_System_Byte____System_String_" data-uid="ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.SubmitSubTasks(IEnumerable{System.Byte[]},System.String)">SubmitSubTasks(IEnumerable&lt;Byte[]&gt;, String)</h4>
   <div class="markdown level1 summary"><p>User method to submit task from the service</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">[Obsolete]
-public IEnumerable&lt;string&gt; SubmitSubTasks(IEnumerable&lt;byte[]&gt; payloads, string parentTaskIds)</code></pre>
+    <pre><code class="lang-csharp hljs">public IEnumerable&lt;string&gt; SubmitSubTasks(IEnumerable&lt;byte[]&gt; payloads, string parentTaskIds)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -669,7 +644,7 @@ public IEnumerable&lt;string&gt; SubmitSubTasks(IEnumerable&lt;byte[]&gt; payloa
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Collections.Generic.IEnumerable</span>&lt;<span class="xref">System.Byte</span>[]&gt;</td>
+        <td><span class="xref">IEnumerable</span>&lt;<span class="xref">System.Byte</span>[]&gt;</td>
         <td><span class="parametername">payloads</span></td>
         <td><p>The user payload list to execute. Generally used for subTasking.</p>
 </td>
@@ -692,28 +667,27 @@ public IEnumerable&lt;string&gt; SubmitSubTasks(IEnumerable&lt;byte[]&gt; payloa
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Collections.Generic.IEnumerable</span>&lt;<span class="xref">System.String</span>&gt;</td>
+        <td><span class="xref">IEnumerable</span>&lt;<span class="xref">System.String</span>&gt;</td>
         <td></td>
       </tr>
     </tbody>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/master/apiSpec/new?filename=ArmoniK_DevelopmentKit_SymphonyApi_api_ServiceContainerBase_SubmitSubtasksWithDependencies_System_Collections_Generic_IEnumerable_System_Tuple_System_Byte___System_Collections_Generic_IList_System_String____.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.SubmitSubtasksWithDependencies(System.Collections.Generic.IEnumerable%7BSystem.Tuple%7BSystem.Byte%5B%5D%2CSystem.Collections.Generic.IList%7BSystem.String%7D%7D%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/master/apiSpec/new?filename=ArmoniK_DevelopmentKit_SymphonyApi_api_ServiceContainerBase_SubmitSubtasksWithDependencies_IEnumerable_Tuple_System_Byte___IList_System_String____.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.SubmitSubtasksWithDependencies(IEnumerable%7BTuple%7BSystem.Byte%5B%5D%2CIList%7BSystem.String%7D%7D%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/master/SymphonyApi/ArmoniK.DevelopmentKit.SymphonyApi/api/ServiceContainerBase.cs/#L193">View Source</a>
   </span>
   <a id="ArmoniK_DevelopmentKit_SymphonyApi_api_ServiceContainerBase_SubmitSubtasksWithDependencies_" data-uid="ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.SubmitSubtasksWithDependencies*"></a>
-  <h4 id="ArmoniK_DevelopmentKit_SymphonyApi_api_ServiceContainerBase_SubmitSubtasksWithDependencies_System_Collections_Generic_IEnumerable_System_Tuple_System_Byte___System_Collections_Generic_IList_System_String____" data-uid="ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.SubmitSubtasksWithDependencies(System.Collections.Generic.IEnumerable{System.Tuple{System.Byte[],System.Collections.Generic.IList{System.String}}})">SubmitSubtasksWithDependencies(IEnumerable&lt;Tuple&lt;Byte[], IList&lt;String&gt;&gt;&gt;)</h4>
+  <h4 id="ArmoniK_DevelopmentKit_SymphonyApi_api_ServiceContainerBase_SubmitSubtasksWithDependencies_IEnumerable_Tuple_System_Byte___IList_System_String____" data-uid="ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.SubmitSubtasksWithDependencies(IEnumerable{Tuple{System.Byte[],IList{System.String}}})">SubmitSubtasksWithDependencies(IEnumerable&lt;Tuple&lt;Byte[], IList&lt;String&gt;&gt;&gt;)</h4>
   <div class="markdown level1 summary"><p>The method to submit several tasks with dependencies tasks. This task will wait for
 to start until all dependencies are completed successfully</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">[Obsolete]
-public IEnumerable&lt;string&gt; SubmitSubtasksWithDependencies(IEnumerable&lt;Tuple&lt;byte[], IList&lt;string&gt;&gt;&gt; payloadWithDependencies)</code></pre>
+    <pre><code class="lang-csharp hljs">public IEnumerable&lt;string&gt; SubmitSubtasksWithDependencies(IEnumerable&lt;Tuple&lt;byte[], IList&lt;string&gt;&gt;&gt; payloadWithDependencies)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -726,7 +700,7 @@ public IEnumerable&lt;string&gt; SubmitSubtasksWithDependencies(IEnumerable&lt;T
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Collections.Generic.IEnumerable</span>&lt;<span class="xref">System.Tuple</span>&lt;<span class="xref">System.Byte</span>[], <span class="xref">System.Collections.Generic.IList</span>&lt;<span class="xref">System.String</span>&gt;&gt;&gt;</td>
+        <td><span class="xref">IEnumerable</span>&lt;<span class="xref">Tuple</span>&lt;<span class="xref">System.Byte</span>[], <span class="xref">IList</span>&lt;<span class="xref">System.String</span>&gt;&gt;&gt;</td>
         <td><span class="parametername">payloadWithDependencies</span></td>
         <td><p>A list of Tuple(taskId, Payload) in dependence of those created Subtasks</p>
 </td>
@@ -743,7 +717,7 @@ public IEnumerable&lt;string&gt; SubmitSubtasksWithDependencies(IEnumerable&lt;T
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Collections.Generic.IEnumerable</span>&lt;<span class="xref">System.String</span>&gt;</td>
+        <td><span class="xref">IEnumerable</span>&lt;<span class="xref">System.String</span>&gt;</td>
         <td><p>return a list of taskIds of the created subtasks</p>
 </td>
       </tr>
@@ -751,21 +725,20 @@ public IEnumerable&lt;string&gt; SubmitSubtasksWithDependencies(IEnumerable&lt;T
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/master/apiSpec/new?filename=ArmoniK_DevelopmentKit_SymphonyApi_api_ServiceContainerBase_SubmitSubtaskWithDependencies_System_Byte___System_Collections_Generic_IList_System_String__.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.SubmitSubtaskWithDependencies(System.Byte%5B%5D%2CSystem.Collections.Generic.IList%7BSystem.String%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/master/apiSpec/new?filename=ArmoniK_DevelopmentKit_SymphonyApi_api_ServiceContainerBase_SubmitSubtaskWithDependencies_System_Byte___IList_System_String__.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.SubmitSubtaskWithDependencies(System.Byte%5B%5D%2CIList%7BSystem.String%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/master/SymphonyApi/ArmoniK.DevelopmentKit.SymphonyApi/api/ServiceContainerBase.cs/#L179">View Source</a>
   </span>
   <a id="ArmoniK_DevelopmentKit_SymphonyApi_api_ServiceContainerBase_SubmitSubtaskWithDependencies_" data-uid="ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.SubmitSubtaskWithDependencies*"></a>
-  <h4 id="ArmoniK_DevelopmentKit_SymphonyApi_api_ServiceContainerBase_SubmitSubtaskWithDependencies_System_Byte___System_Collections_Generic_IList_System_String__" data-uid="ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.SubmitSubtaskWithDependencies(System.Byte[],System.Collections.Generic.IList{System.String})">SubmitSubtaskWithDependencies(Byte[], IList&lt;String&gt;)</h4>
+  <h4 id="ArmoniK_DevelopmentKit_SymphonyApi_api_ServiceContainerBase_SubmitSubtaskWithDependencies_System_Byte___IList_System_String__" data-uid="ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.SubmitSubtaskWithDependencies(System.Byte[],IList{System.String})">SubmitSubtaskWithDependencies(Byte[], IList&lt;String&gt;)</h4>
   <div class="markdown level1 summary"><p>The method to submit one subtask with dependencies tasks. This task will wait for
 to start until all dependencies are completed successfully</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">[Obsolete]
-public string SubmitSubtaskWithDependencies(byte[] payload, IList&lt;string&gt; dependencies)</code></pre>
+    <pre><code class="lang-csharp hljs">public string SubmitSubtaskWithDependencies(byte[] payload, IList&lt;string&gt; dependencies)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -784,7 +757,7 @@ public string SubmitSubtaskWithDependencies(byte[] payload, IList&lt;string&gt; 
 </td>
       </tr>
       <tr>
-        <td><span class="xref">System.Collections.Generic.IList</span>&lt;<span class="xref">System.String</span>&gt;</td>
+        <td><span class="xref">IList</span>&lt;<span class="xref">System.String</span>&gt;</td>
         <td><span class="parametername">dependencies</span></td>
         <td><p>A list of task Id in dependence of this created SubTask</p>
 </td>
@@ -809,13 +782,13 @@ public string SubmitSubtaskWithDependencies(byte[] payload, IList&lt;string&gt; 
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/master/apiSpec/new?filename=ArmoniK_DevelopmentKit_SymphonyApi_api_ServiceContainerBase_SubmitTasks_System_Collections_Generic_IEnumerable_System_Byte____.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.SubmitTasks(System.Collections.Generic.IEnumerable%7BSystem.Byte%5B%5D%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/master/apiSpec/new?filename=ArmoniK_DevelopmentKit_SymphonyApi_api_ServiceContainerBase_SubmitTasks_IEnumerable_System_Byte____.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.SubmitTasks(IEnumerable%7BSystem.Byte%5B%5D%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/master/SymphonyApi/ArmoniK.DevelopmentKit.SymphonyApi/api/ServiceContainerBase.cs/#L145">View Source</a>
   </span>
   <a id="ArmoniK_DevelopmentKit_SymphonyApi_api_ServiceContainerBase_SubmitTasks_" data-uid="ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.SubmitTasks*"></a>
-  <h4 id="ArmoniK_DevelopmentKit_SymphonyApi_api_ServiceContainerBase_SubmitTasks_System_Collections_Generic_IEnumerable_System_Byte____" data-uid="ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.SubmitTasks(System.Collections.Generic.IEnumerable{System.Byte[]})">SubmitTasks(IEnumerable&lt;Byte[]&gt;)</h4>
+  <h4 id="ArmoniK_DevelopmentKit_SymphonyApi_api_ServiceContainerBase_SubmitTasks_IEnumerable_System_Byte____" data-uid="ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.SubmitTasks(IEnumerable{System.Byte[]})">SubmitTasks(IEnumerable&lt;Byte[]&gt;)</h4>
   <div class="markdown level1 summary"><p>User method to submit task from the service</p>
 </div>
   <div class="markdown level1 conceptual"></div>
@@ -834,7 +807,7 @@ public string SubmitSubtaskWithDependencies(byte[] payload, IList&lt;string&gt; 
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Collections.Generic.IEnumerable</span>&lt;<span class="xref">System.Byte</span>[]&gt;</td>
+        <td><span class="xref">IEnumerable</span>&lt;<span class="xref">System.Byte</span>[]&gt;</td>
         <td><span class="parametername">payloads</span></td>
         <td><p>The user payload list to execute. Generally used for subTasking.</p>
 </td>
@@ -851,20 +824,20 @@ public string SubmitSubtaskWithDependencies(byte[] payload, IList&lt;string&gt; 
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Collections.Generic.IEnumerable</span>&lt;<span class="xref">System.String</span>&gt;</td>
+        <td><span class="xref">IEnumerable</span>&lt;<span class="xref">System.String</span>&gt;</td>
         <td></td>
       </tr>
     </tbody>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/master/apiSpec/new?filename=ArmoniK_DevelopmentKit_SymphonyApi_api_ServiceContainerBase_SubmitTasksWithDependencies_System_Collections_Generic_IEnumerable_System_Tuple_System_Byte___System_Collections_Generic_IList_System_String____System_Boolean_.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.SubmitTasksWithDependencies(System.Collections.Generic.IEnumerable%7BSystem.Tuple%7BSystem.Byte%5B%5D%2CSystem.Collections.Generic.IList%7BSystem.String%7D%7D%7D%2CSystem.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/master/apiSpec/new?filename=ArmoniK_DevelopmentKit_SymphonyApi_api_ServiceContainerBase_SubmitTasksWithDependencies_IEnumerable_Tuple_System_Byte___IList_System_String____System_Boolean_.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.SubmitTasksWithDependencies(IEnumerable%7BTuple%7BSystem.Byte%5B%5D%2CIList%7BSystem.String%7D%7D%7D%2CSystem.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/master/SymphonyApi/ArmoniK.DevelopmentKit.SymphonyApi/api/ServiceContainerBase.cs/#L168">View Source</a>
   </span>
   <a id="ArmoniK_DevelopmentKit_SymphonyApi_api_ServiceContainerBase_SubmitTasksWithDependencies_" data-uid="ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.SubmitTasksWithDependencies*"></a>
-  <h4 id="ArmoniK_DevelopmentKit_SymphonyApi_api_ServiceContainerBase_SubmitTasksWithDependencies_System_Collections_Generic_IEnumerable_System_Tuple_System_Byte___System_Collections_Generic_IList_System_String____System_Boolean_" data-uid="ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.SubmitTasksWithDependencies(System.Collections.Generic.IEnumerable{System.Tuple{System.Byte[],System.Collections.Generic.IList{System.String}}},System.Boolean)">SubmitTasksWithDependencies(IEnumerable&lt;Tuple&lt;Byte[], IList&lt;String&gt;&gt;&gt;, Boolean)</h4>
+  <h4 id="ArmoniK_DevelopmentKit_SymphonyApi_api_ServiceContainerBase_SubmitTasksWithDependencies_IEnumerable_Tuple_System_Byte___IList_System_String____System_Boolean_" data-uid="ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.SubmitTasksWithDependencies(IEnumerable{Tuple{System.Byte[],IList{System.String}}},System.Boolean)">SubmitTasksWithDependencies(IEnumerable&lt;Tuple&lt;Byte[], IList&lt;String&gt;&gt;&gt;, Boolean)</h4>
   <div class="markdown level1 summary"><p>The method to submit several tasks with dependencies tasks. This task will wait for
 to start until all dependencies are completed successfully</p>
 </div>
@@ -884,7 +857,7 @@ to start until all dependencies are completed successfully</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Collections.Generic.IEnumerable</span>&lt;<span class="xref">System.Tuple</span>&lt;<span class="xref">System.Byte</span>[], <span class="xref">System.Collections.Generic.IList</span>&lt;<span class="xref">System.String</span>&gt;&gt;&gt;</td>
+        <td><span class="xref">IEnumerable</span>&lt;<span class="xref">Tuple</span>&lt;<span class="xref">System.Byte</span>[], <span class="xref">IList</span>&lt;<span class="xref">System.String</span>&gt;&gt;&gt;</td>
         <td><span class="parametername">payloadWithDependencies</span></td>
         <td><p>A list of Tuple(taskId, Payload) in dependence of those created tasks</p>
 </td>
@@ -907,7 +880,7 @@ to start until all dependencies are completed successfully</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Collections.Generic.IEnumerable</span>&lt;<span class="xref">System.String</span>&gt;</td>
+        <td><span class="xref">IEnumerable</span>&lt;<span class="xref">System.String</span>&gt;</td>
         <td><p>return a list of taskIds of the created tasks</p>
 </td>
       </tr>
@@ -927,8 +900,7 @@ to start until all dependencies are completed successfully</p>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">[Obsolete]
-public void WaitForSubTasksCompletion(string taskId)</code></pre>
+    <pre><code class="lang-csharp hljs">public void WaitForSubTasksCompletion(string taskId)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -962,8 +934,7 @@ public void WaitForSubTasksCompletion(string taskId)</code></pre>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">[Obsolete]
-public void WaitForTaskCompletion(string taskId)</code></pre>
+    <pre><code class="lang-csharp hljs">public void WaitForTaskCompletion(string taskId)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -985,19 +956,18 @@ public void WaitForTaskCompletion(string taskId)</code></pre>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/master/apiSpec/new?filename=ArmoniK_DevelopmentKit_SymphonyApi_api_ServiceContainerBase_WaitForTasksCompletion_System_Collections_Generic_IEnumerable_System_String__.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.WaitForTasksCompletion(System.Collections.Generic.IEnumerable%7BSystem.String%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/master/apiSpec/new?filename=ArmoniK_DevelopmentKit_SymphonyApi_api_ServiceContainerBase_WaitForTasksCompletion_IEnumerable_System_String__.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.WaitForTasksCompletion(IEnumerable%7BSystem.String%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/master/SymphonyApi/ArmoniK.DevelopmentKit.SymphonyApi/api/ServiceContainerBase.cs/#L212">View Source</a>
   </span>
   <a id="ArmoniK_DevelopmentKit_SymphonyApi_api_ServiceContainerBase_WaitForTasksCompletion_" data-uid="ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.WaitForTasksCompletion*"></a>
-  <h4 id="ArmoniK_DevelopmentKit_SymphonyApi_api_ServiceContainerBase_WaitForTasksCompletion_System_Collections_Generic_IEnumerable_System_String__" data-uid="ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.WaitForTasksCompletion(System.Collections.Generic.IEnumerable{System.String})">WaitForTasksCompletion(IEnumerable&lt;String&gt;)</h4>
+  <h4 id="ArmoniK_DevelopmentKit_SymphonyApi_api_ServiceContainerBase_WaitForTasksCompletion_IEnumerable_System_String__" data-uid="ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.WaitForTasksCompletion(IEnumerable{System.String})">WaitForTasksCompletion(IEnumerable&lt;String&gt;)</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">[Obsolete]
-public void WaitForTasksCompletion(IEnumerable&lt;string&gt; taskIds)</code></pre>
+    <pre><code class="lang-csharp hljs">public void WaitForTasksCompletion(IEnumerable&lt;string&gt; taskIds)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -1010,7 +980,7 @@ public void WaitForTasksCompletion(IEnumerable&lt;string&gt; taskIds)</code></pr
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Collections.Generic.IEnumerable</span>&lt;<span class="xref">System.String</span>&gt;</td>
+        <td><span class="xref">IEnumerable</span>&lt;<span class="xref">System.String</span>&gt;</td>
         <td><span class="parametername">taskIds</span></td>
         <td><p>List of tasks to wait for</p>
 </td>
@@ -1025,7 +995,7 @@ public void WaitForTasksCompletion(IEnumerable&lt;string&gt; taskIds)</code></pr
       <a class="xref" href="ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBaseExt.html#ArmoniK_DevelopmentKit_SymphonyApi_api_ServiceContainerBaseExt_SubmitSubTask_ArmoniK_DevelopmentKit_SymphonyApi_api_ServiceContainerBase_System_Byte___System_String_">ServiceContainerBaseExt.SubmitSubTask(ServiceContainerBase, Byte[], String)</a>
   </div>
   <div>
-      <a class="xref" href="ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBaseExt.html#ArmoniK_DevelopmentKit_SymphonyApi_api_ServiceContainerBaseExt_SubmitTaskWithDependencies_ArmoniK_DevelopmentKit_SymphonyApi_api_ServiceContainerBase_System_Byte___System_Collections_Generic_IList_System_String__System_Boolean_">ServiceContainerBaseExt.SubmitTaskWithDependencies(ServiceContainerBase, Byte[], IList&lt;String&gt;, Boolean)</a>
+      <a class="xref" href="ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBaseExt.html#ArmoniK_DevelopmentKit_SymphonyApi_api_ServiceContainerBaseExt_SubmitTaskWithDependencies_ArmoniK_DevelopmentKit_SymphonyApi_api_ServiceContainerBase_System_Byte___IList_System_String__System_Boolean_">ServiceContainerBaseExt.SubmitTaskWithDependencies(ServiceContainerBase, Byte[], IList&lt;String&gt;, Boolean)</a>
   </div>
 </article>
           </div>
