@@ -18,7 +18,7 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Common
                     .SetBasePath(Directory.GetCurrentDirectory())
                     .AddJsonFile("appsettings.json",
                                  true,
-                                 true)
+                                 false)
                     .AddEnvironmentVariables();
 
       return builder.Build();
