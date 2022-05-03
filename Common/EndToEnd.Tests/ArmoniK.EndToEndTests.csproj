@@ -13,6 +13,7 @@
 		<PublishDir>../publish/$(MSBuildProjectName)/$(Version)</PublishDir>
 		<PublishUrl>../publish/$(MSBuildProjectName)/$(Version)</PublishUrl>
     <LangVersion>latest</LangVersion>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
 	</PropertyGroup>
 
 

@@ -150,7 +150,6 @@ namespace ArmoniK.EndToEndTests.Tests.CheckSessionUniqCallback
     /// <returns></returns>
     private static byte[] WaitForTaskResult(SessionService sessionService, string taskId)
     {
-      sessionService.WaitForTaskCompletion(taskId);
       var taskResult = sessionService.GetResult(taskId);
 
       return taskResult;

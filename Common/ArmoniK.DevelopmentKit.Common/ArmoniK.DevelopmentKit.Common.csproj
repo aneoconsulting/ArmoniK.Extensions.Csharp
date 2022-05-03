@@ -63,6 +63,11 @@
   </ItemGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'net472' Or '$(TargetFramework)' == 'net452'">
+
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\StreamWrapper\src\ArmoniK.Extensions.Common.StreamWrapper.csproj" />
   </ItemGroup>
 
   <Target Name="DeleteLocalCache" BeforeTargets="Pack">
