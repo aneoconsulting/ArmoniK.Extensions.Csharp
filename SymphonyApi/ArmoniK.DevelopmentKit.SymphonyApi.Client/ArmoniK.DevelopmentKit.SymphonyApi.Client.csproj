@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net472;net5.0;net6.0</TargetFrameworks>
+    <TargetFrameworks>net472;net48;net5.0;net6.0</TargetFrameworks>
     <Company>ANEO</Company>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <IsPackable>true</IsPackable>
@@ -42,7 +42,7 @@
     <PackageReference Include="Grpc.AspNetCore" Version="2.41.0" />
   </ItemGroup>
 
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net452' Or '$(TargetFramework)' == 'net472'">
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net472' Or '$(TargetFramework)' == 'net48'">
     <PackageReference Include="Grpc.Core" Version="2.41.0" />
   </ItemGroup>
 

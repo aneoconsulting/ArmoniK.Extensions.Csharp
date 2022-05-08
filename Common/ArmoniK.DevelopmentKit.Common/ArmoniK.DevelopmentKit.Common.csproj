@@ -5,7 +5,7 @@
   </PropertyGroup> -->
 
   <PropertyGroup>
-    <TargetFrameworks>net472;net5.0;net6.0</TargetFrameworks>
+    <TargetFrameworks>net472;net48;net5.0;net6.0</TargetFrameworks>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerfileContext>..\..\..\..\..\..\..</DockerfileContext>
     <OutputType>Library</OutputType>
@@ -39,7 +39,7 @@
     <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
     <PackageReference Include="protobuf-net" Version="3.0.101" />
   </ItemGroup>
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net452' ">
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net48' ">
     <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
     <PackageReference Include="protobuf-net" Version="3.0.101" />
   </ItemGroup>
@@ -62,7 +62,7 @@
     <PackageReference Include="protobuf-net" Version="3.0.101" />
   </ItemGroup>
 
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net472' Or '$(TargetFramework)' == 'net452'">
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net472' Or '$(TargetFramework)' == 'net48'">
 
   </ItemGroup>
 

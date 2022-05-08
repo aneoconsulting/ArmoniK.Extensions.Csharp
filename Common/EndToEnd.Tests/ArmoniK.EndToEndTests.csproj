@@ -45,7 +45,7 @@
     <PackageReference Include="Grpc.AspNetCore" Version="2.41.0" />
   </ItemGroup>
 
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net452' Or '$(TargetFramework)' == 'net472'">
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net48' Or '$(TargetFramework)' == 'net472'">
     <PackageReference Include="Grpc.Core" Version="2.41.0" />
   </ItemGroup>
   <!--<ItemGroup>
