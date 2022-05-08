@@ -39,7 +39,6 @@ using Microsoft.Extensions.Logging;
 namespace ArmoniK.EndToEndTests.Tests.CheckMultipleTasks
 {
  
-  [Disabled]
   public class CheckMultipleTasksClient : ClientBaseTest<CheckMultipleTasksClient>
   {
     public CheckMultipleTasksClient(IConfiguration configuration, ILoggerFactory loggerFactory) :

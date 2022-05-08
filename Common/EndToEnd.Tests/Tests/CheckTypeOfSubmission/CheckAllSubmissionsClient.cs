@@ -53,7 +53,6 @@ namespace ArmoniK.EndToEndTests.Tests.CheckTypeOfSubmission
                   .Select(g => g.Select(x => x.item));
     }
   }
-
   public class CheckAllSubmissionsClient : ClientBaseTest<CheckAllSubmissionsClient>
   {
     private enum GetResultType

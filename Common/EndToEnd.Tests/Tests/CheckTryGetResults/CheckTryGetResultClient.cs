@@ -38,7 +38,6 @@ using Microsoft.Extensions.Logging;
 
 namespace ArmoniK.EndToEndTests.Tests.CheckTryGetResults
 {
-  [Disabled]
   [UsedImplicitly]
   public class CheckTryGetResultsClient : ClientBaseTest<CheckTryGetResultsClient>
   {

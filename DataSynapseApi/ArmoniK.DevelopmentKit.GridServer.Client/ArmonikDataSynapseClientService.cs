@@ -32,6 +32,7 @@ using System.Net.Http;
 
 using ArmoniK.Api.gRPC.V1;
 using ArmoniK.DevelopmentKit.Common;
+using ArmoniK.DevelopmentKit.Common.Submitter;
 
 using Google.Protobuf.WellKnownTypes;
 
@@ -100,47 +101,19 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
 
     private void ControlPlaneConnection()
     {
-      //AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport",
-      //                     true);
+      if (ControlPlaneService != null)
+        return;
 
-      var uri  = new Uri(properties_.ConnectionString);
-      var conf = properties_.Configuration;
+
+      var uri = new Uri(properties_.ConnectionString);
       Logger.LogInformation($"Connecting to armoniK  : {uri} port : {uri.Port}");
       Logger.LogInformation($"HTTPS Activated: {uri.Scheme == Uri.UriSchemeHttps}");
 
-
-      var credentials = uri.Scheme == Uri.UriSchemeHttps ? new SslCredentials() : ChannelCredentials.Insecure;
-
-#if NET5_0_OR_GREATER
- HttpClientHandler httpClientHandler = null;
-if (conf != null &&
-          conf.GetSection("Grpc").Exists() &&
-          conf.GetSection("Grpc").GetSection("SSLValidation").Exists() &&
-          conf.GetSection("Grpc")["SSLValidation"] == "disable")
-      {
-        httpClientHandler = new HttpClientHandler()
-        {
-          ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator,
-        };
-      }
-      var channelOptions = new GrpcChannelOptions()
-      {
-        Credentials = uri.Scheme == Uri.UriSchemeHttps ? new SslCredentials() : ChannelCredentials.Insecure,
-        HttpHandler = httpClientHandler,
-        LoggerFactory = LoggerFactory,
-      };
-
-      var channel = GrpcChannel.ForAddress(properties_.ConnectionString,
-                                           channelOptions);
-
-#else
-      Environment.SetEnvironmentVariable("GRPC_DNS_RESOLVER",
-                                         "native");
-
-      var channel = new Channel($"{uri.Host}:{uri.Port}",
-                                credentials);
-#endif
-      ControlPlaneService ??= new Submitter.SubmitterClient(channel);
+      ControlPlaneService = ClientServiceConnector.ControlPlaneConnection(properties_.ConnectionString,
+                                                                          properties_.ClientCertFilePem,
+                                                                          properties_.ClientKeyFilePem,
+                                                                          properties_.ConfSSLValidation,
+                                                                          LoggerFactory);
     }
 
     /// <summary>
