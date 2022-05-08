@@ -36,6 +36,8 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
+using Grpc.Core;
+
 using JetBrains.Annotations;
 
 using TaskStatus = ArmoniK.Api.gRPC.V1.TaskStatus;
@@ -372,30 +374,6 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
                                                      return new byte[] { };
 
                                                    case TaskStatus.Completed:
-
-                                                     ////TODO: Workaround Waiting for a simple error from TryGetResultAsync
-
-                                                     //var availabilityReply = ControlPlaneService.WaitForAvailability(new ResultRequest()
-                                                     //                                                                {
-                                                     //                                                                  Key     = taskId,
-                                                     //                                                                  Session = SessionId.Id,
-                                                     //                                                                },
-                                                     //                                                                cancellationToken: cancellationToken);
-                                                     //switch (availabilityReply.TypeCase)
-                                                     //{
-                                                     //  case AvailabilityReply.TypeOneofCase.None:
-                                                     //    throw new Exception("Issue with Server !");
-                                                     //  case AvailabilityReply.TypeOneofCase.Ok:
-                                                     //    break;
-                                                     //  case AvailabilityReply.TypeOneofCase.Error:
-                                                     //    throw new Exception(
-                                                     //      $"Task in Error - {taskId}\nMessage :\n{string.Join("Inner message:\n", availabilityReply.Error.Error)}");
-                                                     //  case AvailabilityReply.TypeOneofCase.NotCompletedTask:
-                                                     //    throw new DataException($"Task {taskId} was not yet completed");
-                                                     //  default:
-                                                     //    throw new ArgumentOutOfRangeException();
-                                                     //}
-
                                                      break;
 
                                                    case TaskStatus.Timeout:
@@ -428,9 +406,13 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
 
                                                  
                                                }
-                                               catch (Exception ex)
+                                               catch (AggregateException ex)
                                                {
-                                                 throw ex;
+                                                 if (ex.InnerException is RpcException { StatusCode: StatusCode.NotFound })
+                                                 {
+                                                   return new byte[] { };
+                                                 }
+                                                 throw;
                                                }
 
                                                if (!checkOutput) return response.Result;

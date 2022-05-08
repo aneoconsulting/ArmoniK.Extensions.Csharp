@@ -56,7 +56,7 @@ namespace ArmoniK.EndToEndTests.Tests.CheckTypeOfSubmission
 
   public class CheckAllSubmissionsClient : ClientBaseTest<CheckAllSubmissionsClient>
   {
-    private protected enum GetResultType
+    private enum GetResultType
     {
       GetResult,
       TryGetResult,
@@ -105,7 +105,7 @@ namespace ArmoniK.EndToEndTests.Tests.CheckTypeOfSubmission
 
       SubmissionTask(sessionService,
                      1000,
-                     1,
+                     0,
                      SubmissionType.Batch,
                      GetResultType.TryGetResult);
 
@@ -115,11 +115,11 @@ namespace ArmoniK.EndToEndTests.Tests.CheckTypeOfSubmission
       //               SubmissionType.Batch,
       //               GetResultType.TryGetResult);
 
-      SubmissionTask(sessionService,
-                     10000,
-                     0,
-                     SubmissionType.Batch,
-                     GetResultType.TryGetResult);
+      //SubmissionTask(sessionService,
+      //               10000,
+      //               0,
+      //               SubmissionType.Batch,
+      //               GetResultType.TryGetResult);
 
       //SubmissionTask(sessionService,
       //               100000,

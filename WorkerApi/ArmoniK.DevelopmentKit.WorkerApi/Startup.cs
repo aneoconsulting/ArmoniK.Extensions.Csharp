@@ -42,9 +42,9 @@ namespace ArmoniK.DevelopmentKit.WorkerApi
                     .SetBasePath(Directory.GetCurrentDirectory())
                     .AddJsonFile("appsettings.json",
                                  true,
-                                 true)
+                                 false)
                     .AddJsonFile($"appsettings.{env.EnvironmentName}.json",
-                                 true)
+                                 true, false)
                     .AddEnvironmentVariables();
 
       Configuration = builder.Build();
