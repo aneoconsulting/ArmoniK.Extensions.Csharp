@@ -73,7 +73,13 @@
   
   <h1 id="ArmoniK_DevelopmentKit_GridServer_Client_Properties" data-uid="ArmoniK.DevelopmentKit.GridServer.Client.Properties" class="text-break">Class Properties
   </h1>
-  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 summary"><p>The properties class to set all configuration of the service</p>
+<ol>
+<li>The connection information</li>
+<li>The Option configuration AppSettings
+The ssl mTLS certificate if needed to connect to the control plane</li>
+</ol>
+</div>
   <div class="markdown level0 conceptual"></div>
   <div class="inheritance">
     <h5>Inheritance</h5>
@@ -114,18 +120,19 @@
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/master/apiSpec/new?filename=ArmoniK_DevelopmentKit_GridServer_Client_Properties__ctor_IConfiguration_TaskOptions_System_String_System_Int32_System_String_.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.GridServer.Client.Properties.%23ctor(IConfiguration%2CTaskOptions%2CSystem.String%2CSystem.Int32%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/master/apiSpec/new?filename=ArmoniK_DevelopmentKit_GridServer_Client_Properties__ctor_IConfiguration_TaskOptions_System_String_System_Int32_System_String_System_String_System_String_System_Boolean_.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.GridServer.Client.Properties.%23ctor(IConfiguration%2CTaskOptions%2CSystem.String%2CSystem.Int32%2CSystem.String%2CSystem.String%2CSystem.String%2CSystem.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/master/DataSynapseApi/ArmoniK.DevelopmentKit.GridServer.Client/Properties.cs/#L60">View Source</a>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/master/DataSynapseApi/ArmoniK.DevelopmentKit.GridServer.Client/Properties.cs/#L98">View Source</a>
   </span>
   <a id="ArmoniK_DevelopmentKit_GridServer_Client_Properties__ctor_" data-uid="ArmoniK.DevelopmentKit.GridServer.Client.Properties.#ctor*"></a>
-  <h4 id="ArmoniK_DevelopmentKit_GridServer_Client_Properties__ctor_IConfiguration_TaskOptions_System_String_System_Int32_System_String_" data-uid="ArmoniK.DevelopmentKit.GridServer.Client.Properties.#ctor(IConfiguration,TaskOptions,System.String,System.Int32,System.String)">Properties(IConfiguration, TaskOptions, String, Int32, String)</h4>
-  <div class="markdown level1 summary"></div>
+  <h4 id="ArmoniK_DevelopmentKit_GridServer_Client_Properties__ctor_IConfiguration_TaskOptions_System_String_System_Int32_System_String_System_String_System_String_System_Boolean_" data-uid="ArmoniK.DevelopmentKit.GridServer.Client.Properties.#ctor(IConfiguration,TaskOptions,System.String,System.Int32,System.String,System.String,System.String,System.Boolean)">Properties(IConfiguration, TaskOptions, String, Int32, String, String, String, Boolean)</h4>
+  <div class="markdown level1 summary"><p>The constructor to instantiate Properties object</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Properties(IConfiguration configuration, TaskOptions options, string connectionAddress = null, int connectionPort = 0, string protocol = null)</code></pre>
+    <pre><code class="lang-csharp hljs">public Properties(IConfiguration configuration, TaskOptions options, string connectionAddress = null, int connectionPort = 0, string protocol = null, string clientCertFilePem = null, string clientKeyFilePem = null, bool sslValidation = true)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -140,44 +147,83 @@
       <tr>
         <td><span class="xref">IConfiguration</span></td>
         <td><span class="parametername">configuration</span></td>
-        <td></td>
+        <td><p>The configuration to read information from AppSettings file</p>
+</td>
       </tr>
       <tr>
         <td><span class="xref">TaskOptions</span></td>
         <td><span class="parametername">options</span></td>
-        <td></td>
+        <td><p>The taskOptions to set to a session</p>
+</td>
       </tr>
       <tr>
         <td><span class="xref">System.String</span></td>
         <td><span class="parametername">connectionAddress</span></td>
-        <td></td>
+        <td><p>The control plane address to connect</p>
+</td>
       </tr>
       <tr>
         <td><span class="xref">System.Int32</span></td>
         <td><span class="parametername">connectionPort</span></td>
-        <td></td>
+        <td><p>The optional port to connect to the control plane</p>
+</td>
       </tr>
       <tr>
         <td><span class="xref">System.String</span></td>
         <td><span class="parametername">protocol</span></td>
+        <td><p>the protocol https or http</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">clientCertFilePem</span></td>
+        <td><p>The client certificate fil in a pem format</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">clientKeyFilePem</span></td>
+        <td><p>The client key file in a pem format</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">sslValidation</span></td>
+        <td><p>Disable the ssl strong validation of ssl certificate (default : enable =&gt; true)</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.ArgumentException</span></td>
         <td></td>
       </tr>
     </tbody>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/master/apiSpec/new?filename=ArmoniK_DevelopmentKit_GridServer_Client_Properties__ctor_TaskOptions_System_String_System_Int32_System_String_.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.GridServer.Client.Properties.%23ctor(TaskOptions%2CSystem.String%2CSystem.Int32%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/master/apiSpec/new?filename=ArmoniK_DevelopmentKit_GridServer_Client_Properties__ctor_TaskOptions_System_String_System_Int32_System_String_System_String_System_String_System_Boolean_.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.GridServer.Client.Properties.%23ctor(TaskOptions%2CSystem.String%2CSystem.Int32%2CSystem.String%2CSystem.String%2CSystem.String%2CSystem.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/master/DataSynapseApi/ArmoniK.DevelopmentKit.GridServer.Client/Properties.cs/#L49">View Source</a>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/master/DataSynapseApi/ArmoniK.DevelopmentKit.GridServer.Client/Properties.cs/#L69">View Source</a>
   </span>
   <a id="ArmoniK_DevelopmentKit_GridServer_Client_Properties__ctor_" data-uid="ArmoniK.DevelopmentKit.GridServer.Client.Properties.#ctor*"></a>
-  <h4 id="ArmoniK_DevelopmentKit_GridServer_Client_Properties__ctor_TaskOptions_System_String_System_Int32_System_String_" data-uid="ArmoniK.DevelopmentKit.GridServer.Client.Properties.#ctor(TaskOptions,System.String,System.Int32,System.String)">Properties(TaskOptions, String, Int32, String)</h4>
-  <div class="markdown level1 summary"></div>
+  <h4 id="ArmoniK_DevelopmentKit_GridServer_Client_Properties__ctor_TaskOptions_System_String_System_Int32_System_String_System_String_System_String_System_Boolean_" data-uid="ArmoniK.DevelopmentKit.GridServer.Client.Properties.#ctor(TaskOptions,System.String,System.Int32,System.String,System.String,System.String,System.Boolean)">Properties(TaskOptions, String, Int32, String, String, String, Boolean)</h4>
+  <div class="markdown level1 summary"><p>The constructor to instantiate Properties object</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Properties(TaskOptions options, string connectionAddress = null, int connectionPort = 0, string protocol = null)</code></pre>
+    <pre><code class="lang-csharp hljs">public Properties(TaskOptions options, string connectionAddress, int connectionPort = 0, string protocol = null, string clientCertPem = null, string clientKeyPem = null, bool sslValidation = true)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -192,22 +238,44 @@
       <tr>
         <td><span class="xref">TaskOptions</span></td>
         <td><span class="parametername">options</span></td>
-        <td></td>
+        <td><p>The taskOptions to set to a session</p>
+</td>
       </tr>
       <tr>
         <td><span class="xref">System.String</span></td>
         <td><span class="parametername">connectionAddress</span></td>
-        <td></td>
+        <td><p>The control plane address to connect</p>
+</td>
       </tr>
       <tr>
         <td><span class="xref">System.Int32</span></td>
         <td><span class="parametername">connectionPort</span></td>
-        <td></td>
+        <td><p>The optional port to connect to the control plane</p>
+</td>
       </tr>
       <tr>
         <td><span class="xref">System.String</span></td>
         <td><span class="parametername">protocol</span></td>
-        <td></td>
+        <td><p>the protocol https or http</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">clientCertPem</span></td>
+        <td><p>The client certificate fil in a pem format</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">clientKeyPem</span></td>
+        <td><p>The client key file in a pem format</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">sslValidation</span></td>
+        <td><p>Disable the ssl strong validation of ssl certificate (default : enable =&gt; true)</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -218,10 +286,11 @@
     <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/master/apiSpec/new?filename=ArmoniK_DevelopmentKit_GridServer_Client_Properties_DefaultTaskOptions.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.GridServer.Client.Properties.DefaultTaskOptions%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/master/DataSynapseApi/ArmoniK.DevelopmentKit.GridServer.Client/Properties.cs/#L99">View Source</a>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/master/DataSynapseApi/ArmoniK.DevelopmentKit.GridServer.Client/Properties.cs/#L162">View Source</a>
   </span>
   <h4 id="ArmoniK_DevelopmentKit_GridServer_Client_Properties_DefaultTaskOptions" data-uid="ArmoniK.DevelopmentKit.GridServer.Client.Properties.DefaultTaskOptions">DefaultTaskOptions</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>The default configuration to submit task in a Session</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -246,18 +315,81 @@
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/master/apiSpec/new?filename=ArmoniK_DevelopmentKit_GridServer_Client_Properties_Configuration.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.GridServer.Client.Properties.Configuration%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/master/apiSpec/new?filename=ArmoniK_DevelopmentKit_GridServer_Client_Properties_ClientCertFilePem.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.GridServer.Client.Properties.ClientCertFilePem%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/master/DataSynapseApi/ArmoniK.DevelopmentKit.GridServer.Client/Properties.cs/#L97">View Source</a>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/master/DataSynapseApi/ArmoniK.DevelopmentKit.GridServer.Client/Properties.cs/#L142">View Source</a>
   </span>
-  <a id="ArmoniK_DevelopmentKit_GridServer_Client_Properties_Configuration_" data-uid="ArmoniK.DevelopmentKit.GridServer.Client.Properties.Configuration*"></a>
-  <h4 id="ArmoniK_DevelopmentKit_GridServer_Client_Properties_Configuration" data-uid="ArmoniK.DevelopmentKit.GridServer.Client.Properties.Configuration">Configuration</h4>
-  <div class="markdown level1 summary"></div>
+  <a id="ArmoniK_DevelopmentKit_GridServer_Client_Properties_ClientCertFilePem_" data-uid="ArmoniK.DevelopmentKit.GridServer.Client.Properties.ClientCertFilePem*"></a>
+  <h4 id="ArmoniK_DevelopmentKit_GridServer_Client_Properties_ClientCertFilePem" data-uid="ArmoniK.DevelopmentKit.GridServer.Client.Properties.ClientCertFilePem">ClientCertFilePem</h4>
+  <div class="markdown level1 summary"><p>The property to get the path of the certificate file</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public IConfiguration Configuration { get; set; }</code></pre>
+    <pre><code class="lang-csharp hljs">public string ClientCertFilePem { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/master/apiSpec/new?filename=ArmoniK_DevelopmentKit_GridServer_Client_Properties_ClientKeyFilePem.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.GridServer.Client.Properties.ClientKeyFilePem%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/master/DataSynapseApi/ArmoniK.DevelopmentKit.GridServer.Client/Properties.cs/#L147">View Source</a>
+  </span>
+  <a id="ArmoniK_DevelopmentKit_GridServer_Client_Properties_ClientKeyFilePem_" data-uid="ArmoniK.DevelopmentKit.GridServer.Client.Properties.ClientKeyFilePem*"></a>
+  <h4 id="ArmoniK_DevelopmentKit_GridServer_Client_Properties_ClientKeyFilePem" data-uid="ArmoniK.DevelopmentKit.GridServer.Client.Properties.ClientKeyFilePem">ClientKeyFilePem</h4>
+  <div class="markdown level1 summary"><p>the property to get the path of the key certificate</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string ClientKeyFilePem { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/master/apiSpec/new?filename=ArmoniK_DevelopmentKit_GridServer_Client_Properties_Configuration.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.GridServer.Client.Properties.Configuration%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/master/DataSynapseApi/ArmoniK.DevelopmentKit.GridServer.Client/Properties.cs/#L157">View Source</a>
+  </span>
+  <a id="ArmoniK_DevelopmentKit_GridServer_Client_Properties_Configuration_" data-uid="ArmoniK.DevelopmentKit.GridServer.Client.Properties.Configuration*"></a>
+  <h4 id="ArmoniK_DevelopmentKit_GridServer_Client_Properties_Configuration" data-uid="ArmoniK.DevelopmentKit.GridServer.Client.Properties.Configuration">Configuration</h4>
+  <div class="markdown level1 summary"><p>The configuration property to give to the ClientService connector</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public IConfiguration Configuration { get; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -276,14 +408,46 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/master/apiSpec/new?filename=ArmoniK_DevelopmentKit_GridServer_Client_Properties_ConfSSLValidation.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.GridServer.Client.Properties.ConfSSLValidation%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/master/DataSynapseApi/ArmoniK.DevelopmentKit.GridServer.Client/Properties.cs/#L152">View Source</a>
+  </span>
+  <a id="ArmoniK_DevelopmentKit_GridServer_Client_Properties_ConfSSLValidation_" data-uid="ArmoniK.DevelopmentKit.GridServer.Client.Properties.ConfSSLValidation*"></a>
+  <h4 id="ArmoniK_DevelopmentKit_GridServer_Client_Properties_ConfSSLValidation" data-uid="ArmoniK.DevelopmentKit.GridServer.Client.Properties.ConfSSLValidation">ConfSSLValidation</h4>
+  <div class="markdown level1 summary"><p>The SSL validation property to disable SSL strong verification</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool ConfSSLValidation { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
     <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/master/apiSpec/new?filename=ArmoniK_DevelopmentKit_GridServer_Client_Properties_ConnectionAddress.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.GridServer.Client.Properties.ConnectionAddress%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/master/DataSynapseApi/ArmoniK.DevelopmentKit.GridServer.Client/Properties.cs/#L133">View Source</a>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/master/DataSynapseApi/ArmoniK.DevelopmentKit.GridServer.Client/Properties.cs/#L202">View Source</a>
   </span>
   <a id="ArmoniK_DevelopmentKit_GridServer_Client_Properties_ConnectionAddress_" data-uid="ArmoniK.DevelopmentKit.GridServer.Client.Properties.ConnectionAddress*"></a>
   <h4 id="ArmoniK_DevelopmentKit_GridServer_Client_Properties_ConnectionAddress" data-uid="ArmoniK.DevelopmentKit.GridServer.Client.Properties.ConnectionAddress">ConnectionAddress</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>The connection address property to connect to the control plane</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -309,11 +473,12 @@
     <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/master/apiSpec/new?filename=ArmoniK_DevelopmentKit_GridServer_Client_Properties_ConnectionPort.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.GridServer.Client.Properties.ConnectionPort%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/master/DataSynapseApi/ArmoniK.DevelopmentKit.GridServer.Client/Properties.cs/#L135">View Source</a>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/master/DataSynapseApi/ArmoniK.DevelopmentKit.GridServer.Client/Properties.cs/#L207">View Source</a>
   </span>
   <a id="ArmoniK_DevelopmentKit_GridServer_Client_Properties_ConnectionPort_" data-uid="ArmoniK.DevelopmentKit.GridServer.Client.Properties.ConnectionPort*"></a>
   <h4 id="ArmoniK_DevelopmentKit_GridServer_Client_Properties_ConnectionPort" data-uid="ArmoniK.DevelopmentKit.GridServer.Client.Properties.ConnectionPort">ConnectionPort</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>The option connection port to connect to control plane (Default : 5001)</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -339,7 +504,7 @@
     <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/master/apiSpec/new?filename=ArmoniK_DevelopmentKit_GridServer_Client_Properties_ConnectionString.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.GridServer.Client.Properties.ConnectionString%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/master/DataSynapseApi/ArmoniK.DevelopmentKit.GridServer.Client/Properties.cs/#L109">View Source</a>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/master/DataSynapseApi/ArmoniK.DevelopmentKit.GridServer.Client/Properties.cs/#L172">View Source</a>
   </span>
   <a id="ArmoniK_DevelopmentKit_GridServer_Client_Properties_ConnectionString_" data-uid="ArmoniK.DevelopmentKit.GridServer.Client.Properties.ConnectionString*"></a>
   <h4 id="ArmoniK_DevelopmentKit_GridServer_Client_Properties_ConnectionString" data-uid="ArmoniK.DevelopmentKit.GridServer.Client.Properties.ConnectionString">ConnectionString</h4>
@@ -369,11 +534,12 @@
     <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/master/apiSpec/new?filename=ArmoniK_DevelopmentKit_GridServer_Client_Properties_ControlPlaneUri.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.GridServer.Client.Properties.ControlPlaneUri%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/master/DataSynapseApi/ArmoniK.DevelopmentKit.GridServer.Client/Properties.cs/#L40">View Source</a>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/master/DataSynapseApi/ArmoniK.DevelopmentKit.GridServer.Client/Properties.cs/#L48">View Source</a>
   </span>
   <a id="ArmoniK_DevelopmentKit_GridServer_Client_Properties_ControlPlaneUri_" data-uid="ArmoniK.DevelopmentKit.GridServer.Client.Properties.ControlPlaneUri*"></a>
   <h4 id="ArmoniK_DevelopmentKit_GridServer_Client_Properties_ControlPlaneUri" data-uid="ArmoniK.DevelopmentKit.GridServer.Client.Properties.ControlPlaneUri">ControlPlaneUri</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>The control plane url to connect</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -399,11 +565,12 @@
     <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/master/apiSpec/new?filename=ArmoniK_DevelopmentKit_GridServer_Client_Properties_Protocol.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.GridServer.Client.Properties.Protocol%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/master/DataSynapseApi/ArmoniK.DevelopmentKit.GridServer.Client/Properties.cs/#L131">View Source</a>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/master/DataSynapseApi/ArmoniK.DevelopmentKit.GridServer.Client/Properties.cs/#L197">View Source</a>
   </span>
   <a id="ArmoniK_DevelopmentKit_GridServer_Client_Properties_Protocol_" data-uid="ArmoniK.DevelopmentKit.GridServer.Client.Properties.Protocol*"></a>
   <h4 id="ArmoniK_DevelopmentKit_GridServer_Client_Properties_Protocol" data-uid="ArmoniK.DevelopmentKit.GridServer.Client.Properties.Protocol">Protocol</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Secure or insecure protocol communication https or http (Default http)</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -429,11 +596,12 @@
     <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/master/apiSpec/new?filename=ArmoniK_DevelopmentKit_GridServer_Client_Properties_TaskOptions.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.GridServer.Client.Properties.TaskOptions%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/master/DataSynapseApi/ArmoniK.DevelopmentKit.GridServer.Client/Properties.cs/#L137">View Source</a>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/master/DataSynapseApi/ArmoniK.DevelopmentKit.GridServer.Client/Properties.cs/#L212">View Source</a>
   </span>
   <a id="ArmoniK_DevelopmentKit_GridServer_Client_Properties_TaskOptions_" data-uid="ArmoniK.DevelopmentKit.GridServer.Client.Properties.TaskOptions*"></a>
   <h4 id="ArmoniK_DevelopmentKit_GridServer_Client_Properties_TaskOptions" data-uid="ArmoniK.DevelopmentKit.GridServer.Client.Properties.TaskOptions">TaskOptions</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>The TaskOptions to pass to the session or the submission session</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -465,7 +633,7 @@
                     <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/master/apiSpec/new?filename=ArmoniK_DevelopmentKit_GridServer_Client_Properties.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.GridServer.Client.Properties%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/master/DataSynapseApi/ArmoniK.DevelopmentKit.GridServer.Client/Properties.cs/#L37" class="contribution-link">View Source</a>
+                    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/master/DataSynapseApi/ArmoniK.DevelopmentKit.GridServer.Client/Properties.cs/#L42" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>
