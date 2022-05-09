@@ -57,6 +57,7 @@ namespace ArmoniK.EndToEndTests.Common
     public int SingleInput { get; set; }
 
     public string Message { get; set; }
+    public int NbSubTasks { get; set; }
 
     public byte[] Serialize()
     {

@@ -44,7 +44,7 @@ namespace ArmoniK.DevelopmentKit.WorkerApi
                                  true,
                                  false)
                     .AddJsonFile($"appsettings.{env.EnvironmentName}.json",
-                                 false)
+                                 true, false)
                     .AddEnvironmentVariables();
 
       Configuration = builder.Build();

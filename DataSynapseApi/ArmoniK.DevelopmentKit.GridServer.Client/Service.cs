@@ -136,7 +136,6 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
 
       string taskId = SessionService.SubmitTask(dataSynapsePayload.Serialize());
 
-      SessionService.WaitForTaskCompletion(taskId);
       var result = ProtoSerializer.DeSerializeMessageObjectArray(SessionService.GetResult(taskId));
 
       return new ServiceResult()
@@ -165,7 +164,6 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
 
       var taskId = SessionService.SubmitTask(dataSynapsePayload.Serialize());
 
-      SessionService.WaitForTaskCompletion(taskId);
       var result = ProtoSerializer.DeSerializeMessageObjectArray(SessionService.GetResult(taskId));
 
       return new ServiceResult()

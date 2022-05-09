@@ -22,6 +22,7 @@
 // limitations under the License.
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -36,8 +37,8 @@ namespace ArmoniK.DevelopmentKit.Common;
 
 public static class LoggerExt
 {
-  public static IDisposable BeginNamedScope(this ILogger logger,
-                                            string name,
+  public static IDisposable BeginNamedScope(this ILogger                        logger,
+                                            string                              name,
                                             params ValueTuple<string, object>[] properties)
   {
     var dictionary = properties.ToDictionary(p => p.Item1,
@@ -46,7 +47,7 @@ public static class LoggerExt
     return logger.BeginScope(dictionary);
   }
 
-  public static IDisposable BeginPropertyScope(this ILogger logger,
+  public static IDisposable BeginPropertyScope(this   ILogger                      logger,
                                                params ValueTuple<string, object>[] properties)
   {
     var dictionary = properties.ToDictionary(p => p.Item1,
@@ -54,24 +55,46 @@ public static class LoggerExt
     return logger.BeginScope(dictionary);
   }
 
-  public static IDisposable LogFunction(this ILogger logger,
-                                        string id = "",
-                                        LogLevel level = LogLevel.Trace,
-                                        [CallerMemberName] string functionName = "")
+  public static IDisposable LogFunction(this ILogger              logger,
+                                        string                    id            = "",
+                                        LogLevel                  level         = LogLevel.Trace,
+                                        [CallerMemberName] string functionName  = "",
+                                        [CallerFilePath]   string classFilePath = "",
+                                        [CallerLineNumber] int    line          = 0)
   {
-    var methodInfo = new StackTrace().GetFrame(1)?.GetMethod();
-    var className = methodInfo?.ReflectedType?.Name;
+    if (!logger.IsEnabled(level))
+    {
+      return Disposable.Create(() => { });
+    }
+
+    var properties = new List<ValueTuple<string, object>>
+    {
+      (nameof(functionName), functionName),
+      (nameof(classFilePath), classFilePath),
+      (nameof(line), line),
+    };
+    if (!string.IsNullOrEmpty(id))
+    {
+      properties.Add(("Id", id));
+    }
+
+    var scope = logger.BeginNamedScope($"{classFilePath}.{functionName}",
+                                       properties.ToArray());
 
     logger.Log(level,
-               "Entering {className}.{functionName} - {id}",
-               className,
+               "Entering {classFilePath}.{functionName} - {Id}",
+               classFilePath,
                functionName,
                id);
 
-    return Disposable.Create(() => logger.Log(level,
-                                              "Leaving {className}.{functionName} - {id}",
-                                              className,
-                                              functionName,
-                                              id));
+    return Disposable.Create(() =>
+    {
+      logger.Log(level,
+                 "Leaving {classFilePath}.{functionName} - {Id}",
+                 classFilePath,
+                 functionName,
+                 id);
+      scope.Dispose();
+    });
   }
 }

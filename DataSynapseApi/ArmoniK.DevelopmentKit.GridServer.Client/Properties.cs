@@ -30,50 +30,92 @@ using Microsoft.Extensions.Configuration;
 
 using System;
 
-#pragma warning disable CS1591
 
 namespace ArmoniK.DevelopmentKit.GridServer.Client
 {
+  /// <summary>
+  /// The properties class to set all configuration of the service
+  /// 1. The connection information
+  /// 2. The Option configuration AppSettings
+  /// The ssl mTLS certificate if needed to connect to the control plane
+  /// </summary>
   [MarkDownDoc]
   public class Properties
   {
+    /// <summary>
+    /// The control plane url to connect
+    /// </summary>
     public Uri ControlPlaneUri { get; set; }
 
     /// <summary>
     /// Returns the section key Grpc from appSettings.json
     /// </summary>
-    private static string SectionControlPlan { get; } = "Grpc";
+    private static string SectionGrpc { get; } = "Grpc";
 
-    private static string SectionEndPoint { get; } = "Endpoint";
+    private static string SectionEndPoint { get; } = "EndPoint";
+    private static string SectionSSlValidation { get; } = "SSLValidation";
 
+
+    /// <summary>
+    /// The constructor to instantiate Properties object
+    /// </summary>
+    /// <param name="options">The taskOptions to set to a session</param>
+    /// <param name="connectionAddress">The control plane address to connect</param>
+    /// <param name="connectionPort">The optional port to connect to the control plane</param>
+    /// <param name="protocol">the protocol https or http</param>
+    /// <param name="clientCertPem">The client certificate fil in a pem format</param>
+    /// <param name="clientKeyPem">The client key file in a pem format</param>
+    /// <param name="sslValidation">Disable the ssl strong validation of ssl certificate (default : enable => true)</param>
     public Properties(TaskOptions options,
-                      string      connectionAddress = null,
-                      int         connectionPort    = 0,
-                      string      protocol          = null) : this(new ConfigurationBuilder().Build(),
-                                                                   options,
-                                                                   connectionAddress,
-                                                                   connectionPort,
-                                                                   protocol)
+                      string      connectionAddress,
+                      int         connectionPort = 0,
+                      string      protocol       = null,
+                      string      clientCertPem  = null,
+                      string      clientKeyPem   = null,
+                      bool        sslValidation  = true) : this(new ConfigurationBuilder().Build(),
+                                                                options,
+                                                                connectionAddress,
+                                                                connectionPort,
+                                                                protocol,
+                                                                clientCertPem,
+                                                                clientKeyPem,
+                                                                sslValidation)
     {
     }
 
+    /// <summary>
+    /// The constructor to instantiate Properties object
+    /// </summary>
+    /// <param name="configuration">The configuration to read information from AppSettings file</param>
+    /// <param name="options">The taskOptions to set to a session</param>
+    /// <param name="connectionAddress">The control plane address to connect</param>
+    /// <param name="connectionPort">The optional port to connect to the control plane</param>
+    /// <param name="protocol">the protocol https or http</param>
+    /// <param name="clientCertFilePem">The client certificate fil in a pem format</param>
+    /// <param name="clientKeyFilePem">The client key file in a pem format</param>
+    /// <param name="sslValidation">Disable the ssl strong validation of ssl certificate (default : enable => true)</param>
+    /// <exception cref="ArgumentException"></exception>
     public Properties(IConfiguration configuration,
                       TaskOptions    options,
                       string         connectionAddress = null,
                       int            connectionPort    = 0,
-                      string         protocol          = null)
+                      string         protocol          = null,
+                      string         clientCertFilePem = null,
+                      string         clientKeyFilePem  = null,
+                      bool           sslValidation     = true
+    )
     {
       TaskOptions   = options;
       Configuration = configuration;
 
-      try
-      {
-        ConnectionString = configuration.GetSection(SectionControlPlan)[SectionEndPoint];
-      }
-      catch (Exception)
-      {
-        ConnectionString = $"err://NoEndPoint:0";
-      }
+      var sectionGrpc  = configuration.GetSection(SectionGrpc).Exists() ? configuration.GetSection(SectionGrpc) : null;
+      ConnectionString = sectionGrpc!.GetSection(SectionEndPoint).Exists() ? sectionGrpc![SectionEndPoint] : null;
+      ConfSSLValidation = !sectionGrpc!.GetSection(SectionSSlValidation).Exists() || sectionGrpc![SectionSSlValidation] != "disable";
+
+      ConfSSLValidation = sslValidation && ConfSSLValidation;
+
+      ClientCertFilePem = clientCertFilePem;
+      ClientKeyFilePem  = clientKeyFilePem;
 
       if (connectionAddress != null)
       {
@@ -94,15 +136,36 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
       ControlPlaneUri = new Uri(ConnectionString);
     }
 
-    public IConfiguration Configuration { get; set; }
+    /// <summary>
+    /// The property to get the path of the certificate file
+    /// </summary>
+    public string ClientCertFilePem { get; private set; }
 
+    /// <summary>
+    /// the property to get the path of the key certificate
+    /// </summary>
+    public string ClientKeyFilePem { get; private set; }
+
+    /// <summary>
+    /// The SSL validation property to disable SSL strong verification
+    /// </summary>
+    public bool ConfSSLValidation { get; private set; }
+
+    /// <summary>
+    /// The configuration property to give to the ClientService connector
+    /// </summary>
+    public IConfiguration Configuration { get; private set; }
+
+    /// <summary>
+    /// The default configuration to submit task in a Session
+    /// </summary>
     public static TaskOptions DefaultTaskOptions = new()
     {
       MaxDuration = new Duration
       {
-        Seconds = 300,
+        Seconds = 300000,
       },
-      MaxRetries = 5,
+      MaxRetries = 3,
       Priority   = 1,
     };
 
@@ -128,12 +191,24 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
       }
     }
 
+    /// <summary>
+    /// Secure or insecure protocol communication https or http (Default http)
+    /// </summary>
     public string Protocol { get; set; } = "http";
 
+    /// <summary>
+    /// The connection address property to connect to the control plane
+    /// </summary>
     public string ConnectionAddress { get; set; }
 
+    /// <summary>
+    /// The option connection port to connect to control plane (Default : 5001)
+    /// </summary>
     public int ConnectionPort { get; set; } = 5001;
 
+    /// <summary>
+    /// The TaskOptions to pass to the session or the submission session
+    /// </summary>
     public TaskOptions TaskOptions { get; set; }
   }
 }

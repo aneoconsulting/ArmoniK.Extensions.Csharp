@@ -288,7 +288,10 @@ namespace ArmoniK.Extensions.Common.StreamWrapper.Client
           case ResultReply.TypeOneofCase.None:
             return new byte[] { };
           case ResultReply.TypeOneofCase.Error:
-            throw new Exception($"Error in task {reply.Error.TaskId}");
+            if (reply.Error.Error.Count > 0 && reply.Error.Error[0].Detail.Contains("ResultNotFound"))
+              return new byte[] { };
+            var msg = reply.Error.Error.Count > 0 ? reply.Error.Error[0].Detail : "No more message from server";
+            throw new Exception($"Error in task {reply.Error.TaskId} : message {msg}");
           case ResultReply.TypeOneofCase.NotCompletedTask:
             return new byte[] { };
           default:

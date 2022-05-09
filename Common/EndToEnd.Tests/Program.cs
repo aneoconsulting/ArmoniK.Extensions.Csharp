@@ -53,18 +53,22 @@ namespace ArmoniK.EndToEndTests
       var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory())
                                               .AddJsonFile("appsettings.json",
                                                            true,
-                                                           true)
+                                                           false)
                                               .AddEnvironmentVariables();
 
       Configuration = builder.Build();
 
       LoggerFactory = new LoggerFactory(new[]
-      {
-        new SerilogLoggerProvider(new LoggerConfiguration()
-                                  .ReadFrom
-                                  .Configuration(Configuration)
-                                  .CreateLogger())
-      });
+                                        {
+                                          new SerilogLoggerProvider(new LoggerConfiguration()
+                                                                    .ReadFrom
+                                                                    .Configuration(Configuration)
+                                                                    .CreateLogger())
+                                        },
+                                        new LoggerFilterOptions().AddFilter("Grpc",
+                                                                            LogLevel.Error));
+       
+      
 
       Logger = LoggerFactory.CreateLogger<Program>();
 

@@ -44,7 +44,7 @@ namespace ArmoniK.EndToEndTests.Common
       var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory())
                                               .AddJsonFile("appsettings.json",
                                                            true,
-                                                           true)
+                                                           false)
                                               .AddEnvironmentVariables();
     }
 
