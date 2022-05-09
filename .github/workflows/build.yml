@@ -147,7 +147,7 @@ jobs:
 
     - name: Push the package
       run: |
-        dotnet nuget push /tmp/packages/ArmoniK.*.nupkg --api-key AzureArtifacts
+        dotnet nuget push /tmp/packages/ArmoniK.*.nupkg --api-key AzureArtifacts --skip-duplicate
 
   buildWorkerEnd2End:
     runs-on: ubuntu-latest

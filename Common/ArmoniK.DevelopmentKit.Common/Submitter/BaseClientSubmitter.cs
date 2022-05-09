@@ -45,14 +45,19 @@ using TaskStatus = ArmoniK.Api.gRPC.V1.TaskStatus;
 namespace ArmoniK.DevelopmentKit.Common.Submitter
 {
   /// <summary>
-  /// 
+  /// Base Object for all Client submitter
+  ///
+  /// Need to pass the child object Class Type
   /// </summary>
   public class BaseClientSubmitter<T>
   {
+    /// <summary>
+    /// Base Object for all Client submitter
+    /// </summary>
+    /// <param name="loggerFactory">the logger factory to pass for root object</param>
     public BaseClientSubmitter(ILoggerFactory loggerFactory)
     {
-      Logger        = loggerFactory.CreateLogger<T>();
-      LoggerFactory = loggerFactory;
+      Logger = loggerFactory.CreateLogger<T>();
     }
 
     /// <summary>
@@ -69,7 +74,9 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
 
 #pragma warning restore CS1591
 
-    protected ILoggerFactory LoggerFactory { get; set; }
+    /// <summary>
+    /// The logger to call the generate log in Seq
+    /// </summary>
 
     protected ILogger<T> Logger { get; set; }
 
@@ -124,8 +131,8 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
     [UsedImplicitly]
     public IEnumerable<string> SubmitTasksWithDependencies(IEnumerable<Tuple<byte[], IList<string>>> payloadsWithDependencies)
     {
-      var tuples           = payloadsWithDependencies as Tuple<byte[], IList<string>>[] ?? payloadsWithDependencies.ToArray();
-      var withDependencies = payloadsWithDependencies as Tuple<byte[], IList<string>>[] ?? tuples.ToArray();
+      var tuples = payloadsWithDependencies as Tuple<byte[], IList<string>>[] ?? payloadsWithDependencies.ToArray();
+
 
       //ReTriggerBuffer();
 
@@ -339,7 +346,6 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
     /// <param name="taskId">The task Id trying to get result</param>
     /// <param name="checkOutput"></param>
     /// <param name="cancellationToken">The optional cancellationToken</param>
-    /// <param name="WaitForResult">Set to true if you want to set up to except when no result is received</param>
     /// <returns>Returns the result or byte[0] if there no result</returns>
     [UsedImplicitly]
     public byte[] TryGetResult(string taskId, bool checkOutput = true, CancellationToken cancellationToken = default)
@@ -384,27 +390,24 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
                                                    case TaskStatus.Unspecified:
                                                      throw new IOException(
                                                        $"Result {taskId} cannot be retrieved. taskStatus is {Enum.GetName(typeof(TaskStatus), status.Status)}");
-                                                   default:
-                                                     break;
                                                  }
                                                }
                                                catch (Exception ex)
                                                {
                                                  Logger.LogWarning($"TaskId {taskId} not yet found");
-                                                 throw new IOException($"{taskId} not yet in DB. Retrying");
+                                                 throw new IOException($"{taskId} not yet in DB. Retrying",
+                                                                       ex);
                                                }
 
                                                Task<byte[]> response;
                                                try
                                                {
                                                  response = ControlPlaneService.TryGetResultAsync(resultRequest,
-                                                                                                      cancellationToken);
+                                                                                                  cancellationToken);
 
 
                                                  if (response.Result != null && response.Result.Length != 0)
                                                    return response.Result;
-
-                                                 
                                                }
                                                catch (AggregateException ex)
                                                {
@@ -419,7 +422,7 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
 
                                                var taskOutput = ControlPlaneService.TryGetTaskOutput(resultRequest,
                                                                                                      cancellationToken: cancellationToken);
-                                               if (taskOutput.Status != ArmoniK.Api.gRPC.V1.TaskStatus.Error)
+                                               if (taskOutput.Status != TaskStatus.Error)
                                                  return response.Result;
 
                                                switch (taskOutput.TypeCase)
@@ -429,8 +432,6 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
                                                    break;
                                                  case Output.TypeOneofCase.Error when !string.IsNullOrEmpty(taskOutput.Error.Details):
                                                    throw new Exception($"Task in Error - {taskId} : {taskOutput.Error.Details}");
-                                                 default:
-                                                   break;
                                                }
 
                                                return response.Result;
@@ -448,11 +449,10 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
     /// <returns>Returns an Enumerable pair of </returns>
     public IEnumerable<Tuple<string, byte[]>> TryGetResults(IEnumerable<string> taskIds)
     {
-      return taskIds.Select((id, idx) =>
+      return taskIds.Select(id =>
       {
         var res = TryGetResult(id,
                                false);
-        
         return res.Length == 0
           ? null
           : new Tuple<string, byte[]>(id,
