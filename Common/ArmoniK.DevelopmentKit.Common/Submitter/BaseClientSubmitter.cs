@@ -77,6 +77,7 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
     /// <summary>
     /// The logger to call the generate log in Seq
     /// </summary>
+
     protected ILogger<T> Logger { get; set; }
 
     /// <summary>
@@ -131,6 +132,7 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
     public IEnumerable<string> SubmitTasksWithDependencies(IEnumerable<Tuple<byte[], IList<string>>> payloadsWithDependencies)
     {
       var tuples = payloadsWithDependencies as Tuple<byte[], IList<string>>[] ?? payloadsWithDependencies.ToArray();
+
 
       //ReTriggerBuffer();
 
@@ -413,7 +415,6 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
                                                  {
                                                    return new byte[] { };
                                                  }
-
                                                  throw;
                                                }
 
@@ -452,7 +453,6 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
       {
         var res = TryGetResult(id,
                                false);
-
         return res.Length == 0
           ? null
           : new Tuple<string, byte[]>(id,
