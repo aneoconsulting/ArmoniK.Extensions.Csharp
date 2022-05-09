@@ -288,34 +288,41 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
                              cancellationToken);
       if (res.Length != 0) return res;
 
-      var availabilityReply = ControlPlaneService.WaitForAvailability(resultRequest,
-                                                                      cancellationToken: cancellationToken);
+      return Retry.WhileException(5,
+                                  200,
+                                  () =>
+                                  {
+                                    var availabilityReply = ControlPlaneService.WaitForAvailability(resultRequest,
+                                                                                                    cancellationToken: cancellationToken);
 
-      switch (availabilityReply.TypeCase)
-      {
-        case AvailabilityReply.TypeOneofCase.None:
-          throw new Exception("Issue with Server !");
-        case AvailabilityReply.TypeOneofCase.Ok:
-          break;
-        case AvailabilityReply.TypeOneofCase.Error:
-          throw new Exception($"Task in Error - {taskId}\nMessage :\n{string.Join("Inner message:\n", availabilityReply.Error.Error)}");
-        case AvailabilityReply.TypeOneofCase.NotCompletedTask:
-          throw new DataException($"Task {taskId} was not yet completed");
-        default:
-          throw new ArgumentOutOfRangeException();
-      }
+                                    switch (availabilityReply.TypeCase)
+                                    {
+                                      case AvailabilityReply.TypeOneofCase.None:
+                                        throw new Exception("Issue with Server !");
+                                      case AvailabilityReply.TypeOneofCase.Ok:
+                                        break;
+                                      case AvailabilityReply.TypeOneofCase.Error:
+                                        throw new Exception($"Task in Error - {taskId}\nMessage :\n{string.Join("Inner message:\n", availabilityReply.Error.Error)}");
+                                      case AvailabilityReply.TypeOneofCase.NotCompletedTask:
+                                        throw new DataException($"Task {taskId} was not yet completed");
+                                      default:
+                                        throw new ArgumentOutOfRangeException();
+                                    }
 
-      HealthCheckResult(taskId);
+                                    HealthCheckResult(taskId);
 
 
-      res = TryGetResult(taskId,
-                         cancellationToken: cancellationToken);
+                                    res = TryGetResult(taskId,
+                                                       cancellationToken: cancellationToken);
 
-      if (res.Length != 0) return res;
-      else
-      {
-        throw new ArgumentException($"Cannot retrieve result for taskId {taskId}");
-      }
+                                    if (res.Length != 0) return res;
+                                    else
+                                    {
+                                      throw new ArgumentException($"Cannot retrieve result for taskId {taskId}");
+                                    }
+                                  },
+                                  true,
+                                  typeof(IOException));
     }
 
 
@@ -415,6 +422,7 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
                                                  {
                                                    return new byte[] { };
                                                  }
+
                                                  throw;
                                                }
 
