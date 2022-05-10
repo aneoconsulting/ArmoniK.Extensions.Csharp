@@ -114,11 +114,11 @@ namespace ArmoniK.EndToEndTests.Tests.CheckTypeOfSubmission
       //               SubmissionType.Batch,
       //               GetResultType.TryGetResult);
 
-      //SubmissionTask(sessionService,
-      //               10000,
-      //               0,
-      //               SubmissionType.Batch,
-      //               GetResultType.TryGetResult);
+      SubmissionTask(sessionService,
+                     10000,
+                     0,
+                     SubmissionType.Batch,
+                     GetResultType.TryGetResult);
 
       //SubmissionTask(sessionService,
       //               100000,

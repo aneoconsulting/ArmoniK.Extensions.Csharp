@@ -165,55 +165,61 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
       var       withDependencies = payloadsWithDependencies as Tuple<Tuple<string, byte[]>, IList<string>>[] ?? payloadsWithDependencies.ToArray();
       Logger.LogDebug("payload with dependencies {len}",
                       withDependencies.Count());
-      var taskRequests = new List<TaskRequest>();
+      var taskCreated = new List<string>();
 
-      foreach (var (payload, dependencies) in withDependencies)
+      withDependencies.Batch(1000).ToList().ForEach(tup =>
       {
-        var taskId = payload.Item1;
-        Logger.LogDebug("Create task {task}",
-                        taskId);
-        var taskRequest = new TaskRequest
+        var taskRequests = new List<TaskRequest>();
+        foreach (var (payload, dependencies) in tup)
         {
-          Id      = taskId,
-          Payload = ByteString.CopyFrom(payload.Item2),
 
-          ExpectedOutputKeys =
+          var taskId = payload.Item1;
+          taskCreated.Add(taskId);
+
+          Logger.LogDebug("Create task {task}",
+                          taskId);
+          var taskRequest = new TaskRequest
           {
-            taskId,
-          },
-        };
+            Id      = taskId,
+            Payload = ByteString.CopyFrom(payload.Item2),
 
-        if (dependencies != null && dependencies.Count != 0)
-        {
-          taskRequest.DataDependencies.AddRange(dependencies);
+            ExpectedOutputKeys =
+            {
+              taskId,
+            },
+          };
 
-          Logger.LogDebug("Dependencies : {dep}",
-                          string.Join(", ",
-                                      dependencies.Select(item => item.ToString())));
+          if (dependencies != null && dependencies.Count != 0)
+          {
+            taskRequest.DataDependencies.AddRange(dependencies);
+
+            Logger.LogDebug("Dependencies : {dep}",
+                            string.Join(", ",
+                                        dependencies.Select(item => item.ToString())));
+          }
+
+          taskRequests.Add(taskRequest);
         }
 
-        taskRequests.Add(taskRequest);
-      }
-
-      var createTaskReply = ControlPlaneService.CreateTasksAsync(SessionId.Id,
-                                                                 TaskOptions,
-                                                                 taskRequests).Result;
-      switch (createTaskReply.DataCase)
-      {
-        case CreateTaskReply.DataOneofCase.NonSuccessfullIds:
-          throw new Exception($"NonSuccessFullIds : {createTaskReply.NonSuccessfullIds}");
-        case CreateTaskReply.DataOneofCase.None:
-          throw new Exception("Issue with Server !");
-        case CreateTaskReply.DataOneofCase.Successfull:
-          break;
-        default:
-          throw new ArgumentOutOfRangeException();
-      }
-
-      var taskCreated = taskRequests.Select(t => t.Id);
+        var createTaskReply = ControlPlaneService.CreateTasksAsync(SessionId.Id,
+                                                                   TaskOptions,
+                                                                   taskRequests).Result;
+        switch (createTaskReply.DataCase)
+        {
+          case CreateTaskReply.DataOneofCase.NonSuccessfullIds:
+            throw new Exception($"NonSuccessFullIds : {createTaskReply.NonSuccessfullIds}");
+          case CreateTaskReply.DataOneofCase.None:
+            throw new Exception("Issue with Server !");
+          case CreateTaskReply.DataOneofCase.Successfull:
+            break;
+          default:
+            throw new ArgumentOutOfRangeException();
+        }
+      });
 
       Logger.LogDebug("Tasks created : {ids}",
                       taskCreated);
+
       return taskCreated;
     }
 
@@ -288,41 +294,41 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
                              cancellationToken);
       if (res.Length != 0) return res;
 
-      return Retry.WhileException(5,
-                                  200,
-                                  () =>
-                                  {
-                                    var availabilityReply = ControlPlaneService.WaitForAvailability(resultRequest,
-                                                                                                    cancellationToken: cancellationToken);
+      Retry.WhileException(5,
+                           200,
+                           () =>
+                           {
+                             var availabilityReply = ControlPlaneService.WaitForAvailability(resultRequest,
+                                                                                             cancellationToken: cancellationToken);
 
-                                    switch (availabilityReply.TypeCase)
-                                    {
-                                      case AvailabilityReply.TypeOneofCase.None:
-                                        throw new Exception("Issue with Server !");
-                                      case AvailabilityReply.TypeOneofCase.Ok:
-                                        break;
-                                      case AvailabilityReply.TypeOneofCase.Error:
-                                        throw new Exception($"Task in Error - {taskId}\nMessage :\n{string.Join("Inner message:\n", availabilityReply.Error.Error)}");
-                                      case AvailabilityReply.TypeOneofCase.NotCompletedTask:
-                                        throw new DataException($"Task {taskId} was not yet completed");
-                                      default:
-                                        throw new ArgumentOutOfRangeException();
-                                    }
+                             switch (availabilityReply.TypeCase)
+                             {
+                               case AvailabilityReply.TypeOneofCase.None:
+                                 throw new Exception("Issue with Server !");
+                               case AvailabilityReply.TypeOneofCase.Ok:
+                                 break;
+                               case AvailabilityReply.TypeOneofCase.Error:
+                                 throw new Exception($"Task in Error - {taskId}\nMessage :\n{string.Join("Inner message:\n", availabilityReply.Error.Error)}");
+                               case AvailabilityReply.TypeOneofCase.NotCompletedTask:
+                                 throw new DataException($"Task {taskId} was not yet completed");
+                               default:
+                                 throw new ArgumentOutOfRangeException();
+                             }
+                           },
+                           true,
+                           typeof(IOException));
 
-                                    HealthCheckResult(taskId);
+      HealthCheckResult(taskId);
 
 
-                                    res = TryGetResult(taskId,
-                                                       cancellationToken: cancellationToken);
+      res = TryGetResult(taskId,
+                         cancellationToken: cancellationToken);
 
-                                    if (res.Length != 0) return res;
-                                    else
-                                    {
-                                      throw new ArgumentException($"Cannot retrieve result for taskId {taskId}");
-                                    }
-                                  },
-                                  true,
-                                  typeof(IOException));
+      if (res.Length != 0) return res;
+      else
+      {
+        throw new ArgumentException($"Cannot retrieve result for taskId {taskId}");
+      }
     }
 
 
