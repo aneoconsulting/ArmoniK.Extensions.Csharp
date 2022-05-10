@@ -149,6 +149,18 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/ArmoniK.DevelopmentKit.Common.IEnumerableExt.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ArmoniK.DevelopmentKit.Common.IEnumerableExt.html",
+          "hash": "s1UKE4faMQ6ICAaeNklGuZ0rmp5cvSRo2zv+7M90c9Q="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/ArmoniK.DevelopmentKit.Common.IFileAdaptater.yml",
       "output": {
         ".html": {
@@ -273,7 +285,7 @@
       "output": {
         ".html": {
           "relative_path": "api/ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter-1.html",
-          "hash": "9eEpRRkFPZ65hmvFjEtSnSMVlYoxMxRR0Yh07vaqFLE="
+          "hash": "Ko0NkK1dM8uXjH0onXA2rDTIdGPi++Ko1GgmIZM0zcw="
         }
       },
       "is_incremental": false,
@@ -345,7 +357,7 @@
       "output": {
         ".html": {
           "relative_path": "api/ArmoniK.DevelopmentKit.Common.html",
-          "hash": "UG2ooUKuFQPbM0Lr0f8ebpgL4LF9BFV4tBJcrI+zhW8="
+          "hash": "A7mP5r1ox0g2WAom0chrf+D5fMMw4G1tuIQWIR2ijKU="
         }
       },
       "is_incremental": false,
@@ -1665,7 +1677,7 @@
       "output": {
         ".html": {
           "relative_path": "api/toc.html",
-          "hash": "0yIBfkR09MCkGisKXUWIUzCgrvTRwl9hraqAayCujOI="
+          "hash": "QESSgoR3PsI1KiBG08UUupBm1pVipRNT7WvAx/rF5V0="
         }
       },
       "is_incremental": false,
@@ -1740,7 +1752,7 @@
         "ManagedReferenceDocumentProcessor": {
           "can_incremental": false,
           "incrementalPhase": "build",
-          "total_file_count": 137,
+          "total_file_count": 138,
           "skipped_file_count": 0
         },
         "TocDocumentProcessor": {

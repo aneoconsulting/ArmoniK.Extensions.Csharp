@@ -391,6 +391,28 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.Common.Exceptions.WorkerApiException.Message
   nameWithType: WorkerApiException.Message
+- uid: ArmoniK.DevelopmentKit.Common.IEnumerableExt
+  name: IEnumerableExt
+  href: api/ArmoniK.DevelopmentKit.Common.IEnumerableExt.html
+  commentId: T:ArmoniK.DevelopmentKit.Common.IEnumerableExt
+  fullName: ArmoniK.DevelopmentKit.Common.IEnumerableExt
+  nameWithType: IEnumerableExt
+- uid: ArmoniK.DevelopmentKit.Common.IEnumerableExt.Batch*
+  name: Batch
+  href: api/ArmoniK.DevelopmentKit.Common.IEnumerableExt.html#ArmoniK_DevelopmentKit_Common_IEnumerableExt_Batch_
+  commentId: Overload:ArmoniK.DevelopmentKit.Common.IEnumerableExt.Batch
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Common.IEnumerableExt.Batch
+  nameWithType: IEnumerableExt.Batch
+- uid: ArmoniK.DevelopmentKit.Common.IEnumerableExt.Batch``1(System.Collections.Generic.IEnumerable{``0},System.Int32)
+  name: Batch<T>(IEnumerable<T>, Int32)
+  href: api/ArmoniK.DevelopmentKit.Common.IEnumerableExt.html#ArmoniK_DevelopmentKit_Common_IEnumerableExt_Batch__1_System_Collections_Generic_IEnumerable___0__System_Int32_
+  commentId: M:ArmoniK.DevelopmentKit.Common.IEnumerableExt.Batch``1(System.Collections.Generic.IEnumerable{``0},System.Int32)
+  name.vb: Batch(Of T)(IEnumerable(Of T), Int32)
+  fullName: ArmoniK.DevelopmentKit.Common.IEnumerableExt.Batch<T>(System.Collections.Generic.IEnumerable<T>, System.Int32)
+  fullName.vb: ArmoniK.DevelopmentKit.Common.IEnumerableExt.Batch(Of T)(System.Collections.Generic.IEnumerable(Of T), System.Int32)
+  nameWithType: IEnumerableExt.Batch<T>(IEnumerable<T>, Int32)
+  nameWithType.vb: IEnumerableExt.Batch(Of T)(IEnumerable(Of T), Int32)
 - uid: ArmoniK.DevelopmentKit.Common.IFileAdaptater
   name: IFileAdaptater
   href: api/ArmoniK.DevelopmentKit.Common.IFileAdaptater.html
