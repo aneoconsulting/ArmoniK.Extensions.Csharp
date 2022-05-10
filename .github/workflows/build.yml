@@ -117,7 +117,7 @@ jobs:
         dotnet pack ./SymphonyApi/ArmoniK.DevelopmentKit.SymphonyApi/ArmoniK.DevelopmentKit.SymphonyApi.csproj -c Release -o /tmp/packages -p:PackageVersion=$GENVERSION
         dotnet pack ./SymphonyApi/ArmoniK.DevelopmentKit.SymphonyApi.Client/ArmoniK.DevelopmentKit.SymphonyApi.Client.csproj -c Release -o /tmp/packages -p:PackageVersion=$GENVERSION
         dotnet pack ./WorkerApi/ArmoniK.DevelopmentKit.WorkerApi.Common/ArmoniK.DevelopmentKit.WorkerApi.Common.csproj -c Release -o /tmp/packages -p:PackageVersion=$GENVERSION
-        dotnet pack ./Common/StreamWrapper/src/ArmoniK.Extensions.Common.StreamWrapper.csproj -c Release -c Release -o /tmp/packages -p:PackageVersion=$GENVERSION
+        dotnet pack ./Common/StreamWrapper/src/ArmoniK.Extensions.Common.StreamWrapper.csproj -c Release -o /tmp/packages -p:PackageVersion=$GENVERSION
 
     - name: Store the package VERSION
       uses: actions/upload-artifact@v2
@@ -135,7 +135,7 @@ jobs:
         dotnet pack ./SymphonyApi/ArmoniK.DevelopmentKit.SymphonyApi/ArmoniK.DevelopmentKit.SymphonyApi.csproj -c Release -o /tmp/releases -p:PackageVersion=$GENRELEASE
         dotnet pack ./SymphonyApi/ArmoniK.DevelopmentKit.SymphonyApi.Client/ArmoniK.DevelopmentKit.SymphonyApi.Client.csproj -c Release -o /tmp/releases -p:PackageVersion=$GENRELEASE
         dotnet pack ./WorkerApi/ArmoniK.DevelopmentKit.WorkerApi.Common/ArmoniK.DevelopmentKit.WorkerApi.Common.csproj -c Release -o /tmp/releases -p:PackageVersion=$GENRELEASE
-        dotnet pack ./Common/StreamWrapper/src/ArmoniK.Extensions.Common.StreamWrapper.csproj -c Release -c Release -o /tmp/releases -p:PackageVersion=$GENRELEASE
+        dotnet pack ./Common/StreamWrapper/src/ArmoniK.Extensions.Common.StreamWrapper.csproj -c Release -o /tmp/releases -p:PackageVersion=$GENRELEASE
 
     - name: Store the package RELEASE
       if: ${{ github.ref == 'refs/heads/release' }}
