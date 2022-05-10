@@ -288,11 +288,7 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
         Session = SessionId.Id,
       };
 
-
-      var res = TryGetResult(taskId,
-                             checkOutput: false,
-                             cancellationToken);
-      if (res.Length != 0) return res;
+      byte[] res = null;
 
       Retry.WhileException(5,
                            200,
@@ -374,43 +370,43 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
                                              200,
                                              () =>
                                              {
-                                               GetStatusReply status;
-                                               try
-                                               {
-                                                 status = ControlPlaneService.GetStatus(new GetStatusrequest()
-                                                 {
-                                                   TaskId = taskId
-                                                 });
+                                               //GetStatusReply status;
+                                               //try
+                                               //{
+                                               //  status = ControlPlaneService.GetStatus(new GetStatusrequest()
+                                               //  {
+                                               //    TaskId = taskId
+                                               //  });
 
 
-                                                 switch (status.Status)
-                                                 {
-                                                   case TaskStatus.Creating:
-                                                   case TaskStatus.Dispatched:
-                                                   case TaskStatus.Processed:
-                                                   case TaskStatus.Processing:
-                                                   case TaskStatus.Submitted:
-                                                     return new byte[] { };
+                                               //  switch (status.Status)
+                                               //  {
+                                               //    case TaskStatus.Creating:
+                                               //    case TaskStatus.Dispatched:
+                                               //    case TaskStatus.Processed:
+                                               //    case TaskStatus.Processing:
+                                               //    case TaskStatus.Submitted:
+                                               //      return new byte[] { };
 
-                                                   case TaskStatus.Completed:
-                                                     break;
+                                               //    case TaskStatus.Completed:
+                                               //      break;
 
-                                                   case TaskStatus.Timeout:
-                                                   case TaskStatus.Failed:
-                                                   case TaskStatus.Canceling:
-                                                   case TaskStatus.Canceled:
-                                                   case TaskStatus.Error:
-                                                   case TaskStatus.Unspecified:
-                                                     throw new IOException(
-                                                       $"Result {taskId} cannot be retrieved. taskStatus is {Enum.GetName(typeof(TaskStatus), status.Status)}");
-                                                 }
-                                               }
-                                               catch (Exception ex)
-                                               {
-                                                 Logger.LogWarning($"TaskId {taskId} not yet found");
-                                                 throw new IOException($"{taskId} not yet in DB. Retrying",
-                                                                       ex);
-                                               }
+                                               //    case TaskStatus.Timeout:
+                                               //    case TaskStatus.Failed:
+                                               //    case TaskStatus.Canceling:
+                                               //    case TaskStatus.Canceled:
+                                               //    case TaskStatus.Error:
+                                               //    case TaskStatus.Unspecified:
+                                               //      throw new IOException(
+                                               //        $"Result {taskId} cannot be retrieved. taskStatus is {Enum.GetName(typeof(TaskStatus), status.Status)}");
+                                               //  }
+                                               //}
+                                               //catch (Exception ex)
+                                               //{
+                                               //  Logger.LogWarning($"TaskId {taskId} not yet found");
+                                               //  throw new IOException($"{taskId} not yet in DB. Retrying",
+                                               //                        ex);
+                                               //}
 
                                                Task<byte[]> response;
                                                try
