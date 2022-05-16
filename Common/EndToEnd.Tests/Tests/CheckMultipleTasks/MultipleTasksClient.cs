@@ -38,7 +38,7 @@ using Microsoft.Extensions.Logging;
 
 namespace ArmoniK.EndToEndTests.Tests.CheckMultipleTasks
 {
- 
+  [Disabled]
   public class CheckMultipleTasksClient : ClientBaseTest<CheckMultipleTasksClient>
   {
     public CheckMultipleTasksClient(IConfiguration configuration, ILoggerFactory loggerFactory) :
@@ -55,7 +55,7 @@ namespace ArmoniK.EndToEndTests.Tests.CheckMultipleTasks
 
       Log.LogInformation("Configure taskOptions");
       var taskOptions = InitializeTaskOptions();
-      
+
       var sessionService = client.CreateSession(taskOptions);
 
       Log.LogInformation($"New session created : {sessionService}");
@@ -74,7 +74,8 @@ namespace ArmoniK.EndToEndTests.Tests.CheckMultipleTasks
     /// <returns></returns>
     private static byte[] WaitForTaskResult(SessionService sessionService, string taskId, CancellationToken cancellationToken = default)
     {
-      var taskResult = sessionService.GetResult(taskId, cancellationToken);
+      var taskResult = sessionService.GetResult(taskId,
+                                                cancellationToken);
 
       return taskResult;
     }
@@ -107,9 +108,9 @@ namespace ArmoniK.EndToEndTests.Tests.CheckMultipleTasks
       const long maxDuration    = 10 * 60 * 1000; // 10 min
 
       Log.LogInformation($"Running tests with {string.Join("; ", listOfNbTasks)} nbTasks in {maxDuration / 1000} secs");
-      var cancellationToken = new CancellationTokenSource();
+      var cancellationToken     = new CancellationTokenSource();
       var waitCancellationToken = new CancellationTokenSource();
-      var token             = waitCancellationToken.Token;
+      var token                 = waitCancellationToken.Token;
       var testRun = Task.Run(() =>
                              {
                                foreach (var nbTasks in listOfNbTasks)
@@ -127,7 +128,7 @@ namespace ArmoniK.EndToEndTests.Tests.CheckMultipleTasks
       {
         waitCancellationToken.Cancel();
 
-        
+
         try
         {
           testRun.Wait(TimeSpan.FromMilliseconds(1000 * 10));
