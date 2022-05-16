@@ -1005,7 +1005,7 @@
       "output": {
         ".html": {
           "relative_path": "api/ArmoniK.EndToEndTests.Common.ClientBaseTest-1.html",
-          "hash": "xGcxaEnv/kydhdOy+VIdE//PZDhpZo9J2AHPLpNKPlw="
+          "hash": "6pbjWP27EcSNOz/pvfjPq0xUWXTxKy78uRJHLxJR6bI="
         }
       },
       "is_incremental": false,
@@ -1137,7 +1137,7 @@
       "output": {
         ".html": {
           "relative_path": "api/ArmoniK.EndToEndTests.Tests.CheckGridServer.SimpleGridServerTestClient.html",
-          "hash": "tkZkQkwPLLHs66j84DcD5PQws/Qg13uCzbO5NMJXqgw="
+          "hash": "8RD8KiCK7LBw0xoya62hbReSOVJY2YgxhU52IkMd/2I="
         }
       },
       "is_incremental": false,
@@ -1173,7 +1173,7 @@
       "output": {
         ".html": {
           "relative_path": "api/ArmoniK.EndToEndTests.Tests.CheckMultipleTasks.CheckMultipleTasksClient.html",
-          "hash": "2vW+X2xYaH0WI4Hcx8I45Tb72MRkIWsh0jZXMqdkyuY="
+          "hash": "f0rZPfyFrEeiTbGplJW/LeVlUOSS1cxRof5+8R0HWCU="
         }
       },
       "is_incremental": false,
