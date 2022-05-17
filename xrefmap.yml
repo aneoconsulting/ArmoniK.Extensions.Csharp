@@ -2762,6 +2762,19 @@ references:
   commentId: T:ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase
   fullName: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase
   nameWithType: ServiceContainerBase
+- uid: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.ClientOptions
+  name: ClientOptions
+  href: api/ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.html#ArmoniK_DevelopmentKit_SymphonyApi_api_ServiceContainerBase_ClientOptions
+  commentId: P:ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.ClientOptions
+  fullName: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.ClientOptions
+  nameWithType: ServiceContainerBase.ClientOptions
+- uid: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.ClientOptions*
+  name: ClientOptions
+  href: api/ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.html#ArmoniK_DevelopmentKit_SymphonyApi_api_ServiceContainerBase_ClientOptions_
+  commentId: Overload:ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.ClientOptions
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.ClientOptions
+  nameWithType: ServiceContainerBase.ClientOptions
 - uid: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.Configuration
   name: Configuration
   href: api/ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.html#ArmoniK_DevelopmentKit_SymphonyApi_api_ServiceContainerBase_Configuration
@@ -6493,19 +6506,6 @@ references:
   isSpec: "True"
   fullName: ArmoniK.EndToEndTests.Tests.SimpleComputeNSubtasking.SimpleComputeNSubtaskingClient.SimpleComputeNSubtaskingClient
   nameWithType: SimpleComputeNSubtaskingClient.SimpleComputeNSubtaskingClient
-- uid: ArmoniK.EndToEndTests.Tests.SimpleComputeNSubtasking.SimpleComputeNSubtaskingClient.ClientStartup1(ArmoniK.DevelopmentKit.SymphonyApi.Client.api.SessionService)
-  name: ClientStartup1(SessionService)
-  href: api/ArmoniK.EndToEndTests.Tests.SimpleComputeNSubtasking.SimpleComputeNSubtaskingClient.html#ArmoniK_EndToEndTests_Tests_SimpleComputeNSubtasking_SimpleComputeNSubtaskingClient_ClientStartup1_ArmoniK_DevelopmentKit_SymphonyApi_Client_api_SessionService_
-  commentId: M:ArmoniK.EndToEndTests.Tests.SimpleComputeNSubtasking.SimpleComputeNSubtaskingClient.ClientStartup1(ArmoniK.DevelopmentKit.SymphonyApi.Client.api.SessionService)
-  fullName: ArmoniK.EndToEndTests.Tests.SimpleComputeNSubtasking.SimpleComputeNSubtaskingClient.ClientStartup1(ArmoniK.DevelopmentKit.SymphonyApi.Client.api.SessionService)
-  nameWithType: SimpleComputeNSubtaskingClient.ClientStartup1(SessionService)
-- uid: ArmoniK.EndToEndTests.Tests.SimpleComputeNSubtasking.SimpleComputeNSubtaskingClient.ClientStartup1*
-  name: ClientStartup1
-  href: api/ArmoniK.EndToEndTests.Tests.SimpleComputeNSubtasking.SimpleComputeNSubtaskingClient.html#ArmoniK_EndToEndTests_Tests_SimpleComputeNSubtasking_SimpleComputeNSubtaskingClient_ClientStartup1_
-  commentId: Overload:ArmoniK.EndToEndTests.Tests.SimpleComputeNSubtasking.SimpleComputeNSubtaskingClient.ClientStartup1
-  isSpec: "True"
-  fullName: ArmoniK.EndToEndTests.Tests.SimpleComputeNSubtasking.SimpleComputeNSubtaskingClient.ClientStartup1
-  nameWithType: SimpleComputeNSubtaskingClient.ClientStartup1
 - uid: ArmoniK.EndToEndTests.Tests.SimpleComputeNSubtasking.SimpleComputeNSubtaskingClient.EntryPoint
   name: EntryPoint()
   href: api/ArmoniK.EndToEndTests.Tests.SimpleComputeNSubtasking.SimpleComputeNSubtaskingClient.html#ArmoniK_EndToEndTests_Tests_SimpleComputeNSubtasking_SimpleComputeNSubtaskingClient_EntryPoint
@@ -6519,6 +6519,28 @@ references:
   isSpec: "True"
   fullName: ArmoniK.EndToEndTests.Tests.SimpleComputeNSubtasking.SimpleComputeNSubtaskingClient.EntryPoint
   nameWithType: SimpleComputeNSubtaskingClient.EntryPoint
+- uid: ArmoniK.EndToEndTests.Tests.SimpleComputeNSubtasking.TimeSpanExt
+  name: TimeSpanExt
+  href: api/ArmoniK.EndToEndTests.Tests.SimpleComputeNSubtasking.TimeSpanExt.html
+  commentId: T:ArmoniK.EndToEndTests.Tests.SimpleComputeNSubtasking.TimeSpanExt
+  fullName: ArmoniK.EndToEndTests.Tests.SimpleComputeNSubtasking.TimeSpanExt
+  nameWithType: TimeSpanExt
+- uid: ArmoniK.EndToEndTests.Tests.SimpleComputeNSubtasking.TimeSpanExt.Average(IEnumerable{TimeSpan})
+  name: Average(IEnumerable<TimeSpan>)
+  href: api/ArmoniK.EndToEndTests.Tests.SimpleComputeNSubtasking.TimeSpanExt.html#ArmoniK_EndToEndTests_Tests_SimpleComputeNSubtasking_TimeSpanExt_Average_IEnumerable_TimeSpan__
+  commentId: M:ArmoniK.EndToEndTests.Tests.SimpleComputeNSubtasking.TimeSpanExt.Average(IEnumerable{TimeSpan})
+  name.vb: Average(IEnumerable(Of TimeSpan))
+  fullName: ArmoniK.EndToEndTests.Tests.SimpleComputeNSubtasking.TimeSpanExt.Average(IEnumerable<TimeSpan>)
+  fullName.vb: ArmoniK.EndToEndTests.Tests.SimpleComputeNSubtasking.TimeSpanExt.Average(IEnumerable(Of TimeSpan))
+  nameWithType: TimeSpanExt.Average(IEnumerable<TimeSpan>)
+  nameWithType.vb: TimeSpanExt.Average(IEnumerable(Of TimeSpan))
+- uid: ArmoniK.EndToEndTests.Tests.SimpleComputeNSubtasking.TimeSpanExt.Average*
+  name: Average
+  href: api/ArmoniK.EndToEndTests.Tests.SimpleComputeNSubtasking.TimeSpanExt.html#ArmoniK_EndToEndTests_Tests_SimpleComputeNSubtasking_TimeSpanExt_Average_
+  commentId: Overload:ArmoniK.EndToEndTests.Tests.SimpleComputeNSubtasking.TimeSpanExt.Average
+  isSpec: "True"
+  fullName: ArmoniK.EndToEndTests.Tests.SimpleComputeNSubtasking.TimeSpanExt.Average
+  nameWithType: TimeSpanExt.Average
 - uid: ArmoniK.EndToEndTests.Tests.TemplateTest
   name: ArmoniK.EndToEndTests.Tests.TemplateTest
   href: api/ArmoniK.EndToEndTests.Tests.TemplateTest.html
