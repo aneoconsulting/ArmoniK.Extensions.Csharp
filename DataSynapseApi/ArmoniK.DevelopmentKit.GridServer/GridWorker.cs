@@ -21,24 +21,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using ArmoniK.Attributes;
 using ArmoniK.Api.gRPC.V1;
+using ArmoniK.Attributes;
 using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.Common.Exceptions;
 using ArmoniK.DevelopmentKit.WorkerApi.Common;
-
+using ArmoniK.Extensions.Common.StreamWrapper.Worker;
 using Google.Protobuf.WellKnownTypes;
-
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.Loader;
-
-using ArmoniK.Extensions.Common.StreamWrapper.Worker;
 
 #pragma warning disable CS1591
 

@@ -54,6 +54,9 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
 
     private static string SectionEndPoint { get; } = "EndPoint";
     private static string SectionSSlValidation { get; } = "SSLValidation";
+    private static string SectionCaCert { get; } = "CaCert";
+    private static string SectionClientCert { get; } = "ClientCert";
+    private static string SectionClientKey { get; } = "ClientKey";
 
 
     /// <summary>
@@ -65,6 +68,7 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
     /// <param name="protocol">the protocol https or http</param>
     /// <param name="clientCertPem">The client certificate fil in a pem format</param>
     /// <param name="clientKeyPem">The client key file in a pem format</param>
+    /// <param name="caCertPem">The Server certificate file to validate mTLS</param>
     /// <param name="sslValidation">Disable the ssl strong validation of ssl certificate (default : enable => true)</param>
     public Properties(TaskOptions options,
                       string      connectionAddress,
@@ -72,6 +76,7 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
                       string      protocol       = null,
                       string      clientCertPem  = null,
                       string      clientKeyPem   = null,
+                      string      caCertPem      = null,
                       bool        sslValidation  = true) : this(new ConfigurationBuilder().Build(),
                                                                 options,
                                                                 connectionAddress,
@@ -79,6 +84,7 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
                                                                 protocol,
                                                                 clientCertPem,
                                                                 clientKeyPem,
+                                                                caCertPem,
                                                                 sslValidation)
     {
     }
@@ -91,6 +97,7 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
     /// <param name="connectionAddress">The control plane address to connect</param>
     /// <param name="connectionPort">The optional port to connect to the control plane</param>
     /// <param name="protocol">the protocol https or http</param>
+    /// <param name="caCertPem">The Server certificate file to validate mTLS</param>
     /// <param name="clientCertFilePem">The client certificate fil in a pem format</param>
     /// <param name="clientKeyFilePem">The client key file in a pem format</param>
     /// <param name="sslValidation">Disable the ssl strong validation of ssl certificate (default : enable => true)</param>
@@ -102,20 +109,29 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
                       string         protocol          = null,
                       string         clientCertFilePem = null,
                       string         clientKeyFilePem  = null,
+                      string         caCertPem         = null,
                       bool           sslValidation     = true
     )
     {
       TaskOptions   = options;
       Configuration = configuration;
 
-      var sectionGrpc  = configuration.GetSection(SectionGrpc).Exists() ? configuration.GetSection(SectionGrpc) : null;
-      ConnectionString = sectionGrpc!.GetSection(SectionEndPoint).Exists() ? sectionGrpc![SectionEndPoint] : null;
+      var sectionGrpc = configuration.GetSection(SectionGrpc).Exists() ? configuration.GetSection(SectionGrpc) : null;
+      ConnectionString  = sectionGrpc!.GetSection(SectionEndPoint).Exists() ? sectionGrpc![SectionEndPoint] : null;
       ConfSSLValidation = !sectionGrpc!.GetSection(SectionSSlValidation).Exists() || sectionGrpc![SectionSSlValidation] != "disable";
+
+      CaCertFilePem = !string.IsNullOrEmpty(caCertPem) ? caCertPem : (sectionGrpc!.GetSection(SectionCaCert).Exists() ? sectionGrpc![SectionCaCert] : caCertPem);
+
+      ClientCertFilePem = !string.IsNullOrEmpty(clientCertFilePem)
+        ? clientCertFilePem
+        : (sectionGrpc!.GetSection(SectionClientCert).Exists() ? sectionGrpc![SectionClientCert] : null);
+
+      ClientKeyFilePem = !string.IsNullOrEmpty(clientKeyFilePem)
+        ? clientKeyFilePem
+        : (sectionGrpc!.GetSection(SectionClientKey).Exists() ? sectionGrpc![SectionClientKey] : null);
 
       ConfSSLValidation = sslValidation && ConfSSLValidation;
 
-      ClientCertFilePem = clientCertFilePem;
-      ClientKeyFilePem  = clientKeyFilePem;
 
       if (connectionAddress != null)
       {
@@ -135,6 +151,8 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
 
       ControlPlaneUri = new Uri(ConnectionString);
     }
+
+    public string CaCertFilePem { get; set; }
 
     /// <summary>
     /// The property to get the path of the certificate file
