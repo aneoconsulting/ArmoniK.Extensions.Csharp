@@ -1427,18 +1427,18 @@ references:
   commentId: T:ArmoniK.DevelopmentKit.GridServer.Client.Properties
   fullName: ArmoniK.DevelopmentKit.GridServer.Client.Properties
   nameWithType: Properties
-- uid: ArmoniK.DevelopmentKit.GridServer.Client.Properties.#ctor(IConfiguration,TaskOptions,System.String,System.Int32,System.String,System.String,System.String,System.Boolean)
-  name: Properties(IConfiguration, TaskOptions, String, Int32, String, String, String, Boolean)
-  href: api/ArmoniK.DevelopmentKit.GridServer.Client.Properties.html#ArmoniK_DevelopmentKit_GridServer_Client_Properties__ctor_IConfiguration_TaskOptions_System_String_System_Int32_System_String_System_String_System_String_System_Boolean_
-  commentId: M:ArmoniK.DevelopmentKit.GridServer.Client.Properties.#ctor(IConfiguration,TaskOptions,System.String,System.Int32,System.String,System.String,System.String,System.Boolean)
-  fullName: ArmoniK.DevelopmentKit.GridServer.Client.Properties.Properties(IConfiguration, TaskOptions, System.String, System.Int32, System.String, System.String, System.String, System.Boolean)
-  nameWithType: Properties.Properties(IConfiguration, TaskOptions, String, Int32, String, String, String, Boolean)
-- uid: ArmoniK.DevelopmentKit.GridServer.Client.Properties.#ctor(TaskOptions,System.String,System.Int32,System.String,System.String,System.String,System.Boolean)
-  name: Properties(TaskOptions, String, Int32, String, String, String, Boolean)
-  href: api/ArmoniK.DevelopmentKit.GridServer.Client.Properties.html#ArmoniK_DevelopmentKit_GridServer_Client_Properties__ctor_TaskOptions_System_String_System_Int32_System_String_System_String_System_String_System_Boolean_
-  commentId: M:ArmoniK.DevelopmentKit.GridServer.Client.Properties.#ctor(TaskOptions,System.String,System.Int32,System.String,System.String,System.String,System.Boolean)
-  fullName: ArmoniK.DevelopmentKit.GridServer.Client.Properties.Properties(TaskOptions, System.String, System.Int32, System.String, System.String, System.String, System.Boolean)
-  nameWithType: Properties.Properties(TaskOptions, String, Int32, String, String, String, Boolean)
+- uid: ArmoniK.DevelopmentKit.GridServer.Client.Properties.#ctor(IConfiguration,TaskOptions,System.String,System.Int32,System.String,System.String,System.String,System.String,System.Boolean)
+  name: Properties(IConfiguration, TaskOptions, String, Int32, String, String, String, String, Boolean)
+  href: api/ArmoniK.DevelopmentKit.GridServer.Client.Properties.html#ArmoniK_DevelopmentKit_GridServer_Client_Properties__ctor_IConfiguration_TaskOptions_System_String_System_Int32_System_String_System_String_System_String_System_String_System_Boolean_
+  commentId: M:ArmoniK.DevelopmentKit.GridServer.Client.Properties.#ctor(IConfiguration,TaskOptions,System.String,System.Int32,System.String,System.String,System.String,System.String,System.Boolean)
+  fullName: ArmoniK.DevelopmentKit.GridServer.Client.Properties.Properties(IConfiguration, TaskOptions, System.String, System.Int32, System.String, System.String, System.String, System.String, System.Boolean)
+  nameWithType: Properties.Properties(IConfiguration, TaskOptions, String, Int32, String, String, String, String, Boolean)
+- uid: ArmoniK.DevelopmentKit.GridServer.Client.Properties.#ctor(TaskOptions,System.String,System.Int32,System.String,System.String,System.String,System.String,System.Boolean)
+  name: Properties(TaskOptions, String, Int32, String, String, String, String, Boolean)
+  href: api/ArmoniK.DevelopmentKit.GridServer.Client.Properties.html#ArmoniK_DevelopmentKit_GridServer_Client_Properties__ctor_TaskOptions_System_String_System_Int32_System_String_System_String_System_String_System_String_System_Boolean_
+  commentId: M:ArmoniK.DevelopmentKit.GridServer.Client.Properties.#ctor(TaskOptions,System.String,System.Int32,System.String,System.String,System.String,System.String,System.Boolean)
+  fullName: ArmoniK.DevelopmentKit.GridServer.Client.Properties.Properties(TaskOptions, System.String, System.Int32, System.String, System.String, System.String, System.String, System.Boolean)
+  nameWithType: Properties.Properties(TaskOptions, String, Int32, String, String, String, String, Boolean)
 - uid: ArmoniK.DevelopmentKit.GridServer.Client.Properties.#ctor*
   name: Properties
   href: api/ArmoniK.DevelopmentKit.GridServer.Client.Properties.html#ArmoniK_DevelopmentKit_GridServer_Client_Properties__ctor_
@@ -1446,6 +1446,19 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.GridServer.Client.Properties.Properties
   nameWithType: Properties.Properties
+- uid: ArmoniK.DevelopmentKit.GridServer.Client.Properties.CaCertFilePem
+  name: CaCertFilePem
+  href: api/ArmoniK.DevelopmentKit.GridServer.Client.Properties.html#ArmoniK_DevelopmentKit_GridServer_Client_Properties_CaCertFilePem
+  commentId: P:ArmoniK.DevelopmentKit.GridServer.Client.Properties.CaCertFilePem
+  fullName: ArmoniK.DevelopmentKit.GridServer.Client.Properties.CaCertFilePem
+  nameWithType: Properties.CaCertFilePem
+- uid: ArmoniK.DevelopmentKit.GridServer.Client.Properties.CaCertFilePem*
+  name: CaCertFilePem
+  href: api/ArmoniK.DevelopmentKit.GridServer.Client.Properties.html#ArmoniK_DevelopmentKit_GridServer_Client_Properties_CaCertFilePem_
+  commentId: Overload:ArmoniK.DevelopmentKit.GridServer.Client.Properties.CaCertFilePem
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.GridServer.Client.Properties.CaCertFilePem
+  nameWithType: Properties.CaCertFilePem
 - uid: ArmoniK.DevelopmentKit.GridServer.Client.Properties.ClientCertFilePem
   name: ClientCertFilePem
   href: api/ArmoniK.DevelopmentKit.GridServer.Client.Properties.html#ArmoniK_DevelopmentKit_GridServer_Client_Properties_ClientCertFilePem
