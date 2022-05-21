@@ -30,7 +30,7 @@ popd >/dev/null 2>&1
 
 TestDir=${BASEDIR}/$RELATIVE_PROJECT
 cd ${TestDir}
-
+kubectl get svc -n armonik -o wide
 export CPIP=$(kubectl get svc ingress -n armonik -o custom-columns="IP:.spec.clusterIP" --no-headers=true)
 export CPPort=$(kubectl get svc ingress -n armonik -o custom-columns="PORT:.spec.ports[1].port" --no-headers=true)
 export Grpc__Endpoint=http://$CPIP:$CPPort
