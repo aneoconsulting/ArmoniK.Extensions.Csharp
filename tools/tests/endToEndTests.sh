@@ -34,10 +34,17 @@ cd ${TestDir}
 export CPIP=$(kubectl get svc ingress -n armonik -o custom-columns="IP:.spec.clusterIP" --no-headers=true)
 export CPPort=$(kubectl get svc ingress -n armonik -o custom-columns="PORT:.spec.ports[1].port" --no-headers=true)
 export Grpc__Endpoint=http://$CPIP:$CPPort
+export Grpc__SSLValidation="true"
+export Grpc__CaCert=""
+export Grpc__ClientCert=""
+export Grpc__ClientKey=""
+export Grpc__mTLS="false"
+
 nuget_cache=$(dotnet nuget locals global-packages --list | awk '{ print $2 }')
 
 function SSLConnection()
 {
+    export Grpc__mTLS="true"
     export Grpc__Endpoint=https://$CPIP:$CPPort
     export Grpc__SSLValidation="disable"
     export Grpc__CaCert=${BASEDIR}/../../../../infrastructure/quick-deploy/localhost/armonik/generated/certificates/ingress/ca.crt
@@ -58,10 +65,7 @@ function GetGrpcEndPointFromFile()
         exit 1
       fi
     fi
-  else
-    export CPIP=$(kubectl get svc ingress -n armonik -o custom-columns="IP:.spec.clusterIP" --no-headers=true)
-    export CPPort=$(kubectl get svc ingress -n armonik -o custom-columns="PORT:.spec.ports[1].port" --no-headers=true)
-    export Grpc__Endpoint=http://$CPIP:$CPPort
+    export Grpc__Endpoint=$link
   fi
   echo "Running with endPoint ${Grpc__Endpoint} from output.json"
 }
@@ -124,8 +128,10 @@ EOF
 function printConfiguration() {
   echo "Running script $0 $@"
   echo
+  echo "SSL is actived ? ${Grpc__mTLS}"
+
   echo "SSL check strong auth server [${Grpc__SSLValidation}]"
-  echo "SSL Client file [${Grpc__ClientCert}}"
+  echo "SSL Client file [${Grpc__ClientCert}]"
   echo
 }
 

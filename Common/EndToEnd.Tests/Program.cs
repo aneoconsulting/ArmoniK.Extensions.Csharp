@@ -56,6 +56,7 @@ namespace ArmoniK.EndToEndTests
                                                            false)
                                               .AddEnvironmentVariables();
 
+
       Configuration = builder.Build();
 
       LoggerFactory = new LoggerFactory(new[]
@@ -70,6 +71,11 @@ namespace ArmoniK.EndToEndTests
 
 
       Logger = LoggerFactory.CreateLogger<Program>();
+
+      Logger.LogInformation($"EntryPoint : {Configuration.GetSection("Grpc")["EndPoint"]}");
+      Logger.LogInformation($"CaCert     : {Configuration.GetSection("Grpc")["CaCert"]}");
+      Logger.LogInformation($"ClientCert : {Configuration.GetSection("Grpc")["ClientCert"]}");
+      Logger.LogInformation($"ClientKey  : {Configuration.GetSection("Grpc")["ClientKey"]}");
 
       IEnumerable<TestContext> clientsContainers = null;
 
