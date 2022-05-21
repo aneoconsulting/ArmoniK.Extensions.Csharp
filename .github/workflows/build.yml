@@ -216,6 +216,7 @@ jobs:
         with:
           worker-image: dockerhubaneo/armonik_worker_dll
           worker-tag: ${{ needs.versionning.outputs.version }}
+          ingress: 'None'
 
       - name: Run EndToEnd.Tests
         run: |
