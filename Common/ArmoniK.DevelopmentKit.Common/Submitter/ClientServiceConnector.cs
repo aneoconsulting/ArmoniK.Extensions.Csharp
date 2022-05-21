@@ -85,6 +85,13 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
         }
       }
 
+      var uri = new Uri(endPoint);
+      logger.LogInformation($"Connecting to armoniK  : {uri} port : {uri.Port}");
+      logger.LogInformation($"HTTPS Activated: {uri.Scheme == Uri.UriSchemeHttps}");
+
+      if (!string.IsNullOrEmpty(clientCertFilename))
+        logger.LogInformation($"mTLS Activated: properties_.ClientCertFilePem");
+
 
       return ControlPlaneConnection(endPoint,
                                     clientPem,

@@ -45,7 +45,7 @@ namespace ArmoniK.EndToEndTests
     private static ILogger<Program> Logger { get; set; }
     private static ILoggerFactory LoggerFactory { get; set; }
 
-    private static void Main()
+    private static void Main(string[] args)
     {
       Console.WriteLine("Hello Armonik End to End Tests !");
 
@@ -67,12 +67,13 @@ namespace ArmoniK.EndToEndTests
                                         },
                                         new LoggerFilterOptions().AddFilter("Grpc",
                                                                             LogLevel.Error));
-       
-      
+
 
       Logger = LoggerFactory.CreateLogger<Program>();
 
-      IEnumerable<TestContext> clientsContainers = RetrieveClientTests();
+      IEnumerable<TestContext> clientsContainers = null;
+
+      clientsContainers = args is { Length: > 0 } ? RetrieveSpecificTests(args) : RetrieveClientTests();
 
       foreach (var clientContainer in clientsContainers)
       {
@@ -90,8 +91,6 @@ namespace ArmoniK.EndToEndTests
 
     private static IEnumerable<TestContext> RetrieveClientTests()
     {
-      //Get first test where ServiceContainer Exists
-
       var serviceContainerTypes = new[] { Assembly.GetExecutingAssembly() }
                                   .SelectMany(x =>
                                   {
@@ -134,6 +133,56 @@ namespace ArmoniK.EndToEndTests
       var retrieveClientTests = results.ToList();
 
       Logger.LogInformation($"List of tests : \n\t{string.Join("\n\t", retrieveClientTests.Select(x => $"{x.NameSpaceTest}.{x.ClassClient}"))}");
+
+      return retrieveClientTests;
+    }
+
+    private static IEnumerable<TestContext> RetrieveSpecificTests(string[] listTests)
+    {
+      //Get first test where ServiceContainer Exists
+
+      var serviceContainerTypes = new[] { Assembly.GetExecutingAssembly() }
+                                  .SelectMany(x =>
+                                  {
+                                    try
+                                    {
+                                      return x.GetTypes();
+                                    }
+                                    catch (ReflectionTypeLoadException ex)
+                                    {
+                                      return ex.Types.Where(t => t != null);
+                                    }
+                                    catch
+                                    {
+                                      return Type.EmptyTypes;
+                                    }
+                                  })
+                                  .Where(x => x != null)
+                                  .Where(x => x.IsPublic &&
+                                              !x.IsGenericType &&
+                                              !typeof(Delegate).IsAssignableFrom(x) &&
+                                              !x.GetCustomAttributes<ObsoleteAttribute>().Any())
+                                  .ToArray();
+
+      var results = serviceContainerTypes.Select(x => new Tuple<Type, MethodInfo[]>(x,
+                                                                                    GetMethods(x)))
+                                         .Where(x => x.Item2 is { Length: > 0 } && x.Item2.Any(m => m.GetCustomAttributes<EntryPointAttribute>().Any()))
+                                         .Select(x => new TestContext()
+                                         {
+                                           ClassClient = x.Item1,
+                                           ClientClassInstance = Activator.CreateInstance(x.Item1,
+                                                                                          Configuration,
+                                                                                          LoggerFactory),
+                                           NameSpaceTest = x.Item1.Namespace ?? string.Empty,
+                                           MethodTests   = x.Item2,
+                                         }).Where(x => listTests.Any(t => x.ClassClient != null &&
+                                                                          string.Equals(x.ClassClient.Name,
+                                                                                        t,
+                                                                                        StringComparison.CurrentCultureIgnoreCase)));
+
+      var retrieveClientTests = results.ToList();
+
+      Logger.LogInformation($"List of specifics tests : \n\t{string.Join("\n\t", retrieveClientTests.Select(x => $"{x.NameSpaceTest}.{x.ClassClient}"))}");
 
       return retrieveClientTests;
     }
