@@ -290,18 +290,19 @@ namespace ArmoniK.Extensions.Common.StreamWrapper.Worker
                                    data.Length - start);
 
           reply = new()
-                  {
-                    Result = new()
-                             {
-                               Data = new()
-                                      {
+          {
+            Result = new()
+            {
+              Data = new()
+              {
 
-                                        Data = ByteString.CopyFrom(data.AsMemory().Span.Slice(start,
-                                                                                              chunkSize)),
-                                      },
-                             },
-                    RequestId = requestId,
-                  };
+                Data = UnsafeByteOperations.UnsafeWrap(data.AsMemory()
+                                                           .Slice(start,
+                                                                  chunkSize)),
+              },
+            },
+            RequestId = requestId,
+          };
 
           logger_.LogTrace(reply.ToString());
           await responseStream_.WriteAsync(reply);

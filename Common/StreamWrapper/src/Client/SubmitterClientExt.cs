@@ -23,6 +23,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -30,15 +31,25 @@ using ArmoniK.Api.gRPC.V1;
 
 using Google.Protobuf;
 
-using Grpc.Core;
-
 using JetBrains.Annotations;
 
 namespace ArmoniK.Extensions.Common.StreamWrapper.Client
 {
+  /// <summary>
+  /// Provide SubmitterClient with functions to use the stream capabilities of the client more easily.
+  /// </summary>
   [PublicAPI]
   public static class SubmitterClientExt
   {
+    /// <summary>
+    /// Creates new tasks
+    /// </summary>
+    /// <param name="client">The <code>Submitter.SubmitterClient</code> client to use for the tasks creation.</param>
+    /// <param name="sessionId">The sessionId for the new tasks.</param>
+    /// <param name="taskOptions">The task options for the tasks.</param>
+    /// <param name="taskRequests">The list of task to create.</param>
+    /// <param name="cancellationToken">The token used to cancel the operation.</param>
+    /// <returns></returns>
     public static async Task<CreateTaskReply> CreateTasksAsync(this Submitter.SubmitterClient client,
                                                                string                         sessionId,
                                                                TaskOptions                    taskOptions,
@@ -61,7 +72,7 @@ namespace ArmoniK.Extensions.Common.StreamWrapper.Client
     }
 
 
-    public static IEnumerable<CreateLargeTaskRequest> ToRequestStream(this IEnumerable<TaskRequest> taskRequests,
+    private static IEnumerable<CreateLargeTaskRequest> ToRequestStream(this IEnumerable<TaskRequest> taskRequests,
                                                                       string                        sessionId,
                                                                       TaskOptions                   taskOptions,
                                                                       int                           chunkMaxSize)
@@ -103,7 +114,7 @@ namespace ArmoniK.Extensions.Common.StreamWrapper.Client
       }
     }
 
-    public static IEnumerable<CreateLargeTaskRequest> ToRequestStream(this TaskRequest taskRequest,
+    private static IEnumerable<CreateLargeTaskRequest> ToRequestStream(this TaskRequest taskRequest,
                                                                       bool             isLast,
                                                                       int              chunkMaxSize)
     {
@@ -137,8 +148,8 @@ namespace ArmoniK.Extensions.Common.StreamWrapper.Client
         {
           TaskPayload = new()
           {
-            Data = ByteString.CopyFrom(taskRequest.Payload.Span.Slice(start,
-                                                                      chunkSize)),
+            Data = UnsafeByteOperations.UnsafeWrap(taskRequest.Payload.Memory.Slice(start,
+                                                                                  chunkSize)),
           },
         };
 
@@ -164,12 +175,14 @@ namespace ArmoniK.Extensions.Common.StreamWrapper.Client
         };
       }
     }
-#if NET472_OR_GREATER
+
+
     public static async Task<byte[]> GetResultAsync(this Submitter.SubmitterClient client,
                                                     ResultRequest                  resultRequest,
                                                     CancellationToken              cancellationToken = default)
     {
-      var streamingCall = client.TryGetResultStream(resultRequest);
+      var streamingCall = client.TryGetResultStream(resultRequest,
+                                                    cancellationToken: cancellationToken);
 
       var result = new List<byte>();
 
@@ -182,29 +195,50 @@ namespace ArmoniK.Extensions.Common.StreamWrapper.Client
           case ResultReply.TypeOneofCase.Result:
             if (!reply.Result.DataComplete)
             {
-              result.AddRange(reply.Result.Data.ToByteArray());
+              if (MemoryMarshal.TryGetArray(reply.Result.Data.Memory,
+                                            out var segment))
+              {
+                // Success. Use the ByteString's underlying array.
+                result.AddRange(segment);
+              }
+              else
+              {
+                // TryGetArray didn't succeed. Fall back to creating a copy of the data with ToByteArray.
+                result.AddRange(reply.Result.Data.ToByteArray());
+              }
             }
 
             break;
           case ResultReply.TypeOneofCase.None:
-            throw new Exception("Issue with Server !");
+            throw new ("Issue with Server !");
           case ResultReply.TypeOneofCase.Error:
-            throw new Exception($"Error in task {reply.Error.TaskId}");
+            throw new ($"Error in task {reply.Error.TaskId}");
           case ResultReply.TypeOneofCase.NotCompletedTask:
-            throw new Exception($"Task {reply.NotCompletedTask} not completed");
+            throw new ($"Task {reply.NotCompletedTask} not completed");
           default:
-            throw new ArgumentOutOfRangeException();
+            throw new ArgumentOutOfRangeException("Got a reply with an unexpected message type.",
+                                                  (Exception)null);
         }
       } 
 
       return result.ToArray();
     }
 
+    /// <summary>
+    /// Try to get the result if it is available
+    /// </summary>
+    /// <param name="client">The <code>Submitter.SubmitterClient</code> client to use for the result retrieval.</param>
+    /// <param name="resultRequest">Request specifying the result to fetch</param>
+    /// <param name="cancellationToken">The token used to cancel the operation.</param>
+    /// <returns></returns>
+    /// <exception cref="Exception"></exception>
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
     public static async Task<byte[]> TryGetResultAsync(this Submitter.SubmitterClient client,
                                                     ResultRequest                  resultRequest,
                                                     CancellationToken              cancellationToken = default)
     {
-      var streamingCall = client.TryGetResultStream(resultRequest);
+      var streamingCall = client.TryGetResultStream(resultRequest,
+                                                    cancellationToken: cancellationToken);
 
       var result = new List<byte>();
 
@@ -217,7 +251,17 @@ namespace ArmoniK.Extensions.Common.StreamWrapper.Client
           case ResultReply.TypeOneofCase.Result:
             if (!reply.Result.DataComplete)
             {
-              result.AddRange(reply.Result.Data.ToByteArray());
+              if (MemoryMarshal.TryGetArray(reply.Result.Data.Memory,
+                                            out var segment))
+              {
+                // Success. Use the ByteString's underlying array.
+                result.AddRange(segment);
+              }
+              else
+              {
+                // TryGetArray didn't succeed. Fall back to creating a copy of the data with ToByteArray.
+                result.AddRange(reply.Result.Data.ToByteArray());
+              }
             }
 
             break;
@@ -229,77 +273,12 @@ namespace ArmoniK.Extensions.Common.StreamWrapper.Client
           case ResultReply.TypeOneofCase.NotCompletedTask:
             return new byte[] { };
           default:
-            throw new ArgumentOutOfRangeException();
+            throw new ArgumentOutOfRangeException("Got a reply with an unexpected message type.",
+                                                  (Exception)null);
         }
       }
 
       return result.ToArray();
     }
-#else
-    public static async Task<byte[]> GetResultAsync(this Submitter.SubmitterClient client,
-                                                    ResultRequest                  resultRequest,
-                                                    CancellationToken              cancellationToken = default)
-    {
-      var streamingCall = client.TryGetResultStream(resultRequest);
-
-      var result = new List<byte>();
-
-      await foreach (var reply in streamingCall.ResponseStream.ReadAllAsync(cancellationToken))
-        switch (reply.TypeCase)
-        {
-          case ResultReply.TypeOneofCase.Result:
-            if (!reply.Result.DataComplete)
-            {
-              result.AddRange(reply.Result.Data.ToByteArray());
-            }
-
-            break;
-          case ResultReply.TypeOneofCase.None:
-            throw new Exception("Issue with Server !");
-          case ResultReply.TypeOneofCase.Error:
-            throw new Exception($"Error in task {reply.Error.TaskId}");
-          case ResultReply.TypeOneofCase.NotCompletedTask:
-            throw new Exception($"Task {reply.NotCompletedTask} not completed");
-          default:
-            throw new ArgumentOutOfRangeException();
-        }
-
-      return result.ToArray();
-    }
-
-    public static async Task<byte[]> TryGetResultAsync(this Submitter.SubmitterClient client,
-                                                       ResultRequest                  resultRequest,
-                                                       CancellationToken              cancellationToken = default)
-    {
-      var streamingCall = client.TryGetResultStream(resultRequest);
-
-      var result = new List<byte>();
-
-      await foreach (var reply in streamingCall.ResponseStream.ReadAllAsync(cancellationToken))
-        switch (reply.TypeCase)
-        {
-          case ResultReply.TypeOneofCase.Result:
-            if (!reply.Result.DataComplete)
-            {
-              result.AddRange(reply.Result.Data.ToByteArray());
-            }
-
-            break;
-          case ResultReply.TypeOneofCase.None:
-            return new byte[] { };
-          case ResultReply.TypeOneofCase.Error:
-            if (reply.Error.Error.Count > 0 && reply.Error.Error[0].Detail.Contains("ResultNotFound"))
-              return new byte[] { };
-            var msg = reply.Error.Error.Count > 0 ? reply.Error.Error[0].Detail : "No more message from server";
-            throw new Exception($"Error in task {reply.Error.TaskId} : message {msg}");
-          case ResultReply.TypeOneofCase.NotCompletedTask:
-            return new byte[] { };
-          default:
-            throw new ArgumentOutOfRangeException();
-        }
-
-      return result.ToArray();
-    }
-#endif
   }
 }
