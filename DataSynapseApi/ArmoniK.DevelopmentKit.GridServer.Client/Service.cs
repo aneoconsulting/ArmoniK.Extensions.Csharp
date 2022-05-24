@@ -197,9 +197,9 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
         catch (Exception e)
         {
           ServiceInvocationException ex = new(e);
+
           handler.HandleError(ex,
                               taskId);
-          Console.WriteLine(e.ToString());
         }
       });
 

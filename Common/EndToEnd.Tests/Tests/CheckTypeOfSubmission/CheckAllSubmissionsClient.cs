@@ -38,7 +38,6 @@ using Microsoft.Extensions.Logging;
 
 namespace ArmoniK.EndToEndTests.Tests.CheckTypeOfSubmission
 {
-
   public static class MyExtensions
   {
     public static IEnumerable<IEnumerable<T>> Batch<T>(this IEnumerable<T> items,
@@ -53,6 +52,7 @@ namespace ArmoniK.EndToEndTests.Tests.CheckTypeOfSubmission
                   .Select(g => g.Select(x => x.item));
     }
   }
+
   public class CheckAllSubmissionsClient : ClientBaseTest<CheckAllSubmissionsClient>
   {
     private enum GetResultType
@@ -89,42 +89,90 @@ namespace ArmoniK.EndToEndTests.Tests.CheckTypeOfSubmission
 
       Log.LogInformation("Running End to End test to compute Square value with SubTasking");
 
-      SubmissionTask(sessionService,
-                     10,
-                     1,
-                     SubmissionType.Sequential,
-                     GetResultType.GetResult);
+      try
+      {
+        SubmissionTask(sessionService,
+                       10,
+                       1,
+                       SubmissionType.Sequential,
+                       GetResultType.GetResult);
+      }
+      catch (Exception e)
+      {
+        Log.LogError(e,
+                     "Submission Error 10 Jobs with 1 subtask");
+      }
+
+      try
+      {
+        SubmissionTask(sessionService,
+                       1,
+                       5000,
+                       SubmissionType.Sequential,
+                       GetResultType.GetResult);
+      }
+      catch (Exception e)
+      {
+        Log.LogError(e,
+                     "Submission Error 1 Jobs with 5000 subtasks");
+      }
+
+      try
+      {
+        SubmissionTask(sessionService,
+                       1000,
+                       0,
+                       SubmissionType.Batch,
+                       GetResultType.GetResult);
+      }
+      catch (Exception e)
+      {
+        Log.LogError(e,
+                     "Submission Error 1000 Jobs with 0 subtask");
+      }
+
+      try
+      {
+        SubmissionTask(sessionService,
+                       1000,
+                       1,
+                       SubmissionType.Batch,
+                       GetResultType.TryGetResult);
+      }
+      catch (Exception e)
+      {
+        Log.LogError(e,
+                     "Submission Error 1000 Jobs with 1 subtask");
+      }
 
 
-      //SubmissionTask(sessionService,
-      //               100,
-      //               1,
-      //               SubmissionType.Sequential,
-      //               GetResultType.GetResult);
+      try
+      {
+        SubmissionTask(sessionService,
+                       10000,
+                       0,
+                       SubmissionType.Batch,
+                       GetResultType.TryGetResult);
+      }
+      catch (Exception e)
+      {
+        Log.LogError(e,
+                     "Submission Error 10000 Jobs with 0 subtask");
+      }
 
-      SubmissionTask(sessionService,
-                     1000,
-                     0,
-                     SubmissionType.Batch,
-                     GetResultType.TryGetResult);
-
-      //SubmissionTask(sessionService,
-      //               1000,
-      //               1,
-      //               SubmissionType.Batch,
-      //               GetResultType.TryGetResult);
-
-      SubmissionTask(sessionService,
-                     10000,
-                     0,
-                     SubmissionType.Batch,
-                     GetResultType.TryGetResult);
-
-      //SubmissionTask(sessionService,
-      //               100000,
-      //               1,
-      //               SubmissionType.Batch,
-      //               GetResultType.TryGetResult);
+      //try
+      //{
+      //  SubmissionTask(sessionService,
+      //                 100000,
+      //                 1,
+      //                 SubmissionType.Batch,
+      //                 GetResultType.TryGetResult);
+      //}
+      //catch (Exception e)
+      //{
+      //  Log.LogError(e,
+      //               "Submission Error 10 Jobs with 1 subtask");
+      //}
     }
 
     /// <summary>
@@ -216,11 +264,11 @@ namespace ArmoniK.EndToEndTests.Tests.CheckTypeOfSubmission
 
 
       stopWatch.Start();
-     
+
       Log.LogInformation($"Starting to deserialize {tuples.Count()} results : ");
- 
-      var computeResult  = tuples.Select(x => ClientPayload.Deserialize(x.Item2).Result).Sum();
-      var nTasks          = (nbSubTasks > 0) ? nbSubTasks : 1;
+
+      var computeResult = tuples.Select(x => ClientPayload.Deserialize(x.Item2).Result).Sum();
+      var nTasks        = (nbSubTasks > 0) ? nbSubTasks : 1;
 
       var expectedResult = tuples.Select(_ => numbers.Sum() * nTasks).Sum();
 
@@ -230,8 +278,6 @@ namespace ArmoniK.EndToEndTests.Tests.CheckTypeOfSubmission
       elapsedTime = $"{ts.Hours:00}:{ts.Minutes:00}:{ts.Seconds:00}.{ts.Milliseconds / 10:00}";
       Log.LogInformation($"===== Finished to execute {nbJob} nTask with {nbSubTasks} subtask " +
                          $"with result computed {computeResult} vs expected {expectedResult} in {elapsedTime}\n");
-      
-
     }
 
     private static void PeriodicInfo(Action action, int seconds, CancellationToken token = default)
@@ -250,14 +296,13 @@ namespace ArmoniK.EndToEndTests.Tests.CheckTypeOfSubmission
                token);
     }
 
-   
 
     private IEnumerable<Tuple<string, byte[]>> GetTryResults(SessionService sessionService, IEnumerable<string> taskIds)
     {
-      var ids       = taskIds.ToList();
-      var missing   = ids;
-      var results   = new List<Tuple<string, byte[]>>();
-      var cts       = new CancellationTokenSource();
+      var ids      = taskIds.ToList();
+      var missing  = ids;
+      var results  = new List<Tuple<string, byte[]>>();
+      var cts      = new CancellationTokenSource();
       var holdPrev = 0;
       var waitInSeconds = new List<int>
       {
@@ -289,7 +334,6 @@ namespace ArmoniK.EndToEndTests.Tests.CheckTypeOfSubmission
           missing = missing.Where(x => listPartialResults.ToList().All(rId => rId.Item1 != x)).ToList();
 
 
-
           if (holdPrev == results.Count)
           {
             idx = idx >= waitInSeconds.Count - 1 ? waitInSeconds.Count - 1 : idx + 1;
@@ -302,7 +346,6 @@ namespace ArmoniK.EndToEndTests.Tests.CheckTypeOfSubmission
           holdPrev = results.Count;
 
           Thread.Sleep(waitInSeconds[idx]);
-
         });
       }
 
@@ -310,7 +353,5 @@ namespace ArmoniK.EndToEndTests.Tests.CheckTypeOfSubmission
 
       return results;
     }
-
- 
   }
 }

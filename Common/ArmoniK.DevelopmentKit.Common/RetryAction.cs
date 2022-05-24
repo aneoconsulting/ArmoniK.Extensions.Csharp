@@ -81,8 +81,7 @@ namespace ArmoniK.DevelopmentKit.Common
           else
           {
             // We have an unexpected exception! Re-throw it:
-            throw new Exception($"there is issue with operation",
-                                ex);
+            throw;
           }
         }
       }
@@ -131,8 +130,7 @@ namespace ArmoniK.DevelopmentKit.Common
           else
           {
             // We have an unexpected exception! Re-throw it:
-            throw new Exception($"There is issue with the operation",
-                                ex);
+            throw;
           }
         }
       }

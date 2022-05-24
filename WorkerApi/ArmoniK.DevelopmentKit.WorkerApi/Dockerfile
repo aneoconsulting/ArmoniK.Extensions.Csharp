@@ -25,10 +25,10 @@ RUN dotnet restore "WorkerApi/ArmoniK.DevelopmentKit.WorkerApi/ArmoniK.Developme
 COPY . .
 RUN find \( -iname obj -o -iname bin \) -exec rm -rf {} +
 WORKDIR "/src/WorkerApi/ArmoniK.DevelopmentKit.WorkerApi"
-RUN dotnet build "ArmoniK.DevelopmentKit.WorkerApi.csproj" -c Release -f net6.0 -o /app/build
+RUN dotnet build "ArmoniK.DevelopmentKit.WorkerApi.csproj" -c Debug -f net6.0 -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "ArmoniK.DevelopmentKit.WorkerApi.csproj" -c Release -f net6.0 -o /app/publish -r linux-x64 --self-contained true
+RUN dotnet publish "ArmoniK.DevelopmentKit.WorkerApi.csproj" -c Deubug -f net6.0 -o /app/publish -r linux-x64 --self-contained true
 
 FROM base AS final
 WORKDIR /root
