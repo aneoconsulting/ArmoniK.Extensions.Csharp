@@ -104,26 +104,33 @@ namespace ArmoniK.DevelopmentKit.Common
       [ProtoMember(1)] public int NbElement;
     }
 
-    // *** you need some mechanism to map types to fields
+    [ProtoContract]
+    public class ProtoNative<T>
+    {
+      [ProtoMember(1)] public T Element;
+    }
+
+// *** you need some mechanism to map types to fields
     private static IDictionary<int, Type> typeLookup = new List<Type>
     {
+      typeof(ProtoNative<int>),
       typeof(int),
-      typeof(int[]),
       typeof(uint),
-      typeof(uint[]),
       typeof(long),
-      typeof(long[]),
       typeof(ulong),
-      typeof(ulong[]),
       typeof(double),
-      typeof(double[]),
       typeof(float),
-      typeof(float[]),
       typeof(short),
-      typeof(short[]),
       typeof(byte),
-      typeof(byte[]),
       typeof(string),
+      typeof(int[]),
+      typeof(uint[]),
+      typeof(long[]),
+      typeof(ulong[]),
+      typeof(double[]),
+      typeof(float[]),
+      typeof(short[]),
+      typeof(byte[]),
       typeof(string[]),
       typeof(Nullable),
       typeof(ProtoArray),
@@ -170,17 +177,24 @@ namespace ArmoniK.DevelopmentKit.Common
     private static void SerializeSingle(Stream stream, object obj, Type type)
     {
       int field = typeLookup.Single(pair => pair.Value == type).Key;
+
+
+
       Serializer.NonGeneric.SerializeWithLengthPrefix(stream,
                                                       obj,
                                                       PrefixStyle.Base128,
                                                       field);
-    }
 
+    }
+    
     private static bool ReadNext(Stream stream, out object obj)
     {
       if (!Serializer.NonGeneric.TryDeserializeWithLengthPrefix(stream,
                                                                 PrefixStyle.Base128,
-                                                                field => typeLookup[field],
+                                                                field =>
+                                                                {
+                                                                  return typeLookup[field];
+                                                                },
                                                                 out obj))
       {
         return false;
