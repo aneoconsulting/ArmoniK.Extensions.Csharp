@@ -74,19 +74,19 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
     public Properties(TaskOptions options,
                       string      connectionAddress,
                       int         connectionPort = 0,
-                      string      protocol = null,
-                      string      clientCertPem = null,
-                      string      clientKeyPem = null,
-                      string      caCertPem = null,
-                      bool        sslValidation = true) : this(new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddEnvironmentVariables().Build(),
-                                                               options,
-                                                               connectionAddress,
-                                                               connectionPort,
-                                                               protocol,
-                                                               clientCertPem,
-                                                               clientKeyPem,
-                                                               caCertPem,
-                                                               sslValidation)
+                      string      protocol       = null,
+                      string      clientCertPem  = null,
+                      string      clientKeyPem   = null,
+                      string      caCertPem      = null,
+                      bool        sslValidation  = true) : this(new ConfigurationBuilder().AddEnvironmentVariables().Build(),
+                                                                options,
+                                                                connectionAddress,
+                                                                connectionPort,
+                                                                protocol,
+                                                                clientCertPem,
+                                                                clientKeyPem,
+                                                                caCertPem,
+                                                                sslValidation)
     {
     }
 
