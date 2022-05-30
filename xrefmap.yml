@@ -574,6 +574,23 @@ references:
   commentId: F:ArmoniK.DevelopmentKit.Common.ProtoSerializer.ProtoArray.NbElement
   fullName: ArmoniK.DevelopmentKit.Common.ProtoSerializer.ProtoArray.NbElement
   nameWithType: ProtoSerializer.ProtoArray.NbElement
+- uid: ArmoniK.DevelopmentKit.Common.ProtoSerializer.ProtoNative`1
+  name: ProtoSerializer.ProtoNative<T>
+  href: api/ArmoniK.DevelopmentKit.Common.ProtoSerializer.ProtoNative-1.html
+  commentId: T:ArmoniK.DevelopmentKit.Common.ProtoSerializer.ProtoNative`1
+  name.vb: ProtoSerializer.ProtoNative(Of T)
+  fullName: ArmoniK.DevelopmentKit.Common.ProtoSerializer.ProtoNative<T>
+  fullName.vb: ArmoniK.DevelopmentKit.Common.ProtoSerializer.ProtoNative(Of T)
+  nameWithType: ProtoSerializer.ProtoNative<T>
+  nameWithType.vb: ProtoSerializer.ProtoNative(Of T)
+- uid: ArmoniK.DevelopmentKit.Common.ProtoSerializer.ProtoNative`1.Element
+  name: Element
+  href: api/ArmoniK.DevelopmentKit.Common.ProtoSerializer.ProtoNative-1.html#ArmoniK_DevelopmentKit_Common_ProtoSerializer_ProtoNative_1_Element
+  commentId: F:ArmoniK.DevelopmentKit.Common.ProtoSerializer.ProtoNative`1.Element
+  fullName: ArmoniK.DevelopmentKit.Common.ProtoSerializer.ProtoNative<T>.Element
+  fullName.vb: ArmoniK.DevelopmentKit.Common.ProtoSerializer.ProtoNative(Of T).Element
+  nameWithType: ProtoSerializer.ProtoNative<T>.Element
+  nameWithType.vb: ProtoSerializer.ProtoNative(Of T).Element
 - uid: ArmoniK.DevelopmentKit.Common.ProtoSerializer.RegisterClass(System.Type)
   name: RegisterClass(Type)
   href: api/ArmoniK.DevelopmentKit.Common.ProtoSerializer.html#ArmoniK_DevelopmentKit_Common_ProtoSerializer_RegisterClass_System_Type_
@@ -6730,28 +6747,6 @@ references:
   isSpec: "True"
   fullName: ArmoniK.Extensions.Common.StreamWrapper.Client.SubmitterClientExt.GetResultAsync
   nameWithType: SubmitterClientExt.GetResultAsync
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Client.SubmitterClientExt.ToRequestStream(System.Collections.Generic.IEnumerable{TaskRequest},System.String,TaskOptions,System.Int32)
-  name: ToRequestStream(IEnumerable<TaskRequest>, String, TaskOptions, Int32)
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Client.SubmitterClientExt.html#ArmoniK_Extensions_Common_StreamWrapper_Client_SubmitterClientExt_ToRequestStream_System_Collections_Generic_IEnumerable_TaskRequest__System_String_TaskOptions_System_Int32_
-  commentId: M:ArmoniK.Extensions.Common.StreamWrapper.Client.SubmitterClientExt.ToRequestStream(System.Collections.Generic.IEnumerable{TaskRequest},System.String,TaskOptions,System.Int32)
-  name.vb: ToRequestStream(IEnumerable(Of TaskRequest), String, TaskOptions, Int32)
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Client.SubmitterClientExt.ToRequestStream(System.Collections.Generic.IEnumerable<TaskRequest>, System.String, TaskOptions, System.Int32)
-  fullName.vb: ArmoniK.Extensions.Common.StreamWrapper.Client.SubmitterClientExt.ToRequestStream(System.Collections.Generic.IEnumerable(Of TaskRequest), System.String, TaskOptions, System.Int32)
-  nameWithType: SubmitterClientExt.ToRequestStream(IEnumerable<TaskRequest>, String, TaskOptions, Int32)
-  nameWithType.vb: SubmitterClientExt.ToRequestStream(IEnumerable(Of TaskRequest), String, TaskOptions, Int32)
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Client.SubmitterClientExt.ToRequestStream(TaskRequest,System.Boolean,System.Int32)
-  name: ToRequestStream(TaskRequest, Boolean, Int32)
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Client.SubmitterClientExt.html#ArmoniK_Extensions_Common_StreamWrapper_Client_SubmitterClientExt_ToRequestStream_TaskRequest_System_Boolean_System_Int32_
-  commentId: M:ArmoniK.Extensions.Common.StreamWrapper.Client.SubmitterClientExt.ToRequestStream(TaskRequest,System.Boolean,System.Int32)
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Client.SubmitterClientExt.ToRequestStream(TaskRequest, System.Boolean, System.Int32)
-  nameWithType: SubmitterClientExt.ToRequestStream(TaskRequest, Boolean, Int32)
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Client.SubmitterClientExt.ToRequestStream*
-  name: ToRequestStream
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Client.SubmitterClientExt.html#ArmoniK_Extensions_Common_StreamWrapper_Client_SubmitterClientExt_ToRequestStream_
-  commentId: Overload:ArmoniK.Extensions.Common.StreamWrapper.Client.SubmitterClientExt.ToRequestStream
-  isSpec: "True"
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Client.SubmitterClientExt.ToRequestStream
-  nameWithType: SubmitterClientExt.ToRequestStream
 - uid: ArmoniK.Extensions.Common.StreamWrapper.Client.SubmitterClientExt.TryGetResultAsync(Submitter.SubmitterClient,ResultRequest,System.Threading.CancellationToken)
   name: TryGetResultAsync(Submitter.SubmitterClient, ResultRequest, CancellationToken)
   href: api/ArmoniK.Extensions.Common.StreamWrapper.Client.SubmitterClientExt.html#ArmoniK_Extensions_Common_StreamWrapper_Client_SubmitterClientExt_TryGetResultAsync_Submitter_SubmitterClient_ResultRequest_System_Threading_CancellationToken_
@@ -7385,12 +7380,6 @@ references:
   fullName.vb: ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskRequestExtensions.ToRequestStream(System.Collections.Generic.IEnumerable(Of TaskRequest), TaskOptions, System.Int32)
   nameWithType: TaskRequestExtensions.ToRequestStream(IEnumerable<TaskRequest>, TaskOptions, Int32)
   nameWithType.vb: TaskRequestExtensions.ToRequestStream(IEnumerable(Of TaskRequest), TaskOptions, Int32)
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskRequestExtensions.ToRequestStream(TaskRequest,System.Boolean,System.Int32)
-  name: ToRequestStream(TaskRequest, Boolean, Int32)
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskRequestExtensions.html#ArmoniK_Extensions_Common_StreamWrapper_Worker_TaskRequestExtensions_ToRequestStream_TaskRequest_System_Boolean_System_Int32_
-  commentId: M:ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskRequestExtensions.ToRequestStream(TaskRequest,System.Boolean,System.Int32)
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskRequestExtensions.ToRequestStream(TaskRequest, System.Boolean, System.Int32)
-  nameWithType: TaskRequestExtensions.ToRequestStream(TaskRequest, Boolean, Int32)
 - uid: ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskRequestExtensions.ToRequestStream*
   name: ToRequestStream
   href: api/ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskRequestExtensions.html#ArmoniK_Extensions_Common_StreamWrapper_Worker_TaskRequestExtensions_ToRequestStream_
@@ -7473,16 +7462,55 @@ references:
   isSpec: "True"
   fullName: WorkerApiTests.Tests.Setup
   nameWithType: Tests.Setup
-- uid: WorkerApiTests.Tests.TestS3Unzip
-  name: TestS3Unzip()
-  href: api/WorkerApiTests.Tests.html#WorkerApiTests_Tests_TestS3Unzip
-  commentId: M:WorkerApiTests.Tests.TestS3Unzip
-  fullName: WorkerApiTests.Tests.TestS3Unzip()
-  nameWithType: Tests.TestS3Unzip()
-- uid: WorkerApiTests.Tests.TestS3Unzip*
-  name: TestS3Unzip
-  href: api/WorkerApiTests.Tests.html#WorkerApiTests_Tests_TestS3Unzip_
-  commentId: Overload:WorkerApiTests.Tests.TestS3Unzip
+- uid: WorkerApiTests.Tests.TestSerializationDoubleArray
+  name: TestSerializationDoubleArray()
+  href: api/WorkerApiTests.Tests.html#WorkerApiTests_Tests_TestSerializationDoubleArray
+  commentId: M:WorkerApiTests.Tests.TestSerializationDoubleArray
+  fullName: WorkerApiTests.Tests.TestSerializationDoubleArray()
+  nameWithType: Tests.TestSerializationDoubleArray()
+- uid: WorkerApiTests.Tests.TestSerializationDoubleArray*
+  name: TestSerializationDoubleArray
+  href: api/WorkerApiTests.Tests.html#WorkerApiTests_Tests_TestSerializationDoubleArray_
+  commentId: Overload:WorkerApiTests.Tests.TestSerializationDoubleArray
   isSpec: "True"
-  fullName: WorkerApiTests.Tests.TestS3Unzip
-  nameWithType: Tests.TestS3Unzip
+  fullName: WorkerApiTests.Tests.TestSerializationDoubleArray
+  nameWithType: Tests.TestSerializationDoubleArray
+- uid: WorkerApiTests.Tests.TestSerializationInt
+  name: TestSerializationInt()
+  href: api/WorkerApiTests.Tests.html#WorkerApiTests_Tests_TestSerializationInt
+  commentId: M:WorkerApiTests.Tests.TestSerializationInt
+  fullName: WorkerApiTests.Tests.TestSerializationInt()
+  nameWithType: Tests.TestSerializationInt()
+- uid: WorkerApiTests.Tests.TestSerializationInt*
+  name: TestSerializationInt
+  href: api/WorkerApiTests.Tests.html#WorkerApiTests_Tests_TestSerializationInt_
+  commentId: Overload:WorkerApiTests.Tests.TestSerializationInt
+  isSpec: "True"
+  fullName: WorkerApiTests.Tests.TestSerializationInt
+  nameWithType: Tests.TestSerializationInt
+- uid: WorkerApiTests.Tests.TestSerializationIntArray
+  name: TestSerializationIntArray()
+  href: api/WorkerApiTests.Tests.html#WorkerApiTests_Tests_TestSerializationIntArray
+  commentId: M:WorkerApiTests.Tests.TestSerializationIntArray
+  fullName: WorkerApiTests.Tests.TestSerializationIntArray()
+  nameWithType: Tests.TestSerializationIntArray()
+- uid: WorkerApiTests.Tests.TestSerializationIntArray*
+  name: TestSerializationIntArray
+  href: api/WorkerApiTests.Tests.html#WorkerApiTests_Tests_TestSerializationIntArray_
+  commentId: Overload:WorkerApiTests.Tests.TestSerializationIntArray
+  isSpec: "True"
+  fullName: WorkerApiTests.Tests.TestSerializationIntArray
+  nameWithType: Tests.TestSerializationIntArray
+- uid: WorkerApiTests.Tests.TestSerializationShort
+  name: TestSerializationShort()
+  href: api/WorkerApiTests.Tests.html#WorkerApiTests_Tests_TestSerializationShort
+  commentId: M:WorkerApiTests.Tests.TestSerializationShort
+  fullName: WorkerApiTests.Tests.TestSerializationShort()
+  nameWithType: Tests.TestSerializationShort()
+- uid: WorkerApiTests.Tests.TestSerializationShort*
+  name: TestSerializationShort
+  href: api/WorkerApiTests.Tests.html#WorkerApiTests_Tests_TestSerializationShort_
+  commentId: Overload:WorkerApiTests.Tests.TestSerializationShort
+  isSpec: "True"
+  fullName: WorkerApiTests.Tests.TestSerializationShort
+  nameWithType: Tests.TestSerializationShort
