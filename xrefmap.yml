@@ -5821,6 +5821,210 @@ references:
   isSpec: "True"
   fullName: ArmoniK.EndToEndTests.Tests.CheckGridServer.SimpleServiceContainer.NonStaticComputeMadd
   nameWithType: SimpleServiceContainer.NonStaticComputeMadd
+- uid: ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy
+  name: ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy
+  href: api/ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.html
+  commentId: N:ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy
+  fullName: ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy
+  nameWithType: ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy
+- uid: ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.EnumerableExt
+  name: EnumerableExt
+  href: api/ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.EnumerableExt.html
+  commentId: T:ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.EnumerableExt
+  fullName: ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.EnumerableExt
+  nameWithType: EnumerableExt
+- uid: ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.EnumerableExt.SubArray*
+  name: SubArray
+  href: api/ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.EnumerableExt.html#ArmoniK_EndToEndTests_Tests_CheckGridServerHeavy_EnumerableExt_SubArray_
+  commentId: Overload:ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.EnumerableExt.SubArray
+  isSpec: "True"
+  fullName: ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.EnumerableExt.SubArray
+  nameWithType: EnumerableExt.SubArray
+- uid: ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.EnumerableExt.SubArray``1(``0[],System.Int32,System.Int32)
+  name: SubArray<T>(T[], Int32, Int32)
+  href: api/ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.EnumerableExt.html#ArmoniK_EndToEndTests_Tests_CheckGridServerHeavy_EnumerableExt_SubArray__1___0___System_Int32_System_Int32_
+  commentId: M:ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.EnumerableExt.SubArray``1(``0[],System.Int32,System.Int32)
+  name.vb: SubArray(Of T)(T(), Int32, Int32)
+  fullName: ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.EnumerableExt.SubArray<T>(T[], System.Int32, System.Int32)
+  fullName.vb: ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.EnumerableExt.SubArray(Of T)(T(), System.Int32, System.Int32)
+  nameWithType: EnumerableExt.SubArray<T>(T[], Int32, Int32)
+  nameWithType.vb: EnumerableExt.SubArray(Of T)(T(), Int32, Int32)
+- uid: ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.HeavyPayloadGridServerClient
+  name: HeavyPayloadGridServerClient
+  href: api/ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.HeavyPayloadGridServerClient.html
+  commentId: T:ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.HeavyPayloadGridServerClient
+  fullName: ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.HeavyPayloadGridServerClient
+  nameWithType: HeavyPayloadGridServerClient
+- uid: ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.HeavyPayloadGridServerClient.#ctor(IConfiguration,ILoggerFactory)
+  name: HeavyPayloadGridServerClient(IConfiguration, ILoggerFactory)
+  href: api/ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.HeavyPayloadGridServerClient.html#ArmoniK_EndToEndTests_Tests_CheckGridServerHeavy_HeavyPayloadGridServerClient__ctor_IConfiguration_ILoggerFactory_
+  commentId: M:ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.HeavyPayloadGridServerClient.#ctor(IConfiguration,ILoggerFactory)
+  fullName: ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.HeavyPayloadGridServerClient.HeavyPayloadGridServerClient(IConfiguration, ILoggerFactory)
+  nameWithType: HeavyPayloadGridServerClient.HeavyPayloadGridServerClient(IConfiguration, ILoggerFactory)
+- uid: ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.HeavyPayloadGridServerClient.#ctor*
+  name: HeavyPayloadGridServerClient
+  href: api/ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.HeavyPayloadGridServerClient.html#ArmoniK_EndToEndTests_Tests_CheckGridServerHeavy_HeavyPayloadGridServerClient__ctor_
+  commentId: Overload:ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.HeavyPayloadGridServerClient.#ctor
+  isSpec: "True"
+  fullName: ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.HeavyPayloadGridServerClient.HeavyPayloadGridServerClient
+  nameWithType: HeavyPayloadGridServerClient.HeavyPayloadGridServerClient
+- uid: ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.HeavyPayloadGridServerClient.EntryPoint
+  name: EntryPoint()
+  href: api/ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.HeavyPayloadGridServerClient.html#ArmoniK_EndToEndTests_Tests_CheckGridServerHeavy_HeavyPayloadGridServerClient_EntryPoint
+  commentId: M:ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.HeavyPayloadGridServerClient.EntryPoint
+  fullName: ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.HeavyPayloadGridServerClient.EntryPoint()
+  nameWithType: HeavyPayloadGridServerClient.EntryPoint()
+- uid: ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.HeavyPayloadGridServerClient.EntryPoint*
+  name: EntryPoint
+  href: api/ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.HeavyPayloadGridServerClient.html#ArmoniK_EndToEndTests_Tests_CheckGridServerHeavy_HeavyPayloadGridServerClient_EntryPoint_
+  commentId: Overload:ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.HeavyPayloadGridServerClient.EntryPoint
+  isSpec: "True"
+  fullName: ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.HeavyPayloadGridServerClient.EntryPoint
+  nameWithType: HeavyPayloadGridServerClient.EntryPoint
+- uid: ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.HeavyPayloadGridServerClient.HandleError(ArmoniK.DevelopmentKit.GridServer.Client.ServiceInvocationException,System.String)
+  name: HandleError(ServiceInvocationException, String)
+  href: api/ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.HeavyPayloadGridServerClient.html#ArmoniK_EndToEndTests_Tests_CheckGridServerHeavy_HeavyPayloadGridServerClient_HandleError_ArmoniK_DevelopmentKit_GridServer_Client_ServiceInvocationException_System_String_
+  commentId: M:ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.HeavyPayloadGridServerClient.HandleError(ArmoniK.DevelopmentKit.GridServer.Client.ServiceInvocationException,System.String)
+  fullName: ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.HeavyPayloadGridServerClient.HandleError(ArmoniK.DevelopmentKit.GridServer.Client.ServiceInvocationException, System.String)
+  nameWithType: HeavyPayloadGridServerClient.HandleError(ServiceInvocationException, String)
+- uid: ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.HeavyPayloadGridServerClient.HandleError*
+  name: HandleError
+  href: api/ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.HeavyPayloadGridServerClient.html#ArmoniK_EndToEndTests_Tests_CheckGridServerHeavy_HeavyPayloadGridServerClient_HandleError_
+  commentId: Overload:ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.HeavyPayloadGridServerClient.HandleError
+  isSpec: "True"
+  fullName: ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.HeavyPayloadGridServerClient.HandleError
+  nameWithType: HeavyPayloadGridServerClient.HandleError
+- uid: ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.HeavyPayloadGridServerClient.HandleResponse(System.Object,System.String)
+  name: HandleResponse(Object, String)
+  href: api/ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.HeavyPayloadGridServerClient.html#ArmoniK_EndToEndTests_Tests_CheckGridServerHeavy_HeavyPayloadGridServerClient_HandleResponse_System_Object_System_String_
+  commentId: M:ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.HeavyPayloadGridServerClient.HandleResponse(System.Object,System.String)
+  fullName: ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.HeavyPayloadGridServerClient.HandleResponse(System.Object, System.String)
+  nameWithType: HeavyPayloadGridServerClient.HandleResponse(Object, String)
+- uid: ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.HeavyPayloadGridServerClient.HandleResponse*
+  name: HandleResponse
+  href: api/ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.HeavyPayloadGridServerClient.html#ArmoniK_EndToEndTests_Tests_CheckGridServerHeavy_HeavyPayloadGridServerClient_HandleResponse_
+  commentId: Overload:ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.HeavyPayloadGridServerClient.HandleResponse
+  isSpec: "True"
+  fullName: ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.HeavyPayloadGridServerClient.HandleResponse
+  nameWithType: HeavyPayloadGridServerClient.HandleResponse
+- uid: ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.SelectExtensions
+  name: SelectExtensions
+  href: api/ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.SelectExtensions.html
+  commentId: T:ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.SelectExtensions
+  fullName: ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.SelectExtensions
+  nameWithType: SelectExtensions
+- uid: ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.SelectExtensions.ConvertToArray(IEnumerable{System.Byte})
+  name: ConvertToArray(IEnumerable<Byte>)
+  href: api/ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.SelectExtensions.html#ArmoniK_EndToEndTests_Tests_CheckGridServerHeavy_SelectExtensions_ConvertToArray_IEnumerable_System_Byte__
+  commentId: M:ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.SelectExtensions.ConvertToArray(IEnumerable{System.Byte})
+  name.vb: ConvertToArray(IEnumerable(Of Byte))
+  fullName: ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.SelectExtensions.ConvertToArray(IEnumerable<System.Byte>)
+  fullName.vb: ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.SelectExtensions.ConvertToArray(IEnumerable(Of System.Byte))
+  nameWithType: SelectExtensions.ConvertToArray(IEnumerable<Byte>)
+  nameWithType.vb: SelectExtensions.ConvertToArray(IEnumerable(Of Byte))
+- uid: ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.SelectExtensions.ConvertToArray*
+  name: ConvertToArray
+  href: api/ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.SelectExtensions.html#ArmoniK_EndToEndTests_Tests_CheckGridServerHeavy_SelectExtensions_ConvertToArray_
+  commentId: Overload:ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.SelectExtensions.ConvertToArray
+  isSpec: "True"
+  fullName: ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.SelectExtensions.ConvertToArray
+  nameWithType: SelectExtensions.ConvertToArray
+- uid: ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.SimpleServiceContainer
+  name: SimpleServiceContainer
+  href: api/ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.SimpleServiceContainer.html
+  commentId: T:ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.SimpleServiceContainer
+  fullName: ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.SimpleServiceContainer
+  nameWithType: SimpleServiceContainer
+- uid: ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.SimpleServiceContainer.ComputeBasicArrayCube(System.Double[])
+  name: ComputeBasicArrayCube(Double[])
+  href: api/ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.SimpleServiceContainer.html#ArmoniK_EndToEndTests_Tests_CheckGridServerHeavy_SimpleServiceContainer_ComputeBasicArrayCube_System_Double___
+  commentId: M:ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.SimpleServiceContainer.ComputeBasicArrayCube(System.Double[])
+  name.vb: ComputeBasicArrayCube(Double())
+  fullName: ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.SimpleServiceContainer.ComputeBasicArrayCube(System.Double[])
+  fullName.vb: ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.SimpleServiceContainer.ComputeBasicArrayCube(System.Double())
+  nameWithType: SimpleServiceContainer.ComputeBasicArrayCube(Double[])
+  nameWithType.vb: SimpleServiceContainer.ComputeBasicArrayCube(Double())
+- uid: ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.SimpleServiceContainer.ComputeBasicArrayCube*
+  name: ComputeBasicArrayCube
+  href: api/ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.SimpleServiceContainer.html#ArmoniK_EndToEndTests_Tests_CheckGridServerHeavy_SimpleServiceContainer_ComputeBasicArrayCube_
+  commentId: Overload:ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.SimpleServiceContainer.ComputeBasicArrayCube
+  isSpec: "True"
+  fullName: ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.SimpleServiceContainer.ComputeBasicArrayCube
+  nameWithType: SimpleServiceContainer.ComputeBasicArrayCube
+- uid: ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.SimpleServiceContainer.ComputeMadd(System.Byte[],System.Byte[],System.Double)
+  name: ComputeMadd(Byte[], Byte[], Double)
+  href: api/ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.SimpleServiceContainer.html#ArmoniK_EndToEndTests_Tests_CheckGridServerHeavy_SimpleServiceContainer_ComputeMadd_System_Byte___System_Byte___System_Double_
+  commentId: M:ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.SimpleServiceContainer.ComputeMadd(System.Byte[],System.Byte[],System.Double)
+  name.vb: ComputeMadd(Byte(), Byte(), Double)
+  fullName: ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.SimpleServiceContainer.ComputeMadd(System.Byte[], System.Byte[], System.Double)
+  fullName.vb: ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.SimpleServiceContainer.ComputeMadd(System.Byte(), System.Byte(), System.Double)
+  nameWithType: SimpleServiceContainer.ComputeMadd(Byte[], Byte[], Double)
+  nameWithType.vb: SimpleServiceContainer.ComputeMadd(Byte(), Byte(), Double)
+- uid: ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.SimpleServiceContainer.ComputeMadd*
+  name: ComputeMadd
+  href: api/ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.SimpleServiceContainer.html#ArmoniK_EndToEndTests_Tests_CheckGridServerHeavy_SimpleServiceContainer_ComputeMadd_
+  commentId: Overload:ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.SimpleServiceContainer.ComputeMadd
+  isSpec: "True"
+  fullName: ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.SimpleServiceContainer.ComputeMadd
+  nameWithType: SimpleServiceContainer.ComputeMadd
+- uid: ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.SimpleServiceContainer.ComputeReduceCube(System.Byte[])
+  name: ComputeReduceCube(Byte[])
+  href: api/ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.SimpleServiceContainer.html#ArmoniK_EndToEndTests_Tests_CheckGridServerHeavy_SimpleServiceContainer_ComputeReduceCube_System_Byte___
+  commentId: M:ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.SimpleServiceContainer.ComputeReduceCube(System.Byte[])
+  name.vb: ComputeReduceCube(Byte())
+  fullName: ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.SimpleServiceContainer.ComputeReduceCube(System.Byte[])
+  fullName.vb: ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.SimpleServiceContainer.ComputeReduceCube(System.Byte())
+  nameWithType: SimpleServiceContainer.ComputeReduceCube(Byte[])
+  nameWithType.vb: SimpleServiceContainer.ComputeReduceCube(Byte())
+- uid: ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.SimpleServiceContainer.ComputeReduceCube*
+  name: ComputeReduceCube
+  href: api/ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.SimpleServiceContainer.html#ArmoniK_EndToEndTests_Tests_CheckGridServerHeavy_SimpleServiceContainer_ComputeReduceCube_
+  commentId: Overload:ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.SimpleServiceContainer.ComputeReduceCube
+  isSpec: "True"
+  fullName: ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.SimpleServiceContainer.ComputeReduceCube
+  nameWithType: SimpleServiceContainer.ComputeReduceCube
+- uid: ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.SimpleServiceContainer.GenerateHeavyCompute(System.Int32)
+  name: GenerateHeavyCompute(Int32)
+  href: api/ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.SimpleServiceContainer.html#ArmoniK_EndToEndTests_Tests_CheckGridServerHeavy_SimpleServiceContainer_GenerateHeavyCompute_System_Int32_
+  commentId: M:ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.SimpleServiceContainer.GenerateHeavyCompute(System.Int32)
+  fullName: ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.SimpleServiceContainer.GenerateHeavyCompute(System.Int32)
+  nameWithType: SimpleServiceContainer.GenerateHeavyCompute(Int32)
+- uid: ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.SimpleServiceContainer.GenerateHeavyCompute*
+  name: GenerateHeavyCompute
+  href: api/ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.SimpleServiceContainer.html#ArmoniK_EndToEndTests_Tests_CheckGridServerHeavy_SimpleServiceContainer_GenerateHeavyCompute_
+  commentId: Overload:ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.SimpleServiceContainer.GenerateHeavyCompute
+  isSpec: "True"
+  fullName: ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.SimpleServiceContainer.GenerateHeavyCompute
+  nameWithType: SimpleServiceContainer.GenerateHeavyCompute
+- uid: ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.SimpleServiceContainer.GenerateHeavyResult(System.Int32)
+  name: GenerateHeavyResult(Int32)
+  href: api/ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.SimpleServiceContainer.html#ArmoniK_EndToEndTests_Tests_CheckGridServerHeavy_SimpleServiceContainer_GenerateHeavyResult_System_Int32_
+  commentId: M:ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.SimpleServiceContainer.GenerateHeavyResult(System.Int32)
+  fullName: ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.SimpleServiceContainer.GenerateHeavyResult(System.Int32)
+  nameWithType: SimpleServiceContainer.GenerateHeavyResult(Int32)
+- uid: ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.SimpleServiceContainer.GenerateHeavyResult*
+  name: GenerateHeavyResult
+  href: api/ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.SimpleServiceContainer.html#ArmoniK_EndToEndTests_Tests_CheckGridServerHeavy_SimpleServiceContainer_GenerateHeavyResult_
+  commentId: Overload:ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.SimpleServiceContainer.GenerateHeavyResult
+  isSpec: "True"
+  fullName: ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.SimpleServiceContainer.GenerateHeavyResult
+  nameWithType: SimpleServiceContainer.GenerateHeavyResult
+- uid: ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.SimpleServiceContainer.NonStaticComputeMadd(System.Byte[],System.Byte[],System.Double)
+  name: NonStaticComputeMadd(Byte[], Byte[], Double)
+  href: api/ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.SimpleServiceContainer.html#ArmoniK_EndToEndTests_Tests_CheckGridServerHeavy_SimpleServiceContainer_NonStaticComputeMadd_System_Byte___System_Byte___System_Double_
+  commentId: M:ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.SimpleServiceContainer.NonStaticComputeMadd(System.Byte[],System.Byte[],System.Double)
+  name.vb: NonStaticComputeMadd(Byte(), Byte(), Double)
+  fullName: ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.SimpleServiceContainer.NonStaticComputeMadd(System.Byte[], System.Byte[], System.Double)
+  fullName.vb: ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.SimpleServiceContainer.NonStaticComputeMadd(System.Byte(), System.Byte(), System.Double)
+  nameWithType: SimpleServiceContainer.NonStaticComputeMadd(Byte[], Byte[], Double)
+  nameWithType.vb: SimpleServiceContainer.NonStaticComputeMadd(Byte(), Byte(), Double)
+- uid: ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.SimpleServiceContainer.NonStaticComputeMadd*
+  name: NonStaticComputeMadd
+  href: api/ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.SimpleServiceContainer.html#ArmoniK_EndToEndTests_Tests_CheckGridServerHeavy_SimpleServiceContainer_NonStaticComputeMadd_
+  commentId: Overload:ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.SimpleServiceContainer.NonStaticComputeMadd
+  isSpec: "True"
+  fullName: ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.SimpleServiceContainer.NonStaticComputeMadd
+  nameWithType: SimpleServiceContainer.NonStaticComputeMadd
 - uid: ArmoniK.EndToEndTests.Tests.CheckMultipleTasks
   name: ArmoniK.EndToEndTests.Tests.CheckMultipleTasks
   href: api/ArmoniK.EndToEndTests.Tests.CheckMultipleTasks.html
