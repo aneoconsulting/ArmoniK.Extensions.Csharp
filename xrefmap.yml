@@ -6730,6 +6730,28 @@ references:
   isSpec: "True"
   fullName: ArmoniK.Extensions.Common.StreamWrapper.Client.SubmitterClientExt.GetResultAsync
   nameWithType: SubmitterClientExt.GetResultAsync
+- uid: ArmoniK.Extensions.Common.StreamWrapper.Client.SubmitterClientExt.ToRequestStream(System.Collections.Generic.IEnumerable{TaskRequest},System.String,TaskOptions,System.Int32)
+  name: ToRequestStream(IEnumerable<TaskRequest>, String, TaskOptions, Int32)
+  href: api/ArmoniK.Extensions.Common.StreamWrapper.Client.SubmitterClientExt.html#ArmoniK_Extensions_Common_StreamWrapper_Client_SubmitterClientExt_ToRequestStream_System_Collections_Generic_IEnumerable_TaskRequest__System_String_TaskOptions_System_Int32_
+  commentId: M:ArmoniK.Extensions.Common.StreamWrapper.Client.SubmitterClientExt.ToRequestStream(System.Collections.Generic.IEnumerable{TaskRequest},System.String,TaskOptions,System.Int32)
+  name.vb: ToRequestStream(IEnumerable(Of TaskRequest), String, TaskOptions, Int32)
+  fullName: ArmoniK.Extensions.Common.StreamWrapper.Client.SubmitterClientExt.ToRequestStream(System.Collections.Generic.IEnumerable<TaskRequest>, System.String, TaskOptions, System.Int32)
+  fullName.vb: ArmoniK.Extensions.Common.StreamWrapper.Client.SubmitterClientExt.ToRequestStream(System.Collections.Generic.IEnumerable(Of TaskRequest), System.String, TaskOptions, System.Int32)
+  nameWithType: SubmitterClientExt.ToRequestStream(IEnumerable<TaskRequest>, String, TaskOptions, Int32)
+  nameWithType.vb: SubmitterClientExt.ToRequestStream(IEnumerable(Of TaskRequest), String, TaskOptions, Int32)
+- uid: ArmoniK.Extensions.Common.StreamWrapper.Client.SubmitterClientExt.ToRequestStream(TaskRequest,System.Boolean,System.Int32)
+  name: ToRequestStream(TaskRequest, Boolean, Int32)
+  href: api/ArmoniK.Extensions.Common.StreamWrapper.Client.SubmitterClientExt.html#ArmoniK_Extensions_Common_StreamWrapper_Client_SubmitterClientExt_ToRequestStream_TaskRequest_System_Boolean_System_Int32_
+  commentId: M:ArmoniK.Extensions.Common.StreamWrapper.Client.SubmitterClientExt.ToRequestStream(TaskRequest,System.Boolean,System.Int32)
+  fullName: ArmoniK.Extensions.Common.StreamWrapper.Client.SubmitterClientExt.ToRequestStream(TaskRequest, System.Boolean, System.Int32)
+  nameWithType: SubmitterClientExt.ToRequestStream(TaskRequest, Boolean, Int32)
+- uid: ArmoniK.Extensions.Common.StreamWrapper.Client.SubmitterClientExt.ToRequestStream*
+  name: ToRequestStream
+  href: api/ArmoniK.Extensions.Common.StreamWrapper.Client.SubmitterClientExt.html#ArmoniK_Extensions_Common_StreamWrapper_Client_SubmitterClientExt_ToRequestStream_
+  commentId: Overload:ArmoniK.Extensions.Common.StreamWrapper.Client.SubmitterClientExt.ToRequestStream
+  isSpec: "True"
+  fullName: ArmoniK.Extensions.Common.StreamWrapper.Client.SubmitterClientExt.ToRequestStream
+  nameWithType: SubmitterClientExt.ToRequestStream
 - uid: ArmoniK.Extensions.Common.StreamWrapper.Client.SubmitterClientExt.TryGetResultAsync(Submitter.SubmitterClient,ResultRequest,System.Threading.CancellationToken)
   name: TryGetResultAsync(Submitter.SubmitterClient, ResultRequest, CancellationToken)
   href: api/ArmoniK.Extensions.Common.StreamWrapper.Client.SubmitterClientExt.html#ArmoniK_Extensions_Common_StreamWrapper_Client_SubmitterClientExt_TryGetResultAsync_Submitter_SubmitterClient_ResultRequest_System_Threading_CancellationToken_
@@ -7363,6 +7385,12 @@ references:
   fullName.vb: ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskRequestExtensions.ToRequestStream(System.Collections.Generic.IEnumerable(Of TaskRequest), TaskOptions, System.Int32)
   nameWithType: TaskRequestExtensions.ToRequestStream(IEnumerable<TaskRequest>, TaskOptions, Int32)
   nameWithType.vb: TaskRequestExtensions.ToRequestStream(IEnumerable(Of TaskRequest), TaskOptions, Int32)
+- uid: ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskRequestExtensions.ToRequestStream(TaskRequest,System.Boolean,System.Int32)
+  name: ToRequestStream(TaskRequest, Boolean, Int32)
+  href: api/ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskRequestExtensions.html#ArmoniK_Extensions_Common_StreamWrapper_Worker_TaskRequestExtensions_ToRequestStream_TaskRequest_System_Boolean_System_Int32_
+  commentId: M:ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskRequestExtensions.ToRequestStream(TaskRequest,System.Boolean,System.Int32)
+  fullName: ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskRequestExtensions.ToRequestStream(TaskRequest, System.Boolean, System.Int32)
+  nameWithType: TaskRequestExtensions.ToRequestStream(TaskRequest, Boolean, Int32)
 - uid: ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskRequestExtensions.ToRequestStream*
   name: ToRequestStream
   href: api/ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskRequestExtensions.html#ArmoniK_Extensions_Common_StreamWrapper_Worker_TaskRequestExtensions_ToRequestStream_
