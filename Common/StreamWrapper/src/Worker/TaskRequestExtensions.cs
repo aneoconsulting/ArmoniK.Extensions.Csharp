@@ -76,7 +76,7 @@ namespace ArmoniK.Extensions.Common.StreamWrapper.Worker
       }
     }
 
-    public static IEnumerable<ProcessReply.Types.CreateLargeTaskRequest> ToRequestStream(this TaskRequest taskRequest,
+    private static IEnumerable<ProcessReply.Types.CreateLargeTaskRequest> ToRequestStream(this TaskRequest taskRequest,
                                                                                          bool             isLast,
                                                                                          int              chunkMaxSize)
     {
@@ -110,8 +110,8 @@ namespace ArmoniK.Extensions.Common.StreamWrapper.Worker
         {
           TaskPayload = new()
           {
-            Data = ByteString.CopyFrom(taskRequest.Payload.Span.Slice(start,
-                                                                      chunkSize)),
+            Data = UnsafeByteOperations.UnsafeWrap(taskRequest.Payload.Memory.Slice(start,
+                                                                                    chunkSize)),
           },
         };
 
