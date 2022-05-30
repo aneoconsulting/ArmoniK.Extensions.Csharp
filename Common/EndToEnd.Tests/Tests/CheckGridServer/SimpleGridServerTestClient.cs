@@ -46,15 +46,15 @@ namespace ArmoniK.EndToEndTests.Tests.CheckGridServer
     [EntryPoint]
     public override void EntryPoint()
     {
+      Log.LogInformation("Configure taskOptions");
       var taskOptions = InitializeTaskOptions();
       OverrideTaskOptions(taskOptions);
 
       taskOptions.Options[AppsOptions.GridServiceNameKey] = "SimpleServiceContainer";
 
-      var props = new Properties(Configuration,
-                                 taskOptions);
       //var props = new Properties(Configuration,
-      //                           taskOptions, "http://ANEO-SB2-8454-wsl.local", 5001);
+      //                           taskOptions);
+      var props = new Properties(taskOptions, Configuration.GetSection("Grpc")["EndPoint"], 5001);
 
       //var resourceId = ServiceAdmin.CreateInstance(Configuration, LoggerFactory,props).UploadResource("filePath");
 
@@ -62,7 +62,7 @@ namespace ArmoniK.EndToEndTests.Tests.CheckGridServer
       using var cs = ServiceFactory.GetInstance().CreateService(taskOptions.Options[AppsOptions.GridAppNameKey],
                                                                 props);
 
-      Log.LogInformation("Configure taskOptions");
+      
 
       Log.LogInformation($"New session created : {cs.SessionId}");
 

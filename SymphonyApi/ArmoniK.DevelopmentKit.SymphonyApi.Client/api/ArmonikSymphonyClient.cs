@@ -61,6 +61,8 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client
     public string SectionGrpc { get; set; } = "Grpc";
 
     private static string SectionEndPoint { get; } = "Endpoint";
+
+    public string SectionMTLS { get; set; } = "mTLS";
     private static string SectionSSlValidation { get; } = "SSLValidation";
     private static string SectionClientCertFile { get; } = "ClientCert";
     private static string SectionClientKeyFile { get; } = "ClientKey";
@@ -123,15 +125,18 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client
       string clientKeyFilename  = null;
       var    sslValidation      = true;
 
-      if (controlPlanSection_!.GetSection(SectionClientCertFile).Exists())
-        clientCertFilename = controlPlanSection_[SectionClientCertFile];
+      if (controlPlanSection_!.GetSection(SectionMTLS).Exists() && controlPlanSection_[SectionMTLS].ToLower() == "true")
+      {
+        if (controlPlanSection_!.GetSection(SectionClientCertFile).Exists())
+          clientCertFilename = controlPlanSection_[SectionClientCertFile];
 
-      if (controlPlanSection_!.GetSection(SectionClientKeyFile).Exists())
-        clientKeyFilename = controlPlanSection_[SectionClientKeyFile];
+        if (controlPlanSection_!.GetSection(SectionClientKeyFile).Exists())
+          clientKeyFilename = controlPlanSection_[SectionClientKeyFile];
+      }
 
       if (controlPlanSection_!.GetSection(SectionSSlValidation).Exists() &&
           controlPlanSection_![SectionSSlValidation] == "disable")
-        sslValidation = false;
+          sslValidation = false;
 
       ControlPlaneService ??= ClientServiceConnector.ControlPlaneConnection(controlPlanSection_[SectionEndPoint],
                                                                             clientCertFilename,
@@ -139,5 +144,7 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client
                                                                             sslValidation,
                                                                             LoggerFactory);
     }
+
+    
   }
 }
