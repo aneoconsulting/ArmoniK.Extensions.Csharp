@@ -103,19 +103,19 @@ namespace ArmoniK.EndToEndTests.Tests.CheckTypeOfSubmission
                      "Submission Error 10 Jobs with 1 subtask");
       }
 
-      try
-      {
-        SubmissionTask(sessionService,
-                       1,
-                       5000,
-                       SubmissionType.Sequential,
-                       GetResultType.GetResult);
-      }
-      catch (Exception e)
-      {
-        Log.LogError(e,
-                     "Submission Error 1 Jobs with 5000 subtasks");
-      }
+      //try
+      //{
+      //  SubmissionTask(sessionService,
+      //                 1,
+      //                 5000,
+      //                 SubmissionType.Sequential,
+      //                 GetResultType.GetResult);
+      //}
+      //catch (Exception e)
+      //{
+      //  Log.LogError(e,
+      //               "Submission Error 1 Jobs with 5000 subtasks");
+      //}
 
       try
       {
