@@ -7610,6 +7610,19 @@ references:
   isSpec: "True"
   fullName: ArmoniK.Extensions.Common.StreamWrapper.Worker.WorkerStreamWrapper.WorkerStreamWrapper
   nameWithType: WorkerStreamWrapper.WorkerStreamWrapper
+- uid: ArmoniK.Extensions.Common.StreamWrapper.Worker.WorkerStreamWrapper.HealthCheck(Empty,ServerCallContext)
+  name: HealthCheck(Empty, ServerCallContext)
+  href: api/ArmoniK.Extensions.Common.StreamWrapper.Worker.WorkerStreamWrapper.html#ArmoniK_Extensions_Common_StreamWrapper_Worker_WorkerStreamWrapper_HealthCheck_Empty_ServerCallContext_
+  commentId: M:ArmoniK.Extensions.Common.StreamWrapper.Worker.WorkerStreamWrapper.HealthCheck(Empty,ServerCallContext)
+  fullName: ArmoniK.Extensions.Common.StreamWrapper.Worker.WorkerStreamWrapper.HealthCheck(Empty, ServerCallContext)
+  nameWithType: WorkerStreamWrapper.HealthCheck(Empty, ServerCallContext)
+- uid: ArmoniK.Extensions.Common.StreamWrapper.Worker.WorkerStreamWrapper.HealthCheck*
+  name: HealthCheck
+  href: api/ArmoniK.Extensions.Common.StreamWrapper.Worker.WorkerStreamWrapper.html#ArmoniK_Extensions_Common_StreamWrapper_Worker_WorkerStreamWrapper_HealthCheck_
+  commentId: Overload:ArmoniK.Extensions.Common.StreamWrapper.Worker.WorkerStreamWrapper.HealthCheck
+  isSpec: "True"
+  fullName: ArmoniK.Extensions.Common.StreamWrapper.Worker.WorkerStreamWrapper.HealthCheck
+  nameWithType: WorkerStreamWrapper.HealthCheck
 - uid: ArmoniK.Extensions.Common.StreamWrapper.Worker.WorkerStreamWrapper.logger_
   name: logger_
   href: api/ArmoniK.Extensions.Common.StreamWrapper.Worker.WorkerStreamWrapper.html#ArmoniK_Extensions_Common_StreamWrapper_Worker_WorkerStreamWrapper_logger_
