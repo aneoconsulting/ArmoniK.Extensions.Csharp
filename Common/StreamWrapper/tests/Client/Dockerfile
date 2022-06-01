@@ -19,4 +19,8 @@ RUN dotnet publish "ArmoniK.Extensions.Common.StreamWrapper.Tests.Client.csproj"
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+
+RUN groupadd --gid 5000 armonikuser && useradd --home-dir /home/armonikuser --create-home --uid 5000 --gid 5000 --shell /bin/sh --skel /dev/null armonikuser
+USER armonikuser
+
 ENTRYPOINT ["dotnet", "ArmoniK.Extensions.Common.StreamWrapper.Tests.Client.dll"]
