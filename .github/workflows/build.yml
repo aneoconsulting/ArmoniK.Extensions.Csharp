@@ -211,7 +211,7 @@ jobs:
         with:
           ref: ${{ github.ref }}
 
-      - uses: aneoconsulting/ArmoniK@v2.7.x
+      - uses: aneoconsulting/ArmoniK@main
         id: deploy-infra
         with:
           worker-image: dockerhubaneo/armonik_worker_dll
@@ -236,7 +236,7 @@ jobs:
         with:
           ref: ${{ github.ref }}
 
-      - uses: aneoconsulting/ArmoniK@v2.7.x
+      - uses: aneoconsulting/ArmoniK@main
         id: deploy-infra
         with:
           worker-image: dockerhubaneo/armonik_streamwrapper_test
