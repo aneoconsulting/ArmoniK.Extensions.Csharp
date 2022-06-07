@@ -10,8 +10,8 @@
 		<AppendTargetFrameworkToOutputPath>true</AppendTargetFrameworkToOutputPath>
 		<RuntimeIdentifier>win-x64</RuntimeIdentifier>
 		<OutputPath>bin/$(Configuration)/</OutputPath>
-		<PublishDir>../publish/$(MSBuildProjectName)/$(Version)</PublishDir>
-		<PublishUrl>../publish/$(MSBuildProjectName)/$(Version)</PublishUrl>
+		<PublishDir>../publish/$(MSBuildProjectName)/$(Version)/</PublishDir>
+		<PublishUrl>../publish/$(MSBuildProjectName)/$(Version)/</PublishUrl>
     <LangVersion>latest</LangVersion>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
 	</PropertyGroup>
@@ -25,8 +25,8 @@
 		<DebugType>embedded</DebugType>
 		<IncludeSymbols>true</IncludeSymbols>
 		<DefineConstants>DEBUG;TRACE</DefineConstants>
-		<PublishDir>../publish/$(MSBuildProjectName)/$(Version)</PublishDir>
-		<PublishUrl>../publish/$(MSBuildProjectName)/$(Version)</PublishUrl>
+		<PublishDir>../publish/$(MSBuildProjectName)/$(Version)/</PublishDir>
+		<PublishUrl>../publish/$(MSBuildProjectName)/$(Version)/</PublishUrl>
 	</PropertyGroup>
 
   <ItemGroup>
@@ -65,7 +65,7 @@
 
 
   <Target Name="CreateDirectories" AfterTargets="AfterPublish">
-    <MakeDir Directories="../packages" />
+    <MakeDir Directories="../packages/" />
   </Target>
 
 	<Target Name="ZipOutputPath" AfterTargets="CreateDirectories">

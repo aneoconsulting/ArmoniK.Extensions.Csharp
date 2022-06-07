@@ -99,10 +99,13 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
         Session = SessionId.Id,
       };
 
+      WaitForTaskCompletion(taskId);
+
       Retry.WhileException(5,
                            200,
                            () =>
                            {
+                             
                              var taskOutput = ControlPlaneService.TryGetTaskOutput(resultRequest);
 
                              switch (taskOutput.TypeCase)
@@ -290,10 +293,15 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
 
       byte[] res = null;
 
+      HealthCheckResult(taskId);
+
       Retry.WhileException(5,
                            200,
                            () =>
                            {
+                             
+
+
                              var availabilityReply = ControlPlaneService.WaitForAvailability(resultRequest,
                                                                                              cancellationToken: cancellationToken);
 

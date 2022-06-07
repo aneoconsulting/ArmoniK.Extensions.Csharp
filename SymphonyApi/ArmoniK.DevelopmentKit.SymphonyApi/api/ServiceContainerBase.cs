@@ -65,7 +65,11 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.api
 
     //internal ITaskHandler TaskHandler { get; set; }
 
-    internal IDictionary<string, string> ClientOptions { get; set; } = new Dictionary<string, string>();
+    /// <summary>
+    /// Return TaskOption.Options coming from Client side
+    /// 
+    /// </summary>
+    public IDictionary<string, string> ClientOptions { get; set; } = new Dictionary<string, string>();
 
     /// <summary>
     ///   Get or set the taskId (ONLY INTERNAL USED)

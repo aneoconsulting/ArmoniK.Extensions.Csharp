@@ -93,6 +93,13 @@ namespace ArmoniK.DevelopmentKit.WorkerApi
         logger_.LogError($"Cannot load assembly from path [${localPathToAssemblyGridWorker}]");
         throw new WorkerApiException($"Cannot load assembly from path [${localPathToAssemblyGridWorker}]");
       }
+      
+      var location = Path.GetDirectoryName(localPathToAssembly);
+      if (location != null)
+      {
+        Directory.SetCurrentDirectory(location);
+        logger_.LogInformation($"Set Default path to [${location}]");
+      }
 
       logger_.LogInformation($"GridWorker assembly from path [${localPathToAssemblyGridWorker}]");
 
@@ -170,7 +177,6 @@ namespace ArmoniK.DevelopmentKit.WorkerApi
     {
       using (UserAssemblyLoadContext.EnterContextualReflection())
       {
-
         // Create an instance of a class from the assembly.
         var classType = assembly_.GetType($"{appNamespace}.{serviceContainerClassName}");
 

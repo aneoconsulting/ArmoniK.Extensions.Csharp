@@ -216,20 +216,13 @@ jobs:
         with:
           worker-image: dockerhubaneo/armonik_worker_dll
           worker-tag: ${{ needs.versionning.outputs.version }}
+          ingress: 'None'
 
       - name: Run EndToEnd.Tests
         run: |
-         export CPIP=$(kubectl get svc control-plane -n armonik -o custom-columns="IP:.spec.clusterIP" --no-headers=true)
-         export CPPort=$(kubectl get svc control-plane -n armonik -o custom-columns="PORT:.spec.ports[*].port" --no-headers=true)
-         export Grpc__Endpoint=http://$CPIP:$CPPort
-
-         cd Common/EndToEnd.Tests/
-         dotnet publish --self-contained -r linux-x64 -f net5.0
-
+         cd tools/tests
          mkdir -p ${HOME}/data
-         cp -v ../packages/ArmoniK.EndToEndTests-v1.0.0-700.zip ${HOME}/data
-
-         dotnet run -r linux-x64 -f net5.0
+         bash -x ./endToEndTests.sh
 
   testStreamWrapper:
     needs:
