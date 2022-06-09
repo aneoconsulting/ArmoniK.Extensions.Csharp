@@ -39,7 +39,4 @@ RUN groupadd --gid 5000 armonikuser && useradd --home-dir /home/armonikuser --cr
 RUN mkdir /cache && chown armonikuser: /cache
 USER armonikuser
 
-ENV ASPNETCORE_URLS http://+:1080
-EXPOSE 1080
-
 ENTRYPOINT ["dotnet", "ArmoniK.DevelopmentKit.WorkerApi.dll"]
