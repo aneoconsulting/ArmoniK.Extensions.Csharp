@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-export MODE=""
+export MODE="All"
 export SERVER_NFS_IP=""
 export STORAGE_TYPE="HostPath"
 configuration=Debug
@@ -11,7 +11,8 @@ TO_BUCKET=false
 PACKAGE_NAME="ArmoniK.EndToEndTests-v1.0.0-700.zip"
 RELATIVE_PROJECT="../../Common/EndToEnd.Tests"
 RELATIVE_CLIENT=""
-
+DEFAULT=FALSE
+args=""
 
 BASEDIR=$(dirname "$0")
 pushd $BASEDIR
@@ -27,14 +28,14 @@ pushd $(dirname $0) >/dev/null 2>&1
 BASEDIR=$(pwd -P)
 popd >/dev/null 2>&1
 
-
 TestDir=${BASEDIR}/$RELATIVE_PROJECT
+
 cd ${TestDir}
 kubectl get svc -n armonik -o wide
 export CPIP=$(kubectl get svc ingress -n armonik -o custom-columns="IP:.spec.clusterIP" --no-headers=true)
 export CPPort=$(kubectl get svc ingress -n armonik -o custom-columns="PORT:.spec.ports[1].port" --no-headers=true)
 export Grpc__Endpoint=http://$CPIP:$CPPort
-export Grpc__SSLValidation="true"
+export Grpc__SSLValidation="false"
 export Grpc__CaCert=""
 export Grpc__ClientCert=""
 export Grpc__ClientKey=""
@@ -57,9 +58,9 @@ function GetGrpcEndPointFromFile()
   OUTPUT_JSON=$1
   if [ -f ${OUTPUT_JSON} ]; then
     #Test if ingress exists
-    link=`cat ${OUTPUT_JSON} | jq -e '.armonik.ingress.control_plane'`
+    link=`cat ${OUTPUT_JSON} | jq -r -e '.armonik.ingress.control_plane'`
     if [ "$?" == "1" ]; then
-      link=`cat ${OUTPUT_JSON} | jq -e '.armonik.control_plane_url'`
+      link=`cat ${OUTPUT_JSON} | jq -r -e '.armonik.control_plane_url'`
       if [ "$?" == "1" ]; then
         echo "Error : cannot read Endpoint from file ${OUTPUT_JSON}"
         exit 1
@@ -76,9 +77,8 @@ function GetGrpcEndPoint()
     echo "Running with endPoint ${Grpc__Endpoint}"
 }
 
-
 echo "Need to create Data folder for application"
-mkdir -p ${HOME}/data
+mkdir -p "${HOME}/data"
 
 function build() {
   cd ${TestDir}/
@@ -93,16 +93,16 @@ function deploy() {
   if [[ ${TO_BUCKET} == true ]]; then
     export S3_BUCKET=$(aws s3api list-buckets --output json | jq -r '.Buckets[0].Name')
     echo "Copy of S3 Bucket ${TO_BUCKET}"
-    echo aws s3 cp ../packages/${PACKAGE_NAME} s3://$S3_BUCKET
+    aws s3 cp "../packages/${PACKAGE_NAME}" "s3://$S3_BUCKET"
   else
-    cp -v ../packages/${PACKAGE_NAME} ${HOME}/data
+    cp -v "../packages/${PACKAGE_NAME}" "${HOME}/data"
   fi
   kubectl delete -n armonik $(kubectl get pods -n armonik -l service=compute-plane --no-headers=true -o name) || true
 }
 
 function execute() {
   echo "cd ${TestDir}/${RELATIVE_CLIENT}/"
-  cd ${TestDir}/${RELATIVE_CLIENT}/
+  cd "${TestDir}/${RELATIVE_CLIENT}/"
   echo dotnet run --self-contained -r linux-x64 -f ${FRAMEWORK} -c ${configuration} $@
   dotnet run --self-contained -r linux-x64 -f ${FRAMEWORK} -c ${configuration} $@
 }
@@ -135,10 +135,6 @@ function printConfiguration() {
   echo
 }
 
-DEFAULT=FALSE
-MODE=All
-args=""
-
 function main() {
 args=()
 
@@ -147,22 +143,22 @@ while [ $# -ne 0 ]; do
 
     case "$1" in
     -ssl)
-      shift
       SSLConnection
+      shift
       ;;
     -s3)
-      shift
       TO_BUCKET=true
+      shift
       ;;
     -e | --endpoint)
+      GetGrpcEndPoint "$2"
       shift
-      GetGrpcEndPoint "$1"
       shift
       ;;
 
     -f | --file)
+      GetGrpcEndPointFromFile "$2"
       shift
-      GetGrpcEndPointFromFile "$1"
       shift
       ;;
 
