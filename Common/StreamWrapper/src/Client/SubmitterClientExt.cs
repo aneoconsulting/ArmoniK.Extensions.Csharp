@@ -267,17 +267,13 @@ namespace ArmoniK.Extensions.Common.StreamWrapper.Client
 
             break;
           case ResultReply.TypeOneofCase.None:
-            return new byte[]
-            {
-            };
+            return null;
 
           case ResultReply.TypeOneofCase.Error:
             throw new($"Error in task {reply.Error.TaskId} {string.Join("Message is : ", reply.Error.Error.Select(x => x.Detail))}");
 
           case ResultReply.TypeOneofCase.NotCompletedTask:
-            return new byte[]
-            {
-            };
+            return null;
 
           default:
             throw new ArgumentOutOfRangeException("Got a reply with an unexpected message type.",
