@@ -29,6 +29,7 @@ using Google.Protobuf.WellKnownTypes;
 using Microsoft.Extensions.Configuration;
 
 using System;
+using System.IO;
 
 
 namespace ArmoniK.DevelopmentKit.GridServer.Client
@@ -77,7 +78,7 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
                       string      clientCertPem  = null,
                       string      clientKeyPem   = null,
                       string      caCertPem      = null,
-                      bool        sslValidation  = true) : this(new ConfigurationBuilder().Build(),
+                      bool        sslValidation  = true) : this(new ConfigurationBuilder().AddEnvironmentVariables().Build(),
                                                                 options,
                                                                 connectionAddress,
                                                                 connectionPort,
@@ -117,21 +118,34 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
       Configuration = configuration;
 
       var sectionGrpc = configuration.GetSection(SectionGrpc).Exists() ? configuration.GetSection(SectionGrpc) : null;
-      ConnectionString  = sectionGrpc!.GetSection(SectionEndPoint).Exists() ? sectionGrpc![SectionEndPoint] : null;
-      ConfSSLValidation = !sectionGrpc!.GetSection(SectionSSlValidation).Exists() || sectionGrpc![SectionSSlValidation] != "disable";
 
-      CaCertFilePem = !string.IsNullOrEmpty(caCertPem) ? caCertPem : (sectionGrpc!.GetSection(SectionCaCert).Exists() ? sectionGrpc![SectionCaCert] : caCertPem);
 
-      ClientCertFilePem = !string.IsNullOrEmpty(clientCertFilePem)
-        ? clientCertFilePem
-        : (sectionGrpc!.GetSection(SectionClientCert).Exists() ? sectionGrpc![SectionClientCert] : null);
+      if (sectionGrpc != null)
+      {
+        ConnectionString  = sectionGrpc.GetSection(SectionEndPoint).Exists() ? sectionGrpc[SectionEndPoint] : null;
+        ConfSSLValidation = !sectionGrpc.GetSection(SectionSSlValidation).Exists() || sectionGrpc[SectionSSlValidation] != "disable";
 
-      ClientKeyFilePem = !string.IsNullOrEmpty(clientKeyFilePem)
-        ? clientKeyFilePem
-        : (sectionGrpc!.GetSection(SectionClientKey).Exists() ? sectionGrpc![SectionClientKey] : null);
+        if (sectionGrpc.GetSection(SeccionMTLS).Exists() && sectionGrpc[SeccionMTLS].ToLower() == "true")
+        {
+          CaCertFilePem     = sectionGrpc.GetSection(SectionCaCert).Exists() ? sectionGrpc[SectionCaCert] : null;
+          ClientCertFilePem = sectionGrpc.GetSection(SectionClientCert).Exists() ? sectionGrpc[SectionClientCert] : null;
+          ClientKeyFilePem  = sectionGrpc.GetSection(SectionClientKey).Exists() ? sectionGrpc[SectionClientKey] : null;
+        }
+      }
+
+      if (clientCertFilePem != null) ClientCertFilePem = clientCertFilePem;
+      if (clientKeyFilePem != null) ClientKeyFilePem   = clientKeyFilePem;
+      if (caCertPem != null) CaCertFilePem             = caCertPem;
 
       ConfSSLValidation = sslValidation && ConfSSLValidation;
 
+      //Console.WriteLine($"Parameters coming from Properties :\n" +
+      //                  $"ConnectionString  = {ConnectionString}\n" +
+      //                  $"ConfSSLValidation = {ConfSSLValidation}\n" +
+      //                  $"CaCertFilePem     = {CaCertFilePem}\n" +
+      //                  $"ClientCertFilePem = {ClientCertFilePem}\n" +
+      //                  $"ClientKeyFilePem  = {ClientKeyFilePem}\n"
+      //                  );
 
       if (connectionAddress != null)
       {
@@ -151,6 +165,8 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
 
       ControlPlaneUri = new Uri(ConnectionString);
     }
+
+    public string SeccionMTLS { get; set; } = "mTLS";
 
     public string CaCertFilePem { get; set; }
 
@@ -194,6 +210,8 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
       {
         try
         {
+          if (string.IsNullOrEmpty(value)) return;
+
           var uri = new Uri(value);
 
           Protocol = uri.Scheme;

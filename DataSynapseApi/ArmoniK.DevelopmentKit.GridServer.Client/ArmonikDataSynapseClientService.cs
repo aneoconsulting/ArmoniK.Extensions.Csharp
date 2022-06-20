@@ -105,10 +105,6 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
         return;
 
 
-      var uri = new Uri(properties_.ConnectionString);
-      Logger.LogInformation($"Connecting to armoniK  : {uri} port : {uri.Port}");
-      Logger.LogInformation($"HTTPS Activated: {uri.Scheme == Uri.UriSchemeHttps}");
-
       ControlPlaneService = ClientServiceConnector.ControlPlaneConnection(properties_.ConnectionString,
                                                                           properties_.ClientCertFilePem,
                                                                           properties_.ClientKeyFilePem,

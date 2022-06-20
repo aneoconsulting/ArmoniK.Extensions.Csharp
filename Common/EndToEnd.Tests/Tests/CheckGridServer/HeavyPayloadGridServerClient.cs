@@ -25,18 +25,22 @@ using ArmoniK.Api.gRPC.V1;
 using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.GridServer.Client;
 using ArmoniK.EndToEndTests.Common;
+
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive.Linq;
+
 using SessionService = ArmoniK.DevelopmentKit.SymphonyApi.Client.api.SessionService;
 
-namespace ArmoniK.EndToEndTests.Tests.CheckGridServer
+namespace ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy
 {
-  public class SimpleGridServerTestClient : ClientBaseTest<SimpleGridServerTestClient>, IServiceInvocationHandler
+  public class HeavyPayloadGridServerClient : ClientBaseTest<HeavyPayloadGridServerClient>, IServiceInvocationHandler
   {
-    public SimpleGridServerTestClient(IConfiguration configuration, ILoggerFactory loggerFactory) :
+    public HeavyPayloadGridServerClient(IConfiguration configuration, ILoggerFactory loggerFactory) :
       base(configuration,
            loggerFactory)
     {
@@ -54,7 +58,9 @@ namespace ArmoniK.EndToEndTests.Tests.CheckGridServer
 
       //var props = new Properties(Configuration,
       //                           taskOptions);
-      var props = new Properties(taskOptions, Configuration.GetSection("Grpc")["EndPoint"], 5001);
+      var props = new Properties(taskOptions,
+                                 Configuration.GetSection("Grpc")["EndPoint"],
+                                 5001);
 
       //var resourceId = ServiceAdmin.CreateInstance(Configuration, LoggerFactory,props).UploadResource("filePath");
 
@@ -62,7 +68,6 @@ namespace ArmoniK.EndToEndTests.Tests.CheckGridServer
       using var cs = ServiceFactory.GetInstance().CreateService(taskOptions.Options[AppsOptions.GridAppNameKey],
                                                                 props);
 
-      
 
       Log.LogInformation($"New session created : {cs.SessionId}");
 
@@ -100,38 +105,20 @@ namespace ArmoniK.EndToEndTests.Tests.CheckGridServer
     /// <param name="sessionService"></param>
     private void ClientStartup1(Service sessionService)
     {
-      var numbers = new List<double>
-      {
-        1.0,
-        2.0,
-        3.0,
-        3.0,
-        3.0,
-        3.0,
-        3.0,
-        3.0,
-      }.ToArray();
+      //sessionService.Submit("GenerateHeavyResult",
+      //                      ParamsHelper(1000000),
+      //                      this);
 
-      sessionService.Submit("ComputeBasicArrayCube",
-                            ParamsHelper(numbers),
-                            this);
+      //sessionService.Submit("GenerateHeavyExpM1",
+      //                      ParamsHelper(1000),
+      //                      this);
 
-      sessionService.Submit("ComputeReduceCube",
-                            ParamsHelper(numbers),
-                            this);
-
-      sessionService.Submit("ComputeReduceCube",
-                            ParamsHelper(numbers.SelectMany(BitConverter.GetBytes).ToArray()),
-                            this);
-
-      sessionService.Submit("ComputeMadd",
-                            ParamsHelper(numbers.SelectMany(BitConverter.GetBytes).ToArray(),
-                                         numbers.SelectMany(BitConverter.GetBytes).ToArray(), 4.0),
-                            this);
-
-      sessionService.Submit("NonStaticComputeMadd",
-                            ParamsHelper(numbers.SelectMany(BitConverter.GetBytes).ToArray(),
-                                         numbers.SelectMany(BitConverter.GetBytes).ToArray(), 4.0),
+      //sessionService.Submit("GenerateHeavyExpM1",
+      //                      ParamsHelper(1000000),
+      //                      this);
+      
+      sessionService.Submit("GenerateHeavyCompute",
+                            ParamsHelper(10000000),
                             this);
     }
 
@@ -142,7 +129,8 @@ namespace ArmoniK.EndToEndTests.Tests.CheckGridServer
     /// <param name="taskId">The task identifier which has invoke the error callBack</param>
     public void HandleError(ServiceInvocationException e, string taskId)
     {
-      Log.LogError($"Error from {taskId} : " + e.Message);
+      Log.LogError($"Error from {taskId} : " + e.Message,
+                   e);
       throw new ApplicationException($"Error from {taskId}",
                                      e);
     }
@@ -163,9 +151,10 @@ namespace ArmoniK.EndToEndTests.Tests.CheckGridServer
           Log.LogInformation($"Task finished with result {value}");
           break;
         case double[] doubles:
+          Log.LogInformation($"Result type are {doubles.GetType().Name} with {doubles.Length} element(s)");
           Log.LogInformation("Result is " +
                              string.Join(", ",
-                                         doubles));
+                                         doubles.SubArray(0, 100)));
           break;
         case byte[] values:
           Log.LogInformation("Result is " +
@@ -173,6 +162,20 @@ namespace ArmoniK.EndToEndTests.Tests.CheckGridServer
                                          values.ConvertToArray()));
           break;
       }
+    }
+  }
+
+  public static class EnumerableExt
+  {
+    public static T[] SubArray<T>(this T[] array, int offset, int length)
+    {
+      if (array.Length < length) length = array.Length;
+      
+      if (offset + length >= array.Length) return new T[] { };
+
+      return array.Skip(offset)
+                  .Take(length)
+                  .ToArray();
     }
   }
 }

@@ -21,29 +21,62 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.Linq;
+
 using ArmoniK.DevelopmentKit.WorkerApi.Common.Adaptater;
+using ArmoniK.DevelopmentKit.Common;
 
 using NUnit.Framework;
 
 namespace WorkerApiTests
 {
-    public class Tests
+  public class Tests
+  {
+    private static object[] ParamsHelper(params object[] elements)
     {
-        [SetUp]
-        public void Setup()
-        {
-        }
-
-        [Test]
-        public void TestS3Unzip()
-        {
-          S3Adaptater adapter = new S3Adaptater("https://" + Amazon.RegionEndpoint.EUWest3.GetEndpointForService("s3").ToString(),
-                                                "damdou",
-                                                "XXXXXXXXXXXXXXXXXXX",
-                                                "XXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
-                                                "");
-
-          adapter.DownloadFile("ArmoniK.Samples.SymphonyPackage-v1.0.0.zip");
-        }
+      return elements;
     }
+
+    [SetUp]
+    public void Setup()
+    {
+    }
+
+    [Test]
+    public void TestSerializationInt()
+    {
+      int value = 100;
+
+      var res = ProtoSerializer.SerializeMessageObject(value);
+      ProtoSerializer.DeSerializeMessageObject(res);
+    }
+
+    [Test]
+    public void TestSerializationShort()
+    {
+      short value = 100;
+
+      var res = ProtoSerializer.SerializeMessageObject(value);
+      ProtoSerializer.DeSerializeMessageObject(res);
+    }
+
+    [Test]
+    public void TestSerializationIntArray()
+    {
+      int[] value = Enumerable.Range(1,
+                                        100).ToArray();
+
+      var res = ProtoSerializer.SerializeMessageObject(value);
+      ProtoSerializer.DeSerializeMessageObject(res);
+    }
+
+    [Test]
+    public void TestSerializationDoubleArray()
+    {
+      double[] value = Enumerable.Range(1, 100).Select(x => (double)x).ToArray();
+
+      var res = ProtoSerializer.SerializeMessageObject(value);
+      ProtoSerializer.DeSerializeMessageObject(res);
+    }
+  }
 }
