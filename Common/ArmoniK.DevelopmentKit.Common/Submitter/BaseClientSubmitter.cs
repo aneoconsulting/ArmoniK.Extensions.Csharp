@@ -363,7 +363,7 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
     /// <param name="taskId">The task Id trying to get result</param>
     /// <param name="checkOutput"></param>
     /// <param name="cancellationToken">The optional cancellationToken</param>
-    /// <returns>Returns the result or byte[0] if there no result</returns>
+    /// <returns>Returns the result or byte[0] if there no result or null if task is not yet ready</returns>
     [UsedImplicitly]
     public byte[] TryGetResult(string taskId, bool checkOutput = true, CancellationToken cancellationToken = default)
     {
@@ -378,44 +378,6 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
                                              200,
                                              () =>
                                              {
-                                               //GetStatusReply status;
-                                               //try
-                                               //{
-                                               //  status = ControlPlaneService.GetStatus(new GetStatusrequest()
-                                               //  {
-                                               //    TaskId = taskId
-                                               //  });
-
-
-                                               //  switch (status.Status)
-                                               //  {
-                                               //    case TaskStatus.Creating:
-                                               //    case TaskStatus.Dispatched:
-                                               //    case TaskStatus.Processed:
-                                               //    case TaskStatus.Processing:
-                                               //    case TaskStatus.Submitted:
-                                               //      return new byte[] { };
-
-                                               //    case TaskStatus.Completed:
-                                               //      break;
-
-                                               //    case TaskStatus.Timeout:
-                                               //    case TaskStatus.Failed:
-                                               //    case TaskStatus.Canceling:
-                                               //    case TaskStatus.Canceled:
-                                               //    case TaskStatus.Error:
-                                               //    case TaskStatus.Unspecified:
-                                               //      throw new IOException(
-                                               //        $"Result {taskId} cannot be retrieved. taskStatus is {Enum.GetName(typeof(TaskStatus), status.Status)}");
-                                               //  }
-                                               //}
-                                               //catch (Exception ex)
-                                               //{
-                                               //  Logger.LogWarning($"TaskId {taskId} not yet found");
-                                               //  throw new IOException($"{taskId} not yet in DB. Retrying",
-                                               //                        ex);
-                                               //}
-
                                                Task<byte[]> response;
                                                try
                                                {
@@ -430,7 +392,7 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
                                                {
                                                  if (ex.InnerException is RpcException { StatusCode: StatusCode.NotFound })
                                                  {
-                                                   return new byte[] { };
+                                                   return null;
                                                  }
 
                                                  throw;
@@ -471,8 +433,7 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
       {
         var res = TryGetResult(id,
                                false);
-        return res.Length == 0
-          ? null
+        return res == null ? null
           : new Tuple<string, byte[]>(id,
                                       res);
       }).ToList().Where(el => el != null);
