@@ -23,6 +23,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
@@ -266,12 +267,18 @@ namespace ArmoniK.Extensions.Common.StreamWrapper.Client
 
             break;
           case ResultReply.TypeOneofCase.None:
-            return new byte[] { };
+            return new byte[]
+            {
+            };
 
           case ResultReply.TypeOneofCase.Error:
-            throw new Exception($"Error in task {reply.Error.TaskId}");
+            throw new($"Error in task {reply.Error.TaskId} {string.Join("Message is : ", reply.Error.Error.Select(x => x.Detail))}");
+
           case ResultReply.TypeOneofCase.NotCompletedTask:
-            return new byte[] { };
+            return new byte[]
+            {
+            };
+
           default:
             throw new ArgumentOutOfRangeException("Got a reply with an unexpected message type.",
                                                   (Exception)null);
