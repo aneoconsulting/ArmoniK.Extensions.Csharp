@@ -41,7 +41,7 @@ namespace ArmoniK.DevelopmentKit.Common
     /// <summary>
     /// 
     /// </summary>
-    Armonik = 2,
+    Unified = 2,
   }
 
   public static class EngineTypeHelper
@@ -51,7 +51,7 @@ namespace ArmoniK.DevelopmentKit.Common
          {
            "Symphony"    => EngineType.Symphony,
            "DataSynapse" => EngineType.DataSynapse,
-           "Armonik" => EngineType.Armonik,
+           "Unified" => EngineType.Unified,
            _             => throw new KeyNotFoundException($"enumName, possible choice are [{string.Join(", ", typeof(EngineType).GetEnumNames())}]")
          };
   }
@@ -64,7 +64,7 @@ namespace ArmoniK.DevelopmentKit.Common
 
       { EngineType.DataSynapse, "ArmoniK.DevelopmentKit.GridServer" },
 
-      { EngineType.Armonik, "ArmoniK.DevelopmentKit.Worker" },
+      { EngineType.Unified, "ArmoniK.DevelopmentKit.Worker" },
     };
 
     /// <summary>

@@ -78,7 +78,7 @@ namespace ArmoniK.EndToEndTests.Tests.CheckUnifiedApi
 
     private static void OverrideTaskOptions(TaskOptions taskOptions)
     {
-      taskOptions.Options[AppsOptions.EngineTypeNameKey] = EngineType.Armonik.ToString();
+      taskOptions.Options[AppsOptions.EngineTypeNameKey] = EngineType.Unified.ToString();
     }
 
 

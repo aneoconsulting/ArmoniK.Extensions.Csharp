@@ -235,9 +235,10 @@ namespace ArmoniK.DevelopmentKit.Client.Services
     /// <param name="payload">
     ///   The user payload to execute.
     /// </param>
-    public string SubmitTask(byte[] payload)
+    /// <param name="waitTimeBeforeNextSubmit">The time to wait before 2 single submitTask</param>
+    public string SubmitTask(byte[] payload, int waitTimeBeforeNextSubmit = 2)
     {
-      Thread.Sleep(2); // Twice the keep alive 
+      Thread.Sleep(waitTimeBeforeNextSubmit); // Twice the keep alive 
       return SubmitTasks(new[]
         {
           payload
