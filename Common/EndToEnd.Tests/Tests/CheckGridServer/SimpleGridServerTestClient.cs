@@ -34,9 +34,9 @@ using SessionService = ArmoniK.DevelopmentKit.SymphonyApi.Client.api.SessionServ
 
 namespace ArmoniK.EndToEndTests.Tests.CheckGridServer
 {
-  public class SimpleUnfiedAPITestClient : ClientBaseTest<SimpleUnfiedAPITestClient>, IServiceInvocationHandler
+  public class SimpleGridServerTestClient : ClientBaseTest<SimpleGridServerTestClient>, IServiceInvocationHandler
   {
-    public SimpleUnfiedAPITestClient(IConfiguration configuration, ILoggerFactory loggerFactory) :
+    public SimpleGridServerTestClient(IConfiguration configuration, ILoggerFactory loggerFactory) :
       base(configuration,
            loggerFactory)
     {
