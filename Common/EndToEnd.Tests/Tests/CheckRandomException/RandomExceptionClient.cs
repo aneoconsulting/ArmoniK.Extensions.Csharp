@@ -32,11 +32,11 @@ using System.Collections.Generic;
 using System.Linq;
 using SessionService = ArmoniK.DevelopmentKit.SymphonyApi.Client.api.SessionService;
 
-namespace ArmoniK.EndToEndTests.Tests.CheckGridServer
+namespace ArmoniK.EndToEndTests.Tests.CheckRandomException
 {
-  public class SimpleUnfiedAPITestClient : ClientBaseTest<SimpleUnfiedAPITestClient>, IServiceInvocationHandler
+  public class RandomExceptionClient : ClientBaseTest<RandomExceptionClient>, IServiceInvocationHandler
   {
-    public SimpleUnfiedAPITestClient(IConfiguration configuration, ILoggerFactory loggerFactory) :
+    public RandomExceptionClient(IConfiguration configuration, ILoggerFactory loggerFactory) :
       base(configuration,
            loggerFactory)
     {
@@ -112,27 +112,15 @@ namespace ArmoniK.EndToEndTests.Tests.CheckGridServer
         3.0,
       }.ToArray();
 
-      sessionService.Submit("ComputeBasicArrayCube",
-                            ParamsHelper(numbers),
-                            this);
+      for (int taskId = 0; taskId < 1000; taskId++)
+      {
+        sessionService.Submit("ComputeBasicArrayCube",
+                              ParamsHelper(numbers,
+                                           0.3),
+                              this);
+      }
 
-      sessionService.Submit("ComputeReduceCube",
-                            ParamsHelper(numbers),
-                            this);
 
-      sessionService.Submit("ComputeReduceCube",
-                            ParamsHelper(numbers.SelectMany(BitConverter.GetBytes).ToArray()),
-                            this);
-
-      sessionService.Submit("ComputeMadd",
-                            ParamsHelper(numbers.SelectMany(BitConverter.GetBytes).ToArray(),
-                                         numbers.SelectMany(BitConverter.GetBytes).ToArray(), 4.0),
-                            this);
-
-      sessionService.Submit("NonStaticComputeMadd",
-                            ParamsHelper(numbers.SelectMany(BitConverter.GetBytes).ToArray(),
-                                         numbers.SelectMany(BitConverter.GetBytes).ToArray(), 4.0),
-                            this);
     }
 
     /// <summary>
@@ -142,9 +130,7 @@ namespace ArmoniK.EndToEndTests.Tests.CheckGridServer
     /// <param name="taskId">The task identifier which has invoke the error callBack</param>
     public void HandleError(ServiceInvocationException e, string taskId)
     {
-      Log.LogError($"Error from {taskId} : " + e.Message);
-      throw new ApplicationException($"Error from {taskId}",
-                                     e);
+      Log.LogError($"Expected Error from {taskId} : " + e.Message);
     }
 
     /// <summary>
@@ -157,20 +143,20 @@ namespace ArmoniK.EndToEndTests.Tests.CheckGridServer
       switch (response)
       {
         case null:
-          Log.LogInformation("Task finished but nothing returned in Result");
+          // Log.LogInformation("Task finished but nothing returned in Result");
           break;
         case double value:
-          Log.LogInformation($"Task finished with result {value}");
+          //Log.LogInformation($"Task finished with result {value}");
           break;
         case double[] doubles:
-          Log.LogInformation("Result is " +
-                             string.Join(", ",
-                                         doubles));
+          //Log.LogInformation("Result is " +
+          //                   string.Join(", ",
+          //                               doubles));
           break;
         case byte[] values:
-          Log.LogInformation("Result is " +
-                             string.Join(", ",
-                                         values.ConvertToArray()));
+          //Log.LogInformation("Result is " +
+          //                   string.Join(", ",
+          //                               values.ConvertToArray()));
           break;
       }
     }

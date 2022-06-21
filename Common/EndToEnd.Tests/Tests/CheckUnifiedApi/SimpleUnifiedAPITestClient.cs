@@ -21,22 +21,28 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using ArmoniK.Api.gRPC.V1;
-using ArmoniK.DevelopmentKit.Common;
-using ArmoniK.DevelopmentKit.GridServer.Client;
-using ArmoniK.EndToEndTests.Common;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+
+using ArmoniK.Api.gRPC.V1;
+using ArmoniK.DevelopmentKit.Client.Exceptions;
+using ArmoniK.DevelopmentKit.Common;
+using ArmoniK.DevelopmentKit.Client.Services;
+using ArmoniK.DevelopmentKit.Client.Services.Submitter;
+using ArmoniK.DevelopmentKit.Client.Factory;
+using ArmoniK.EndToEndTests.Common;
+
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+
 using SessionService = ArmoniK.DevelopmentKit.SymphonyApi.Client.api.SessionService;
 
-namespace ArmoniK.EndToEndTests.Tests.CheckGridServer
+namespace ArmoniK.EndToEndTests.Tests.CheckUnifiedApi
 {
-  public class SimpleUnfiedAPITestClient : ClientBaseTest<SimpleUnfiedAPITestClient>, IServiceInvocationHandler
+  public class SimpleUnifiedAPITestClient : ClientBaseTest<SimpleUnifiedAPITestClient>, IServiceInvocationHandler
   {
-    public SimpleUnfiedAPITestClient(IConfiguration configuration, ILoggerFactory loggerFactory) :
+    public SimpleUnifiedAPITestClient(IConfiguration configuration, ILoggerFactory loggerFactory) :
       base(configuration,
            loggerFactory)
     {
@@ -50,44 +56,31 @@ namespace ArmoniK.EndToEndTests.Tests.CheckGridServer
       var taskOptions = InitializeTaskOptions();
       OverrideTaskOptions(taskOptions);
 
-      taskOptions.Options[AppsOptions.GridServiceNameKey] = "SimpleServiceContainer";
+      taskOptions.Options[AppsOptions.GridServiceNameKey] = "SimpleService";
 
-      //var props = new Properties(Configuration,
-      //                           taskOptions);
-      var props = new Properties(taskOptions, Configuration.GetSection("Grpc")["EndPoint"], 5001);
+      var props = new Properties(taskOptions,
+                                 Configuration.GetSection("Grpc")["EndPoint"],
+                                 5001);
 
       //var resourceId = ServiceAdmin.CreateInstance(Configuration, LoggerFactory,props).UploadResource("filePath");
 
 
-      using var cs = ServiceFactory.GetInstance().CreateService(taskOptions.Options[AppsOptions.GridAppNameKey],
-                                                                props);
-
-      
+      using var cs = ServiceFactory.GetInstance().CreateService(props);
 
       Log.LogInformation($"New session created : {cs.SessionId}");
 
-      Log.LogInformation("Running End to End test to compute Square value with SubTasking");
+      Log.LogInformation("Running End to End test to compute several simple tests in sequential");
       ClientStartup1(cs);
+
+      Log.LogInformation("Submit Batch of 100 tasks in one submit call");
+      ClientStartup2(cs);
     }
 
     private static void OverrideTaskOptions(TaskOptions taskOptions)
     {
-      taskOptions.Options[AppsOptions.EngineTypeNameKey] = EngineType.DataSynapse.ToString();
+      taskOptions.Options[AppsOptions.EngineTypeNameKey] = EngineType.Armonik.ToString();
     }
 
-    /// <summary>
-    ///   Simple function to wait and get the result from subTasking and result delegation
-    ///   to a subTask
-    /// </summary>
-    /// <param name="sessionService">The sessionService API to connect to the Control plane Service</param>
-    /// <param name="taskId">The task which is waiting for</param>
-    /// <returns></returns>
-    private static byte[] WaitForTaskResult(SessionService sessionService, string taskId)
-    {
-      var taskResult = sessionService.GetResult(taskId);
-
-      return taskResult;
-    }
 
     private static object[] ParamsHelper(params object[] elements)
     {
@@ -126,12 +119,38 @@ namespace ArmoniK.EndToEndTests.Tests.CheckGridServer
 
       sessionService.Submit("ComputeMadd",
                             ParamsHelper(numbers.SelectMany(BitConverter.GetBytes).ToArray(),
-                                         numbers.SelectMany(BitConverter.GetBytes).ToArray(), 4.0),
+                                         numbers.SelectMany(BitConverter.GetBytes).ToArray(),
+                                         4.0),
                             this);
 
       sessionService.Submit("NonStaticComputeMadd",
                             ParamsHelper(numbers.SelectMany(BitConverter.GetBytes).ToArray(),
-                                         numbers.SelectMany(BitConverter.GetBytes).ToArray(), 4.0),
+                                         numbers.SelectMany(BitConverter.GetBytes).ToArray(),
+                                         4.0),
+                            this);
+    }
+
+    /// <summary>
+    ///   The first test developed to validate dependencies subTasking
+    /// </summary>
+    /// <param name="sessionService"></param>
+    private void ClientStartup2(Service sessionService)
+    {
+      var numbers = new List<double>
+      {
+        1.0,
+        2.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+      }.ToArray();
+
+      sessionService.Submit("ComputeBasicArrayCube",
+                            Enumerable.Range(1,
+                                             100).Select(n => ParamsHelper(numbers)),
                             this);
     }
 
@@ -169,8 +188,8 @@ namespace ArmoniK.EndToEndTests.Tests.CheckGridServer
           break;
         case byte[] values:
           Log.LogInformation("Result is " +
-                             string.Join(", ",
-                                         values.ConvertToArray()));
+                             string.Join<double>(", ",
+                                                 values.ConvertToArray()));
           break;
       }
     }
