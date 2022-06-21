@@ -1,4 +1,4 @@
-﻿// This file is part of the ArmoniK project
+// This file is part of the ArmoniK project
 // 
 // Copyright (C) ANEO, 2021-2022.
 //   W. Kirschenmann   <wkirschenmann@aneo.fr>
@@ -21,33 +21,34 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
+using ArmoniK.DevelopmentKit.Common;
 
-#pragma warning disable CS1591
-
-namespace ArmoniK.DevelopmentKit.GridServer.Client
+namespace ArmoniK.DevelopmentKit.Worker.Grid
 {
   /// <summary>
-  /// The exception class for Server side reporting Grid Error
+  ///   Container for the information associated with a particular Session.
+  ///   Such information may be required during the servicing of a task from a Session.
   /// </summary>
-  public class GridServerException : Exception
+  [MarkDownDoc]
+  public class SessionContext
   {
     /// <summary>
-    /// The constructor in string message in parameters
     /// </summary>
-    /// <param name="message">the message to include in the exception</param>
-    public GridServerException(string message) : base(message)
-    {
-    }
+    public int TimeRemoteDebug;
 
     /// <summary>
-    /// The constructor with Message and Exception
     /// </summary>
-    /// <param name="message">The string message in the new exception</param>
-    /// <param name="e">the inner exception</param>
-    public GridServerException(string message, Exception e) : base(message,
-                                                                   e)
-    {
-    }
+    public bool IsDebugMode => TimeRemoteDebug > 0;
+
+    /// <summary>
+    /// </summary>
+    /// <value></value>
+    public string SessionId { get; set; }
+
+    /// <summary>
+    /// </summary>
+    /// <value></value>
+    public string ClientLibVersion { get; set; }
+
   }
 }

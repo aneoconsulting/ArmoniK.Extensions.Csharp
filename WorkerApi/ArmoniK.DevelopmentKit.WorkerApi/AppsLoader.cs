@@ -192,6 +192,25 @@ namespace ArmoniK.DevelopmentKit.WorkerApi
       throw new NullReferenceException($"Cannot find ServiceContainer named : {appNamespace}.{serviceContainerClassName} in dll [{PathToAssembly}]");
     }
 
+    public T GetServiceContainerInstance<T>(string appNamespace, string serviceContainerClassName, params object[] args)
+    {
+      using (UserAssemblyLoadContext.EnterContextualReflection())
+      {
+        // Create an instance of a class from the assembly.
+        var classType = assembly_.GetType($"{appNamespace}.{serviceContainerClassName}");
+
+        if (classType != null)
+        {
+          var serviceContainer = (T)Activator.CreateInstance(classType, args);
+
+          return serviceContainer;
+        }
+      }
+
+      Dispose();
+      throw new NullReferenceException($"Cannot find ServiceContainer named : {appNamespace}.{serviceContainerClassName} in dll [{PathToAssembly}]");
+    }
+
     public void Dispose()
     {
       assembly_ = null;

@@ -22,21 +22,28 @@
 // limitations under the License.
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
+using ArmoniK.DevelopmentKit.Common.Exceptions;
+
+//TODO : remove pragma
 #pragma warning disable CS1591
 
 namespace ArmoniK.DevelopmentKit.GridServer.Client
 {
   /// <summary>
-  /// The exception class for Server side reporting Grid Error
+  /// The exception class for Client side reporting Grid Error
   /// </summary>
-  public class GridServerException : Exception
+  public class GridClientException : Exception
   {
     /// <summary>
     /// The constructor in string message in parameters
     /// </summary>
     /// <param name="message">the message to include in the exception</param>
-    public GridServerException(string message) : base(message)
+    public GridClientException(string message) : base(message)
     {
     }
 
@@ -44,8 +51,8 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
     /// The constructor with Message and Exception
     /// </summary>
     /// <param name="message">The string message in the new exception</param>
-    /// <param name="e">the inner exception</param>
-    public GridServerException(string message, Exception e) : base(message,
+    /// <param name="e">the inner exception </param>
+    public GridClientException(string message, Exception e) : base(message,
                                                                    e)
     {
     }

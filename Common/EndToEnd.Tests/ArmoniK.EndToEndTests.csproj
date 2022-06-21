@@ -61,6 +61,8 @@
     <ProjectReference Include="..\..\DataSynapseApi\ArmoniK.DevelopmentKit.GridServer\ArmoniK.DevelopmentKit.GridServer.csproj" />
     <ProjectReference Include="..\..\SymphonyApi\ArmoniK.DevelopmentKit.SymphonyApi.Client\ArmoniK.DevelopmentKit.SymphonyApi.Client.csproj" />
     <ProjectReference Include="..\..\SymphonyApi\ArmoniK.DevelopmentKit.SymphonyApi\ArmoniK.DevelopmentKit.SymphonyApi.csproj" />
+    <ProjectReference Include="..\..\UnifiedApi\Client\ArmoniK.DevelopmentKit.Client.csproj" />
+    <ProjectReference Include="..\..\UnifiedApi\Worker\ArmoniK.DevelopmentKit.Worker.csproj" />
   </ItemGroup>
 
 
