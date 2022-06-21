@@ -53,6 +53,186 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/ArmoniK.DevelopmentKit.Client.Exceptions.GridClientException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ArmoniK.DevelopmentKit.Client.Exceptions.GridClientException.html",
+          "hash": "rZm1qzri3n5zYt79aM7JwKFPvQcOzphnwvm4yYWsdRA="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ArmoniK.DevelopmentKit.Client.Exceptions.ServiceInvocationException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ArmoniK.DevelopmentKit.Client.Exceptions.ServiceInvocationException.html",
+          "hash": "2nAmTzKTiU8/YDgak60UrWO+Vri65X6DMofqBgprKHQ="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ArmoniK.DevelopmentKit.Client.Exceptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ArmoniK.DevelopmentKit.Client.Exceptions.html",
+          "hash": "/07wt73fmF+fItHzsU7JJusbFaRYbRaRH0ryLETZ820="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ArmoniK.DevelopmentKit.Client.Factory.ServiceFactory.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ArmoniK.DevelopmentKit.Client.Factory.ServiceFactory.html",
+          "hash": "UxajzQfE1pa/STgA4r4foQIMhAMN0/BKVtq/TK4a5Ks="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ArmoniK.DevelopmentKit.Client.Factory.SessionServiceFactory.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ArmoniK.DevelopmentKit.Client.Factory.SessionServiceFactory.html",
+          "hash": "sF5yd424tS/0OfOUUDY8mU0ay+V7dUEi4faUODGdj4A="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ArmoniK.DevelopmentKit.Client.Factory.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ArmoniK.DevelopmentKit.Client.Factory.html",
+          "hash": "JzDeu/GuFcMbJFhX9MmN0jKb/eY1OcUEmqesAKJqXWc="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ArmoniK.DevelopmentKit.Client.Services.Admin.ServiceAdmin.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ArmoniK.DevelopmentKit.Client.Services.Admin.ServiceAdmin.html",
+          "hash": "lsDEL0/5auwtoV0qBhRP1mSHUnC8zB8QUnglEzj8Vi4="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ArmoniK.DevelopmentKit.Client.Services.Admin.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ArmoniK.DevelopmentKit.Client.Services.Admin.html",
+          "hash": "Ywv3KMBRL77M5krhOJaq3gcwHaCJri9/nFnLq+ax2UQ="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ArmoniK.DevelopmentKit.Client.Services.IServiceInvocationHandler.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ArmoniK.DevelopmentKit.Client.Services.IServiceInvocationHandler.html",
+          "hash": "fF+9XKhCD4gcuQLTClFtCXZt3BIV6io4e8rwzxqZQWA="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ArmoniK.DevelopmentKit.Client.Services.Properties.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ArmoniK.DevelopmentKit.Client.Services.Properties.html",
+          "hash": "muRLt8WiPzi6gIP198/F9FoiicnBxHUAK+7/0yhhWFs="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ArmoniK.DevelopmentKit.Client.Services.SessionService.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ArmoniK.DevelopmentKit.Client.Services.SessionService.html",
+          "hash": "UEKe8Bovuxzs/OoVeBb7nk/S7gdRi6o9kmcx6Es/9IU="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ArmoniK.DevelopmentKit.Client.Services.Submitter.Service.ServiceResult.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ArmoniK.DevelopmentKit.Client.Services.Submitter.Service.ServiceResult.html",
+          "hash": "BAuVtlgFMloNfqAgJ9AhFS5lXubzlF2NcH1MW9b6SGU="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ArmoniK.DevelopmentKit.Client.Services.Submitter.Service.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ArmoniK.DevelopmentKit.Client.Services.Submitter.Service.html",
+          "hash": "vqmhIVkQaVIVi9HXXGsv9e/+Gb/UlB7od2hZI9o0hjU="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ArmoniK.DevelopmentKit.Client.Services.Submitter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ArmoniK.DevelopmentKit.Client.Services.Submitter.html",
+          "hash": "mCPaSFGcPYyQSVe7pYGTbnJHUBgywdj6A2wCkaEA11U="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ArmoniK.DevelopmentKit.Client.Services.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ArmoniK.DevelopmentKit.Client.Services.html",
+          "hash": "gZj1M3FfTWEQ9B5F0GqFArH9/i4Sr9yVyEeFrJVlp+o="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/ArmoniK.DevelopmentKit.Common.AppsOptions.yml",
       "output": {
         ".html": {
@@ -93,7 +273,7 @@
       "output": {
         ".html": {
           "relative_path": "api/ArmoniK.DevelopmentKit.Common.EngineType.html",
-          "hash": "O/DCL9J54u3RjN5OYV3Uk9UK2qjW/Tw4sFjviWLBlrE="
+          "hash": "fdh47nXaoeiXRf4Lry8QGRYrGI5N5MDcOLk3l6BQA1w="
         }
       },
       "is_incremental": false,
@@ -105,7 +285,7 @@
       "output": {
         ".html": {
           "relative_path": "api/ArmoniK.DevelopmentKit.Common.EngineTypeHelper.html",
-          "hash": "BLrtmEOvkY/tniU3Dn6ovVUerLJlEw4NKjLbPSIeg5M="
+          "hash": "WCi1RkTjMqbnv7gmcpk9028lhbQovhR07I01Z0IoAnY="
         }
       },
       "is_incremental": false,
@@ -117,7 +297,7 @@
       "output": {
         ".html": {
           "relative_path": "api/ArmoniK.DevelopmentKit.Common.EngineTypes.html",
-          "hash": "kJzj4t78XFyuRfwW4c6hn4KfaPyQkT9dfBluJX88rSI="
+          "hash": "J2lZDJGuGaCZWI+E66dcTlRyHAhwocYSItYxDvHYSzE="
         }
       },
       "is_incremental": false,
@@ -297,7 +477,7 @@
       "output": {
         ".html": {
           "relative_path": "api/ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter-1.html",
-          "hash": "vKC3mRawxBPRCuhRs89om3XZR/V3CMn4YlvLydoTQcY="
+          "hash": "/8Kw6aAUJVIzBj/LEoLhHJnp2L52xyMXamuzCQWD0uw="
         }
       },
       "is_incremental": false,
@@ -413,11 +593,71 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/ArmoniK.DevelopmentKit.GridServer.Client.BaseService-1.ServiceContext.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ArmoniK.DevelopmentKit.GridServer.Client.BaseService-1.ServiceContext.html",
+          "hash": "jZFciHVKZ1Sa+v/FhdP0GvrSTcZMbq4s5Qr+Beu35uU="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ArmoniK.DevelopmentKit.GridServer.Client.BaseService-1.SessionContext.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ArmoniK.DevelopmentKit.GridServer.Client.BaseService-1.SessionContext.html",
+          "hash": "qBHvR0Ai61631AquIT1dHkR/BIyATw1qL6WkNsnU9Dk="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ArmoniK.DevelopmentKit.GridServer.Client.BaseService-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ArmoniK.DevelopmentKit.GridServer.Client.BaseService-1.html",
+          "hash": "01m7paHMAm0wgI+ZrowtTzrdV6VF2r/NEDTMRwzywdM="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ArmoniK.DevelopmentKit.GridServer.Client.GridClientException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ArmoniK.DevelopmentKit.GridServer.Client.GridClientException.html",
+          "hash": "qKPDyXBEQM7aNqumXwqyG0h6gjVO+pNXUC8o5PFEV04="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/ArmoniK.DevelopmentKit.GridServer.Client.GridServerException.yml",
       "output": {
         ".html": {
           "relative_path": "api/ArmoniK.DevelopmentKit.GridServer.Client.GridServerException.html",
-          "hash": "YQVmGO/iSdPVARjTSqiam1wqRT+1oLAk+jvXZhTF6wc="
+          "hash": "4YEYDE7YtWbICD8XTM+XFFaNV5o/oKnVTHb5oaDGudo="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ArmoniK.DevelopmentKit.GridServer.Client.GridWorkerExt.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ArmoniK.DevelopmentKit.GridServer.Client.GridWorkerExt.html",
+          "hash": "nGb+5G1nC8mYlSJyayC/A4i9vjMvZLW/DNFZvym2RJM="
         }
       },
       "is_incremental": false,
@@ -525,7 +765,7 @@
       "output": {
         ".html": {
           "relative_path": "api/ArmoniK.DevelopmentKit.GridServer.Client.html",
-          "hash": "LwtWheJsXF7Xrea8aAQCpJSM5yFKvuflKQoFEsC1ZsQ="
+          "hash": "l4gNOgV+A+3i2nO4bcqRQtb3JYSfqNAQauu9ji28+QQ="
         }
       },
       "is_incremental": false,
@@ -538,6 +778,18 @@
         ".html": {
           "relative_path": "api/ArmoniK.DevelopmentKit.GridServer.FallBackServerAdder.html",
           "hash": "TGEjhlGsmcwTU/l5xIEhfA5HMVORFnU2yryY3V5+zRM="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ArmoniK.DevelopmentKit.GridServer.GridServerException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ArmoniK.DevelopmentKit.GridServer.GridServerException.html",
+          "hash": "uycAbQ4E/P6xqkZqKRXQmLFYLsoY/eXwQm6UtcTplvc="
         }
       },
       "is_incremental": false,
@@ -585,7 +837,7 @@
       "output": {
         ".html": {
           "relative_path": "api/ArmoniK.DevelopmentKit.GridServer.html",
-          "hash": "YxYa6lq7e2S7ioAqi5slPPx5D7QlijPZ06CxL4MrloM="
+          "hash": "XA0CsaOs6ix3RqF+t/ImRuSPj5xGP0j5owCmCdzVvA4="
         }
       },
       "is_incremental": false,
@@ -705,7 +957,7 @@
       "output": {
         ".html": {
           "relative_path": "api/ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.html",
-          "hash": "pSYu+vV4OpMircy/qWyVxEy+d8XyMugMKVtg3+ffRBw="
+          "hash": "wVJxoh3CoTE+36pa5jMLvSZK7M1L4R/0HTNqWoRt5Mg="
         }
       },
       "is_incremental": false,
@@ -773,11 +1025,155 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/ArmoniK.DevelopmentKit.Worker.Exceptions.GridServerException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ArmoniK.DevelopmentKit.Worker.Exceptions.GridServerException.html",
+          "hash": "1fyvENlaNk4L6HVIauygWJu68k+HJwsnh7GOBnjmj0Q="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ArmoniK.DevelopmentKit.Worker.Exceptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ArmoniK.DevelopmentKit.Worker.Exceptions.html",
+          "hash": "vnST1BHRKdRD9SMJPSz/jGLaNXAERdsF+8Im1YzA/5M="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ArmoniK.DevelopmentKit.Worker.Grid.BaseService-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ArmoniK.DevelopmentKit.Worker.Grid.BaseService-1.html",
+          "hash": "Gd8dot4cVqZXHE9lI47ZfTZMtwpHf8gSvn+yfG5Qdh4="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ArmoniK.DevelopmentKit.Worker.Grid.BaseServiceExt.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ArmoniK.DevelopmentKit.Worker.Grid.BaseServiceExt.html",
+          "hash": "LfS3WstENPaUK5PJ7avQ7eYEsB9BJe+0LzG4SLuR6lY="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ArmoniK.DevelopmentKit.Worker.Grid.ServiceContext.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ArmoniK.DevelopmentKit.Worker.Grid.ServiceContext.html",
+          "hash": "pfgTFT3wbbeTL0Agrm64NAxCxebMBCDD/U9yaZacjSc="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ArmoniK.DevelopmentKit.Worker.Grid.SessionContext.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ArmoniK.DevelopmentKit.Worker.Grid.SessionContext.html",
+          "hash": "nrMdQsj2cNQG1Ia7NYI3s6g32HFtO+e8NCtrd7PowV0="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ArmoniK.DevelopmentKit.Worker.Grid.SessionPollingService.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ArmoniK.DevelopmentKit.Worker.Grid.SessionPollingService.html",
+          "hash": "aJVC4RB4HCQcq6pDn9TRbdUI8KQNcHoNYoJxqa9nbJo="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ArmoniK.DevelopmentKit.Worker.Grid.SessionServiceExt.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ArmoniK.DevelopmentKit.Worker.Grid.SessionServiceExt.html",
+          "hash": "bKxO/T9AfiCcPUUnGmVWBH3Vq4awVa/afot9eba3wP4="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ArmoniK.DevelopmentKit.Worker.Grid.TaskContext.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ArmoniK.DevelopmentKit.Worker.Grid.TaskContext.html",
+          "hash": "EQY/9sFWUxRcOq4GHp3D/o8F2d1rc+gVujDykYk2ZZ4="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ArmoniK.DevelopmentKit.Worker.Grid.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ArmoniK.DevelopmentKit.Worker.Grid.html",
+          "hash": "kBI6fx/Nes5Hx7Ip3RW3cqv1X66uX3FHS1X/4evaZ3k="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ArmoniK.DevelopmentKit.Worker.GridWorker.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ArmoniK.DevelopmentKit.Worker.GridWorker.html",
+          "hash": "i1CUBMmgm6aF8GEu+c8RuzUW7zjDxmB/K0IxCfx7Urw="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ArmoniK.DevelopmentKit.Worker.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ArmoniK.DevelopmentKit.Worker.html",
+          "hash": "VJuwbMQ1SpVDXS3bTpe9Lwgz+N5xu/4uqVEGdIynRew="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/ArmoniK.DevelopmentKit.WorkerApi.AppsLoader.yml",
       "output": {
         ".html": {
           "relative_path": "api/ArmoniK.DevelopmentKit.WorkerApi.AppsLoader.html",
-          "hash": "RYSrXVlZxfSIcipkt9+LDOVBSFI+lAFAV+y0x5ACJls="
+          "hash": "rCmAoSIy6CbAmg1VxagaiocMjeaZn3eCyg6UAamG+NA="
         }
       },
       "is_incremental": false,
@@ -1017,7 +1413,7 @@
       "output": {
         ".html": {
           "relative_path": "api/ArmoniK.EndToEndTests.Common.ClientBaseTest-1.html",
-          "hash": "ijv1rQstakGQvBZzgiED2/tK2xlOrjqllJutKJRk7SA="
+          "hash": "C+1B/3XpSrh/K8aoo9/b9KWlr7b4FrcExEBnzqaQmc8="
         }
       },
       "is_incremental": false,
@@ -1313,6 +1709,78 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/ArmoniK.EndToEndTests.Tests.CheckRandomException.CheckRandomExceptionSymClient.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ArmoniK.EndToEndTests.Tests.CheckRandomException.CheckRandomExceptionSymClient.html",
+          "hash": "MXBoj1Auk5AMrXRcvRVjsbXnasnr9zKj89jBe/p/HNU="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ArmoniK.EndToEndTests.Tests.CheckRandomException.RandomExceptionClient.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ArmoniK.EndToEndTests.Tests.CheckRandomException.RandomExceptionClient.html",
+          "hash": "McZUujY4tUPzdfZ5XcQo5AbKkiVmWCZkvkwE4ajvgWQ="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ArmoniK.EndToEndTests.Tests.CheckRandomException.SelectExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ArmoniK.EndToEndTests.Tests.CheckRandomException.SelectExtensions.html",
+          "hash": "1VbHLqReJX8NjIj0zl4XGh+vYHA8lAEgxm83stijhI8="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ArmoniK.EndToEndTests.Tests.CheckRandomException.ServiceContainer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ArmoniK.EndToEndTests.Tests.CheckRandomException.ServiceContainer.html",
+          "hash": "PMKzl4U+We4R70Y3UghHcgW5uHaFv3AiQARGv8Wy8t4="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ArmoniK.EndToEndTests.Tests.CheckRandomException.SimpleServiceContainer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ArmoniK.EndToEndTests.Tests.CheckRandomException.SimpleServiceContainer.html",
+          "hash": "ennVIYeGbCkg/U/JRW+ngJ8Alp7WM2EnMB/apOE7DBs="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ArmoniK.EndToEndTests.Tests.CheckRandomException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ArmoniK.EndToEndTests.Tests.CheckRandomException.html",
+          "hash": "gVQ1k6qPFj51VC4N1DLaZSWbSbH0p65UCTpMBw4F1wM="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/ArmoniK.EndToEndTests.Tests.CheckSessionUniqCallback.CheckSessionUniqCallbackClient.yml",
       "output": {
         ".html": {
@@ -1426,6 +1894,54 @@
         ".html": {
           "relative_path": "api/ArmoniK.EndToEndTests.Tests.CheckTypeOfSubmission.html",
           "hash": "tcdY4z9KKVJqk2UC3mv//ZkU0lq92xyfME5d5twQFZo="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.SelectExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.SelectExtensions.html",
+          "hash": "bP0Bdf4gn3FARMA3jgI8HObb0dYjx+NMRSq3zUEongc="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.SimpleService.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.SimpleService.html",
+          "hash": "SNsFq/QkJVyMqQtvaengzIDRCc2CMO2mmOb41bhBMqQ="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.SimpleUnifiedAPITestClient.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.SimpleUnifiedAPITestClient.html",
+          "hash": "L/q8keaeQSYZkPBWEwBqieRiPQfIunvh1Zh4xk1kzXY="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.html",
+          "hash": "41m1kt+/4qk33yGSf7hleuBesG81RPVauOpVnuZHwPs="
         }
       },
       "is_incremental": false,
@@ -1761,7 +2277,7 @@
       "output": {
         ".html": {
           "relative_path": "api/toc.html",
-          "hash": "wA+DF8e7zf2RLEOYTzIfo/z8ZTt4oWR15qSvunk4Sc4="
+          "hash": "QuXIVcAfp80da4W7rPNuSo50Hw/2OZ00P9XVpykUE84="
         }
       },
       "is_incremental": false,
@@ -1836,7 +2352,7 @@
         "ManagedReferenceDocumentProcessor": {
           "can_incremental": false,
           "incrementalPhase": "build",
-          "total_file_count": 145,
+          "total_file_count": 188,
           "skipped_file_count": 0
         },
         "TocDocumentProcessor": {

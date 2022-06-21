@@ -1,0 +1,520 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class BaseService&lt;T&gt;
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class BaseService&lt;T&gt;
+   ">
+    <meta name="generator" content="docfx 2.59.2.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="ArmoniK.DevelopmentKit.GridServer.Client.BaseService`1">
+  
+  
+  <h1 id="ArmoniK_DevelopmentKit_GridServer_Client_BaseService_1" data-uid="ArmoniK.DevelopmentKit.GridServer.Client.BaseService`1" class="text-break">Class BaseService&lt;T&gt;
+  </h1>
+  <div class="markdown level0 summary"><p>The base of service to manage Logger, logger factory, and warmup of service and session</p>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level1"><span class="xref">BaseService&lt;T&gt;</span></div>
+      <div class="level2"><a class="xref" href="ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.SimpleService.html">SimpleService</a></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetHashCode()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetType()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.MemberwiseClone()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ReferenceEquals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ToString()</span>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="ArmoniK.DevelopmentKit.GridServer.Client.html">ArmoniK.DevelopmentKit.GridServer.Client</a></h6>
+  <h6><strong>Assembly</strong>: ArmoniK.DevelopmentKit.GridServer.Client.dll</h6>
+  <h5 id="ArmoniK_DevelopmentKit_GridServer_Client_BaseService_1_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class BaseService&lt;T&gt;</code></pre>
+  </div>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="constructors">Constructors
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/master/apiSpec/new?filename=ArmoniK_DevelopmentKit_GridServer_Client_BaseService_1__ctor.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.GridServer.Client.BaseService%601.%23ctor%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/master/DataSynapseApi/ArmoniK.DevelopmentKit.GridServer.Client/BaseService.cs/#L23">View Source</a>
+  </span>
+  <a id="ArmoniK_DevelopmentKit_GridServer_Client_BaseService_1__ctor_" data-uid="ArmoniK.DevelopmentKit.GridServer.Client.BaseService`1.#ctor*"></a>
+  <h4 id="ArmoniK_DevelopmentKit_GridServer_Client_BaseService_1__ctor" data-uid="ArmoniK.DevelopmentKit.GridServer.Client.BaseService`1.#ctor">BaseService()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public BaseService()</code></pre>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/master/apiSpec/new?filename=ArmoniK_DevelopmentKit_GridServer_Client_BaseService_1__ctor_ILoggerFactory_.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.GridServer.Client.BaseService%601.%23ctor(ILoggerFactory)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/master/DataSynapseApi/ArmoniK.DevelopmentKit.GridServer.Client/BaseService.cs/#L31">View Source</a>
+  </span>
+  <a id="ArmoniK_DevelopmentKit_GridServer_Client_BaseService_1__ctor_" data-uid="ArmoniK.DevelopmentKit.GridServer.Client.BaseService`1.#ctor*"></a>
+  <h4 id="ArmoniK_DevelopmentKit_GridServer_Client_BaseService_1__ctor_ILoggerFactory_" data-uid="ArmoniK.DevelopmentKit.GridServer.Client.BaseService`1.#ctor(ILoggerFactory)">BaseService(ILoggerFactory)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public BaseService(ILoggerFactory loggerFactory)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">ILoggerFactory</span></td>
+        <td><span class="parametername">loggerFactory</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="properties">Properties
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/master/apiSpec/new?filename=ArmoniK_DevelopmentKit_GridServer_Client_BaseService_1_Configuration.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.GridServer.Client.BaseService%601.Configuration%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/master/DataSynapseApi/ArmoniK.DevelopmentKit.GridServer.Client/BaseService.cs/#L64">View Source</a>
+  </span>
+  <a id="ArmoniK_DevelopmentKit_GridServer_Client_BaseService_1_Configuration_" data-uid="ArmoniK.DevelopmentKit.GridServer.Client.BaseService`1.Configuration*"></a>
+  <h4 id="ArmoniK_DevelopmentKit_GridServer_Client_BaseService_1_Configuration" data-uid="ArmoniK.DevelopmentKit.GridServer.Client.BaseService`1.Configuration">Configuration</h4>
+  <div class="markdown level1 summary"><p>Get or Set Configuration</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public IConfiguration Configuration { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">IConfiguration</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/master/apiSpec/new?filename=ArmoniK_DevelopmentKit_GridServer_Client_BaseService_1_Logger.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.GridServer.Client.BaseService%601.Logger%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/master/DataSynapseApi/ArmoniK.DevelopmentKit.GridServer.Client/BaseService.cs/#L39">View Source</a>
+  </span>
+  <a id="ArmoniK_DevelopmentKit_GridServer_Client_BaseService_1_Logger_" data-uid="ArmoniK.DevelopmentKit.GridServer.Client.BaseService`1.Logger*"></a>
+  <h4 id="ArmoniK_DevelopmentKit_GridServer_Client_BaseService_1_Logger" data-uid="ArmoniK.DevelopmentKit.GridServer.Client.BaseService`1.Logger">Logger</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static ILogger&lt;T&gt; Logger { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">ILogger</span>&lt;T&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/master/apiSpec/new?filename=ArmoniK_DevelopmentKit_GridServer_Client_BaseService_1_LoggerFactory.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.GridServer.Client.BaseService%601.LoggerFactory%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/master/DataSynapseApi/ArmoniK.DevelopmentKit.GridServer.Client/BaseService.cs/#L69">View Source</a>
+  </span>
+  <a id="ArmoniK_DevelopmentKit_GridServer_Client_BaseService_1_LoggerFactory_" data-uid="ArmoniK.DevelopmentKit.GridServer.Client.BaseService`1.LoggerFactory*"></a>
+  <h4 id="ArmoniK_DevelopmentKit_GridServer_Client_BaseService_1_LoggerFactory" data-uid="ArmoniK.DevelopmentKit.GridServer.Client.BaseService`1.LoggerFactory">LoggerFactory</h4>
+  <div class="markdown level1 summary"><p>The logger factory to create new Logger in sub class caller</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ILoggerFactory LoggerFactory { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">ILoggerFactory</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/master/apiSpec/new?filename=ArmoniK_DevelopmentKit_GridServer_Client_BaseService_1_SessionId.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.GridServer.Client.BaseService%601.SessionId%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/master/DataSynapseApi/ArmoniK.DevelopmentKit.GridServer.Client/BaseService.cs/#L45">View Source</a>
+  </span>
+  <a id="ArmoniK_DevelopmentKit_GridServer_Client_BaseService_1_SessionId_" data-uid="ArmoniK.DevelopmentKit.GridServer.Client.BaseService`1.SessionId*"></a>
+  <h4 id="ArmoniK_DevelopmentKit_GridServer_Client_BaseService_1_SessionId" data-uid="ArmoniK.DevelopmentKit.GridServer.Client.BaseService`1.SessionId">SessionId</h4>
+  <div class="markdown level1 summary"><p>Get or Set SubSessionId object stored during the call of SubmitTask, SubmitSubTask,
+SubmitSubTaskWithDependencies or WaitForCompletion, WaitForSubTaskCompletion or GetResults</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Session SessionId { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">Session</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/master/apiSpec/new?filename=ArmoniK_DevelopmentKit_GridServer_Client_BaseService_1_TaskId.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.GridServer.Client.BaseService%601.TaskId%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/master/DataSynapseApi/ArmoniK.DevelopmentKit.GridServer.Client/BaseService.cs/#L59">View Source</a>
+  </span>
+  <a id="ArmoniK_DevelopmentKit_GridServer_Client_BaseService_1_TaskId_" data-uid="ArmoniK.DevelopmentKit.GridServer.Client.BaseService`1.TaskId*"></a>
+  <h4 id="ArmoniK_DevelopmentKit_GridServer_Client_BaseService_1_TaskId" data-uid="ArmoniK.DevelopmentKit.GridServer.Client.BaseService`1.TaskId">TaskId</h4>
+  <div class="markdown level1 summary"><p>Get or set the taskId (ONLY INTERNAL USED)</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TaskId TaskId { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">TaskId</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/master/apiSpec/new?filename=ArmoniK_DevelopmentKit_GridServer_Client_BaseService_1_OnCreateService_ArmoniK_DevelopmentKit_GridServer_Client_BaseService__0__ServiceContext_.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.GridServer.Client.BaseService%601.OnCreateService(ArmoniK.DevelopmentKit.GridServer.Client.BaseService%7B%600%7D.ServiceContext)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/master/DataSynapseApi/ArmoniK.DevelopmentKit.GridServer.Client/BaseService.cs/#L79">View Source</a>
+  </span>
+  <a id="ArmoniK_DevelopmentKit_GridServer_Client_BaseService_1_OnCreateService_" data-uid="ArmoniK.DevelopmentKit.GridServer.Client.BaseService`1.OnCreateService*"></a>
+  <h4 id="ArmoniK_DevelopmentKit_GridServer_Client_BaseService_1_OnCreateService_ArmoniK_DevelopmentKit_GridServer_Client_BaseService__0__ServiceContext_" data-uid="ArmoniK.DevelopmentKit.GridServer.Client.BaseService`1.OnCreateService(ArmoniK.DevelopmentKit.GridServer.Client.BaseService{`0}.ServiceContext)">OnCreateService(BaseService&lt;T&gt;.ServiceContext)</h4>
+  <div class="markdown level1 summary"><p>The middleware triggers the invocation of this handler just after a Service Instance is started.
+The application developer must put any service initialization into this handler.
+Default implementation does nothing.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public virtual void OnCreateService(BaseService&lt;T&gt;.ServiceContext serviceContext)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="ArmoniK.DevelopmentKit.GridServer.Client.BaseService-1.ServiceContext.html">BaseService.ServiceContext</a>&lt;&gt;</td>
+        <td><span class="parametername">serviceContext</span></td>
+        <td><p>Holds all information on the state of the service at the start of the execution.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/master/apiSpec/new?filename=ArmoniK_DevelopmentKit_GridServer_Client_BaseService_1_OnDestroyService_ArmoniK_DevelopmentKit_GridServer_Client_BaseService__0__ServiceContext_.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.GridServer.Client.BaseService%601.OnDestroyService(ArmoniK.DevelopmentKit.GridServer.Client.BaseService%7B%600%7D.ServiceContext)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/master/DataSynapseApi/ArmoniK.DevelopmentKit.GridServer.Client/BaseService.cs/#L122">View Source</a>
+  </span>
+  <a id="ArmoniK_DevelopmentKit_GridServer_Client_BaseService_1_OnDestroyService_" data-uid="ArmoniK.DevelopmentKit.GridServer.Client.BaseService`1.OnDestroyService*"></a>
+  <h4 id="ArmoniK_DevelopmentKit_GridServer_Client_BaseService_1_OnDestroyService_ArmoniK_DevelopmentKit_GridServer_Client_BaseService__0__ServiceContext_" data-uid="ArmoniK.DevelopmentKit.GridServer.Client.BaseService`1.OnDestroyService(ArmoniK.DevelopmentKit.GridServer.Client.BaseService{`0}.ServiceContext)">OnDestroyService(BaseService&lt;T&gt;.ServiceContext)</h4>
+  <div class="markdown level1 summary"><p>The middleware triggers the invocation of this handler just before a Service Instance is destroyed.
+This handler should do any cleanup for any resources that were used in the onCreateService() method.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void OnDestroyService(BaseService&lt;T&gt;.ServiceContext serviceContext)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="ArmoniK.DevelopmentKit.GridServer.Client.BaseService-1.ServiceContext.html">BaseService.ServiceContext</a>&lt;&gt;</td>
+        <td><span class="parametername">serviceContext</span></td>
+        <td><p>Holds all information on the state of the service at the start of the execution.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/master/apiSpec/new?filename=ArmoniK_DevelopmentKit_GridServer_Client_BaseService_1_OnSessionEnter_ArmoniK_DevelopmentKit_GridServer_Client_BaseService__0__SessionContext_.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.GridServer.Client.BaseService%601.OnSessionEnter(ArmoniK.DevelopmentKit.GridServer.Client.BaseService%7B%600%7D.SessionContext)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/master/DataSynapseApi/ArmoniK.DevelopmentKit.GridServer.Client/BaseService.cs/#L97">View Source</a>
+  </span>
+  <a id="ArmoniK_DevelopmentKit_GridServer_Client_BaseService_1_OnSessionEnter_" data-uid="ArmoniK.DevelopmentKit.GridServer.Client.BaseService`1.OnSessionEnter*"></a>
+  <h4 id="ArmoniK_DevelopmentKit_GridServer_Client_BaseService_1_OnSessionEnter_ArmoniK_DevelopmentKit_GridServer_Client_BaseService__0__SessionContext_" data-uid="ArmoniK.DevelopmentKit.GridServer.Client.BaseService`1.OnSessionEnter(ArmoniK.DevelopmentKit.GridServer.Client.BaseService{`0}.SessionContext)">OnSessionEnter(BaseService&lt;T&gt;.SessionContext)</h4>
+  <div class="markdown level1 summary"><p>This handler is executed once after the callback OnCreateService and before the OnInvoke</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void OnSessionEnter(BaseService&lt;T&gt;.SessionContext sessionContext)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="ArmoniK.DevelopmentKit.GridServer.Client.BaseService-1.SessionContext.html">BaseService.SessionContext</a>&lt;&gt;</td>
+        <td><span class="parametername">sessionContext</span></td>
+        <td><p>Holds all information on the state of the session at the start of the execution.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/master/apiSpec/new?filename=ArmoniK_DevelopmentKit_GridServer_Client_BaseService_1_OnSessionLeave_ArmoniK_DevelopmentKit_GridServer_Client_BaseService__0__SessionContext_.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.GridServer.Client.BaseService%601.OnSessionLeave(ArmoniK.DevelopmentKit.GridServer.Client.BaseService%7B%600%7D.SessionContext)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/master/DataSynapseApi/ArmoniK.DevelopmentKit.GridServer.Client/BaseService.cs/#L110">View Source</a>
+  </span>
+  <a id="ArmoniK_DevelopmentKit_GridServer_Client_BaseService_1_OnSessionLeave_" data-uid="ArmoniK.DevelopmentKit.GridServer.Client.BaseService`1.OnSessionLeave*"></a>
+  <h4 id="ArmoniK_DevelopmentKit_GridServer_Client_BaseService_1_OnSessionLeave_ArmoniK_DevelopmentKit_GridServer_Client_BaseService__0__SessionContext_" data-uid="ArmoniK.DevelopmentKit.GridServer.Client.BaseService`1.OnSessionLeave(ArmoniK.DevelopmentKit.GridServer.Client.BaseService{`0}.SessionContext)">OnSessionLeave(BaseService&lt;T&gt;.SessionContext)</h4>
+  <div class="markdown level1 summary"><p>The middleware triggers the invocation of this handler to unbind the Service Instance from its owning Session.
+This handler should do any cleanup for any resources that were used in the onSessionEnter() method.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void OnSessionLeave(BaseService&lt;T&gt;.SessionContext sessionContext)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="ArmoniK.DevelopmentKit.GridServer.Client.BaseService-1.SessionContext.html">BaseService.SessionContext</a>&lt;&gt;</td>
+        <td><span class="parametername">sessionContext</span></td>
+        <td><p>Holds all information on the state of the session at the start of the execution such as session ID.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/master/apiSpec/new?filename=ArmoniK_DevelopmentKit_GridServer_Client_BaseService_1.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.GridServer.Client.BaseService%601%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                  </li>
+                  <li>
+                    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/master/DataSynapseApi/ArmoniK.DevelopmentKit.GridServer.Client/BaseService.cs/#L21" class="contribution-link">View Source</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>
