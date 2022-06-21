@@ -44,8 +44,8 @@ namespace ArmoniK.DevelopmentKit.Client.Exceptions
       /// <summary>
       /// The constructor with Message and Exception
       /// </summary>
-      /// <param name="message"></param>
-      /// <param name="e"></param>
+      /// <param name="message">The string message in the new exception</param>
+      /// <param name="e">the inner exception</param>
       public GridClientException(string message, Exception e) : base(message,
                                                                      e)
       {

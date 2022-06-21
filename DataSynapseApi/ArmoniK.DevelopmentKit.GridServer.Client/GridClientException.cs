@@ -34,18 +34,27 @@ using ArmoniK.DevelopmentKit.Common.Exceptions;
 
 namespace ArmoniK.DevelopmentKit.GridServer.Client
 {
-    public class GridClientException : Exception
+  /// <summary>
+  /// The exception class for Client side reporting Grid Error
+  /// </summary>
+  public class GridClientException : Exception
+  {
+    /// <summary>
+    /// The constructor in string message in parameters
+    /// </summary>
+    /// <param name="message">the message to include in the exception</param>
+    public GridClientException(string message) : base(message)
     {
-
-      public GridClientException(string message) : base(message)
-      {
-
-      }
-
-      public GridClientException(string message, Exception e) : base(message,
-                                                                     e)
-      {
-      }
-
     }
+
+    /// <summary>
+    /// The constructor with Message and Exception
+    /// </summary>
+    /// <param name="message">The string message in the new exception</param>
+    /// <param name="e">the inner exception </param>
+    public GridClientException(string message, Exception e) : base(message,
+                                                                   e)
+    {
+    }
+  }
 }
