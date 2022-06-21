@@ -30,6 +30,8 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+
 using SessionService = ArmoniK.DevelopmentKit.SymphonyApi.Client.api.SessionService;
 
 namespace ArmoniK.EndToEndTests.Tests.CheckRandomException
@@ -112,12 +114,13 @@ namespace ArmoniK.EndToEndTests.Tests.CheckRandomException
         3.0,
       }.ToArray();
 
-      for (int taskId = 0; taskId < 1000; taskId++)
+      for (int taskId = 0; taskId < 100; taskId++)
       {
         sessionService.Submit("ComputeBasicArrayCube",
                               ParamsHelper(numbers,
                                            0.3),
                               this);
+        Thread.Sleep(10);
       }
 
 
