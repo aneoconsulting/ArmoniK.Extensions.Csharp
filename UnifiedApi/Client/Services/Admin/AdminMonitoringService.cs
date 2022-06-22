@@ -239,12 +239,24 @@ namespace ArmoniK.DevelopmentKit.Client.Services.Admin
       return ControlPlaneService.CountTasks(taskFilter).Values.Count;
     }
 
+    /// <summary>
+    /// The method is to get the number of all task in a session
+    /// </summary>
+    /// <returns>return the number of task</returns>
+    public int CountAllTasksBySession(string sessionId)
+    {
+      return ControlPlaneService.CountTasks(new TaskFilter()
+      {
+        Session = new TaskFilter.Types.IdsRequest() {Ids = { sessionId }},
+      }).Values.Count;
+    }
+
 
     /// <summary>
     /// The method is to get the number of running tasks in the session
     /// </summary>
     /// <returns>return the number of task</returns>
-    public int CountRunningTasks(string sessionId)
+    public int CountRunningTasksBySession(string sessionId)
     {
       return ControlPlaneService.CountTasks(new TaskFilter()
       {
@@ -272,7 +284,7 @@ namespace ArmoniK.DevelopmentKit.Client.Services.Admin
     /// The method is to get the number of error tasks in the session
     /// </summary>
     /// <returns>return the number of task</returns>
-    public int CountErrorTasks(string sessionId)
+    public int CountErrorTasksBySession(string sessionId)
     {
       return ControlPlaneService.CountTasks(new TaskFilter()
       {
@@ -299,7 +311,7 @@ namespace ArmoniK.DevelopmentKit.Client.Services.Admin
     /// The method is to get the number of error tasks in the session
     /// </summary>
     /// <returns>return the number of task</returns>
-    public int CountCancelTasks(string sessionId)
+    public int CountCancelTasksBySession(string sessionId)
     {
       return ControlPlaneService.CountTasks(new TaskFilter()
       {
@@ -325,7 +337,7 @@ namespace ArmoniK.DevelopmentKit.Client.Services.Admin
     /// The method is to get the number of error tasks in the session
     /// </summary>
     /// <returns>return the number of task</returns>
-    public int CountCompletedTasks(string sessionId)
+    public int CountCompletedTasksBySession(string sessionId)
     {
       return ControlPlaneService.CountTasks(new TaskFilter()
       {
@@ -351,7 +363,7 @@ namespace ArmoniK.DevelopmentKit.Client.Services.Admin
     /// </summary>
     /// <param name="sessionId">The session Id</param>
     /// <param name="taskIds">the taskIds list to cancel</param>
-    public void CancelTasks(string sessionId, IEnumerable<string> taskIds)
+    public void CancelTasksBySession(string sessionId, IEnumerable<string> taskIds)
     {
       ControlPlaneService.CancelTasks(new TaskFilter()
       {

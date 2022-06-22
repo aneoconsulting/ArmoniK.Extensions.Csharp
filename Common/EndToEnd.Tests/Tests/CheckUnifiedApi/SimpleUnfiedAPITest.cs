@@ -52,8 +52,6 @@ namespace ArmoniK.EndToEndTests.Tests.CheckUnifiedApi
   {
     public double[] ComputeBasicArrayCube(double[] inputs)
     {
-      Logger.LogInformation("Executing method ComputeBasicArrayCube");
-
       return inputs.Select(x => x * x * x).ToArray();
     }
 

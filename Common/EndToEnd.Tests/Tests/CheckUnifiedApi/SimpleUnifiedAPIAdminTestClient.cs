@@ -42,7 +42,6 @@ using SessionService = ArmoniK.DevelopmentKit.SymphonyApi.Client.api.SessionServ
 
 namespace ArmoniK.EndToEndTests.Tests.CheckUnifiedApi
 {
-  [Disabled]
   public class SimpleUnifiedAPIAdminTestClient : ClientBaseTest<SimpleUnifiedAPITestClient>, IServiceInvocationHandler
   {
     public SimpleUnifiedAPIAdminTestClient(IConfiguration configuration, ILoggerFactory loggerFactory) :
@@ -115,7 +114,7 @@ namespace ArmoniK.EndToEndTests.Tests.CheckUnifiedApi
       //Get the count of running tasks after 10 s
       Thread.Sleep(15000);
 
-      var countRunningTasks = serviceAdmin.AdminMonitoringService.CountCompletedTasks(sessionService.SessionId);
+      var countRunningTasks = serviceAdmin.AdminMonitoringService.CountCompletedTasksBySession(sessionService.SessionId);
       Log.LogInformation($"Number of completed tasks after 15 seconds is {countRunningTasks}");
 
       //Cancel all the session
@@ -125,14 +124,14 @@ namespace ArmoniK.EndToEndTests.Tests.CheckUnifiedApi
       //Get the count of running tasks after 10 s
       Thread.Sleep(10000);
       //Cancel all the session
-      var countCancelTasks = serviceAdmin.AdminMonitoringService.CountCancelTasks(sessionService.SessionId);
+      var countCancelTasks = serviceAdmin.AdminMonitoringService.CountCancelTasksBySession(sessionService.SessionId);
       Log.LogInformation($"Number of canceled tasks after Session cancel is {countCancelTasks}");
 
-      countRunningTasks = serviceAdmin.AdminMonitoringService.CountCompletedTasks(sessionService.SessionId);
+      countRunningTasks = serviceAdmin.AdminMonitoringService.CountCompletedTasksBySession(sessionService.SessionId);
       Log.LogInformation($"Number of running tasks after Session cancel is {countRunningTasks}");
 
 
-      var countErrorTasks = serviceAdmin.AdminMonitoringService.CountErrorTasks(sessionService.SessionId);
+      var countErrorTasks = serviceAdmin.AdminMonitoringService.CountErrorTasksBySession(sessionService.SessionId);
       Log.LogInformation($"Number of error tasks after Session cancel is {countErrorTasks}");
 
     }
