@@ -22,6 +22,7 @@
 // limitations under the License.
 
 using ArmoniK.DevelopmentKit.Client.Services;
+using ArmoniK.DevelopmentKit.Client.Services.Admin;
 using ArmoniK.DevelopmentKit.Client.Services.Submitter;
 using ArmoniK.DevelopmentKit.Common;
 
@@ -64,6 +65,24 @@ namespace ArmoniK.DevelopmentKit.Client.Factory
     /// <param name="props">Properties for the service containing IConfiguration and TaskOptions</param>
     /// <returns>returns the new instantiated service</returns>
     public Service CreateService(Properties props)
+    {
+      var factory = new LoggerFactory(new[]
+      {
+        new SerilogLoggerProvider(new LoggerConfiguration()
+                                  .ReadFrom
+                                  .Configuration(props.Configuration)
+                                  .CreateLogger())
+      });
+      return new(factory,
+                 props);
+    }
+
+    /// <summary>
+    /// Method to get the ServiceAdmin
+    /// </summary>
+    /// <param name="props"></param>
+    /// <returns></returns>
+    public ServiceAdmin GetServiceAdmin(Properties props)
     {
       var factory = new LoggerFactory(new[]
       {

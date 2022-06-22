@@ -25,7 +25,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.GridServer.Client;
+
+using Microsoft.Extensions.Logging;
 
 namespace ArmoniK.EndToEndTests.Tests.CheckUnifiedApi
 {
@@ -47,7 +50,7 @@ namespace ArmoniK.EndToEndTests.Tests.CheckUnifiedApi
 
   public class SimpleService : BaseService<SimpleService>
   {
-    public static double[] ComputeBasicArrayCube(double[] inputs)
+    public double[] ComputeBasicArrayCube(double[] inputs)
     {
       return inputs.Select(x => x * x * x).ToArray();
     }
@@ -69,7 +72,7 @@ namespace ArmoniK.EndToEndTests.Tests.CheckUnifiedApi
       var doubles1 = inputs1.ConvertToArray().ToArray();
       var doubles2 = inputs2.ConvertToArray().ToArray();
 
-     
+
       return doubles1.Select((x, idx) => k * x * doubles2[idx]).ToArray();
     }
 
