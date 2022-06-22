@@ -29,6 +29,7 @@ using System.Collections.Generic;
 
 using ArmoniK.Api.gRPC.V1;
 using ArmoniK.DevelopmentKit.Client.Services;
+using ArmoniK.DevelopmentKit.Client.Services.Admin;
 using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.Common.Submitter;
 
@@ -149,6 +150,19 @@ namespace ArmoniK.DevelopmentKit.Client.Factory
                               "FallBackServerAdder");
 
       return taskOptions;
+    }
+
+    /// <summary>
+    /// Return a connection interface with the control plane to manage and monitor the Armonik grid
+    /// </summary>
+    /// <param name="properties">The properties containing all information for connection</param>
+    /// <returns>returns the services of Administration and Monitoring</returns>
+    public AdminMonitoringService GetAdminMonitoringService(Properties properties)
+    {
+      ControlPlaneConnection(properties);
+
+      return new AdminMonitoringService(LoggerFactory,
+                                        ControlPlaneService);
     }
   }
 }
