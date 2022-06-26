@@ -27,6 +27,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
+using ArmoniK.DevelopmentKit.Common.Exceptions;
 using ArmoniK.DevelopmentKit.SymphonyApi.Client;
 using ArmoniK.DevelopmentKit.SymphonyApi.Client.api;
 using ArmoniK.EndToEndTests.Common;
@@ -39,11 +40,10 @@ using Microsoft.Extensions.Logging;
 namespace ArmoniK.EndToEndTests.Tests.CheckRandomException
 {
   [UsedImplicitly]
-  [Disabled]
   public class CheckRandomExceptionSymClient : ClientBaseTest<CheckRandomExceptionSymClient>
   {
     public CheckRandomExceptionSymClient(IConfiguration configuration, ILoggerFactory loggerFactory) : base(configuration,
-                                                                                                       loggerFactory)
+                                                                                                            loggerFactory)
     {
     }
 
@@ -72,30 +72,40 @@ namespace ArmoniK.EndToEndTests.Tests.CheckRandomException
     /// <param name="taskIds">The tasks which are waiting for</param>
     /// <returns></returns>
     /// 
-    private IEnumerable<Tuple<string, byte[]>> WaitForTasksResult(SessionService sessionService, IEnumerable<string> taskIds)
+    private IEnumerable<Tuple<string, byte[]>> WaitForTasksResult(int numSession, SessionService sessionService, IEnumerable<string> taskIds)
     {
-      var ids = taskIds.ToList();
+      var ids     = taskIds.ToList();
       var missing = ids;
       var results = new List<Tuple<string, byte[]>>();
 
-      while (missing.Count != 0)
+      try
       {
-        var partialResults = sessionService.TryGetResults(missing);
-
-        var listPartialResults = partialResults.ToList();
-
-        if (listPartialResults.Count() != 0)
+        while (missing.Count != 0)
         {
-          results.AddRange(listPartialResults);
-          Log.LogInformation($"------  Session {sessionService.SessionId.Id}  Get {listPartialResults.Count()} result(s)  -------");
+          var partialResults = sessionService.TryGetResults(missing);
+
+          var listPartialResults = partialResults.ToList();
+
+          if (listPartialResults.Count() != 0)
+          {
+            results.AddRange(listPartialResults);
+            Log.LogInformation($"------  Session {numSession}  Get {listPartialResults.Count()} result(s)  -------");
+          }
+
+          missing = missing.Where(x => listPartialResults.ToList().All(rId => rId.Item1 != x)).ToList();
+
+          if (missing.Count != 0)
+            Log.LogInformation($"------  Session {numSession} Still missing {missing.Count()} result(s)  -------");
+
+          Thread.Sleep(1000);
         }
-
-        missing = missing.Where(x => listPartialResults.ToList().All(rId => rId.Item1 != x)).ToList();
-
-        if (missing.Count != 0)
-          Log.LogInformation($"------  Session {sessionService.SessionId.Id} Still missing {missing.Count()} result(s)  -------");
-
-        Thread.Sleep(1000);
+      }
+      catch (ClientResultsException ex)
+      {
+        Log.LogError(ex.Message);
+        Log.LogError($"------ Session {numSession} Adding Failed results as null in the list");
+        results.AddRange(ex.TaskIds.Select(x => new Tuple<string, byte[]>(x,
+                                                                          null)));
       }
 
       return results;
@@ -124,19 +134,28 @@ namespace ArmoniK.EndToEndTests.Tests.CheckRandomException
 
 
       var payloads = Enumerable.Repeat(0,
-                                       500)
+                                       1000)
                                .Select(_ => clientPayload.Serialize());
       var taskIds = sessionService.SubmitTasks(payloads);
 
 
       Log.LogInformation($"Session {numSession} [ {sessionService} ]is waiting for output result..");
 
-      var taskResults = WaitForTasksResult(sessionService,
-                                          taskIds);
+      var taskResults = WaitForTasksResult(numSession,
+                                           sessionService,
+                                           taskIds);
 
-      var result = taskResults.Select(x => ClientPayload.Deserialize(x.Item2).Result).Sum();
+      var result = taskResults.Where(x=> x.Item2 != null).Select(x => ClientPayload.Deserialize(x.Item2).Result).Sum();
 
       Log.LogInformation($"Session {numSession} has finished output result : {result}");
+
+      var resultInError = taskResults.Where(x => x.Item2 == null);
+      var inError       = resultInError as Tuple<string, byte[]>[] ?? resultInError.ToArray();
+      if (inError.Any())
+      {
+        Log.LogWarning($"Session {numSession}  : The following tasks list is in error \n{string.Join("\n ", inError.Select(x=> x.Item1))}");
+      }
+
     }
   }
 }

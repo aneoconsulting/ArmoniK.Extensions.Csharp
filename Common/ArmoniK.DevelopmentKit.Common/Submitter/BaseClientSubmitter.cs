@@ -492,7 +492,8 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
 
         Logger.LogError(msg);
 
-        throw new WorkerApiException(msg);
+        throw new ClientResultsException(msg,
+          (resultStatus.IdsError ?? Enumerable.Empty<string>()).Concat(resultStatus.IdsResultError.Select(x=> x.Item1)));
       }
 
 
