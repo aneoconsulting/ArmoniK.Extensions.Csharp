@@ -23,31 +23,32 @@
 
 using System;
 
+using ArmoniK.DevelopmentKit.Common;
+
+//TODO : remove pragma
 #pragma warning disable CS1591
 
-namespace ArmoniK.DevelopmentKit.GridServer.Client
+namespace ArmoniK.DevelopmentKit.Client.Exceptions
 {
-  /// <summary>
-  /// The exception class for Server side reporting Grid Error
-  /// </summary>
-  public class GridServerException : Exception
+  [MarkDownDoc]
+  public class ServiceInvocationException : Exception
   {
-    /// <summary>
-    /// The constructor in string message in parameters
-    /// </summary>
-    /// <param name="message">the message to include in the exception</param>
-    public GridServerException(string message) : base(message)
+    private readonly string message_ = "ServiceInvocationException during call function";
+
+    public ServiceInvocationException()
     {
     }
 
-    /// <summary>
-    /// The constructor with Message and Exception
-    /// </summary>
-    /// <param name="message">The string message in the new exception</param>
-    /// <param name="e">the inner exception</param>
-    public GridServerException(string message, Exception e) : base(message,
-                                                                   e)
-    {
-    }
+    public ServiceInvocationException(string message) => message_ = message;
+
+    public ServiceInvocationException(Exception e) : base(e.Message,
+                                                          e) => message_ = $"{message_} with InnerException {e.GetType()} message : {e.Message}";
+
+    public ServiceInvocationException(string message, ArgumentException e) : base(message,
+                                                                                  e)
+      => message_ = message;
+
+    //Overriding the Message property
+    public override string Message => message_;
   }
 }

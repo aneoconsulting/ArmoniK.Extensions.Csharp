@@ -23,31 +23,23 @@
 
 using System;
 
+using ArmoniK.DevelopmentKit.Common.Exceptions;
+
+//TODO : remove pragma
 #pragma warning disable CS1591
 
-namespace ArmoniK.DevelopmentKit.GridServer.Client
+namespace ArmoniK.DevelopmentKit.GridServer
 {
-  /// <summary>
-  /// The exception class for Server side reporting Grid Error
-  /// </summary>
-  public class GridServerException : Exception
-  {
-    /// <summary>
-    /// The constructor in string message in parameters
-    /// </summary>
-    /// <param name="message">the message to include in the exception</param>
-    public GridServerException(string message) : base(message)
+    public class GridServerException : Exception
     {
-    }
+      public GridServerException(string message) : base(message)
+      {
+        
+      }
 
-    /// <summary>
-    /// The constructor with Message and Exception
-    /// </summary>
-    /// <param name="message">The string message in the new exception</param>
-    /// <param name="e">the inner exception</param>
-    public GridServerException(string message, Exception e) : base(message,
-                                                                   e)
-    {
+      public GridServerException(string message, Exception e) : base(message,
+                                                                     e)
+      {
+      }
     }
-  }
 }

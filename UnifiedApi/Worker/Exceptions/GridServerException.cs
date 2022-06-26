@@ -23,9 +23,7 @@
 
 using System;
 
-#pragma warning disable CS1591
-
-namespace ArmoniK.DevelopmentKit.GridServer.Client
+namespace ArmoniK.DevelopmentKit.Worker.Exceptions
 {
   /// <summary>
   /// The exception class for Server side reporting Grid Error

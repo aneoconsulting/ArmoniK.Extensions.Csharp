@@ -1,4 +1,4 @@
-﻿// This file is part of the ArmoniK project
+// This file is part of the ArmoniK project
 // 
 // Copyright (C) ANEO, 2021-2022.
 //   W. Kirschenmann   <wkirschenmann@aneo.fr>
@@ -21,33 +21,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
+using ArmoniK.DevelopmentKit.Common;
 
 #pragma warning disable CS1591
-
-namespace ArmoniK.DevelopmentKit.GridServer.Client
+namespace ArmoniK.DevelopmentKit.Worker.Grid
 {
   /// <summary>
-  /// The exception class for Server side reporting Grid Error
   /// </summary>
-  public class GridServerException : Exception
+  /// 
+  [MarkDownDoc]
+  public class ServiceContext
   {
-    /// <summary>
-    /// The constructor in string message in parameters
-    /// </summary>
-    /// <param name="message">the message to include in the exception</param>
-    public GridServerException(string message) : base(message)
-    {
-    }
-
-    /// <summary>
-    /// The constructor with Message and Exception
-    /// </summary>
-    /// <param name="message">The string message in the new exception</param>
-    /// <param name="e">the inner exception</param>
-    public GridServerException(string message, Exception e) : base(message,
-                                                                   e)
-    {
-    }
+    public string ApplicationName  { get; set; }
+    public string ServiceName      { get; set; }
+    public string ClientLibVersion { get; set; }
+    public string AppNamespace     { get; set; }
   }
 }

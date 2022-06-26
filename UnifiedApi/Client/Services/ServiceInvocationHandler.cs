@@ -21,33 +21,32 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
+//TODO : remove pragma
 
-#pragma warning disable CS1591
+using ArmoniK.DevelopmentKit.Client.Exceptions;
+using ArmoniK.DevelopmentKit.Common;
 
-namespace ArmoniK.DevelopmentKit.GridServer.Client
+namespace ArmoniK.DevelopmentKit.Client.Services
 {
   /// <summary>
-  /// The exception class for Server side reporting Grid Error
+  /// The interface from which the handler must inherit to be considered as a handler of service
+  /// in the method LocalExecute, Execute or Submit
   /// </summary>
-  public class GridServerException : Exception
+  [MarkDownDoc]
+  public interface IServiceInvocationHandler
   {
     /// <summary>
-    /// The constructor in string message in parameters
+    /// The callBack method which has to be implemented to retrieve error or exception
     /// </summary>
-    /// <param name="message">the message to include in the exception</param>
-    public GridServerException(string message) : base(message)
-    {
-    }
+    /// <param name="e">The exception sent to the client from the control plane</param>
+    /// <param name="taskId">The task identifier which has invoke the error callBack</param>
+    void HandleError(ServiceInvocationException e, string taskId);
 
     /// <summary>
-    /// The constructor with Message and Exception
+    /// The callBack method which has to be implemented to retrieve response from the server
     /// </summary>
-    /// <param name="message">The string message in the new exception</param>
-    /// <param name="e">the inner exception</param>
-    public GridServerException(string message, Exception e) : base(message,
-                                                                   e)
-    {
-    }
+    /// <param name="response">The object receive from the server as result the method called by the client</param>
+    /// <param name="taskId">The task identifier which has invoke the response callBack</param>
+    void HandleResponse(object response, string taskId);
   }
 }
