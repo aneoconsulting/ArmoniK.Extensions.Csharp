@@ -67,8 +67,8 @@ namespace ArmoniK.EndToEndTests.Tests.CheckUnifiedApi
       //var resourceId = ServiceAdmin.CreateInstance(Configuration, LoggerFactory,props).UploadResource("filePath");
 
 
-      using var cs  = ServiceFactory.GetInstance().CreateService(props);
-      using var csa = ServiceFactory.GetInstance().GetServiceAdmin(props);
+      using var cs  = ServiceFactory.CreateService(props);
+      using var csa = ServiceFactory.GetServiceAdmin(props);
 
       Log.LogInformation($"New session created : {cs.SessionId}");
 
@@ -111,7 +111,7 @@ namespace ArmoniK.EndToEndTests.Tests.CheckUnifiedApi
                                              100).Select(n => ParamsHelper(numbers)),
                             this);
 
-      //Get the count of running tasks after 10 s
+      //Get the count of running tasks after 15 s
       Thread.Sleep(15000);
 
       var countRunningTasks = serviceAdmin.AdminMonitoringService.CountCompletedTasksBySession(sessionService.SessionId);

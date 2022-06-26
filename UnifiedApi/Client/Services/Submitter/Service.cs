@@ -36,6 +36,11 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
+using ArmoniK.DevelopmentKit.Client.Services.Common;
+
+using Serilog;
+using Serilog.Extensions.Logging;
+
 #pragma warning disable CS1591
 
 namespace ArmoniK.DevelopmentKit.Client.Services.Submitter
@@ -45,7 +50,7 @@ namespace ArmoniK.DevelopmentKit.Client.Services.Submitter
   /// Grid.
   /// </summary>
   [MarkDownDoc]
-  public class Service : IDisposable
+  public class Service : AbstractClientService
   {
     /// <summary>
     /// Class to return TaskId and the result
@@ -80,9 +85,10 @@ namespace ArmoniK.DevelopmentKit.Client.Services.Submitter
     /// </summary>
     /// <param name="loggerFactory">The logger factory to instantiate Logger with the current class type</param>
     /// <param name="properties">The properties containing TaskOptions and information to communicate with Control plane and </param>
-    public Service(ILoggerFactory loggerFactory, Properties properties)
+    public Service(Properties properties) : base(properties)
     {
-      SessionServiceFactory = new SessionServiceFactory(loggerFactory);
+      
+      SessionServiceFactory = new SessionServiceFactory(LoggerFactory);
 
       SessionService = SessionServiceFactory.CreateSession(properties);
 
@@ -388,7 +394,7 @@ namespace ArmoniK.DevelopmentKit.Client.Services.Submitter
     public string SessionId => SessionService?.SessionId.Id;
 
     /// <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
-    public void Dispose()
+    public override void Dispose()
     {
       try
       {

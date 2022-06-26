@@ -39,23 +39,6 @@ namespace ArmoniK.DevelopmentKit.Client.Factory
   [MarkDownDoc]
   public class ServiceFactory
   {
-    private ServiceFactory()
-    {
-      
-    }
-
-    private static ServiceFactory _instanceFactory;
-
-    /// <summary>
-    /// Get a single instance of ServiceFactory to create new Service
-    /// </summary>
-    /// <returns>Returns the ServiceFactory to create new Service</returns>
-    public static ServiceFactory GetInstance()
-    {
-      if (_instanceFactory == null) _instanceFactory = new ServiceFactory();
-
-      return _instanceFactory;
-    }
 
     /// <summary>
     /// The method to create new Service
@@ -64,17 +47,9 @@ namespace ArmoniK.DevelopmentKit.Client.Factory
     /// This is the Service type reflection for method</param>
     /// <param name="props">Properties for the service containing IConfiguration and TaskOptions</param>
     /// <returns>returns the new instantiated service</returns>
-    public Service CreateService(Properties props)
+    public static Service CreateService(Properties props)
     {
-      var factory = new LoggerFactory(new[]
-      {
-        new SerilogLoggerProvider(new LoggerConfiguration()
-                                  .ReadFrom
-                                  .Configuration(props.Configuration)
-                                  .CreateLogger())
-      });
-      return new(factory,
-                 props);
+      return new(props);
     }
 
     /// <summary>
@@ -82,17 +57,9 @@ namespace ArmoniK.DevelopmentKit.Client.Factory
     /// </summary>
     /// <param name="props"></param>
     /// <returns></returns>
-    public ServiceAdmin GetServiceAdmin(Properties props)
+    public static ServiceAdmin GetServiceAdmin(Properties props)
     {
-      var factory = new LoggerFactory(new[]
-      {
-        new SerilogLoggerProvider(new LoggerConfiguration()
-                                  .ReadFrom
-                                  .Configuration(props.Configuration)
-                                  .CreateLogger())
-      });
-      return new(factory,
-                 props);
+      return new(props);
     }
   }
 }
