@@ -31,5 +31,10 @@ namespace ArmoniK.DevelopmentKit.Common.Status
     /// List of result not yet written in database
     /// </summary>
     public IEnumerable<Tuple<string, ResultStatus>> IdsNotReady { get; set; }
+
+    /// <summary>
+    /// The list of canceled task
+    /// </summary>
+    public IEnumerable<Tuple<string, ResultStatus>> Canceled { get; set; }
   }
 }

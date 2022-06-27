@@ -124,7 +124,8 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
                              }
                            },
                            true,
-                           typeof(IOException));
+                           typeof(IOException),
+                           typeof(RpcException));
     }
 
     /// <summary>
@@ -277,7 +278,8 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
                              });
                            },
                            true,
-                           typeof(IOException));
+                           typeof(IOException),
+                           typeof(RpcException));
     }
 
     /// <summary>
@@ -304,14 +306,12 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
                                                                                                        x.Status));
                                           },
                                           true,
-                                          typeof(IOException));
+                                          typeof(IOException),
+                                          typeof(RpcException));
 
 
       var ids     = taskIds as string[] ?? taskIds.ToArray();
-      var missing = ids.Where(x => idStatus.All(rId => rId.Item1 != x));
-
       var statusIds = idStatus as Tuple<string, ResultStatus>[] ?? idStatus.ToArray();
-      var idsReady  = statusIds.Where(x => x.Item2 is ResultStatus.Completed);
 
       var resultStatusList = new ResultStatusCollection()
       {
@@ -319,6 +319,7 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
         IdsError       = ids.Where(x => statusIds.All(rId => rId.Item1 != x)),
         IdsReady       = statusIds.Where(x => x.Item2 is ResultStatus.Completed),
         IdsNotReady    = statusIds.Where(x => x.Item2 is ResultStatus.Created),
+        Canceled        = statusIds.Where(x => x.Item2 is ResultStatus.Aborted),
       };
 
       return resultStatusList;
@@ -365,7 +366,8 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
                              }
                            },
                            true,
-                           typeof(IOException));
+                           typeof(IOException),
+                           typeof(RpcException));
 
       HealthCheckResult(taskId);
 
@@ -462,7 +464,8 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
                                                return response.Result;
                                              },
                                              true,
-                                             typeof(IOException));
+                                             typeof(IOException),
+                                             typeof(RpcException));
 
       return resultReply;
     }
@@ -476,24 +479,39 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
     {
       var resultStatus = GetResultStatus(taskIds);
 
-      if (!resultStatus.IdsReady.Any() && !resultStatus.IdsNotReady.Any() && (resultStatus.IdsError.Any() || resultStatus.IdsResultError.Any()))
+      if (!resultStatus.IdsReady.Any() && !resultStatus.IdsNotReady.Any()) 
       {
-        var msg = $"The missing result is in error. Please check log for more information on Armonik grid server list of taskIds in Error : [ {string.Join(", ", resultStatus.IdsResultError.Select(x => x.Item1))}";
-        
-        if (resultStatus.IdsError.Any())
+        if (resultStatus.IdsError.Any() || resultStatus.IdsResultError.Any())
         {
-          if (resultStatus.IdsResultError.Any()) 
-            msg += ", ";
+          var msg =
+            $"The missing result is in error. Please check log for more information on Armonik grid server list of taskIds in Error : [ {string.Join(", ", resultStatus.IdsResultError.Select(x => x.Item1))}";
 
-          msg += $"{string.Join(", ", resultStatus.IdsError)}";
+          if (resultStatus.IdsError.Any())
+          {
+            if (resultStatus.IdsResultError.Any())
+              msg += ", ";
+
+            msg += $"{string.Join(", ", resultStatus.IdsError)}";
+          }
+
+          msg += " ]";
+
+          Logger.LogError(msg);
+
+          throw new ClientResultsException(msg,
+                                           (resultStatus.IdsError ?? Enumerable.Empty<string>()).Concat(resultStatus.IdsResultError.Select(x => x.Item1)));
         }
 
-        msg += " ]";
+        if (resultStatus.Canceled.Any())
+        {
+          var msg =
+            $"Tasks were canceled. Please check log for more information on Armonik grid server list of taskIds in Error : [ {string.Join(", ", resultStatus.Canceled.Select(x => x.Item1))} ]";
 
-        Logger.LogError(msg);
+          Logger.LogWarning(msg);
 
-        throw new ClientResultsException(msg,
-          (resultStatus.IdsError ?? Enumerable.Empty<string>()).Concat(resultStatus.IdsResultError.Select(x=> x.Item1)));
+          throw new ClientResultsException(msg,
+                                           resultStatus.Canceled.Select(x => x.Item1));
+        }
       }
 
 

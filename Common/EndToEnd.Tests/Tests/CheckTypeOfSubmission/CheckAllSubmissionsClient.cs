@@ -164,7 +164,7 @@ namespace ArmoniK.EndToEndTests.Tests.CheckTypeOfSubmission
       //{
       //  SubmissionTask(sessionService,
       //                 100000,
-      //                 1,
+      //                 0,
       //                 SubmissionType.Batch,
       //                 GetResultType.TryGetResult);
       //}
@@ -306,11 +306,10 @@ namespace ArmoniK.EndToEndTests.Tests.CheckTypeOfSubmission
       var holdPrev = 0;
       var waitInSeconds = new List<int>
       {
+        10,
         1000,
         5000,
         10000,
-        20000,
-        30000
       };
       var idx = 0;
 
@@ -320,7 +319,9 @@ namespace ArmoniK.EndToEndTests.Tests.CheckTypeOfSubmission
 
       while (missing.Count != 0)
       {
-        missing.Batch(100).ToList().ForEach(bucket =>
+        var buckets = missing.Batch(10000).ToList();
+
+        buckets.ForEach(bucket =>
         {
           var partialResults = sessionService.TryGetResults(bucket);
 
@@ -332,21 +333,20 @@ namespace ArmoniK.EndToEndTests.Tests.CheckTypeOfSubmission
           }
 
           missing = missing.Where(x => listPartialResults.ToList().All(rId => rId.Item1 != x)).ToList();
-
-
-          if (holdPrev == results.Count)
-          {
-            idx = idx >= waitInSeconds.Count - 1 ? waitInSeconds.Count - 1 : idx + 1;
-          }
-          else
-          {
-            idx = 0;
-          }
-
+          Thread.Sleep(waitInSeconds[0]);
+        }); 
+        
+        if (holdPrev == results.Count)
+        {
+          idx = idx >= waitInSeconds.Count - 1 ? waitInSeconds.Count - 1 : idx + 1;
+        }
+        else
+        {
+          idx      = 0;
           holdPrev = results.Count;
+        }
 
-          Thread.Sleep(waitInSeconds[idx]);
-        });
+        Thread.Sleep(waitInSeconds[idx]);
       }
 
       cts.Cancel();

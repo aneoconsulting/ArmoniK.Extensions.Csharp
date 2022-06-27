@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 
 using ArmoniK.DevelopmentKit.Common.Exceptions;
 
+using Grpc.Core;
+
 namespace ArmoniK.DevelopmentKit.Common
 {
   /// <summary>
@@ -49,11 +51,11 @@ namespace ArmoniK.DevelopmentKit.Common
     /// <param name="allowDerivedExceptions">If true, exceptions deriving from the specified exception type are ignored as well. Defaults to False</param>
     /// <returns>When one of the retries succeeds, return the value the operation returned. If not, an exception is thrown.</returns>
     public static void WhileException(
-      int    retries,
-      int    delayMs,
-      Action operation,
-      bool   allowDerivedExceptions = false,
-      params Type[]   exceptionType
+      int           retries,
+      int           delayMs,
+      Action        operation,
+      bool          allowDerivedExceptions = false,
+      params Type[] exceptionType
     )
     {
       // Do all but one retries in the loop
@@ -68,9 +70,16 @@ namespace ArmoniK.DevelopmentKit.Common
         catch (Exception ex)
         {
           // Oops - it did NOT succeed!
-          if (
+          if (exceptionType != null &&
+              allowDerivedExceptions &&
+              ex is AggregateException &&
+              exceptionType.Any(e => ex.InnerException != null && ex.InnerException.GetType() == e))
+          {
+            Thread.Sleep(delayMs);
+          }
+          else if (
             exceptionType == null ||
-            exceptionType.Any( e => e == ex.GetType())  ||
+            exceptionType.Any(e => e == ex.GetType()) ||
             (allowDerivedExceptions && exceptionType.Any(e => ex.GetType().IsSubclassOf(e))))
           {
             // Ignore exceptions when exceptionType is not specified OR
@@ -99,11 +108,11 @@ namespace ArmoniK.DevelopmentKit.Common
     /// <param name="allowDerivedExceptions">If true, exceptions deriving from the specified exception type are ignored as well. Defaults to False</param>
     /// <returns>When one of the retries succeeds, return the value the operation returned. If not, an exception is thrown.</returns>
     public static T WhileException<T>(
-      int     retries,
-      int     delayMs,
-      Func<T> operation,
-      bool allowDerivedExceptions = false,
-      params Type[]    exceptionType
+      int           retries,
+      int           delayMs,
+      Func<T>       operation,
+      bool          allowDerivedExceptions = false,
+      params Type[] exceptionType
     )
     {
       // Do all but one retries in the loop
@@ -116,8 +125,14 @@ namespace ArmoniK.DevelopmentKit.Common
         }
         catch (Exception ex)
         {
-          // Oops - it did NOT succeed!
-          if (
+          if (exceptionType != null &&
+              allowDerivedExceptions &&
+              ex is AggregateException &&
+              exceptionType.Any(e => ex.InnerException != null && ex.InnerException.GetType() == e))
+          {
+            Thread.Sleep(delayMs);
+          }
+          else if (
             exceptionType == null ||
             exceptionType.Any(e => e == ex.GetType()) ||
             (allowDerivedExceptions && exceptionType.Any(e => ex.GetType().IsSubclassOf(e))))
