@@ -39,12 +39,13 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
 using SessionService = ArmoniK.DevelopmentKit.SymphonyApi.Client.api.SessionService;
+using TaskStatus = ArmoniK.Api.gRPC.V1.TaskStatus;
 
 namespace ArmoniK.EndToEndTests.Tests.CheckUnifiedApi
 {
-  public class SimpleUnifiedAPIAdminTestClient : ClientBaseTest<SimpleUnifiedAPITestClient>, IServiceInvocationHandler
+  public class SimpleUnifiedApiAdminTestClient : ClientBaseTest<SimpleUnifiedAPITestClient>, IServiceInvocationHandler
   {
-    public SimpleUnifiedAPIAdminTestClient(IConfiguration configuration, ILoggerFactory loggerFactory) :
+    public SimpleUnifiedApiAdminTestClient(IConfiguration configuration, ILoggerFactory loggerFactory) :
       base(configuration,
            loggerFactory)
     {
@@ -74,7 +75,8 @@ namespace ArmoniK.EndToEndTests.Tests.CheckUnifiedApi
 
 
       Log.LogInformation("Submit Batch of 100 tasks in one submit call and Cancel the session");
-      RunningAndCancelSession(cs, csa);
+      RunningAndCancelSession(cs,
+                              csa);
     }
 
     private static void OverrideTaskOptions(TaskOptions taskOptions)
@@ -114,7 +116,9 @@ namespace ArmoniK.EndToEndTests.Tests.CheckUnifiedApi
       //Get the count of running tasks after 15 s
       Thread.Sleep(15000);
 
-      var countRunningTasks = serviceAdmin.AdminMonitoringService.CountCompletedTasksBySession(sessionService.SessionId);
+      var countRunningTasks = serviceAdmin.AdminMonitoringService.CountTaskBySession(sessionService.SessionId,
+                                                                                     TaskStatus.Completed);
+      
       Log.LogInformation($"Number of completed tasks after 15 seconds is {countRunningTasks}");
 
       //Cancel all the session
@@ -124,16 +128,23 @@ namespace ArmoniK.EndToEndTests.Tests.CheckUnifiedApi
       //Get the count of running tasks after 10 s
       Thread.Sleep(10000);
       //Cancel all the session
-      var countCancelTasks = serviceAdmin.AdminMonitoringService.CountCancelTasksBySession(sessionService.SessionId);
+      var countCancelTasks = serviceAdmin.AdminMonitoringService.CountTaskBySession(sessionService.SessionId,
+                                                                                    TaskStatus.Canceled, TaskStatus.Canceling);
+
       Log.LogInformation($"Number of canceled tasks after Session cancel is {countCancelTasks}");
 
-      countRunningTasks = serviceAdmin.AdminMonitoringService.CountCompletedTasksBySession(sessionService.SessionId);
+      
+      countRunningTasks = serviceAdmin.AdminMonitoringService.CountTaskBySession(sessionService.SessionId,
+                                                                                 TaskStatus.Completed);
+      
       Log.LogInformation($"Number of running tasks after Session cancel is {countRunningTasks}");
 
 
-      var countErrorTasks = serviceAdmin.AdminMonitoringService.CountErrorTasksBySession(sessionService.SessionId);
-      Log.LogInformation($"Number of error tasks after Session cancel is {countErrorTasks}");
 
+      var countErrorTasks = serviceAdmin.AdminMonitoringService.CountTaskBySession(sessionService.SessionId,
+                                                                                   TaskStatus.Error, TaskStatus.Failed, TaskStatus.Timeout);
+
+      Log.LogInformation($"Number of error tasks after Session cancel is {countErrorTasks}");
     }
 
     /// <summary>

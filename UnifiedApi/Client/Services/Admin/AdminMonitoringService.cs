@@ -91,7 +91,7 @@ namespace ArmoniK.DevelopmentKit.Client.Services.Admin
     }
 
     /// <summary>
-    /// Return the whole list of task of a session
+    /// Return the list of task of a session filtered by status
     /// </summary>
     /// <returns>The list of filtered task </returns>
     public IEnumerable<string> ListTasksBySession(string sessionId, params TaskStatus[] taskStatus)
