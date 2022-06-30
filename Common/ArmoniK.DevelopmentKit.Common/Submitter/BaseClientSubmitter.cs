@@ -319,7 +319,6 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
         IdsError       = ids.Where(x => statusIds.All(rId => rId.Item1 != x)),
         IdsReady       = statusIds.Where(x => x.Item2 is ResultStatus.Completed),
         IdsNotReady    = statusIds.Where(x => x.Item2 is ResultStatus.Created),
-        Canceled        = statusIds.Where(x => x.Item2 is ResultStatus.Aborted),
       };
 
       return resultStatusList;
@@ -484,7 +483,7 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
         if (resultStatus.IdsError.Any() || resultStatus.IdsResultError.Any())
         {
           var msg =
-            $"The missing result is in error. Please check log for more information on Armonik grid server list of taskIds in Error : [ {string.Join(", ", resultStatus.IdsResultError.Select(x => x.Item1))}";
+            $"The missing result is in error or canceled. Please check log for more information on Armonik grid server list of taskIds in Error : [ {string.Join(", ", resultStatus.IdsResultError.Select(x => x.Item1))}";
 
           if (resultStatus.IdsError.Any())
           {
@@ -502,16 +501,16 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
                                            (resultStatus.IdsError ?? Enumerable.Empty<string>()).Concat(resultStatus.IdsResultError.Select(x => x.Item1)));
         }
 
-        if (resultStatus.Canceled.Any())
-        {
-          var msg =
-            $"Tasks were canceled. Please check log for more information on Armonik grid server list of taskIds in Error : [ {string.Join(", ", resultStatus.Canceled.Select(x => x.Item1))} ]";
+        //if (resultStatus.Canceled.Any())
+        //{
+        //  var msg =
+        //    $"Tasks were canceled. Please check log for more information on Armonik grid server list of taskIds in Error : [ {string.Join(", ", resultStatus.Canceled.Select(x => x.Item1))} ]";
 
-          Logger.LogWarning(msg);
+        //  Logger.LogWarning(msg);
 
-          throw new ClientResultsException(msg,
-                                           resultStatus.Canceled.Select(x => x.Item1));
-        }
+        //  throw new ClientResultsException(msg,
+        //                                   resultStatus.Canceled.Select(x => x.Item1));
+        //}
       }
 
 

@@ -89,19 +89,19 @@ namespace ArmoniK.EndToEndTests.Tests.CheckTypeOfSubmission
 
       Log.LogInformation("Running End to End test to compute Square value with SubTasking");
 
-      try
-      {
-        SubmissionTask(sessionService,
-                       10,
-                       1,
-                       SubmissionType.Sequential,
-                       GetResultType.GetResult);
-      }
-      catch (Exception e)
-      {
-        Log.LogError(e,
-                     "Submission Error 10 Jobs with 1 subtask");
-      }
+      //try
+      //{
+      //  SubmissionTask(sessionService,
+      //                 10,
+      //                 1,
+      //                 SubmissionType.Sequential,
+      //                 GetResultType.GetResult);
+      //}
+      //catch (Exception e)
+      //{
+      //  Log.LogError(e,
+      //               "Submission Error 10 Jobs with 1 subtask");
+      //}
 
       //try
       //{
@@ -117,33 +117,33 @@ namespace ArmoniK.EndToEndTests.Tests.CheckTypeOfSubmission
       //               "Submission Error 1 Jobs with 5000 subtasks");
       //}
 
-      try
-      {
-        SubmissionTask(sessionService,
-                       1000,
-                       0,
-                       SubmissionType.Batch,
-                       GetResultType.GetResult);
-      }
-      catch (Exception e)
-      {
-        Log.LogError(e,
-                     "Submission Error 1000 Jobs with 0 subtask");
-      }
+      //try
+      //{
+      //  SubmissionTask(sessionService,
+      //                 1000,
+      //                 0,
+      //                 SubmissionType.Batch,
+      //                 GetResultType.GetResult);
+      //}
+      //catch (Exception e)
+      //{
+      //  Log.LogError(e,
+      //               "Submission Error 1000 Jobs with 0 subtask");
+      //}
 
-      try
-      {
-        SubmissionTask(sessionService,
-                       1000,
-                       1,
-                       SubmissionType.Batch,
-                       GetResultType.TryGetResult);
-      }
-      catch (Exception e)
-      {
-        Log.LogError(e,
-                     "Submission Error 1000 Jobs with 1 subtask");
-      }
+      //try
+      //{
+      //  SubmissionTask(sessionService,
+      //                 1000,
+      //                 1,
+      //                 SubmissionType.Batch,
+      //                 GetResultType.TryGetResult);
+      //}
+      //catch (Exception e)
+      //{
+      //  Log.LogError(e,
+      //               "Submission Error 1000 Jobs with 1 subtask");
+      //}
 
 
       try
