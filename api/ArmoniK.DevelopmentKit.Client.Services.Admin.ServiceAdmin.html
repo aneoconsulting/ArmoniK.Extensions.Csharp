@@ -79,7 +79,8 @@
   <div class="inheritance">
     <h5>Inheritance</h5>
     <div class="level0"><span class="xref">System.Object</span></div>
-    <div class="level1"><span class="xref">ServiceAdmin</span></div>
+    <div class="level1"><a class="xref" href="ArmoniK.DevelopmentKit.Client.Services.Common.AbstractClientService.html">AbstractClientService</a></div>
+    <div class="level2"><span class="xref">ServiceAdmin</span></div>
   </div>
   <div classs="implements">
     <h5>Implements</h5>
@@ -87,6 +88,12 @@
   </div>
   <div class="inheritedMembers">
     <h5>Inherited Members</h5>
+    <div>
+      <a class="xref" href="ArmoniK.DevelopmentKit.Client.Services.Common.AbstractClientService.html#ArmoniK_DevelopmentKit_Client_Services_Common_AbstractClientService_LoggerFactory">AbstractClientService.LoggerFactory</a>
+    </div>
+    <div>
+      <a class="xref" href="ArmoniK.DevelopmentKit.Client.Services.Common.AbstractClientService.html#ArmoniK_DevelopmentKit_Client_Services_Common_AbstractClientService_CreateLogFactory_ArmoniK_DevelopmentKit_Client_Services_Properties_">AbstractClientService.CreateLogFactory(Properties)</a>
+    </div>
     <div>
       <span class="xref">System.Object.Equals(System.Object)</span>
     </div>
@@ -113,25 +120,25 @@
   <h6><strong>Assembly</strong>: ArmoniK.DevelopmentKit.Client.dll</h6>
   <h5 id="ArmoniK_DevelopmentKit_Client_Services_Admin_ServiceAdmin_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public class ServiceAdmin : IDisposable</code></pre>
+    <pre><code class="lang-csharp hljs">public class ServiceAdmin : AbstractClientService, IDisposable</code></pre>
   </div>
   <h3 id="constructors">Constructors
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/master/apiSpec/new?filename=ArmoniK_DevelopmentKit_Client_Services_Admin_ServiceAdmin__ctor_ILoggerFactory_ArmoniK_DevelopmentKit_Client_Services_Properties_.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Client.Services.Admin.ServiceAdmin.%23ctor(ILoggerFactory%2CArmoniK.DevelopmentKit.Client.Services.Properties)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/master/apiSpec/new?filename=ArmoniK_DevelopmentKit_Client_Services_Admin_ServiceAdmin__ctor_ArmoniK_DevelopmentKit_Client_Services_Properties_.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Client.Services.Admin.ServiceAdmin.%23ctor(ArmoniK.DevelopmentKit.Client.Services.Properties)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/master/UnifiedApi/Client/Services/Admin/ServiceAdmin.cs/#L55">View Source</a>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/master/UnifiedApi/Client/Services/Admin/ServiceAdmin.cs/#L56">View Source</a>
   </span>
   <a id="ArmoniK_DevelopmentKit_Client_Services_Admin_ServiceAdmin__ctor_" data-uid="ArmoniK.DevelopmentKit.Client.Services.Admin.ServiceAdmin.#ctor*"></a>
-  <h4 id="ArmoniK_DevelopmentKit_Client_Services_Admin_ServiceAdmin__ctor_ILoggerFactory_ArmoniK_DevelopmentKit_Client_Services_Properties_" data-uid="ArmoniK.DevelopmentKit.Client.Services.Admin.ServiceAdmin.#ctor(ILoggerFactory,ArmoniK.DevelopmentKit.Client.Services.Properties)">ServiceAdmin(ILoggerFactory, Properties)</h4>
+  <h4 id="ArmoniK_DevelopmentKit_Client_Services_Admin_ServiceAdmin__ctor_ArmoniK_DevelopmentKit_Client_Services_Properties_" data-uid="ArmoniK.DevelopmentKit.Client.Services.Admin.ServiceAdmin.#ctor(ArmoniK.DevelopmentKit.Client.Services.Properties)">ServiceAdmin(Properties)</h4>
   <div class="markdown level1 summary"><p>The constructor of the service Admin class</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public ServiceAdmin(ILoggerFactory loggerFactory, Properties properties)</code></pre>
+    <pre><code class="lang-csharp hljs">public ServiceAdmin(Properties properties)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -143,12 +150,6 @@
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <td><span class="xref">ILoggerFactory</span></td>
-        <td><span class="parametername">loggerFactory</span></td>
-        <td><p>The factory to create the logger</p>
-</td>
-      </tr>
       <tr>
         <td><a class="xref" href="ArmoniK.DevelopmentKit.Client.Services.Properties.html">Properties</a></td>
         <td><span class="parametername">properties</span></td>
@@ -164,7 +165,7 @@
     <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/master/apiSpec/new?filename=ArmoniK_DevelopmentKit_Client_Services_Admin_ServiceAdmin_AdminMonitoringService.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Client.Services.Admin.ServiceAdmin.AdminMonitoringService%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/master/UnifiedApi/Client/Services/Admin/ServiceAdmin.cs/#L46">View Source</a>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/master/UnifiedApi/Client/Services/Admin/ServiceAdmin.cs/#L47">View Source</a>
   </span>
   <a id="ArmoniK_DevelopmentKit_Client_Services_Admin_ServiceAdmin_AdminMonitoringService_" data-uid="ArmoniK.DevelopmentKit.Client.Services.Admin.ServiceAdmin.AdminMonitoringService*"></a>
   <h4 id="ArmoniK_DevelopmentKit_Client_Services_Admin_ServiceAdmin_AdminMonitoringService" data-uid="ArmoniK.DevelopmentKit.Client.Services.Admin.ServiceAdmin.AdminMonitoringService">AdminMonitoringService</h4>
@@ -197,7 +198,7 @@
     <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/master/apiSpec/new?filename=ArmoniK_DevelopmentKit_Client_Services_Admin_ServiceAdmin_Dispose.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Client.Services.Admin.ServiceAdmin.Dispose%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/master/UnifiedApi/Client/Services/Admin/ServiceAdmin.cs/#L63">View Source</a>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/master/UnifiedApi/Client/Services/Admin/ServiceAdmin.cs/#L64">View Source</a>
   </span>
   <a id="ArmoniK_DevelopmentKit_Client_Services_Admin_ServiceAdmin_Dispose_" data-uid="ArmoniK.DevelopmentKit.Client.Services.Admin.ServiceAdmin.Dispose*"></a>
   <h4 id="ArmoniK_DevelopmentKit_Client_Services_Admin_ServiceAdmin_Dispose" data-uid="ArmoniK.DevelopmentKit.Client.Services.Admin.ServiceAdmin.Dispose">Dispose()</h4>
@@ -206,8 +207,10 @@
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public void Dispose()</code></pre>
+    <pre><code class="lang-csharp hljs">public override void Dispose()</code></pre>
   </div>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="ArmoniK.DevelopmentKit.Client.Services.Common.AbstractClientService.html#ArmoniK_DevelopmentKit_Client_Services_Common_AbstractClientService_Dispose">AbstractClientService.Dispose()</a></div>
   <h3 id="implements">Implements</h3>
   <div>
       <span class="xref">System.IDisposable</span>
@@ -223,7 +226,7 @@
                     <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/master/apiSpec/new?filename=ArmoniK_DevelopmentKit_Client_Services_Admin_ServiceAdmin.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Client.Services.Admin.ServiceAdmin%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/master/UnifiedApi/Client/Services/Admin/ServiceAdmin.cs/#L41" class="contribution-link">View Source</a>
+                    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/master/UnifiedApi/Client/Services/Admin/ServiceAdmin.cs/#L42" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>

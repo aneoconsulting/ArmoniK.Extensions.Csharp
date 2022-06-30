@@ -144,19 +144,6 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.Client.Factory.ServiceFactory.CreateService
   nameWithType: ServiceFactory.CreateService
-- uid: ArmoniK.DevelopmentKit.Client.Factory.ServiceFactory.GetInstance
-  name: GetInstance()
-  href: api/ArmoniK.DevelopmentKit.Client.Factory.ServiceFactory.html#ArmoniK_DevelopmentKit_Client_Factory_ServiceFactory_GetInstance
-  commentId: M:ArmoniK.DevelopmentKit.Client.Factory.ServiceFactory.GetInstance
-  fullName: ArmoniK.DevelopmentKit.Client.Factory.ServiceFactory.GetInstance()
-  nameWithType: ServiceFactory.GetInstance()
-- uid: ArmoniK.DevelopmentKit.Client.Factory.ServiceFactory.GetInstance*
-  name: GetInstance
-  href: api/ArmoniK.DevelopmentKit.Client.Factory.ServiceFactory.html#ArmoniK_DevelopmentKit_Client_Factory_ServiceFactory_GetInstance_
-  commentId: Overload:ArmoniK.DevelopmentKit.Client.Factory.ServiceFactory.GetInstance
-  isSpec: "True"
-  fullName: ArmoniK.DevelopmentKit.Client.Factory.ServiceFactory.GetInstance
-  nameWithType: ServiceFactory.GetInstance
 - uid: ArmoniK.DevelopmentKit.Client.Factory.ServiceFactory.GetServiceAdmin(ArmoniK.DevelopmentKit.Client.Services.Properties)
   name: GetServiceAdmin(Properties)
   href: api/ArmoniK.DevelopmentKit.Client.Factory.ServiceFactory.html#ArmoniK_DevelopmentKit_Client_Factory_ServiceFactory_GetServiceAdmin_ArmoniK_DevelopmentKit_Client_Services_Properties_
@@ -288,15 +275,15 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.CancelSession
   nameWithType: AdminMonitoringService.CancelSession
-- uid: ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.CancelTasksBySession(System.String,System.Collections.Generic.IEnumerable{System.String})
-  name: CancelTasksBySession(String, IEnumerable<String>)
-  href: api/ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.html#ArmoniK_DevelopmentKit_Client_Services_Admin_AdminMonitoringService_CancelTasksBySession_System_String_System_Collections_Generic_IEnumerable_System_String__
-  commentId: M:ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.CancelTasksBySession(System.String,System.Collections.Generic.IEnumerable{System.String})
-  name.vb: CancelTasksBySession(String, IEnumerable(Of String))
-  fullName: ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.CancelTasksBySession(System.String, System.Collections.Generic.IEnumerable<System.String>)
-  fullName.vb: ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.CancelTasksBySession(System.String, System.Collections.Generic.IEnumerable(Of System.String))
-  nameWithType: AdminMonitoringService.CancelTasksBySession(String, IEnumerable<String>)
-  nameWithType.vb: AdminMonitoringService.CancelTasksBySession(String, IEnumerable(Of String))
+- uid: ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.CancelTasksBySession(System.Collections.Generic.IEnumerable{System.String})
+  name: CancelTasksBySession(IEnumerable<String>)
+  href: api/ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.html#ArmoniK_DevelopmentKit_Client_Services_Admin_AdminMonitoringService_CancelTasksBySession_System_Collections_Generic_IEnumerable_System_String__
+  commentId: M:ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.CancelTasksBySession(System.Collections.Generic.IEnumerable{System.String})
+  name.vb: CancelTasksBySession(IEnumerable(Of String))
+  fullName: ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.CancelTasksBySession(System.Collections.Generic.IEnumerable<System.String>)
+  fullName.vb: ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.CancelTasksBySession(System.Collections.Generic.IEnumerable(Of System.String))
+  nameWithType: AdminMonitoringService.CancelTasksBySession(IEnumerable<String>)
+  nameWithType.vb: AdminMonitoringService.CancelTasksBySession(IEnumerable(Of String))
 - uid: ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.CancelTasksBySession*
   name: CancelTasksBySession
   href: api/ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.html#ArmoniK_DevelopmentKit_Client_Services_Admin_AdminMonitoringService_CancelTasksBySession_
@@ -369,6 +356,22 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.CountRunningTasksBySession
   nameWithType: AdminMonitoringService.CountRunningTasksBySession
+- uid: ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.CountTaskBySession(System.String,ArmoniK.Api.gRPC.V1.TaskStatus[])
+  name: CountTaskBySession(String, Api.gRPC.V1.TaskStatus[])
+  href: api/ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.html#ArmoniK_DevelopmentKit_Client_Services_Admin_AdminMonitoringService_CountTaskBySession_System_String_ArmoniK_Api_gRPC_V1_TaskStatus___
+  commentId: M:ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.CountTaskBySession(System.String,ArmoniK.Api.gRPC.V1.TaskStatus[])
+  name.vb: CountTaskBySession(String, Api.gRPC.V1.TaskStatus())
+  fullName: ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.CountTaskBySession(System.String, ArmoniK.Api.gRPC.V1.TaskStatus[])
+  fullName.vb: ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.CountTaskBySession(System.String, ArmoniK.Api.gRPC.V1.TaskStatus())
+  nameWithType: AdminMonitoringService.CountTaskBySession(String, Api.gRPC.V1.TaskStatus[])
+  nameWithType.vb: AdminMonitoringService.CountTaskBySession(String, Api.gRPC.V1.TaskStatus())
+- uid: ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.CountTaskBySession*
+  name: CountTaskBySession
+  href: api/ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.html#ArmoniK_DevelopmentKit_Client_Services_Admin_AdminMonitoringService_CountTaskBySession_
+  commentId: Overload:ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.CountTaskBySession
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.CountTaskBySession
+  nameWithType: AdminMonitoringService.CountTaskBySession
 - uid: ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.CountTasks(TaskFilter)
   name: CountTasks(TaskFilter)
   href: api/ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.html#ArmoniK_DevelopmentKit_Client_Services_Admin_AdminMonitoringService_CountTasks_TaskFilter_
@@ -424,19 +427,19 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.ListAllSessions
   nameWithType: AdminMonitoringService.ListAllSessions
-- uid: ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.ListAllTasks(System.String)
-  name: ListAllTasks(String)
-  href: api/ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.html#ArmoniK_DevelopmentKit_Client_Services_Admin_AdminMonitoringService_ListAllTasks_System_String_
-  commentId: M:ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.ListAllTasks(System.String)
-  fullName: ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.ListAllTasks(System.String)
-  nameWithType: AdminMonitoringService.ListAllTasks(String)
-- uid: ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.ListAllTasks*
-  name: ListAllTasks
-  href: api/ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.html#ArmoniK_DevelopmentKit_Client_Services_Admin_AdminMonitoringService_ListAllTasks_
-  commentId: Overload:ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.ListAllTasks
+- uid: ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.ListAllTasksBySession(System.String)
+  name: ListAllTasksBySession(String)
+  href: api/ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.html#ArmoniK_DevelopmentKit_Client_Services_Admin_AdminMonitoringService_ListAllTasksBySession_System_String_
+  commentId: M:ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.ListAllTasksBySession(System.String)
+  fullName: ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.ListAllTasksBySession(System.String)
+  nameWithType: AdminMonitoringService.ListAllTasksBySession(String)
+- uid: ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.ListAllTasksBySession*
+  name: ListAllTasksBySession
+  href: api/ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.html#ArmoniK_DevelopmentKit_Client_Services_Admin_AdminMonitoringService_ListAllTasksBySession_
+  commentId: Overload:ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.ListAllTasksBySession
   isSpec: "True"
-  fullName: ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.ListAllTasks
-  nameWithType: AdminMonitoringService.ListAllTasks
+  fullName: ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.ListAllTasksBySession
+  nameWithType: AdminMonitoringService.ListAllTasksBySession
 - uid: ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.ListCanceledSessions
   name: ListCanceledSessions()
   href: api/ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.html#ArmoniK_DevelopmentKit_Client_Services_Admin_AdminMonitoringService_ListCanceledSessions
@@ -528,18 +531,34 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.ListTasks
   nameWithType: AdminMonitoringService.ListTasks
+- uid: ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.ListTasksBySession(System.String,ArmoniK.Api.gRPC.V1.TaskStatus[])
+  name: ListTasksBySession(String, Api.gRPC.V1.TaskStatus[])
+  href: api/ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.html#ArmoniK_DevelopmentKit_Client_Services_Admin_AdminMonitoringService_ListTasksBySession_System_String_ArmoniK_Api_gRPC_V1_TaskStatus___
+  commentId: M:ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.ListTasksBySession(System.String,ArmoniK.Api.gRPC.V1.TaskStatus[])
+  name.vb: ListTasksBySession(String, Api.gRPC.V1.TaskStatus())
+  fullName: ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.ListTasksBySession(System.String, ArmoniK.Api.gRPC.V1.TaskStatus[])
+  fullName.vb: ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.ListTasksBySession(System.String, ArmoniK.Api.gRPC.V1.TaskStatus())
+  nameWithType: AdminMonitoringService.ListTasksBySession(String, Api.gRPC.V1.TaskStatus[])
+  nameWithType.vb: AdminMonitoringService.ListTasksBySession(String, Api.gRPC.V1.TaskStatus())
+- uid: ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.ListTasksBySession*
+  name: ListTasksBySession
+  href: api/ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.html#ArmoniK_DevelopmentKit_Client_Services_Admin_AdminMonitoringService_ListTasksBySession_
+  commentId: Overload:ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.ListTasksBySession
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.ListTasksBySession
+  nameWithType: AdminMonitoringService.ListTasksBySession
 - uid: ArmoniK.DevelopmentKit.Client.Services.Admin.ServiceAdmin
   name: ServiceAdmin
   href: api/ArmoniK.DevelopmentKit.Client.Services.Admin.ServiceAdmin.html
   commentId: T:ArmoniK.DevelopmentKit.Client.Services.Admin.ServiceAdmin
   fullName: ArmoniK.DevelopmentKit.Client.Services.Admin.ServiceAdmin
   nameWithType: ServiceAdmin
-- uid: ArmoniK.DevelopmentKit.Client.Services.Admin.ServiceAdmin.#ctor(ILoggerFactory,ArmoniK.DevelopmentKit.Client.Services.Properties)
-  name: ServiceAdmin(ILoggerFactory, Properties)
-  href: api/ArmoniK.DevelopmentKit.Client.Services.Admin.ServiceAdmin.html#ArmoniK_DevelopmentKit_Client_Services_Admin_ServiceAdmin__ctor_ILoggerFactory_ArmoniK_DevelopmentKit_Client_Services_Properties_
-  commentId: M:ArmoniK.DevelopmentKit.Client.Services.Admin.ServiceAdmin.#ctor(ILoggerFactory,ArmoniK.DevelopmentKit.Client.Services.Properties)
-  fullName: ArmoniK.DevelopmentKit.Client.Services.Admin.ServiceAdmin.ServiceAdmin(ILoggerFactory, ArmoniK.DevelopmentKit.Client.Services.Properties)
-  nameWithType: ServiceAdmin.ServiceAdmin(ILoggerFactory, Properties)
+- uid: ArmoniK.DevelopmentKit.Client.Services.Admin.ServiceAdmin.#ctor(ArmoniK.DevelopmentKit.Client.Services.Properties)
+  name: ServiceAdmin(Properties)
+  href: api/ArmoniK.DevelopmentKit.Client.Services.Admin.ServiceAdmin.html#ArmoniK_DevelopmentKit_Client_Services_Admin_ServiceAdmin__ctor_ArmoniK_DevelopmentKit_Client_Services_Properties_
+  commentId: M:ArmoniK.DevelopmentKit.Client.Services.Admin.ServiceAdmin.#ctor(ArmoniK.DevelopmentKit.Client.Services.Properties)
+  fullName: ArmoniK.DevelopmentKit.Client.Services.Admin.ServiceAdmin.ServiceAdmin(ArmoniK.DevelopmentKit.Client.Services.Properties)
+  nameWithType: ServiceAdmin.ServiceAdmin(Properties)
 - uid: ArmoniK.DevelopmentKit.Client.Services.Admin.ServiceAdmin.#ctor*
   name: ServiceAdmin
   href: api/ArmoniK.DevelopmentKit.Client.Services.Admin.ServiceAdmin.html#ArmoniK_DevelopmentKit_Client_Services_Admin_ServiceAdmin__ctor_
@@ -573,6 +592,70 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.Client.Services.Admin.ServiceAdmin.Dispose
   nameWithType: ServiceAdmin.Dispose
+- uid: ArmoniK.DevelopmentKit.Client.Services.Common
+  name: ArmoniK.DevelopmentKit.Client.Services.Common
+  href: api/ArmoniK.DevelopmentKit.Client.Services.Common.html
+  commentId: N:ArmoniK.DevelopmentKit.Client.Services.Common
+  fullName: ArmoniK.DevelopmentKit.Client.Services.Common
+  nameWithType: ArmoniK.DevelopmentKit.Client.Services.Common
+- uid: ArmoniK.DevelopmentKit.Client.Services.Common.AbstractClientService
+  name: AbstractClientService
+  href: api/ArmoniK.DevelopmentKit.Client.Services.Common.AbstractClientService.html
+  commentId: T:ArmoniK.DevelopmentKit.Client.Services.Common.AbstractClientService
+  fullName: ArmoniK.DevelopmentKit.Client.Services.Common.AbstractClientService
+  nameWithType: AbstractClientService
+- uid: ArmoniK.DevelopmentKit.Client.Services.Common.AbstractClientService.#ctor(ArmoniK.DevelopmentKit.Client.Services.Properties)
+  name: AbstractClientService(Properties)
+  href: api/ArmoniK.DevelopmentKit.Client.Services.Common.AbstractClientService.html#ArmoniK_DevelopmentKit_Client_Services_Common_AbstractClientService__ctor_ArmoniK_DevelopmentKit_Client_Services_Properties_
+  commentId: M:ArmoniK.DevelopmentKit.Client.Services.Common.AbstractClientService.#ctor(ArmoniK.DevelopmentKit.Client.Services.Properties)
+  fullName: ArmoniK.DevelopmentKit.Client.Services.Common.AbstractClientService.AbstractClientService(ArmoniK.DevelopmentKit.Client.Services.Properties)
+  nameWithType: AbstractClientService.AbstractClientService(Properties)
+- uid: ArmoniK.DevelopmentKit.Client.Services.Common.AbstractClientService.#ctor*
+  name: AbstractClientService
+  href: api/ArmoniK.DevelopmentKit.Client.Services.Common.AbstractClientService.html#ArmoniK_DevelopmentKit_Client_Services_Common_AbstractClientService__ctor_
+  commentId: Overload:ArmoniK.DevelopmentKit.Client.Services.Common.AbstractClientService.#ctor
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Client.Services.Common.AbstractClientService.AbstractClientService
+  nameWithType: AbstractClientService.AbstractClientService
+- uid: ArmoniK.DevelopmentKit.Client.Services.Common.AbstractClientService.CreateLogFactory(ArmoniK.DevelopmentKit.Client.Services.Properties)
+  name: CreateLogFactory(Properties)
+  href: api/ArmoniK.DevelopmentKit.Client.Services.Common.AbstractClientService.html#ArmoniK_DevelopmentKit_Client_Services_Common_AbstractClientService_CreateLogFactory_ArmoniK_DevelopmentKit_Client_Services_Properties_
+  commentId: M:ArmoniK.DevelopmentKit.Client.Services.Common.AbstractClientService.CreateLogFactory(ArmoniK.DevelopmentKit.Client.Services.Properties)
+  fullName: ArmoniK.DevelopmentKit.Client.Services.Common.AbstractClientService.CreateLogFactory(ArmoniK.DevelopmentKit.Client.Services.Properties)
+  nameWithType: AbstractClientService.CreateLogFactory(Properties)
+- uid: ArmoniK.DevelopmentKit.Client.Services.Common.AbstractClientService.CreateLogFactory*
+  name: CreateLogFactory
+  href: api/ArmoniK.DevelopmentKit.Client.Services.Common.AbstractClientService.html#ArmoniK_DevelopmentKit_Client_Services_Common_AbstractClientService_CreateLogFactory_
+  commentId: Overload:ArmoniK.DevelopmentKit.Client.Services.Common.AbstractClientService.CreateLogFactory
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Client.Services.Common.AbstractClientService.CreateLogFactory
+  nameWithType: AbstractClientService.CreateLogFactory
+- uid: ArmoniK.DevelopmentKit.Client.Services.Common.AbstractClientService.Dispose
+  name: Dispose()
+  href: api/ArmoniK.DevelopmentKit.Client.Services.Common.AbstractClientService.html#ArmoniK_DevelopmentKit_Client_Services_Common_AbstractClientService_Dispose
+  commentId: M:ArmoniK.DevelopmentKit.Client.Services.Common.AbstractClientService.Dispose
+  fullName: ArmoniK.DevelopmentKit.Client.Services.Common.AbstractClientService.Dispose()
+  nameWithType: AbstractClientService.Dispose()
+- uid: ArmoniK.DevelopmentKit.Client.Services.Common.AbstractClientService.Dispose*
+  name: Dispose
+  href: api/ArmoniK.DevelopmentKit.Client.Services.Common.AbstractClientService.html#ArmoniK_DevelopmentKit_Client_Services_Common_AbstractClientService_Dispose_
+  commentId: Overload:ArmoniK.DevelopmentKit.Client.Services.Common.AbstractClientService.Dispose
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Client.Services.Common.AbstractClientService.Dispose
+  nameWithType: AbstractClientService.Dispose
+- uid: ArmoniK.DevelopmentKit.Client.Services.Common.AbstractClientService.LoggerFactory
+  name: LoggerFactory
+  href: api/ArmoniK.DevelopmentKit.Client.Services.Common.AbstractClientService.html#ArmoniK_DevelopmentKit_Client_Services_Common_AbstractClientService_LoggerFactory
+  commentId: P:ArmoniK.DevelopmentKit.Client.Services.Common.AbstractClientService.LoggerFactory
+  fullName: ArmoniK.DevelopmentKit.Client.Services.Common.AbstractClientService.LoggerFactory
+  nameWithType: AbstractClientService.LoggerFactory
+- uid: ArmoniK.DevelopmentKit.Client.Services.Common.AbstractClientService.LoggerFactory*
+  name: LoggerFactory
+  href: api/ArmoniK.DevelopmentKit.Client.Services.Common.AbstractClientService.html#ArmoniK_DevelopmentKit_Client_Services_Common_AbstractClientService_LoggerFactory_
+  commentId: Overload:ArmoniK.DevelopmentKit.Client.Services.Common.AbstractClientService.LoggerFactory
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Client.Services.Common.AbstractClientService.LoggerFactory
+  nameWithType: AbstractClientService.LoggerFactory
 - uid: ArmoniK.DevelopmentKit.Client.Services.IServiceInvocationHandler
   name: IServiceInvocationHandler
   href: api/ArmoniK.DevelopmentKit.Client.Services.IServiceInvocationHandler.html
@@ -919,12 +1002,12 @@ references:
   commentId: T:ArmoniK.DevelopmentKit.Client.Services.Submitter.Service
   fullName: ArmoniK.DevelopmentKit.Client.Services.Submitter.Service
   nameWithType: Service
-- uid: ArmoniK.DevelopmentKit.Client.Services.Submitter.Service.#ctor(ILoggerFactory,ArmoniK.DevelopmentKit.Client.Services.Properties)
-  name: Service(ILoggerFactory, Properties)
-  href: api/ArmoniK.DevelopmentKit.Client.Services.Submitter.Service.html#ArmoniK_DevelopmentKit_Client_Services_Submitter_Service__ctor_ILoggerFactory_ArmoniK_DevelopmentKit_Client_Services_Properties_
-  commentId: M:ArmoniK.DevelopmentKit.Client.Services.Submitter.Service.#ctor(ILoggerFactory,ArmoniK.DevelopmentKit.Client.Services.Properties)
-  fullName: ArmoniK.DevelopmentKit.Client.Services.Submitter.Service.Service(ILoggerFactory, ArmoniK.DevelopmentKit.Client.Services.Properties)
-  nameWithType: Service.Service(ILoggerFactory, Properties)
+- uid: ArmoniK.DevelopmentKit.Client.Services.Submitter.Service.#ctor(ArmoniK.DevelopmentKit.Client.Services.Properties)
+  name: Service(Properties)
+  href: api/ArmoniK.DevelopmentKit.Client.Services.Submitter.Service.html#ArmoniK_DevelopmentKit_Client_Services_Submitter_Service__ctor_ArmoniK_DevelopmentKit_Client_Services_Properties_
+  commentId: M:ArmoniK.DevelopmentKit.Client.Services.Submitter.Service.#ctor(ArmoniK.DevelopmentKit.Client.Services.Properties)
+  fullName: ArmoniK.DevelopmentKit.Client.Services.Submitter.Service.Service(ArmoniK.DevelopmentKit.Client.Services.Properties)
+  nameWithType: Service.Service(Properties)
 - uid: ArmoniK.DevelopmentKit.Client.Services.Submitter.Service.#ctor*
   name: Service
   href: api/ArmoniK.DevelopmentKit.Client.Services.Submitter.Service.html#ArmoniK_DevelopmentKit_Client_Services_Submitter_Service__ctor_
@@ -9456,64 +9539,64 @@ references:
   isSpec: "True"
   fullName: ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.SimpleService.NonStaticComputeMadd
   nameWithType: SimpleService.NonStaticComputeMadd
-- uid: ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.SimpleUnifiedAPIAdminTestClient
-  name: SimpleUnifiedAPIAdminTestClient
-  href: api/ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.SimpleUnifiedAPIAdminTestClient.html
-  commentId: T:ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.SimpleUnifiedAPIAdminTestClient
-  fullName: ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.SimpleUnifiedAPIAdminTestClient
-  nameWithType: SimpleUnifiedAPIAdminTestClient
-- uid: ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.SimpleUnifiedAPIAdminTestClient.#ctor(IConfiguration,ILoggerFactory)
-  name: SimpleUnifiedAPIAdminTestClient(IConfiguration, ILoggerFactory)
-  href: api/ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.SimpleUnifiedAPIAdminTestClient.html#ArmoniK_EndToEndTests_Tests_CheckUnifiedApi_SimpleUnifiedAPIAdminTestClient__ctor_IConfiguration_ILoggerFactory_
-  commentId: M:ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.SimpleUnifiedAPIAdminTestClient.#ctor(IConfiguration,ILoggerFactory)
-  fullName: ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.SimpleUnifiedAPIAdminTestClient.SimpleUnifiedAPIAdminTestClient(IConfiguration, ILoggerFactory)
-  nameWithType: SimpleUnifiedAPIAdminTestClient.SimpleUnifiedAPIAdminTestClient(IConfiguration, ILoggerFactory)
-- uid: ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.SimpleUnifiedAPIAdminTestClient.#ctor*
-  name: SimpleUnifiedAPIAdminTestClient
-  href: api/ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.SimpleUnifiedAPIAdminTestClient.html#ArmoniK_EndToEndTests_Tests_CheckUnifiedApi_SimpleUnifiedAPIAdminTestClient__ctor_
-  commentId: Overload:ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.SimpleUnifiedAPIAdminTestClient.#ctor
+- uid: ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.SimpleUnifiedApiAdminTestClient
+  name: SimpleUnifiedApiAdminTestClient
+  href: api/ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.SimpleUnifiedApiAdminTestClient.html
+  commentId: T:ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.SimpleUnifiedApiAdminTestClient
+  fullName: ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.SimpleUnifiedApiAdminTestClient
+  nameWithType: SimpleUnifiedApiAdminTestClient
+- uid: ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.SimpleUnifiedApiAdminTestClient.#ctor(IConfiguration,ILoggerFactory)
+  name: SimpleUnifiedApiAdminTestClient(IConfiguration, ILoggerFactory)
+  href: api/ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.SimpleUnifiedApiAdminTestClient.html#ArmoniK_EndToEndTests_Tests_CheckUnifiedApi_SimpleUnifiedApiAdminTestClient__ctor_IConfiguration_ILoggerFactory_
+  commentId: M:ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.SimpleUnifiedApiAdminTestClient.#ctor(IConfiguration,ILoggerFactory)
+  fullName: ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.SimpleUnifiedApiAdminTestClient.SimpleUnifiedApiAdminTestClient(IConfiguration, ILoggerFactory)
+  nameWithType: SimpleUnifiedApiAdminTestClient.SimpleUnifiedApiAdminTestClient(IConfiguration, ILoggerFactory)
+- uid: ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.SimpleUnifiedApiAdminTestClient.#ctor*
+  name: SimpleUnifiedApiAdminTestClient
+  href: api/ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.SimpleUnifiedApiAdminTestClient.html#ArmoniK_EndToEndTests_Tests_CheckUnifiedApi_SimpleUnifiedApiAdminTestClient__ctor_
+  commentId: Overload:ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.SimpleUnifiedApiAdminTestClient.#ctor
   isSpec: "True"
-  fullName: ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.SimpleUnifiedAPIAdminTestClient.SimpleUnifiedAPIAdminTestClient
-  nameWithType: SimpleUnifiedAPIAdminTestClient.SimpleUnifiedAPIAdminTestClient
-- uid: ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.SimpleUnifiedAPIAdminTestClient.EntryPoint
+  fullName: ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.SimpleUnifiedApiAdminTestClient.SimpleUnifiedApiAdminTestClient
+  nameWithType: SimpleUnifiedApiAdminTestClient.SimpleUnifiedApiAdminTestClient
+- uid: ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.SimpleUnifiedApiAdminTestClient.EntryPoint
   name: EntryPoint()
-  href: api/ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.SimpleUnifiedAPIAdminTestClient.html#ArmoniK_EndToEndTests_Tests_CheckUnifiedApi_SimpleUnifiedAPIAdminTestClient_EntryPoint
-  commentId: M:ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.SimpleUnifiedAPIAdminTestClient.EntryPoint
-  fullName: ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.SimpleUnifiedAPIAdminTestClient.EntryPoint()
-  nameWithType: SimpleUnifiedAPIAdminTestClient.EntryPoint()
-- uid: ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.SimpleUnifiedAPIAdminTestClient.EntryPoint*
+  href: api/ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.SimpleUnifiedApiAdminTestClient.html#ArmoniK_EndToEndTests_Tests_CheckUnifiedApi_SimpleUnifiedApiAdminTestClient_EntryPoint
+  commentId: M:ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.SimpleUnifiedApiAdminTestClient.EntryPoint
+  fullName: ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.SimpleUnifiedApiAdminTestClient.EntryPoint()
+  nameWithType: SimpleUnifiedApiAdminTestClient.EntryPoint()
+- uid: ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.SimpleUnifiedApiAdminTestClient.EntryPoint*
   name: EntryPoint
-  href: api/ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.SimpleUnifiedAPIAdminTestClient.html#ArmoniK_EndToEndTests_Tests_CheckUnifiedApi_SimpleUnifiedAPIAdminTestClient_EntryPoint_
-  commentId: Overload:ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.SimpleUnifiedAPIAdminTestClient.EntryPoint
+  href: api/ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.SimpleUnifiedApiAdminTestClient.html#ArmoniK_EndToEndTests_Tests_CheckUnifiedApi_SimpleUnifiedApiAdminTestClient_EntryPoint_
+  commentId: Overload:ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.SimpleUnifiedApiAdminTestClient.EntryPoint
   isSpec: "True"
-  fullName: ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.SimpleUnifiedAPIAdminTestClient.EntryPoint
-  nameWithType: SimpleUnifiedAPIAdminTestClient.EntryPoint
-- uid: ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.SimpleUnifiedAPIAdminTestClient.HandleError(ArmoniK.DevelopmentKit.Client.Exceptions.ServiceInvocationException,System.String)
+  fullName: ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.SimpleUnifiedApiAdminTestClient.EntryPoint
+  nameWithType: SimpleUnifiedApiAdminTestClient.EntryPoint
+- uid: ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.SimpleUnifiedApiAdminTestClient.HandleError(ArmoniK.DevelopmentKit.Client.Exceptions.ServiceInvocationException,System.String)
   name: HandleError(ServiceInvocationException, String)
-  href: api/ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.SimpleUnifiedAPIAdminTestClient.html#ArmoniK_EndToEndTests_Tests_CheckUnifiedApi_SimpleUnifiedAPIAdminTestClient_HandleError_ArmoniK_DevelopmentKit_Client_Exceptions_ServiceInvocationException_System_String_
-  commentId: M:ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.SimpleUnifiedAPIAdminTestClient.HandleError(ArmoniK.DevelopmentKit.Client.Exceptions.ServiceInvocationException,System.String)
-  fullName: ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.SimpleUnifiedAPIAdminTestClient.HandleError(ArmoniK.DevelopmentKit.Client.Exceptions.ServiceInvocationException, System.String)
-  nameWithType: SimpleUnifiedAPIAdminTestClient.HandleError(ServiceInvocationException, String)
-- uid: ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.SimpleUnifiedAPIAdminTestClient.HandleError*
+  href: api/ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.SimpleUnifiedApiAdminTestClient.html#ArmoniK_EndToEndTests_Tests_CheckUnifiedApi_SimpleUnifiedApiAdminTestClient_HandleError_ArmoniK_DevelopmentKit_Client_Exceptions_ServiceInvocationException_System_String_
+  commentId: M:ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.SimpleUnifiedApiAdminTestClient.HandleError(ArmoniK.DevelopmentKit.Client.Exceptions.ServiceInvocationException,System.String)
+  fullName: ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.SimpleUnifiedApiAdminTestClient.HandleError(ArmoniK.DevelopmentKit.Client.Exceptions.ServiceInvocationException, System.String)
+  nameWithType: SimpleUnifiedApiAdminTestClient.HandleError(ServiceInvocationException, String)
+- uid: ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.SimpleUnifiedApiAdminTestClient.HandleError*
   name: HandleError
-  href: api/ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.SimpleUnifiedAPIAdminTestClient.html#ArmoniK_EndToEndTests_Tests_CheckUnifiedApi_SimpleUnifiedAPIAdminTestClient_HandleError_
-  commentId: Overload:ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.SimpleUnifiedAPIAdminTestClient.HandleError
+  href: api/ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.SimpleUnifiedApiAdminTestClient.html#ArmoniK_EndToEndTests_Tests_CheckUnifiedApi_SimpleUnifiedApiAdminTestClient_HandleError_
+  commentId: Overload:ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.SimpleUnifiedApiAdminTestClient.HandleError
   isSpec: "True"
-  fullName: ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.SimpleUnifiedAPIAdminTestClient.HandleError
-  nameWithType: SimpleUnifiedAPIAdminTestClient.HandleError
-- uid: ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.SimpleUnifiedAPIAdminTestClient.HandleResponse(System.Object,System.String)
+  fullName: ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.SimpleUnifiedApiAdminTestClient.HandleError
+  nameWithType: SimpleUnifiedApiAdminTestClient.HandleError
+- uid: ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.SimpleUnifiedApiAdminTestClient.HandleResponse(System.Object,System.String)
   name: HandleResponse(Object, String)
-  href: api/ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.SimpleUnifiedAPIAdminTestClient.html#ArmoniK_EndToEndTests_Tests_CheckUnifiedApi_SimpleUnifiedAPIAdminTestClient_HandleResponse_System_Object_System_String_
-  commentId: M:ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.SimpleUnifiedAPIAdminTestClient.HandleResponse(System.Object,System.String)
-  fullName: ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.SimpleUnifiedAPIAdminTestClient.HandleResponse(System.Object, System.String)
-  nameWithType: SimpleUnifiedAPIAdminTestClient.HandleResponse(Object, String)
-- uid: ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.SimpleUnifiedAPIAdminTestClient.HandleResponse*
+  href: api/ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.SimpleUnifiedApiAdminTestClient.html#ArmoniK_EndToEndTests_Tests_CheckUnifiedApi_SimpleUnifiedApiAdminTestClient_HandleResponse_System_Object_System_String_
+  commentId: M:ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.SimpleUnifiedApiAdminTestClient.HandleResponse(System.Object,System.String)
+  fullName: ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.SimpleUnifiedApiAdminTestClient.HandleResponse(System.Object, System.String)
+  nameWithType: SimpleUnifiedApiAdminTestClient.HandleResponse(Object, String)
+- uid: ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.SimpleUnifiedApiAdminTestClient.HandleResponse*
   name: HandleResponse
-  href: api/ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.SimpleUnifiedAPIAdminTestClient.html#ArmoniK_EndToEndTests_Tests_CheckUnifiedApi_SimpleUnifiedAPIAdminTestClient_HandleResponse_
-  commentId: Overload:ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.SimpleUnifiedAPIAdminTestClient.HandleResponse
+  href: api/ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.SimpleUnifiedApiAdminTestClient.html#ArmoniK_EndToEndTests_Tests_CheckUnifiedApi_SimpleUnifiedApiAdminTestClient_HandleResponse_
+  commentId: Overload:ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.SimpleUnifiedApiAdminTestClient.HandleResponse
   isSpec: "True"
-  fullName: ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.SimpleUnifiedAPIAdminTestClient.HandleResponse
-  nameWithType: SimpleUnifiedAPIAdminTestClient.HandleResponse
+  fullName: ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.SimpleUnifiedApiAdminTestClient.HandleResponse
+  nameWithType: SimpleUnifiedApiAdminTestClient.HandleResponse
 - uid: ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.SimpleUnifiedAPITestClient
   name: SimpleUnifiedAPITestClient
   href: api/ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.SimpleUnifiedAPITestClient.html
