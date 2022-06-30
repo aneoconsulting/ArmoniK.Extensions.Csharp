@@ -65,7 +65,7 @@ namespace ArmoniK.EndToEndTests.Tests.CheckUnifiedApi
       //var resourceId = ServiceAdmin.CreateInstance(Configuration, LoggerFactory,props).UploadResource("filePath");
 
 
-      using var cs = ServiceFactory.GetInstance().CreateService(props);
+      using var cs = ServiceFactory.CreateService(props);
 
       Log.LogInformation($"New session created : {cs.SessionId}");
 

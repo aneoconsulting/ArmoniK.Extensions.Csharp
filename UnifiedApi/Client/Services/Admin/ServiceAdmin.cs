@@ -27,6 +27,7 @@ using System.Threading.Tasks;
 
 using ArmoniK.Api.gRPC.V1;
 using ArmoniK.DevelopmentKit.Client.Factory;
+using ArmoniK.DevelopmentKit.Client.Services.Common;
 using ArmoniK.DevelopmentKit.Common;
 
 using Microsoft.Extensions.Configuration;
@@ -38,7 +39,7 @@ namespace ArmoniK.DevelopmentKit.Client.Services.Admin
   /// <summary>
   /// The class to access to all Admin and monitoring API 
   /// </summary>
-  public class ServiceAdmin : IDisposable
+  public class ServiceAdmin : AbstractClientService
   {
     /// <summary>
     /// the Properties that access to the control plane
@@ -52,15 +53,15 @@ namespace ArmoniK.DevelopmentKit.Client.Services.Admin
     /// </summary>
     /// <param name="loggerFactory">The factory to create the logger</param>
     /// <param name="properties">the properties setting to connection to the control plane</param>
-    public ServiceAdmin(ILoggerFactory loggerFactory, Properties properties)
+    public ServiceAdmin(Properties properties) : base(properties)
     {
-      SessionServiceFactory = new(loggerFactory);
+      SessionServiceFactory = new(LoggerFactory);
 
       AdminMonitoringService = SessionServiceFactory.GetAdminMonitoringService(properties);
     }
     
     /// <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
-    public void Dispose()
+    public override void Dispose()
     {
     }
 

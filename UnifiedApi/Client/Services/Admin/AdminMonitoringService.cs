@@ -13,7 +13,7 @@ using TaskStatus = ArmoniK.Api.gRPC.V1.TaskStatus;
 namespace ArmoniK.DevelopmentKit.Client.Services.Admin
 {
   /// <summary>
-  /// The Administration and monitoring Class to get or manage information on grid server
+  /// The Administration and monitoring class to get or manage information on grid server
   /// </summary>
   public class AdminMonitoringService
   {
@@ -27,7 +27,7 @@ namespace ArmoniK.DevelopmentKit.Client.Services.Admin
     private Api.gRPC.V1.Submitter.SubmitterClient ControlPlaneService { get; set; }
 
     /// <summary>
-    /// The constructor to instantiate Admin and monitoring Service
+    /// The constructor to instantiate this service
     /// </summary>
     /// <param name="loggerFactory">The factory logger to create logger</param>
     /// <param name="controlPlaneService">The entry point to the control plane</param>
@@ -76,7 +76,7 @@ namespace ArmoniK.DevelopmentKit.Client.Services.Admin
     /// Return the whole list of task of a session
     /// </summary>
     /// <returns>The list of filtered task </returns>
-    public IEnumerable<string> ListAllTasks(string sessionId)
+    public IEnumerable<string> ListAllTasksBySession(string sessionId)
     {
       return ControlPlaneService.ListTasks(new TaskFilter()
       {
@@ -91,10 +91,33 @@ namespace ArmoniK.DevelopmentKit.Client.Services.Admin
     }
 
     /// <summary>
+    /// Return the list of task of a session filtered by status
+    /// </summary>
+    /// <returns>The list of filtered task </returns>
+    public IEnumerable<string> ListTasksBySession(string sessionId, params TaskStatus[] taskStatus)
+    {
+      return ControlPlaneService.ListTasks(new TaskFilter()
+      {
+        Session = new()
+        {
+          Ids =
+          {
+            sessionId
+          },
+        },
+        Included = new()
+        {
+          Statuses = { taskStatus },
+        },
+      }).TaskIds;
+    }
+
+    /// <summary>
     /// Return the list of running tasks of a session
     /// </summary>
     /// <param name="sessionId"></param>
     /// <returns>The list of filtered task </returns>
+    [Obsolete]
     public IEnumerable<string> ListRunningTasks(string sessionId)
     {
       return ControlPlaneService.ListTasks(new()
@@ -124,6 +147,7 @@ namespace ArmoniK.DevelopmentKit.Client.Services.Admin
     /// </summary>
     /// <param name="sessionId"></param>
     /// <returns>The list of filtered task </returns>
+    [Obsolete]
     public IEnumerable<string> ListErrorTasks(string sessionId)
     {
       return ControlPlaneService.ListTasks(new()
@@ -152,6 +176,7 @@ namespace ArmoniK.DevelopmentKit.Client.Services.Admin
     /// </summary>
     /// <param name="sessionId"></param>
     /// <returns>The list of filtered task </returns>
+    [Obsolete]
     public IEnumerable<string> ListCanceledTasks(string sessionId)
     {
       return ControlPlaneService.ListTasks(new()
@@ -308,9 +333,35 @@ namespace ArmoniK.DevelopmentKit.Client.Services.Admin
     }
 
     /// <summary>
+    /// Count task in a session and select by status
+    /// </summary>
+    /// <param name="sessionId">the id of the session</param>
+    /// <param name="taskStatus">a variadic list of taskStatus </param>
+    /// <returns>return the number of task</returns>
+    public int CountTaskBySession(string sessionId, params TaskStatus[] taskStatus)
+    {
+      return ControlPlaneService.CountTasks(new TaskFilter()
+      {
+        Session = new()
+        {
+          Ids =
+          {
+            sessionId,
+          },
+        },
+        Included = new()
+        {
+          Statuses = { taskStatus }
+          ,
+        },
+      }).Values.Count;
+    }
+
+    /// <summary>
     /// The method is to get the number of error tasks in the session
     /// </summary>
     /// <returns>return the number of task</returns>
+    [Obsolete]
     public int CountCancelTasksBySession(string sessionId)
     {
       return ControlPlaneService.CountTasks(new TaskFilter()
@@ -337,6 +388,8 @@ namespace ArmoniK.DevelopmentKit.Client.Services.Admin
     /// The method is to get the number of error tasks in the session
     /// </summary>
     /// <returns>return the number of task</returns>
+    [Obsolete]
+    
     public int CountCompletedTasksBySession(string sessionId)
     {
       return ControlPlaneService.CountTasks(new TaskFilter()
@@ -363,18 +416,11 @@ namespace ArmoniK.DevelopmentKit.Client.Services.Admin
     /// </summary>
     /// <param name="sessionId">The session Id</param>
     /// <param name="taskIds">the taskIds list to cancel</param>
-    public void CancelTasksBySession(string sessionId, IEnumerable<string> taskIds)
+    public void CancelTasksBySession(IEnumerable<string> taskIds)
     {
       ControlPlaneService.CancelTasks(new TaskFilter()
       {
-        Session = new TaskFilter.Types.IdsRequest()
-        {
-          Ids =
-          {
-            sessionId,
-          },
-        },
-        Task = new TaskFilter.Types.IdsRequest()
+        Task = new()
         {
           Ids =
           {
