@@ -128,6 +128,7 @@ namespace ArmoniK.EndToEndTests.Tests.CheckUnifiedApi
                                          numbers.SelectMany(BitConverter.GetBytes).ToArray(),
                                          4.0),
                             this);
+
     }
 
     /// <summary>
@@ -151,6 +152,11 @@ namespace ArmoniK.EndToEndTests.Tests.CheckUnifiedApi
       sessionService.Submit("ComputeBasicArrayCube",
                             Enumerable.Range(1,
                                              100).Select(n => ParamsHelper(numbers)),
+                            this);
+      
+      sessionService.Submit("RandomTaskError",
+                            Enumerable.Range(1,
+                                             100).Select(_ => ParamsHelper(0.90)),
                             this);
     }
 
