@@ -34,6 +34,8 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
+using ArmoniK.DevelopmentKit.Client.Services.Common;
+
 using TaskStatus = ArmoniK.Api.gRPC.V1.TaskStatus;
 
 
