@@ -36,6 +36,9 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
+using ArmoniK.DevelopmentKit.Common.Exceptions;
+using ArmoniK.DevelopmentKit.Common.Status;
+
 using Grpc.Core;
 
 using JetBrains.Annotations;
@@ -105,7 +108,6 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
                            200,
                            () =>
                            {
-                             
                              var taskOutput = ControlPlaneService.TryGetTaskOutput(resultRequest);
 
                              switch (taskOutput.TypeCase)
@@ -218,7 +220,6 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
         var taskRequests = new List<TaskRequest>();
         foreach (var (payload, dependencies) in tup)
         {
-
           var taskId = payload.Item1;
           taskCreated.Add(taskId);
 
@@ -280,7 +281,10 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
     {
       using var _ = Logger.LogFunction(taskId);
 
-      WaitForTasksCompletion(new[] { taskId });
+      WaitForTasksCompletion(new[]
+      {
+        taskId
+      });
     }
 
 
@@ -316,7 +320,50 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
                              });
                            },
                            true,
-                           typeof(IOException));
+                           typeof(IOException),
+                           typeof(RpcException));
+    }
+
+    /// <summary>
+    /// Get the result status of a list of taskId
+    /// </summary>
+    /// <param name="taskIds"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns>A ResultCollection sorted by Status Completed, Result in Error or missing</returns>
+    public ResultStatusCollection GetResultStatus(IEnumerable<string> taskIds, CancellationToken cancellationToken = default)
+    {
+      var idStatus = Retry.WhileException(5,
+                                          200,
+                                          () =>
+                                          {
+                                            var resultStatusReply = ControlPlaneService.GetResultStatus(new GetResultStatusRequest()
+                                            {
+                                              ResultId =
+                                              {
+                                                taskIds,
+                                              },
+                                              SessionId = SessionId.Id,
+                                            });
+                                            return resultStatusReply.IdStatus.Select(x => Tuple.Create(x.ResultId,
+                                                                                                       x.Status));
+                                          },
+                                          true,
+                                          typeof(IOException),
+                                          typeof(RpcException));
+
+
+      var ids     = taskIds as string[] ?? taskIds.ToArray();
+      var statusIds = idStatus as Tuple<string, ResultStatus>[] ?? idStatus.ToArray();
+
+      var resultStatusList = new ResultStatusCollection()
+      {
+        IdsResultError = statusIds.Where(x => x.Item2 is ResultStatus.Aborted or ResultStatus.Unspecified),
+        IdsError       = ids.Where(x => statusIds.All(rId => rId.Item1 != x)),
+        IdsReady       = statusIds.Where(x => x.Item2 is ResultStatus.Completed),
+        IdsNotReady    = statusIds.Where(x => x.Item2 is ResultStatus.Created),
+      };
+
+      return resultStatusList;
     }
 
     /// <summary>
@@ -342,9 +389,6 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
                            200,
                            () =>
                            {
-                             
-
-
                              var availabilityReply = ControlPlaneService.WaitForAvailability(resultRequest,
                                                                                              cancellationToken: cancellationToken);
 
@@ -363,7 +407,8 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
                              }
                            },
                            true,
-                           typeof(IOException));
+                           typeof(IOException),
+                           typeof(RpcException));
 
       HealthCheckResult(taskId);
 
@@ -460,7 +505,8 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
                                                return response.Result;
                                              },
                                              true,
-                                             typeof(IOException));
+                                             typeof(IOException),
+                                             typeof(RpcException));
 
       return resultReply;
     }
@@ -472,8 +518,48 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
     /// <returns>Returns an Enumerable pair of </returns>
     public IEnumerable<Tuple<string, byte[]>> TryGetResults(IEnumerable<string> taskIds)
     {
-      return taskIds.Select(id =>
+      var resultStatus = GetResultStatus(taskIds);
+
+      if (!resultStatus.IdsReady.Any() && !resultStatus.IdsNotReady.Any()) 
       {
+        if (resultStatus.IdsError.Any() || resultStatus.IdsResultError.Any())
+        {
+          var msg =
+            $"The missing result is in error or canceled. Please check log for more information on Armonik grid server list of taskIds in Error : [ {string.Join(", ", resultStatus.IdsResultError.Select(x => x.Item1))}";
+
+          if (resultStatus.IdsError.Any())
+          {
+            if (resultStatus.IdsResultError.Any())
+              msg += ", ";
+
+            msg += $"{string.Join(", ", resultStatus.IdsError)}";
+          }
+
+          msg += " ]";
+
+          Logger.LogError(msg);
+
+          throw new ClientResultsException(msg,
+                                           (resultStatus.IdsError ?? Enumerable.Empty<string>()).Concat(resultStatus.IdsResultError.Select(x => x.Item1)));
+        }
+
+        //if (resultStatus.Canceled.Any())
+        //{
+        //  var msg =
+        //    $"Tasks were canceled. Please check log for more information on Armonik grid server list of taskIds in Error : [ {string.Join(", ", resultStatus.Canceled.Select(x => x.Item1))} ]";
+
+        //  Logger.LogWarning(msg);
+
+        //  throw new ClientResultsException(msg,
+        //                                   resultStatus.Canceled.Select(x => x.Item1));
+        //}
+      }
+
+
+      return resultStatus.IdsReady.Select(pair =>
+      {
+        var (id, _) = pair;
+
         var res = TryGetResult(id,
                                false);
         return res == null ? null

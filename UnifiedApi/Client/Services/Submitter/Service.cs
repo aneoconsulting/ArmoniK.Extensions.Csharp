@@ -37,6 +37,7 @@ using System.Threading.Tasks;
 using TaskStatus = ArmoniK.Api.gRPC.V1.TaskStatus;
 
 
+
 namespace ArmoniK.DevelopmentKit.Client.Services.Submitter
 {
   /// <summary>
@@ -44,7 +45,7 @@ namespace ArmoniK.DevelopmentKit.Client.Services.Submitter
   /// Grid.
   /// </summary>
   [MarkDownDoc]
-  public class Service : IDisposable
+  public class Service : AbstractClientService
   {
     /// <summary>
     /// Class to return TaskId and the result
@@ -110,9 +111,10 @@ namespace ArmoniK.DevelopmentKit.Client.Services.Submitter
     /// </summary>
     /// <param name="loggerFactory">The logger factory to instantiate Logger with the current class type</param>
     /// <param name="properties">The properties containing TaskOptions and information to communicate with Control plane and </param>
-    public Service(ILoggerFactory loggerFactory, Properties properties)
+    public Service(Properties properties) : base(properties)
     {
-      SessionServiceFactory = new SessionServiceFactory(loggerFactory);
+      
+      SessionServiceFactory = new SessionServiceFactory(LoggerFactory);
 
       SessionService = SessionServiceFactory.CreateSession(properties);
 
@@ -461,7 +463,7 @@ namespace ArmoniK.DevelopmentKit.Client.Services.Submitter
     public string SessionId => SessionService?.SessionId.Id;
 
     /// <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
-    public void Dispose()
+    public override void Dispose()
     {
       try
       {
