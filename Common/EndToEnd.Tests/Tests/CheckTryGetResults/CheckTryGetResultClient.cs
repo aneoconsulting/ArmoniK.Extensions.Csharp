@@ -38,7 +38,6 @@ using Microsoft.Extensions.Logging;
 
 namespace ArmoniK.EndToEndTests.Tests.CheckTryGetResults
 {
-  [Disabled]
   [UsedImplicitly]
   public class CheckTryGetResultsClient : ClientBaseTest<CheckTryGetResultsClient>
   {
@@ -87,13 +86,13 @@ namespace ArmoniK.EndToEndTests.Tests.CheckTryGetResults
         if (listPartialResults.Count() != 0)
         {
           results.AddRange(listPartialResults);
-          Log.LogInformation($"------   Get {listPartialResults.Count()} result(s)  -------");
+          Log.LogInformation($"------  Session {sessionService.SessionId.Id}  Get {listPartialResults.Count()} result(s)  -------");
         }
 
         missing = missing.Where(x => listPartialResults.ToList().All(rId => rId.Item1 != x)).ToList();
 
         if (missing.Count != 0) 
-          Log.LogInformation($"------   Still missing {missing.Count()} result(s)  -------");
+          Log.LogInformation($"------  Session {sessionService.SessionId.Id} Still missing {missing.Count()} result(s)  -------");
 
         Thread.Sleep(1000);
       }
@@ -124,7 +123,7 @@ namespace ArmoniK.EndToEndTests.Tests.CheckTryGetResults
 
 
       var payloads = Enumerable.Repeat(0,
-                                       10)
+                                       500)
                                .Select(_ => clientPayload.Serialize());
       var taskIds = sessionService.SubmitTasks(payloads);
 
