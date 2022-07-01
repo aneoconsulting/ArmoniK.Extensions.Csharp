@@ -28,6 +28,8 @@ using System.ComponentModel;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 
+using ArmoniK.DevelopmentKit.Common.Exceptions;
+
 namespace ArmoniK.EndToEndTests.Tests.CheckGridServer
 {
   public static class SelectExtensions
@@ -48,6 +50,8 @@ namespace ArmoniK.EndToEndTests.Tests.CheckGridServer
 
   public class SimpleServiceContainer
   {
+
+    private Random rd = new Random();
     public static double[] ComputeBasicArrayCube(double[] inputs)
     {
       return inputs.Select(x => x * x * x).ToArray();
@@ -81,6 +85,18 @@ namespace ArmoniK.EndToEndTests.Tests.CheckGridServer
 
 
       return doubles1.Select((x, idx) => k * x * doubles2[idx]).ToArray();
+    }
+
+    public double[] RandomTaskError(double percentageOfFailure = 0.25)
+    {
+      var randNum = rd.NextDouble();
+      if (randNum < (percentageOfFailure / 100))
+        throw new WorkerApiException("An expected failure in this random call");
+
+      return new[]
+      {
+        0.0, 1.0, 2.0,
+      };
     }
   }
 }

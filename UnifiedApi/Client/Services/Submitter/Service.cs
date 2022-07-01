@@ -21,15 +21,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using ArmoniK.Api.gRPC.V1;
 using ArmoniK.DevelopmentKit.Client.Exceptions;
 using ArmoniK.DevelopmentKit.Client.Factory;
 using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.Common.Exceptions;
-
 using JetBrains.Annotations;
-
 using Microsoft.Extensions.Logging;
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,10 +36,9 @@ using System.Threading.Tasks;
 
 using ArmoniK.DevelopmentKit.Client.Services.Common;
 
-using Serilog;
-using Serilog.Extensions.Logging;
+using TaskStatus = ArmoniK.Api.gRPC.V1.TaskStatus;
 
-#pragma warning disable CS1591
+
 
 namespace ArmoniK.DevelopmentKit.Client.Services.Submitter
 {
@@ -78,6 +75,37 @@ namespace ArmoniK.DevelopmentKit.Client.Services.Submitter
     private SessionServiceFactory SessionServiceFactory { get; set; }
 
     private Dictionary<string, Task> TaskWarehouse { get; set; } = new();
+
+
+    // *** you need some mechanism to map types to fields
+    private static readonly IDictionary<TaskStatus, ArmonikStatusCode> StatusCodesLookUp = new List<Tuple<TaskStatus, ArmonikStatusCode>>
+    {
+      Tuple.Create(TaskStatus.Submitted,
+                   ArmonikStatusCode.ResultNotReady),
+      Tuple.Create(TaskStatus.Timeout,
+                   ArmonikStatusCode.TaskTimeout),
+      Tuple.Create(TaskStatus.Canceled,
+                   ArmonikStatusCode.TaskCanceled),
+      Tuple.Create(TaskStatus.Canceling,
+                   ArmonikStatusCode.TaskCanceled),
+      Tuple.Create(TaskStatus.Error,
+                   ArmonikStatusCode.TaskFailed),
+      Tuple.Create(TaskStatus.Processing,
+                   ArmonikStatusCode.ResultNotReady),
+      Tuple.Create(TaskStatus.Dispatched,
+                   ArmonikStatusCode.ResultNotReady),
+      Tuple.Create(TaskStatus.Completed,
+                   ArmonikStatusCode.ResultReady),
+      Tuple.Create(TaskStatus.Creating,
+                   ArmonikStatusCode.ResultNotReady),
+      Tuple.Create(TaskStatus.Unspecified,
+                   ArmonikStatusCode.TaskFailed),
+      Tuple.Create(TaskStatus.Failed,
+                   ArmonikStatusCode.TaskFailed),
+      Tuple.Create(TaskStatus.Processed,
+                   ArmonikStatusCode.ResultReady),
+    }.ToDictionary(k => k.Item1,
+                   v => v.Item2);
 
     /// <summary>
     /// The default constructor to open connection with the control plane
@@ -166,11 +194,35 @@ namespace ArmoniK.DevelopmentKit.Client.Services.Submitter
         SerializedArguments = true,
       };
 
-      var taskId = SessionService.SubmitTask(dataSynapsePayload.Serialize());
+      var   taskId = "not-TaskId";
+      object[] result;
 
-      var result = ProtoSerializer.DeSerializeMessageObjectArray(SessionService.GetResult(taskId));
+      try
+      {
+        taskId = SessionService.SubmitTask(dataSynapsePayload.Serialize());
 
-      return new ServiceResult()
+        result = ProtoSerializer.DeSerializeMessageObjectArray(SessionService.GetResult(taskId));
+      }
+      catch (Exception e)
+      {
+        var status = SessionService.GetTaskStatus(taskId);
+
+        var details = "";
+
+        if (status != TaskStatus.Completed)
+        {
+          var output = SessionService.GetTaskOutputInfo(taskId);
+          details = output.TypeCase == Output.TypeOneofCase.Error ? output.Error.Details : "";
+        }
+
+        throw new ServiceInvocationException(e is AggregateException ? e.InnerException : e,
+                      StatusCodesLookUp.Keys.Contains(status) ? StatusCodesLookUp[status] : ArmonikStatusCode.Unknown)
+        {
+          OutputDetails = details,
+        };
+      }
+
+      return new()
       {
         TaskId = taskId,
         Result = result?[0],
@@ -251,6 +303,7 @@ namespace ArmoniK.DevelopmentKit.Client.Services.Submitter
       cts.Cancel();
     }
 
+
     /// <summary>
     /// The function submit where all information are already ready to send with class ArmonikPayload
     /// </summary>
@@ -276,7 +329,21 @@ namespace ArmoniK.DevelopmentKit.Client.Services.Submitter
                                }
                                catch (Exception e)
                                {
-                                 ServiceInvocationException ex = new(e);
+                                 var status = SessionService.GetTaskStatus(taskId);
+
+                                 var details = "";
+
+                                 if (status != TaskStatus.Completed)
+                                 {
+                                   var output = SessionService.GetTaskOutputInfo(taskId);
+                                   details = output.TypeCase == Output.TypeOneofCase.Error ? output.Error.Details : "";
+                                 }
+
+                                 ServiceInvocationException ex = new(e is AggregateException ? e.InnerException : e,
+                                                                     StatusCodesLookUp.Keys.Contains(status) ? StatusCodesLookUp[status] : ArmonikStatusCode.Unknown)
+                                 {
+                                   OutputDetails = details,
+                                 };
 
                                  handler.HandleError(ex,
                                                      taskId);
@@ -285,7 +352,8 @@ namespace ArmoniK.DevelopmentKit.Client.Services.Submitter
         }
         catch (Exception e)
         {
-          ServiceInvocationException ex = new(e);
+          ServiceInvocationException ex = new(e is AggregateException ? e.InnerException : e,
+                                              ArmonikStatusCode.Unknown);
 
           handler.HandleError(ex,
                               "AggregateListOfTaskId");
@@ -391,6 +459,9 @@ namespace ArmoniK.DevelopmentKit.Client.Services.Submitter
 
     public Task HandlerResponse { get; set; }
 
+    /// <summary>
+    /// The sessionId
+    /// </summary>
     public string SessionId => SessionService?.SessionId.Id;
 
     /// <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>

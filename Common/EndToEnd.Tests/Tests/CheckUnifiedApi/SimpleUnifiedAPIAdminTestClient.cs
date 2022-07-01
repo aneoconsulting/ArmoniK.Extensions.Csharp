@@ -154,9 +154,17 @@ namespace ArmoniK.EndToEndTests.Tests.CheckUnifiedApi
     /// <param name="taskId">The task identifier which has invoke the error callBack</param>
     public void HandleError(ServiceInvocationException e, string taskId)
     {
-      Log.LogError($"Error from {taskId} : " + e.Message);
-      throw new ApplicationException($"Error from {taskId}",
-                                     e);
+      if (e.StatusCode == ArmonikStatusCode.TaskCanceled)
+      {
+        Log.LogWarning($"Task canceled : {taskId}. Status {e.StatusCode.ToString()} Message : {e.Message}\nDetails : {e.OutputDetails}");
+      }
+      else
+      {
+        Log.LogError($"Fail to get result from {taskId}. Status {e.StatusCode.ToString()} Message : {e.Message}\nDetails : {e.OutputDetails}");
+
+        throw new ApplicationException($"Error from {taskId}",
+                                       e);
+      }
     }
 
     /// <summary>

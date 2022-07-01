@@ -124,9 +124,51 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
                              }
                            },
                            true,
-                           typeof(IOException),
-                           typeof(RpcException));
+                           typeof(IOException), typeof(RpcException));
     }
+
+    /// <summary>
+    /// Returns the status of the task
+    /// </summary>
+    /// <param name="taskId">The taskId of the task</param>
+    /// <returns></returns>
+    public TaskStatus GetTaskStatus(string taskId)
+    {
+      var status = GetTaskStatues(taskId).Single();
+
+      return status.Item2;
+    }
+
+    /// <summary>
+    /// Returns the list status of the tasks
+    /// </summary>
+    /// <param name="taskIds">The list of taskIds</param>
+    /// <returns></returns>
+    public IEnumerable<Tuple<string, TaskStatus>> GetTaskStatues(params string[] taskIds)
+    {
+      return ControlPlaneService.GetTaskStatus(new()
+      {
+        TaskId =
+        {
+          taskIds,
+        },
+      }).IdStatus.Select(x=> Tuple.Create(x.TaskId, x.Status));
+    }
+
+    /// <summary>
+    /// Return the taskOutput when error occured
+    /// </summary>
+    /// <param name="taskId"></param>
+    /// <returns></returns>
+    public Output GetTaskOutputInfo(string taskId)
+    {
+      return ControlPlaneService.TryGetTaskOutput(new ResultRequest()
+      {
+        Key     = taskId,
+        Session = SessionId.Id
+      });
+    }
+
 
     /// <summary>
     ///   The method to submit several tasks with dependencies tasks. This task will wait for

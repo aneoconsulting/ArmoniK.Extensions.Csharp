@@ -133,6 +133,7 @@ namespace ArmoniK.EndToEndTests.Tests.CheckGridServer
                             ParamsHelper(numbers.SelectMany(BitConverter.GetBytes).ToArray(),
                                          numbers.SelectMany(BitConverter.GetBytes).ToArray(), 4.0),
                             this);
+
     }
 
     /// <summary>

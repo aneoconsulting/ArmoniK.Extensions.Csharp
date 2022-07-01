@@ -154,36 +154,19 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Services
       catch (WorkerApiException ex)
       {
         Logger.LogError(ex,
-                        "Failure while computing task");
+                        "WorkerAPIException failure while executing task");
 
-        output = new Output
-        {
-          Error = new Output.Types.Error
-          {
-            Details      = ex.Message + ex.StackTrace,
-            KillSubTasks = true,
-          },
-          Status = TaskStatus.Failed,
-        };
+        throw;
       }
 
       catch (Exception ex)
       {
         Logger.LogError(ex,
-                        "Error while computing task");
+                        "Umanaged Exception while executing task");
 
-        output = new Output
-        {
-          Error = new Output.Types.Error
-          {
-            Details      = ex.Message + ex.StackTrace,
-            KillSubTasks = true,
-          },
-          Status = TaskStatus.Error,
-        };
+        throw;
       }
 
-      //Logger.LogTrace($"Output : {output}");
       return output;
     }
 

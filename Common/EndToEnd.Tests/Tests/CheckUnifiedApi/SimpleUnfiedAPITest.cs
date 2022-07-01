@@ -21,14 +21,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using ArmoniK.DevelopmentKit.GridServer.Client;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-
-using ArmoniK.DevelopmentKit.Common;
-using ArmoniK.DevelopmentKit.GridServer.Client;
-
-using Microsoft.Extensions.Logging;
 
 namespace ArmoniK.EndToEndTests.Tests.CheckUnifiedApi
 {
@@ -50,6 +46,7 @@ namespace ArmoniK.EndToEndTests.Tests.CheckUnifiedApi
 
   public class SimpleService : BaseService<SimpleService>
   {
+    private Random rd = new Random();
     public double[] ComputeBasicArrayCube(double[] inputs)
     {
       return inputs.Select(x => x * x * x).ToArray();
@@ -83,6 +80,18 @@ namespace ArmoniK.EndToEndTests.Tests.CheckUnifiedApi
 
 
       return doubles1.Select((x, idx) => k * x * doubles2[idx]).ToArray();
+    }
+
+    public double[] RandomTaskError(double percentageOfFailure = 0.25)
+    {
+      var randNum = rd.NextDouble();
+      if (randNum < (percentageOfFailure / 100))
+        throw new GridServerException("An expected failure in this random call");
+
+      return new[]
+      {
+        0.0, 1.0, 2.0,
+      };
     }
   }
 }
