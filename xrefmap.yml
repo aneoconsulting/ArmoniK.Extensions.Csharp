@@ -1528,6 +1528,115 @@ references:
   commentId: N:ArmoniK.DevelopmentKit.Common.Exceptions
   fullName: ArmoniK.DevelopmentKit.Common.Exceptions
   nameWithType: ArmoniK.DevelopmentKit.Common.Exceptions
+- uid: ArmoniK.DevelopmentKit.Common.Exceptions.ClientApiException
+  name: ClientApiException
+  href: api/ArmoniK.DevelopmentKit.Common.Exceptions.ClientApiException.html
+  commentId: T:ArmoniK.DevelopmentKit.Common.Exceptions.ClientApiException
+  fullName: ArmoniK.DevelopmentKit.Common.Exceptions.ClientApiException
+  nameWithType: ClientApiException
+- uid: ArmoniK.DevelopmentKit.Common.Exceptions.ClientApiException.#ctor
+  name: ClientApiException()
+  href: api/ArmoniK.DevelopmentKit.Common.Exceptions.ClientApiException.html#ArmoniK_DevelopmentKit_Common_Exceptions_ClientApiException__ctor
+  commentId: M:ArmoniK.DevelopmentKit.Common.Exceptions.ClientApiException.#ctor
+  fullName: ArmoniK.DevelopmentKit.Common.Exceptions.ClientApiException.ClientApiException()
+  nameWithType: ClientApiException.ClientApiException()
+- uid: ArmoniK.DevelopmentKit.Common.Exceptions.ClientApiException.#ctor(System.Exception)
+  name: ClientApiException(Exception)
+  href: api/ArmoniK.DevelopmentKit.Common.Exceptions.ClientApiException.html#ArmoniK_DevelopmentKit_Common_Exceptions_ClientApiException__ctor_System_Exception_
+  commentId: M:ArmoniK.DevelopmentKit.Common.Exceptions.ClientApiException.#ctor(System.Exception)
+  fullName: ArmoniK.DevelopmentKit.Common.Exceptions.ClientApiException.ClientApiException(System.Exception)
+  nameWithType: ClientApiException.ClientApiException(Exception)
+- uid: ArmoniK.DevelopmentKit.Common.Exceptions.ClientApiException.#ctor(System.String)
+  name: ClientApiException(String)
+  href: api/ArmoniK.DevelopmentKit.Common.Exceptions.ClientApiException.html#ArmoniK_DevelopmentKit_Common_Exceptions_ClientApiException__ctor_System_String_
+  commentId: M:ArmoniK.DevelopmentKit.Common.Exceptions.ClientApiException.#ctor(System.String)
+  fullName: ArmoniK.DevelopmentKit.Common.Exceptions.ClientApiException.ClientApiException(System.String)
+  nameWithType: ClientApiException.ClientApiException(String)
+- uid: ArmoniK.DevelopmentKit.Common.Exceptions.ClientApiException.#ctor(System.String,System.ArgumentException)
+  name: ClientApiException(String, ArgumentException)
+  href: api/ArmoniK.DevelopmentKit.Common.Exceptions.ClientApiException.html#ArmoniK_DevelopmentKit_Common_Exceptions_ClientApiException__ctor_System_String_System_ArgumentException_
+  commentId: M:ArmoniK.DevelopmentKit.Common.Exceptions.ClientApiException.#ctor(System.String,System.ArgumentException)
+  fullName: ArmoniK.DevelopmentKit.Common.Exceptions.ClientApiException.ClientApiException(System.String, System.ArgumentException)
+  nameWithType: ClientApiException.ClientApiException(String, ArgumentException)
+- uid: ArmoniK.DevelopmentKit.Common.Exceptions.ClientApiException.#ctor(System.String,System.Exception)
+  name: ClientApiException(String, Exception)
+  href: api/ArmoniK.DevelopmentKit.Common.Exceptions.ClientApiException.html#ArmoniK_DevelopmentKit_Common_Exceptions_ClientApiException__ctor_System_String_System_Exception_
+  commentId: M:ArmoniK.DevelopmentKit.Common.Exceptions.ClientApiException.#ctor(System.String,System.Exception)
+  fullName: ArmoniK.DevelopmentKit.Common.Exceptions.ClientApiException.ClientApiException(System.String, System.Exception)
+  nameWithType: ClientApiException.ClientApiException(String, Exception)
+- uid: ArmoniK.DevelopmentKit.Common.Exceptions.ClientApiException.#ctor*
+  name: ClientApiException
+  href: api/ArmoniK.DevelopmentKit.Common.Exceptions.ClientApiException.html#ArmoniK_DevelopmentKit_Common_Exceptions_ClientApiException__ctor_
+  commentId: Overload:ArmoniK.DevelopmentKit.Common.Exceptions.ClientApiException.#ctor
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Common.Exceptions.ClientApiException.ClientApiException
+  nameWithType: ClientApiException.ClientApiException
+- uid: ArmoniK.DevelopmentKit.Common.Exceptions.ClientApiException.Message
+  name: Message
+  href: api/ArmoniK.DevelopmentKit.Common.Exceptions.ClientApiException.html#ArmoniK_DevelopmentKit_Common_Exceptions_ClientApiException_Message
+  commentId: P:ArmoniK.DevelopmentKit.Common.Exceptions.ClientApiException.Message
+  fullName: ArmoniK.DevelopmentKit.Common.Exceptions.ClientApiException.Message
+  nameWithType: ClientApiException.Message
+- uid: ArmoniK.DevelopmentKit.Common.Exceptions.ClientApiException.Message*
+  name: Message
+  href: api/ArmoniK.DevelopmentKit.Common.Exceptions.ClientApiException.html#ArmoniK_DevelopmentKit_Common_Exceptions_ClientApiException_Message_
+  commentId: Overload:ArmoniK.DevelopmentKit.Common.Exceptions.ClientApiException.Message
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Common.Exceptions.ClientApiException.Message
+  nameWithType: ClientApiException.Message
+- uid: ArmoniK.DevelopmentKit.Common.Exceptions.ClientResultsException
+  name: ClientResultsException
+  href: api/ArmoniK.DevelopmentKit.Common.Exceptions.ClientResultsException.html
+  commentId: T:ArmoniK.DevelopmentKit.Common.Exceptions.ClientResultsException
+  fullName: ArmoniK.DevelopmentKit.Common.Exceptions.ClientResultsException
+  nameWithType: ClientResultsException
+- uid: ArmoniK.DevelopmentKit.Common.Exceptions.ClientResultsException.#ctor(System.String,System.Collections.Generic.IEnumerable{System.String})
+  name: ClientResultsException(String, IEnumerable<String>)
+  href: api/ArmoniK.DevelopmentKit.Common.Exceptions.ClientResultsException.html#ArmoniK_DevelopmentKit_Common_Exceptions_ClientResultsException__ctor_System_String_System_Collections_Generic_IEnumerable_System_String__
+  commentId: M:ArmoniK.DevelopmentKit.Common.Exceptions.ClientResultsException.#ctor(System.String,System.Collections.Generic.IEnumerable{System.String})
+  name.vb: ClientResultsException(String, IEnumerable(Of String))
+  fullName: ArmoniK.DevelopmentKit.Common.Exceptions.ClientResultsException.ClientResultsException(System.String, System.Collections.Generic.IEnumerable<System.String>)
+  fullName.vb: ArmoniK.DevelopmentKit.Common.Exceptions.ClientResultsException.ClientResultsException(System.String, System.Collections.Generic.IEnumerable(Of System.String))
+  nameWithType: ClientResultsException.ClientResultsException(String, IEnumerable<String>)
+  nameWithType.vb: ClientResultsException.ClientResultsException(String, IEnumerable(Of String))
+- uid: ArmoniK.DevelopmentKit.Common.Exceptions.ClientResultsException.#ctor(System.String,System.String[])
+  name: ClientResultsException(String, String[])
+  href: api/ArmoniK.DevelopmentKit.Common.Exceptions.ClientResultsException.html#ArmoniK_DevelopmentKit_Common_Exceptions_ClientResultsException__ctor_System_String_System_String___
+  commentId: M:ArmoniK.DevelopmentKit.Common.Exceptions.ClientResultsException.#ctor(System.String,System.String[])
+  name.vb: ClientResultsException(String, String())
+  fullName: ArmoniK.DevelopmentKit.Common.Exceptions.ClientResultsException.ClientResultsException(System.String, System.String[])
+  fullName.vb: ArmoniK.DevelopmentKit.Common.Exceptions.ClientResultsException.ClientResultsException(System.String, System.String())
+  nameWithType: ClientResultsException.ClientResultsException(String, String[])
+  nameWithType.vb: ClientResultsException.ClientResultsException(String, String())
+- uid: ArmoniK.DevelopmentKit.Common.Exceptions.ClientResultsException.#ctor(System.String[])
+  name: ClientResultsException(String[])
+  href: api/ArmoniK.DevelopmentKit.Common.Exceptions.ClientResultsException.html#ArmoniK_DevelopmentKit_Common_Exceptions_ClientResultsException__ctor_System_String___
+  commentId: M:ArmoniK.DevelopmentKit.Common.Exceptions.ClientResultsException.#ctor(System.String[])
+  name.vb: ClientResultsException(String())
+  fullName: ArmoniK.DevelopmentKit.Common.Exceptions.ClientResultsException.ClientResultsException(System.String[])
+  fullName.vb: ArmoniK.DevelopmentKit.Common.Exceptions.ClientResultsException.ClientResultsException(System.String())
+  nameWithType: ClientResultsException.ClientResultsException(String[])
+  nameWithType.vb: ClientResultsException.ClientResultsException(String())
+- uid: ArmoniK.DevelopmentKit.Common.Exceptions.ClientResultsException.#ctor*
+  name: ClientResultsException
+  href: api/ArmoniK.DevelopmentKit.Common.Exceptions.ClientResultsException.html#ArmoniK_DevelopmentKit_Common_Exceptions_ClientResultsException__ctor_
+  commentId: Overload:ArmoniK.DevelopmentKit.Common.Exceptions.ClientResultsException.#ctor
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Common.Exceptions.ClientResultsException.ClientResultsException
+  nameWithType: ClientResultsException.ClientResultsException
+- uid: ArmoniK.DevelopmentKit.Common.Exceptions.ClientResultsException.TaskIds
+  name: TaskIds
+  href: api/ArmoniK.DevelopmentKit.Common.Exceptions.ClientResultsException.html#ArmoniK_DevelopmentKit_Common_Exceptions_ClientResultsException_TaskIds
+  commentId: P:ArmoniK.DevelopmentKit.Common.Exceptions.ClientResultsException.TaskIds
+  fullName: ArmoniK.DevelopmentKit.Common.Exceptions.ClientResultsException.TaskIds
+  nameWithType: ClientResultsException.TaskIds
+- uid: ArmoniK.DevelopmentKit.Common.Exceptions.ClientResultsException.TaskIds*
+  name: TaskIds
+  href: api/ArmoniK.DevelopmentKit.Common.Exceptions.ClientResultsException.html#ArmoniK_DevelopmentKit_Common_Exceptions_ClientResultsException_TaskIds_
+  commentId: Overload:ArmoniK.DevelopmentKit.Common.Exceptions.ClientResultsException.TaskIds
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Common.Exceptions.ClientResultsException.TaskIds
+  nameWithType: ClientResultsException.TaskIds
 - uid: ArmoniK.DevelopmentKit.Common.Exceptions.WorkerApiException
   name: WorkerApiException
   href: api/ArmoniK.DevelopmentKit.Common.Exceptions.WorkerApiException.html
@@ -1981,6 +2090,83 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.Common.SessionIdExtension.UnPackSessionId
   nameWithType: SessionIdExtension.UnPackSessionId
+- uid: ArmoniK.DevelopmentKit.Common.Status
+  name: ArmoniK.DevelopmentKit.Common.Status
+  href: api/ArmoniK.DevelopmentKit.Common.Status.html
+  commentId: N:ArmoniK.DevelopmentKit.Common.Status
+  fullName: ArmoniK.DevelopmentKit.Common.Status
+  nameWithType: ArmoniK.DevelopmentKit.Common.Status
+- uid: ArmoniK.DevelopmentKit.Common.Status.ResultStatusCollection
+  name: ResultStatusCollection
+  href: api/ArmoniK.DevelopmentKit.Common.Status.ResultStatusCollection.html
+  commentId: T:ArmoniK.DevelopmentKit.Common.Status.ResultStatusCollection
+  fullName: ArmoniK.DevelopmentKit.Common.Status.ResultStatusCollection
+  nameWithType: ResultStatusCollection
+- uid: ArmoniK.DevelopmentKit.Common.Status.ResultStatusCollection.Canceled
+  name: Canceled
+  href: api/ArmoniK.DevelopmentKit.Common.Status.ResultStatusCollection.html#ArmoniK_DevelopmentKit_Common_Status_ResultStatusCollection_Canceled
+  commentId: P:ArmoniK.DevelopmentKit.Common.Status.ResultStatusCollection.Canceled
+  fullName: ArmoniK.DevelopmentKit.Common.Status.ResultStatusCollection.Canceled
+  nameWithType: ResultStatusCollection.Canceled
+- uid: ArmoniK.DevelopmentKit.Common.Status.ResultStatusCollection.Canceled*
+  name: Canceled
+  href: api/ArmoniK.DevelopmentKit.Common.Status.ResultStatusCollection.html#ArmoniK_DevelopmentKit_Common_Status_ResultStatusCollection_Canceled_
+  commentId: Overload:ArmoniK.DevelopmentKit.Common.Status.ResultStatusCollection.Canceled
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Common.Status.ResultStatusCollection.Canceled
+  nameWithType: ResultStatusCollection.Canceled
+- uid: ArmoniK.DevelopmentKit.Common.Status.ResultStatusCollection.IdsError
+  name: IdsError
+  href: api/ArmoniK.DevelopmentKit.Common.Status.ResultStatusCollection.html#ArmoniK_DevelopmentKit_Common_Status_ResultStatusCollection_IdsError
+  commentId: P:ArmoniK.DevelopmentKit.Common.Status.ResultStatusCollection.IdsError
+  fullName: ArmoniK.DevelopmentKit.Common.Status.ResultStatusCollection.IdsError
+  nameWithType: ResultStatusCollection.IdsError
+- uid: ArmoniK.DevelopmentKit.Common.Status.ResultStatusCollection.IdsError*
+  name: IdsError
+  href: api/ArmoniK.DevelopmentKit.Common.Status.ResultStatusCollection.html#ArmoniK_DevelopmentKit_Common_Status_ResultStatusCollection_IdsError_
+  commentId: Overload:ArmoniK.DevelopmentKit.Common.Status.ResultStatusCollection.IdsError
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Common.Status.ResultStatusCollection.IdsError
+  nameWithType: ResultStatusCollection.IdsError
+- uid: ArmoniK.DevelopmentKit.Common.Status.ResultStatusCollection.IdsNotReady
+  name: IdsNotReady
+  href: api/ArmoniK.DevelopmentKit.Common.Status.ResultStatusCollection.html#ArmoniK_DevelopmentKit_Common_Status_ResultStatusCollection_IdsNotReady
+  commentId: P:ArmoniK.DevelopmentKit.Common.Status.ResultStatusCollection.IdsNotReady
+  fullName: ArmoniK.DevelopmentKit.Common.Status.ResultStatusCollection.IdsNotReady
+  nameWithType: ResultStatusCollection.IdsNotReady
+- uid: ArmoniK.DevelopmentKit.Common.Status.ResultStatusCollection.IdsNotReady*
+  name: IdsNotReady
+  href: api/ArmoniK.DevelopmentKit.Common.Status.ResultStatusCollection.html#ArmoniK_DevelopmentKit_Common_Status_ResultStatusCollection_IdsNotReady_
+  commentId: Overload:ArmoniK.DevelopmentKit.Common.Status.ResultStatusCollection.IdsNotReady
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Common.Status.ResultStatusCollection.IdsNotReady
+  nameWithType: ResultStatusCollection.IdsNotReady
+- uid: ArmoniK.DevelopmentKit.Common.Status.ResultStatusCollection.IdsReady
+  name: IdsReady
+  href: api/ArmoniK.DevelopmentKit.Common.Status.ResultStatusCollection.html#ArmoniK_DevelopmentKit_Common_Status_ResultStatusCollection_IdsReady
+  commentId: P:ArmoniK.DevelopmentKit.Common.Status.ResultStatusCollection.IdsReady
+  fullName: ArmoniK.DevelopmentKit.Common.Status.ResultStatusCollection.IdsReady
+  nameWithType: ResultStatusCollection.IdsReady
+- uid: ArmoniK.DevelopmentKit.Common.Status.ResultStatusCollection.IdsReady*
+  name: IdsReady
+  href: api/ArmoniK.DevelopmentKit.Common.Status.ResultStatusCollection.html#ArmoniK_DevelopmentKit_Common_Status_ResultStatusCollection_IdsReady_
+  commentId: Overload:ArmoniK.DevelopmentKit.Common.Status.ResultStatusCollection.IdsReady
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Common.Status.ResultStatusCollection.IdsReady
+  nameWithType: ResultStatusCollection.IdsReady
+- uid: ArmoniK.DevelopmentKit.Common.Status.ResultStatusCollection.IdsResultError
+  name: IdsResultError
+  href: api/ArmoniK.DevelopmentKit.Common.Status.ResultStatusCollection.html#ArmoniK_DevelopmentKit_Common_Status_ResultStatusCollection_IdsResultError
+  commentId: P:ArmoniK.DevelopmentKit.Common.Status.ResultStatusCollection.IdsResultError
+  fullName: ArmoniK.DevelopmentKit.Common.Status.ResultStatusCollection.IdsResultError
+  nameWithType: ResultStatusCollection.IdsResultError
+- uid: ArmoniK.DevelopmentKit.Common.Status.ResultStatusCollection.IdsResultError*
+  name: IdsResultError
+  href: api/ArmoniK.DevelopmentKit.Common.Status.ResultStatusCollection.html#ArmoniK_DevelopmentKit_Common_Status_ResultStatusCollection_IdsResultError_
+  commentId: Overload:ArmoniK.DevelopmentKit.Common.Status.ResultStatusCollection.IdsResultError
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Common.Status.ResultStatusCollection.IdsResultError
+  nameWithType: ResultStatusCollection.IdsResultError
 - uid: ArmoniK.DevelopmentKit.Common.Submitter
   name: ArmoniK.DevelopmentKit.Common.Submitter
   href: api/ArmoniK.DevelopmentKit.Common.Submitter.html
@@ -2065,6 +2251,24 @@ references:
   fullName.vb: ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter(Of T).GetResults
   nameWithType: BaseClientSubmitter<T>.GetResults
   nameWithType.vb: BaseClientSubmitter(Of T).GetResults
+- uid: ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter`1.GetResultStatus(System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)
+  name: GetResultStatus(IEnumerable<String>, CancellationToken)
+  href: api/ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Common_Submitter_BaseClientSubmitter_1_GetResultStatus_System_Collections_Generic_IEnumerable_System_String__System_Threading_CancellationToken_
+  commentId: M:ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter`1.GetResultStatus(System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)
+  name.vb: GetResultStatus(IEnumerable(Of String), CancellationToken)
+  fullName: ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter<T>.GetResultStatus(System.Collections.Generic.IEnumerable<System.String>, System.Threading.CancellationToken)
+  fullName.vb: ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter(Of T).GetResultStatus(System.Collections.Generic.IEnumerable(Of System.String), System.Threading.CancellationToken)
+  nameWithType: BaseClientSubmitter<T>.GetResultStatus(IEnumerable<String>, CancellationToken)
+  nameWithType.vb: BaseClientSubmitter(Of T).GetResultStatus(IEnumerable(Of String), CancellationToken)
+- uid: ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter`1.GetResultStatus*
+  name: GetResultStatus
+  href: api/ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Common_Submitter_BaseClientSubmitter_1_GetResultStatus_
+  commentId: Overload:ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter`1.GetResultStatus
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter<T>.GetResultStatus
+  fullName.vb: ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter(Of T).GetResultStatus
+  nameWithType: BaseClientSubmitter<T>.GetResultStatus
+  nameWithType.vb: BaseClientSubmitter(Of T).GetResultStatus
 - uid: ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter`1.HealthCheckResult(System.String)
   name: HealthCheckResult(String)
   href: api/ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Common_Submitter_BaseClientSubmitter_1_HealthCheckResult_System_String_
