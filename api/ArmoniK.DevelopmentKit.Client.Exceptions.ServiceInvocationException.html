@@ -73,7 +73,8 @@
   
   <h1 id="ArmoniK_DevelopmentKit_Client_Exceptions_ServiceInvocationException" data-uid="ArmoniK.DevelopmentKit.Client.Exceptions.ServiceInvocationException" class="text-break">Class ServiceInvocationException
   </h1>
-  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 summary"><p>The service invocation exception. This class wil contain all error information of task or result</p>
+</div>
   <div class="markdown level0 conceptual"></div>
   <div class="inheritance">
     <h5>Inheritance</h5>
@@ -150,33 +151,19 @@
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/master/apiSpec/new?filename=ArmoniK_DevelopmentKit_Client_Exceptions_ServiceInvocationException__ctor.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Client.Exceptions.ServiceInvocationException.%23ctor%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/master/apiSpec/new?filename=ArmoniK_DevelopmentKit_Client_Exceptions_ServiceInvocationException__ctor_System_Exception_ArmoniK_DevelopmentKit_Client_Exceptions_ArmonikStatusCode_.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Client.Exceptions.ServiceInvocationException.%23ctor(System.Exception%2CArmoniK.DevelopmentKit.Client.Exceptions.ArmonikStatusCode)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/master/UnifiedApi/Client/Exceptions/ServiceInvocationException.cs/#L38">View Source</a>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/master/UnifiedApi/Client/Exceptions/ServiceInvocationException.cs/#L65">View Source</a>
   </span>
   <a id="ArmoniK_DevelopmentKit_Client_Exceptions_ServiceInvocationException__ctor_" data-uid="ArmoniK.DevelopmentKit.Client.Exceptions.ServiceInvocationException.#ctor*"></a>
-  <h4 id="ArmoniK_DevelopmentKit_Client_Exceptions_ServiceInvocationException__ctor" data-uid="ArmoniK.DevelopmentKit.Client.Exceptions.ServiceInvocationException.#ctor">ServiceInvocationException()</h4>
-  <div class="markdown level1 summary"></div>
+  <h4 id="ArmoniK_DevelopmentKit_Client_Exceptions_ServiceInvocationException__ctor_System_Exception_ArmoniK_DevelopmentKit_Client_Exceptions_ArmonikStatusCode_" data-uid="ArmoniK.DevelopmentKit.Client.Exceptions.ServiceInvocationException.#ctor(System.Exception,ArmoniK.DevelopmentKit.Client.Exceptions.ArmonikStatusCode)">ServiceInvocationException(Exception, ArmonikStatusCode)</h4>
+  <div class="markdown level1 summary"><p>The overriden constructor to accept inner Exception as parameters</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public ServiceInvocationException()</code></pre>
-  </div>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/master/apiSpec/new?filename=ArmoniK_DevelopmentKit_Client_Exceptions_ServiceInvocationException__ctor_System_Exception_.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Client.Exceptions.ServiceInvocationException.%23ctor(System.Exception)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/master/UnifiedApi/Client/Exceptions/ServiceInvocationException.cs/#L44">View Source</a>
-  </span>
-  <a id="ArmoniK_DevelopmentKit_Client_Exceptions_ServiceInvocationException__ctor_" data-uid="ArmoniK.DevelopmentKit.Client.Exceptions.ServiceInvocationException.#ctor*"></a>
-  <h4 id="ArmoniK_DevelopmentKit_Client_Exceptions_ServiceInvocationException__ctor_System_Exception_" data-uid="ArmoniK.DevelopmentKit.Client.Exceptions.ServiceInvocationException.#ctor(System.Exception)">ServiceInvocationException(Exception)</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public ServiceInvocationException(Exception e)</code></pre>
+    <pre><code class="lang-csharp hljs">public ServiceInvocationException(Exception e, ArmonikStatusCode statusCode)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -191,24 +178,32 @@
       <tr>
         <td><span class="xref">System.Exception</span></td>
         <td><span class="parametername">e</span></td>
-        <td></td>
+        <td><p>The previous exception</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="ArmoniK.DevelopmentKit.Client.Exceptions.ArmonikStatusCode.html">ArmonikStatusCode</a></td>
+        <td><span class="parametername">statusCode</span></td>
+        <td><p>The status of the task which is failing</p>
+</td>
       </tr>
     </tbody>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/master/apiSpec/new?filename=ArmoniK_DevelopmentKit_Client_Exceptions_ServiceInvocationException__ctor_System_String_.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Client.Exceptions.ServiceInvocationException.%23ctor(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/master/apiSpec/new?filename=ArmoniK_DevelopmentKit_Client_Exceptions_ServiceInvocationException__ctor_System_String_ArmoniK_DevelopmentKit_Client_Exceptions_ArmonikStatusCode_.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Client.Exceptions.ServiceInvocationException.%23ctor(System.String%2CArmoniK.DevelopmentKit.Client.Exceptions.ArmonikStatusCode)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/master/UnifiedApi/Client/Exceptions/ServiceInvocationException.cs/#L42">View Source</a>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/master/UnifiedApi/Client/Exceptions/ServiceInvocationException.cs/#L54">View Source</a>
   </span>
   <a id="ArmoniK_DevelopmentKit_Client_Exceptions_ServiceInvocationException__ctor_" data-uid="ArmoniK.DevelopmentKit.Client.Exceptions.ServiceInvocationException.#ctor*"></a>
-  <h4 id="ArmoniK_DevelopmentKit_Client_Exceptions_ServiceInvocationException__ctor_System_String_" data-uid="ArmoniK.DevelopmentKit.Client.Exceptions.ServiceInvocationException.#ctor(System.String)">ServiceInvocationException(String)</h4>
-  <div class="markdown level1 summary"></div>
+  <h4 id="ArmoniK_DevelopmentKit_Client_Exceptions_ServiceInvocationException__ctor_System_String_ArmoniK_DevelopmentKit_Client_Exceptions_ArmonikStatusCode_" data-uid="ArmoniK.DevelopmentKit.Client.Exceptions.ServiceInvocationException.#ctor(System.String,ArmoniK.DevelopmentKit.Client.Exceptions.ArmonikStatusCode)">ServiceInvocationException(String, ArmonikStatusCode)</h4>
+  <div class="markdown level1 summary"><p>The default constructor</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public ServiceInvocationException(string message)</code></pre>
+    <pre><code class="lang-csharp hljs">public ServiceInvocationException(string message, ArmonikStatusCode statusCode)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -223,24 +218,32 @@
       <tr>
         <td><span class="xref">System.String</span></td>
         <td><span class="parametername">message</span></td>
-        <td></td>
+        <td><p>The message to set for the exception</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="ArmoniK.DevelopmentKit.Client.Exceptions.ArmonikStatusCode.html">ArmonikStatusCode</a></td>
+        <td><span class="parametername">statusCode</span></td>
+        <td><p>the statusCode in the output</p>
+</td>
       </tr>
     </tbody>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/master/apiSpec/new?filename=ArmoniK_DevelopmentKit_Client_Exceptions_ServiceInvocationException__ctor_System_String_System_ArgumentException_.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Client.Exceptions.ServiceInvocationException.%23ctor(System.String%2CSystem.ArgumentException)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/master/apiSpec/new?filename=ArmoniK_DevelopmentKit_Client_Exceptions_ServiceInvocationException__ctor_System_String_System_ArgumentException_ArmoniK_DevelopmentKit_Client_Exceptions_ArmonikStatusCode_.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Client.Exceptions.ServiceInvocationException.%23ctor(System.String%2CSystem.ArgumentException%2CArmoniK.DevelopmentKit.Client.Exceptions.ArmonikStatusCode)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/master/UnifiedApi/Client/Exceptions/ServiceInvocationException.cs/#L47">View Source</a>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/master/UnifiedApi/Client/Exceptions/ServiceInvocationException.cs/#L78">View Source</a>
   </span>
   <a id="ArmoniK_DevelopmentKit_Client_Exceptions_ServiceInvocationException__ctor_" data-uid="ArmoniK.DevelopmentKit.Client.Exceptions.ServiceInvocationException.#ctor*"></a>
-  <h4 id="ArmoniK_DevelopmentKit_Client_Exceptions_ServiceInvocationException__ctor_System_String_System_ArgumentException_" data-uid="ArmoniK.DevelopmentKit.Client.Exceptions.ServiceInvocationException.#ctor(System.String,System.ArgumentException)">ServiceInvocationException(String, ArgumentException)</h4>
-  <div class="markdown level1 summary"></div>
+  <h4 id="ArmoniK_DevelopmentKit_Client_Exceptions_ServiceInvocationException__ctor_System_String_System_ArgumentException_ArmoniK_DevelopmentKit_Client_Exceptions_ArmonikStatusCode_" data-uid="ArmoniK.DevelopmentKit.Client.Exceptions.ServiceInvocationException.#ctor(System.String,System.ArgumentException,ArmoniK.DevelopmentKit.Client.Exceptions.ArmonikStatusCode)">ServiceInvocationException(String, ArgumentException, ArmonikStatusCode)</h4>
+  <div class="markdown level1 summary"><p>The overriden constructor to acceptation inner exception and message as parameters</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public ServiceInvocationException(string message, ArgumentException e)</code></pre>
+    <pre><code class="lang-csharp hljs">public ServiceInvocationException(string message, ArgumentException e, ArmonikStatusCode statusCode)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -255,12 +258,20 @@
       <tr>
         <td><span class="xref">System.String</span></td>
         <td><span class="parametername">message</span></td>
-        <td></td>
+        <td><p>The message to set in the exception</p>
+</td>
       </tr>
       <tr>
         <td><span class="xref">System.ArgumentException</span></td>
         <td><span class="parametername">e</span></td>
-        <td></td>
+        <td><p>The previous exception generated by failure</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="ArmoniK.DevelopmentKit.Client.Exceptions.ArmonikStatusCode.html">ArmonikStatusCode</a></td>
+        <td><span class="parametername">statusCode</span></td>
+        <td><p>The status of the task which is failing</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -271,11 +282,12 @@
     <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/master/apiSpec/new?filename=ArmoniK_DevelopmentKit_Client_Exceptions_ServiceInvocationException_Message.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Client.Exceptions.ServiceInvocationException.Message%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/master/UnifiedApi/Client/Exceptions/ServiceInvocationException.cs/#L52">View Source</a>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/master/UnifiedApi/Client/Exceptions/ServiceInvocationException.cs/#L88">View Source</a>
   </span>
   <a id="ArmoniK_DevelopmentKit_Client_Exceptions_ServiceInvocationException_Message_" data-uid="ArmoniK.DevelopmentKit.Client.Exceptions.ServiceInvocationException.Message*"></a>
   <h4 id="ArmoniK_DevelopmentKit_Client_Exceptions_ServiceInvocationException_Message" data-uid="ArmoniK.DevelopmentKit.Client.Exceptions.ServiceInvocationException.Message">Message</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Overriding the Message property</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -298,6 +310,68 @@
   </table>
   <h5 class="overrides">Overrides</h5>
   <div><span class="xref">System.Exception.Message</span></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/master/apiSpec/new?filename=ArmoniK_DevelopmentKit_Client_Exceptions_ServiceInvocationException_OutputDetails.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Client.Exceptions.ServiceInvocationException.OutputDetails%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/master/UnifiedApi/Client/Exceptions/ServiceInvocationException.cs/#L47">View Source</a>
+  </span>
+  <a id="ArmoniK_DevelopmentKit_Client_Exceptions_ServiceInvocationException_OutputDetails_" data-uid="ArmoniK.DevelopmentKit.Client.Exceptions.ServiceInvocationException.OutputDetails*"></a>
+  <h4 id="ArmoniK_DevelopmentKit_Client_Exceptions_ServiceInvocationException_OutputDetails" data-uid="ArmoniK.DevelopmentKit.Client.Exceptions.ServiceInvocationException.OutputDetails">OutputDetails</h4>
+  <div class="markdown level1 summary"><p>The error details coming from TaskOutput API</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string OutputDetails { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/master/apiSpec/new?filename=ArmoniK_DevelopmentKit_Client_Exceptions_ServiceInvocationException_StatusCode.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Client.Exceptions.ServiceInvocationException.StatusCode%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/master/UnifiedApi/Client/Exceptions/ServiceInvocationException.cs/#L42">View Source</a>
+  </span>
+  <a id="ArmoniK_DevelopmentKit_Client_Exceptions_ServiceInvocationException_StatusCode_" data-uid="ArmoniK.DevelopmentKit.Client.Exceptions.ServiceInvocationException.StatusCode*"></a>
+  <h4 id="ArmoniK_DevelopmentKit_Client_Exceptions_ServiceInvocationException_StatusCode" data-uid="ArmoniK.DevelopmentKit.Client.Exceptions.ServiceInvocationException.StatusCode">StatusCode</h4>
+  <div class="markdown level1 summary"><p>The status code when error occurred</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ArmonikStatusCode StatusCode { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="ArmoniK.DevelopmentKit.Client.Exceptions.ArmonikStatusCode.html">ArmonikStatusCode</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
   <h3 id="implements">Implements</h3>
   <div>
       <span class="xref">System.Runtime.InteropServices._Exception</span>
@@ -316,7 +390,7 @@
                     <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/master/apiSpec/new?filename=ArmoniK_DevelopmentKit_Client_Exceptions_ServiceInvocationException.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Client.Exceptions.ServiceInvocationException%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/master/UnifiedApi/Client/Exceptions/ServiceInvocationException.cs/#L33" class="contribution-link">View Source</a>
+                    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/master/UnifiedApi/Client/Exceptions/ServiceInvocationException.cs/#L34" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>

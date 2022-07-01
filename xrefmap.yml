@@ -44,6 +44,60 @@ references:
   commentId: N:ArmoniK.DevelopmentKit.Client.Exceptions
   fullName: ArmoniK.DevelopmentKit.Client.Exceptions
   nameWithType: ArmoniK.DevelopmentKit.Client.Exceptions
+- uid: ArmoniK.DevelopmentKit.Client.Exceptions.ArmonikStatusCode
+  name: ArmonikStatusCode
+  href: api/ArmoniK.DevelopmentKit.Client.Exceptions.ArmonikStatusCode.html
+  commentId: T:ArmoniK.DevelopmentKit.Client.Exceptions.ArmonikStatusCode
+  fullName: ArmoniK.DevelopmentKit.Client.Exceptions.ArmonikStatusCode
+  nameWithType: ArmonikStatusCode
+- uid: ArmoniK.DevelopmentKit.Client.Exceptions.ArmonikStatusCode.ResultError
+  name: ResultError
+  href: api/ArmoniK.DevelopmentKit.Client.Exceptions.ArmonikStatusCode.html#ArmoniK_DevelopmentKit_Client_Exceptions_ArmonikStatusCode_ResultError
+  commentId: F:ArmoniK.DevelopmentKit.Client.Exceptions.ArmonikStatusCode.ResultError
+  fullName: ArmoniK.DevelopmentKit.Client.Exceptions.ArmonikStatusCode.ResultError
+  nameWithType: ArmonikStatusCode.ResultError
+- uid: ArmoniK.DevelopmentKit.Client.Exceptions.ArmonikStatusCode.ResultNotReady
+  name: ResultNotReady
+  href: api/ArmoniK.DevelopmentKit.Client.Exceptions.ArmonikStatusCode.html#ArmoniK_DevelopmentKit_Client_Exceptions_ArmonikStatusCode_ResultNotReady
+  commentId: F:ArmoniK.DevelopmentKit.Client.Exceptions.ArmonikStatusCode.ResultNotReady
+  fullName: ArmoniK.DevelopmentKit.Client.Exceptions.ArmonikStatusCode.ResultNotReady
+  nameWithType: ArmonikStatusCode.ResultNotReady
+- uid: ArmoniK.DevelopmentKit.Client.Exceptions.ArmonikStatusCode.ResultReady
+  name: ResultReady
+  href: api/ArmoniK.DevelopmentKit.Client.Exceptions.ArmonikStatusCode.html#ArmoniK_DevelopmentKit_Client_Exceptions_ArmonikStatusCode_ResultReady
+  commentId: F:ArmoniK.DevelopmentKit.Client.Exceptions.ArmonikStatusCode.ResultReady
+  fullName: ArmoniK.DevelopmentKit.Client.Exceptions.ArmonikStatusCode.ResultReady
+  nameWithType: ArmonikStatusCode.ResultReady
+- uid: ArmoniK.DevelopmentKit.Client.Exceptions.ArmonikStatusCode.TaskCanceled
+  name: TaskCanceled
+  href: api/ArmoniK.DevelopmentKit.Client.Exceptions.ArmonikStatusCode.html#ArmoniK_DevelopmentKit_Client_Exceptions_ArmonikStatusCode_TaskCanceled
+  commentId: F:ArmoniK.DevelopmentKit.Client.Exceptions.ArmonikStatusCode.TaskCanceled
+  fullName: ArmoniK.DevelopmentKit.Client.Exceptions.ArmonikStatusCode.TaskCanceled
+  nameWithType: ArmonikStatusCode.TaskCanceled
+- uid: ArmoniK.DevelopmentKit.Client.Exceptions.ArmonikStatusCode.TaskCompleted
+  name: TaskCompleted
+  href: api/ArmoniK.DevelopmentKit.Client.Exceptions.ArmonikStatusCode.html#ArmoniK_DevelopmentKit_Client_Exceptions_ArmonikStatusCode_TaskCompleted
+  commentId: F:ArmoniK.DevelopmentKit.Client.Exceptions.ArmonikStatusCode.TaskCompleted
+  fullName: ArmoniK.DevelopmentKit.Client.Exceptions.ArmonikStatusCode.TaskCompleted
+  nameWithType: ArmonikStatusCode.TaskCompleted
+- uid: ArmoniK.DevelopmentKit.Client.Exceptions.ArmonikStatusCode.TaskFailed
+  name: TaskFailed
+  href: api/ArmoniK.DevelopmentKit.Client.Exceptions.ArmonikStatusCode.html#ArmoniK_DevelopmentKit_Client_Exceptions_ArmonikStatusCode_TaskFailed
+  commentId: F:ArmoniK.DevelopmentKit.Client.Exceptions.ArmonikStatusCode.TaskFailed
+  fullName: ArmoniK.DevelopmentKit.Client.Exceptions.ArmonikStatusCode.TaskFailed
+  nameWithType: ArmonikStatusCode.TaskFailed
+- uid: ArmoniK.DevelopmentKit.Client.Exceptions.ArmonikStatusCode.TaskTimeout
+  name: TaskTimeout
+  href: api/ArmoniK.DevelopmentKit.Client.Exceptions.ArmonikStatusCode.html#ArmoniK_DevelopmentKit_Client_Exceptions_ArmonikStatusCode_TaskTimeout
+  commentId: F:ArmoniK.DevelopmentKit.Client.Exceptions.ArmonikStatusCode.TaskTimeout
+  fullName: ArmoniK.DevelopmentKit.Client.Exceptions.ArmonikStatusCode.TaskTimeout
+  nameWithType: ArmonikStatusCode.TaskTimeout
+- uid: ArmoniK.DevelopmentKit.Client.Exceptions.ArmonikStatusCode.Unknown
+  name: Unknown
+  href: api/ArmoniK.DevelopmentKit.Client.Exceptions.ArmonikStatusCode.html#ArmoniK_DevelopmentKit_Client_Exceptions_ArmonikStatusCode_Unknown
+  commentId: F:ArmoniK.DevelopmentKit.Client.Exceptions.ArmonikStatusCode.Unknown
+  fullName: ArmoniK.DevelopmentKit.Client.Exceptions.ArmonikStatusCode.Unknown
+  nameWithType: ArmonikStatusCode.Unknown
 - uid: ArmoniK.DevelopmentKit.Client.Exceptions.GridClientException
   name: GridClientException
   href: api/ArmoniK.DevelopmentKit.Client.Exceptions.GridClientException.html
@@ -75,30 +129,24 @@ references:
   commentId: T:ArmoniK.DevelopmentKit.Client.Exceptions.ServiceInvocationException
   fullName: ArmoniK.DevelopmentKit.Client.Exceptions.ServiceInvocationException
   nameWithType: ServiceInvocationException
-- uid: ArmoniK.DevelopmentKit.Client.Exceptions.ServiceInvocationException.#ctor
-  name: ServiceInvocationException()
-  href: api/ArmoniK.DevelopmentKit.Client.Exceptions.ServiceInvocationException.html#ArmoniK_DevelopmentKit_Client_Exceptions_ServiceInvocationException__ctor
-  commentId: M:ArmoniK.DevelopmentKit.Client.Exceptions.ServiceInvocationException.#ctor
-  fullName: ArmoniK.DevelopmentKit.Client.Exceptions.ServiceInvocationException.ServiceInvocationException()
-  nameWithType: ServiceInvocationException.ServiceInvocationException()
-- uid: ArmoniK.DevelopmentKit.Client.Exceptions.ServiceInvocationException.#ctor(System.Exception)
-  name: ServiceInvocationException(Exception)
-  href: api/ArmoniK.DevelopmentKit.Client.Exceptions.ServiceInvocationException.html#ArmoniK_DevelopmentKit_Client_Exceptions_ServiceInvocationException__ctor_System_Exception_
-  commentId: M:ArmoniK.DevelopmentKit.Client.Exceptions.ServiceInvocationException.#ctor(System.Exception)
-  fullName: ArmoniK.DevelopmentKit.Client.Exceptions.ServiceInvocationException.ServiceInvocationException(System.Exception)
-  nameWithType: ServiceInvocationException.ServiceInvocationException(Exception)
-- uid: ArmoniK.DevelopmentKit.Client.Exceptions.ServiceInvocationException.#ctor(System.String)
-  name: ServiceInvocationException(String)
-  href: api/ArmoniK.DevelopmentKit.Client.Exceptions.ServiceInvocationException.html#ArmoniK_DevelopmentKit_Client_Exceptions_ServiceInvocationException__ctor_System_String_
-  commentId: M:ArmoniK.DevelopmentKit.Client.Exceptions.ServiceInvocationException.#ctor(System.String)
-  fullName: ArmoniK.DevelopmentKit.Client.Exceptions.ServiceInvocationException.ServiceInvocationException(System.String)
-  nameWithType: ServiceInvocationException.ServiceInvocationException(String)
-- uid: ArmoniK.DevelopmentKit.Client.Exceptions.ServiceInvocationException.#ctor(System.String,System.ArgumentException)
-  name: ServiceInvocationException(String, ArgumentException)
-  href: api/ArmoniK.DevelopmentKit.Client.Exceptions.ServiceInvocationException.html#ArmoniK_DevelopmentKit_Client_Exceptions_ServiceInvocationException__ctor_System_String_System_ArgumentException_
-  commentId: M:ArmoniK.DevelopmentKit.Client.Exceptions.ServiceInvocationException.#ctor(System.String,System.ArgumentException)
-  fullName: ArmoniK.DevelopmentKit.Client.Exceptions.ServiceInvocationException.ServiceInvocationException(System.String, System.ArgumentException)
-  nameWithType: ServiceInvocationException.ServiceInvocationException(String, ArgumentException)
+- uid: ArmoniK.DevelopmentKit.Client.Exceptions.ServiceInvocationException.#ctor(System.Exception,ArmoniK.DevelopmentKit.Client.Exceptions.ArmonikStatusCode)
+  name: ServiceInvocationException(Exception, ArmonikStatusCode)
+  href: api/ArmoniK.DevelopmentKit.Client.Exceptions.ServiceInvocationException.html#ArmoniK_DevelopmentKit_Client_Exceptions_ServiceInvocationException__ctor_System_Exception_ArmoniK_DevelopmentKit_Client_Exceptions_ArmonikStatusCode_
+  commentId: M:ArmoniK.DevelopmentKit.Client.Exceptions.ServiceInvocationException.#ctor(System.Exception,ArmoniK.DevelopmentKit.Client.Exceptions.ArmonikStatusCode)
+  fullName: ArmoniK.DevelopmentKit.Client.Exceptions.ServiceInvocationException.ServiceInvocationException(System.Exception, ArmoniK.DevelopmentKit.Client.Exceptions.ArmonikStatusCode)
+  nameWithType: ServiceInvocationException.ServiceInvocationException(Exception, ArmonikStatusCode)
+- uid: ArmoniK.DevelopmentKit.Client.Exceptions.ServiceInvocationException.#ctor(System.String,ArmoniK.DevelopmentKit.Client.Exceptions.ArmonikStatusCode)
+  name: ServiceInvocationException(String, ArmonikStatusCode)
+  href: api/ArmoniK.DevelopmentKit.Client.Exceptions.ServiceInvocationException.html#ArmoniK_DevelopmentKit_Client_Exceptions_ServiceInvocationException__ctor_System_String_ArmoniK_DevelopmentKit_Client_Exceptions_ArmonikStatusCode_
+  commentId: M:ArmoniK.DevelopmentKit.Client.Exceptions.ServiceInvocationException.#ctor(System.String,ArmoniK.DevelopmentKit.Client.Exceptions.ArmonikStatusCode)
+  fullName: ArmoniK.DevelopmentKit.Client.Exceptions.ServiceInvocationException.ServiceInvocationException(System.String, ArmoniK.DevelopmentKit.Client.Exceptions.ArmonikStatusCode)
+  nameWithType: ServiceInvocationException.ServiceInvocationException(String, ArmonikStatusCode)
+- uid: ArmoniK.DevelopmentKit.Client.Exceptions.ServiceInvocationException.#ctor(System.String,System.ArgumentException,ArmoniK.DevelopmentKit.Client.Exceptions.ArmonikStatusCode)
+  name: ServiceInvocationException(String, ArgumentException, ArmonikStatusCode)
+  href: api/ArmoniK.DevelopmentKit.Client.Exceptions.ServiceInvocationException.html#ArmoniK_DevelopmentKit_Client_Exceptions_ServiceInvocationException__ctor_System_String_System_ArgumentException_ArmoniK_DevelopmentKit_Client_Exceptions_ArmonikStatusCode_
+  commentId: M:ArmoniK.DevelopmentKit.Client.Exceptions.ServiceInvocationException.#ctor(System.String,System.ArgumentException,ArmoniK.DevelopmentKit.Client.Exceptions.ArmonikStatusCode)
+  fullName: ArmoniK.DevelopmentKit.Client.Exceptions.ServiceInvocationException.ServiceInvocationException(System.String, System.ArgumentException, ArmoniK.DevelopmentKit.Client.Exceptions.ArmonikStatusCode)
+  nameWithType: ServiceInvocationException.ServiceInvocationException(String, ArgumentException, ArmonikStatusCode)
 - uid: ArmoniK.DevelopmentKit.Client.Exceptions.ServiceInvocationException.#ctor*
   name: ServiceInvocationException
   href: api/ArmoniK.DevelopmentKit.Client.Exceptions.ServiceInvocationException.html#ArmoniK_DevelopmentKit_Client_Exceptions_ServiceInvocationException__ctor_
@@ -119,6 +167,32 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.Client.Exceptions.ServiceInvocationException.Message
   nameWithType: ServiceInvocationException.Message
+- uid: ArmoniK.DevelopmentKit.Client.Exceptions.ServiceInvocationException.OutputDetails
+  name: OutputDetails
+  href: api/ArmoniK.DevelopmentKit.Client.Exceptions.ServiceInvocationException.html#ArmoniK_DevelopmentKit_Client_Exceptions_ServiceInvocationException_OutputDetails
+  commentId: P:ArmoniK.DevelopmentKit.Client.Exceptions.ServiceInvocationException.OutputDetails
+  fullName: ArmoniK.DevelopmentKit.Client.Exceptions.ServiceInvocationException.OutputDetails
+  nameWithType: ServiceInvocationException.OutputDetails
+- uid: ArmoniK.DevelopmentKit.Client.Exceptions.ServiceInvocationException.OutputDetails*
+  name: OutputDetails
+  href: api/ArmoniK.DevelopmentKit.Client.Exceptions.ServiceInvocationException.html#ArmoniK_DevelopmentKit_Client_Exceptions_ServiceInvocationException_OutputDetails_
+  commentId: Overload:ArmoniK.DevelopmentKit.Client.Exceptions.ServiceInvocationException.OutputDetails
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Client.Exceptions.ServiceInvocationException.OutputDetails
+  nameWithType: ServiceInvocationException.OutputDetails
+- uid: ArmoniK.DevelopmentKit.Client.Exceptions.ServiceInvocationException.StatusCode
+  name: StatusCode
+  href: api/ArmoniK.DevelopmentKit.Client.Exceptions.ServiceInvocationException.html#ArmoniK_DevelopmentKit_Client_Exceptions_ServiceInvocationException_StatusCode
+  commentId: P:ArmoniK.DevelopmentKit.Client.Exceptions.ServiceInvocationException.StatusCode
+  fullName: ArmoniK.DevelopmentKit.Client.Exceptions.ServiceInvocationException.StatusCode
+  nameWithType: ServiceInvocationException.StatusCode
+- uid: ArmoniK.DevelopmentKit.Client.Exceptions.ServiceInvocationException.StatusCode*
+  name: StatusCode
+  href: api/ArmoniK.DevelopmentKit.Client.Exceptions.ServiceInvocationException.html#ArmoniK_DevelopmentKit_Client_Exceptions_ServiceInvocationException_StatusCode_
+  commentId: Overload:ArmoniK.DevelopmentKit.Client.Exceptions.ServiceInvocationException.StatusCode
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Client.Exceptions.ServiceInvocationException.StatusCode
+  nameWithType: ServiceInvocationException.StatusCode
 - uid: ArmoniK.DevelopmentKit.Client.Factory
   name: ArmoniK.DevelopmentKit.Client.Factory
   href: api/ArmoniK.DevelopmentKit.Client.Factory.html
@@ -2269,6 +2343,58 @@ references:
   fullName.vb: ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter(Of T).GetResultStatus
   nameWithType: BaseClientSubmitter<T>.GetResultStatus
   nameWithType.vb: BaseClientSubmitter(Of T).GetResultStatus
+- uid: ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter`1.GetTaskOutputInfo(System.String)
+  name: GetTaskOutputInfo(String)
+  href: api/ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Common_Submitter_BaseClientSubmitter_1_GetTaskOutputInfo_System_String_
+  commentId: M:ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter`1.GetTaskOutputInfo(System.String)
+  fullName: ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter<T>.GetTaskOutputInfo(System.String)
+  fullName.vb: ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter(Of T).GetTaskOutputInfo(System.String)
+  nameWithType: BaseClientSubmitter<T>.GetTaskOutputInfo(String)
+  nameWithType.vb: BaseClientSubmitter(Of T).GetTaskOutputInfo(String)
+- uid: ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter`1.GetTaskOutputInfo*
+  name: GetTaskOutputInfo
+  href: api/ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Common_Submitter_BaseClientSubmitter_1_GetTaskOutputInfo_
+  commentId: Overload:ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter`1.GetTaskOutputInfo
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter<T>.GetTaskOutputInfo
+  fullName.vb: ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter(Of T).GetTaskOutputInfo
+  nameWithType: BaseClientSubmitter<T>.GetTaskOutputInfo
+  nameWithType.vb: BaseClientSubmitter(Of T).GetTaskOutputInfo
+- uid: ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter`1.GetTaskStatues(System.String[])
+  name: GetTaskStatues(String[])
+  href: api/ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Common_Submitter_BaseClientSubmitter_1_GetTaskStatues_System_String___
+  commentId: M:ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter`1.GetTaskStatues(System.String[])
+  name.vb: GetTaskStatues(String())
+  fullName: ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter<T>.GetTaskStatues(System.String[])
+  fullName.vb: ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter(Of T).GetTaskStatues(System.String())
+  nameWithType: BaseClientSubmitter<T>.GetTaskStatues(String[])
+  nameWithType.vb: BaseClientSubmitter(Of T).GetTaskStatues(String())
+- uid: ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter`1.GetTaskStatues*
+  name: GetTaskStatues
+  href: api/ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Common_Submitter_BaseClientSubmitter_1_GetTaskStatues_
+  commentId: Overload:ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter`1.GetTaskStatues
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter<T>.GetTaskStatues
+  fullName.vb: ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter(Of T).GetTaskStatues
+  nameWithType: BaseClientSubmitter<T>.GetTaskStatues
+  nameWithType.vb: BaseClientSubmitter(Of T).GetTaskStatues
+- uid: ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter`1.GetTaskStatus(System.String)
+  name: GetTaskStatus(String)
+  href: api/ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Common_Submitter_BaseClientSubmitter_1_GetTaskStatus_System_String_
+  commentId: M:ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter`1.GetTaskStatus(System.String)
+  fullName: ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter<T>.GetTaskStatus(System.String)
+  fullName.vb: ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter(Of T).GetTaskStatus(System.String)
+  nameWithType: BaseClientSubmitter<T>.GetTaskStatus(String)
+  nameWithType.vb: BaseClientSubmitter(Of T).GetTaskStatus(String)
+- uid: ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter`1.GetTaskStatus*
+  name: GetTaskStatus
+  href: api/ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Common_Submitter_BaseClientSubmitter_1_GetTaskStatus_
+  commentId: Overload:ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter`1.GetTaskStatus
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter<T>.GetTaskStatus
+  fullName.vb: ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter(Of T).GetTaskStatus
+  nameWithType: BaseClientSubmitter<T>.GetTaskStatus
+  nameWithType.vb: BaseClientSubmitter(Of T).GetTaskStatus
 - uid: ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter`1.HealthCheckResult(System.String)
   name: HealthCheckResult(String)
   href: api/ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Common_Submitter_BaseClientSubmitter_1_HealthCheckResult_System_String_
@@ -8602,6 +8728,19 @@ references:
   isSpec: "True"
   fullName: ArmoniK.EndToEndTests.Tests.CheckGridServer.SimpleServiceContainer.NonStaticComputeMadd
   nameWithType: SimpleServiceContainer.NonStaticComputeMadd
+- uid: ArmoniK.EndToEndTests.Tests.CheckGridServer.SimpleServiceContainer.RandomTaskError(System.Double)
+  name: RandomTaskError(Double)
+  href: api/ArmoniK.EndToEndTests.Tests.CheckGridServer.SimpleServiceContainer.html#ArmoniK_EndToEndTests_Tests_CheckGridServer_SimpleServiceContainer_RandomTaskError_System_Double_
+  commentId: M:ArmoniK.EndToEndTests.Tests.CheckGridServer.SimpleServiceContainer.RandomTaskError(System.Double)
+  fullName: ArmoniK.EndToEndTests.Tests.CheckGridServer.SimpleServiceContainer.RandomTaskError(System.Double)
+  nameWithType: SimpleServiceContainer.RandomTaskError(Double)
+- uid: ArmoniK.EndToEndTests.Tests.CheckGridServer.SimpleServiceContainer.RandomTaskError*
+  name: RandomTaskError
+  href: api/ArmoniK.EndToEndTests.Tests.CheckGridServer.SimpleServiceContainer.html#ArmoniK_EndToEndTests_Tests_CheckGridServer_SimpleServiceContainer_RandomTaskError_
+  commentId: Overload:ArmoniK.EndToEndTests.Tests.CheckGridServer.SimpleServiceContainer.RandomTaskError
+  isSpec: "True"
+  fullName: ArmoniK.EndToEndTests.Tests.CheckGridServer.SimpleServiceContainer.RandomTaskError
+  nameWithType: SimpleServiceContainer.RandomTaskError
 - uid: ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy
   name: ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy
   href: api/ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy.html
@@ -9743,6 +9882,19 @@ references:
   isSpec: "True"
   fullName: ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.SimpleService.NonStaticComputeMadd
   nameWithType: SimpleService.NonStaticComputeMadd
+- uid: ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.SimpleService.RandomTaskError(System.Double)
+  name: RandomTaskError(Double)
+  href: api/ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.SimpleService.html#ArmoniK_EndToEndTests_Tests_CheckUnifiedApi_SimpleService_RandomTaskError_System_Double_
+  commentId: M:ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.SimpleService.RandomTaskError(System.Double)
+  fullName: ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.SimpleService.RandomTaskError(System.Double)
+  nameWithType: SimpleService.RandomTaskError(Double)
+- uid: ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.SimpleService.RandomTaskError*
+  name: RandomTaskError
+  href: api/ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.SimpleService.html#ArmoniK_EndToEndTests_Tests_CheckUnifiedApi_SimpleService_RandomTaskError_
+  commentId: Overload:ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.SimpleService.RandomTaskError
+  isSpec: "True"
+  fullName: ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.SimpleService.RandomTaskError
+  nameWithType: SimpleService.RandomTaskError
 - uid: ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.SimpleUnifiedApiAdminTestClient
   name: SimpleUnifiedApiAdminTestClient
   href: api/ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.SimpleUnifiedApiAdminTestClient.html
