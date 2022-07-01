@@ -134,7 +134,7 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
     /// <returns></returns>
     public TaskStatus GetTaskStatus(string taskId)
     {
-      var status = GetTaskStatues(taskId).First();
+      var status = GetTaskStatues(taskId).Single();
 
       return status.Item2;
     }

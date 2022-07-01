@@ -21,16 +21,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using ArmoniK.DevelopmentKit.GridServer.Client;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-
-using ArmoniK.DevelopmentKit.Client.Exceptions;
-using ArmoniK.DevelopmentKit.Common;
-using ArmoniK.DevelopmentKit.Common.Exceptions;
-using ArmoniK.DevelopmentKit.GridServer.Client;
-
-using Microsoft.Extensions.Logging;
 
 namespace ArmoniK.EndToEndTests.Tests.CheckUnifiedApi
 {
