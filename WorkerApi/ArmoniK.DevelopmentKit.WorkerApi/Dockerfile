@@ -29,14 +29,15 @@ FROM build AS publish
 RUN dotnet publish "ArmoniK.DevelopmentKit.WorkerApi.csproj" -c Deubug -f net6.0 -o /app/publish -r linux-x64 --self-contained true
 
 FROM base AS final
-WORKDIR /root
-COPY --from=tools /root/.vs-debugger .vs-debugger
 WORKDIR /app
 COPY --from=publish /app/publish .
 ENV LD_LIBRARY_PATH=.:$LD_LIBRARY_PATH
 
 RUN groupadd --gid 5000 armonikuser && useradd --home-dir /home/armonikuser --create-home --uid 5000 --gid 5000 --shell /bin/sh --skel /dev/null armonikuser
-RUN mkdir /cache && chown armonikuser: /cache
+
+WORKDIR /home/armonikuser
+COPY --from=tools /root/.vs-debugger .vs-debugger
+RUN mkdir /cache && chown armonikuser: /cache && chown -R armonikuser: /home/armonikuser/.vs-debugger
 USER armonikuser
 
 ENTRYPOINT ["dotnet", "ArmoniK.DevelopmentKit.WorkerApi.dll"]
