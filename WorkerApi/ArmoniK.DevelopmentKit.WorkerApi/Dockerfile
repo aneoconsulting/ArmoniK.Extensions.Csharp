@@ -35,8 +35,7 @@ ENV LD_LIBRARY_PATH=.:$LD_LIBRARY_PATH
 
 RUN groupadd --gid 5000 armonikuser && useradd --home-dir /home/armonikuser --create-home --uid 5000 --gid 5000 --shell /bin/sh --skel /dev/null armonikuser
 
-WORKDIR /home/armonikuser
-COPY --from=tools /root/.vs-debugger .vs-debugger
+COPY --from=tools /root/.vs-debugger /home/armonikuser/.vs-debugger
 RUN mkdir /cache && chown armonikuser: /cache && chown -R armonikuser: /home/armonikuser/.vs-debugger
 USER armonikuser
 
