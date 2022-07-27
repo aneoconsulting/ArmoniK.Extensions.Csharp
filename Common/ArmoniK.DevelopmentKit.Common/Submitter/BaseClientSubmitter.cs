@@ -102,8 +102,6 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
         Session = SessionId.Id,
       };
 
-      WaitForTaskCompletion(taskId);
-
       Retry.WhileException(5,
                            200,
                            () =>
@@ -114,11 +112,11 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
                              {
                                case Output.TypeOneofCase.None:
                                  Logger.LogError($"Issue retrieving result of task : {taskId} from session {SessionId.Id}");
-                                 throw new Exception("Issue with Server !");
+                                 throw new ClientApiException("Issue with Server !");
                                case Output.TypeOneofCase.Ok:
                                  break;
                                case Output.TypeOneofCase.Error:
-                                 throw new Exception($"HealthCheck result: Task in Error - {taskId}\nMessage :\n[{taskOutput.Error.Details}]");
+                                 throw new ClientApiException($"HealthCheck result: Task in Error - {taskId}\nMessage :\n[{taskOutput.Error.Details}]");
                                default:
                                  throw new ArgumentOutOfRangeException();
                              }
@@ -401,7 +399,9 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
                                case AvailabilityReply.TypeOneofCase.Ok:
                                  break;
                                case AvailabilityReply.TypeOneofCase.Error:
-                                 throw new Exception($"Task in Error - {taskId}\nMessage :\n{string.Join("Inner message:\n", availabilityReply.Error.Error)}");
+                                 throw new ClientResultsException(
+                                   $"Task in Error - {taskId}\nMessage :\n{string.Join("Inner message:\n", availabilityReply.Error.Error)}",
+                                   taskId);
                                case AvailabilityReply.TypeOneofCase.NotCompletedTask:
                                  throw new DataException($"Task {taskId} was not yet completed");
                                default:
@@ -418,10 +418,11 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
       res = TryGetResult(taskId,
                          cancellationToken: cancellationToken);
 
-      if (res.Length != 0) return res;
+      if (res != null) return res;
       else
       {
-        throw new ArgumentException($"Cannot retrieve result for taskId {taskId}");
+        throw new ClientResultsException($"Cannot retrieve result for taskId {taskId}",
+                                         taskId);
       }
     }
 
@@ -473,26 +474,42 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
                                                {
                                                  response = ControlPlaneService.TryGetResultAsync(resultRequest,
                                                                                                   cancellationToken);
-
-
-                                                 if (response.Result != null && response.Result.Length != 0)
-                                                   return response.Result;
+                                                 
                                                }
                                                catch (AggregateException ex)
                                                {
-                                                 if (ex.InnerException is RpcException { StatusCode: StatusCode.NotFound })
+                                                 if (ex.InnerException == null)
+                                                   throw;
+
+                                                 var rpcException = ex.InnerException;
+
+                                                 switch (rpcException)
                                                  {
-                                                   return null;
+                                                   //Not yet available return from the tryGetResult
+                                                   case RpcException { StatusCode: StatusCode.NotFound }:
+                                                     return null;
+
+                                                   //We lost the communication rethrow to retry :
+                                                   case RpcException { StatusCode: StatusCode.Unavailable }:
+                                                     throw;
+
+                                                   case RpcException { StatusCode: StatusCode.Aborted or StatusCode.Cancelled }:
+
+                                                     Logger.LogError(rpcException,
+                                                                     rpcException.Message);
+                                                     response = null;
+
+                                                     break;
+                                                   default:
+                                                     throw;
                                                  }
-
-                                                 throw;
                                                }
-
-                                               if (!checkOutput) return response.Result;
 
                                                var taskOutput = ControlPlaneService.TryGetTaskOutput(resultRequest,
                                                                                                      cancellationToken: cancellationToken);
-                                               if (taskOutput.Status != TaskStatus.Error)
+
+                                               //Unbelievable but in case the response still have something to return ??
+                                               if (taskOutput.Status != TaskStatus.Error && response != null)
                                                  return response.Result;
 
                                                switch (taskOutput.TypeCase)
@@ -501,9 +518,15 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
                                                  case Output.TypeOneofCase.Ok:
                                                    break;
                                                  case Output.TypeOneofCase.Error when !string.IsNullOrEmpty(taskOutput.Error.Details):
-                                                   throw new Exception($"Task in Error - {taskId} : {taskOutput.Error.Details}");
+                                                   throw new ClientResultsException($"Task in Error - {taskId} : {taskOutput.Error.Details}",
+                                                                                    taskId);
+                                                 default:
+                                                   throw new ArgumentOutOfRangeException();
                                                }
 
+                                               if (response == null)
+                                                 throw new ClientResultsException($"Unknown error to retrieve result of task {taskId}",
+                                                                                  taskId);
                                                return response.Result;
                                              },
                                              true,
@@ -539,7 +562,7 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
 
           msg += $" ]\n";
 
-          var taskIdInError = resultStatus.IdsError.Any() ? resultStatus.IdsError.Single() : resultStatus.IdsResultError.Single().Item1;
+          var taskIdInError = resultStatus.IdsError.Any() ? resultStatus.IdsError.First() : resultStatus.IdsResultError.First().Item1;
 
           msg += $"1st task Id {taskIdInError} in error : root cause : \n";
           var taskStatus = GetTaskStatus(taskIdInError);
