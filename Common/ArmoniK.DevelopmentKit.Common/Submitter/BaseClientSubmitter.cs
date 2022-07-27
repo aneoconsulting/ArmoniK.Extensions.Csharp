@@ -102,6 +102,8 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
         Session = SessionId.Id,
       };
 
+      WaitForTaskCompletion(taskId);
+
       Retry.WhileException(5,
                            200,
                            () =>
