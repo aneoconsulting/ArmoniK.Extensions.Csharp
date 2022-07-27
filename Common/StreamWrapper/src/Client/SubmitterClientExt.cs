@@ -60,7 +60,7 @@ namespace ArmoniK.Extensions.Common.StreamWrapper.Client
       var serviceConfiguration = await client.GetServiceConfigurationAsync(new(),
                                                                            cancellationToken: cancellationToken);
 
-      var stream = client.CreateLargeTasks(cancellationToken: cancellationToken);
+      using var stream = client.CreateLargeTasks(cancellationToken: cancellationToken);
 
       foreach (var createLargeTaskRequest in taskRequests.ToRequestStream(sessionId,
                                                                           taskOptions,
@@ -68,6 +68,8 @@ namespace ArmoniK.Extensions.Common.StreamWrapper.Client
       {
         await stream.RequestStream.WriteAsync(createLargeTaskRequest);
       }
+
+      await stream.RequestStream.CompleteAsync();
 
       return await stream.ResponseAsync;
     }
