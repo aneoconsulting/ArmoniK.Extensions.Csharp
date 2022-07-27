@@ -76,10 +76,10 @@ namespace ArmoniK.EndToEndTests.Tests.CheckRandomException
 
     private double ExpM1(double x)
     {
-      var percentageOfFailure = 0.3;
+      var percentageOfFailure = 60.0;
 
       var randNum             = rd.NextDouble();
-      if (randNum < (percentageOfFailure / 100))
+      if (randNum < percentageOfFailure / 100)
         throw new WorkerApiException("An expected failure in this random call");
 
       return ((((((((((((((15.0 + x) * x + 210.0) * x + 2730.0) * x + 32760.0) * x + 360360.0) * x + 3603600.0) * x + 32432400.0) * x + 259459200.0) * x +
@@ -101,17 +101,23 @@ namespace ArmoniK.EndToEndTests.Tests.CheckRandomException
     public override byte[] OnInvoke(SessionContext sessionContext, TaskContext taskContext)
     {
       var clientPayload = ClientPayload.Deserialize(taskContext.TaskInput);
+      using var _ = Logger.BeginScope("OnInvoke Random",
+                                      ("SessionId", sessionContext.SessionId),
+                                      ("TaskId", taskContext.TaskId),
+                                      ("ClientPayload", clientPayload.Type));
 
+      Logger.LogInformation("{ClientPayload} task, sessionId : {SessionId}, taskId : {TaskId}",
+                            clientPayload.Type,
+                            sessionContext.SessionId,
+                            taskContext.TaskId);
 
       switch (clientPayload.Type)
       {
         case ClientPayload.TaskType.Sleep:
-          Logger.LogInformation($"Empty task, sessionId : {sessionContext.SessionId}, taskId : {taskContext.TaskId}, sessionId from task : {taskContext.SessionId}");
           Thread.Sleep(clientPayload.Sleep * 1000);
           break;
         case ClientPayload.TaskType.Expm1:
           {
-            Logger.LogInformation($"ExpM1 task, sessionId : {sessionContext.SessionId}, taskId : {taskContext.TaskId}, sessionId from task : {taskContext.SessionId}");
             var result = 0.0;
 
             for (var idx = 2; idx > 0; idx--)

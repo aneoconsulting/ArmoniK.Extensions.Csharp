@@ -124,7 +124,8 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
                              }
                            },
                            true,
-                           typeof(IOException), typeof(RpcException));
+                           typeof(IOException),
+                           typeof(RpcException));
     }
 
     /// <summary>
@@ -152,7 +153,8 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
         {
           taskIds,
         },
-      }).IdStatus.Select(x=> Tuple.Create(x.TaskId, x.Status));
+      }).IdStatus.Select(x => Tuple.Create(x.TaskId,
+                                           x.Status));
     }
 
     /// <summary>
@@ -352,7 +354,7 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
                                           typeof(RpcException));
 
 
-      var ids     = taskIds as string[] ?? taskIds.ToArray();
+      var ids       = taskIds as string[] ?? taskIds.ToArray();
       var statusIds = idStatus as Tuple<string, ResultStatus>[] ?? idStatus.ToArray();
 
       var resultStatusList = new ResultStatusCollection()
@@ -520,7 +522,7 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
     {
       var resultStatus = GetResultStatus(taskIds);
 
-      if (!resultStatus.IdsReady.Any() && !resultStatus.IdsNotReady.Any()) 
+      if (!resultStatus.IdsReady.Any() && !resultStatus.IdsNotReady.Any())
       {
         if (resultStatus.IdsError.Any() || resultStatus.IdsResultError.Any())
         {
@@ -535,7 +537,22 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
             msg += $"{string.Join(", ", resultStatus.IdsError)}";
           }
 
-          msg += " ]";
+          msg += $" ]\n";
+
+          var taskIdInError = resultStatus.IdsError.Any() ? resultStatus.IdsError.Single() : resultStatus.IdsResultError.Single().Item1;
+
+          msg += $"1st task Id {taskIdInError} in error : root cause : \n";
+          var taskStatus = GetTaskStatus(taskIdInError);
+          if (taskStatus is TaskStatus.Error or TaskStatus.Failed)
+          {
+            var output = GetTaskOutputInfo(taskIdInError);
+            if (output is { TypeCase: Output.TypeOneofCase.Error })
+            {
+              msg += output.Error.Details;
+            }
+            else
+              msg += "Unknown root cause";
+          }
 
           Logger.LogError(msg);
 
@@ -562,7 +579,8 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
 
         var res = TryGetResult(id,
                                false);
-        return res == null ? null
+        return res == null
+          ? null
           : new Tuple<string, byte[]>(id,
                                       res);
       }).ToList().Where(el => el != null);

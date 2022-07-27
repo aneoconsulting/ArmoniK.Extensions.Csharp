@@ -34,6 +34,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+using Grpc.Core;
+
 using TaskStatus = ArmoniK.Api.gRPC.V1.TaskStatus;
 using WorkerApiException = ArmoniK.DevelopmentKit.Common.Exceptions.WorkerApiException;
 
@@ -156,15 +158,16 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Services
         Logger.LogError(ex,
                         "WorkerAPIException failure while executing task");
 
-        throw;
+        throw new RpcException(new Status(StatusCode.Aborted,
+                                          ex.Message + ex.StackTrace));
       }
 
       catch (Exception ex)
       {
         Logger.LogError(ex,
-                        "Umanaged Exception while executing task");
+                        "Unmanaged exception while executing task");
 
-        throw;
+        throw new RpcException(new Status(StatusCode.Aborted, ex.Message + ex.StackTrace));
       }
 
       return output;
