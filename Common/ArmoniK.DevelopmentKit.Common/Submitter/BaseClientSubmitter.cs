@@ -114,17 +114,18 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
                              {
                                case Output.TypeOneofCase.None:
                                  Logger.LogError($"Issue retrieving result of task : {taskId} from session {SessionId.Id}");
-                                 throw new Exception("Issue with Server !");
+                                 throw new ClientApiException("Issue with Server !");
                                case Output.TypeOneofCase.Ok:
                                  break;
                                case Output.TypeOneofCase.Error:
-                                 throw new Exception($"HealthCheck result: Task in Error - {taskId}\nMessage :\n[{taskOutput.Error.Details}]");
+                                 throw new ClientApiException($"HealthCheck result: Task in Error - {taskId}\nMessage :\n[{taskOutput.Error.Details}]");
                                default:
                                  throw new ArgumentOutOfRangeException();
                              }
                            },
                            true,
-                           typeof(IOException), typeof(RpcException));
+                           typeof(IOException),
+                           typeof(RpcException));
     }
 
     /// <summary>
@@ -152,11 +153,12 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
         {
           taskIds,
         },
-      }).IdStatus.Select(x=> Tuple.Create(x.TaskId, x.Status));
+      }).IdStatus.Select(x => Tuple.Create(x.TaskId,
+                                           x.Status));
     }
 
     /// <summary>
-    /// Return the taskOutput when error occured
+    /// Return the taskOutput when error occurred
     /// </summary>
     /// <param name="taskId"></param>
     /// <returns></returns>
@@ -352,7 +354,7 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
                                           typeof(RpcException));
 
 
-      var ids     = taskIds as string[] ?? taskIds.ToArray();
+      var ids       = taskIds as string[] ?? taskIds.ToArray();
       var statusIds = idStatus as Tuple<string, ResultStatus>[] ?? idStatus.ToArray();
 
       var resultStatusList = new ResultStatusCollection()
@@ -399,7 +401,9 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
                                case AvailabilityReply.TypeOneofCase.Ok:
                                  break;
                                case AvailabilityReply.TypeOneofCase.Error:
-                                 throw new Exception($"Task in Error - {taskId}\nMessage :\n{string.Join("Inner message:\n", availabilityReply.Error.Error)}");
+                                 throw new ClientResultsException(
+                                   $"Task in Error - {taskId}\nMessage :\n{string.Join("Inner message:\n", availabilityReply.Error.Error)}",
+                                   taskId);
                                case AvailabilityReply.TypeOneofCase.NotCompletedTask:
                                  throw new DataException($"Task {taskId} was not yet completed");
                                default:
@@ -416,10 +420,14 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
       res = TryGetResult(taskId,
                          cancellationToken: cancellationToken);
 
-      if (res.Length != 0) return res;
+      if (res != null)
+      {
+        return res;
+      }
       else
       {
-        throw new ArgumentException($"Cannot retrieve result for taskId {taskId}");
+        throw new ClientResultsException($"Cannot retrieve result for taskId {taskId}",
+                                         taskId);
       }
     }
 
@@ -471,27 +479,46 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
                                                {
                                                  response = ControlPlaneService.TryGetResultAsync(resultRequest,
                                                                                                   cancellationToken);
-
-
-                                                 if (response.Result != null && response.Result.Length != 0)
-                                                   return response.Result;
                                                }
                                                catch (AggregateException ex)
                                                {
-                                                 if (ex.InnerException is RpcException { StatusCode: StatusCode.NotFound })
+                                                 if (ex.InnerException == null)
                                                  {
-                                                   return null;
+                                                   throw;
                                                  }
 
-                                                 throw;
-                                               }
+                                                 var rpcException = ex.InnerException;
 
-                                               if (!checkOutput) return response.Result;
+                                                 switch (rpcException)
+                                                 {
+                                                   //Not yet available return from the tryGetResult
+                                                   case RpcException { StatusCode: StatusCode.NotFound }:
+                                                     return null;
+
+                                                   //We lost the communication rethrow to retry :
+                                                   case RpcException { StatusCode: StatusCode.Unavailable }:
+                                                     throw;
+
+                                                   case RpcException { StatusCode: StatusCode.Aborted or StatusCode.Cancelled }:
+
+                                                     Logger.LogError(rpcException,
+                                                                     rpcException.Message);
+                                                     response = null;
+
+                                                     break;
+                                                   default:
+                                                     throw;
+                                                 }
+                                               }
 
                                                var taskOutput = ControlPlaneService.TryGetTaskOutput(resultRequest,
                                                                                                      cancellationToken: cancellationToken);
-                                               if (taskOutput.Status != TaskStatus.Error)
+
+                                               //Unbelievable but in case the response still have something to return ??
+                                               if (taskOutput.Status != TaskStatus.Error && response != null)
+                                               {
                                                  return response.Result;
+                                               }
 
                                                switch (taskOutput.TypeCase)
                                                {
@@ -499,7 +526,16 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
                                                  case Output.TypeOneofCase.Ok:
                                                    break;
                                                  case Output.TypeOneofCase.Error when !string.IsNullOrEmpty(taskOutput.Error.Details):
-                                                   throw new Exception($"Task in Error - {taskId} : {taskOutput.Error.Details}");
+                                                   throw new ClientResultsException($"Task in Error - {taskId} : {taskOutput.Error.Details}",
+                                                                                    taskId);
+                                                 default:
+                                                   throw new ArgumentOutOfRangeException();
+                                               }
+
+                                               if (response == null)
+                                               {
+                                                 throw new ClientResultsException($"Unknown error while retrieving result of task {taskId}",
+                                                                                  taskId);
                                                }
 
                                                return response.Result;
@@ -520,7 +556,7 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
     {
       var resultStatus = GetResultStatus(taskIds);
 
-      if (!resultStatus.IdsReady.Any() && !resultStatus.IdsNotReady.Any()) 
+      if (!resultStatus.IdsReady.Any() && !resultStatus.IdsNotReady.Any())
       {
         if (resultStatus.IdsError.Any() || resultStatus.IdsResultError.Any())
         {
@@ -535,7 +571,24 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
             msg += $"{string.Join(", ", resultStatus.IdsError)}";
           }
 
-          msg += " ]";
+          msg += $" ]\n";
+
+          var taskIdInError = resultStatus.IdsError.Any() ? resultStatus.IdsError.First() : resultStatus.IdsResultError.First().Item1;
+
+          msg += $"1st task Id {taskIdInError} in error : root cause : \n";
+          var taskStatus = GetTaskStatus(taskIdInError);
+          if (taskStatus is TaskStatus.Error)
+          {
+            var output = GetTaskOutputInfo(taskIdInError);
+            if (output is { TypeCase: Output.TypeOneofCase.Error })
+            {
+              msg += output.Error.Details;
+            }
+            else
+            {
+              msg += "Unknown root cause";
+            }
+          }
 
           Logger.LogError(msg);
 
@@ -562,7 +615,8 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
 
         var res = TryGetResult(id,
                                false);
-        return res == null ? null
+        return res == null
+          ? null
           : new Tuple<string, byte[]>(id,
                                       res);
       }).ToList().Where(el => el != null);
