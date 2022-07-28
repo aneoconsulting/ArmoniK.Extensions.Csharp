@@ -158,7 +158,7 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
     }
 
     /// <summary>
-    /// Return the taskOutput when error occured
+    /// Return the taskOutput when error occurred
     /// </summary>
     /// <param name="taskId"></param>
     /// <returns></returns>
@@ -420,7 +420,10 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
       res = TryGetResult(taskId,
                          cancellationToken: cancellationToken);
 
-      if (res != null) return res;
+      if (res != null)
+      {
+        return res;
+      }
       else
       {
         throw new ClientResultsException($"Cannot retrieve result for taskId {taskId}",
@@ -476,12 +479,13 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
                                                {
                                                  response = ControlPlaneService.TryGetResultAsync(resultRequest,
                                                                                                   cancellationToken);
-                                                 
                                                }
                                                catch (AggregateException ex)
                                                {
                                                  if (ex.InnerException == null)
+                                                 {
                                                    throw;
+                                                 }
 
                                                  var rpcException = ex.InnerException;
 
@@ -512,7 +516,9 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
 
                                                //Unbelievable but in case the response still have something to return ??
                                                if (taskOutput.Status != TaskStatus.Error && response != null)
+                                               {
                                                  return response.Result;
+                                               }
 
                                                switch (taskOutput.TypeCase)
                                                {
@@ -527,8 +533,11 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
                                                }
 
                                                if (response == null)
-                                                 throw new ClientResultsException($"Unknown error to retrieve result of task {taskId}",
+                                               {
+                                                 throw new ClientResultsException($"Unknown error while retrieving result of task {taskId}",
                                                                                   taskId);
+                                               }
+
                                                return response.Result;
                                              },
                                              true,
@@ -568,7 +577,7 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
 
           msg += $"1st task Id {taskIdInError} in error : root cause : \n";
           var taskStatus = GetTaskStatus(taskIdInError);
-          if (taskStatus is TaskStatus.Error or TaskStatus.Failed)
+          if (taskStatus is TaskStatus.Error)
           {
             var output = GetTaskOutputInfo(taskIdInError);
             if (output is { TypeCase: Output.TypeOneofCase.Error })
@@ -576,7 +585,9 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
               msg += output.Error.Details;
             }
             else
+            {
               msg += "Unknown root cause";
+            }
           }
 
           Logger.LogError(msg);

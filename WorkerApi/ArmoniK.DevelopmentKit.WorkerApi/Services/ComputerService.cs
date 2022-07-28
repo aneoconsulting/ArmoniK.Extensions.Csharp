@@ -159,7 +159,7 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Services
                         "WorkerAPIException failure while executing task");
 
         throw new RpcException(new Status(StatusCode.Aborted,
-                                          ex.Message + ex.StackTrace));
+                                          ex.Message + Environment.NewLine + ex.StackTrace));
       }
 
       catch (Exception ex)
@@ -167,7 +167,7 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Services
         Logger.LogError(ex,
                         "Unmanaged exception while executing task");
 
-        throw new RpcException(new Status(StatusCode.Aborted, ex.Message + ex.StackTrace));
+        throw new RpcException(new Status(StatusCode.Aborted, ex.Message + Environment.NewLine + ex.StackTrace));
       }
 
       return output;
