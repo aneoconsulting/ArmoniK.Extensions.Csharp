@@ -2056,114 +2056,6 @@ references:
   fullName.vb: ArmoniK.DevelopmentKit.Common.Retry.WhileException(Of T)(System.Int32, System.Int32, System.Func(Of T), System.Boolean, System.Type())
   nameWithType: Retry.WhileException<T>(Int32, Int32, Func<T>, Boolean, Type[])
   nameWithType.vb: Retry.WhileException(Of T)(Int32, Int32, Func(Of T), Boolean, Type())
-- uid: ArmoniK.DevelopmentKit.Common.SerializeDelegate
-  name: SerializeDelegate
-  href: api/ArmoniK.DevelopmentKit.Common.SerializeDelegate.html
-  commentId: T:ArmoniK.DevelopmentKit.Common.SerializeDelegate
-  fullName: ArmoniK.DevelopmentKit.Common.SerializeDelegate
-  nameWithType: SerializeDelegate
-- uid: ArmoniK.DevelopmentKit.Common.SerializeDelegate.MethodConstructor
-  name: SerializeDelegate.MethodConstructor
-  href: api/ArmoniK.DevelopmentKit.Common.SerializeDelegate.MethodConstructor.html
-  commentId: T:ArmoniK.DevelopmentKit.Common.SerializeDelegate.MethodConstructor
-  fullName: ArmoniK.DevelopmentKit.Common.SerializeDelegate.MethodConstructor
-  nameWithType: SerializeDelegate.MethodConstructor
-- uid: ArmoniK.DevelopmentKit.Common.SerializeDelegate.MethodConstructor.#ctor(System.Reflection.MethodInfo)
-  name: MethodConstructor(MethodInfo)
-  href: api/ArmoniK.DevelopmentKit.Common.SerializeDelegate.MethodConstructor.html#ArmoniK_DevelopmentKit_Common_SerializeDelegate_MethodConstructor__ctor_System_Reflection_MethodInfo_
-  commentId: M:ArmoniK.DevelopmentKit.Common.SerializeDelegate.MethodConstructor.#ctor(System.Reflection.MethodInfo)
-  fullName: ArmoniK.DevelopmentKit.Common.SerializeDelegate.MethodConstructor.MethodConstructor(System.Reflection.MethodInfo)
-  nameWithType: SerializeDelegate.MethodConstructor.MethodConstructor(MethodInfo)
-- uid: ArmoniK.DevelopmentKit.Common.SerializeDelegate.MethodConstructor.#ctor*
-  name: MethodConstructor
-  href: api/ArmoniK.DevelopmentKit.Common.SerializeDelegate.MethodConstructor.html#ArmoniK_DevelopmentKit_Common_SerializeDelegate_MethodConstructor__ctor_
-  commentId: Overload:ArmoniK.DevelopmentKit.Common.SerializeDelegate.MethodConstructor.#ctor
-  isSpec: "True"
-  fullName: ArmoniK.DevelopmentKit.Common.SerializeDelegate.MethodConstructor.MethodConstructor
-  nameWithType: SerializeDelegate.MethodConstructor.MethodConstructor
-- uid: ArmoniK.DevelopmentKit.Common.SerializeDelegate.MethodConstructor.Construct*
-  name: Construct
-  href: api/ArmoniK.DevelopmentKit.Common.SerializeDelegate.MethodConstructor.html#ArmoniK_DevelopmentKit_Common_SerializeDelegate_MethodConstructor_Construct_
-  commentId: Overload:ArmoniK.DevelopmentKit.Common.SerializeDelegate.MethodConstructor.Construct
-  isSpec: "True"
-  fullName: ArmoniK.DevelopmentKit.Common.SerializeDelegate.MethodConstructor.Construct
-  nameWithType: SerializeDelegate.MethodConstructor.Construct
-- uid: ArmoniK.DevelopmentKit.Common.SerializeDelegate.MethodConstructor.Construct``1(ArmoniK.DevelopmentKit.Common.SerializeDelegate.MethodConstructor)
-  name: Construct<TDelegate>(SerializeDelegate.MethodConstructor)
-  href: api/ArmoniK.DevelopmentKit.Common.SerializeDelegate.MethodConstructor.html#ArmoniK_DevelopmentKit_Common_SerializeDelegate_MethodConstructor_Construct__1_ArmoniK_DevelopmentKit_Common_SerializeDelegate_MethodConstructor_
-  commentId: M:ArmoniK.DevelopmentKit.Common.SerializeDelegate.MethodConstructor.Construct``1(ArmoniK.DevelopmentKit.Common.SerializeDelegate.MethodConstructor)
-  name.vb: Construct(Of TDelegate)(SerializeDelegate.MethodConstructor)
-  fullName: ArmoniK.DevelopmentKit.Common.SerializeDelegate.MethodConstructor.Construct<TDelegate>(ArmoniK.DevelopmentKit.Common.SerializeDelegate.MethodConstructor)
-  fullName.vb: ArmoniK.DevelopmentKit.Common.SerializeDelegate.MethodConstructor.Construct(Of TDelegate)(ArmoniK.DevelopmentKit.Common.SerializeDelegate.MethodConstructor)
-  nameWithType: SerializeDelegate.MethodConstructor.Construct<TDelegate>(SerializeDelegate.MethodConstructor)
-  nameWithType.vb: SerializeDelegate.MethodConstructor.Construct(Of TDelegate)(SerializeDelegate.MethodConstructor)
-- uid: ArmoniK.DevelopmentKit.Common.SerializeDelegate.MethodConstructor.Deserialize*
-  name: Deserialize
-  href: api/ArmoniK.DevelopmentKit.Common.SerializeDelegate.MethodConstructor.html#ArmoniK_DevelopmentKit_Common_SerializeDelegate_MethodConstructor_Deserialize_
-  commentId: Overload:ArmoniK.DevelopmentKit.Common.SerializeDelegate.MethodConstructor.Deserialize
-  isSpec: "True"
-  fullName: ArmoniK.DevelopmentKit.Common.SerializeDelegate.MethodConstructor.Deserialize
-  nameWithType: SerializeDelegate.MethodConstructor.Deserialize
-- uid: ArmoniK.DevelopmentKit.Common.SerializeDelegate.MethodConstructor.Deserialize``1(System.Byte[])
-  name: Deserialize<TDelegate>(Byte[])
-  href: api/ArmoniK.DevelopmentKit.Common.SerializeDelegate.MethodConstructor.html#ArmoniK_DevelopmentKit_Common_SerializeDelegate_MethodConstructor_Deserialize__1_System_Byte___
-  commentId: M:ArmoniK.DevelopmentKit.Common.SerializeDelegate.MethodConstructor.Deserialize``1(System.Byte[])
-  name.vb: Deserialize(Of TDelegate)(Byte())
-  fullName: ArmoniK.DevelopmentKit.Common.SerializeDelegate.MethodConstructor.Deserialize<TDelegate>(System.Byte[])
-  fullName.vb: ArmoniK.DevelopmentKit.Common.SerializeDelegate.MethodConstructor.Deserialize(Of TDelegate)(System.Byte())
-  nameWithType: SerializeDelegate.MethodConstructor.Deserialize<TDelegate>(Byte[])
-  nameWithType.vb: SerializeDelegate.MethodConstructor.Deserialize(Of TDelegate)(Byte())
-- uid: ArmoniK.DevelopmentKit.Common.SerializeDelegate.MethodConstructor.Serialize(System.Delegate)
-  name: Serialize(Delegate)
-  href: api/ArmoniK.DevelopmentKit.Common.SerializeDelegate.MethodConstructor.html#ArmoniK_DevelopmentKit_Common_SerializeDelegate_MethodConstructor_Serialize_System_Delegate_
-  commentId: M:ArmoniK.DevelopmentKit.Common.SerializeDelegate.MethodConstructor.Serialize(System.Delegate)
-  fullName: ArmoniK.DevelopmentKit.Common.SerializeDelegate.MethodConstructor.Serialize(System.Delegate)
-  nameWithType: SerializeDelegate.MethodConstructor.Serialize(Delegate)
-- uid: ArmoniK.DevelopmentKit.Common.SerializeDelegate.MethodConstructor.Serialize(System.Reflection.MethodInfo)
-  name: Serialize(MethodInfo)
-  href: api/ArmoniK.DevelopmentKit.Common.SerializeDelegate.MethodConstructor.html#ArmoniK_DevelopmentKit_Common_SerializeDelegate_MethodConstructor_Serialize_System_Reflection_MethodInfo_
-  commentId: M:ArmoniK.DevelopmentKit.Common.SerializeDelegate.MethodConstructor.Serialize(System.Reflection.MethodInfo)
-  fullName: ArmoniK.DevelopmentKit.Common.SerializeDelegate.MethodConstructor.Serialize(System.Reflection.MethodInfo)
-  nameWithType: SerializeDelegate.MethodConstructor.Serialize(MethodInfo)
-- uid: ArmoniK.DevelopmentKit.Common.SerializeDelegate.MethodConstructor.Serialize*
-  name: Serialize
-  href: api/ArmoniK.DevelopmentKit.Common.SerializeDelegate.MethodConstructor.html#ArmoniK_DevelopmentKit_Common_SerializeDelegate_MethodConstructor_Serialize_
-  commentId: Overload:ArmoniK.DevelopmentKit.Common.SerializeDelegate.MethodConstructor.Serialize
-  isSpec: "True"
-  fullName: ArmoniK.DevelopmentKit.Common.SerializeDelegate.MethodConstructor.Serialize
-  nameWithType: SerializeDelegate.MethodConstructor.Serialize
-- uid: ArmoniK.DevelopmentKit.Common.SessionIdExtension
-  name: SessionIdExtension
-  href: api/ArmoniK.DevelopmentKit.Common.SessionIdExtension.html
-  commentId: T:ArmoniK.DevelopmentKit.Common.SessionIdExtension
-  fullName: ArmoniK.DevelopmentKit.Common.SessionIdExtension
-  nameWithType: SessionIdExtension
-- uid: ArmoniK.DevelopmentKit.Common.SessionIdExtension.PackSessionId(Session)
-  name: PackSessionId(Session)
-  href: api/ArmoniK.DevelopmentKit.Common.SessionIdExtension.html#ArmoniK_DevelopmentKit_Common_SessionIdExtension_PackSessionId_Session_
-  commentId: M:ArmoniK.DevelopmentKit.Common.SessionIdExtension.PackSessionId(Session)
-  fullName: ArmoniK.DevelopmentKit.Common.SessionIdExtension.PackSessionId(Session)
-  nameWithType: SessionIdExtension.PackSessionId(Session)
-- uid: ArmoniK.DevelopmentKit.Common.SessionIdExtension.PackSessionId*
-  name: PackSessionId
-  href: api/ArmoniK.DevelopmentKit.Common.SessionIdExtension.html#ArmoniK_DevelopmentKit_Common_SessionIdExtension_PackSessionId_
-  commentId: Overload:ArmoniK.DevelopmentKit.Common.SessionIdExtension.PackSessionId
-  isSpec: "True"
-  fullName: ArmoniK.DevelopmentKit.Common.SessionIdExtension.PackSessionId
-  nameWithType: SessionIdExtension.PackSessionId
-- uid: ArmoniK.DevelopmentKit.Common.SessionIdExtension.UnPackSessionId(System.String)
-  name: UnPackSessionId(String)
-  href: api/ArmoniK.DevelopmentKit.Common.SessionIdExtension.html#ArmoniK_DevelopmentKit_Common_SessionIdExtension_UnPackSessionId_System_String_
-  commentId: M:ArmoniK.DevelopmentKit.Common.SessionIdExtension.UnPackSessionId(System.String)
-  fullName: ArmoniK.DevelopmentKit.Common.SessionIdExtension.UnPackSessionId(System.String)
-  nameWithType: SessionIdExtension.UnPackSessionId(String)
-- uid: ArmoniK.DevelopmentKit.Common.SessionIdExtension.UnPackSessionId*
-  name: UnPackSessionId
-  href: api/ArmoniK.DevelopmentKit.Common.SessionIdExtension.html#ArmoniK_DevelopmentKit_Common_SessionIdExtension_UnPackSessionId_
-  commentId: Overload:ArmoniK.DevelopmentKit.Common.SessionIdExtension.UnPackSessionId
-  isSpec: "True"
-  fullName: ArmoniK.DevelopmentKit.Common.SessionIdExtension.UnPackSessionId
-  nameWithType: SessionIdExtension.UnPackSessionId
 - uid: ArmoniK.DevelopmentKit.Common.Status
   name: ArmoniK.DevelopmentKit.Common.Status
   href: api/ArmoniK.DevelopmentKit.Common.Status.html
@@ -2594,12 +2486,6 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.Common.Submitter.ClientServiceConnector.ControlPlaneConnection
   nameWithType: ClientServiceConnector.ControlPlaneConnection
-- uid: ArmoniK.DevelopmentKit.Common.TaskIdExt
-  name: TaskIdExt
-  href: api/ArmoniK.DevelopmentKit.Common.TaskIdExt.html
-  commentId: T:ArmoniK.DevelopmentKit.Common.TaskIdExt
-  fullName: ArmoniK.DevelopmentKit.Common.TaskIdExt
-  nameWithType: TaskIdExt
 - uid: ArmoniK.DevelopmentKit.Common.Timer
   name: ArmoniK.DevelopmentKit.Common.Timer
   href: api/ArmoniK.DevelopmentKit.Common.Timer.html
@@ -2923,215 +2809,6 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.GridServer.Client.ArmonikDataSynapseClientService.OpenSession
   nameWithType: ArmonikDataSynapseClientService.OpenSession
-- uid: ArmoniK.DevelopmentKit.GridServer.Client.BaseService`1
-  name: BaseService<T>
-  href: api/ArmoniK.DevelopmentKit.GridServer.Client.BaseService-1.html
-  commentId: T:ArmoniK.DevelopmentKit.GridServer.Client.BaseService`1
-  name.vb: BaseService(Of T)
-  fullName: ArmoniK.DevelopmentKit.GridServer.Client.BaseService<T>
-  fullName.vb: ArmoniK.DevelopmentKit.GridServer.Client.BaseService(Of T)
-  nameWithType: BaseService<T>
-  nameWithType.vb: BaseService(Of T)
-- uid: ArmoniK.DevelopmentKit.GridServer.Client.BaseService`1.#ctor
-  name: BaseService()
-  href: api/ArmoniK.DevelopmentKit.GridServer.Client.BaseService-1.html#ArmoniK_DevelopmentKit_GridServer_Client_BaseService_1__ctor
-  commentId: M:ArmoniK.DevelopmentKit.GridServer.Client.BaseService`1.#ctor
-  fullName: ArmoniK.DevelopmentKit.GridServer.Client.BaseService<T>.BaseService()
-  fullName.vb: ArmoniK.DevelopmentKit.GridServer.Client.BaseService(Of T).BaseService()
-  nameWithType: BaseService<T>.BaseService()
-  nameWithType.vb: BaseService(Of T).BaseService()
-- uid: ArmoniK.DevelopmentKit.GridServer.Client.BaseService`1.#ctor(ILoggerFactory)
-  name: BaseService(ILoggerFactory)
-  href: api/ArmoniK.DevelopmentKit.GridServer.Client.BaseService-1.html#ArmoniK_DevelopmentKit_GridServer_Client_BaseService_1__ctor_ILoggerFactory_
-  commentId: M:ArmoniK.DevelopmentKit.GridServer.Client.BaseService`1.#ctor(ILoggerFactory)
-  fullName: ArmoniK.DevelopmentKit.GridServer.Client.BaseService<T>.BaseService(ILoggerFactory)
-  fullName.vb: ArmoniK.DevelopmentKit.GridServer.Client.BaseService(Of T).BaseService(ILoggerFactory)
-  nameWithType: BaseService<T>.BaseService(ILoggerFactory)
-  nameWithType.vb: BaseService(Of T).BaseService(ILoggerFactory)
-- uid: ArmoniK.DevelopmentKit.GridServer.Client.BaseService`1.#ctor*
-  name: BaseService
-  href: api/ArmoniK.DevelopmentKit.GridServer.Client.BaseService-1.html#ArmoniK_DevelopmentKit_GridServer_Client_BaseService_1__ctor_
-  commentId: Overload:ArmoniK.DevelopmentKit.GridServer.Client.BaseService`1.#ctor
-  isSpec: "True"
-  fullName: ArmoniK.DevelopmentKit.GridServer.Client.BaseService<T>.BaseService
-  fullName.vb: ArmoniK.DevelopmentKit.GridServer.Client.BaseService(Of T).BaseService
-  nameWithType: BaseService<T>.BaseService
-  nameWithType.vb: BaseService(Of T).BaseService
-- uid: ArmoniK.DevelopmentKit.GridServer.Client.BaseService`1.Configuration
-  name: Configuration
-  href: api/ArmoniK.DevelopmentKit.GridServer.Client.BaseService-1.html#ArmoniK_DevelopmentKit_GridServer_Client_BaseService_1_Configuration
-  commentId: P:ArmoniK.DevelopmentKit.GridServer.Client.BaseService`1.Configuration
-  fullName: ArmoniK.DevelopmentKit.GridServer.Client.BaseService<T>.Configuration
-  fullName.vb: ArmoniK.DevelopmentKit.GridServer.Client.BaseService(Of T).Configuration
-  nameWithType: BaseService<T>.Configuration
-  nameWithType.vb: BaseService(Of T).Configuration
-- uid: ArmoniK.DevelopmentKit.GridServer.Client.BaseService`1.Configuration*
-  name: Configuration
-  href: api/ArmoniK.DevelopmentKit.GridServer.Client.BaseService-1.html#ArmoniK_DevelopmentKit_GridServer_Client_BaseService_1_Configuration_
-  commentId: Overload:ArmoniK.DevelopmentKit.GridServer.Client.BaseService`1.Configuration
-  isSpec: "True"
-  fullName: ArmoniK.DevelopmentKit.GridServer.Client.BaseService<T>.Configuration
-  fullName.vb: ArmoniK.DevelopmentKit.GridServer.Client.BaseService(Of T).Configuration
-  nameWithType: BaseService<T>.Configuration
-  nameWithType.vb: BaseService(Of T).Configuration
-- uid: ArmoniK.DevelopmentKit.GridServer.Client.BaseService`1.Logger
-  name: Logger
-  href: api/ArmoniK.DevelopmentKit.GridServer.Client.BaseService-1.html#ArmoniK_DevelopmentKit_GridServer_Client_BaseService_1_Logger
-  commentId: P:ArmoniK.DevelopmentKit.GridServer.Client.BaseService`1.Logger
-  fullName: ArmoniK.DevelopmentKit.GridServer.Client.BaseService<T>.Logger
-  fullName.vb: ArmoniK.DevelopmentKit.GridServer.Client.BaseService(Of T).Logger
-  nameWithType: BaseService<T>.Logger
-  nameWithType.vb: BaseService(Of T).Logger
-- uid: ArmoniK.DevelopmentKit.GridServer.Client.BaseService`1.Logger*
-  name: Logger
-  href: api/ArmoniK.DevelopmentKit.GridServer.Client.BaseService-1.html#ArmoniK_DevelopmentKit_GridServer_Client_BaseService_1_Logger_
-  commentId: Overload:ArmoniK.DevelopmentKit.GridServer.Client.BaseService`1.Logger
-  isSpec: "True"
-  fullName: ArmoniK.DevelopmentKit.GridServer.Client.BaseService<T>.Logger
-  fullName.vb: ArmoniK.DevelopmentKit.GridServer.Client.BaseService(Of T).Logger
-  nameWithType: BaseService<T>.Logger
-  nameWithType.vb: BaseService(Of T).Logger
-- uid: ArmoniK.DevelopmentKit.GridServer.Client.BaseService`1.LoggerFactory
-  name: LoggerFactory
-  href: api/ArmoniK.DevelopmentKit.GridServer.Client.BaseService-1.html#ArmoniK_DevelopmentKit_GridServer_Client_BaseService_1_LoggerFactory
-  commentId: P:ArmoniK.DevelopmentKit.GridServer.Client.BaseService`1.LoggerFactory
-  fullName: ArmoniK.DevelopmentKit.GridServer.Client.BaseService<T>.LoggerFactory
-  fullName.vb: ArmoniK.DevelopmentKit.GridServer.Client.BaseService(Of T).LoggerFactory
-  nameWithType: BaseService<T>.LoggerFactory
-  nameWithType.vb: BaseService(Of T).LoggerFactory
-- uid: ArmoniK.DevelopmentKit.GridServer.Client.BaseService`1.LoggerFactory*
-  name: LoggerFactory
-  href: api/ArmoniK.DevelopmentKit.GridServer.Client.BaseService-1.html#ArmoniK_DevelopmentKit_GridServer_Client_BaseService_1_LoggerFactory_
-  commentId: Overload:ArmoniK.DevelopmentKit.GridServer.Client.BaseService`1.LoggerFactory
-  isSpec: "True"
-  fullName: ArmoniK.DevelopmentKit.GridServer.Client.BaseService<T>.LoggerFactory
-  fullName.vb: ArmoniK.DevelopmentKit.GridServer.Client.BaseService(Of T).LoggerFactory
-  nameWithType: BaseService<T>.LoggerFactory
-  nameWithType.vb: BaseService(Of T).LoggerFactory
-- uid: ArmoniK.DevelopmentKit.GridServer.Client.BaseService`1.OnCreateService(ArmoniK.DevelopmentKit.GridServer.Client.BaseService{`0}.ServiceContext)
-  name: OnCreateService(BaseService<T>.ServiceContext)
-  href: api/ArmoniK.DevelopmentKit.GridServer.Client.BaseService-1.html#ArmoniK_DevelopmentKit_GridServer_Client_BaseService_1_OnCreateService_ArmoniK_DevelopmentKit_GridServer_Client_BaseService__0__ServiceContext_
-  commentId: M:ArmoniK.DevelopmentKit.GridServer.Client.BaseService`1.OnCreateService(ArmoniK.DevelopmentKit.GridServer.Client.BaseService{`0}.ServiceContext)
-  name.vb: OnCreateService(BaseService(Of T).ServiceContext)
-  fullName: ArmoniK.DevelopmentKit.GridServer.Client.BaseService<T>.OnCreateService(ArmoniK.DevelopmentKit.GridServer.Client.BaseService<T>.ServiceContext)
-  fullName.vb: ArmoniK.DevelopmentKit.GridServer.Client.BaseService(Of T).OnCreateService(ArmoniK.DevelopmentKit.GridServer.Client.BaseService(Of T).ServiceContext)
-  nameWithType: BaseService<T>.OnCreateService(BaseService<T>.ServiceContext)
-  nameWithType.vb: BaseService(Of T).OnCreateService(BaseService(Of T).ServiceContext)
-- uid: ArmoniK.DevelopmentKit.GridServer.Client.BaseService`1.OnCreateService*
-  name: OnCreateService
-  href: api/ArmoniK.DevelopmentKit.GridServer.Client.BaseService-1.html#ArmoniK_DevelopmentKit_GridServer_Client_BaseService_1_OnCreateService_
-  commentId: Overload:ArmoniK.DevelopmentKit.GridServer.Client.BaseService`1.OnCreateService
-  isSpec: "True"
-  fullName: ArmoniK.DevelopmentKit.GridServer.Client.BaseService<T>.OnCreateService
-  fullName.vb: ArmoniK.DevelopmentKit.GridServer.Client.BaseService(Of T).OnCreateService
-  nameWithType: BaseService<T>.OnCreateService
-  nameWithType.vb: BaseService(Of T).OnCreateService
-- uid: ArmoniK.DevelopmentKit.GridServer.Client.BaseService`1.OnDestroyService(ArmoniK.DevelopmentKit.GridServer.Client.BaseService{`0}.ServiceContext)
-  name: OnDestroyService(BaseService<T>.ServiceContext)
-  href: api/ArmoniK.DevelopmentKit.GridServer.Client.BaseService-1.html#ArmoniK_DevelopmentKit_GridServer_Client_BaseService_1_OnDestroyService_ArmoniK_DevelopmentKit_GridServer_Client_BaseService__0__ServiceContext_
-  commentId: M:ArmoniK.DevelopmentKit.GridServer.Client.BaseService`1.OnDestroyService(ArmoniK.DevelopmentKit.GridServer.Client.BaseService{`0}.ServiceContext)
-  name.vb: OnDestroyService(BaseService(Of T).ServiceContext)
-  fullName: ArmoniK.DevelopmentKit.GridServer.Client.BaseService<T>.OnDestroyService(ArmoniK.DevelopmentKit.GridServer.Client.BaseService<T>.ServiceContext)
-  fullName.vb: ArmoniK.DevelopmentKit.GridServer.Client.BaseService(Of T).OnDestroyService(ArmoniK.DevelopmentKit.GridServer.Client.BaseService(Of T).ServiceContext)
-  nameWithType: BaseService<T>.OnDestroyService(BaseService<T>.ServiceContext)
-  nameWithType.vb: BaseService(Of T).OnDestroyService(BaseService(Of T).ServiceContext)
-- uid: ArmoniK.DevelopmentKit.GridServer.Client.BaseService`1.OnDestroyService*
-  name: OnDestroyService
-  href: api/ArmoniK.DevelopmentKit.GridServer.Client.BaseService-1.html#ArmoniK_DevelopmentKit_GridServer_Client_BaseService_1_OnDestroyService_
-  commentId: Overload:ArmoniK.DevelopmentKit.GridServer.Client.BaseService`1.OnDestroyService
-  isSpec: "True"
-  fullName: ArmoniK.DevelopmentKit.GridServer.Client.BaseService<T>.OnDestroyService
-  fullName.vb: ArmoniK.DevelopmentKit.GridServer.Client.BaseService(Of T).OnDestroyService
-  nameWithType: BaseService<T>.OnDestroyService
-  nameWithType.vb: BaseService(Of T).OnDestroyService
-- uid: ArmoniK.DevelopmentKit.GridServer.Client.BaseService`1.OnSessionEnter(ArmoniK.DevelopmentKit.GridServer.Client.BaseService{`0}.SessionContext)
-  name: OnSessionEnter(BaseService<T>.SessionContext)
-  href: api/ArmoniK.DevelopmentKit.GridServer.Client.BaseService-1.html#ArmoniK_DevelopmentKit_GridServer_Client_BaseService_1_OnSessionEnter_ArmoniK_DevelopmentKit_GridServer_Client_BaseService__0__SessionContext_
-  commentId: M:ArmoniK.DevelopmentKit.GridServer.Client.BaseService`1.OnSessionEnter(ArmoniK.DevelopmentKit.GridServer.Client.BaseService{`0}.SessionContext)
-  name.vb: OnSessionEnter(BaseService(Of T).SessionContext)
-  fullName: ArmoniK.DevelopmentKit.GridServer.Client.BaseService<T>.OnSessionEnter(ArmoniK.DevelopmentKit.GridServer.Client.BaseService<T>.SessionContext)
-  fullName.vb: ArmoniK.DevelopmentKit.GridServer.Client.BaseService(Of T).OnSessionEnter(ArmoniK.DevelopmentKit.GridServer.Client.BaseService(Of T).SessionContext)
-  nameWithType: BaseService<T>.OnSessionEnter(BaseService<T>.SessionContext)
-  nameWithType.vb: BaseService(Of T).OnSessionEnter(BaseService(Of T).SessionContext)
-- uid: ArmoniK.DevelopmentKit.GridServer.Client.BaseService`1.OnSessionEnter*
-  name: OnSessionEnter
-  href: api/ArmoniK.DevelopmentKit.GridServer.Client.BaseService-1.html#ArmoniK_DevelopmentKit_GridServer_Client_BaseService_1_OnSessionEnter_
-  commentId: Overload:ArmoniK.DevelopmentKit.GridServer.Client.BaseService`1.OnSessionEnter
-  isSpec: "True"
-  fullName: ArmoniK.DevelopmentKit.GridServer.Client.BaseService<T>.OnSessionEnter
-  fullName.vb: ArmoniK.DevelopmentKit.GridServer.Client.BaseService(Of T).OnSessionEnter
-  nameWithType: BaseService<T>.OnSessionEnter
-  nameWithType.vb: BaseService(Of T).OnSessionEnter
-- uid: ArmoniK.DevelopmentKit.GridServer.Client.BaseService`1.OnSessionLeave(ArmoniK.DevelopmentKit.GridServer.Client.BaseService{`0}.SessionContext)
-  name: OnSessionLeave(BaseService<T>.SessionContext)
-  href: api/ArmoniK.DevelopmentKit.GridServer.Client.BaseService-1.html#ArmoniK_DevelopmentKit_GridServer_Client_BaseService_1_OnSessionLeave_ArmoniK_DevelopmentKit_GridServer_Client_BaseService__0__SessionContext_
-  commentId: M:ArmoniK.DevelopmentKit.GridServer.Client.BaseService`1.OnSessionLeave(ArmoniK.DevelopmentKit.GridServer.Client.BaseService{`0}.SessionContext)
-  name.vb: OnSessionLeave(BaseService(Of T).SessionContext)
-  fullName: ArmoniK.DevelopmentKit.GridServer.Client.BaseService<T>.OnSessionLeave(ArmoniK.DevelopmentKit.GridServer.Client.BaseService<T>.SessionContext)
-  fullName.vb: ArmoniK.DevelopmentKit.GridServer.Client.BaseService(Of T).OnSessionLeave(ArmoniK.DevelopmentKit.GridServer.Client.BaseService(Of T).SessionContext)
-  nameWithType: BaseService<T>.OnSessionLeave(BaseService<T>.SessionContext)
-  nameWithType.vb: BaseService(Of T).OnSessionLeave(BaseService(Of T).SessionContext)
-- uid: ArmoniK.DevelopmentKit.GridServer.Client.BaseService`1.OnSessionLeave*
-  name: OnSessionLeave
-  href: api/ArmoniK.DevelopmentKit.GridServer.Client.BaseService-1.html#ArmoniK_DevelopmentKit_GridServer_Client_BaseService_1_OnSessionLeave_
-  commentId: Overload:ArmoniK.DevelopmentKit.GridServer.Client.BaseService`1.OnSessionLeave
-  isSpec: "True"
-  fullName: ArmoniK.DevelopmentKit.GridServer.Client.BaseService<T>.OnSessionLeave
-  fullName.vb: ArmoniK.DevelopmentKit.GridServer.Client.BaseService(Of T).OnSessionLeave
-  nameWithType: BaseService<T>.OnSessionLeave
-  nameWithType.vb: BaseService(Of T).OnSessionLeave
-- uid: ArmoniK.DevelopmentKit.GridServer.Client.BaseService`1.ServiceContext
-  name: BaseService<T>.ServiceContext
-  href: api/ArmoniK.DevelopmentKit.GridServer.Client.BaseService-1.ServiceContext.html
-  commentId: T:ArmoniK.DevelopmentKit.GridServer.Client.BaseService`1.ServiceContext
-  name.vb: BaseService(Of T).ServiceContext
-  fullName: ArmoniK.DevelopmentKit.GridServer.Client.BaseService<T>.ServiceContext
-  fullName.vb: ArmoniK.DevelopmentKit.GridServer.Client.BaseService(Of T).ServiceContext
-  nameWithType: BaseService<T>.ServiceContext
-  nameWithType.vb: BaseService(Of T).ServiceContext
-- uid: ArmoniK.DevelopmentKit.GridServer.Client.BaseService`1.SessionContext
-  name: BaseService<T>.SessionContext
-  href: api/ArmoniK.DevelopmentKit.GridServer.Client.BaseService-1.SessionContext.html
-  commentId: T:ArmoniK.DevelopmentKit.GridServer.Client.BaseService`1.SessionContext
-  name.vb: BaseService(Of T).SessionContext
-  fullName: ArmoniK.DevelopmentKit.GridServer.Client.BaseService<T>.SessionContext
-  fullName.vb: ArmoniK.DevelopmentKit.GridServer.Client.BaseService(Of T).SessionContext
-  nameWithType: BaseService<T>.SessionContext
-  nameWithType.vb: BaseService(Of T).SessionContext
-- uid: ArmoniK.DevelopmentKit.GridServer.Client.BaseService`1.SessionId
-  name: SessionId
-  href: api/ArmoniK.DevelopmentKit.GridServer.Client.BaseService-1.html#ArmoniK_DevelopmentKit_GridServer_Client_BaseService_1_SessionId
-  commentId: P:ArmoniK.DevelopmentKit.GridServer.Client.BaseService`1.SessionId
-  fullName: ArmoniK.DevelopmentKit.GridServer.Client.BaseService<T>.SessionId
-  fullName.vb: ArmoniK.DevelopmentKit.GridServer.Client.BaseService(Of T).SessionId
-  nameWithType: BaseService<T>.SessionId
-  nameWithType.vb: BaseService(Of T).SessionId
-- uid: ArmoniK.DevelopmentKit.GridServer.Client.BaseService`1.SessionId*
-  name: SessionId
-  href: api/ArmoniK.DevelopmentKit.GridServer.Client.BaseService-1.html#ArmoniK_DevelopmentKit_GridServer_Client_BaseService_1_SessionId_
-  commentId: Overload:ArmoniK.DevelopmentKit.GridServer.Client.BaseService`1.SessionId
-  isSpec: "True"
-  fullName: ArmoniK.DevelopmentKit.GridServer.Client.BaseService<T>.SessionId
-  fullName.vb: ArmoniK.DevelopmentKit.GridServer.Client.BaseService(Of T).SessionId
-  nameWithType: BaseService<T>.SessionId
-  nameWithType.vb: BaseService(Of T).SessionId
-- uid: ArmoniK.DevelopmentKit.GridServer.Client.BaseService`1.TaskId
-  name: TaskId
-  href: api/ArmoniK.DevelopmentKit.GridServer.Client.BaseService-1.html#ArmoniK_DevelopmentKit_GridServer_Client_BaseService_1_TaskId
-  commentId: P:ArmoniK.DevelopmentKit.GridServer.Client.BaseService`1.TaskId
-  fullName: ArmoniK.DevelopmentKit.GridServer.Client.BaseService<T>.TaskId
-  fullName.vb: ArmoniK.DevelopmentKit.GridServer.Client.BaseService(Of T).TaskId
-  nameWithType: BaseService<T>.TaskId
-  nameWithType.vb: BaseService(Of T).TaskId
-- uid: ArmoniK.DevelopmentKit.GridServer.Client.BaseService`1.TaskId*
-  name: TaskId
-  href: api/ArmoniK.DevelopmentKit.GridServer.Client.BaseService-1.html#ArmoniK_DevelopmentKit_GridServer_Client_BaseService_1_TaskId_
-  commentId: Overload:ArmoniK.DevelopmentKit.GridServer.Client.BaseService`1.TaskId
-  isSpec: "True"
-  fullName: ArmoniK.DevelopmentKit.GridServer.Client.BaseService<T>.TaskId
-  fullName.vb: ArmoniK.DevelopmentKit.GridServer.Client.BaseService(Of T).TaskId
-  nameWithType: BaseService<T>.TaskId
-  nameWithType.vb: BaseService(Of T).TaskId
 - uid: ArmoniK.DevelopmentKit.GridServer.Client.GridClientException
   name: GridClientException
   href: api/ArmoniK.DevelopmentKit.GridServer.Client.GridClientException.html
@@ -3182,25 +2859,6 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.GridServer.Client.GridServerException.GridServerException
   nameWithType: GridServerException.GridServerException
-- uid: ArmoniK.DevelopmentKit.GridServer.Client.GridWorkerExt
-  name: GridWorkerExt
-  href: api/ArmoniK.DevelopmentKit.GridServer.Client.GridWorkerExt.html
-  commentId: T:ArmoniK.DevelopmentKit.GridServer.Client.GridWorkerExt
-  fullName: ArmoniK.DevelopmentKit.GridServer.Client.GridWorkerExt
-  nameWithType: GridWorkerExt
-- uid: ArmoniK.DevelopmentKit.GridServer.Client.GridWorkerExt.GetDefaultConfiguration
-  name: GetDefaultConfiguration()
-  href: api/ArmoniK.DevelopmentKit.GridServer.Client.GridWorkerExt.html#ArmoniK_DevelopmentKit_GridServer_Client_GridWorkerExt_GetDefaultConfiguration
-  commentId: M:ArmoniK.DevelopmentKit.GridServer.Client.GridWorkerExt.GetDefaultConfiguration
-  fullName: ArmoniK.DevelopmentKit.GridServer.Client.GridWorkerExt.GetDefaultConfiguration()
-  nameWithType: GridWorkerExt.GetDefaultConfiguration()
-- uid: ArmoniK.DevelopmentKit.GridServer.Client.GridWorkerExt.GetDefaultConfiguration*
-  name: GetDefaultConfiguration
-  href: api/ArmoniK.DevelopmentKit.GridServer.Client.GridWorkerExt.html#ArmoniK_DevelopmentKit_GridServer_Client_GridWorkerExt_GetDefaultConfiguration_
-  commentId: Overload:ArmoniK.DevelopmentKit.GridServer.Client.GridWorkerExt.GetDefaultConfiguration
-  isSpec: "True"
-  fullName: ArmoniK.DevelopmentKit.GridServer.Client.GridWorkerExt.GetDefaultConfiguration
-  nameWithType: GridWorkerExt.GetDefaultConfiguration
 - uid: ArmoniK.DevelopmentKit.GridServer.Client.IServiceInvocationHandler
   name: IServiceInvocationHandler
   href: api/ArmoniK.DevelopmentKit.GridServer.Client.IServiceInvocationHandler.html
@@ -3394,19 +3052,19 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.GridServer.Client.Properties.Protocol
   nameWithType: Properties.Protocol
-- uid: ArmoniK.DevelopmentKit.GridServer.Client.Properties.SeccionMTLS
-  name: SeccionMTLS
-  href: api/ArmoniK.DevelopmentKit.GridServer.Client.Properties.html#ArmoniK_DevelopmentKit_GridServer_Client_Properties_SeccionMTLS
-  commentId: P:ArmoniK.DevelopmentKit.GridServer.Client.Properties.SeccionMTLS
-  fullName: ArmoniK.DevelopmentKit.GridServer.Client.Properties.SeccionMTLS
-  nameWithType: Properties.SeccionMTLS
-- uid: ArmoniK.DevelopmentKit.GridServer.Client.Properties.SeccionMTLS*
-  name: SeccionMTLS
-  href: api/ArmoniK.DevelopmentKit.GridServer.Client.Properties.html#ArmoniK_DevelopmentKit_GridServer_Client_Properties_SeccionMTLS_
-  commentId: Overload:ArmoniK.DevelopmentKit.GridServer.Client.Properties.SeccionMTLS
+- uid: ArmoniK.DevelopmentKit.GridServer.Client.Properties.SectionMTls
+  name: SectionMTls
+  href: api/ArmoniK.DevelopmentKit.GridServer.Client.Properties.html#ArmoniK_DevelopmentKit_GridServer_Client_Properties_SectionMTls
+  commentId: P:ArmoniK.DevelopmentKit.GridServer.Client.Properties.SectionMTls
+  fullName: ArmoniK.DevelopmentKit.GridServer.Client.Properties.SectionMTls
+  nameWithType: Properties.SectionMTls
+- uid: ArmoniK.DevelopmentKit.GridServer.Client.Properties.SectionMTls*
+  name: SectionMTls
+  href: api/ArmoniK.DevelopmentKit.GridServer.Client.Properties.html#ArmoniK_DevelopmentKit_GridServer_Client_Properties_SectionMTls_
+  commentId: Overload:ArmoniK.DevelopmentKit.GridServer.Client.Properties.SectionMTls
   isSpec: "True"
-  fullName: ArmoniK.DevelopmentKit.GridServer.Client.Properties.SeccionMTLS
-  nameWithType: Properties.SeccionMTLS
+  fullName: ArmoniK.DevelopmentKit.GridServer.Client.Properties.SectionMTls
+  nameWithType: Properties.SectionMTls
 - uid: ArmoniK.DevelopmentKit.GridServer.Client.Properties.TaskOptions
   name: TaskOptions
   href: api/ArmoniK.DevelopmentKit.GridServer.Client.Properties.html#ArmoniK_DevelopmentKit_GridServer_Client_Properties_TaskOptions
