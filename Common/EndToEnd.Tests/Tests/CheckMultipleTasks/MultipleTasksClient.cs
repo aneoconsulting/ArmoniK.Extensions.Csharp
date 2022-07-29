@@ -134,11 +134,9 @@ namespace ArmoniK.EndToEndTests.Tests.CheckMultipleTasks
           testRun.Wait(TimeSpan.FromMilliseconds(1000 * 10));
           cancellationToken.Cancel();
         }
-        catch (OperationCanceledException e)
+        catch (Exception)
         {
-        }
-        catch (Exception e)
-        {
+          // ignored
         }
         finally
         {

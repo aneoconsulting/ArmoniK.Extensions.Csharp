@@ -111,7 +111,6 @@ namespace ArmoniK.DevelopmentKit.Client.Services.Submitter
     /// The default constructor to open connection with the control plane
     /// and create the session to ArmoniK
     /// </summary>
-    /// <param name="loggerFactory">The logger factory to instantiate Logger with the current class type</param>
     /// <param name="properties">The properties containing TaskOptions and information to communicate with Control plane and </param>
     public Service(Properties properties) : base(properties)
     {
@@ -457,6 +456,9 @@ namespace ArmoniK.DevelopmentKit.Client.Services.Submitter
                          handler).Single();
     }
 
+    /// <summary>
+    /// The handler to send the response
+    /// </summary>
     public Task HandlerResponse { get; set; }
 
     /// <summary>

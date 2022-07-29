@@ -125,7 +125,7 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
         ConnectionString  = sectionGrpc.GetSection(SectionEndPoint).Exists() ? sectionGrpc[SectionEndPoint] : null;
         ConfSSLValidation = !sectionGrpc.GetSection(SectionSSlValidation).Exists() || sectionGrpc[SectionSSlValidation] != "disable";
 
-        if (sectionGrpc.GetSection(SeccionMTLS).Exists() && sectionGrpc[SeccionMTLS].ToLower() == "true")
+        if (sectionGrpc.GetSection(SectionMTls).Exists() && sectionGrpc[SectionMTls].ToLower() == "true")
         {
           CaCertFilePem     = sectionGrpc.GetSection(SectionCaCert).Exists() ? sectionGrpc[SectionCaCert] : null;
           ClientCertFilePem = sectionGrpc.GetSection(SectionClientCert).Exists() ? sectionGrpc[SectionClientCert] : null;
@@ -166,8 +166,14 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
       ControlPlaneUri = new Uri(ConnectionString);
     }
 
-    public string SeccionMTLS { get; set; } = "mTLS";
+    /// <summary>
+    /// The key to select mTls in configuration
+    /// </summary>
+    public string SectionMTls { get; set; } = "mTLS";
 
+    /// <summary>
+    /// The path to the CA Root file name
+    /// </summary>
     public string CaCertFilePem { get; set; }
 
     /// <summary>
@@ -203,9 +209,12 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
       Priority   = 1,
     };
 
+    /// <summary>
+    /// The connection string building the value Port Protocol and address
+    /// </summary>
     public string ConnectionString
     {
-      get { return $"{Protocol}://{ConnectionAddress}:{ConnectionPort}"; }
+      get => $"{Protocol}://{ConnectionAddress}:{ConnectionPort}";
       set
       {
         try

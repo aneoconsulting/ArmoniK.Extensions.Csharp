@@ -104,6 +104,13 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
         return "Session_Not_ready";
     }
 
+    /// <summary>
+    /// Set to default taskOption with
+    /// MaxDuration = 40 seconds
+    /// MaxRetry = 1
+    /// Priority = 1
+    /// </summary>
+    /// <returns>Default taskOptions</returns>
     public static TaskOptions InitializeDefaultTaskOptions()
     {
       TaskOptions taskOptions = new()
@@ -233,7 +240,6 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
     /// <summary>
     ///   User method to submit task from the client
     /// </summary>
-    /// <param name="client">The client instance for extension</param>
     /// <param name="payload">
     ///   The user payload to execute.
     /// </param>
@@ -249,7 +255,6 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
     ///   The method to submit One task with dependencies tasks. This task will wait for
     ///   to start until all dependencies are completed successfully
     /// </summary>
-    /// <param name="client">The client instance for extension</param>
     /// <param name="payload">The payload to submit</param>
     /// <param name="dependencies">A list of task Id in dependence of this created task</param>
     /// <returns>return the taskId of the created task </returns>

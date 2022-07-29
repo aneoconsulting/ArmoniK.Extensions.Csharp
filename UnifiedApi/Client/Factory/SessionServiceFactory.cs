@@ -61,7 +61,6 @@ namespace ArmoniK.DevelopmentKit.Client.Factory
     /// 
     /// </summary>
     /// <param name="loggerFactory">The factory to create the logger for clientService</param>
-    /// <param name="properties">Properties containing TaskOption and connection string to the control plane</param>
     public SessionServiceFactory(ILoggerFactory loggerFactory)
     {
       LoggerFactory = loggerFactory;
@@ -71,7 +70,7 @@ namespace ArmoniK.DevelopmentKit.Client.Factory
     /// <summary>
     /// Create the session to submit task
     /// </summary>
-    /// <param name="taskOptions">Optional parameter to set TaskOptions during the Session creation</param>
+    /// <param name="properties">All settings to create the session</param>
     /// <returns></returns>
     public SessionService CreateSession(Properties properties)
     {

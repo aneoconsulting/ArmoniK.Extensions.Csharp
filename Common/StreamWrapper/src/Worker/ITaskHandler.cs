@@ -31,6 +31,9 @@ using JetBrains.Annotations;
 namespace ArmoniK.Extensions.Common.StreamWrapper.Worker
 {
 
+  /// <summary>
+  /// Interface for taskHandler in the worker
+  /// </summary>
   [PublicAPI]
   public interface ITaskHandler
   {

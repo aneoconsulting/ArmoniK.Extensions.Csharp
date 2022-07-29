@@ -43,8 +43,6 @@ namespace ArmoniK.DevelopmentKit.Client.Factory
     /// <summary>
     /// The method to create new Service
     /// </summary>
-    /// <param name="serviceType">Future value no usage for now.
-    /// This is the Service type reflection for method</param>
     /// <param name="props">Properties for the service containing IConfiguration and TaskOptions</param>
     /// <returns>returns the new instantiated service</returns>
     public static Service CreateService(Properties props)

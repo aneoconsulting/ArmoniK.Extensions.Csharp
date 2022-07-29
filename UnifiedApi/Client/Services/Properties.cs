@@ -164,8 +164,14 @@ namespace ArmoniK.DevelopmentKit.Client.Services
       ControlPlaneUri = new Uri(ConnectionString);
     }
 
+    /// <summary>
+    /// Static key to get the MTls section in configuration
+    /// </summary>
     public string SeccionMTLS { get; set; } = "mTLS";
 
+    /// <summary>
+    /// Get or set the CA root certification file in pem format
+    /// </summary>
     public string CaCertFilePem { get; set; }
 
     /// <summary>
@@ -201,6 +207,9 @@ namespace ArmoniK.DevelopmentKit.Client.Services
       Priority   = 1,
     };
 
+    /// <summary>
+    /// The properties ConnectionString is parsed from string and return the string
+    /// </summary>
     public string ConnectionString
     {
       get { return $"{Protocol}://{ConnectionAddress}:{ConnectionPort}"; }

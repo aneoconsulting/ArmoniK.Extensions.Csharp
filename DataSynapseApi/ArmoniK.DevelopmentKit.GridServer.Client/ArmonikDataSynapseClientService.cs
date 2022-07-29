@@ -21,24 +21,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#if NET5_0_OR_GREATER
-using Grpc.Net.Client;
-#else
-using Grpc.Core;
-#endif
-using System;
 using System.Collections.Generic;
-using System.Net.Http;
 
 using ArmoniK.Api.gRPC.V1;
 using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.Common.Submitter;
 
 using Google.Protobuf.WellKnownTypes;
-
-using Grpc.Core;
-
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
 namespace ArmoniK.DevelopmentKit.GridServer.Client

@@ -414,7 +414,6 @@ namespace ArmoniK.DevelopmentKit.Client.Services.Admin
     /// <summary>
     /// Cancel a list of task in a session
     /// </summary>
-    /// <param name="sessionId">The session Id</param>
     /// <param name="taskIds">the taskIds list to cancel</param>
     public void CancelTasksBySession(IEnumerable<string> taskIds)
     {

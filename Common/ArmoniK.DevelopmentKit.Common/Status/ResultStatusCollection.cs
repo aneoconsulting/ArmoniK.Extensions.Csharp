@@ -10,6 +10,9 @@ using Google.Protobuf.Collections;
 
 namespace ArmoniK.DevelopmentKit.Common.Status
 {
+  /// <summary>
+  /// List of result status that will be collected during the request GetResultStatus
+  /// </summary>
   public class ResultStatusCollection
   {
     /// <summary>

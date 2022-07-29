@@ -231,7 +231,6 @@ namespace ArmoniK.DevelopmentKit.Client.Services
     /// <summary>
     ///   User method to submit task from the client
     /// </summary>
-    /// <param name="client">The client instance for extension</param>
     /// <param name="payload">
     ///   The user payload to execute.
     /// </param>
@@ -251,7 +250,6 @@ namespace ArmoniK.DevelopmentKit.Client.Services
     ///   The method to submit One task with dependencies tasks. This task will wait for
     ///   to start until all dependencies are completed successfully
     /// </summary>
-    /// <param name="client">The client instance for extension</param>
     /// <param name="payload">The payload to submit</param>
     /// <param name="dependencies">A list of task Id in dependence of this created task</param>
     /// <returns>return the taskId of the created task </returns>
