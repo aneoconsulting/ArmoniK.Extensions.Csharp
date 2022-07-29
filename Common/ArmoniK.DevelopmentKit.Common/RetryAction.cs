@@ -43,7 +43,6 @@ namespace ArmoniK.DevelopmentKit.Common
     /// Retry the specified operation the specified number of times, until there are no more retries or it succeeded
     /// without an exception.
     /// </summary>
-    /// <typeparam name="T">The return type of the exception</typeparam>
     /// <param name="retries">The number of times to retry the operation</param>
     /// <param name="delayMs">The number of milliseconds to sleep after a failed invocation of the operation</param>
     /// <param name="operation">the operation to perform</param>

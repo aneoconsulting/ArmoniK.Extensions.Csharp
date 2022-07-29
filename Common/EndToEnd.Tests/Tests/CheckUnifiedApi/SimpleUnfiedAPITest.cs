@@ -26,6 +26,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+using ArmoniK.DevelopmentKit.Worker.Grid;
+
 namespace ArmoniK.EndToEndTests.Tests.CheckUnifiedApi
 {
   public static class SelectExtensions

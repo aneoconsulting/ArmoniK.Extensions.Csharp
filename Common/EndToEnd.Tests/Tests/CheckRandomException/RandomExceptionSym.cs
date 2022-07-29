@@ -27,6 +27,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 
+using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.Common.Exceptions;
 using ArmoniK.DevelopmentKit.SymphonyApi;
 using ArmoniK.DevelopmentKit.SymphonyApi.api;
@@ -58,7 +59,7 @@ namespace ArmoniK.EndToEndTests.Tests.CheckRandomException
       for (var i = 0; i < nbTasks; i++)
         payloads.Add(payload);
 
-      var sw = Stopwatch.StartNew();
+      var sw      = Stopwatch.StartNew();
       var taskIds = SubmitTasks(payloads);
       var newPayload = new ClientPayload()
       {
@@ -78,7 +79,7 @@ namespace ArmoniK.EndToEndTests.Tests.CheckRandomException
     {
       var percentageOfFailure = 60.0;
 
-      var randNum             = rd.NextDouble();
+      var randNum = rd.NextDouble();
       if (randNum < percentageOfFailure / 100)
         throw new WorkerApiException("An expected failure in this random call");
 
@@ -101,10 +102,9 @@ namespace ArmoniK.EndToEndTests.Tests.CheckRandomException
     public override byte[] OnInvoke(SessionContext sessionContext, TaskContext taskContext)
     {
       var clientPayload = ClientPayload.Deserialize(taskContext.TaskInput);
-      using var _ = Logger.BeginScope("OnInvoke Random",
-                                      ("SessionId", sessionContext.SessionId),
-                                      ("TaskId", taskContext.TaskId),
-                                      ("ClientPayload", clientPayload.Type));
+      using var _ = Logger.BeginPropertyScope(("SessionId", sessionContext.SessionId),
+                                              ("TaskId", taskContext.TaskId),
+                                              ("ClientPayload", clientPayload.Type));
 
       Logger.LogInformation("{ClientPayload} task, sessionId : {SessionId}, taskId : {TaskId}",
                             clientPayload.Type,
@@ -117,37 +117,37 @@ namespace ArmoniK.EndToEndTests.Tests.CheckRandomException
           Thread.Sleep(clientPayload.Sleep * 1000);
           break;
         case ClientPayload.TaskType.Expm1:
+        {
+          var result = 0.0;
+
+          for (var idx = 2; idx > 0; idx--)
           {
-            var result = 0.0;
-
-            for (var idx = 2; idx > 0; idx--)
-            {
-              result += ExpM1(idx);
-            }
-
-            return new ClientPayload()
-            {
-              Type = ClientPayload.TaskType.Result,
-              Result = (int)result,
-            }.Serialize();
+            result += ExpM1(idx);
           }
+
+          return new ClientPayload()
+          {
+            Type   = ClientPayload.TaskType.Result,
+            Result = (int)result,
+          }.Serialize();
+        }
         case ClientPayload.TaskType.Aggregation:
           Logger.LogInformation($"!!!! All subtask Finished sessionId : {sessionContext.SessionId}\n\n");
           break;
         case ClientPayload.TaskType.JobOfNTasks:
+        {
+          var newPayload = new ClientPayload
           {
-            var newPayload = new ClientPayload
-            {
-              Type = ClientPayload.TaskType.Expm1,
-            };
+            Type = ClientPayload.TaskType.Expm1,
+          };
 
-            var bytePayload = newPayload.Serialize();
+          var bytePayload = newPayload.Serialize();
 
-            var aggTaskId = Job_of_N_Tasks(bytePayload,
-                                           clientPayload.SingleInput);
+          Job_of_N_Tasks(bytePayload,
+                         clientPayload.SingleInput);
 
-            return null;
-          }
+          return null;
+        }
         default:
           Logger.LogInformation($"Task type is unManaged {clientPayload.Type}");
           throw new WorkerApiException($"Task type is unManaged {clientPayload.Type}");

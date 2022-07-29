@@ -29,7 +29,6 @@ namespace ArmoniK.DevelopmentKit.Common.Exceptions
     /// <summary>
     /// The default constructor to refer the list of task in error
     /// </summary>
-    /// <param name="message">the message in exception</param>
     /// <param name="taskIds">The list of taskId</param>
     public ClientResultsException(params string[] taskIds) : base(BuildMessage(taskIds))
     {

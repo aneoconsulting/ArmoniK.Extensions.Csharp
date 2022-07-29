@@ -56,13 +56,13 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.api
     /// </summary>
     public Session SessionId { get; private set; }
 
-
-#pragma warning restore CS1591
-
     private ILoggerFactory LoggerFactory { get; set; }
 
     internal ILogger<SessionPollingService> Logger { get; set; }
 
+    /// <summary>
+    /// The task handler to communicate with the polling agent
+    /// </summary>
     public ITaskHandler TaskHandler { get; set; }
 
     /// <summary>

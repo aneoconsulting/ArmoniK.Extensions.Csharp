@@ -51,7 +51,6 @@ namespace ArmoniK.DevelopmentKit.Client.Services.Admin
     /// <summary>
     /// The constructor of the service Admin class
     /// </summary>
-    /// <param name="loggerFactory">The factory to create the logger</param>
     /// <param name="properties">the properties setting to connection to the control plane</param>
     public ServiceAdmin(Properties properties) : base(properties)
     {

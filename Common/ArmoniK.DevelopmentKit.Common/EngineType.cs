@@ -25,6 +25,9 @@ using System.Collections.Generic;
 
 namespace ArmoniK.DevelopmentKit.Common
 {
+  /// <summary>
+  /// Engine type to set in TaskOption to select API to use during the execution on worker
+  /// </summary>
   public enum EngineType
   {
     /// <summary>
@@ -44,8 +47,17 @@ namespace ArmoniK.DevelopmentKit.Common
     Unified = 2,
   }
 
+  /// <summary>
+  /// Convert helper from Enum to class and reverse
+  /// </summary>
   public static class EngineTypeHelper
   {
+    /// <summary>
+    /// The method to convert string enum name to obejct enum
+    /// </summary>
+    /// <param name="enumName"></param>
+    /// <returns></returns>
+    /// <exception cref="KeyNotFoundException"></exception>
     public static EngineType ToEnum(string enumName)
       => enumName switch
          {
@@ -56,6 +68,9 @@ namespace ArmoniK.DevelopmentKit.Common
          };
   }
 
+  /// <summary>
+  /// Map table to target API
+  /// </summary>
   public class EngineTypes
   {
     private readonly Dictionary<EngineType, string> engineTypes_ = new()
@@ -70,8 +85,8 @@ namespace ArmoniK.DevelopmentKit.Common
     /// <summary>
     /// Get the EngineType Assembly name for AppLoader
     /// </summary>
-    /// <param name="key"></param>
-    /// <exception cref="KeyNotFoundException"></exception>
+    /// <param name="key">The Engine type</param>
+    /// <exception cref="KeyNotFoundException">Exception the key doesn't exist</exception>
     public string this[EngineType key]
     {
       get

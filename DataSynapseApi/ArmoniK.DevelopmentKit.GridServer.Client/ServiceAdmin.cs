@@ -48,8 +48,6 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
       ClientService = new ArmonikDataSynapseClientService(loggerFactory,
                                                           properties);
       throw new NotImplementedException("Service Admin need to move into Poling agent");
-
-      ServiceType = "ServiceAdmin";
     }
 
     public void UploadResources(string path)

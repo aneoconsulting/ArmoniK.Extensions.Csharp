@@ -34,12 +34,23 @@ using Microsoft.Extensions.Logging;
 
 namespace ArmoniK.Extensions.Common.StreamWrapper.Worker
 {
+  /// <summary>
+  /// Wrapper to process task coming from polling agent
+  /// </summary>
   [PublicAPI]
   public class WorkerStreamWrapper : Api.gRPC.V1.Worker.WorkerBase
   {
+    /// <summary>
+    /// The logger to log WorkerStreamWrapper
+    /// </summary>
     public           ILogger<WorkerStreamWrapper> logger_;
+
     private readonly ILoggerFactory               loggerFactory_;
 
+    /// <summary>
+    /// The default constructor with LoggerFactory
+    /// </summary>
+    /// <param name="loggerFactory"></param>
     public WorkerStreamWrapper(ILoggerFactory loggerFactory)
     {
       logger_ = loggerFactory.CreateLogger<WorkerStreamWrapper>();
@@ -71,10 +82,22 @@ namespace ArmoniK.Extensions.Common.StreamWrapper.Worker
         throw new InvalidOperationException("The request stream is expected to be finished.");
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="taskHandler"></param>
+    /// <returns></returns>
+    /// <exception cref="RpcException"></exception>
     public virtual Task<Output> Process(ITaskHandler taskHandler)
       => throw new RpcException(new(StatusCode.Unimplemented,
                                     ""));
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="request"></param>
+    /// <param name="context"></param>
+    /// <returns></returns>
     public override Task<HealthCheckReply> HealthCheck(Empty             request,
                                                        ServerCallContext context)
       => Task.FromResult(new HealthCheckReply

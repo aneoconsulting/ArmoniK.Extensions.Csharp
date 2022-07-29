@@ -61,8 +61,6 @@ namespace ArmoniK.DevelopmentKit.GridServer
       var taskId = ClientService.SubmitTask(payload.Serialize());
 
       throw new NotImplementedException("Service Admin Worker need to move into Poling agent");
-
-      return new byte[] { };
     }
 
     public void DeployResources()

@@ -1,29 +1,29 @@
 ﻿using System;
 
-using ArmoniK.Api.gRPC.V1;
-using ArmoniK.DevelopmentKit.Common;
-
 using System.IO;
 
 #if NET5_0_OR_GREATER
 using Grpc.Net.Client;
+using Grpc.Core;
+
+using System.Runtime.InteropServices;
+using System.Security.Cryptography.X509Certificates;
 #else
 using Grpc.Core;
 #endif
 
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-
-using System.Collections.Generic;
 using System.Net.Http;
-using System.Runtime.InteropServices;
-using System.Security.Cryptography.X509Certificates;
 
-using Grpc.Core;
+
 
 
 namespace ArmoniK.DevelopmentKit.Common.Submitter
 {
+  /// <summary>
+  /// ClientServiceConnector is the class to connection to the control plane with different
+  /// like address,port, insecure connection, TLS, and mTLS
+  /// </summary>
   public class ClientServiceConnector
   {
     /// <summary>

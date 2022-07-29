@@ -62,6 +62,9 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client
 
     private static string SectionEndPoint { get; } = "Endpoint";
 
+    /// <summary>
+    /// The key to to select option in configuration
+    /// </summary>
     public string SectionMTLS { get; set; } = "mTLS";
     private static string SectionSSlValidation { get; } = "SSLValidation";
     private static string SectionClientCertFile { get; } = "ClientCert";

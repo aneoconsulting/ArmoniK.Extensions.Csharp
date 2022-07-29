@@ -32,9 +32,19 @@ using JetBrains.Annotations;
 
 namespace ArmoniK.Extensions.Common.StreamWrapper.Worker
 {
+  /// <summary>
+  /// TaskRequest extension to send a new request
+  /// </summary>
   [PublicAPI]
   public static class TaskRequestExtensions
   {
+    /// <summary>
+    /// TaskRequest extension to send a new request
+    /// </summary>
+    /// <param name="taskRequests"></param>
+    /// <param name="taskOptions"></param>
+    /// <param name="chunkMaxSize"></param>
+    /// <returns></returns>
     public static IEnumerable<ProcessReply.Types.CreateLargeTaskRequest> ToRequestStream(this IEnumerable<TaskRequest> taskRequests,
                                                                                          TaskOptions                   taskOptions,
                                                                                          int                           chunkMaxSize)

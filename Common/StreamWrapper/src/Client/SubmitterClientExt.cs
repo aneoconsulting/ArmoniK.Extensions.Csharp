@@ -180,6 +180,15 @@ namespace ArmoniK.Extensions.Common.StreamWrapper.Client
     }
 
 
+    /// <summary>
+    /// Get the result from the TryGetResult
+    /// </summary>
+    /// <param name="client">Control connector</param>
+    /// <param name="resultRequest">The request to get the result</param>
+    /// <param name="cancellationToken">the token to cancel the request</param>
+    /// <returns>Return the result in byte Array</returns>
+    /// <exception cref="Exception"></exception>
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
     public static async Task<byte[]> GetResultAsync(this Submitter.SubmitterClient client,
                                                     ResultRequest                  resultRequest,
                                                     CancellationToken              cancellationToken = default)

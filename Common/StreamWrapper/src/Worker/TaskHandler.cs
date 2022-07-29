@@ -37,8 +37,20 @@ using Microsoft.Extensions.Logging;
 
 namespace ArmoniK.Extensions.Common.StreamWrapper.Worker
 {
+  /// <summary>
+  /// The taskHandler to connect to the polling agent
+  /// </summary>
   public class TaskHandler : ITaskHandler
   {
+    /// <summary>
+    /// Create the taskHandler with request and response stream inside
+    /// </summary>
+    /// <param name="requestStream">The stream to receive the request from polling agent</param>
+    /// <param name="responseStream">The stream to send the response to the polling agent</param>
+    /// <param name="configuration">The json and env configuration</param>
+    /// <param name="cancellationToken">the token to cancel task</param>
+    /// <param name="logger">The logger tools</param>
+    /// <returns></returns>
     public static async Task<TaskHandler> Create(IAsyncStreamReader<ProcessRequest> requestStream,
                                                  IServerStreamWriter<ProcessReply>  responseStream,
                                                  Configuration                      configuration,

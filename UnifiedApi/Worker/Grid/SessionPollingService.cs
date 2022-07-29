@@ -55,12 +55,13 @@ namespace ArmoniK.DevelopmentKit.Worker.Grid
     public Session SessionId { get; private set; }
 
 
-#pragma warning restore CS1591
-
     private ILoggerFactory LoggerFactory { get; set; }
 
     internal ILogger<SessionPollingService> Logger { get; set; }
 
+    /// <summary>
+    /// The taskHandler to communicate with polling agent
+    /// </summary>
     public ITaskHandler TaskHandler { get; set; }
 
     /// <summary>
