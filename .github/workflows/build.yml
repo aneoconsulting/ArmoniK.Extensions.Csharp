@@ -94,34 +94,34 @@ jobs:
     # find . -name "*.csproj" | xargs -I % echo dotnet build % -c Release
     - name: Build the package
       run: |
-        dotnet build ./Common/ArmoniK.DevelopmentKit.Common/ArmoniK.DevelopmentKit.Common.csproj -c Release
-        dotnet build ./Common/StreamWrapper/src/ArmoniK.Extensions.Common.StreamWrapper.csproj -c Release
-        dotnet build ./Common/StreamWrapper/tests/Client/ArmoniK.Extensions.Common.StreamWrapper.Tests.Client.csproj -c Release
-        dotnet build ./Common/StreamWrapper/tests/Common/ArmoniK.Extensions.Common.StreamWrapper.Tests.Common.csproj -c Release
-        dotnet build ./Common/StreamWrapper/tests/Server/ArmoniK.Extensions.Common.StreamWrapper.Tests.Server.csproj -c Release
-        dotnet build ./DataSynapseApi/ArmoniK.DevelopmentKit.GridServer/ArmoniK.DevelopmentKit.GridServer.csproj -c Release
-        dotnet build ./DataSynapseApi/ArmoniK.DevelopmentKit.GridServer.Client/ArmoniK.DevelopmentKit.GridServer.Client.csproj -c Release
-        dotnet build ./SymphonyApi/ArmoniK.DevelopmentKit.SymphonyApi/ArmoniK.DevelopmentKit.SymphonyApi.csproj -c Release
-        dotnet build ./SymphonyApi/ArmoniK.DevelopmentKit.SymphonyApi.Client/ArmoniK.DevelopmentKit.SymphonyApi.Client.csproj -c Release
-        dotnet build ./UnifiedApi/Client/ArmoniK.DevelopmentKit.Client.csproj -c Release
-        dotnet build ./UnifiedApi/Worker/ArmoniK.DevelopmentKit.Worker.csproj -c Release
-        dotnet build ./Common/EndToEnd.Tests/ArmoniK.EndToEndTests.csproj -c Release
-        dotnet build ./WorkerApi/ArmoniK.DevelopmentKit.WorkerApi/ArmoniK.DevelopmentKit.WorkerApi.csproj -c Release
-        dotnet build ./WorkerApi/ArmoniK.DevelopmentKit.WorkerApi.Common/ArmoniK.DevelopmentKit.WorkerApi.Common.csproj -c Release
-        dotnet build ./WorkerApi/tests/WorkerApiTests/WorkerApiTests.csproj -c Release
+        dotnet build ./Common/ArmoniK.DevelopmentKit.Common/ArmoniK.DevelopmentKit.Common.csproj -c Release -p:Version=$GENVERSION
+        dotnet build ./Common/StreamWrapper/src/ArmoniK.Extensions.Common.StreamWrapper.csproj -c Release  -p:Version=$GENVERSION
+        dotnet build ./Common/StreamWrapper/tests/Client/ArmoniK.Extensions.Common.StreamWrapper.Tests.Client.csproj -c Release  -p:Version=$GENVERSION
+        dotnet build ./Common/StreamWrapper/tests/Common/ArmoniK.Extensions.Common.StreamWrapper.Tests.Common.csproj -c Release  -p:Version=$GENVERSION
+        dotnet build ./Common/StreamWrapper/tests/Server/ArmoniK.Extensions.Common.StreamWrapper.Tests.Server.csproj -c Release  -p:Version=$GENVERSION
+        dotnet build ./DataSynapseApi/ArmoniK.DevelopmentKit.GridServer/ArmoniK.DevelopmentKit.GridServer.csproj -c Release  -p:Version=$GENVERSION
+        dotnet build ./DataSynapseApi/ArmoniK.DevelopmentKit.GridServer.Client/ArmoniK.DevelopmentKit.GridServer.Client.csproj -c Release  -p:Version=$GENVERSION
+        dotnet build ./SymphonyApi/ArmoniK.DevelopmentKit.SymphonyApi/ArmoniK.DevelopmentKit.SymphonyApi.csproj -c Release  -p:Version=$GENVERSION
+        dotnet build ./SymphonyApi/ArmoniK.DevelopmentKit.SymphonyApi.Client/ArmoniK.DevelopmentKit.SymphonyApi.Client.csproj -c Release  -p:Version=$GENVERSION
+        dotnet build ./UnifiedApi/Client/ArmoniK.DevelopmentKit.Client.csproj -c Release  -p:Version=$GENVERSION
+        dotnet build ./UnifiedApi/Worker/ArmoniK.DevelopmentKit.Worker.csproj -c Release  -p:Version=$GENVERSION
+        dotnet build ./Common/EndToEnd.Tests/ArmoniK.EndToEndTests.csproj -c Release -p:Version=$GENVERSION
+        dotnet build ./WorkerApi/ArmoniK.DevelopmentKit.WorkerApi/ArmoniK.DevelopmentKit.WorkerApi.csproj -c Release -p:Version=$GENVERSION
+        dotnet build ./WorkerApi/ArmoniK.DevelopmentKit.WorkerApi.Common/ArmoniK.DevelopmentKit.WorkerApi.Common.csproj -c Release -p:Version=$GENVERSION
+        dotnet build ./WorkerApi/tests/WorkerApiTests/WorkerApiTests.csproj -c Release -p:Version=$GENVERSION
 
-    # find . -name "*.csproj" | xargs -I % echo dotnet pack % -c Release -o /tmp/packages -p:PackageVersion=\$GENVERSION
+    # find . -name "*.csproj" | xargs -I % echo dotnet pack % -c Release -o /tmp/packages -p:Version=\$GENVERSION
     - name: Pack the package VERSION
       run: |
-        dotnet pack ./Common/ArmoniK.DevelopmentKit.Common/ArmoniK.DevelopmentKit.Common.csproj -c Release -o /tmp/packages -p:PackageVersion=$GENVERSION
-        dotnet pack ./DataSynapseApi/ArmoniK.DevelopmentKit.GridServer/ArmoniK.DevelopmentKit.GridServer.csproj -c Release -o /tmp/packages -p:PackageVersion=$GENVERSION
-        dotnet pack ./DataSynapseApi/ArmoniK.DevelopmentKit.GridServer.Client/ArmoniK.DevelopmentKit.GridServer.Client.csproj -c Release -o /tmp/packages -p:PackageVersion=$GENVERSION
-        dotnet pack ./SymphonyApi/ArmoniK.DevelopmentKit.SymphonyApi/ArmoniK.DevelopmentKit.SymphonyApi.csproj -c Release -o /tmp/packages -p:PackageVersion=$GENVERSION
-        dotnet pack ./SymphonyApi/ArmoniK.DevelopmentKit.SymphonyApi.Client/ArmoniK.DevelopmentKit.SymphonyApi.Client.csproj -c Release -o /tmp/packages -p:PackageVersion=$GENVERSION
-        dotnet pack ./UnifiedApi/Client/ArmoniK.DevelopmentKit.Client.csproj -c Release -o /tmp/packages -p:PackageVersion=$GENVERSION
-        dotnet pack ./UnifiedApi/Worker/ArmoniK.DevelopmentKit.Worker.csproj -c Release -o /tmp/packages -p:PackageVersion=$GENVERSION
-        dotnet pack ./WorkerApi/ArmoniK.DevelopmentKit.WorkerApi.Common/ArmoniK.DevelopmentKit.WorkerApi.Common.csproj -c Release -o /tmp/packages -p:PackageVersion=$GENVERSION
-        dotnet pack ./Common/StreamWrapper/src/ArmoniK.Extensions.Common.StreamWrapper.csproj -c Release -o /tmp/packages -p:PackageVersion=$GENVERSION
+        dotnet pack ./Common/ArmoniK.DevelopmentKit.Common/ArmoniK.DevelopmentKit.Common.csproj -c Release -o /tmp/packages -p:Version=$GENVERSION
+        dotnet pack ./DataSynapseApi/ArmoniK.DevelopmentKit.GridServer/ArmoniK.DevelopmentKit.GridServer.csproj -c Release -o /tmp/packages -p:Version=$GENVERSION
+        dotnet pack ./DataSynapseApi/ArmoniK.DevelopmentKit.GridServer.Client/ArmoniK.DevelopmentKit.GridServer.Client.csproj -c Release -o /tmp/packages -p:Version=$GENVERSION
+        dotnet pack ./SymphonyApi/ArmoniK.DevelopmentKit.SymphonyApi/ArmoniK.DevelopmentKit.SymphonyApi.csproj -c Release -o /tmp/packages -p:Version=$GENVERSION
+        dotnet pack ./SymphonyApi/ArmoniK.DevelopmentKit.SymphonyApi.Client/ArmoniK.DevelopmentKit.SymphonyApi.Client.csproj -c Release -o /tmp/packages -p:Version=$GENVERSION
+        dotnet pack ./UnifiedApi/Client/ArmoniK.DevelopmentKit.Client.csproj -c Release -o /tmp/packages -p:Version=$GENVERSION
+        dotnet pack ./UnifiedApi/Worker/ArmoniK.DevelopmentKit.Worker.csproj -c Release -o /tmp/packages -p:Version=$GENVERSION
+        dotnet pack ./WorkerApi/ArmoniK.DevelopmentKit.WorkerApi.Common/ArmoniK.DevelopmentKit.WorkerApi.Common.csproj -c Release -o /tmp/packages -p:Version=$GENVERSION
+        dotnet pack ./Common/StreamWrapper/src/ArmoniK.Extensions.Common.StreamWrapper.csproj -c Release -o /tmp/packages -p:Version=$GENVERSION
 
     - name: Store the package VERSION
       uses: actions/upload-artifact@v2
@@ -133,15 +133,15 @@ jobs:
     - name: Pack the package RELEASE
       if: ${{ github.ref == 'refs/heads/release' }}
       run: |
-        dotnet pack ./Common/ArmoniK.DevelopmentKit.Common/ArmoniK.DevelopmentKit.Common.csproj -c Release -o /tmp/releases -p:PackageVersion=$GENRELEASE
-        dotnet pack ./DataSynapseApi/ArmoniK.DevelopmentKit.GridServer/ArmoniK.DevelopmentKit.GridServer.csproj -c Release -o /tmp/releases -p:PackageVersion=$GENRELEASE
-        dotnet pack ./DataSynapseApi/ArmoniK.DevelopmentKit.GridServer.Client/ArmoniK.DevelopmentKit.GridServer.Client.csproj -c Release -o /tmp/releases -p:PackageVersion=$GENRELEASE
-        dotnet pack ./SymphonyApi/ArmoniK.DevelopmentKit.SymphonyApi/ArmoniK.DevelopmentKit.SymphonyApi.csproj -c Release -o /tmp/releases -p:PackageVersion=$GENRELEASE
-        dotnet pack ./SymphonyApi/ArmoniK.DevelopmentKit.SymphonyApi.Client/ArmoniK.DevelopmentKit.SymphonyApi.Client.csproj -c Release -o /tmp/releases -p:PackageVersion=$GENRELEASE
-        dotnet pack ./UnifiedApi/Client/ArmoniK.DevelopmentKit.Client.csproj -c Release -o /tmp/releases -p:PackageVersion=$GENRELEASE
-        dotnet pack ./UnifiedApi/Worker/ArmoniK.DevelopmentKit.Worker.csproj -c Release -o /tmp/releases -p:PackageVersion=$GENRELEASE
-        dotnet pack ./WorkerApi/ArmoniK.DevelopmentKit.WorkerApi.Common/ArmoniK.DevelopmentKit.WorkerApi.Common.csproj -c Release -o /tmp/releases -p:PackageVersion=$GENRELEASE
-        dotnet pack ./Common/StreamWrapper/src/ArmoniK.Extensions.Common.StreamWrapper.csproj -c Release -o /tmp/releases -p:PackageVersion=$GENRELEASE
+        dotnet pack ./Common/ArmoniK.DevelopmentKit.Common/ArmoniK.DevelopmentKit.Common.csproj -c Release -o /tmp/releases -p:Version=$GENRELEASE
+        dotnet pack ./DataSynapseApi/ArmoniK.DevelopmentKit.GridServer/ArmoniK.DevelopmentKit.GridServer.csproj -c Release -o /tmp/releases -p:Version=$GENRELEASE
+        dotnet pack ./DataSynapseApi/ArmoniK.DevelopmentKit.GridServer.Client/ArmoniK.DevelopmentKit.GridServer.Client.csproj -c Release -o /tmp/releases -p:Version=$GENRELEASE
+        dotnet pack ./SymphonyApi/ArmoniK.DevelopmentKit.SymphonyApi/ArmoniK.DevelopmentKit.SymphonyApi.csproj -c Release -o /tmp/releases -p:Version=$GENRELEASE
+        dotnet pack ./SymphonyApi/ArmoniK.DevelopmentKit.SymphonyApi.Client/ArmoniK.DevelopmentKit.SymphonyApi.Client.csproj -c Release -o /tmp/releases -p:Version=$GENRELEASE
+        dotnet pack ./UnifiedApi/Client/ArmoniK.DevelopmentKit.Client.csproj -c Release -o /tmp/releases -p:Version=$GENRELEASE
+        dotnet pack ./UnifiedApi/Worker/ArmoniK.DevelopmentKit.Worker.csproj -c Release -o /tmp/releases -p:Version=$GENRELEASE
+        dotnet pack ./WorkerApi/ArmoniK.DevelopmentKit.WorkerApi.Common/ArmoniK.DevelopmentKit.WorkerApi.Common.csproj -c Release -o /tmp/releases -p:Version=$GENRELEASE
+        dotnet pack ./Common/StreamWrapper/src/ArmoniK.Extensions.Common.StreamWrapper.csproj -c Release -o /tmp/releases -p:Version=$GENRELEASE
 
     - name: Store the package RELEASE
       if: ${{ github.ref == 'refs/heads/release' }}
