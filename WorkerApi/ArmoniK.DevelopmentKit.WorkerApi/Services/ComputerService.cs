@@ -31,6 +31,7 @@ using Microsoft.Extensions.Logging;
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -84,11 +85,13 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Services
         Logger.LogInformation($"Receive new task Session        {sessionIdCaller} -> task {taskId}");
         Logger.LogInformation($"Previous Session#SubSession was {ServiceRequestContext.SessionId?.Id ?? "NOT SET"}");
 
-        var keyOkList = new[] { AppsOptions.GridAppNameKey, AppsOptions.GridAppVersionKey, AppsOptions.GridAppNamespaceKey, }.Select(key => (key,
-                                                                                                                                       val: taskHandler.TaskOptions
-                                                                                                                                                       .ContainsKey(
-                                                                                                                                                         key)))
-                                                                                                                             .ToArray();
+        var keyOkList = new[]
+          {
+            AppsOptions.GridAppNameKey, AppsOptions.GridAppVersionKey, AppsOptions.GridAppNamespaceKey,
+          }.Select(key => (key,
+                     val: taskHandler.TaskOptions
+                                     .ContainsKey(key)))
+           .ToArray();
 
         if (keyOkList.Any(el => el.val == false))
         {
@@ -139,13 +142,19 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Services
         ServiceRequestContext.SessionId = sessionIdCaller;
 
         Logger.LogInformation($"Executing task");
-
+        var sw     = Stopwatch.StartNew();
         var result = serviceWorker.Execute(taskHandler);
-        if (result != null && result.Length != 0)
+
+        if (result != null)
         {
           await taskHandler.SendResult(taskHandler.ExpectedResults.Single(),
                                        result);
         }
+
+
+        Logger.BeginPropertyScope(("Elapsed", sw.ElapsedMilliseconds / 1000.0));
+        Logger.LogInformation($"Executed task");
+
 
         output = new Output
         {
@@ -167,7 +176,8 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Services
         Logger.LogError(ex,
                         "Unmanaged exception while executing task");
 
-        throw new RpcException(new Status(StatusCode.Aborted, ex.Message + Environment.NewLine + ex.StackTrace));
+        throw new RpcException(new Status(StatusCode.Aborted,
+                                          ex.Message + Environment.NewLine + ex.StackTrace));
       }
 
       return output;

@@ -28,6 +28,7 @@ using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 using ArmoniK.Api.gRPC.V1;
@@ -74,6 +75,8 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
 
     private ProtoSerializer ProtoSerializer { get; }
 
+    private ILogger Logger { get; set; }
+
     /// <summary>
     /// The default constructor to open connection with the control plane
     /// and create the session to ArmoniK
@@ -88,6 +91,8 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
       SessionService = ClientService.CreateSession(properties.TaskOptions);
 
       ProtoSerializer = new ProtoSerializer();
+
+      Logger = loggerFactory.CreateLogger<Service>();
     }
 
     /// <summary>
@@ -105,7 +110,9 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
       var methodInfo = service.GetType().GetMethod(methodName);
 
       if (methodInfo == null)
+      {
         throw new InvalidOperationException($"MethodName [{methodName}] was not found");
+      }
 
       var result = methodInfo.Invoke(service,
                                      arguments);
@@ -186,19 +193,30 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
       {
         try
         {
-          byte[] byteResults = SessionService.GetResult(taskId);
+          byte[] byteResults = ActiveGetResult(taskId);
           var    result      = ProtoSerializer.DeSerializeMessageObjectArray(byteResults);
 
 
           handler.HandleResponse(result?[0],
                                  taskId);
         }
-        catch (Exception e)
+        catch (Exception ex)
         {
-          ServiceInvocationException ex = new(e);
-
-          handler.HandleError(ex,
-                              taskId);
+          switch (ex)
+          {
+            case ServiceInvocationException invocationException:
+              handler.HandleError(invocationException,
+                                  taskId);
+              break;
+            case AggregateException aggregateException:
+              handler.HandleError(new(aggregateException.InnerException),
+                                  taskId);
+              break;
+            default:
+              handler.HandleError(new(ex),
+                                  taskId);
+              break;
+          }
         }
       });
 
@@ -249,6 +267,67 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
                     handler);
     }
 
+    private byte[] ActiveGetResult(params string[] taskId)
+    {
+      return ActiveGetResults(taskId).Single().Item2;
+    }
+
+    private IEnumerable<Tuple<string, byte[]>> ActiveGetResults(IEnumerable<string> taskIds)
+    {
+      var ids      = taskIds.ToList();
+      var missing  = ids;
+      var results  = new List<Tuple<string, byte[]>>();
+      var holdPrev = 0;
+      var waitInSeconds = new List<int>
+      {
+        10,
+        1000,
+        5000,
+        10000,
+        20000,
+      };
+      var idx = 0;
+
+      Logger.BeginPropertyScope(("SessionId", SessionId), ("Function", "ActiveGetResults"));
+
+      while (missing.Count != 0)
+      {
+        var buckets = missing.Batch(10000).ToList();
+
+        buckets.ForEach(bucket =>
+        {
+          var partialResults = SessionService.TryGetResults(bucket);
+
+          var listPartialResults = partialResults.ToList();
+
+          if (listPartialResults.Count() != 0)
+          {
+            results.AddRange(listPartialResults);
+          }
+
+          missing = missing.Where(x => listPartialResults.ToList().All(rId => rId.Item1 != x)).ToList();
+          Thread.Sleep(waitInSeconds[0]);
+        });
+
+        if (holdPrev == results.Count)
+        {
+          idx = idx >= waitInSeconds.Count - 1 ? waitInSeconds.Count - 1 : idx + 1;
+          Logger.LogInformation("Result not ready. Wait for {timeWait} sec before new retry",
+                          waitInSeconds[idx] / 1000);
+          
+        }
+        else
+        {
+          idx      = 0;
+          holdPrev = results.Count;
+        }
+
+        Thread.Sleep(waitInSeconds[idx]);
+      }
+
+      return results;
+    }
+
     public Task HandlerResponse { get; set; }
     public string SessionId => SessionService?.SessionId.Id;
 
@@ -265,7 +344,7 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
       }
 
       SessionService = null;
-      ClientService = null;
+      ClientService  = null;
       HandlerResponse?.Dispose();
     }
 
@@ -284,7 +363,9 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
     public bool IsDestroyed()
     {
       if (SessionService == null || ClientService == null)
+      {
         return true;
+      }
 
       return false;
     }
