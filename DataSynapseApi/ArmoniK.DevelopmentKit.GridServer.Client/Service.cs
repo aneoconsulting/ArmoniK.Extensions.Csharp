@@ -294,7 +294,7 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
       {
         foreach (var bucket in missing.Batch(10000))
         {
-          var partialResults = SessionService.TryGetResults(bucket).ToList();
+          var partialResults = SessionService.TryGetResults(bucket);
 
           results.AddRange(partialResults);
 
