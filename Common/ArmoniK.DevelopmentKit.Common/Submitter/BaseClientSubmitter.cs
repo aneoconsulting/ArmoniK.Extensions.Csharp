@@ -595,17 +595,6 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
           throw new ClientResultsException(msg,
                                            (resultStatus.IdsError ?? Enumerable.Empty<string>()).Concat(resultStatus.IdsResultError.Select(x => x.Item1)));
         }
-
-        //if (resultStatus.Canceled.Any())
-        //{
-        //  var msg =
-        //    $"Tasks were canceled. Please check log for more information on Armonik grid server list of taskIds in Error : [ {string.Join(", ", resultStatus.Canceled.Select(x => x.Item1))} ]";
-
-        //  Logger.LogWarning(msg);
-
-        //  throw new ClientResultsException(msg,
-        //                                   resultStatus.Canceled.Select(x => x.Item1));
-        //}
       }
 
 
@@ -619,7 +608,7 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
           ? null
           : new Tuple<string, byte[]>(id,
                                       res);
-      }).ToList().Where(el => el != null);
+      }).Where(el => el != null);
     }
   }
 }
