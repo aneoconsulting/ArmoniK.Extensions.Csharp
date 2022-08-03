@@ -552,7 +552,7 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
     /// </summary>
     /// <param name="taskIds"></param>
     /// <returns>Returns an Enumerable pair of </returns>
-    public IEnumerable<Tuple<string, byte[]>> TryGetResults(IEnumerable<string> taskIds)
+    public IList<Tuple<string, byte[]>> TryGetResults(IEnumerable<string> taskIds)
     {
       var resultStatus = GetResultStatus(taskIds);
 
@@ -608,7 +608,7 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
           ? null
           : new Tuple<string, byte[]>(id,
                                       res);
-      }).Where(el => el != null);
+      }).Where(el => el != null).ToList();
     }
   }
 }

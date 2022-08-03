@@ -252,7 +252,7 @@ namespace ArmoniK.DevelopmentKit.Client.Services.Submitter
 
     private void ProxyTryGetResults(IEnumerable<string> taskIds, Action<string, byte[]> responseHandler, Action<string, Exception> errorHandler)
     {
-     var missing  = taskIds.ToHashSet();
+      var missing  = taskIds.ToHashSet();
       var results  = new List<Tuple<string, byte[]>>();
       var cts      = new CancellationTokenSource();
       var holdPrev = 0;
@@ -264,17 +264,16 @@ namespace ArmoniK.DevelopmentKit.Client.Services.Submitter
         20000,
         30000,
       };
-      var idx = 0;
-      using var _ = Logger.BeginPropertyScope(("Function", "ActiveGetResults"));
+      var       idx = 0;
+      using var _   = Logger.BeginPropertyScope(("Function", "ActiveGetResults"));
 
       while (missing.Count != 0)
       {
-        foreach(var bucket in missing.Batch(10000))
+        foreach (var bucket in missing.Batch(10000))
         {
-          var listTaskIds = bucket.ToList();
           try
           {
-            var partialResults = SessionService.TryGetResults(listTaskIds).ToList();
+            var partialResults = SessionService.TryGetResults(bucket);
 
             foreach (var (taskId, bytesArray) in partialResults)
             {
@@ -304,7 +303,7 @@ namespace ArmoniK.DevelopmentKit.Client.Services.Submitter
           }
           catch (Exception e)
           {
-            errorHandler(listTaskIds.First(),
+            errorHandler(bucket.First(),
                          e);
             return;
           }
