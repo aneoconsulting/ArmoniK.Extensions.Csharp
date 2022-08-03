@@ -297,8 +297,6 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
           var partialResults = SessionService.TryGetResults(bucket);
           results.AddRange(partialResults);
 
-
-          //missing = missing.Where(x => listPartialResults.ToList().All(rId => rId.Item1 != x)).ToList();
           missing.ExceptWith(partialResults.Select(x => x.Item1));
 
           Thread.Sleep(waitInSeconds[0]);
