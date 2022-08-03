@@ -252,8 +252,7 @@ namespace ArmoniK.DevelopmentKit.Client.Services.Submitter
 
     private void ProxyTryGetResults(IEnumerable<string> taskIds, Action<string, byte[]> responseHandler, Action<string, Exception> errorHandler)
     {
-      var ids      = taskIds.ToList();
-      var missing  = ids;
+     var missing  = taskIds.ToHashSet();
       var results  = new List<Tuple<string, byte[]>>();
       var cts      = new CancellationTokenSource();
       var holdPrev = 0;
@@ -270,29 +269,22 @@ namespace ArmoniK.DevelopmentKit.Client.Services.Submitter
 
       while (missing.Count != 0)
       {
-        missing.Batch(10000).ToList().ForEach(bucket =>
+        
+        foreach(var bucket in missing.Batch(10000))
         {
-          var subTaskIds = bucket as string[] ?? bucket.ToArray();
           try
           {
-            var partialResults = SessionService.TryGetResults(subTaskIds);
+            var partialResults = SessionService.TryGetResults(bucket);
 
-            var pResults = partialResults as Tuple<string, byte[]>[] ?? partialResults.ToArray();
-
-            foreach (var partialResult in pResults)
+            foreach (var (taskId, bytesArray) in partialResults)
             {
-              responseHandler(partialResult.Item1,
-                              partialResult.Item2);
+              responseHandler(taskId,
+                              bytesArray);
             }
 
-            var listPartialResults = pResults.ToList();
+            results.AddRange(partialResults);
 
-            if (listPartialResults.Count() != 0)
-            {
-              results.AddRange(listPartialResults);
-            }
-
-            missing = missing.Where(x => listPartialResults.ToList().All(rId => rId.Item1 != x)).ToList();
+            missing.ExceptWith(partialResults.Select(x => x.Item1));
 
 
             if (holdPrev == results.Count)
@@ -312,11 +304,11 @@ namespace ArmoniK.DevelopmentKit.Client.Services.Submitter
           }
           catch (Exception e)
           {
-            errorHandler(subTaskIds.First(),
+            errorHandler(bucket.First(),
                          e);
             return;
           }
-        });
+        }
       }
 
       cts.Cancel();

@@ -274,8 +274,7 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
 
     private IEnumerable<Tuple<string, byte[]>> ActiveGetResults(IEnumerable<string> taskIds)
     {
-      var ids      = taskIds.ToList();
-      var missing  = ids;
+      var missing  = taskIds.ToHashSet();
       var results  = new List<Tuple<string, byte[]>>();
       var holdPrev = 0;
       var waitInSeconds = new List<int>
@@ -288,33 +287,28 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
       };
       var idx = 0;
 
-      Logger.BeginPropertyScope(("SessionId", SessionId), ("Function", "ActiveGetResults"));
+      Logger.BeginPropertyScope(("SessionId", SessionId),
+                                ("Function", "ActiveGetResults"));
 
       while (missing.Count != 0)
       {
-        var buckets = missing.Batch(10000).ToList();
-
-        buckets.ForEach(bucket =>
+        foreach (var bucket in missing.Batch(10000))
         {
           var partialResults = SessionService.TryGetResults(bucket);
+          results.AddRange(partialResults);
 
-          var listPartialResults = partialResults.ToList();
 
-          if (listPartialResults.Count() != 0)
-          {
-            results.AddRange(listPartialResults);
-          }
+          //missing = missing.Where(x => listPartialResults.ToList().All(rId => rId.Item1 != x)).ToList();
+          missing.ExceptWith(partialResults.Select(x => x.Item1));
 
-          missing = missing.Where(x => listPartialResults.ToList().All(rId => rId.Item1 != x)).ToList();
           Thread.Sleep(waitInSeconds[0]);
-        });
+        }
 
         if (holdPrev == results.Count)
         {
           idx = idx >= waitInSeconds.Count - 1 ? waitInSeconds.Count - 1 : idx + 1;
           Logger.LogInformation("Result not ready. Wait for {timeWait} sec before new retry",
-                          waitInSeconds[idx] / 1000);
-          
+                                waitInSeconds[idx] / 1000);
         }
         else
         {
