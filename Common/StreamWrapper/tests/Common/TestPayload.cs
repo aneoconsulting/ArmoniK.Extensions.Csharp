@@ -40,11 +40,11 @@ namespace ArmoniK.Extensions.Common.StreamWrapper.Tests.Common
       DatadepCompute,
     }
 
-    public byte [] DataBytes { get; set; }
+    public byte[]? DataBytes { get; set; }
 
     public TaskType Type { get; set; }
 
-    public string ResultKey { get; set; }
+    public string? ResultKey { get; set; }
 
     public byte[] Serialize()
     {
@@ -54,11 +54,13 @@ namespace ArmoniK.Extensions.Common.StreamWrapper.Tests.Common
 
     public static TestPayload? Deserialize(byte[] payload)
     {
-      if (payload == null || payload.Length == 0)
+      if (payload.Length == 0)
+      {
         return new TestPayload
         {
-          Type    = TaskType.Undefined,
+          Type = TaskType.Undefined,
         };
+      }
 
       var str = Encoding.ASCII.GetString(payload);
       return JsonSerializer.Deserialize<TestPayload>(Base64ToString(str));

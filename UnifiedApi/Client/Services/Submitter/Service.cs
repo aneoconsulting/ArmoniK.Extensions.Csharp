@@ -26,8 +26,11 @@ using ArmoniK.DevelopmentKit.Client.Exceptions;
 using ArmoniK.DevelopmentKit.Client.Factory;
 using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.Common.Exceptions;
+
 using JetBrains.Annotations;
+
 using Microsoft.Extensions.Logging;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,7 +40,6 @@ using System.Threading.Tasks;
 using ArmoniK.DevelopmentKit.Client.Services.Common;
 
 using TaskStatus = ArmoniK.Api.gRPC.V1.TaskStatus;
-
 
 
 namespace ArmoniK.DevelopmentKit.Client.Services.Submitter
@@ -69,6 +71,8 @@ namespace ArmoniK.DevelopmentKit.Client.Services.Submitter
     /// Property Get the SessionId
     /// </summary>
     private SessionService SessionService { get; set; }
+
+    private ILogger Logger { get; set; }
 
     private ProtoSerializer ProtoSerializer { get; }
 
@@ -114,12 +118,15 @@ namespace ArmoniK.DevelopmentKit.Client.Services.Submitter
     /// <param name="properties">The properties containing TaskOptions and information to communicate with Control plane and </param>
     public Service(Properties properties) : base(properties)
     {
-      
       SessionServiceFactory = new SessionServiceFactory(LoggerFactory);
 
       SessionService = SessionServiceFactory.CreateSession(properties);
 
       ProtoSerializer = new ProtoSerializer();
+
+      Logger = LoggerFactory.CreateLogger<Service>();
+      Logger.BeginPropertyScope(("SessionId", SessionService.SessionId),
+                                ("Class", "Service"));
     }
 
     /// <summary>
@@ -193,7 +200,7 @@ namespace ArmoniK.DevelopmentKit.Client.Services.Submitter
         SerializedArguments = true,
       };
 
-      var   taskId = "not-TaskId";
+      var      taskId = "not-TaskId";
       object[] result;
 
       try
@@ -215,7 +222,7 @@ namespace ArmoniK.DevelopmentKit.Client.Services.Submitter
         }
 
         throw new ServiceInvocationException(e is AggregateException ? e.InnerException : e,
-                      StatusCodesLookUp.Keys.Contains(status) ? StatusCodesLookUp[status] : ArmonikStatusCode.Unknown)
+                                             StatusCodesLookUp.Keys.Contains(status) ? StatusCodesLookUp[status] : ArmonikStatusCode.Unknown)
         {
           OutputDetails = details,
         };
@@ -243,10 +250,9 @@ namespace ArmoniK.DevelopmentKit.Client.Services.Submitter
                          handler).Single();
     }
 
-    private void ProxyTryGetResults(IEnumerable<string> taskIds, Action<string, byte[]> responseHandler)
+    private void ProxyTryGetResults(IEnumerable<string> taskIds, Action<string, byte[]> responseHandler, Action<string, Exception> errorHandler)
     {
-      var ids      = taskIds.ToList();
-      var missing  = ids;
+      var missing  = taskIds.ToHashSet();
       var results  = new List<Tuple<string, byte[]>>();
       var cts      = new CancellationTokenSource();
       var holdPrev = 0;
@@ -258,45 +264,50 @@ namespace ArmoniK.DevelopmentKit.Client.Services.Submitter
         20000,
         30000,
       };
-      var idx = 0;
+      var       idx = 0;
+      using var _   = Logger.BeginPropertyScope(("Function", "ActiveGetResults"));
 
       while (missing.Count != 0)
       {
-        missing.Batch(100).ToList().ForEach(bucket =>
+        foreach (var bucket in missing.Batch(10000))
         {
-          var partialResults = SessionService.TryGetResults(bucket);
-
-          var pResults = partialResults as Tuple<string, byte[]>[] ?? partialResults.ToArray();
-
-          foreach (var partialResult in pResults)
+          try
           {
-            responseHandler(partialResult.Item1,
-                            partialResult.Item2);
+            var partialResults = SessionService.TryGetResults(bucket);
+
+            foreach (var (taskId, bytesArray) in partialResults)
+            {
+              responseHandler(taskId,
+                              bytesArray);
+            }
+
+            results.AddRange(partialResults);
+
+            missing.ExceptWith(partialResults.Select(x => x.Item1));
+
+
+            if (holdPrev == results.Count)
+            {
+              idx = idx >= waitInSeconds.Count - 1 ? waitInSeconds.Count - 1 : idx + 1;
+              Logger.LogInformation("No Result is ready. Wait for {timeWait} seconds before new retry",
+                                    waitInSeconds[idx] / 1000);
+            }
+            else
+            {
+              idx = 0;
+            }
+
+            holdPrev = results.Count;
+
+            Thread.Sleep(waitInSeconds[idx]);
           }
-
-          var listPartialResults = pResults.ToList();
-
-          if (listPartialResults.Count() != 0)
+          catch (Exception e)
           {
-            results.AddRange(listPartialResults);
+            errorHandler(bucket.First(),
+                         e);
+            return;
           }
-
-          missing = missing.Where(x => listPartialResults.ToList().All(rId => rId.Item1 != x)).ToList();
-
-
-          if (holdPrev == results.Count)
-          {
-            idx = idx >= waitInSeconds.Count - 1 ? waitInSeconds.Count - 1 : idx + 1;
-          }
-          else
-          {
-            idx = 0;
-          }
-
-          holdPrev = results.Count;
-
-          Thread.Sleep(waitInSeconds[idx]);
-        });
+        }
       }
 
       cts.Cancel();
@@ -347,12 +358,32 @@ namespace ArmoniK.DevelopmentKit.Client.Services.Submitter
                                  handler.HandleError(ex,
                                                      taskId);
                                }
+                             },
+                             (taskId, ex) =>
+                             {
+                               switch (ex)
+                               {
+                                 case ServiceInvocationException invocationException:
+                                   handler.HandleError(invocationException,
+                                                       taskId);
+                                   break;
+                                 case AggregateException aggregateException:
+                                   handler.HandleError(new(aggregateException.InnerException,
+                                                           ArmonikStatusCode.ResultError),
+                                                       taskId);
+                                   break;
+                                 default:
+                                   handler.HandleError(new(ex,
+                                                           ArmonikStatusCode.ResultError),
+                                                       taskId);
+                                   break;
+                               }
                              });
         }
         catch (Exception e)
         {
           ServiceInvocationException ex = new(e is AggregateException ? e.InnerException : e,
-                                              ArmonikStatusCode.Unknown);
+                                              ArmonikStatusCode.ResultError);
 
           handler.HandleError(ex,
                               "AggregateListOfTaskId");

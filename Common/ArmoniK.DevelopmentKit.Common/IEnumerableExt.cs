@@ -14,20 +14,56 @@ namespace ArmoniK.DevelopmentKit.Common
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="items"></param>
-    /// <param name="maxItems"></param>
+    /// <param name="source"></param>
+    /// <param name="size"></param>
     /// <typeparam name="T"></typeparam>
     /// <returns></returns>
-    public static IEnumerable<IEnumerable<T>> Batch<T>(this IEnumerable<T> items,
-                                                       int                 maxItems)
+    /// <exception cref="ArgumentNullException"></exception>
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
+    public static IEnumerable<T[]> Batch<T>(this IEnumerable<T> source,
+                                                       int                 size)
+    {
+      if (source == null)
       {
-        return items.Select((item, inx) => new
-                    {
-                      item,
-                      inx
-                    })
-                    .GroupBy(x => x.inx / maxItems)
-                    .Select(g => g.Select(x => x.item));
+        throw new ArgumentNullException(nameof(source));
+      }
+
+      if (size < 1)
+      {
+        throw new ArgumentOutOfRangeException(nameof(size),
+                                              "Should be at least 1");
+      }
+
+      return ChunkIterator(source,
+                           size);
+    }
+
+    private static IEnumerable<TSource[]> ChunkIterator<TSource>(IEnumerable<TSource> source, int size)
+    {
+      using IEnumerator<TSource> e = source.GetEnumerator();
+      while (e.MoveNext())
+      {
+        TSource[] chunk = new TSource[size];
+        chunk[0] = e.Current;
+
+        int i = 1;
+        for (; i < chunk.Length && e.MoveNext(); i++)
+        {
+          chunk[i] = e.Current;
+        }
+
+        if (i == chunk.Length)
+        {
+          yield return chunk;
+        }
+        else
+        {
+          Array.Resize(ref chunk,
+                       i);
+          yield return chunk;
+          yield break;
+        }
       }
     }
+  }
 }
