@@ -65,6 +65,12 @@
     <ProjectReference Include="..\..\UnifiedApi\Worker\ArmoniK.DevelopmentKit.Worker.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
 
   <Target Name="CreateDirectories" AfterTargets="AfterPublish">
     <MakeDir Directories="../packages/" />

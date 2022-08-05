@@ -89,24 +89,24 @@ namespace ArmoniK.EndToEndTests.Tests.CheckTypeOfSubmission
 
       Log.LogInformation("Running End to End test to compute Square value with SubTasking");
 
-      //try
-      //{
-      //  SubmissionTask(sessionService,
-      //                 10,
-      //                 1,
-      //                 SubmissionType.Sequential,
-      //                 GetResultType.GetResult);
-      //}
-      //catch (Exception e)
-      //{
-      //  Log.LogError(e,
-      //               "Submission Error 10 Jobs with 1 subtask");
-      //}
+      try
+      {
+        SubmissionTask(sessionService,
+                       10,
+                       1,
+                       SubmissionType.Sequential,
+                       GetResultType.GetResult);
+      }
+      catch (Exception e)
+      {
+        Log.LogError(e,
+                     "Submission Error 10 Jobs with 1 subtask");
+      }
 
       try
       {
         SubmissionTask(sessionService,
-                       10000,
+                       5000,
                        0,
                        SubmissionType.Sequential,
                        GetResultType.TryGetResult);
@@ -120,7 +120,7 @@ namespace ArmoniK.EndToEndTests.Tests.CheckTypeOfSubmission
       try
       {
         SubmissionTask(sessionService,
-                       10000,
+                       5000,
                        0,
                        SubmissionType.Batch,
                        GetResultType.TryGetResult);
