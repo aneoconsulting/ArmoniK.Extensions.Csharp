@@ -207,9 +207,10 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
     ///   to start until all dependencies are completed successfully
     /// </summary>
     /// <param name="payloadsWithDependencies">A list of Tuple(taskId, Payload) in dependence of those created tasks</param>
+    /// <param name="maxRetries">Set the number of retries Default Value 5</param>
     /// <returns>return a list of taskIds of the created tasks </returns>
     [UsedImplicitly]
-    public IEnumerable<string> SubmitTasksWithDependencies(IEnumerable<Tuple<Tuple<string, byte[]>, IList<string>>> payloadsWithDependencies)
+    public IEnumerable<string> SubmitTasksWithDependencies(IEnumerable<Tuple<Tuple<string, byte[]>, IList<string>>> payloadsWithDependencies, int maxRetries = 5)
     {
       using var _                = Logger.LogFunction();
       var       withDependencies = payloadsWithDependencies as Tuple<Tuple<string, byte[]>, IList<string>>[] ?? payloadsWithDependencies.ToArray();
@@ -250,22 +251,81 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
           taskRequests.Add(taskRequest);
         }
 
-        var createTaskReply = ControlPlaneService.CreateTasksAsync(SessionId.Id,
-                                                                   TaskOptions,
-                                                                   taskRequests).Result;
-        switch (createTaskReply.DataCase)
+        var nbRetry = 0;
+        while (true)
         {
-          case CreateTaskReply.DataOneofCase.NonSuccessfullIds:
-            throw new Exception($"NonSuccessFullIds : {createTaskReply.NonSuccessfullIds}");
-          case CreateTaskReply.DataOneofCase.None:
-            throw new Exception("Issue with Server !");
-          case CreateTaskReply.DataOneofCase.Successfull:
+          try
+          {
+            var createTaskReply = ControlPlaneService.CreateTasksAsync(SessionId.Id,
+                                                                       TaskOptions,
+                                                                       taskRequests).Result;
+
+            switch (createTaskReply.DataCase)
+            {
+              case CreateTaskReply.DataOneofCase.NonSuccessfullIds:
+                throw new Exception($"NonSuccessFullIds : {createTaskReply.NonSuccessfullIds}");
+              case CreateTaskReply.DataOneofCase.None:
+                throw new Exception("Issue with Server !");
+              case CreateTaskReply.DataOneofCase.Successfull:
+                break;
+              default:
+                throw new ArgumentOutOfRangeException();
+            }
+
             break;
-          default:
-            throw new ArgumentOutOfRangeException();
+          }
+          catch (Exception e)
+          {
+            if (nbRetry >= maxRetries)
+            {
+              throw;
+            }
+
+            switch (e)
+            {
+              case AggregateException { InnerException: RpcException } ex:
+                Logger.LogWarning(ex.InnerException,
+                                  "Failure to submit");
+                break;
+              case AggregateException { InnerException: IOException } ex:
+                Logger.LogWarning(ex.InnerException,
+                                  "IOException : Failure to submit, Retrying");
+                break;
+              case IOException ex:
+                Logger.LogWarning(ex,
+                                  "IOException Failure to submit");
+                break;
+              default:
+                throw;
+            }
+
+            nbRetry++;
+
+            //Regenerate task Id
+            taskRequests = taskRequests.Select(taskReq =>
+            {
+              taskCreated.Remove(taskReq.Id);
+              var newTaskId = Guid.NewGuid().ToString();
+              var req = new TaskRequest
+              {
+                Id      = newTaskId,
+                Payload = taskReq.Payload,
+                DataDependencies =
+                {
+                  taskReq.DataDependencies
+                },
+                ExpectedOutputKeys =
+                {
+                  newTaskId
+                },
+              };
+
+              taskCreated.Add(newTaskId);
+              return req;
+            }).ToList();
+          }
         }
       });
-
       Logger.LogDebug("Tasks created : {ids}",
                       taskCreated);
 

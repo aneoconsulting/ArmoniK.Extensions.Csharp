@@ -78,8 +78,7 @@ namespace ArmoniK.DevelopmentKit.Client.Services.Submitter
 
     private SessionServiceFactory SessionServiceFactory { get; set; }
 
-    private Dictionary<string, Task> TaskWarehouse { get; set; } = new();
-
+    private CancellationTokenSource CancellationTokenSource { get; set; }
 
     // *** you need some mechanism to map types to fields
     private static readonly IDictionary<TaskStatus, ArmonikStatusCode> StatusCodesLookUp = new List<Tuple<TaskStatus, ArmonikStatusCode>>
@@ -123,6 +122,11 @@ namespace ArmoniK.DevelopmentKit.Client.Services.Submitter
       SessionService = SessionServiceFactory.CreateSession(properties);
 
       ProtoSerializer = new ProtoSerializer();
+
+      CancellationTokenSource = new CancellationTokenSource();
+
+      HandlerResponse = Task.Run(ResultTask,
+                                 CancellationTokenSource.Token);
 
       Logger = LoggerFactory.CreateLogger<Service>();
       Logger.BeginPropertyScope(("SessionId", SessionService.SessionId),
@@ -313,6 +317,88 @@ namespace ArmoniK.DevelopmentKit.Client.Services.Submitter
       cts.Cancel();
     }
 
+    private void ResultTask()
+    {
+      while (!CancellationTokenSource.Token.IsCancellationRequested)
+      {
+        if (!ResultHandlerDictionary.IsEmpty)
+        {
+          try
+          {
+            ProxyTryGetResults(ResultHandlerDictionary.Keys.ToList(),
+                               (taskId, byteResult) =>
+                               {
+                                 try
+                                 {
+                                   var result = ProtoSerializer.DeSerializeMessageObjectArray(byteResult);
+                                   ResultHandlerDictionary[taskId].HandleResponse(result?[0],
+                                                                                  taskId);
+                                 }
+                                 catch (Exception e)
+                                 {
+                                   var status = SessionService.GetTaskStatus(taskId);
+
+                                   var details = "";
+
+                                   if (status != TaskStatus.Completed)
+                                   {
+                                     var output = SessionService.GetTaskOutputInfo(taskId);
+                                     details = output.TypeCase == Output.TypeOneofCase.Error ? output.Error.Details : "";
+                                   }
+
+                                   ServiceInvocationException ex = new(e is AggregateException ? e.InnerException : e,
+                                                                       StatusCodesLookUp.Keys.Contains(status) ? StatusCodesLookUp[status] : ArmonikStatusCode.Unknown)
+                                   {
+                                     OutputDetails = details,
+                                   };
+
+                                   ResultHandlerDictionary[taskId].HandleError(ex,
+                                                                               taskId);
+                                 }
+
+                                 ResultHandlerDictionary.TryRemove(taskId,
+                                                                   value: out _);
+                               },
+                               (taskId, ex) =>
+                               {
+                                 switch (ex)
+                                 {
+                                   case ServiceInvocationException invocationException:
+                                     ResultHandlerDictionary[taskId].HandleError(invocationException,
+                                                                                 taskId);
+                                     break;
+                                   case AggregateException aggregateException:
+                                     ResultHandlerDictionary[taskId].HandleError(new(aggregateException.InnerException,
+                                                                                     ArmonikStatusCode.ResultError),
+                                                                                 taskId);
+                                     break;
+                                   default:
+                                     ResultHandlerDictionary[taskId].HandleError(new(ex,
+                                                                                     ArmonikStatusCode.ResultError),
+                                                                                 taskId);
+                                     break;
+                                 }
+
+                                 ResultHandlerDictionary.TryRemove(taskId,
+                                                                   value: out _);
+                               });
+          }
+          catch (Exception e)
+          {
+            ServiceInvocationException ex = new(e is AggregateException ? e.InnerException : e,
+                                                ArmonikStatusCode.ResultError);
+
+            ResultHandlerDictionary.First().Value.HandleError(ex,
+                                                              "AggregateListOfTaskId");
+          }
+        }
+        else
+        {
+          Thread.Sleep(100);
+        }
+      }
+    }
+
 
     /// <summary>
     /// The function submit where all information are already ready to send with class ArmonikPayload
@@ -322,79 +408,15 @@ namespace ArmoniK.DevelopmentKit.Client.Services.Submitter
     /// <returns>Return the taskId</returns>
     public IEnumerable<string> SubmitTasks(IEnumerable<ArmonikPayload> payloads, IServiceInvocationHandler handler)
     {
-      var taskIds = SessionService.SubmitTasks(payloads.Select(p => p.Serialize()));
+      var taskIds       = SessionService.SubmitTasks(payloads.Select(p => p.Serialize()));
+      var submitTaskIds = taskIds as string[] ?? taskIds.ToArray();
 
-      HandlerResponse = Task.Run(() =>
+      foreach (var taskId in submitTaskIds)
       {
-        try
-        {
-          ProxyTryGetResults(taskIds,
-                             (taskId, byteResult) =>
-                             {
-                               try
-                               {
-                                 var result = ProtoSerializer.DeSerializeMessageObjectArray(byteResult);
-                                 handler.HandleResponse(result?[0],
-                                                        taskId);
-                               }
-                               catch (Exception e)
-                               {
-                                 var status = SessionService.GetTaskStatus(taskId);
+        ResultHandlerDictionary[taskId] = handler;
+      }
 
-                                 var details = "";
-
-                                 if (status != TaskStatus.Completed)
-                                 {
-                                   var output = SessionService.GetTaskOutputInfo(taskId);
-                                   details = output.TypeCase == Output.TypeOneofCase.Error ? output.Error.Details : "";
-                                 }
-
-                                 ServiceInvocationException ex = new(e is AggregateException ? e.InnerException : e,
-                                                                     StatusCodesLookUp.Keys.Contains(status) ? StatusCodesLookUp[status] : ArmonikStatusCode.Unknown)
-                                 {
-                                   OutputDetails = details,
-                                 };
-
-                                 handler.HandleError(ex,
-                                                     taskId);
-                               }
-                             },
-                             (taskId, ex) =>
-                             {
-                               switch (ex)
-                               {
-                                 case ServiceInvocationException invocationException:
-                                   handler.HandleError(invocationException,
-                                                       taskId);
-                                   break;
-                                 case AggregateException aggregateException:
-                                   handler.HandleError(new(aggregateException.InnerException,
-                                                           ArmonikStatusCode.ResultError),
-                                                       taskId);
-                                   break;
-                                 default:
-                                   handler.HandleError(new(ex,
-                                                           ArmonikStatusCode.ResultError),
-                                                       taskId);
-                                   break;
-                               }
-                             });
-        }
-        catch (Exception e)
-        {
-          ServiceInvocationException ex = new(e is AggregateException ? e.InnerException : e,
-                                              ArmonikStatusCode.ResultError);
-
-          handler.HandleError(ex,
-                              "AggregateListOfTaskId");
-        }
-      });
-
-      var submittedTaskIds = taskIds as string[] ?? taskIds.ToArray();
-
-      TaskWarehouse[submittedTaskIds.First()] = HandlerResponse;
-
-      return submittedTaskIds;
+      return submitTaskIds;
     }
 
     /// <summary>
@@ -500,18 +522,12 @@ namespace ArmoniK.DevelopmentKit.Client.Services.Submitter
     /// <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
     public override void Dispose()
     {
-      try
-      {
-        Task.WaitAll(TaskWarehouse.Values.ToArray());
-      }
-      catch (Exception)
-      {
-        // ignored
-      }
+      CancellationTokenSource.Cancel();
+      HandlerResponse?.Wait();
+      HandlerResponse?.Dispose();
 
       SessionService        = null;
       SessionServiceFactory = null;
-      HandlerResponse?.Dispose();
     }
 
     /// <summary>

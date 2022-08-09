@@ -57,6 +57,7 @@ namespace ArmoniK.EndToEndTests.Tests.CheckUnifiedApi
       OverrideTaskOptions(taskOptions);
 
       taskOptions.Options[AppsOptions.GridServiceNameKey] = "SimpleService";
+      taskOptions.MaxDuration.Seconds                     = 1800;
 
       var props = new Properties(taskOptions,
                                  Configuration.GetSection("Grpc")["EndPoint"],
@@ -74,6 +75,9 @@ namespace ArmoniK.EndToEndTests.Tests.CheckUnifiedApi
 
       Log.LogInformation("Submit Batch of 100 tasks in one submit call");
       ClientStartup2(cs);
+
+      Log.LogInformation("Submit Batch of 5000 tasks with sequential submits");
+      ClientStartup3(cs);
     }
 
     private static void OverrideTaskOptions(TaskOptions taskOptions)
@@ -128,7 +132,6 @@ namespace ArmoniK.EndToEndTests.Tests.CheckUnifiedApi
                                          numbers.SelectMany(BitConverter.GetBytes).ToArray(),
                                          4.0),
                             this);
-
     }
 
     /// <summary>
@@ -153,11 +156,38 @@ namespace ArmoniK.EndToEndTests.Tests.CheckUnifiedApi
                             Enumerable.Range(1,
                                              100).Select(n => ParamsHelper(numbers)),
                             this);
-      
+
       sessionService.Submit("RandomTaskError",
                             Enumerable.Range(1,
                                              100).Select(_ => ParamsHelper(0.90)),
                             this);
+    }
+
+    /// <summary>
+    ///   The first test developed to validate dependencies subTasking
+    /// </summary>
+    /// <param name="sessionService"></param>
+    private void ClientStartup3(Service sessionService)
+    {
+      var numbers = new List<double>
+      {
+        1.0,
+        2.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+      }.ToArray();
+
+
+      for (int i = 0; i < 5000; i++)
+      {
+        sessionService.Submit("ComputeBasicArrayCube",
+                              ParamsHelper(numbers),
+                              this);
+      }
     }
 
     /// <summary>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,6 +18,11 @@ namespace ArmoniK.DevelopmentKit.Client.Services.Common
   public abstract class AbstractClientService : IDisposable
   {
     /// <summary>
+    /// The result dictionary to return result
+    /// </summary>
+    protected ConcurrentDictionary<string, IServiceInvocationHandler> ResultHandlerDictionary { get; set; }
+
+    /// <summary>
     /// The properties to get LoggerFactory or to override it
     /// </summary>
     protected ILoggerFactory LoggerFactory { get; set; }
@@ -28,6 +34,8 @@ namespace ArmoniK.DevelopmentKit.Client.Services.Common
     public AbstractClientService(Properties properties)
     {
       LoggerFactory = CreateLogFactory(properties);
+
+      ResultHandlerDictionary = new();
     }
 
 
