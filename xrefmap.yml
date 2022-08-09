@@ -730,6 +730,19 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.Client.Services.Common.AbstractClientService.LoggerFactory
   nameWithType: AbstractClientService.LoggerFactory
+- uid: ArmoniK.DevelopmentKit.Client.Services.Common.AbstractClientService.ResultHandlerDictionary
+  name: ResultHandlerDictionary
+  href: api/ArmoniK.DevelopmentKit.Client.Services.Common.AbstractClientService.html#ArmoniK_DevelopmentKit_Client_Services_Common_AbstractClientService_ResultHandlerDictionary
+  commentId: P:ArmoniK.DevelopmentKit.Client.Services.Common.AbstractClientService.ResultHandlerDictionary
+  fullName: ArmoniK.DevelopmentKit.Client.Services.Common.AbstractClientService.ResultHandlerDictionary
+  nameWithType: AbstractClientService.ResultHandlerDictionary
+- uid: ArmoniK.DevelopmentKit.Client.Services.Common.AbstractClientService.ResultHandlerDictionary*
+  name: ResultHandlerDictionary
+  href: api/ArmoniK.DevelopmentKit.Client.Services.Common.AbstractClientService.html#ArmoniK_DevelopmentKit_Client_Services_Common_AbstractClientService_ResultHandlerDictionary_
+  commentId: Overload:ArmoniK.DevelopmentKit.Client.Services.Common.AbstractClientService.ResultHandlerDictionary
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Client.Services.Common.AbstractClientService.ResultHandlerDictionary
+  nameWithType: AbstractClientService.ResultHandlerDictionary
 - uid: ArmoniK.DevelopmentKit.Client.Services.IServiceInvocationHandler
   name: IServiceInvocationHandler
   href: api/ArmoniK.DevelopmentKit.Client.Services.IServiceInvocationHandler.html
@@ -2347,15 +2360,15 @@ references:
   fullName.vb: ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter(Of T).SubmitTasksWithDependencies(System.Collections.Generic.IEnumerable(Of System.Tuple(Of System.Byte(), System.Collections.Generic.IList(Of System.String))))
   nameWithType: BaseClientSubmitter<T>.SubmitTasksWithDependencies(IEnumerable<Tuple<Byte[], IList<String>>>)
   nameWithType.vb: BaseClientSubmitter(Of T).SubmitTasksWithDependencies(IEnumerable(Of Tuple(Of Byte(), IList(Of String))))
-- uid: ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter`1.SubmitTasksWithDependencies(System.Collections.Generic.IEnumerable{System.Tuple{System.Tuple{System.String,System.Byte[]},System.Collections.Generic.IList{System.String}}})
-  name: SubmitTasksWithDependencies(IEnumerable<Tuple<Tuple<String, Byte[]>, IList<String>>>)
-  href: api/ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Common_Submitter_BaseClientSubmitter_1_SubmitTasksWithDependencies_System_Collections_Generic_IEnumerable_System_Tuple_System_Tuple_System_String_System_Byte____System_Collections_Generic_IList_System_String____
-  commentId: M:ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter`1.SubmitTasksWithDependencies(System.Collections.Generic.IEnumerable{System.Tuple{System.Tuple{System.String,System.Byte[]},System.Collections.Generic.IList{System.String}}})
-  name.vb: SubmitTasksWithDependencies(IEnumerable(Of Tuple(Of Tuple(Of String, Byte()), IList(Of String))))
-  fullName: ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter<T>.SubmitTasksWithDependencies(System.Collections.Generic.IEnumerable<System.Tuple<System.Tuple<System.String, System.Byte[]>, System.Collections.Generic.IList<System.String>>>)
-  fullName.vb: ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter(Of T).SubmitTasksWithDependencies(System.Collections.Generic.IEnumerable(Of System.Tuple(Of System.Tuple(Of System.String, System.Byte()), System.Collections.Generic.IList(Of System.String))))
-  nameWithType: BaseClientSubmitter<T>.SubmitTasksWithDependencies(IEnumerable<Tuple<Tuple<String, Byte[]>, IList<String>>>)
-  nameWithType.vb: BaseClientSubmitter(Of T).SubmitTasksWithDependencies(IEnumerable(Of Tuple(Of Tuple(Of String, Byte()), IList(Of String))))
+- uid: ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter`1.SubmitTasksWithDependencies(System.Collections.Generic.IEnumerable{System.Tuple{System.Tuple{System.String,System.Byte[]},System.Collections.Generic.IList{System.String}}},System.Int32)
+  name: SubmitTasksWithDependencies(IEnumerable<Tuple<Tuple<String, Byte[]>, IList<String>>>, Int32)
+  href: api/ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Common_Submitter_BaseClientSubmitter_1_SubmitTasksWithDependencies_System_Collections_Generic_IEnumerable_System_Tuple_System_Tuple_System_String_System_Byte____System_Collections_Generic_IList_System_String____System_Int32_
+  commentId: M:ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter`1.SubmitTasksWithDependencies(System.Collections.Generic.IEnumerable{System.Tuple{System.Tuple{System.String,System.Byte[]},System.Collections.Generic.IList{System.String}}},System.Int32)
+  name.vb: SubmitTasksWithDependencies(IEnumerable(Of Tuple(Of Tuple(Of String, Byte()), IList(Of String))), Int32)
+  fullName: ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter<T>.SubmitTasksWithDependencies(System.Collections.Generic.IEnumerable<System.Tuple<System.Tuple<System.String, System.Byte[]>, System.Collections.Generic.IList<System.String>>>, System.Int32)
+  fullName.vb: ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter(Of T).SubmitTasksWithDependencies(System.Collections.Generic.IEnumerable(Of System.Tuple(Of System.Tuple(Of System.String, System.Byte()), System.Collections.Generic.IList(Of System.String))), System.Int32)
+  nameWithType: BaseClientSubmitter<T>.SubmitTasksWithDependencies(IEnumerable<Tuple<Tuple<String, Byte[]>, IList<String>>>, Int32)
+  nameWithType.vb: BaseClientSubmitter(Of T).SubmitTasksWithDependencies(IEnumerable(Of Tuple(Of Tuple(Of String, Byte()), IList(Of String))), Int32)
 - uid: ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter`1.SubmitTasksWithDependencies*
   name: SubmitTasksWithDependencies
   href: api/ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Common_Submitter_BaseClientSubmitter_1_SubmitTasksWithDependencies_
