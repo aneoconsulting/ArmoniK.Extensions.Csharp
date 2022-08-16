@@ -62,10 +62,10 @@ jobs:
     - name: Generate Version
       id: genver
       run: |
-        VERSION=$(docker run --rm -v $(pwd):/repo codacy/git-version /bin/git-version --folder=/repo --release-branch=${{ github.ref_name }}-pre --dev-branch=master)
+        VERSION=$(docker run --rm -v $(pwd):/repo codacy/git-version /bin/git-version --folder=/repo --release-branch=${{ github.ref_name }}-pre --dev-branch=main)
         echo "::set-output name=version::$VERSION"
         echo "VERSION : $VERSION"
-        RELEASE=$(docker run --rm -v $(pwd):/repo codacy/git-version /bin/git-version --folder=/repo --release-branch=${{ github.ref_name }} --dev-branch=master)
+        RELEASE=$(docker run --rm -v $(pwd):/repo codacy/git-version /bin/git-version --folder=/repo --release-branch=${{ github.ref_name }} --dev-branch=main)
         echo "::set-output name=release::$RELEASE"
         echo "RELEASE : $RELEASE"
 
