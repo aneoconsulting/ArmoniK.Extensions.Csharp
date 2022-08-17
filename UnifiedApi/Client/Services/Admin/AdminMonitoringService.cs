@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using ArmoniK.Api.gRPC.V1;
+using ArmoniK.Api.gRPC.V1.Submitter;
 
 using Microsoft.Extensions.Logging;
 
@@ -24,14 +25,14 @@ namespace ArmoniK.DevelopmentKit.Client.Services.Admin
     /// <summary>
     /// The control plane service to request Grpc API
     /// </summary>
-    private Api.gRPC.V1.Submitter.SubmitterClient ControlPlaneService { get; set; }
+    private Api.gRPC.V1.Submitter.Submitter.SubmitterClient ControlPlaneService { get; set; }
 
     /// <summary>
     /// The constructor to instantiate this service
     /// </summary>
     /// <param name="loggerFactory">The factory logger to create logger</param>
     /// <param name="controlPlaneService">The entry point to the control plane</param>
-    public AdminMonitoringService(ILoggerFactory loggerFactory, Api.gRPC.V1.Submitter.SubmitterClient controlPlaneService)
+    public AdminMonitoringService(ILoggerFactory loggerFactory, Api.gRPC.V1.Submitter.Submitter.SubmitterClient controlPlaneService)
     {
       LoggerFactory       = loggerFactory;
       Logger              = LoggerFactory.CreateLogger<AdminMonitoringService>();
@@ -438,11 +439,11 @@ namespace ArmoniK.DevelopmentKit.Client.Services.Admin
     {
       return ControlPlaneService.GetTaskStatus(new GetTaskStatusRequest()
       {
-        TaskId =
+        TaskIds =
         {
           taskIds,
         },
-      }).IdStatus.Select(idsStatus => Tuple.Create(idsStatus.TaskId,
+      }).IdStatuses.Select(idsStatus => Tuple.Create(idsStatus.TaskId,
                                                    idsStatus.Status));
     }
 

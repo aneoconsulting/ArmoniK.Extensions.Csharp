@@ -34,7 +34,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-using ArmoniK.Extensions.Common.StreamWrapper.Worker;
+using ArmoniK.Api.gRPC.V1.Submitter;
+using ArmoniK.Api.Worker.Worker;
 
 namespace ArmoniK.DevelopmentKit.WorkerApi
 {

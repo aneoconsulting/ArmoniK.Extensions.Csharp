@@ -26,8 +26,9 @@ using System.Collections.Generic;
 using System.Linq;
 
 using ArmoniK.Api.gRPC.V1;
+using ArmoniK.Api.gRPC.V1.Submitter;
+using ArmoniK.Api.Worker.Worker;
 using ArmoniK.DevelopmentKit.Common;
-using ArmoniK.Extensions.Common.StreamWrapper.Worker;
 
 using Google.Protobuf;
 
@@ -75,7 +76,7 @@ namespace ArmoniK.DevelopmentKit.Worker.Grid
       LoggerFactory = loggerFactory;
       TaskHandler   = taskHandler;
 
-      TaskOptions = CopyClientToTaskOptions(TaskHandler.TaskOptions);
+      TaskOptions = CopyClientToTaskOptions(TaskHandler.TaskOptions.Options);
 
       Logger.LogDebug("Creating Session... ");
 

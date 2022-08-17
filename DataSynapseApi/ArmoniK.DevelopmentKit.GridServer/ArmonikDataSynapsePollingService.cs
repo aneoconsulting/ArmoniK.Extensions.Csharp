@@ -29,6 +29,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+using ArmoniK.Api.gRPC.V1.Submitter;
+
 namespace ArmoniK.DevelopmentKit.GridServer
 {
   /// <summary>

@@ -33,9 +33,9 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
     /// <param name="sslValidation">Optional : Check if the ssl must have a strong validation (default true)</param>
     /// <param name="loggerFactory">Optional : the logger factory to create the logger</param>
     /// <returns></returns>
-    public static Api.gRPC.V1.Submitter.SubmitterClient ControlPlaneConnection(string         endPoint,
-                                                                               bool           sslValidation = true,
-                                                                               ILoggerFactory loggerFactory = null)
+    public static Api.gRPC.V1.Submitter.Submitter.SubmitterClient ControlPlaneConnection(string         endPoint,
+                                                                                         bool           sslValidation = true,
+                                                                                         ILoggerFactory loggerFactory = null)
     {
       return ControlPlaneConnection(endPoint,
                                     "",
@@ -53,11 +53,11 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
     /// <param name="sslValidation">Check if the ssl must have a strong validation</param>
     /// <param name="loggerFactory">Optional logger factory</param>
     /// <returns></returns>
-    public static Api.gRPC.V1.Submitter.SubmitterClient ControlPlaneConnection(string         endPoint,
-                                                                               string         clientCertFilename,
-                                                                               string         clientKeyFilename,
-                                                                               bool           sslValidation = true,
-                                                                               ILoggerFactory loggerFactory = null)
+    public static Api.gRPC.V1.Submitter.Submitter.SubmitterClient ControlPlaneConnection(string         endPoint,
+                                                                                         string         clientCertFilename,
+                                                                                         string         clientKeyFilename,
+                                                                                         bool           sslValidation = true,
+                                                                                         ILoggerFactory loggerFactory = null)
     {
       var logger = loggerFactory!.CreateLogger<ClientServiceConnector>();
       if ((!string.IsNullOrEmpty(clientCertFilename) && string.IsNullOrEmpty(clientKeyFilename)) ||
@@ -107,10 +107,10 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
     /// <param name="sslValidation">Check if the ssl must have a strong validation</param>
     /// <param name="loggerFactory">Optional logger factory</param>
     /// <returns></returns>
-    public static Api.gRPC.V1.Submitter.SubmitterClient ControlPlaneConnection(string                endPoint,
-                                                                               Tuple<string, string> clientPem     = null,
-                                                                               bool                  sslValidation = true,
-                                                                               ILoggerFactory        loggerFactory = null)
+    public static Api.gRPC.V1.Submitter.Submitter.SubmitterClient ControlPlaneConnection(string                endPoint,
+                                                                                         Tuple<string, string> clientPem     = null,
+                                                                                         bool                  sslValidation = true,
+                                                                                         ILoggerFactory        loggerFactory = null)
     {
       var logger = loggerFactory!.CreateLogger<ClientServiceConnector>();
       var uri    = new Uri(endPoint);
@@ -164,7 +164,7 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
       var channel = new Channel($"{uri.Host}:{uri.Port}",
                                 credentials);
 #endif
-      return new Api.gRPC.V1.Submitter.SubmitterClient(channel);
+      return new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel);
     }
   }
 }

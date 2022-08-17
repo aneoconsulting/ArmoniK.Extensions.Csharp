@@ -27,12 +27,13 @@ using System.Linq;
 using System.Reflection;
 
 using ArmoniK.Api.gRPC.V1;
+using ArmoniK.Api.gRPC.V1.Submitter;
+using ArmoniK.Api.Worker.Worker;
 using ArmoniK.Attributes;
 using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.Common.Exceptions;
 using ArmoniK.DevelopmentKit.Worker.Grid;
 using ArmoniK.DevelopmentKit.WorkerApi.Common;
-using ArmoniK.Extensions.Common.StreamWrapper.Worker;
 
 using Google.Protobuf.WellKnownTypes;
 

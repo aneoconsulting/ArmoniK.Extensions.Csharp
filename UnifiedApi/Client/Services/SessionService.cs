@@ -27,6 +27,7 @@ using System.Linq;
 using System.Threading;
 
 using ArmoniK.Api.gRPC.V1;
+using ArmoniK.Api.gRPC.V1.Submitter;
 using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.Common.Submitter;
 
@@ -47,9 +48,9 @@ namespace ArmoniK.DevelopmentKit.Client.Services
     /// Ctor to instantiate a new SessionService
     /// This is an object to send task or get Results from a session
     /// </summary>
-    public SessionService(ILoggerFactory                        loggerFactory,
-                          Api.gRPC.V1.Submitter.SubmitterClient controlPlaneService,
-                          TaskOptions                           taskOptions = null) : base(loggerFactory)
+    public SessionService(ILoggerFactory                                  loggerFactory,
+                          Api.gRPC.V1.Submitter.Submitter.SubmitterClient controlPlaneService,
+                          TaskOptions                                     taskOptions = null) : base(loggerFactory)
     {
       taskOptions ??= InitializeDefaultTaskOptions();
 
@@ -71,10 +72,10 @@ namespace ArmoniK.DevelopmentKit.Client.Services
     /// <param name="controlPlaneService"></param>
     /// <param name="clientOptions">Client options passed during the CreateSession</param>
     /// <param name="sessionId"></param>
-    public SessionService(ILoggerFactory                        loggerFactory,
-                          Api.gRPC.V1.Submitter.SubmitterClient controlPlaneService,
-                          Session                               sessionId,
-                          IDictionary<string, string>           clientOptions) : base(loggerFactory)
+    public SessionService(ILoggerFactory                                  loggerFactory,
+                          Api.gRPC.V1.Submitter.Submitter.SubmitterClient controlPlaneService,
+                          Session                                         sessionId,
+                          IDictionary<string, string>                     clientOptions) : base(loggerFactory)
     {
       TaskOptions = CopyClientToTaskOptions(clientOptions);
 

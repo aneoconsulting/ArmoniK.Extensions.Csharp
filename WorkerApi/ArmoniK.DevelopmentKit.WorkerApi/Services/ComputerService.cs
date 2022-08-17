@@ -23,8 +23,6 @@
 
 using ArmoniK.Api.gRPC.V1;
 using ArmoniK.DevelopmentKit.Common;
-using ArmoniK.DevelopmentKit.Common.Exceptions;
-using ArmoniK.Extensions.Common.StreamWrapper.Worker;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -35,10 +33,14 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
+using ArmoniK.Api.gRPC.V1.Submitter;
+using ArmoniK.Api.Worker.Utils;
+using ArmoniK.Api.Worker.Worker;
+
+using WorkerApiException = ArmoniK.DevelopmentKit.Common.Exceptions.WorkerApiException;
 using Grpc.Core;
 
-using TaskStatus = ArmoniK.Api.gRPC.V1.TaskStatus;
-using WorkerApiException = ArmoniK.DevelopmentKit.Common.Exceptions.WorkerApiException;
+using LoggerExt = ArmoniK.DevelopmentKit.Common.LoggerExt;
 
 namespace ArmoniK.DevelopmentKit.WorkerApi.Services
 {
@@ -51,7 +53,8 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Services
     public IConfiguration Configuration { get; }
 
     public ComputerService(IConfiguration        configuration,
-                           ServiceRequestContext serviceRequestContext) : base(serviceRequestContext.LoggerFactory)
+                           GrpcChannelProvider provider,
+                           ServiceRequestContext serviceRequestContext) : base(serviceRequestContext.LoggerFactory, provider)
     {
       Configuration         = configuration;
       Logger                = serviceRequestContext.LoggerFactory.CreateLogger<ComputerService>();
@@ -60,9 +63,10 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Services
 
     public override async Task<Output> Process(ITaskHandler taskHandler)
     {
-      using var scopedLog = Logger.BeginNamedScope("Execute task",
-                                                   ("Session", taskHandler.SessionId),
-                                                   ("TaskId", taskHandler.TaskId));
+      using var scopedLog = LoggerExt.BeginNamedScope(Logger,
+                                                      "Execute task",
+                                                      ("Session", taskHandler.SessionId),
+                                                      ("TaskId", taskHandler.TaskId));
       Logger.LogTrace("DataDependencies {DataDependencies}",
                       taskHandler.DataDependencies.Keys);
       Logger.LogTrace("ExpectedResults {ExpectedResults}",
@@ -79,8 +83,9 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Services
         {
           Task = taskHandler.TaskId,
         };
-        Logger.BeginPropertyScope(("TaskId", taskId.Task),
-                                  ("SessionId", sessionIdCaller));
+        LoggerExt.BeginPropertyScope(Logger,
+                                     ("TaskId", taskId.Task),
+                                     ("SessionId", sessionIdCaller));
 
         Logger.LogInformation($"Receive new task Session        {sessionIdCaller} -> task {taskId}");
         Logger.LogInformation($"Previous Session#SubSession was {ServiceRequestContext.SessionId?.Id ?? "NOT SET"}");
@@ -89,7 +94,7 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Services
           {
             AppsOptions.GridAppNameKey, AppsOptions.GridAppVersionKey, AppsOptions.GridAppNamespaceKey,
           }.Select(key => (key,
-                     val: taskHandler.TaskOptions
+                     val: taskHandler.TaskOptions.Options
                                      .ContainsKey(key)))
            .ToArray();
 
@@ -100,20 +105,20 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Services
         }
 
 
-        var fileName          = $"{taskHandler.TaskOptions[AppsOptions.GridAppNameKey]}-v{taskHandler.TaskOptions[AppsOptions.GridAppVersionKey]}.zip";
+        var fileName          = $"{taskHandler.TaskOptions.Options[AppsOptions.GridAppNameKey]}-v{taskHandler.TaskOptions.Options[AppsOptions.GridAppVersionKey]}.zip";
         var localDirectoryZip = $"{Configuration["target_data_path"]}";
 
-        var engineTypeName = taskHandler.TaskOptions.ContainsKey(AppsOptions.EngineTypeNameKey)
-          ? taskHandler.TaskOptions[AppsOptions.EngineTypeNameKey]
+        var engineTypeName = taskHandler.TaskOptions.Options.ContainsKey(AppsOptions.EngineTypeNameKey)
+          ? taskHandler.TaskOptions.Options[AppsOptions.EngineTypeNameKey]
           : EngineType.Symphony.ToString();
 
-        if (!taskHandler.TaskOptions.ContainsKey(AppsOptions.GridAppNamespaceKey))
+        if (!taskHandler.TaskOptions.Options.ContainsKey(AppsOptions.GridAppNamespaceKey))
         {
           throw new WorkerApiException("Cannot find namespace service in TaskOptions. Please set the namespace");
         }
 
-        var _ = taskHandler.TaskOptions.ContainsKey(AppsOptions.GridAppNamespaceKey)
-          ? taskHandler.TaskOptions[AppsOptions.GridAppNamespaceKey]
+        var _ = taskHandler.TaskOptions.Options.ContainsKey(AppsOptions.GridAppNamespaceKey)
+          ? taskHandler.TaskOptions.Options[AppsOptions.GridAppNamespaceKey]
           : "UnknownNamespaceService avoid previous validation !!";
 
         var fileAdaptater = ServiceRequestContext.CreateOrGetFileAdaptater(Configuration,
@@ -124,7 +129,7 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Services
                                                                         engineTypeName,
                                                                         fileAdaptater,
                                                                         fileName,
-                                                                        taskHandler.TaskOptions);
+                                                                        taskHandler.TaskOptions.Options);
 
         var serviceWorker = ServiceRequestContext.GetService(serviceId);
 
@@ -136,7 +141,7 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Services
           serviceWorker.CloseSession();
 
           serviceWorker.InitializeSessionWorker(ServiceRequestContext.SessionId,
-                                                taskHandler.TaskOptions);
+                                                taskHandler.TaskOptions.Options);
         }
 
         ServiceRequestContext.SessionId = sessionIdCaller;
@@ -152,14 +157,14 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Services
         }
 
 
-        Logger.BeginPropertyScope(("Elapsed", sw.ElapsedMilliseconds / 1000.0));
+        LoggerExt.BeginPropertyScope(Logger,
+                                     ("Elapsed", sw.ElapsedMilliseconds / 1000.0));
         Logger.LogInformation($"Executed task");
 
 
         output = new Output
         {
           Ok     = new Empty(),
-          Status = TaskStatus.Completed,
         };
       }
       catch (WorkerApiException ex)

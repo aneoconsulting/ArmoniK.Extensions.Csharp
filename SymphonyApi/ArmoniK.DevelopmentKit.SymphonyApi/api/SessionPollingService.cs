@@ -23,7 +23,6 @@
 
 using ArmoniK.Api.gRPC.V1;
 using ArmoniK.DevelopmentKit.Common;
-using ArmoniK.Extensions.Common.StreamWrapper.Worker;
 
 using Google.Protobuf;
 
@@ -34,6 +33,9 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
+
+using ArmoniK.Api.gRPC.V1.Submitter;
+using ArmoniK.Api.Worker.Worker;
 
 namespace ArmoniK.DevelopmentKit.SymphonyApi.api
 {
@@ -76,7 +78,7 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.api
       LoggerFactory = loggerFactory;
       TaskHandler   = taskHandler;
 
-      TaskOptions = CopyClientToTaskOptions(TaskHandler.TaskOptions);
+      TaskOptions = CopyClientToTaskOptions(TaskHandler.TaskOptions.Options);
 
       Logger.LogDebug("Creating Session... ");
 

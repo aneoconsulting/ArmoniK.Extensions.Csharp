@@ -26,6 +26,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 
 using ArmoniK.Api.gRPC.V1;
+using ArmoniK.Api.gRPC.V1.Submitter;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;

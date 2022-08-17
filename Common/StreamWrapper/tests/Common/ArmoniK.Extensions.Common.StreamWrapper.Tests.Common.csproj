@@ -6,8 +6,4 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\src\ArmoniK.Extensions.Common.StreamWrapper.csproj" />
-  </ItemGroup>
-
 </Project>
