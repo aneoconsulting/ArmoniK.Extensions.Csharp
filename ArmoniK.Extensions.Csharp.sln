@@ -34,12 +34,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArmoniK.Extensions.Common.StreamWrapper.Tests.Client", "Common\StreamWrapper\tests\Client\ArmoniK.Extensions.Common.StreamWrapper.Tests.Client.csproj", "{9E28CEBD-3BFB-4CEE-A75D-5E26674E7FF8}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArmoniK.Extensions.Common.StreamWrapper.Tests.Server", "Common\StreamWrapper\tests\Server\ArmoniK.Extensions.Common.StreamWrapper.Tests.Server.csproj", "{87C028B5-4783-4A89-877C-F0C6D06EBED1}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArmoniK.Extensions.Common.StreamWrapper.Tests.Common", "Common\StreamWrapper\tests\Common\ArmoniK.Extensions.Common.StreamWrapper.Tests.Common.csproj", "{1DCF85A1-C656-49E5-B750-DD005C17E506}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorkerApiTests", "WorkerApi\tests\WorkerApiTests\WorkerApiTests.csproj", "{4C09DC36-1CE4-4FE5-8B65-98390A8440BE}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArmoniK.EndToEndTests", "Common\EndToEnd.Tests\ArmoniK.EndToEndTests.csproj", "{F28DD026-559B-4482-8840-015C135DDFF6}"
@@ -58,7 +52,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Client", "Client", "{2D6552
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{CAB1F315-A991-4507-9FE0-ADC18B6D8A35}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArmoniK.DevelopmentKit.Client.Common", "Client\src\ArmoniK.DevelopmentKit.Client.Common\ArmoniK.DevelopmentKit.Client.Common.csproj", "{65F58547-41B8-495E-8B1C-E8D69EFC7D30}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArmoniK.DevelopmentKit.Client.Common", "Client\src\ArmoniK.DevelopmentKit.Client.Common\ArmoniK.DevelopmentKit.Client.Common.csproj", "{65F58547-41B8-495E-8B1C-E8D69EFC7D30}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -94,18 +88,6 @@ Global
 		{DFF976DF-D921-4E76-A0D2-012549CC7A0B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DFF976DF-D921-4E76-A0D2-012549CC7A0B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DFF976DF-D921-4E76-A0D2-012549CC7A0B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9E28CEBD-3BFB-4CEE-A75D-5E26674E7FF8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9E28CEBD-3BFB-4CEE-A75D-5E26674E7FF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9E28CEBD-3BFB-4CEE-A75D-5E26674E7FF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9E28CEBD-3BFB-4CEE-A75D-5E26674E7FF8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{87C028B5-4783-4A89-877C-F0C6D06EBED1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{87C028B5-4783-4A89-877C-F0C6D06EBED1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{87C028B5-4783-4A89-877C-F0C6D06EBED1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{87C028B5-4783-4A89-877C-F0C6D06EBED1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1DCF85A1-C656-49E5-B750-DD005C17E506}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1DCF85A1-C656-49E5-B750-DD005C17E506}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1DCF85A1-C656-49E5-B750-DD005C17E506}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1DCF85A1-C656-49E5-B750-DD005C17E506}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4C09DC36-1CE4-4FE5-8B65-98390A8440BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4C09DC36-1CE4-4FE5-8B65-98390A8440BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4C09DC36-1CE4-4FE5-8B65-98390A8440BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -142,9 +124,6 @@ Global
 		{C4CB5823-7E24-412F-864B-6C26E886F368} = {79DE0448-1BF2-48D2-8A33-243E402CFD27}
 		{DFF976DF-D921-4E76-A0D2-012549CC7A0B} = {29622951-3654-41F0-9393-11D6737FD1F0}
 		{29622951-3654-41F0-9393-11D6737FD1F0} = {79DE0448-1BF2-48D2-8A33-243E402CFD27}
-		{9E28CEBD-3BFB-4CEE-A75D-5E26674E7FF8} = {CD412C3D-63D0-4726-B4C3-FEF701E4DCAF}
-		{87C028B5-4783-4A89-877C-F0C6D06EBED1} = {CD412C3D-63D0-4726-B4C3-FEF701E4DCAF}
-		{1DCF85A1-C656-49E5-B750-DD005C17E506} = {CD412C3D-63D0-4726-B4C3-FEF701E4DCAF}
 		{4C09DC36-1CE4-4FE5-8B65-98390A8440BE} = {CD412C3D-63D0-4726-B4C3-FEF701E4DCAF}
 		{F28DD026-559B-4482-8840-015C135DDFF6} = {CD412C3D-63D0-4726-B4C3-FEF701E4DCAF}
 		{CABA6847-09C9-46F7-8C89-450285055854} = {79DE0448-1BF2-48D2-8A33-243E402CFD27}
