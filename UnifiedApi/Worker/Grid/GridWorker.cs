@@ -27,7 +27,6 @@ using System.Linq;
 using System.Reflection;
 
 using ArmoniK.Api.gRPC.V1;
-using ArmoniK.Api.gRPC.V1.Submitter;
 using ArmoniK.Api.Worker.Worker;
 using ArmoniK.Attributes;
 using ArmoniK.DevelopmentKit.Common;

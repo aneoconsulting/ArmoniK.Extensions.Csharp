@@ -25,7 +25,6 @@ using System;
 using System.Collections.Generic;
 
 using ArmoniK.Api.gRPC.V1;
-using ArmoniK.Api.gRPC.V1.Submitter;
 using ArmoniK.Api.Worker.Worker;
 
 using Google.Protobuf.Collections;

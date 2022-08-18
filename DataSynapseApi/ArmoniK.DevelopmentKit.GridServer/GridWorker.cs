@@ -34,7 +34,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-using ArmoniK.Api.gRPC.V1.Submitter;
 using ArmoniK.Api.Worker.Worker;
 
 #pragma warning disable CS1591

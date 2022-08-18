@@ -34,7 +34,6 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 
-using ArmoniK.Api.gRPC.V1.Submitter;
 using ArmoniK.Api.Worker.Worker;
 
 namespace ArmoniK.DevelopmentKit.SymphonyApi.api
