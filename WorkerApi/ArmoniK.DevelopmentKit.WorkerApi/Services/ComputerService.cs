@@ -34,7 +34,6 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using ArmoniK.Api.Common.Channel.Utils;
-using ArmoniK.Api.Worker.Utils;
 using ArmoniK.Api.Worker.Worker;
 
 using WorkerApiException = ArmoniK.DevelopmentKit.Common.Exceptions.WorkerApiException;
@@ -63,10 +62,9 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Services
 
     public override async Task<Output> Process(ITaskHandler taskHandler)
     {
-      using var scopedLog = LoggerExt.BeginNamedScope(Logger,
-                                                      "Execute task",
-                                                      ("Session", taskHandler.SessionId),
-                                                      ("TaskId", taskHandler.TaskId));
+      using var scopedLog = Logger.BeginNamedScope("Execute task",
+                                                   ("Session", taskHandler.SessionId),
+                                                   ("TaskId", taskHandler.TaskId));
       Logger.LogTrace("DataDependencies {DataDependencies}",
                       taskHandler.DataDependencies.Keys);
       Logger.LogTrace("ExpectedResults {ExpectedResults}",

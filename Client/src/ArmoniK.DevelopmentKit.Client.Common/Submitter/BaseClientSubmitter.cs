@@ -519,7 +519,6 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
     /// <summary>
     /// Try to get the result if it is available
     /// </summary>
-    /// <param name="client">The <code>Submitter.SubmitterClient</code> client to use for the result retrieval.</param>
     /// <param name="resultRequest">Request specifying the result to fetch</param>
     /// <param name="cancellationToken">The token used to cancel the operation.</param>
     /// <returns></returns>
