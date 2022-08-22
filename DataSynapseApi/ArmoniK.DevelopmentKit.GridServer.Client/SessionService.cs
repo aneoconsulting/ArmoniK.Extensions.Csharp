@@ -23,8 +23,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Data;
-using System.IO;
 using System.Linq;
 using System.Threading;
 
@@ -32,9 +30,6 @@ using ArmoniK.Api.gRPC.V1;
 using ArmoniK.Api.gRPC.V1.Submitter;
 using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.Common.Submitter;
-
-using Google.Protobuf;
-using Google.Protobuf.WellKnownTypes;
 
 using Microsoft.Extensions.Logging;
 
@@ -188,28 +183,15 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
     private Session CreateSession()
     {
       using var _         = Logger.LogFunction();
-      var       sessionId = Guid.NewGuid().ToString();
       var createSessionRequest = new CreateSessionRequest
       {
         DefaultTaskOption = TaskOptions,
-        Id                = sessionId,
       };
       var session = ControlPlaneService.CreateSession(createSessionRequest);
-      switch (session.ResultCase)
-      {
-        case CreateSessionReply.ResultOneofCase.Error:
-          throw new Exception("Error while creating session : " + session.Error);
-        case CreateSessionReply.ResultOneofCase.None:
-          throw new Exception("Issue with Server !");
-        case CreateSessionReply.ResultOneofCase.Ok:
-          break;
-        default:
-          throw new ArgumentOutOfRangeException();
-      }
 
       return new Session()
       {
-        Id = sessionId,
+        Id = session.SessionId,
       };
     }
 
@@ -231,7 +213,7 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
     /// <param name="payloads">
     ///   The user payload list to execute. General used for subTasking.
     /// </param>
-    public IEnumerable<string> SubmitTasks(IEnumerable<byte[]> payloads)
+    public IEnumerable<TaskResultId> SubmitTasks(IEnumerable<byte[]> payloads)
     {
       return SubmitTasksWithDependencies(payloads.Select(payload => new Tuple<byte[], IList<string>>(payload,
                                                                                                      null)));
@@ -243,7 +225,7 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
     /// <param name="payload">
     ///   The user payload to execute.
     /// </param>
-    public string SubmitTask(byte[] payload)
+    public TaskResultId SubmitTask(byte[] payload)
     {
       Thread.Sleep(2); // Twice the keep alive 
       return SubmitTasks(new[] { payload })
@@ -258,7 +240,7 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
     /// <param name="payload">The payload to submit</param>
     /// <param name="dependencies">A list of task Id in dependence of this created task</param>
     /// <returns>return the taskId of the created task </returns>
-    public string SubmitTaskWithDependencies(byte[] payload, IList<string> dependencies)
+    public TaskResultId SubmitTaskWithDependencies(byte[] payload, IList<string> dependencies)
     {
       return SubmitTasksWithDependencies(new[]
       {

@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using ArmoniK.DevelopmentKit.Common;
+
 using Microsoft.Extensions.Logging;
 
 using Serilog;
@@ -20,7 +22,7 @@ namespace ArmoniK.DevelopmentKit.Client.Services.Common
     /// <summary>
     /// The result dictionary to return result
     /// </summary>
-    protected ConcurrentDictionary<string, IServiceInvocationHandler> ResultHandlerDictionary { get; set; }
+    protected ConcurrentDictionary<ResultIds, IServiceInvocationHandler> ResultHandlerDictionary { get; set; }
 
     /// <summary>
     /// The properties to get LoggerFactory or to override it

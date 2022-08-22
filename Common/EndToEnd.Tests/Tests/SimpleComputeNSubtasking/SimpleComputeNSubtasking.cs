@@ -98,7 +98,10 @@ namespace ArmoniK.EndToEndTests.Tests.SimpleComputeNSubtasking
         Logger.LogInformation($"Submitting aggregate task             : {taskContext.TaskId} from Session {SessionId}");
 
         var aggTaskId = this.SubmitTaskWithDependencies(aggPayload.Serialize(),
-                                                        new[] { subTaskId },
+                                                        new List<string>
+                                                        {
+                                                          subTaskId.TaskId,
+                                                        },
                                                         true);
 
         Logger.LogInformation($"Submitted  SubmitTaskWithDependencies : {aggTaskId} with task dependencies      {subTaskId}");
@@ -128,7 +131,7 @@ namespace ArmoniK.EndToEndTests.Tests.SimpleComputeNSubtasking
       };
       ;
       this.SubmitTaskWithDependencies(aggPayload.Serialize(),
-                                      taskIds.ToList());
+                                      taskIds.Select(id => id.ResultIds.Single()).ToList());
 
       var elapsedMilliseconds = sw.ElapsedMilliseconds;
       Logger.LogInformation($"Server called {nbTasks} tasks in {elapsedMilliseconds} ms");

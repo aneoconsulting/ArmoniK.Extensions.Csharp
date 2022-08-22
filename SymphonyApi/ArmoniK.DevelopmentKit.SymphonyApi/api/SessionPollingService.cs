@@ -34,6 +34,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 
+using ArmoniK.Api.gRPC.V1.Agent;
 using ArmoniK.Api.Worker.Worker;
 
 namespace ArmoniK.DevelopmentKit.SymphonyApi.api
@@ -165,7 +166,7 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.api
     /// <param name="payloads">
     ///   The user payload list to execute. General used for subTasking.
     /// </param>
-    public IEnumerable<string> SubmitTasks(IEnumerable<byte[]> payloads)
+    public IEnumerable<TaskResultId> SubmitTasks(IEnumerable<byte[]> payloads)
     {
       using var _ = Logger.LogFunction();
 
@@ -178,11 +179,8 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.api
       foreach (var payload in ePayloads)
       {
         var taskId = Guid.NewGuid().ToString();
-        Logger.LogDebug("Create task {task}",
-                        taskId);
         var taskRequest = new TaskRequest
         {
-          Id      = taskId,
           Payload = ByteString.CopyFrom(payload),
 
           ExpectedOutputKeys =
@@ -194,29 +192,19 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.api
         taskRequests.Add(taskRequest);
       }
 
-      TaskHandler.CreateTasksAsync(taskRequests,
-                                   TaskOptions).Wait();
+      var reply = TaskHandler.CreateTasksAsync(taskRequests,
+                                               TaskOptions).Result;
 
-      var taskCreated = taskRequests.Select(t => t.Id);
-
+      var taskCreated = reply.CreationStatusList.CreationStatuses.Select(status => new TaskResultId
+      {
+        ResultIds = status.TaskInfo.ExpectedOutputKeys,
+        SessionId = SessionId.Id,
+        TaskId    = status.TaskInfo.TaskId,
+      });
       Logger.LogDebug("Tasks created : {ids}",
-                      taskCreated);
+                      taskCreated.Select(id => id.TaskId));
       return taskCreated;
     }
-
-    /// <summary>
-    ///   The method to submit sub task inside a parent task
-    ///   Use this method only on server side development
-    /// </summary>
-    /// <param name="parentTaskId">The task Id of a parent task</param>
-    /// <param name="payloads">A lists of payloads creating a list of subTask</param>
-    /// <returns>Return a list of taskId</returns>
-    [Obsolete]
-    public IEnumerable<string> SubmitSubTasks(string parentTaskId, IEnumerable<byte[]> payloads)
-    {
-      throw new NotImplementedException("This method is obsolete please call function SubmitTasks");
-    }
-
 
     /// <summary>
     ///   The method to submit several tasks with dependencies tasks. This task will wait for
@@ -225,7 +213,7 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.api
     /// <param name="payloadsWithDependencies">A list of Tuple(taskId, Payload) in dependence of those created tasks</param>
     /// <param name="resultForParent"></param>
     /// <returns>return a list of taskIds of the created tasks </returns>
-    public IEnumerable<string> SubmitTasksWithDependencies(IEnumerable<Tuple<byte[], IList<string>>> payloadsWithDependencies, bool resultForParent = false)
+    public IEnumerable<TaskResultId> SubmitTasksWithDependencies(IEnumerable<Tuple<byte[], IList<string>>> payloadsWithDependencies, bool resultForParent = false)
     {
       using var _                = Logger.LogFunction();
       var       withDependencies = payloadsWithDependencies as Tuple<byte[], IList<string>>[] ?? payloadsWithDependencies.ToArray();
@@ -235,13 +223,11 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.api
 
       foreach (var (payload, dependencies) in withDependencies)
       {
-        var taskId = Guid.NewGuid().ToString();
-        Logger.LogDebug("Create task {task}",
-                        taskId);
-        var expectedTaskId = resultForParent ? TaskHandler.TaskId : taskId;
+        var expectedTaskId = resultForParent ? TaskHandler.TaskId : Guid.NewGuid().ToString();
+        Logger.LogDebug("Expected task {expectedTaskId}",
+                        expectedTaskId);
         var taskRequest = new TaskRequest
         {
-          Id      = taskId,
           Payload = ByteString.CopyFrom(payload),
 
           ExpectedOutputKeys =
@@ -262,42 +248,18 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.api
         taskRequests.Add(taskRequest);
       }
 
-      TaskHandler.CreateTasksAsync(taskRequests,
-                                   TaskOptions).Wait();
+      var reply = TaskHandler.CreateTasksAsync(taskRequests,
+                                               TaskOptions).Result;
 
-
-      var taskCreated = taskRequests.Select(t => t.Id);
-
+      var taskCreated = reply.CreationStatusList.CreationStatuses.Select(status => new TaskResultId
+      {
+        ResultIds = status.TaskInfo.ExpectedOutputKeys,
+        SessionId = SessionId.Id,
+        TaskId    = status.TaskInfo.TaskId,
+      });
       Logger.LogDebug("Tasks created : {ids}",
-                      taskCreated);
+                      taskCreated.Select(id => id.TaskId));
       return taskCreated;
-    }
-
-    /// <summary>
-    ///   The method to submit One SubTask with dependencies tasks. This task will wait for
-    ///   to start until all dependencies are completed successfully
-    /// </summary>
-    /// <param name="parentId">The parent Task who want to create the SubTask</param>
-    /// <param name="payload">The payload to submit</param>
-    /// <param name="dependencies">A list of task Id in dependence of this created SubTask</param>
-    /// <returns>return the taskId of the created SubTask </returns>
-    [Obsolete]
-    public string SubmitSubtaskWithDependencies(string parentId, byte[] payload, IList<string> dependencies)
-    {
-      throw new NotImplementedException("This function is obsolete please use SubmitTasksWithDependencies");
-    }
-
-    /// <summary>
-    ///   The method to submit several tasks with dependencies tasks. This task will wait for
-    ///   to start until all dependencies are completed successfully
-    /// </summary>
-    /// <param name="parentTaskId">The parent Task who want to create the SubTasks</param>
-    /// <param name="payloadWithDependencies">A list of Tuple(taskId, Payload) in dependence of those created Subtasks</param>
-    /// <returns>return a list of taskIds of the created Subtasks </returns>
-    [Obsolete]
-    public IEnumerable<string> SubmitSubtasksWithDependencies(string parentTaskId, IEnumerable<Tuple<byte[], IList<string>>> payloadWithDependencies)
-    {
-      throw new NotImplementedException("This function is obsolete please use SubmitTasksWithDependencies");
     }
 
 
@@ -341,25 +303,10 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.api
     /// <param name="payload">
     ///   The user payload to execute.
     /// </param>
-    public static string SubmitTask(this SessionPollingService client, byte[] payload)
+    public static TaskResultId SubmitTask(this SessionPollingService client, byte[] payload)
     {
       return client.SubmitTasks(new[] { payload })
                    .Single();
-    }
-
-    /// <summary>
-    ///   The method to submit sub task coming from a parent task
-    ///   Use this method only on server side development
-    /// </summary>
-    /// <param name="client">The client instance for extension</param>
-    /// <param name="parentTaskId">The task Id of a parent task</param>
-    /// <param name="payloads">A lists of payloads creating a list of subTask</param>
-    /// <returns>Return a list of taskId</returns>
-    [Obsolete]
-    public static string SubmitSubTask(this SessionPollingService client, string parentTaskId, byte[] payloads)
-    {
-      return client.SubmitSubTasks(parentTaskId,
-                                   new[] { payloads }).Single();
     }
 
     /// <summary>
@@ -370,7 +317,7 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.api
     /// <param name="payload">The payload to submit</param>
     /// <param name="dependencies">A list of task Id in dependence of this created task</param>
     /// <returns>return the taskId of the created task </returns>
-    public static string SubmitTaskWithDependencies(this SessionPollingService client, byte[] payload, IList<string> dependencies)
+    public static TaskResultId SubmitTaskWithDependencies(this SessionPollingService client, byte[] payload, IList<string> dependencies)
     {
       return client.SubmitTasksWithDependencies(new[]
       {

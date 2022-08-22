@@ -163,7 +163,7 @@ namespace ArmoniK.DevelopmentKit.Worker.Grid
     /// <param name="payloads">
     ///   The user payload list to execute. General used for subTasking.
     /// </param>
-    public IEnumerable<string> SubmitTasks(IEnumerable<byte[]> payloads)
+    public IEnumerable<TaskResultId> SubmitTasks(IEnumerable<byte[]> payloads)
     {
       using var _ = Logger.LogFunction();
 
@@ -176,11 +176,8 @@ namespace ArmoniK.DevelopmentKit.Worker.Grid
       foreach (var payload in ePayloads)
       {
         var taskId = Guid.NewGuid().ToString();
-        Logger.LogDebug("Create task {task}",
-                        taskId);
         var taskRequest = new TaskRequest
         {
-          Id      = taskId,
           Payload = ByteString.CopyFrom(payload),
 
           ExpectedOutputKeys =
@@ -192,13 +189,17 @@ namespace ArmoniK.DevelopmentKit.Worker.Grid
         taskRequests.Add(taskRequest);
       }
 
-      TaskHandler.CreateTasksAsync(taskRequests,
-                                   TaskOptions).Wait();
+      var reply = TaskHandler.CreateTasksAsync(taskRequests,
+                                               TaskOptions).Result;
 
-      var taskCreated = taskRequests.Select(t => t.Id);
-
+      var taskCreated = reply.CreationStatusList.CreationStatuses.Select(status => new TaskResultId
+      {
+        ResultIds = status.TaskInfo.ExpectedOutputKeys,
+        SessionId = SessionId.Id,
+        TaskId    = status.TaskInfo.TaskId,
+      });
       Logger.LogDebug("Tasks created : {ids}",
-                      taskCreated);
+                      taskCreated.Select(id => id.TaskId));
       return taskCreated;
     }
 
@@ -210,7 +211,7 @@ namespace ArmoniK.DevelopmentKit.Worker.Grid
     /// <param name="payloadsWithDependencies">A list of Tuple(taskId, Payload) in dependence of those created tasks</param>
     /// <param name="resultForParent"></param>
     /// <returns>return a list of taskIds of the created tasks </returns>
-    public IEnumerable<string> SubmitTasksWithDependencies(IEnumerable<Tuple<byte[], IList<string>>> payloadsWithDependencies, bool resultForParent = false)
+    public IEnumerable<TaskResultId> SubmitTasksWithDependencies(IEnumerable<Tuple<byte[], IList<string>>> payloadsWithDependencies, bool resultForParent = false)
     {
       using var _                = Logger.LogFunction();
       var       withDependencies = payloadsWithDependencies as Tuple<byte[], IList<string>>[] ?? payloadsWithDependencies.ToArray();
@@ -220,13 +221,9 @@ namespace ArmoniK.DevelopmentKit.Worker.Grid
 
       foreach (var (payload, dependencies) in withDependencies)
       {
-        var taskId = Guid.NewGuid().ToString();
-        Logger.LogDebug("Create task {task}",
-                        taskId);
-        var expectedTaskId = resultForParent ? TaskHandler.TaskId : taskId;
+        var expectedTaskId = resultForParent ? TaskHandler.TaskId : Guid.NewGuid().ToString();
         var taskRequest = new TaskRequest
         {
-          Id      = taskId,
           Payload = ByteString.CopyFrom(payload),
 
           ExpectedOutputKeys =
@@ -247,14 +244,17 @@ namespace ArmoniK.DevelopmentKit.Worker.Grid
         taskRequests.Add(taskRequest);
       }
 
-      TaskHandler.CreateTasksAsync(taskRequests,
-                                   TaskOptions).Wait();
+      var reply = TaskHandler.CreateTasksAsync(taskRequests,
+                                   TaskOptions).Result;
 
-
-      var taskCreated = taskRequests.Select(t => t.Id);
-
+      var taskCreated = reply.CreationStatusList.CreationStatuses.Select(status => new TaskResultId
+      {
+        ResultIds = status.TaskInfo.ExpectedOutputKeys,
+        SessionId = SessionId.Id,
+        TaskId = status.TaskInfo.TaskId,
+      });
       Logger.LogDebug("Tasks created : {ids}",
-                      taskCreated);
+                      taskCreated.Select(id => id.TaskId));
       return taskCreated;
     }
 
@@ -326,7 +326,7 @@ namespace ArmoniK.DevelopmentKit.Worker.Grid
     /// <param name="payload">
     ///   The user payload to execute.
     /// </param>
-    public static string SubmitTask(this SessionPollingService client, byte[] payload)
+    public static TaskResultId SubmitTask(this SessionPollingService client, byte[] payload)
     {
       return client.SubmitTasks(new[] { payload })
                    .Single();
@@ -340,7 +340,7 @@ namespace ArmoniK.DevelopmentKit.Worker.Grid
     /// <param name="payload">The payload to submit</param>
     /// <param name="dependencies">A list of task Id in dependence of this created task</param>
     /// <returns>return the taskId of the created task </returns>
-    public static string SubmitTaskWithDependencies(this SessionPollingService client, byte[] payload, IList<string> dependencies)
+    public static TaskResultId SubmitTaskWithDependencies(this SessionPollingService client, byte[] payload, IList<string> dependencies)
     {
       return client.SubmitTasksWithDependencies(new[]
       {

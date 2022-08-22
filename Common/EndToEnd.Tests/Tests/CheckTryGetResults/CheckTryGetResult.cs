@@ -26,6 +26,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 
+using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.Common.Exceptions;
 using ArmoniK.DevelopmentKit.SymphonyApi;
 using ArmoniK.DevelopmentKit.SymphonyApi.api;
@@ -47,7 +48,7 @@ namespace ArmoniK.EndToEndTests.Tests.CheckTryGetResults
       //END USER PLEASE FIXME
     }
 
-    private string Job_of_N_Tasks(byte[] payload, int nbTasks)
+    private TaskResultId Job_of_N_Tasks(byte[] payload, int nbTasks)
     {
       Logger.LogInformation($"Executing {nbTasks} Subtasks with ExpM1 compute");
 
@@ -63,7 +64,7 @@ namespace ArmoniK.EndToEndTests.Tests.CheckTryGetResults
       };
 
       var aggTaskId = this.SubmitTaskWithDependencies(newPayload.Serialize(),
-                                                      taskIds.ToList());
+                                                      taskIds.Select(id => id.ResultIds.Single()).ToList());
 
       var elapsedMilliseconds = sw.ElapsedMilliseconds;
       Logger.LogInformation($"Server called {nbTasks} tasks in {elapsedMilliseconds} ms");

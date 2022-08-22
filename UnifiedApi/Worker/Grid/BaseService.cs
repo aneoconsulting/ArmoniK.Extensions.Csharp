@@ -181,7 +181,7 @@ namespace ArmoniK.DevelopmentKit.Worker.Grid
     /// <param name="payloads">
     ///   The user payload list to execute. Generally used for subTasking.
     /// </param>
-    public IEnumerable<string> SubmitTasks(IEnumerable<byte[]> payloads)
+    public IEnumerable<TaskResultId> SubmitTasks(IEnumerable<byte[]> payloads)
       => SessionService.SubmitTasks(payloads);
 
 
@@ -192,7 +192,7 @@ namespace ArmoniK.DevelopmentKit.Worker.Grid
     /// <param name="payloadWithDependencies">A list of Tuple(taskId, Payload) in dependence of those created tasks</param>
     /// <param name="resultForParent">Up result to parent task</param>
     /// <returns>return a list of taskIds of the created tasks </returns>
-    public IEnumerable<string> SubmitTasksWithDependencies(IEnumerable<Tuple<byte[], IList<string>>> payloadWithDependencies, bool resultForParent = false)
+    public IEnumerable<TaskResultId> SubmitTasksWithDependencies(IEnumerable<Tuple<byte[], IList<string>>> payloadWithDependencies, bool resultForParent = false)
       => SessionService.SubmitTasksWithDependencies(payloadWithDependencies,
                                                     resultForParent);
 
@@ -298,7 +298,7 @@ namespace ArmoniK.DevelopmentKit.Worker.Grid
     /// <param name="payload">
     ///   The user payload to execute. Generally used for subtasking.
     /// </param>
-    public static string SubmitTask<T>(this BaseService<T> serviceContainerBase, byte[] payload)
+    public static TaskResultId SubmitTask<T>(this BaseService<T> serviceContainerBase, byte[] payload)
     {
       return serviceContainerBase.SessionService.SubmitTasks(new[]
       {
@@ -315,10 +315,10 @@ namespace ArmoniK.DevelopmentKit.Worker.Grid
     /// <param name="dependencies">A list of task Id in dependence of this created task</param>
     /// <param name="resultForParent"></param>
     /// <returns>return the taskId of the created task </returns>
-    public static string SubmitTaskWithDependencies<T>(this BaseService<T> serviceContainerBase,
-                                                       byte[]              payload,
-                                                       IList<string>       dependencies,
-                                                       bool                resultForParent = false)
+    public static TaskResultId SubmitTaskWithDependencies<T>(this BaseService<T> serviceContainerBase,
+                                                             byte[]              payload,
+                                                             IList<string>       dependencies,
+                                                             bool                resultForParent = false)
     {
       return serviceContainerBase.SubmitTasksWithDependencies(new[]
                                                               {

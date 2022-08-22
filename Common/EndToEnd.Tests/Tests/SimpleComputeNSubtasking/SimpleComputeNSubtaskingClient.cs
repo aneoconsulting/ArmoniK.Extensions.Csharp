@@ -84,11 +84,11 @@ namespace ArmoniK.EndToEndTests.Tests.SimpleComputeNSubtasking
                token);
     }
 
-    private static IEnumerable<Tuple<string, byte[]>> GetTryResults(SessionService sessionService, IEnumerable<string> taskIds)
+    private static IEnumerable<Tuple<ResultIds, byte[]>> GetTryResults(SessionService sessionService, IEnumerable<TaskResultId> taskIds)
     {
-      var ids      = taskIds.ToList();
+      var ids      = taskIds.Select(id => new ResultIds(id)).ToList();
       var missing  = ids;
-      var results  = new List<Tuple<string, byte[]>>();
+      var results  = new List<Tuple<ResultIds, byte[]>>();
       var cts      = new CancellationTokenSource();
       var holdPrev = 0;
       var waitInSeconds = new List<int>
@@ -149,7 +149,7 @@ namespace ArmoniK.EndToEndTests.Tests.SimpleComputeNSubtasking
     /// <param name="sessionService">The sessionService to submit and wait for result</param>
     /// <param name="taskId">The task which is waiting for</param>
     /// <returns></returns>
-    private byte[] WaitForSubTaskResult(SessionService sessionService, string taskId)
+    private byte[] WaitForSubTaskResult(SessionService sessionService, ResultIds taskId)
     {
       Log.LogInformation($"Wait for root task to finish [task {taskId}]");
 
@@ -202,7 +202,7 @@ namespace ArmoniK.EndToEndTests.Tests.SimpleComputeNSubtasking
     /// <param name="sessionService">The sessionService API to connect to the Control plane Service</param>
     /// <param name="taskId">The task which is waiting for</param>
     /// <returns></returns>
-    private static byte[] WaitForTaskResult(SessionService sessionService, string taskId)
+    private static byte[] WaitForTaskResult(SessionService sessionService, ResultIds taskId)
     {
       var taskResult = sessionService.GetResult(taskId);
 

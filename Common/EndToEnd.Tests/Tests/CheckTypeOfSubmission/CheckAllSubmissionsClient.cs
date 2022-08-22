@@ -28,6 +28,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
+using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.SymphonyApi.Client;
 using ArmoniK.DevelopmentKit.SymphonyApi.Client.api;
 using ArmoniK.EndToEndTests.Common;
@@ -197,9 +198,9 @@ namespace ArmoniK.EndToEndTests.Tests.CheckTypeOfSubmission
     /// <param name="taskIds">The tasks which are waiting for</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    private static IEnumerable<Tuple<string, byte[]>> GetResults(SessionService      sessionService,
-                                                                 IEnumerable<string> taskIds,
-                                                                 CancellationToken   cancellationToken = default)
+    private static IEnumerable<Tuple<ResultIds, byte[]>> GetResults(SessionService         sessionService,
+                                                                    IEnumerable<ResultIds> taskIds,
+                                                                    CancellationToken      cancellationToken = default)
     {
       var taskResult = sessionService.GetResults(taskIds,
                                                  cancellationToken);
@@ -237,7 +238,7 @@ namespace ArmoniK.EndToEndTests.Tests.CheckTypeOfSubmission
       //Start Submission tasks
       Stopwatch stopWatch = new Stopwatch();
       stopWatch.Start();
-      IEnumerable<string> taskIds;
+      TaskResultId[] taskIds;
       if (submissionType == SubmissionType.Sequential)
       {
         taskIds = listOfPayload.Select(sessionService.SubmitTask).ToArray();
@@ -256,12 +257,12 @@ namespace ArmoniK.EndToEndTests.Tests.CheckTypeOfSubmission
 
       stopWatch.Start();
       Log.LogInformation("Starting to retrieve the result : ");
-      IEnumerable<Tuple<string, byte[]>> results;
+      IEnumerable<Tuple<ResultIds, byte[]>> results;
 
       if (getResultType == GetResultType.GetResult)
       {
         results = GetResults(sessionService,
-                             taskIds);
+                             taskIds.Select(id => new ResultIds(id)));
       }
       else
       {
@@ -269,7 +270,7 @@ namespace ArmoniK.EndToEndTests.Tests.CheckTypeOfSubmission
                                 taskIds);
       }
 
-      var tuples = results as Tuple<string, byte[]>[] ?? results.ToArray();
+      var tuples = results as Tuple<ResultIds, byte[]>[] ?? results.ToArray();
       stopWatch.Stop();
       ts = stopWatch.Elapsed;
       // Format and display the TimeSpan value.
@@ -311,11 +312,11 @@ namespace ArmoniK.EndToEndTests.Tests.CheckTypeOfSubmission
     }
 
 
-    private IEnumerable<Tuple<string, byte[]>> GetTryResults(SessionService sessionService, IEnumerable<string> taskIds)
+    private IEnumerable<Tuple<ResultIds, byte[]>> GetTryResults(SessionService sessionService, IEnumerable<TaskResultId> taskIds)
     {
-      var ids      = taskIds.ToList();
+      var ids      = taskIds.Select(id => new ResultIds(id)).ToList();
       var missing  = ids;
-      var results  = new List<Tuple<string, byte[]>>();
+      var results  = new List<Tuple<ResultIds, byte[]>>();
       var cts      = new CancellationTokenSource();
       var holdPrev = 0;
       var waitInSeconds = new List<int>

@@ -23,6 +23,7 @@
 
 using System.Collections.Generic;
 
+using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.SymphonyApi.Client;
 using ArmoniK.DevelopmentKit.SymphonyApi.Client.api;
 using ArmoniK.EndToEndTests.Common;
@@ -66,7 +67,7 @@ namespace ArmoniK.EndToEndTests.Tests.TemplateTest
     /// <param name="sessionService">The sessionService API to connect to the Control plane Service</param>
     /// <param name="taskId">The task which is waiting for</param>
     /// <returns></returns>
-    private static byte[] WaitForTaskResult(SessionService sessionService, string taskId)
+    private static byte[] WaitForTaskResult(SessionService sessionService, ResultIds taskId)
     {
       var taskResult = sessionService.GetResult(taskId);
       

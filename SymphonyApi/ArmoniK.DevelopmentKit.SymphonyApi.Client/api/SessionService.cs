@@ -168,28 +168,15 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client.api
     private Session CreateSession()
     {
       using var _         = Logger.LogFunction();
-      var       sessionId = Guid.NewGuid().ToString();
       var createSessionRequest = new CreateSessionRequest
       {
         DefaultTaskOption = TaskOptions,
-        Id                = sessionId,
       };
       var session = ControlPlaneService.CreateSession(createSessionRequest);
-      switch (session.ResultCase)
-      {
-        case CreateSessionReply.ResultOneofCase.Error:
-          throw new Exception("Error while creating session : " + session.Error);
-        case CreateSessionReply.ResultOneofCase.None:
-          throw new Exception("Issue with Server !");
-        case CreateSessionReply.ResultOneofCase.Ok:
-          break;
-        default:
-          throw new ArgumentOutOfRangeException();
-      }
 
       return new Session()
       {
-        Id = sessionId,
+        Id = session.SessionId,
       };
     }
 
@@ -211,7 +198,7 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client.api
     /// <param name="payloads">
     ///   The user payload list to execute. General used for subTasking.
     /// </param>
-    public IEnumerable<string> SubmitTasks(IEnumerable<byte[]> payloads)
+    public IEnumerable<TaskResultId> SubmitTasks(IEnumerable<byte[]> payloads)
     {
 
       return SubmitTasksWithDependencies(payloads.Select(payload => new Tuple<byte[], IList<string>>(payload,
@@ -224,7 +211,7 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client.api
     /// <param name="payload">
     ///   The user payload to execute.
     /// </param>
-    public string SubmitTask(byte[] payload)
+    public TaskResultId SubmitTask(byte[] payload)
     {
       Thread.Sleep(5); // Twice the keep alive 
       return SubmitTasks(new[] { payload })
@@ -239,7 +226,7 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client.api
     /// <param name="payload">The payload to submit</param>
     /// <param name="dependencies">A list of task Id in dependence of this created task</param>
     /// <returns>return the taskId of the created task </returns>
-    public string SubmitTaskWithDependencies(byte[] payload, IList<string> dependencies)
+    public TaskResultId SubmitTaskWithDependencies(byte[] payload, IList<string> dependencies)
     {
       return SubmitTasksWithDependencies(new[]
       {

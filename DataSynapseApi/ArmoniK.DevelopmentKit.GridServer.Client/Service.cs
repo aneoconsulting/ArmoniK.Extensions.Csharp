@@ -56,7 +56,7 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
       /// <summary>
       /// The getter to return the taskId
       /// </summary>
-      public string TaskId { get; set; }
+      public TaskResultId TaskId { get; set; }
 
       /// <summary>
       /// The getter to return the result in object type format
@@ -119,7 +119,11 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
 
       return new ServiceResult()
       {
-        TaskId = Guid.NewGuid().ToString(),
+        TaskId = new TaskResultId
+        {
+          SessionId = SessionId,
+          TaskId    = Guid.NewGuid().ToString(),
+        },
         Result = result,
       };
     }
@@ -140,7 +144,7 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
         ClientPayload      = ProtoSerializer.SerializeMessageObjectArray(arguments)
       };
 
-      string taskId = SessionService.SubmitTask(dataSynapsePayload.Serialize());
+      var taskId = SessionService.SubmitTask(dataSynapsePayload.Serialize());
 
       var result = ProtoSerializer.DeSerializeMessageObjectArray(SessionService.GetResult(taskId));
 
@@ -185,7 +189,7 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
     /// <param name="dataSynapsePayload">Th armonikPayload to pass with Function name and serialized arguments</param>
     /// <param name="handler">The handler callBack for Error and response</param>
     /// <returns>Return the taskId</returns>
-    public string Submit(ArmonikPayload dataSynapsePayload, IServiceInvocationHandler handler)
+    public TaskResultId Submit(ArmonikPayload dataSynapsePayload, IServiceInvocationHandler handler)
     {
       var taskId = SessionService.SubmitTask(dataSynapsePayload.Serialize());
 
@@ -198,7 +202,7 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
 
 
           handler.HandleResponse(result?[0],
-                                 taskId);
+                                 taskId.TaskId);
         }
         catch (Exception ex)
         {
@@ -206,21 +210,21 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
           {
             case ServiceInvocationException invocationException:
               handler.HandleError(invocationException,
-                                  taskId);
+                                  taskId.TaskId);
               break;
             case AggregateException aggregateException:
               handler.HandleError(new(aggregateException.InnerException),
-                                  taskId);
+                                  taskId.TaskId);
               break;
             default:
               handler.HandleError(new(ex),
-                                  taskId);
+                                  taskId.TaskId);
               break;
           }
         }
       });
 
-      TaskWarehouse[taskId] = HandlerResponse;
+      TaskWarehouse[taskId.TaskId] = HandlerResponse;
 
       return taskId;
     }
@@ -233,7 +237,7 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
     /// <param name="arguments">A list of object that can be passed in parameters of the function</param>
     /// <param name="handler">The handler callBack implemented as IServiceInvocationHandler to get response or result or error</param>
     /// <returns>Return the taskId string</returns>
-    public string Submit(string methodName, object[] arguments, IServiceInvocationHandler handler)
+    public TaskResultId Submit(string methodName, object[] arguments, IServiceInvocationHandler handler)
     {
       ArmonikPayload dataSynapsePayload = new()
       {
@@ -253,7 +257,7 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
     /// <param name="argument">One serialized argument that will already serialize for MethodName.</param>
     /// <param name="handler">The handler callBack implemented as IServiceInvocationHandler to get response or result or error</param>
     /// <returns>Return the taskId string</returns>
-    public string Submit(string methodName, byte[] argument, IServiceInvocationHandler handler)
+    public TaskResultId Submit(string methodName, byte[] argument, IServiceInvocationHandler handler)
     {
       ArmonikPayload dataSynapsePayload = new()
       {
@@ -267,15 +271,19 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
                     handler);
     }
 
-    private byte[] ActiveGetResult(params string[] taskId)
+    private byte[] ActiveGetResult(params TaskResultId[] taskId)
     {
       return ActiveGetResults(taskId).Single().Item2;
     }
 
-    private IEnumerable<Tuple<string, byte[]>> ActiveGetResults(IEnumerable<string> taskIds)
+    private IEnumerable<Tuple<ResultIds, byte[]>> ActiveGetResults(IEnumerable<TaskResultId> taskIds)
     {
-      var missing  = taskIds.ToHashSet();
-      var results  = new List<Tuple<string, byte[]>>();
+      var missing = taskIds.Select(id => new ResultIds
+      {
+        SessionId = id.SessionId,
+        Ids       = id.ResultIds,
+      }).ToHashSet();
+      var results  = new List<Tuple<ResultIds, byte[]>>();
       var holdPrev = 0;
       var waitInSeconds = new List<int>
       {

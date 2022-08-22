@@ -27,6 +27,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.SymphonyApi.Client;
 using ArmoniK.DevelopmentKit.SymphonyApi.Client.api;
 using ArmoniK.DevelopmentKit.WorkerApi.Common;
@@ -72,7 +73,7 @@ namespace ArmoniK.EndToEndTests.Tests.CheckPriority
     /// <param name="sessionId"></param>
     /// <param name="taskIds">The tasks which are waiting for</param>
     /// <returns></returns>
-    private static IEnumerable<Tuple<string, byte[]>> WaitForTasksResult(SessionService sessionService, IEnumerable<string> taskIds)
+    private static IEnumerable<Tuple<ResultIds, byte[]>> WaitForTasksResult(SessionService sessionService, IEnumerable<ResultIds> taskIds)
     {
       return sessionService.GetResults(taskIds);
     }
@@ -109,7 +110,11 @@ namespace ArmoniK.EndToEndTests.Tests.CheckPriority
       Log.LogInformation($"Session {numSession} [ {sessionService} ]is waiting for output result..");
 
       var taskResult = WaitForTasksResult(sessionService,
-                                          taskIds);
+                                          taskIds.Select(id => new ResultIds
+                                          {
+                                            Ids       = id.ResultIds,
+                                            SessionId = id.SessionId,
+                                          }));
 
       var result = ClientPayload.Deserialize(taskResult.First().Item2);
 

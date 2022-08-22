@@ -30,6 +30,8 @@ using Microsoft.Extensions.Logging;
 
 using System.Linq;
 
+using ArmoniK.DevelopmentKit.Common;
+
 namespace ArmoniK.EndToEndTests.Tests.CheckSessionUniqCallback
 {
   [Disabled]
@@ -148,7 +150,7 @@ namespace ArmoniK.EndToEndTests.Tests.CheckSessionUniqCallback
     /// <param name="sessionService">The sessionService API to connect to the Control plane Service</param>
     /// <param name="taskId">The task which is waiting for</param>
     /// <returns></returns>
-    private static byte[] WaitForTaskResult(SessionService sessionService, string taskId)
+    private static byte[] WaitForTaskResult(SessionService sessionService, ResultIds taskId)
     {
       var taskResult = sessionService.GetResult(taskId);
 

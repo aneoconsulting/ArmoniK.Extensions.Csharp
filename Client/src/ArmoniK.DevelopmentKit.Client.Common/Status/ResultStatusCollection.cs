@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using ArmoniK.Api.gRPC.V1;
+using ArmoniK.DevelopmentKit.Common;
 
-using Google.Protobuf.Collections;
-
-namespace ArmoniK.DevelopmentKit.Common.Status
+namespace ArmoniK.DevelopmentKit.Client.Common.Status
 {
   /// <summary>
   /// List of result status that will be collected during the request GetResultStatus
@@ -18,26 +14,26 @@ namespace ArmoniK.DevelopmentKit.Common.Status
     /// <summary>
     /// List of completed task where the result is ready to be retrieved
     /// </summary>
-    public IEnumerable<Tuple<string, ResultStatus>> IdsReady { get; set; } = default;
+    public IEnumerable<Tuple<ResultIds, ResultStatus>> IdsReady { get; set; } = default;
     
     /// <summary>
     /// List of task or task result in error
     /// </summary>
-    public IEnumerable<Tuple<string, ResultStatus>> IdsResultError { get; set; } = default;
+    public IEnumerable<Tuple<ResultIds, ResultStatus>> IdsResultError { get; set; } = default;
     
     /// <summary>
     /// List of Unknown TaskIds. There is a heavy error somewhere else in the execution when this list has element
     /// </summary>
-    public IEnumerable<string> IdsError { get; set; } = default;
+    public IEnumerable<ResultIds> IdsError { get; set; } = default;
     
     /// <summary>
     /// List of result not yet written in database
     /// </summary>
-    public IEnumerable<Tuple<string, ResultStatus>> IdsNotReady { get; set; }
+    public IEnumerable<Tuple<ResultIds, ResultStatus>> IdsNotReady { get; set; }
 
     /// <summary>
     /// The list of canceled task
     /// </summary>
-    public IEnumerable<Tuple<string, ResultStatus>> Canceled { get; set; }
+    public IEnumerable<Tuple<ResultIds, ResultStatus>> Canceled { get; set; }
   }
 }

@@ -27,6 +27,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
+using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.Common.Exceptions;
 using ArmoniK.DevelopmentKit.SymphonyApi.Client;
 using ArmoniK.DevelopmentKit.SymphonyApi.Client.api;
@@ -72,11 +73,11 @@ namespace ArmoniK.EndToEndTests.Tests.CheckRandomException
     /// <param name="taskIds">The tasks which are waiting for</param>
     /// <returns></returns>
     /// 
-    private IEnumerable<Tuple<string, byte[]>> WaitForTasksResult(int numSession, SessionService sessionService, IEnumerable<string> taskIds)
+    private IEnumerable<Tuple<ResultIds, byte[]>> WaitForTasksResult(int numSession, SessionService sessionService, IEnumerable<TaskResultId> taskIds)
     {
-      var ids     = taskIds.ToList();
+      var ids     = taskIds.Select(id => new ResultIds(id)).ToList();
       var missing = ids;
-      var results = new List<Tuple<string, byte[]>>();
+      var results = new List<Tuple<ResultIds, byte[]>>();
 
       try
       {
@@ -104,8 +105,10 @@ namespace ArmoniK.EndToEndTests.Tests.CheckRandomException
       {
         Log.LogError(ex.Message);
         Log.LogError($"------ Session {numSession} Adding Failed results as null in the list");
-        results.AddRange(ex.TaskIds.Select(x => new Tuple<string, byte[]>(x,
-                                                                          null)));
+
+        // todo fix but how ?
+        //results.AddRange(ex.TaskIds.Select(x => new Tuple<ResultIds, byte[]>(x,
+        //                                                                  null)));
       }
 
       return results;
@@ -150,7 +153,7 @@ namespace ArmoniK.EndToEndTests.Tests.CheckRandomException
       Log.LogInformation($"Session {numSession} has finished output result : {result}");
 
       var resultInError = taskResults.Where(x => x.Item2 == null);
-      var inError       = resultInError as Tuple<string, byte[]>[] ?? resultInError.ToArray();
+      var inError       = resultInError as Tuple<ResultIds, byte[]>[] ?? resultInError.ToArray();
       if (inError.Any())
       {
         Log.LogWarning($"Session {numSession}  : The following tasks list is in error \n{string.Join("\n ", inError.Select(x=> x.Item1))}");

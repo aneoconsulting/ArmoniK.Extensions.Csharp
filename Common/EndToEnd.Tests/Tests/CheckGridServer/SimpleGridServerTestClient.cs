@@ -82,7 +82,7 @@ namespace ArmoniK.EndToEndTests.Tests.CheckGridServer
     /// <param name="sessionService">The sessionService API to connect to the Control plane Service</param>
     /// <param name="taskId">The task which is waiting for</param>
     /// <returns></returns>
-    private static byte[] WaitForTaskResult(SessionService sessionService, string taskId)
+    private static byte[] WaitForTaskResult(SessionService sessionService, ResultIds taskId)
     {
       var taskResult = sessionService.GetResult(taskId);
 

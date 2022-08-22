@@ -59,7 +59,7 @@ namespace ArmoniK.DevelopmentKit.Client.Services.Submitter
       /// <summary>
       /// The getter to return the taskId
       /// </summary>
-      public string TaskId { get; set; }
+      public TaskResultId TaskId { get; set; }
 
       /// <summary>
       /// The getter to return the result in object type format
@@ -102,8 +102,6 @@ namespace ArmoniK.DevelopmentKit.Client.Services.Submitter
       Tuple.Create(TaskStatus.Creating,
                    ArmonikStatusCode.ResultNotReady),
       Tuple.Create(TaskStatus.Unspecified,
-                   ArmonikStatusCode.TaskFailed),
-      Tuple.Create(TaskStatus.Failed,
                    ArmonikStatusCode.TaskFailed),
       Tuple.Create(TaskStatus.Processed,
                    ArmonikStatusCode.ResultReady),
@@ -155,7 +153,11 @@ namespace ArmoniK.DevelopmentKit.Client.Services.Submitter
 
       return new ServiceResult()
       {
-        TaskId = Guid.NewGuid().ToString(),
+        TaskId = new TaskResultId
+        {
+          SessionId = SessionId,
+          TaskId = Guid.NewGuid().ToString(),
+        },
         Result = result,
       };
     }
@@ -176,7 +178,7 @@ namespace ArmoniK.DevelopmentKit.Client.Services.Submitter
         ClientPayload      = ProtoSerializer.SerializeMessageObjectArray(arguments)
       };
 
-      string taskId = SessionService.SubmitTask(dataSynapsePayload.Serialize());
+      TaskResultId taskId = SessionService.SubmitTask(dataSynapsePayload.Serialize());
 
       var result = ProtoSerializer.DeSerializeMessageObjectArray(SessionService.GetResult(taskId));
 
@@ -204,8 +206,8 @@ namespace ArmoniK.DevelopmentKit.Client.Services.Submitter
         SerializedArguments = true,
       };
 
-      var      taskId = "not-TaskId";
-      object[] result;
+      TaskResultId taskId = null;
+      object[]     result;
 
       try
       {
@@ -215,13 +217,13 @@ namespace ArmoniK.DevelopmentKit.Client.Services.Submitter
       }
       catch (Exception e)
       {
-        var status = SessionService.GetTaskStatus(taskId);
+        var status = SessionService.GetTaskStatus(taskId!.TaskId);
 
         var details = "";
 
         if (status != TaskStatus.Completed)
         {
-          var output = SessionService.GetTaskOutputInfo(taskId);
+          var output = SessionService.GetTaskOutputInfo(taskId.TaskId);
           details = output.TypeCase == Output.TypeOneofCase.Error ? output.Error.Details : "";
         }
 
@@ -245,7 +247,7 @@ namespace ArmoniK.DevelopmentKit.Client.Services.Submitter
     /// <param name="payload">Th armonikPayload to pass with Function name and serialized arguments</param>
     /// <param name="handler">The handler callBack for Error and response</param>
     /// <returns>Return the taskId</returns>
-    public string SubmitTask(ArmonikPayload payload, IServiceInvocationHandler handler)
+    public TaskResultId SubmitTask(ArmonikPayload payload, IServiceInvocationHandler handler)
     {
       return SubmitTasks(new[]
                          {
@@ -254,10 +256,14 @@ namespace ArmoniK.DevelopmentKit.Client.Services.Submitter
                          handler).Single();
     }
 
-    private void ProxyTryGetResults(IEnumerable<string> taskIds, Action<string, byte[]> responseHandler, Action<string, Exception> errorHandler)
+    private void ProxyTryGetResults(IEnumerable<ResultIds> taskIds, Action<ResultIds, byte[]> responseHandler, Action<ResultIds, Exception> errorHandler)
     {
-      var missing  = taskIds.ToHashSet();
-      var results  = new List<Tuple<string, byte[]>>();
+      var missing = taskIds.Select(id => new ResultIds
+      {
+        SessionId = id.SessionId,
+        Ids       = id.Ids,
+      }).ToHashSet();
+      var results  = new List<Tuple<ResultIds, byte[]>>();
       var cts      = new CancellationTokenSource();
       var holdPrev = 0;
       var waitInSeconds = new List<int>
@@ -336,20 +342,12 @@ namespace ArmoniK.DevelopmentKit.Client.Services.Submitter
                                  }
                                  catch (Exception e)
                                  {
-                                   var status = SessionService.GetTaskStatus(taskId);
 
-                                   var details = "";
-
-                                   if (status != TaskStatus.Completed)
-                                   {
-                                     var output = SessionService.GetTaskOutputInfo(taskId);
-                                     details = output.TypeCase == Output.TypeOneofCase.Error ? output.Error.Details : "";
-                                   }
+                                   // todo : look at the result of waitforavailability
 
                                    ServiceInvocationException ex = new(e is AggregateException ? e.InnerException : e,
-                                                                       StatusCodesLookUp.Keys.Contains(status) ? StatusCodesLookUp[status] : ArmonikStatusCode.Unknown)
+                                                                       ArmonikStatusCode.Unknown)
                                    {
-                                     OutputDetails = details,
                                    };
 
                                    ResultHandlerDictionary[taskId].HandleError(ex,
@@ -389,7 +387,13 @@ namespace ArmoniK.DevelopmentKit.Client.Services.Submitter
                                                 ArmonikStatusCode.ResultError);
 
             ResultHandlerDictionary.First().Value.HandleError(ex,
-                                                              "AggregateListOfTaskId");
+                                                              new ResultIds
+                                                              {
+                                                                Ids = new List<string>
+                                                                {
+                                                                  "AggregateListOfTaskId",
+                                                                },
+                                                              });
           }
         }
         else
@@ -406,17 +410,16 @@ namespace ArmoniK.DevelopmentKit.Client.Services.Submitter
     /// <param name="payloads">Th armonikPayload to pass with Function name and serialized arguments</param>
     /// <param name="handler">The handler callBack for Error and response</param>
     /// <returns>Return the taskId</returns>
-    public IEnumerable<string> SubmitTasks(IEnumerable<ArmonikPayload> payloads, IServiceInvocationHandler handler)
+    public IEnumerable<TaskResultId> SubmitTasks(IEnumerable<ArmonikPayload> payloads, IServiceInvocationHandler handler)
     {
       var taskIds       = SessionService.SubmitTasks(payloads.Select(p => p.Serialize()));
-      var submitTaskIds = taskIds as string[] ?? taskIds.ToArray();
-
-      foreach (var taskId in submitTaskIds)
+      var taskResultIds = taskIds as TaskResultId[] ?? taskIds.ToArray();
+      foreach (var taskId in taskResultIds)
       {
         ResultHandlerDictionary[taskId] = handler;
       }
 
-      return submitTaskIds;
+      return taskResultIds;
     }
 
     /// <summary>
@@ -426,7 +429,7 @@ namespace ArmoniK.DevelopmentKit.Client.Services.Submitter
     /// <param name="arguments">A list of object that can be passed in parameters of the function</param>
     /// <param name="handler">The handler callBack implemented as IServiceInvocationHandler to get response or result or error</param>
     /// <returns>Return the taskId string</returns>
-    public string Submit(string methodName, object[] arguments, IServiceInvocationHandler handler)
+    public TaskResultId Submit(string methodName, object[] arguments, IServiceInvocationHandler handler)
     {
       ArmonikPayload payload = new()
       {
@@ -449,7 +452,7 @@ namespace ArmoniK.DevelopmentKit.Client.Services.Submitter
     /// <param name="argument">One serialized argument that will already serialize for MethodName.</param>
     /// <param name="handler">The handler callBack implemented as IServiceInvocationHandler to get response or result or error</param>
     /// <returns>Return the taskId string</returns>
-    public IEnumerable<string> Submit(string methodName, byte[] argument, IServiceInvocationHandler handler)
+    public IEnumerable<TaskResultId> Submit(string methodName, byte[] argument, IServiceInvocationHandler handler)
     {
       ArmonikPayload payload = new()
       {
@@ -473,7 +476,7 @@ namespace ArmoniK.DevelopmentKit.Client.Services.Submitter
     /// <param name="arguments">A list of parameters that can be passed in parameters of the each call of function</param>
     /// <param name="handler">The handler callBack implemented as IServiceInvocationHandler to get response or result or error</param>
     /// <returns>Return the list of created taskIds</returns>
-    public IEnumerable<string> Submit(string methodName, IEnumerable<object[]> arguments, IServiceInvocationHandler handler)
+    public IEnumerable<TaskResultId> Submit(string methodName, IEnumerable<object[]> arguments, IServiceInvocationHandler handler)
     {
       var armonikPayloads = arguments.Select(args => new ArmonikPayload()
       {
@@ -495,7 +498,7 @@ namespace ArmoniK.DevelopmentKit.Client.Services.Submitter
     /// <param name="arguments">List of serialized arguments that will already serialize for MethodName.</param>
     /// <param name="handler">The handler callBack implemented as IServiceInvocationHandler to get response or result or error</param>
     /// <returns>Return the taskId string</returns>
-    public string Submit(string methodName, IEnumerable<byte[]> arguments, IServiceInvocationHandler handler)
+    public TaskResultId Submit(string methodName, IEnumerable<byte[]> arguments, IServiceInvocationHandler handler)
     {
       var armonikPayloads = arguments.Select(args => new ArmonikPayload()
       {

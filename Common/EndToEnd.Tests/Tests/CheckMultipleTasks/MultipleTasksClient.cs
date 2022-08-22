@@ -72,7 +72,7 @@ namespace ArmoniK.EndToEndTests.Tests.CheckMultipleTasks
     /// <param name="taskId">The task which is waiting for</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    private static byte[] WaitForTaskResult(SessionService sessionService, string taskId, CancellationToken cancellationToken = default)
+    private static byte[] WaitForTaskResult(SessionService sessionService, ResultIds taskId, CancellationToken cancellationToken = default)
     {
       var taskResult = sessionService.GetResult(taskId,
                                                 cancellationToken);

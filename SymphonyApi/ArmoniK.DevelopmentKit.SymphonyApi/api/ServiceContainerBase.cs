@@ -147,21 +147,9 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.api
     /// <param name="payloads">
     ///   The user payload list to execute. Generally used for subTasking.
     /// </param>
-    public IEnumerable<string> SubmitTasks(IEnumerable<byte[]> payloads)
+    public IEnumerable<TaskResultId> SubmitTasks(IEnumerable<byte[]> payloads)
       => SessionService.SubmitTasks(payloads);
 
-
-    /// <summary>
-    ///   User method to submit task from the service
-    /// </summary>
-    /// <param name="payloads">
-    ///   The user payload list to execute. Generally used for subTasking.
-    /// </param>
-    /// <param name="parentTaskIds">The parent task Id attaching the subTask</param>
-    [Obsolete]
-    public IEnumerable<string> SubmitSubTasks(IEnumerable<byte[]> payloads, string parentTaskIds)
-      => SessionService.SubmitSubTasks(parentTaskIds,
-                                       payloads);
 
     /// <summary>
     ///   The method to submit several tasks with dependencies tasks. This task will wait for
@@ -170,7 +158,7 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.api
     /// <param name="payloadWithDependencies">A list of Tuple(taskId, Payload) in dependence of those created tasks</param>
     /// <param name="resultForParent">Up result to parent task</param>
     /// <returns>return a list of taskIds of the created tasks </returns>
-    public IEnumerable<string> SubmitTasksWithDependencies(IEnumerable<Tuple<byte[], IList<string>>> payloadWithDependencies, bool resultForParent = false)
+    public IEnumerable<TaskResultId> SubmitTasksWithDependencies(IEnumerable<Tuple<byte[], IList<string>>> payloadWithDependencies, bool resultForParent = false)
       => SessionService.SubmitTasksWithDependencies(payloadWithDependencies,
                                                     resultForParent);
 
@@ -182,7 +170,7 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.api
     /// <param name="dependencies">A list of task Id in dependence of this created SubTask</param>
     /// <returns>return the taskId of the created SubTask </returns>
     [Obsolete]
-    public string SubmitSubtaskWithDependencies(byte[] payload, IList<string> dependencies)
+    public TaskResultId SubmitSubtaskWithDependencies(byte[] payload, IList<string> dependencies)
       => SubmitSubtasksWithDependencies(new[]
       {
         Tuple.Create(payload,
@@ -196,7 +184,7 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.api
     /// <param name="payloadWithDependencies">A list of Tuple(taskId, Payload) in dependence of those created Subtasks</param>
     /// <returns>return a list of taskIds of the created subtasks </returns>
     [Obsolete]
-    public IEnumerable<string> SubmitSubtasksWithDependencies(IEnumerable<Tuple<byte[], IList<string>>> payloadWithDependencies)
+    public IEnumerable<TaskResultId> SubmitSubtasksWithDependencies(IEnumerable<Tuple<byte[], IList<string>>> payloadWithDependencies)
       => SessionService.SubmitTasksWithDependencies(payloadWithDependencies);
 
     /// <summary>
@@ -305,24 +293,9 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.api
     /// <param name="payload">
     ///   The user payload to execute. Generally used for subtasking.
     /// </param>
-    public static string SubmitTask(this ServiceContainerBase serviceContainerBase, byte[] payload)
+    public static TaskResultId SubmitTask(this ServiceContainerBase serviceContainerBase, byte[] payload)
     {
       return serviceContainerBase.SessionService.SubmitTasks(new[] { payload }).Single();
-    }
-
-    /// <summary>
-    ///   User method to submit task from the service
-    /// </summary>
-    /// <param name="serviceContainerBase"></param>
-    /// <param name="payload">
-    ///   The user payload to execute. Generally used for subtasking.
-    /// </param>
-    /// <param name="parentId">With one Parent task Id</param>
-    [Obsolete]
-    public static string SubmitSubTask(this ServiceContainerBase serviceContainerBase, byte[] payload, string parentId)
-    {
-      return serviceContainerBase.SubmitSubTasks(new[] { payload },
-                                                 parentId).Single();
     }
 
     /// <summary>
@@ -334,7 +307,7 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.api
     /// <param name="dependencies">A list of task Id in dependence of this created task</param>
     /// <param name="resultForParent"></param>
     /// <returns>return the taskId of the created task </returns>
-    public static string SubmitTaskWithDependencies(this ServiceContainerBase serviceContainerBase, byte[] payload, IList<string> dependencies, bool resultForParent = false)
+    public static TaskResultId SubmitTaskWithDependencies(this ServiceContainerBase serviceContainerBase, byte[] payload, IList<string> dependencies, bool resultForParent = false)
     {
       return serviceContainerBase.SubmitTasksWithDependencies(new[]
       {

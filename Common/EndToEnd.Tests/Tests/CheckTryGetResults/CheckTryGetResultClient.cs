@@ -27,6 +27,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
+using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.SymphonyApi.Client;
 using ArmoniK.DevelopmentKit.SymphonyApi.Client.api;
 using ArmoniK.EndToEndTests.Common;
@@ -71,11 +72,11 @@ namespace ArmoniK.EndToEndTests.Tests.CheckTryGetResults
     /// <param name="taskIds">The tasks which are waiting for</param>
     /// <returns></returns>
     /// 
-    private IEnumerable<Tuple<string, byte[]>> WaitForTasksResult(SessionService sessionService, IEnumerable<string> taskIds)
+    private IEnumerable<Tuple<ResultIds, byte[]>> WaitForTasksResult(SessionService sessionService, IEnumerable<TaskResultId> taskIds)
     {
-      var ids     = taskIds.ToList();
+      var ids     = taskIds.Select(id => new ResultIds(id)).ToList();
       var missing = ids;
-      var results = new List<Tuple<string, byte[]>>();
+      var results = new List<Tuple<ResultIds, byte[]>>();
 
       while (missing.Count != 0)
       {
