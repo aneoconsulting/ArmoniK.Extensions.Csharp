@@ -21,7 +21,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ArmoniK.Api.Common.Channel" Version="3.0.2-SNAPSHOT.16.d86364c" />
     <PackageReference Include="ArmoniK.Api.Worker" Version="3.0.2-SNAPSHOT.16.d86364c" />
     <PackageReference Include="AWSSDK.S3" Version="3.7.7.19" />
     <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.0" PrivateAssets="All" />
