@@ -23,7 +23,6 @@
 
 using ArmoniK.Api.gRPC.V1;
 using ArmoniK.DevelopmentKit.Common;
-using ArmoniK.Extensions.Common.StreamWrapper.Worker;
 
 using JetBrains.Annotations;
 
@@ -38,6 +37,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+
+using ArmoniK.Api.Worker.Worker;
 
 namespace ArmoniK.DevelopmentKit.SymphonyApi.api
 {

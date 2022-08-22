@@ -28,6 +28,7 @@ using Grpc.Net.Client;
 using System.Collections.Generic;
 
 using ArmoniK.Api.gRPC.V1;
+using ArmoniK.Api.gRPC.V1.Submitter;
 using ArmoniK.DevelopmentKit.Client.Services;
 using ArmoniK.DevelopmentKit.Client.Services.Admin;
 using ArmoniK.DevelopmentKit.Common;

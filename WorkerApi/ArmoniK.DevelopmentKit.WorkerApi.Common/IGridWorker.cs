@@ -25,7 +25,7 @@ using System;
 using System.Collections.Generic;
 
 using ArmoniK.Api.gRPC.V1;
-using ArmoniK.Extensions.Common.StreamWrapper.Worker;
+using ArmoniK.Api.Worker.Worker;
 
 using Google.Protobuf.Collections;
 

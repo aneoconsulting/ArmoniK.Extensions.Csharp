@@ -22,7 +22,6 @@
 // limitations under the License.
 
 using ArmoniK.Api.gRPC.V1;
-using ArmoniK.Extensions.Common.StreamWrapper.Client;
 
 using Google.Protobuf;
 
@@ -33,11 +32,16 @@ using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 
+using ArmoniK.Api.Client.Submitter;
+using ArmoniK.Api.gRPC.V1.Submitter;
 using ArmoniK.DevelopmentKit.Common.Exceptions;
 using ArmoniK.DevelopmentKit.Common.Status;
+
+using Google.Protobuf.WellKnownTypes;
 
 using Grpc.Core;
 
@@ -86,7 +90,7 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
     /// <summary>
     /// The submitter and receiver Service to submit, wait and get the result
     /// </summary>
-    protected Api.gRPC.V1.Submitter.SubmitterClient ControlPlaneService { get; set; }
+    protected Api.gRPC.V1.Submitter.Submitter.SubmitterClient ControlPlaneService { get; set; }
 
 
     /// <summary>
@@ -149,11 +153,11 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
     {
       return ControlPlaneService.GetTaskStatus(new()
       {
-        TaskId =
+        TaskIds =
         {
           taskIds,
         },
-      }).IdStatus.Select(x => Tuple.Create(x.TaskId,
+      }).IdStatuses.Select(x => Tuple.Create(x.TaskId,
                                            x.Status));
     }
 
@@ -400,13 +404,13 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
                                           {
                                             var resultStatusReply = ControlPlaneService.GetResultStatus(new GetResultStatusRequest()
                                             {
-                                              ResultId =
+                                              ResultIds =
                                               {
                                                 taskIds,
                                               },
                                               SessionId = SessionId.Id,
                                             });
-                                            return resultStatusReply.IdStatus.Select(x => Tuple.Create(x.ResultId,
+                                            return resultStatusReply.IdStatuses.Select(x => Tuple.Create(x.ResultId,
                                                                                                        x.Status));
                                           },
                                           true,
@@ -462,7 +466,7 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
                                  break;
                                case AvailabilityReply.TypeOneofCase.Error:
                                  throw new ClientResultsException(
-                                   $"Task in Error - {taskId}\nMessage :\n{string.Join("Inner message:\n", availabilityReply.Error.Error)}",
+                                   $"Task in Error - {taskId}\nMessage :\n{string.Join("Inner message:\n", availabilityReply.Error.Errors)}",
                                    taskId);
                                case AvailabilityReply.TypeOneofCase.NotCompletedTask:
                                  throw new DataException($"Task {taskId} was not yet completed");
@@ -512,6 +516,63 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
       });
     }
 
+    /// <summary>
+    /// Try to get the result if it is available
+    /// </summary>
+    /// <param name="resultRequest">Request specifying the result to fetch</param>
+    /// <param name="cancellationToken">The token used to cancel the operation.</param>
+    /// <returns></returns>
+    /// <exception cref="Exception"></exception>
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
+    public async Task<byte[]> TryGetResultAsync(ResultRequest                  resultRequest,
+                                                       CancellationToken              cancellationToken = default)
+    {
+      var streamingCall = ControlPlaneService.TryGetResultStream(resultRequest,
+                                                    cancellationToken: cancellationToken);
+
+      var result = new List<byte>();
+
+      while (await streamingCall.ResponseStream.MoveNext(cancellationToken))
+      {
+        var reply = streamingCall.ResponseStream.Current;
+
+        switch (reply.TypeCase)
+        {
+          case ResultReply.TypeOneofCase.Result:
+            if (!reply.Result.DataComplete)
+            {
+              if (MemoryMarshal.TryGetArray(reply.Result.Data.Memory,
+                                            out var segment))
+              {
+                // Success. Use the ByteString's underlying array.
+                result.AddRange(segment);
+              }
+              else
+              {
+                // TryGetArray didn't succeed. Fall back to creating a copy of the data with ToByteArray.
+                result.AddRange(reply.Result.Data.ToByteArray());
+              }
+            }
+
+            break;
+          case ResultReply.TypeOneofCase.None:
+            return null;
+
+          case ResultReply.TypeOneofCase.Error:
+            throw new($"Error in task {reply.Error.TaskId} {string.Join("Message is : ", reply.Error.Errors.Select(x => x.Detail))}");
+
+          case ResultReply.TypeOneofCase.NotCompletedTask:
+            return null;
+
+          default:
+            throw new ArgumentOutOfRangeException("Got a reply with an unexpected message type.",
+                                                  (Exception)null);
+        }
+      }
+
+      return result.ToArray();
+    }
+
 
     /// <summary>
     ///   Try to find the result of One task. If there no result, the function return byte[0]
@@ -537,7 +598,7 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
                                                Task<byte[]> response;
                                                try
                                                {
-                                                 response = ControlPlaneService.TryGetResultAsync(resultRequest,
+                                                 response = TryGetResultAsync(resultRequest,
                                                                                                   cancellationToken);
                                                }
                                                catch (AggregateException ex)
@@ -575,7 +636,7 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
                                                                                                      cancellationToken: cancellationToken);
 
                                                //Unbelievable but in case the response still have something to return ??
-                                               if (taskOutput.Status != TaskStatus.Error && response != null)
+                                               if (taskOutput.TypeCase == Output.TypeOneofCase.Ok && response != null)
                                                {
                                                  return response.Result;
                                                }

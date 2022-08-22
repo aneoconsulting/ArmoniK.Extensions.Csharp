@@ -36,6 +36,7 @@ using Microsoft.Extensions.Logging;
 
 using System.Collections.Generic;
 
+using ArmoniK.Api.gRPC.V1.Submitter;
 using ArmoniK.DevelopmentKit.Common.Submitter;
 
 namespace ArmoniK.DevelopmentKit.SymphonyApi.Client

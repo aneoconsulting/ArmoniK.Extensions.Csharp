@@ -30,6 +30,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 
+using ArmoniK.Api.gRPC.V1.Submitter;
+
 namespace ArmoniK.DevelopmentKit.SymphonyApi.Client.api
 {
   /// <summary>

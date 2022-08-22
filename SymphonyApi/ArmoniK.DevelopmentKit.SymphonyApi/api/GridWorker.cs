@@ -26,7 +26,6 @@ using ArmoniK.Attributes;
 using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.SymphonyApi.api;
 using ArmoniK.DevelopmentKit.WorkerApi.Common;
-using ArmoniK.Extensions.Common.StreamWrapper.Worker;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -34,6 +33,8 @@ using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Loader;
+
+using ArmoniK.Api.Worker.Worker;
 
 
 #pragma warning disable CS1591
@@ -152,7 +153,7 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
         SessionId           = taskHandler.SessionId,
         DependenciesTaskIds = taskHandler.DataDependencies.Select(t => t.Key),
         DataDependencies    = taskHandler.DataDependencies,
-        ClientOptions = taskHandler.TaskOptions.ToDictionary(id => id.Key,
+        ClientOptions = taskHandler.TaskOptions.Options.ToDictionary(id => id.Key,
                                                              id => id.Value),
       };
 

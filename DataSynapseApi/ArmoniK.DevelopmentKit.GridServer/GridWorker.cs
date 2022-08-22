@@ -26,7 +26,6 @@ using ArmoniK.Attributes;
 using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.Common.Exceptions;
 using ArmoniK.DevelopmentKit.WorkerApi.Common;
-using ArmoniK.Extensions.Common.StreamWrapper.Worker;
 using Google.Protobuf.WellKnownTypes;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -34,6 +33,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+
+using ArmoniK.Api.Worker.Worker;
 
 #pragma warning disable CS1591
 

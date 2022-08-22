@@ -17,7 +17,7 @@ FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
 COPY ["WorkerApi/ArmoniK.DevelopmentKit.WorkerApi/ArmoniK.DevelopmentKit.WorkerApi.csproj", "WorkerApi/ArmoniK.DevelopmentKit.WorkerApi/"]
 COPY ["Common/ArmoniK.DevelopmentKit.Common/ArmoniK.DevelopmentKit.Common.csproj", "Common/ArmoniK.DevelopmentKit.Common/"]
-COPY ["Common/StreamWrapper/src/ArmoniK.Extensions.Common.StreamWrapper.csproj", "Common/StreamWrapper/src/"]
+COPY ["Client/src/ArmoniK.DevelopmentKit.Client.Common/ArmoniK.DevelopmentKit.Client.Common.csproj", "Client/src/ArmoniK.DevelopmentKit.Client.Common/"]
 COPY ["WorkerApi/ArmoniK.DevelopmentKit.WorkerApi.Common/ArmoniK.DevelopmentKit.WorkerApi.Common.csproj", "WorkerApi/ArmoniK.DevelopmentKit.WorkerApi.Common/"]
 RUN dotnet restore "WorkerApi/ArmoniK.DevelopmentKit.WorkerApi/ArmoniK.DevelopmentKit.WorkerApi.csproj"
 COPY . .
