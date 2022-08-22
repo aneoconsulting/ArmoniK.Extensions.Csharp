@@ -323,12 +323,12 @@ references:
   commentId: T:ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService
   fullName: ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService
   nameWithType: AdminMonitoringService
-- uid: ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.#ctor(ILoggerFactory,Api.gRPC.V1.Submitter.SubmitterClient)
-  name: AdminMonitoringService(ILoggerFactory, Api.gRPC.V1.Submitter.SubmitterClient)
-  href: api/ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.html#ArmoniK_DevelopmentKit_Client_Services_Admin_AdminMonitoringService__ctor_ILoggerFactory_Api_gRPC_V1_Submitter_SubmitterClient_
-  commentId: M:ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.#ctor(ILoggerFactory,Api.gRPC.V1.Submitter.SubmitterClient)
-  fullName: ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.AdminMonitoringService(ILoggerFactory, Api.gRPC.V1.Submitter.SubmitterClient)
-  nameWithType: AdminMonitoringService.AdminMonitoringService(ILoggerFactory, Api.gRPC.V1.Submitter.SubmitterClient)
+- uid: ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.#ctor(ILoggerFactory,Api.gRPC.V1.Submitter.Submitter.SubmitterClient)
+  name: AdminMonitoringService(ILoggerFactory, Api.gRPC.V1.Submitter.Submitter.SubmitterClient)
+  href: api/ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.html#ArmoniK_DevelopmentKit_Client_Services_Admin_AdminMonitoringService__ctor_ILoggerFactory_Api_gRPC_V1_Submitter_Submitter_SubmitterClient_
+  commentId: M:ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.#ctor(ILoggerFactory,Api.gRPC.V1.Submitter.Submitter.SubmitterClient)
+  fullName: ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.AdminMonitoringService(ILoggerFactory, Api.gRPC.V1.Submitter.Submitter.SubmitterClient)
+  nameWithType: AdminMonitoringService.AdminMonitoringService(ILoggerFactory, Api.gRPC.V1.Submitter.Submitter.SubmitterClient)
 - uid: ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.#ctor*
   name: AdminMonitoringService
   href: api/ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.html#ArmoniK_DevelopmentKit_Client_Services_Admin_AdminMonitoringService__ctor_
@@ -968,21 +968,21 @@ references:
   commentId: T:ArmoniK.DevelopmentKit.Client.Services.SessionService
   fullName: ArmoniK.DevelopmentKit.Client.Services.SessionService
   nameWithType: SessionService
-- uid: ArmoniK.DevelopmentKit.Client.Services.SessionService.#ctor(ILoggerFactory,Api.gRPC.V1.Submitter.SubmitterClient,Session,System.Collections.Generic.IDictionary{System.String,System.String})
-  name: SessionService(ILoggerFactory, Api.gRPC.V1.Submitter.SubmitterClient, Session, IDictionary<String, String>)
-  href: api/ArmoniK.DevelopmentKit.Client.Services.SessionService.html#ArmoniK_DevelopmentKit_Client_Services_SessionService__ctor_ILoggerFactory_Api_gRPC_V1_Submitter_SubmitterClient_Session_System_Collections_Generic_IDictionary_System_String_System_String__
-  commentId: M:ArmoniK.DevelopmentKit.Client.Services.SessionService.#ctor(ILoggerFactory,Api.gRPC.V1.Submitter.SubmitterClient,Session,System.Collections.Generic.IDictionary{System.String,System.String})
-  name.vb: SessionService(ILoggerFactory, Api.gRPC.V1.Submitter.SubmitterClient, Session, IDictionary(Of String, String))
-  fullName: ArmoniK.DevelopmentKit.Client.Services.SessionService.SessionService(ILoggerFactory, Api.gRPC.V1.Submitter.SubmitterClient, Session, System.Collections.Generic.IDictionary<System.String, System.String>)
-  fullName.vb: ArmoniK.DevelopmentKit.Client.Services.SessionService.SessionService(ILoggerFactory, Api.gRPC.V1.Submitter.SubmitterClient, Session, System.Collections.Generic.IDictionary(Of System.String, System.String))
-  nameWithType: SessionService.SessionService(ILoggerFactory, Api.gRPC.V1.Submitter.SubmitterClient, Session, IDictionary<String, String>)
-  nameWithType.vb: SessionService.SessionService(ILoggerFactory, Api.gRPC.V1.Submitter.SubmitterClient, Session, IDictionary(Of String, String))
-- uid: ArmoniK.DevelopmentKit.Client.Services.SessionService.#ctor(ILoggerFactory,Api.gRPC.V1.Submitter.SubmitterClient,TaskOptions)
-  name: SessionService(ILoggerFactory, Api.gRPC.V1.Submitter.SubmitterClient, TaskOptions)
-  href: api/ArmoniK.DevelopmentKit.Client.Services.SessionService.html#ArmoniK_DevelopmentKit_Client_Services_SessionService__ctor_ILoggerFactory_Api_gRPC_V1_Submitter_SubmitterClient_TaskOptions_
-  commentId: M:ArmoniK.DevelopmentKit.Client.Services.SessionService.#ctor(ILoggerFactory,Api.gRPC.V1.Submitter.SubmitterClient,TaskOptions)
-  fullName: ArmoniK.DevelopmentKit.Client.Services.SessionService.SessionService(ILoggerFactory, Api.gRPC.V1.Submitter.SubmitterClient, TaskOptions)
-  nameWithType: SessionService.SessionService(ILoggerFactory, Api.gRPC.V1.Submitter.SubmitterClient, TaskOptions)
+- uid: ArmoniK.DevelopmentKit.Client.Services.SessionService.#ctor(ILoggerFactory,Api.gRPC.V1.Submitter.Submitter.SubmitterClient,Session,System.Collections.Generic.IDictionary{System.String,System.String})
+  name: SessionService(ILoggerFactory, Api.gRPC.V1.Submitter.Submitter.SubmitterClient, Session, IDictionary<String, String>)
+  href: api/ArmoniK.DevelopmentKit.Client.Services.SessionService.html#ArmoniK_DevelopmentKit_Client_Services_SessionService__ctor_ILoggerFactory_Api_gRPC_V1_Submitter_Submitter_SubmitterClient_Session_System_Collections_Generic_IDictionary_System_String_System_String__
+  commentId: M:ArmoniK.DevelopmentKit.Client.Services.SessionService.#ctor(ILoggerFactory,Api.gRPC.V1.Submitter.Submitter.SubmitterClient,Session,System.Collections.Generic.IDictionary{System.String,System.String})
+  name.vb: SessionService(ILoggerFactory, Api.gRPC.V1.Submitter.Submitter.SubmitterClient, Session, IDictionary(Of String, String))
+  fullName: ArmoniK.DevelopmentKit.Client.Services.SessionService.SessionService(ILoggerFactory, Api.gRPC.V1.Submitter.Submitter.SubmitterClient, Session, System.Collections.Generic.IDictionary<System.String, System.String>)
+  fullName.vb: ArmoniK.DevelopmentKit.Client.Services.SessionService.SessionService(ILoggerFactory, Api.gRPC.V1.Submitter.Submitter.SubmitterClient, Session, System.Collections.Generic.IDictionary(Of System.String, System.String))
+  nameWithType: SessionService.SessionService(ILoggerFactory, Api.gRPC.V1.Submitter.Submitter.SubmitterClient, Session, IDictionary<String, String>)
+  nameWithType.vb: SessionService.SessionService(ILoggerFactory, Api.gRPC.V1.Submitter.Submitter.SubmitterClient, Session, IDictionary(Of String, String))
+- uid: ArmoniK.DevelopmentKit.Client.Services.SessionService.#ctor(ILoggerFactory,Api.gRPC.V1.Submitter.Submitter.SubmitterClient,TaskOptions)
+  name: SessionService(ILoggerFactory, Api.gRPC.V1.Submitter.Submitter.SubmitterClient, TaskOptions)
+  href: api/ArmoniK.DevelopmentKit.Client.Services.SessionService.html#ArmoniK_DevelopmentKit_Client_Services_SessionService__ctor_ILoggerFactory_Api_gRPC_V1_Submitter_Submitter_SubmitterClient_TaskOptions_
+  commentId: M:ArmoniK.DevelopmentKit.Client.Services.SessionService.#ctor(ILoggerFactory,Api.gRPC.V1.Submitter.Submitter.SubmitterClient,TaskOptions)
+  fullName: ArmoniK.DevelopmentKit.Client.Services.SessionService.SessionService(ILoggerFactory, Api.gRPC.V1.Submitter.Submitter.SubmitterClient, TaskOptions)
+  nameWithType: SessionService.SessionService(ILoggerFactory, Api.gRPC.V1.Submitter.Submitter.SubmitterClient, TaskOptions)
 - uid: ArmoniK.DevelopmentKit.Client.Services.SessionService.#ctor*
   name: SessionService
   href: api/ArmoniK.DevelopmentKit.Client.Services.SessionService.html#ArmoniK_DevelopmentKit_Client_Services_SessionService__ctor_
@@ -1283,11 +1283,11 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.Client.Services.Submitter.Service.Submit
   nameWithType: Service.Submit
-- uid: ArmoniK.DevelopmentKit.Client.Services.Submitter.Service.SubmitTask(ArmoniK.DevelopmentKit.Common.ArmonikPayload,ArmoniK.DevelopmentKit.Client.Services.IServiceInvocationHandler)
+- uid: ArmoniK.DevelopmentKit.Client.Services.Submitter.Service.SubmitTask(ArmonikPayload,ArmoniK.DevelopmentKit.Client.Services.IServiceInvocationHandler)
   name: SubmitTask(ArmonikPayload, IServiceInvocationHandler)
-  href: api/ArmoniK.DevelopmentKit.Client.Services.Submitter.Service.html#ArmoniK_DevelopmentKit_Client_Services_Submitter_Service_SubmitTask_ArmoniK_DevelopmentKit_Common_ArmonikPayload_ArmoniK_DevelopmentKit_Client_Services_IServiceInvocationHandler_
-  commentId: M:ArmoniK.DevelopmentKit.Client.Services.Submitter.Service.SubmitTask(ArmoniK.DevelopmentKit.Common.ArmonikPayload,ArmoniK.DevelopmentKit.Client.Services.IServiceInvocationHandler)
-  fullName: ArmoniK.DevelopmentKit.Client.Services.Submitter.Service.SubmitTask(ArmoniK.DevelopmentKit.Common.ArmonikPayload, ArmoniK.DevelopmentKit.Client.Services.IServiceInvocationHandler)
+  href: api/ArmoniK.DevelopmentKit.Client.Services.Submitter.Service.html#ArmoniK_DevelopmentKit_Client_Services_Submitter_Service_SubmitTask_ArmonikPayload_ArmoniK_DevelopmentKit_Client_Services_IServiceInvocationHandler_
+  commentId: M:ArmoniK.DevelopmentKit.Client.Services.Submitter.Service.SubmitTask(ArmonikPayload,ArmoniK.DevelopmentKit.Client.Services.IServiceInvocationHandler)
+  fullName: ArmoniK.DevelopmentKit.Client.Services.Submitter.Service.SubmitTask(ArmonikPayload, ArmoniK.DevelopmentKit.Client.Services.IServiceInvocationHandler)
   nameWithType: Service.SubmitTask(ArmonikPayload, IServiceInvocationHandler)
 - uid: ArmoniK.DevelopmentKit.Client.Services.Submitter.Service.SubmitTask*
   name: SubmitTask
@@ -1296,13 +1296,13 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.Client.Services.Submitter.Service.SubmitTask
   nameWithType: Service.SubmitTask
-- uid: ArmoniK.DevelopmentKit.Client.Services.Submitter.Service.SubmitTasks(System.Collections.Generic.IEnumerable{ArmoniK.DevelopmentKit.Common.ArmonikPayload},ArmoniK.DevelopmentKit.Client.Services.IServiceInvocationHandler)
+- uid: ArmoniK.DevelopmentKit.Client.Services.Submitter.Service.SubmitTasks(System.Collections.Generic.IEnumerable{ArmonikPayload},ArmoniK.DevelopmentKit.Client.Services.IServiceInvocationHandler)
   name: SubmitTasks(IEnumerable<ArmonikPayload>, IServiceInvocationHandler)
-  href: api/ArmoniK.DevelopmentKit.Client.Services.Submitter.Service.html#ArmoniK_DevelopmentKit_Client_Services_Submitter_Service_SubmitTasks_System_Collections_Generic_IEnumerable_ArmoniK_DevelopmentKit_Common_ArmonikPayload__ArmoniK_DevelopmentKit_Client_Services_IServiceInvocationHandler_
-  commentId: M:ArmoniK.DevelopmentKit.Client.Services.Submitter.Service.SubmitTasks(System.Collections.Generic.IEnumerable{ArmoniK.DevelopmentKit.Common.ArmonikPayload},ArmoniK.DevelopmentKit.Client.Services.IServiceInvocationHandler)
+  href: api/ArmoniK.DevelopmentKit.Client.Services.Submitter.Service.html#ArmoniK_DevelopmentKit_Client_Services_Submitter_Service_SubmitTasks_System_Collections_Generic_IEnumerable_ArmonikPayload__ArmoniK_DevelopmentKit_Client_Services_IServiceInvocationHandler_
+  commentId: M:ArmoniK.DevelopmentKit.Client.Services.Submitter.Service.SubmitTasks(System.Collections.Generic.IEnumerable{ArmonikPayload},ArmoniK.DevelopmentKit.Client.Services.IServiceInvocationHandler)
   name.vb: SubmitTasks(IEnumerable(Of ArmonikPayload), IServiceInvocationHandler)
-  fullName: ArmoniK.DevelopmentKit.Client.Services.Submitter.Service.SubmitTasks(System.Collections.Generic.IEnumerable<ArmoniK.DevelopmentKit.Common.ArmonikPayload>, ArmoniK.DevelopmentKit.Client.Services.IServiceInvocationHandler)
-  fullName.vb: ArmoniK.DevelopmentKit.Client.Services.Submitter.Service.SubmitTasks(System.Collections.Generic.IEnumerable(Of ArmoniK.DevelopmentKit.Common.ArmonikPayload), ArmoniK.DevelopmentKit.Client.Services.IServiceInvocationHandler)
+  fullName: ArmoniK.DevelopmentKit.Client.Services.Submitter.Service.SubmitTasks(System.Collections.Generic.IEnumerable<ArmonikPayload>, ArmoniK.DevelopmentKit.Client.Services.IServiceInvocationHandler)
+  fullName.vb: ArmoniK.DevelopmentKit.Client.Services.Submitter.Service.SubmitTasks(System.Collections.Generic.IEnumerable(Of ArmonikPayload), ArmoniK.DevelopmentKit.Client.Services.IServiceInvocationHandler)
   nameWithType: Service.SubmitTasks(IEnumerable<ArmonikPayload>, IServiceInvocationHandler)
   nameWithType.vb: Service.SubmitTasks(IEnumerable(Of ArmonikPayload), IServiceInvocationHandler)
 - uid: ArmoniK.DevelopmentKit.Client.Services.Submitter.Service.SubmitTasks*
@@ -2412,6 +2412,23 @@ references:
   fullName.vb: ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter(Of T).TryGetResult
   nameWithType: BaseClientSubmitter<T>.TryGetResult
   nameWithType.vb: BaseClientSubmitter(Of T).TryGetResult
+- uid: ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter`1.TryGetResultAsync(ResultRequest,System.Threading.CancellationToken)
+  name: TryGetResultAsync(ResultRequest, CancellationToken)
+  href: api/ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Common_Submitter_BaseClientSubmitter_1_TryGetResultAsync_ResultRequest_System_Threading_CancellationToken_
+  commentId: M:ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter`1.TryGetResultAsync(ResultRequest,System.Threading.CancellationToken)
+  fullName: ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter<T>.TryGetResultAsync(ResultRequest, System.Threading.CancellationToken)
+  fullName.vb: ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter(Of T).TryGetResultAsync(ResultRequest, System.Threading.CancellationToken)
+  nameWithType: BaseClientSubmitter<T>.TryGetResultAsync(ResultRequest, CancellationToken)
+  nameWithType.vb: BaseClientSubmitter(Of T).TryGetResultAsync(ResultRequest, CancellationToken)
+- uid: ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter`1.TryGetResultAsync*
+  name: TryGetResultAsync
+  href: api/ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Common_Submitter_BaseClientSubmitter_1_TryGetResultAsync_
+  commentId: Overload:ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter`1.TryGetResultAsync
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter<T>.TryGetResultAsync
+  fullName.vb: ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter(Of T).TryGetResultAsync
+  nameWithType: BaseClientSubmitter<T>.TryGetResultAsync
+  nameWithType.vb: BaseClientSubmitter(Of T).TryGetResultAsync
 - uid: ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter`1.TryGetResults(System.Collections.Generic.IEnumerable{System.String})
   name: TryGetResults(IEnumerable<String>)
   href: api/ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Common_Submitter_BaseClientSubmitter_1_TryGetResults_System_Collections_Generic_IEnumerable_System_String__
@@ -3248,11 +3265,11 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.GridServer.Client.Service.SessionId
   nameWithType: Service.SessionId
-- uid: ArmoniK.DevelopmentKit.GridServer.Client.Service.Submit(ArmoniK.DevelopmentKit.Common.ArmonikPayload,ArmoniK.DevelopmentKit.GridServer.Client.IServiceInvocationHandler)
+- uid: ArmoniK.DevelopmentKit.GridServer.Client.Service.Submit(ArmonikPayload,ArmoniK.DevelopmentKit.GridServer.Client.IServiceInvocationHandler)
   name: Submit(ArmonikPayload, IServiceInvocationHandler)
-  href: api/ArmoniK.DevelopmentKit.GridServer.Client.Service.html#ArmoniK_DevelopmentKit_GridServer_Client_Service_Submit_ArmoniK_DevelopmentKit_Common_ArmonikPayload_ArmoniK_DevelopmentKit_GridServer_Client_IServiceInvocationHandler_
-  commentId: M:ArmoniK.DevelopmentKit.GridServer.Client.Service.Submit(ArmoniK.DevelopmentKit.Common.ArmonikPayload,ArmoniK.DevelopmentKit.GridServer.Client.IServiceInvocationHandler)
-  fullName: ArmoniK.DevelopmentKit.GridServer.Client.Service.Submit(ArmoniK.DevelopmentKit.Common.ArmonikPayload, ArmoniK.DevelopmentKit.GridServer.Client.IServiceInvocationHandler)
+  href: api/ArmoniK.DevelopmentKit.GridServer.Client.Service.html#ArmoniK_DevelopmentKit_GridServer_Client_Service_Submit_ArmonikPayload_ArmoniK_DevelopmentKit_GridServer_Client_IServiceInvocationHandler_
+  commentId: M:ArmoniK.DevelopmentKit.GridServer.Client.Service.Submit(ArmonikPayload,ArmoniK.DevelopmentKit.GridServer.Client.IServiceInvocationHandler)
+  fullName: ArmoniK.DevelopmentKit.GridServer.Client.Service.Submit(ArmonikPayload, ArmoniK.DevelopmentKit.GridServer.Client.IServiceInvocationHandler)
   nameWithType: Service.Submit(ArmonikPayload, IServiceInvocationHandler)
 - uid: ArmoniK.DevelopmentKit.GridServer.Client.Service.Submit(System.String,System.Byte[],ArmoniK.DevelopmentKit.GridServer.Client.IServiceInvocationHandler)
   name: Submit(String, Byte[], IServiceInvocationHandler)
@@ -6907,11 +6924,11 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.WorkerApi.ArmonikServiceWorker.Dispose
   nameWithType: ArmonikServiceWorker.Dispose
-- uid: ArmoniK.DevelopmentKit.WorkerApi.ArmonikServiceWorker.Execute(ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler)
+- uid: ArmoniK.DevelopmentKit.WorkerApi.ArmonikServiceWorker.Execute(ITaskHandler)
   name: Execute(ITaskHandler)
-  href: api/ArmoniK.DevelopmentKit.WorkerApi.ArmonikServiceWorker.html#ArmoniK_DevelopmentKit_WorkerApi_ArmonikServiceWorker_Execute_ArmoniK_Extensions_Common_StreamWrapper_Worker_ITaskHandler_
-  commentId: M:ArmoniK.DevelopmentKit.WorkerApi.ArmonikServiceWorker.Execute(ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler)
-  fullName: ArmoniK.DevelopmentKit.WorkerApi.ArmonikServiceWorker.Execute(ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler)
+  href: api/ArmoniK.DevelopmentKit.WorkerApi.ArmonikServiceWorker.html#ArmoniK_DevelopmentKit_WorkerApi_ArmonikServiceWorker_Execute_ITaskHandler_
+  commentId: M:ArmoniK.DevelopmentKit.WorkerApi.ArmonikServiceWorker.Execute(ITaskHandler)
+  fullName: ArmoniK.DevelopmentKit.WorkerApi.ArmonikServiceWorker.Execute(ITaskHandler)
   nameWithType: ArmonikServiceWorker.Execute(ITaskHandler)
 - uid: ArmoniK.DevelopmentKit.WorkerApi.ArmonikServiceWorker.Execute*
   name: Execute
@@ -7156,13 +7173,13 @@ references:
   commentId: T:ArmoniK.DevelopmentKit.WorkerApi.Common.IGridWorker
   fullName: ArmoniK.DevelopmentKit.WorkerApi.Common.IGridWorker
   nameWithType: IGridWorker
-- uid: ArmoniK.DevelopmentKit.WorkerApi.Common.IGridWorker.Configure(IConfiguration,System.Collections.Generic.IReadOnlyDictionary{System.String,System.String},ArmoniK.DevelopmentKit.WorkerApi.Common.IAppsLoader)
+- uid: ArmoniK.DevelopmentKit.WorkerApi.Common.IGridWorker.Configure(IConfiguration,IReadOnlyDictionary{System.String,System.String},ArmoniK.DevelopmentKit.WorkerApi.Common.IAppsLoader)
   name: Configure(IConfiguration, IReadOnlyDictionary<String, String>, IAppsLoader)
-  href: api/ArmoniK.DevelopmentKit.WorkerApi.Common.IGridWorker.html#ArmoniK_DevelopmentKit_WorkerApi_Common_IGridWorker_Configure_IConfiguration_System_Collections_Generic_IReadOnlyDictionary_System_String_System_String__ArmoniK_DevelopmentKit_WorkerApi_Common_IAppsLoader_
-  commentId: M:ArmoniK.DevelopmentKit.WorkerApi.Common.IGridWorker.Configure(IConfiguration,System.Collections.Generic.IReadOnlyDictionary{System.String,System.String},ArmoniK.DevelopmentKit.WorkerApi.Common.IAppsLoader)
+  href: api/ArmoniK.DevelopmentKit.WorkerApi.Common.IGridWorker.html#ArmoniK_DevelopmentKit_WorkerApi_Common_IGridWorker_Configure_IConfiguration_IReadOnlyDictionary_System_String_System_String__ArmoniK_DevelopmentKit_WorkerApi_Common_IAppsLoader_
+  commentId: M:ArmoniK.DevelopmentKit.WorkerApi.Common.IGridWorker.Configure(IConfiguration,IReadOnlyDictionary{System.String,System.String},ArmoniK.DevelopmentKit.WorkerApi.Common.IAppsLoader)
   name.vb: Configure(IConfiguration, IReadOnlyDictionary(Of String, String), IAppsLoader)
-  fullName: ArmoniK.DevelopmentKit.WorkerApi.Common.IGridWorker.Configure(IConfiguration, System.Collections.Generic.IReadOnlyDictionary<System.String, System.String>, ArmoniK.DevelopmentKit.WorkerApi.Common.IAppsLoader)
-  fullName.vb: ArmoniK.DevelopmentKit.WorkerApi.Common.IGridWorker.Configure(IConfiguration, System.Collections.Generic.IReadOnlyDictionary(Of System.String, System.String), ArmoniK.DevelopmentKit.WorkerApi.Common.IAppsLoader)
+  fullName: ArmoniK.DevelopmentKit.WorkerApi.Common.IGridWorker.Configure(IConfiguration, IReadOnlyDictionary<System.String, System.String>, ArmoniK.DevelopmentKit.WorkerApi.Common.IAppsLoader)
+  fullName.vb: ArmoniK.DevelopmentKit.WorkerApi.Common.IGridWorker.Configure(IConfiguration, IReadOnlyDictionary(Of System.String, System.String), ArmoniK.DevelopmentKit.WorkerApi.Common.IAppsLoader)
   nameWithType: IGridWorker.Configure(IConfiguration, IReadOnlyDictionary<String, String>, IAppsLoader)
   nameWithType.vb: IGridWorker.Configure(IConfiguration, IReadOnlyDictionary(Of String, String), IAppsLoader)
 - uid: ArmoniK.DevelopmentKit.WorkerApi.Common.IGridWorker.Configure*
@@ -7185,11 +7202,11 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.WorkerApi.Common.IGridWorker.DestroyService
   nameWithType: IGridWorker.DestroyService
-- uid: ArmoniK.DevelopmentKit.WorkerApi.Common.IGridWorker.Execute(ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler)
+- uid: ArmoniK.DevelopmentKit.WorkerApi.Common.IGridWorker.Execute(ITaskHandler)
   name: Execute(ITaskHandler)
-  href: api/ArmoniK.DevelopmentKit.WorkerApi.Common.IGridWorker.html#ArmoniK_DevelopmentKit_WorkerApi_Common_IGridWorker_Execute_ArmoniK_Extensions_Common_StreamWrapper_Worker_ITaskHandler_
-  commentId: M:ArmoniK.DevelopmentKit.WorkerApi.Common.IGridWorker.Execute(ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler)
-  fullName: ArmoniK.DevelopmentKit.WorkerApi.Common.IGridWorker.Execute(ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler)
+  href: api/ArmoniK.DevelopmentKit.WorkerApi.Common.IGridWorker.html#ArmoniK_DevelopmentKit_WorkerApi_Common_IGridWorker_Execute_ITaskHandler_
+  commentId: M:ArmoniK.DevelopmentKit.WorkerApi.Common.IGridWorker.Execute(ITaskHandler)
+  fullName: ArmoniK.DevelopmentKit.WorkerApi.Common.IGridWorker.Execute(ITaskHandler)
   nameWithType: IGridWorker.Execute(ITaskHandler)
 - uid: ArmoniK.DevelopmentKit.WorkerApi.Common.IGridWorker.Execute*
   name: Execute
@@ -7198,13 +7215,13 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.WorkerApi.Common.IGridWorker.Execute
   nameWithType: IGridWorker.Execute
-- uid: ArmoniK.DevelopmentKit.WorkerApi.Common.IGridWorker.InitializeSessionWorker(Session,System.Collections.Generic.IReadOnlyDictionary{System.String,System.String})
+- uid: ArmoniK.DevelopmentKit.WorkerApi.Common.IGridWorker.InitializeSessionWorker(Session,IReadOnlyDictionary{System.String,System.String})
   name: InitializeSessionWorker(Session, IReadOnlyDictionary<String, String>)
-  href: api/ArmoniK.DevelopmentKit.WorkerApi.Common.IGridWorker.html#ArmoniK_DevelopmentKit_WorkerApi_Common_IGridWorker_InitializeSessionWorker_Session_System_Collections_Generic_IReadOnlyDictionary_System_String_System_String__
-  commentId: M:ArmoniK.DevelopmentKit.WorkerApi.Common.IGridWorker.InitializeSessionWorker(Session,System.Collections.Generic.IReadOnlyDictionary{System.String,System.String})
+  href: api/ArmoniK.DevelopmentKit.WorkerApi.Common.IGridWorker.html#ArmoniK_DevelopmentKit_WorkerApi_Common_IGridWorker_InitializeSessionWorker_Session_IReadOnlyDictionary_System_String_System_String__
+  commentId: M:ArmoniK.DevelopmentKit.WorkerApi.Common.IGridWorker.InitializeSessionWorker(Session,IReadOnlyDictionary{System.String,System.String})
   name.vb: InitializeSessionWorker(Session, IReadOnlyDictionary(Of String, String))
-  fullName: ArmoniK.DevelopmentKit.WorkerApi.Common.IGridWorker.InitializeSessionWorker(Session, System.Collections.Generic.IReadOnlyDictionary<System.String, System.String>)
-  fullName.vb: ArmoniK.DevelopmentKit.WorkerApi.Common.IGridWorker.InitializeSessionWorker(Session, System.Collections.Generic.IReadOnlyDictionary(Of System.String, System.String))
+  fullName: ArmoniK.DevelopmentKit.WorkerApi.Common.IGridWorker.InitializeSessionWorker(Session, IReadOnlyDictionary<System.String, System.String>)
+  fullName.vb: ArmoniK.DevelopmentKit.WorkerApi.Common.IGridWorker.InitializeSessionWorker(Session, IReadOnlyDictionary(Of System.String, System.String))
   nameWithType: IGridWorker.InitializeSessionWorker(Session, IReadOnlyDictionary<String, String>)
   nameWithType.vb: IGridWorker.InitializeSessionWorker(Session, IReadOnlyDictionary(Of String, String))
 - uid: ArmoniK.DevelopmentKit.WorkerApi.Common.IGridWorker.InitializeSessionWorker*
@@ -7544,12 +7561,12 @@ references:
   commentId: T:ArmoniK.DevelopmentKit.WorkerApi.Services.ComputerService
   fullName: ArmoniK.DevelopmentKit.WorkerApi.Services.ComputerService
   nameWithType: ComputerService
-- uid: ArmoniK.DevelopmentKit.WorkerApi.Services.ComputerService.#ctor(IConfiguration,ArmoniK.DevelopmentKit.WorkerApi.ServiceRequestContext)
-  name: ComputerService(IConfiguration, ServiceRequestContext)
-  href: api/ArmoniK.DevelopmentKit.WorkerApi.Services.ComputerService.html#ArmoniK_DevelopmentKit_WorkerApi_Services_ComputerService__ctor_IConfiguration_ArmoniK_DevelopmentKit_WorkerApi_ServiceRequestContext_
-  commentId: M:ArmoniK.DevelopmentKit.WorkerApi.Services.ComputerService.#ctor(IConfiguration,ArmoniK.DevelopmentKit.WorkerApi.ServiceRequestContext)
-  fullName: ArmoniK.DevelopmentKit.WorkerApi.Services.ComputerService.ComputerService(IConfiguration, ArmoniK.DevelopmentKit.WorkerApi.ServiceRequestContext)
-  nameWithType: ComputerService.ComputerService(IConfiguration, ServiceRequestContext)
+- uid: ArmoniK.DevelopmentKit.WorkerApi.Services.ComputerService.#ctor(IConfiguration,GrpcChannelProvider,ArmoniK.DevelopmentKit.WorkerApi.ServiceRequestContext)
+  name: ComputerService(IConfiguration, GrpcChannelProvider, ServiceRequestContext)
+  href: api/ArmoniK.DevelopmentKit.WorkerApi.Services.ComputerService.html#ArmoniK_DevelopmentKit_WorkerApi_Services_ComputerService__ctor_IConfiguration_GrpcChannelProvider_ArmoniK_DevelopmentKit_WorkerApi_ServiceRequestContext_
+  commentId: M:ArmoniK.DevelopmentKit.WorkerApi.Services.ComputerService.#ctor(IConfiguration,GrpcChannelProvider,ArmoniK.DevelopmentKit.WorkerApi.ServiceRequestContext)
+  fullName: ArmoniK.DevelopmentKit.WorkerApi.Services.ComputerService.ComputerService(IConfiguration, GrpcChannelProvider, ArmoniK.DevelopmentKit.WorkerApi.ServiceRequestContext)
+  nameWithType: ComputerService.ComputerService(IConfiguration, GrpcChannelProvider, ServiceRequestContext)
 - uid: ArmoniK.DevelopmentKit.WorkerApi.Services.ComputerService.#ctor*
   name: ComputerService
   href: api/ArmoniK.DevelopmentKit.WorkerApi.Services.ComputerService.html#ArmoniK_DevelopmentKit_WorkerApi_Services_ComputerService__ctor_
@@ -7570,11 +7587,11 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.WorkerApi.Services.ComputerService.Configuration
   nameWithType: ComputerService.Configuration
-- uid: ArmoniK.DevelopmentKit.WorkerApi.Services.ComputerService.Process(ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler)
+- uid: ArmoniK.DevelopmentKit.WorkerApi.Services.ComputerService.Process(ITaskHandler)
   name: Process(ITaskHandler)
-  href: api/ArmoniK.DevelopmentKit.WorkerApi.Services.ComputerService.html#ArmoniK_DevelopmentKit_WorkerApi_Services_ComputerService_Process_ArmoniK_Extensions_Common_StreamWrapper_Worker_ITaskHandler_
-  commentId: M:ArmoniK.DevelopmentKit.WorkerApi.Services.ComputerService.Process(ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler)
-  fullName: ArmoniK.DevelopmentKit.WorkerApi.Services.ComputerService.Process(ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler)
+  href: api/ArmoniK.DevelopmentKit.WorkerApi.Services.ComputerService.html#ArmoniK_DevelopmentKit_WorkerApi_Services_ComputerService_Process_ITaskHandler_
+  commentId: M:ArmoniK.DevelopmentKit.WorkerApi.Services.ComputerService.Process(ITaskHandler)
+  fullName: ArmoniK.DevelopmentKit.WorkerApi.Services.ComputerService.Process(ITaskHandler)
   nameWithType: ComputerService.Process(ITaskHandler)
 - uid: ArmoniK.DevelopmentKit.WorkerApi.Services.ComputerService.Process*
   name: Process
@@ -9961,747 +9978,6 @@ references:
   isSpec: "True"
   fullName: ArmoniK.EndToEndTests.Tests.TemplateTest.TemplateTestClient.EntryPoint
   nameWithType: TemplateTestClient.EntryPoint
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Client
-  name: ArmoniK.Extensions.Common.StreamWrapper.Client
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Client.html
-  commentId: N:ArmoniK.Extensions.Common.StreamWrapper.Client
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Client
-  nameWithType: ArmoniK.Extensions.Common.StreamWrapper.Client
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Client.SubmitterClientExt
-  name: SubmitterClientExt
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Client.SubmitterClientExt.html
-  commentId: T:ArmoniK.Extensions.Common.StreamWrapper.Client.SubmitterClientExt
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Client.SubmitterClientExt
-  nameWithType: SubmitterClientExt
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Client.SubmitterClientExt.CreateTasksAsync(Submitter.SubmitterClient,System.String,TaskOptions,System.Collections.Generic.IEnumerable{TaskRequest},System.Threading.CancellationToken)
-  name: CreateTasksAsync(Submitter.SubmitterClient, String, TaskOptions, IEnumerable<TaskRequest>, CancellationToken)
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Client.SubmitterClientExt.html#ArmoniK_Extensions_Common_StreamWrapper_Client_SubmitterClientExt_CreateTasksAsync_Submitter_SubmitterClient_System_String_TaskOptions_System_Collections_Generic_IEnumerable_TaskRequest__System_Threading_CancellationToken_
-  commentId: M:ArmoniK.Extensions.Common.StreamWrapper.Client.SubmitterClientExt.CreateTasksAsync(Submitter.SubmitterClient,System.String,TaskOptions,System.Collections.Generic.IEnumerable{TaskRequest},System.Threading.CancellationToken)
-  name.vb: CreateTasksAsync(Submitter.SubmitterClient, String, TaskOptions, IEnumerable(Of TaskRequest), CancellationToken)
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Client.SubmitterClientExt.CreateTasksAsync(Submitter.SubmitterClient, System.String, TaskOptions, System.Collections.Generic.IEnumerable<TaskRequest>, System.Threading.CancellationToken)
-  fullName.vb: ArmoniK.Extensions.Common.StreamWrapper.Client.SubmitterClientExt.CreateTasksAsync(Submitter.SubmitterClient, System.String, TaskOptions, System.Collections.Generic.IEnumerable(Of TaskRequest), System.Threading.CancellationToken)
-  nameWithType: SubmitterClientExt.CreateTasksAsync(Submitter.SubmitterClient, String, TaskOptions, IEnumerable<TaskRequest>, CancellationToken)
-  nameWithType.vb: SubmitterClientExt.CreateTasksAsync(Submitter.SubmitterClient, String, TaskOptions, IEnumerable(Of TaskRequest), CancellationToken)
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Client.SubmitterClientExt.CreateTasksAsync*
-  name: CreateTasksAsync
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Client.SubmitterClientExt.html#ArmoniK_Extensions_Common_StreamWrapper_Client_SubmitterClientExt_CreateTasksAsync_
-  commentId: Overload:ArmoniK.Extensions.Common.StreamWrapper.Client.SubmitterClientExt.CreateTasksAsync
-  isSpec: "True"
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Client.SubmitterClientExt.CreateTasksAsync
-  nameWithType: SubmitterClientExt.CreateTasksAsync
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Client.SubmitterClientExt.GetResultAsync(Submitter.SubmitterClient,ResultRequest,System.Threading.CancellationToken)
-  name: GetResultAsync(Submitter.SubmitterClient, ResultRequest, CancellationToken)
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Client.SubmitterClientExt.html#ArmoniK_Extensions_Common_StreamWrapper_Client_SubmitterClientExt_GetResultAsync_Submitter_SubmitterClient_ResultRequest_System_Threading_CancellationToken_
-  commentId: M:ArmoniK.Extensions.Common.StreamWrapper.Client.SubmitterClientExt.GetResultAsync(Submitter.SubmitterClient,ResultRequest,System.Threading.CancellationToken)
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Client.SubmitterClientExt.GetResultAsync(Submitter.SubmitterClient, ResultRequest, System.Threading.CancellationToken)
-  nameWithType: SubmitterClientExt.GetResultAsync(Submitter.SubmitterClient, ResultRequest, CancellationToken)
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Client.SubmitterClientExt.GetResultAsync*
-  name: GetResultAsync
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Client.SubmitterClientExt.html#ArmoniK_Extensions_Common_StreamWrapper_Client_SubmitterClientExt_GetResultAsync_
-  commentId: Overload:ArmoniK.Extensions.Common.StreamWrapper.Client.SubmitterClientExt.GetResultAsync
-  isSpec: "True"
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Client.SubmitterClientExt.GetResultAsync
-  nameWithType: SubmitterClientExt.GetResultAsync
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Client.SubmitterClientExt.TryGetResultAsync(Submitter.SubmitterClient,ResultRequest,System.Threading.CancellationToken)
-  name: TryGetResultAsync(Submitter.SubmitterClient, ResultRequest, CancellationToken)
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Client.SubmitterClientExt.html#ArmoniK_Extensions_Common_StreamWrapper_Client_SubmitterClientExt_TryGetResultAsync_Submitter_SubmitterClient_ResultRequest_System_Threading_CancellationToken_
-  commentId: M:ArmoniK.Extensions.Common.StreamWrapper.Client.SubmitterClientExt.TryGetResultAsync(Submitter.SubmitterClient,ResultRequest,System.Threading.CancellationToken)
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Client.SubmitterClientExt.TryGetResultAsync(Submitter.SubmitterClient, ResultRequest, System.Threading.CancellationToken)
-  nameWithType: SubmitterClientExt.TryGetResultAsync(Submitter.SubmitterClient, ResultRequest, CancellationToken)
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Client.SubmitterClientExt.TryGetResultAsync*
-  name: TryGetResultAsync
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Client.SubmitterClientExt.html#ArmoniK_Extensions_Common_StreamWrapper_Client_SubmitterClientExt_TryGetResultAsync_
-  commentId: Overload:ArmoniK.Extensions.Common.StreamWrapper.Client.SubmitterClientExt.TryGetResultAsync
-  isSpec: "True"
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Client.SubmitterClientExt.TryGetResultAsync
-  nameWithType: SubmitterClientExt.TryGetResultAsync
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Tests.Client.Options
-  name: ArmoniK.Extensions.Common.StreamWrapper.Tests.Client.Options
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Tests.Client.Options.html
-  commentId: N:ArmoniK.Extensions.Common.StreamWrapper.Tests.Client.Options
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Tests.Client.Options
-  nameWithType: ArmoniK.Extensions.Common.StreamWrapper.Tests.Client.Options
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Tests.Client.Options.Grpc
-  name: Grpc
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Tests.Client.Options.Grpc.html
-  commentId: T:ArmoniK.Extensions.Common.StreamWrapper.Tests.Client.Options.Grpc
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Tests.Client.Options.Grpc
-  nameWithType: Grpc
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Tests.Client.Options.Grpc.Endpoint
-  name: Endpoint
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Tests.Client.Options.Grpc.html#ArmoniK_Extensions_Common_StreamWrapper_Tests_Client_Options_Grpc_Endpoint
-  commentId: P:ArmoniK.Extensions.Common.StreamWrapper.Tests.Client.Options.Grpc.Endpoint
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Tests.Client.Options.Grpc.Endpoint
-  nameWithType: Grpc.Endpoint
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Tests.Client.Options.Grpc.Endpoint*
-  name: Endpoint
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Tests.Client.Options.Grpc.html#ArmoniK_Extensions_Common_StreamWrapper_Tests_Client_Options_Grpc_Endpoint_
-  commentId: Overload:ArmoniK.Extensions.Common.StreamWrapper.Tests.Client.Options.Grpc.Endpoint
-  isSpec: "True"
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Tests.Client.Options.Grpc.Endpoint
-  nameWithType: Grpc.Endpoint
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Tests.Client.Options.Grpc.SettingSection
-  name: SettingSection
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Tests.Client.Options.Grpc.html#ArmoniK_Extensions_Common_StreamWrapper_Tests_Client_Options_Grpc_SettingSection
-  commentId: F:ArmoniK.Extensions.Common.StreamWrapper.Tests.Client.Options.Grpc.SettingSection
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Tests.Client.Options.Grpc.SettingSection
-  nameWithType: Grpc.SettingSection
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Tests.Common
-  name: ArmoniK.Extensions.Common.StreamWrapper.Tests.Common
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Tests.Common.html
-  commentId: N:ArmoniK.Extensions.Common.StreamWrapper.Tests.Common
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Tests.Common
-  nameWithType: ArmoniK.Extensions.Common.StreamWrapper.Tests.Common
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Tests.Common.TestPayload
-  name: TestPayload
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Tests.Common.TestPayload.html
-  commentId: T:ArmoniK.Extensions.Common.StreamWrapper.Tests.Common.TestPayload
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Tests.Common.TestPayload
-  nameWithType: TestPayload
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Tests.Common.TestPayload.DataBytes
-  name: DataBytes
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Tests.Common.TestPayload.html#ArmoniK_Extensions_Common_StreamWrapper_Tests_Common_TestPayload_DataBytes
-  commentId: P:ArmoniK.Extensions.Common.StreamWrapper.Tests.Common.TestPayload.DataBytes
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Tests.Common.TestPayload.DataBytes
-  nameWithType: TestPayload.DataBytes
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Tests.Common.TestPayload.DataBytes*
-  name: DataBytes
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Tests.Common.TestPayload.html#ArmoniK_Extensions_Common_StreamWrapper_Tests_Common_TestPayload_DataBytes_
-  commentId: Overload:ArmoniK.Extensions.Common.StreamWrapper.Tests.Common.TestPayload.DataBytes
-  isSpec: "True"
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Tests.Common.TestPayload.DataBytes
-  nameWithType: TestPayload.DataBytes
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Tests.Common.TestPayload.Deserialize(System.Byte[])
-  name: Deserialize(Byte[])
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Tests.Common.TestPayload.html#ArmoniK_Extensions_Common_StreamWrapper_Tests_Common_TestPayload_Deserialize_System_Byte___
-  commentId: M:ArmoniK.Extensions.Common.StreamWrapper.Tests.Common.TestPayload.Deserialize(System.Byte[])
-  name.vb: Deserialize(Byte())
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Tests.Common.TestPayload.Deserialize(System.Byte[])
-  fullName.vb: ArmoniK.Extensions.Common.StreamWrapper.Tests.Common.TestPayload.Deserialize(System.Byte())
-  nameWithType: TestPayload.Deserialize(Byte[])
-  nameWithType.vb: TestPayload.Deserialize(Byte())
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Tests.Common.TestPayload.Deserialize*
-  name: Deserialize
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Tests.Common.TestPayload.html#ArmoniK_Extensions_Common_StreamWrapper_Tests_Common_TestPayload_Deserialize_
-  commentId: Overload:ArmoniK.Extensions.Common.StreamWrapper.Tests.Common.TestPayload.Deserialize
-  isSpec: "True"
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Tests.Common.TestPayload.Deserialize
-  nameWithType: TestPayload.Deserialize
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Tests.Common.TestPayload.ResultKey
-  name: ResultKey
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Tests.Common.TestPayload.html#ArmoniK_Extensions_Common_StreamWrapper_Tests_Common_TestPayload_ResultKey
-  commentId: P:ArmoniK.Extensions.Common.StreamWrapper.Tests.Common.TestPayload.ResultKey
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Tests.Common.TestPayload.ResultKey
-  nameWithType: TestPayload.ResultKey
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Tests.Common.TestPayload.ResultKey*
-  name: ResultKey
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Tests.Common.TestPayload.html#ArmoniK_Extensions_Common_StreamWrapper_Tests_Common_TestPayload_ResultKey_
-  commentId: Overload:ArmoniK.Extensions.Common.StreamWrapper.Tests.Common.TestPayload.ResultKey
-  isSpec: "True"
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Tests.Common.TestPayload.ResultKey
-  nameWithType: TestPayload.ResultKey
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Tests.Common.TestPayload.Serialize
-  name: Serialize()
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Tests.Common.TestPayload.html#ArmoniK_Extensions_Common_StreamWrapper_Tests_Common_TestPayload_Serialize
-  commentId: M:ArmoniK.Extensions.Common.StreamWrapper.Tests.Common.TestPayload.Serialize
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Tests.Common.TestPayload.Serialize()
-  nameWithType: TestPayload.Serialize()
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Tests.Common.TestPayload.Serialize*
-  name: Serialize
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Tests.Common.TestPayload.html#ArmoniK_Extensions_Common_StreamWrapper_Tests_Common_TestPayload_Serialize_
-  commentId: Overload:ArmoniK.Extensions.Common.StreamWrapper.Tests.Common.TestPayload.Serialize
-  isSpec: "True"
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Tests.Common.TestPayload.Serialize
-  nameWithType: TestPayload.Serialize
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Tests.Common.TestPayload.TaskType
-  name: TestPayload.TaskType
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Tests.Common.TestPayload.TaskType.html
-  commentId: T:ArmoniK.Extensions.Common.StreamWrapper.Tests.Common.TestPayload.TaskType
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Tests.Common.TestPayload.TaskType
-  nameWithType: TestPayload.TaskType
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Tests.Common.TestPayload.TaskType.Compute
-  name: Compute
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Tests.Common.TestPayload.TaskType.html#ArmoniK_Extensions_Common_StreamWrapper_Tests_Common_TestPayload_TaskType_Compute
-  commentId: F:ArmoniK.Extensions.Common.StreamWrapper.Tests.Common.TestPayload.TaskType.Compute
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Tests.Common.TestPayload.TaskType.Compute
-  nameWithType: TestPayload.TaskType.Compute
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Tests.Common.TestPayload.TaskType.DatadepCompute
-  name: DatadepCompute
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Tests.Common.TestPayload.TaskType.html#ArmoniK_Extensions_Common_StreamWrapper_Tests_Common_TestPayload_TaskType_DatadepCompute
-  commentId: F:ArmoniK.Extensions.Common.StreamWrapper.Tests.Common.TestPayload.TaskType.DatadepCompute
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Tests.Common.TestPayload.TaskType.DatadepCompute
-  nameWithType: TestPayload.TaskType.DatadepCompute
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Tests.Common.TestPayload.TaskType.DatadepTransfer
-  name: DatadepTransfer
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Tests.Common.TestPayload.TaskType.html#ArmoniK_Extensions_Common_StreamWrapper_Tests_Common_TestPayload_TaskType_DatadepTransfer
-  commentId: F:ArmoniK.Extensions.Common.StreamWrapper.Tests.Common.TestPayload.TaskType.DatadepTransfer
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Tests.Common.TestPayload.TaskType.DatadepTransfer
-  nameWithType: TestPayload.TaskType.DatadepTransfer
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Tests.Common.TestPayload.TaskType.Error
-  name: Error
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Tests.Common.TestPayload.TaskType.html#ArmoniK_Extensions_Common_StreamWrapper_Tests_Common_TestPayload_TaskType_Error
-  commentId: F:ArmoniK.Extensions.Common.StreamWrapper.Tests.Common.TestPayload.TaskType.Error
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Tests.Common.TestPayload.TaskType.Error
-  nameWithType: TestPayload.TaskType.Error
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Tests.Common.TestPayload.TaskType.None
-  name: None
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Tests.Common.TestPayload.TaskType.html#ArmoniK_Extensions_Common_StreamWrapper_Tests_Common_TestPayload_TaskType_None
-  commentId: F:ArmoniK.Extensions.Common.StreamWrapper.Tests.Common.TestPayload.TaskType.None
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Tests.Common.TestPayload.TaskType.None
-  nameWithType: TestPayload.TaskType.None
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Tests.Common.TestPayload.TaskType.Result
-  name: Result
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Tests.Common.TestPayload.TaskType.html#ArmoniK_Extensions_Common_StreamWrapper_Tests_Common_TestPayload_TaskType_Result
-  commentId: F:ArmoniK.Extensions.Common.StreamWrapper.Tests.Common.TestPayload.TaskType.Result
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Tests.Common.TestPayload.TaskType.Result
-  nameWithType: TestPayload.TaskType.Result
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Tests.Common.TestPayload.TaskType.Transfer
-  name: Transfer
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Tests.Common.TestPayload.TaskType.html#ArmoniK_Extensions_Common_StreamWrapper_Tests_Common_TestPayload_TaskType_Transfer
-  commentId: F:ArmoniK.Extensions.Common.StreamWrapper.Tests.Common.TestPayload.TaskType.Transfer
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Tests.Common.TestPayload.TaskType.Transfer
-  nameWithType: TestPayload.TaskType.Transfer
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Tests.Common.TestPayload.TaskType.Undefined
-  name: Undefined
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Tests.Common.TestPayload.TaskType.html#ArmoniK_Extensions_Common_StreamWrapper_Tests_Common_TestPayload_TaskType_Undefined
-  commentId: F:ArmoniK.Extensions.Common.StreamWrapper.Tests.Common.TestPayload.TaskType.Undefined
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Tests.Common.TestPayload.TaskType.Undefined
-  nameWithType: TestPayload.TaskType.Undefined
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Tests.Common.TestPayload.Type
-  name: Type
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Tests.Common.TestPayload.html#ArmoniK_Extensions_Common_StreamWrapper_Tests_Common_TestPayload_Type
-  commentId: P:ArmoniK.Extensions.Common.StreamWrapper.Tests.Common.TestPayload.Type
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Tests.Common.TestPayload.Type
-  nameWithType: TestPayload.Type
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Tests.Common.TestPayload.Type*
-  name: Type
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Tests.Common.TestPayload.html#ArmoniK_Extensions_Common_StreamWrapper_Tests_Common_TestPayload_Type_
-  commentId: Overload:ArmoniK.Extensions.Common.StreamWrapper.Tests.Common.TestPayload.Type
-  isSpec: "True"
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Tests.Common.TestPayload.Type
-  nameWithType: TestPayload.Type
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Tests.Server
-  name: ArmoniK.Extensions.Common.StreamWrapper.Tests.Server
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Tests.Server.html
-  commentId: N:ArmoniK.Extensions.Common.StreamWrapper.Tests.Server
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Tests.Server
-  nameWithType: ArmoniK.Extensions.Common.StreamWrapper.Tests.Server
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Tests.Server.ApplicationLifeTimeManager
-  name: ApplicationLifeTimeManager
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Tests.Server.ApplicationLifeTimeManager.html
-  commentId: T:ArmoniK.Extensions.Common.StreamWrapper.Tests.Server.ApplicationLifeTimeManager
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Tests.Server.ApplicationLifeTimeManager
-  nameWithType: ApplicationLifeTimeManager
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Tests.Server.ApplicationLifeTimeManager.#ctor(ILogger{ArmoniK.Extensions.Common.StreamWrapper.Tests.Server.ApplicationLifeTimeManager},IHostApplicationLifetime)
-  name: ApplicationLifeTimeManager(ILogger<ApplicationLifeTimeManager>, IHostApplicationLifetime)
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Tests.Server.ApplicationLifeTimeManager.html#ArmoniK_Extensions_Common_StreamWrapper_Tests_Server_ApplicationLifeTimeManager__ctor_ILogger_ArmoniK_Extensions_Common_StreamWrapper_Tests_Server_ApplicationLifeTimeManager__IHostApplicationLifetime_
-  commentId: M:ArmoniK.Extensions.Common.StreamWrapper.Tests.Server.ApplicationLifeTimeManager.#ctor(ILogger{ArmoniK.Extensions.Common.StreamWrapper.Tests.Server.ApplicationLifeTimeManager},IHostApplicationLifetime)
-  name.vb: ApplicationLifeTimeManager(ILogger(Of ApplicationLifeTimeManager), IHostApplicationLifetime)
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Tests.Server.ApplicationLifeTimeManager.ApplicationLifeTimeManager(ILogger<ArmoniK.Extensions.Common.StreamWrapper.Tests.Server.ApplicationLifeTimeManager>, IHostApplicationLifetime)
-  fullName.vb: ArmoniK.Extensions.Common.StreamWrapper.Tests.Server.ApplicationLifeTimeManager.ApplicationLifeTimeManager(ILogger(Of ArmoniK.Extensions.Common.StreamWrapper.Tests.Server.ApplicationLifeTimeManager), IHostApplicationLifetime)
-  nameWithType: ApplicationLifeTimeManager.ApplicationLifeTimeManager(ILogger<ApplicationLifeTimeManager>, IHostApplicationLifetime)
-  nameWithType.vb: ApplicationLifeTimeManager.ApplicationLifeTimeManager(ILogger(Of ApplicationLifeTimeManager), IHostApplicationLifetime)
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Tests.Server.ApplicationLifeTimeManager.#ctor*
-  name: ApplicationLifeTimeManager
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Tests.Server.ApplicationLifeTimeManager.html#ArmoniK_Extensions_Common_StreamWrapper_Tests_Server_ApplicationLifeTimeManager__ctor_
-  commentId: Overload:ArmoniK.Extensions.Common.StreamWrapper.Tests.Server.ApplicationLifeTimeManager.#ctor
-  isSpec: "True"
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Tests.Server.ApplicationLifeTimeManager.ApplicationLifeTimeManager
-  nameWithType: ApplicationLifeTimeManager.ApplicationLifeTimeManager
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Tests.Server.Program
-  name: Program
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Tests.Server.Program.html
-  commentId: T:ArmoniK.Extensions.Common.StreamWrapper.Tests.Server.Program
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Tests.Server.Program
-  nameWithType: Program
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Tests.Server.Program.Main(System.String[])
-  name: Main(String[])
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Tests.Server.Program.html#ArmoniK_Extensions_Common_StreamWrapper_Tests_Server_Program_Main_System_String___
-  commentId: M:ArmoniK.Extensions.Common.StreamWrapper.Tests.Server.Program.Main(System.String[])
-  name.vb: Main(String())
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Tests.Server.Program.Main(System.String[])
-  fullName.vb: ArmoniK.Extensions.Common.StreamWrapper.Tests.Server.Program.Main(System.String())
-  nameWithType: Program.Main(String[])
-  nameWithType.vb: Program.Main(String())
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Tests.Server.Program.Main*
-  name: Main
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Tests.Server.Program.html#ArmoniK_Extensions_Common_StreamWrapper_Tests_Server_Program_Main_
-  commentId: Overload:ArmoniK.Extensions.Common.StreamWrapper.Tests.Server.Program.Main
-  isSpec: "True"
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Tests.Server.Program.Main
-  nameWithType: Program.Main
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Tests.Server.WorkerService
-  name: WorkerService
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Tests.Server.WorkerService.html
-  commentId: T:ArmoniK.Extensions.Common.StreamWrapper.Tests.Server.WorkerService
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Tests.Server.WorkerService
-  nameWithType: WorkerService
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Tests.Server.WorkerService.#ctor(ILoggerFactory)
-  name: WorkerService(ILoggerFactory)
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Tests.Server.WorkerService.html#ArmoniK_Extensions_Common_StreamWrapper_Tests_Server_WorkerService__ctor_ILoggerFactory_
-  commentId: M:ArmoniK.Extensions.Common.StreamWrapper.Tests.Server.WorkerService.#ctor(ILoggerFactory)
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Tests.Server.WorkerService.WorkerService(ILoggerFactory)
-  nameWithType: WorkerService.WorkerService(ILoggerFactory)
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Tests.Server.WorkerService.#ctor*
-  name: WorkerService
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Tests.Server.WorkerService.html#ArmoniK_Extensions_Common_StreamWrapper_Tests_Server_WorkerService__ctor_
-  commentId: Overload:ArmoniK.Extensions.Common.StreamWrapper.Tests.Server.WorkerService.#ctor
-  isSpec: "True"
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Tests.Server.WorkerService.WorkerService
-  nameWithType: WorkerService.WorkerService
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Tests.Server.WorkerService.Process(ITaskHandler)
-  name: Process(ITaskHandler)
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Tests.Server.WorkerService.html#ArmoniK_Extensions_Common_StreamWrapper_Tests_Server_WorkerService_Process_ITaskHandler_
-  commentId: M:ArmoniK.Extensions.Common.StreamWrapper.Tests.Server.WorkerService.Process(ITaskHandler)
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Tests.Server.WorkerService.Process(ITaskHandler)
-  nameWithType: WorkerService.Process(ITaskHandler)
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Tests.Server.WorkerService.Process*
-  name: Process
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Tests.Server.WorkerService.html#ArmoniK_Extensions_Common_StreamWrapper_Tests_Server_WorkerService_Process_
-  commentId: Overload:ArmoniK.Extensions.Common.StreamWrapper.Tests.Server.WorkerService.Process
-  isSpec: "True"
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Tests.Server.WorkerService.Process
-  nameWithType: WorkerService.Process
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Worker
-  name: ArmoniK.Extensions.Common.StreamWrapper.Worker
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Worker.html
-  commentId: N:ArmoniK.Extensions.Common.StreamWrapper.Worker
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Worker
-  nameWithType: ArmoniK.Extensions.Common.StreamWrapper.Worker
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler
-  name: ITaskHandler
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler.html
-  commentId: T:ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler
-  nameWithType: ITaskHandler
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler.Configuration
-  name: Configuration
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler.html#ArmoniK_Extensions_Common_StreamWrapper_Worker_ITaskHandler_Configuration
-  commentId: P:ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler.Configuration
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler.Configuration
-  nameWithType: ITaskHandler.Configuration
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler.Configuration*
-  name: Configuration
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler.html#ArmoniK_Extensions_Common_StreamWrapper_Worker_ITaskHandler_Configuration_
-  commentId: Overload:ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler.Configuration
-  isSpec: "True"
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler.Configuration
-  nameWithType: ITaskHandler.Configuration
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler.CreateTasksAsync(System.Collections.Generic.IEnumerable{TaskRequest},TaskOptions)
-  name: CreateTasksAsync(IEnumerable<TaskRequest>, TaskOptions)
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler.html#ArmoniK_Extensions_Common_StreamWrapper_Worker_ITaskHandler_CreateTasksAsync_System_Collections_Generic_IEnumerable_TaskRequest__TaskOptions_
-  commentId: M:ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler.CreateTasksAsync(System.Collections.Generic.IEnumerable{TaskRequest},TaskOptions)
-  name.vb: CreateTasksAsync(IEnumerable(Of TaskRequest), TaskOptions)
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler.CreateTasksAsync(System.Collections.Generic.IEnumerable<TaskRequest>, TaskOptions)
-  fullName.vb: ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler.CreateTasksAsync(System.Collections.Generic.IEnumerable(Of TaskRequest), TaskOptions)
-  nameWithType: ITaskHandler.CreateTasksAsync(IEnumerable<TaskRequest>, TaskOptions)
-  nameWithType.vb: ITaskHandler.CreateTasksAsync(IEnumerable(Of TaskRequest), TaskOptions)
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler.CreateTasksAsync*
-  name: CreateTasksAsync
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler.html#ArmoniK_Extensions_Common_StreamWrapper_Worker_ITaskHandler_CreateTasksAsync_
-  commentId: Overload:ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler.CreateTasksAsync
-  isSpec: "True"
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler.CreateTasksAsync
-  nameWithType: ITaskHandler.CreateTasksAsync
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler.DataDependencies
-  name: DataDependencies
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler.html#ArmoniK_Extensions_Common_StreamWrapper_Worker_ITaskHandler_DataDependencies
-  commentId: P:ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler.DataDependencies
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler.DataDependencies
-  nameWithType: ITaskHandler.DataDependencies
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler.DataDependencies*
-  name: DataDependencies
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler.html#ArmoniK_Extensions_Common_StreamWrapper_Worker_ITaskHandler_DataDependencies_
-  commentId: Overload:ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler.DataDependencies
-  isSpec: "True"
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler.DataDependencies
-  nameWithType: ITaskHandler.DataDependencies
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler.ExpectedResults
-  name: ExpectedResults
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler.html#ArmoniK_Extensions_Common_StreamWrapper_Worker_ITaskHandler_ExpectedResults
-  commentId: P:ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler.ExpectedResults
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler.ExpectedResults
-  nameWithType: ITaskHandler.ExpectedResults
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler.ExpectedResults*
-  name: ExpectedResults
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler.html#ArmoniK_Extensions_Common_StreamWrapper_Worker_ITaskHandler_ExpectedResults_
-  commentId: Overload:ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler.ExpectedResults
-  isSpec: "True"
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler.ExpectedResults
-  nameWithType: ITaskHandler.ExpectedResults
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler.Payload
-  name: Payload
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler.html#ArmoniK_Extensions_Common_StreamWrapper_Worker_ITaskHandler_Payload
-  commentId: P:ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler.Payload
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler.Payload
-  nameWithType: ITaskHandler.Payload
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler.Payload*
-  name: Payload
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler.html#ArmoniK_Extensions_Common_StreamWrapper_Worker_ITaskHandler_Payload_
-  commentId: Overload:ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler.Payload
-  isSpec: "True"
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler.Payload
-  nameWithType: ITaskHandler.Payload
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler.RequestCommonData(System.String)
-  name: RequestCommonData(String)
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler.html#ArmoniK_Extensions_Common_StreamWrapper_Worker_ITaskHandler_RequestCommonData_System_String_
-  commentId: M:ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler.RequestCommonData(System.String)
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler.RequestCommonData(System.String)
-  nameWithType: ITaskHandler.RequestCommonData(String)
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler.RequestCommonData*
-  name: RequestCommonData
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler.html#ArmoniK_Extensions_Common_StreamWrapper_Worker_ITaskHandler_RequestCommonData_
-  commentId: Overload:ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler.RequestCommonData
-  isSpec: "True"
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler.RequestCommonData
-  nameWithType: ITaskHandler.RequestCommonData
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler.RequestDirectData(System.String)
-  name: RequestDirectData(String)
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler.html#ArmoniK_Extensions_Common_StreamWrapper_Worker_ITaskHandler_RequestDirectData_System_String_
-  commentId: M:ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler.RequestDirectData(System.String)
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler.RequestDirectData(System.String)
-  nameWithType: ITaskHandler.RequestDirectData(String)
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler.RequestDirectData*
-  name: RequestDirectData
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler.html#ArmoniK_Extensions_Common_StreamWrapper_Worker_ITaskHandler_RequestDirectData_
-  commentId: Overload:ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler.RequestDirectData
-  isSpec: "True"
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler.RequestDirectData
-  nameWithType: ITaskHandler.RequestDirectData
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler.RequestResource(System.String)
-  name: RequestResource(String)
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler.html#ArmoniK_Extensions_Common_StreamWrapper_Worker_ITaskHandler_RequestResource_System_String_
-  commentId: M:ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler.RequestResource(System.String)
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler.RequestResource(System.String)
-  nameWithType: ITaskHandler.RequestResource(String)
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler.RequestResource*
-  name: RequestResource
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler.html#ArmoniK_Extensions_Common_StreamWrapper_Worker_ITaskHandler_RequestResource_
-  commentId: Overload:ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler.RequestResource
-  isSpec: "True"
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler.RequestResource
-  nameWithType: ITaskHandler.RequestResource
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler.SendResult(System.String,System.Byte[])
-  name: SendResult(String, Byte[])
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler.html#ArmoniK_Extensions_Common_StreamWrapper_Worker_ITaskHandler_SendResult_System_String_System_Byte___
-  commentId: M:ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler.SendResult(System.String,System.Byte[])
-  name.vb: SendResult(String, Byte())
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler.SendResult(System.String, System.Byte[])
-  fullName.vb: ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler.SendResult(System.String, System.Byte())
-  nameWithType: ITaskHandler.SendResult(String, Byte[])
-  nameWithType.vb: ITaskHandler.SendResult(String, Byte())
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler.SendResult*
-  name: SendResult
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler.html#ArmoniK_Extensions_Common_StreamWrapper_Worker_ITaskHandler_SendResult_
-  commentId: Overload:ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler.SendResult
-  isSpec: "True"
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler.SendResult
-  nameWithType: ITaskHandler.SendResult
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler.SessionId
-  name: SessionId
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler.html#ArmoniK_Extensions_Common_StreamWrapper_Worker_ITaskHandler_SessionId
-  commentId: P:ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler.SessionId
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler.SessionId
-  nameWithType: ITaskHandler.SessionId
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler.SessionId*
-  name: SessionId
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler.html#ArmoniK_Extensions_Common_StreamWrapper_Worker_ITaskHandler_SessionId_
-  commentId: Overload:ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler.SessionId
-  isSpec: "True"
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler.SessionId
-  nameWithType: ITaskHandler.SessionId
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler.TaskId
-  name: TaskId
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler.html#ArmoniK_Extensions_Common_StreamWrapper_Worker_ITaskHandler_TaskId
-  commentId: P:ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler.TaskId
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler.TaskId
-  nameWithType: ITaskHandler.TaskId
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler.TaskId*
-  name: TaskId
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler.html#ArmoniK_Extensions_Common_StreamWrapper_Worker_ITaskHandler_TaskId_
-  commentId: Overload:ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler.TaskId
-  isSpec: "True"
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler.TaskId
-  nameWithType: ITaskHandler.TaskId
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler.TaskOptions
-  name: TaskOptions
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler.html#ArmoniK_Extensions_Common_StreamWrapper_Worker_ITaskHandler_TaskOptions
-  commentId: P:ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler.TaskOptions
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler.TaskOptions
-  nameWithType: ITaskHandler.TaskOptions
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler.TaskOptions*
-  name: TaskOptions
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler.html#ArmoniK_Extensions_Common_StreamWrapper_Worker_ITaskHandler_TaskOptions_
-  commentId: Overload:ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler.TaskOptions
-  isSpec: "True"
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler.TaskOptions
-  nameWithType: ITaskHandler.TaskOptions
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler
-  name: TaskHandler
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.html
-  commentId: T:ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler
-  nameWithType: TaskHandler
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.Configuration
-  name: Configuration
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.html#ArmoniK_Extensions_Common_StreamWrapper_Worker_TaskHandler_Configuration
-  commentId: P:ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.Configuration
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.Configuration
-  nameWithType: TaskHandler.Configuration
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.Configuration*
-  name: Configuration
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.html#ArmoniK_Extensions_Common_StreamWrapper_Worker_TaskHandler_Configuration_
-  commentId: Overload:ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.Configuration
-  isSpec: "True"
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.Configuration
-  nameWithType: TaskHandler.Configuration
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.Create(IAsyncStreamReader{ProcessRequest},IServerStreamWriter{ProcessReply},Configuration,System.Threading.CancellationToken,ILogger{ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler})
-  name: Create(IAsyncStreamReader<ProcessRequest>, IServerStreamWriter<ProcessReply>, Configuration, CancellationToken, ILogger<TaskHandler>)
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.html#ArmoniK_Extensions_Common_StreamWrapper_Worker_TaskHandler_Create_IAsyncStreamReader_ProcessRequest__IServerStreamWriter_ProcessReply__Configuration_System_Threading_CancellationToken_ILogger_ArmoniK_Extensions_Common_StreamWrapper_Worker_TaskHandler__
-  commentId: M:ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.Create(IAsyncStreamReader{ProcessRequest},IServerStreamWriter{ProcessReply},Configuration,System.Threading.CancellationToken,ILogger{ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler})
-  name.vb: Create(IAsyncStreamReader(Of ProcessRequest), IServerStreamWriter(Of ProcessReply), Configuration, CancellationToken, ILogger(Of TaskHandler))
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.Create(IAsyncStreamReader<ProcessRequest>, IServerStreamWriter<ProcessReply>, Configuration, System.Threading.CancellationToken, ILogger<ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler>)
-  fullName.vb: ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.Create(IAsyncStreamReader(Of ProcessRequest), IServerStreamWriter(Of ProcessReply), Configuration, System.Threading.CancellationToken, ILogger(Of ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler))
-  nameWithType: TaskHandler.Create(IAsyncStreamReader<ProcessRequest>, IServerStreamWriter<ProcessReply>, Configuration, CancellationToken, ILogger<TaskHandler>)
-  nameWithType.vb: TaskHandler.Create(IAsyncStreamReader(Of ProcessRequest), IServerStreamWriter(Of ProcessReply), Configuration, CancellationToken, ILogger(Of TaskHandler))
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.Create*
-  name: Create
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.html#ArmoniK_Extensions_Common_StreamWrapper_Worker_TaskHandler_Create_
-  commentId: Overload:ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.Create
-  isSpec: "True"
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.Create
-  nameWithType: TaskHandler.Create
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.CreateTasksAsync(System.Collections.Generic.IEnumerable{TaskRequest},TaskOptions)
-  name: CreateTasksAsync(IEnumerable<TaskRequest>, TaskOptions)
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.html#ArmoniK_Extensions_Common_StreamWrapper_Worker_TaskHandler_CreateTasksAsync_System_Collections_Generic_IEnumerable_TaskRequest__TaskOptions_
-  commentId: M:ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.CreateTasksAsync(System.Collections.Generic.IEnumerable{TaskRequest},TaskOptions)
-  name.vb: CreateTasksAsync(IEnumerable(Of TaskRequest), TaskOptions)
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.CreateTasksAsync(System.Collections.Generic.IEnumerable<TaskRequest>, TaskOptions)
-  fullName.vb: ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.CreateTasksAsync(System.Collections.Generic.IEnumerable(Of TaskRequest), TaskOptions)
-  nameWithType: TaskHandler.CreateTasksAsync(IEnumerable<TaskRequest>, TaskOptions)
-  nameWithType.vb: TaskHandler.CreateTasksAsync(IEnumerable(Of TaskRequest), TaskOptions)
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.CreateTasksAsync*
-  name: CreateTasksAsync
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.html#ArmoniK_Extensions_Common_StreamWrapper_Worker_TaskHandler_CreateTasksAsync_
-  commentId: Overload:ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.CreateTasksAsync
-  isSpec: "True"
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.CreateTasksAsync
-  nameWithType: TaskHandler.CreateTasksAsync
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.DataDependencies
-  name: DataDependencies
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.html#ArmoniK_Extensions_Common_StreamWrapper_Worker_TaskHandler_DataDependencies
-  commentId: P:ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.DataDependencies
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.DataDependencies
-  nameWithType: TaskHandler.DataDependencies
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.DataDependencies*
-  name: DataDependencies
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.html#ArmoniK_Extensions_Common_StreamWrapper_Worker_TaskHandler_DataDependencies_
-  commentId: Overload:ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.DataDependencies
-  isSpec: "True"
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.DataDependencies
-  nameWithType: TaskHandler.DataDependencies
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.ExpectedResults
-  name: ExpectedResults
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.html#ArmoniK_Extensions_Common_StreamWrapper_Worker_TaskHandler_ExpectedResults
-  commentId: P:ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.ExpectedResults
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.ExpectedResults
-  nameWithType: TaskHandler.ExpectedResults
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.ExpectedResults*
-  name: ExpectedResults
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.html#ArmoniK_Extensions_Common_StreamWrapper_Worker_TaskHandler_ExpectedResults_
-  commentId: Overload:ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.ExpectedResults
-  isSpec: "True"
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.ExpectedResults
-  nameWithType: TaskHandler.ExpectedResults
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.Payload
-  name: Payload
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.html#ArmoniK_Extensions_Common_StreamWrapper_Worker_TaskHandler_Payload
-  commentId: P:ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.Payload
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.Payload
-  nameWithType: TaskHandler.Payload
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.Payload*
-  name: Payload
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.html#ArmoniK_Extensions_Common_StreamWrapper_Worker_TaskHandler_Payload_
-  commentId: Overload:ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.Payload
-  isSpec: "True"
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.Payload
-  nameWithType: TaskHandler.Payload
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.RequestCommonData(System.String)
-  name: RequestCommonData(String)
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.html#ArmoniK_Extensions_Common_StreamWrapper_Worker_TaskHandler_RequestCommonData_System_String_
-  commentId: M:ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.RequestCommonData(System.String)
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.RequestCommonData(System.String)
-  nameWithType: TaskHandler.RequestCommonData(String)
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.RequestCommonData*
-  name: RequestCommonData
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.html#ArmoniK_Extensions_Common_StreamWrapper_Worker_TaskHandler_RequestCommonData_
-  commentId: Overload:ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.RequestCommonData
-  isSpec: "True"
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.RequestCommonData
-  nameWithType: TaskHandler.RequestCommonData
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.RequestDirectData(System.String)
-  name: RequestDirectData(String)
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.html#ArmoniK_Extensions_Common_StreamWrapper_Worker_TaskHandler_RequestDirectData_System_String_
-  commentId: M:ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.RequestDirectData(System.String)
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.RequestDirectData(System.String)
-  nameWithType: TaskHandler.RequestDirectData(String)
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.RequestDirectData*
-  name: RequestDirectData
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.html#ArmoniK_Extensions_Common_StreamWrapper_Worker_TaskHandler_RequestDirectData_
-  commentId: Overload:ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.RequestDirectData
-  isSpec: "True"
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.RequestDirectData
-  nameWithType: TaskHandler.RequestDirectData
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.RequestResource(System.String)
-  name: RequestResource(String)
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.html#ArmoniK_Extensions_Common_StreamWrapper_Worker_TaskHandler_RequestResource_System_String_
-  commentId: M:ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.RequestResource(System.String)
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.RequestResource(System.String)
-  nameWithType: TaskHandler.RequestResource(String)
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.RequestResource*
-  name: RequestResource
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.html#ArmoniK_Extensions_Common_StreamWrapper_Worker_TaskHandler_RequestResource_
-  commentId: Overload:ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.RequestResource
-  isSpec: "True"
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.RequestResource
-  nameWithType: TaskHandler.RequestResource
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.SendResult(System.String,System.Byte[])
-  name: SendResult(String, Byte[])
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.html#ArmoniK_Extensions_Common_StreamWrapper_Worker_TaskHandler_SendResult_System_String_System_Byte___
-  commentId: M:ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.SendResult(System.String,System.Byte[])
-  name.vb: SendResult(String, Byte())
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.SendResult(System.String, System.Byte[])
-  fullName.vb: ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.SendResult(System.String, System.Byte())
-  nameWithType: TaskHandler.SendResult(String, Byte[])
-  nameWithType.vb: TaskHandler.SendResult(String, Byte())
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.SendResult*
-  name: SendResult
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.html#ArmoniK_Extensions_Common_StreamWrapper_Worker_TaskHandler_SendResult_
-  commentId: Overload:ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.SendResult
-  isSpec: "True"
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.SendResult
-  nameWithType: TaskHandler.SendResult
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.SessionId
-  name: SessionId
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.html#ArmoniK_Extensions_Common_StreamWrapper_Worker_TaskHandler_SessionId
-  commentId: P:ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.SessionId
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.SessionId
-  nameWithType: TaskHandler.SessionId
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.SessionId*
-  name: SessionId
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.html#ArmoniK_Extensions_Common_StreamWrapper_Worker_TaskHandler_SessionId_
-  commentId: Overload:ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.SessionId
-  isSpec: "True"
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.SessionId
-  nameWithType: TaskHandler.SessionId
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.TaskId
-  name: TaskId
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.html#ArmoniK_Extensions_Common_StreamWrapper_Worker_TaskHandler_TaskId
-  commentId: P:ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.TaskId
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.TaskId
-  nameWithType: TaskHandler.TaskId
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.TaskId*
-  name: TaskId
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.html#ArmoniK_Extensions_Common_StreamWrapper_Worker_TaskHandler_TaskId_
-  commentId: Overload:ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.TaskId
-  isSpec: "True"
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.TaskId
-  nameWithType: TaskHandler.TaskId
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.TaskOptions
-  name: TaskOptions
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.html#ArmoniK_Extensions_Common_StreamWrapper_Worker_TaskHandler_TaskOptions
-  commentId: P:ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.TaskOptions
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.TaskOptions
-  nameWithType: TaskHandler.TaskOptions
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.TaskOptions*
-  name: TaskOptions
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.html#ArmoniK_Extensions_Common_StreamWrapper_Worker_TaskHandler_TaskOptions_
-  commentId: Overload:ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.TaskOptions
-  isSpec: "True"
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskHandler.TaskOptions
-  nameWithType: TaskHandler.TaskOptions
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskRequestExtensions
-  name: TaskRequestExtensions
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskRequestExtensions.html
-  commentId: T:ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskRequestExtensions
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskRequestExtensions
-  nameWithType: TaskRequestExtensions
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskRequestExtensions.ToRequestStream(System.Collections.Generic.IEnumerable{TaskRequest},TaskOptions,System.Int32)
-  name: ToRequestStream(IEnumerable<TaskRequest>, TaskOptions, Int32)
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskRequestExtensions.html#ArmoniK_Extensions_Common_StreamWrapper_Worker_TaskRequestExtensions_ToRequestStream_System_Collections_Generic_IEnumerable_TaskRequest__TaskOptions_System_Int32_
-  commentId: M:ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskRequestExtensions.ToRequestStream(System.Collections.Generic.IEnumerable{TaskRequest},TaskOptions,System.Int32)
-  name.vb: ToRequestStream(IEnumerable(Of TaskRequest), TaskOptions, Int32)
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskRequestExtensions.ToRequestStream(System.Collections.Generic.IEnumerable<TaskRequest>, TaskOptions, System.Int32)
-  fullName.vb: ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskRequestExtensions.ToRequestStream(System.Collections.Generic.IEnumerable(Of TaskRequest), TaskOptions, System.Int32)
-  nameWithType: TaskRequestExtensions.ToRequestStream(IEnumerable<TaskRequest>, TaskOptions, Int32)
-  nameWithType.vb: TaskRequestExtensions.ToRequestStream(IEnumerable(Of TaskRequest), TaskOptions, Int32)
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskRequestExtensions.ToRequestStream*
-  name: ToRequestStream
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskRequestExtensions.html#ArmoniK_Extensions_Common_StreamWrapper_Worker_TaskRequestExtensions_ToRequestStream_
-  commentId: Overload:ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskRequestExtensions.ToRequestStream
-  isSpec: "True"
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Worker.TaskRequestExtensions.ToRequestStream
-  nameWithType: TaskRequestExtensions.ToRequestStream
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Worker.WorkerStreamWrapper
-  name: WorkerStreamWrapper
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Worker.WorkerStreamWrapper.html
-  commentId: T:ArmoniK.Extensions.Common.StreamWrapper.Worker.WorkerStreamWrapper
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Worker.WorkerStreamWrapper
-  nameWithType: WorkerStreamWrapper
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Worker.WorkerStreamWrapper.#ctor(ILoggerFactory)
-  name: WorkerStreamWrapper(ILoggerFactory)
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Worker.WorkerStreamWrapper.html#ArmoniK_Extensions_Common_StreamWrapper_Worker_WorkerStreamWrapper__ctor_ILoggerFactory_
-  commentId: M:ArmoniK.Extensions.Common.StreamWrapper.Worker.WorkerStreamWrapper.#ctor(ILoggerFactory)
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Worker.WorkerStreamWrapper.WorkerStreamWrapper(ILoggerFactory)
-  nameWithType: WorkerStreamWrapper.WorkerStreamWrapper(ILoggerFactory)
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Worker.WorkerStreamWrapper.#ctor*
-  name: WorkerStreamWrapper
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Worker.WorkerStreamWrapper.html#ArmoniK_Extensions_Common_StreamWrapper_Worker_WorkerStreamWrapper__ctor_
-  commentId: Overload:ArmoniK.Extensions.Common.StreamWrapper.Worker.WorkerStreamWrapper.#ctor
-  isSpec: "True"
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Worker.WorkerStreamWrapper.WorkerStreamWrapper
-  nameWithType: WorkerStreamWrapper.WorkerStreamWrapper
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Worker.WorkerStreamWrapper.HealthCheck(Empty,ServerCallContext)
-  name: HealthCheck(Empty, ServerCallContext)
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Worker.WorkerStreamWrapper.html#ArmoniK_Extensions_Common_StreamWrapper_Worker_WorkerStreamWrapper_HealthCheck_Empty_ServerCallContext_
-  commentId: M:ArmoniK.Extensions.Common.StreamWrapper.Worker.WorkerStreamWrapper.HealthCheck(Empty,ServerCallContext)
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Worker.WorkerStreamWrapper.HealthCheck(Empty, ServerCallContext)
-  nameWithType: WorkerStreamWrapper.HealthCheck(Empty, ServerCallContext)
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Worker.WorkerStreamWrapper.HealthCheck*
-  name: HealthCheck
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Worker.WorkerStreamWrapper.html#ArmoniK_Extensions_Common_StreamWrapper_Worker_WorkerStreamWrapper_HealthCheck_
-  commentId: Overload:ArmoniK.Extensions.Common.StreamWrapper.Worker.WorkerStreamWrapper.HealthCheck
-  isSpec: "True"
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Worker.WorkerStreamWrapper.HealthCheck
-  nameWithType: WorkerStreamWrapper.HealthCheck
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Worker.WorkerStreamWrapper.logger_
-  name: logger_
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Worker.WorkerStreamWrapper.html#ArmoniK_Extensions_Common_StreamWrapper_Worker_WorkerStreamWrapper_logger_
-  commentId: F:ArmoniK.Extensions.Common.StreamWrapper.Worker.WorkerStreamWrapper.logger_
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Worker.WorkerStreamWrapper.logger_
-  nameWithType: WorkerStreamWrapper.logger_
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Worker.WorkerStreamWrapper.Process(ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler)
-  name: Process(ITaskHandler)
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Worker.WorkerStreamWrapper.html#ArmoniK_Extensions_Common_StreamWrapper_Worker_WorkerStreamWrapper_Process_ArmoniK_Extensions_Common_StreamWrapper_Worker_ITaskHandler_
-  commentId: M:ArmoniK.Extensions.Common.StreamWrapper.Worker.WorkerStreamWrapper.Process(ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler)
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Worker.WorkerStreamWrapper.Process(ArmoniK.Extensions.Common.StreamWrapper.Worker.ITaskHandler)
-  nameWithType: WorkerStreamWrapper.Process(ITaskHandler)
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Worker.WorkerStreamWrapper.Process(IAsyncStreamReader{ProcessRequest},IServerStreamWriter{ProcessReply},ServerCallContext)
-  name: Process(IAsyncStreamReader<ProcessRequest>, IServerStreamWriter<ProcessReply>, ServerCallContext)
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Worker.WorkerStreamWrapper.html#ArmoniK_Extensions_Common_StreamWrapper_Worker_WorkerStreamWrapper_Process_IAsyncStreamReader_ProcessRequest__IServerStreamWriter_ProcessReply__ServerCallContext_
-  commentId: M:ArmoniK.Extensions.Common.StreamWrapper.Worker.WorkerStreamWrapper.Process(IAsyncStreamReader{ProcessRequest},IServerStreamWriter{ProcessReply},ServerCallContext)
-  name.vb: Process(IAsyncStreamReader(Of ProcessRequest), IServerStreamWriter(Of ProcessReply), ServerCallContext)
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Worker.WorkerStreamWrapper.Process(IAsyncStreamReader<ProcessRequest>, IServerStreamWriter<ProcessReply>, ServerCallContext)
-  fullName.vb: ArmoniK.Extensions.Common.StreamWrapper.Worker.WorkerStreamWrapper.Process(IAsyncStreamReader(Of ProcessRequest), IServerStreamWriter(Of ProcessReply), ServerCallContext)
-  nameWithType: WorkerStreamWrapper.Process(IAsyncStreamReader<ProcessRequest>, IServerStreamWriter<ProcessReply>, ServerCallContext)
-  nameWithType.vb: WorkerStreamWrapper.Process(IAsyncStreamReader(Of ProcessRequest), IServerStreamWriter(Of ProcessReply), ServerCallContext)
-- uid: ArmoniK.Extensions.Common.StreamWrapper.Worker.WorkerStreamWrapper.Process*
-  name: Process
-  href: api/ArmoniK.Extensions.Common.StreamWrapper.Worker.WorkerStreamWrapper.html#ArmoniK_Extensions_Common_StreamWrapper_Worker_WorkerStreamWrapper_Process_
-  commentId: Overload:ArmoniK.Extensions.Common.StreamWrapper.Worker.WorkerStreamWrapper.Process
-  isSpec: "True"
-  fullName: ArmoniK.Extensions.Common.StreamWrapper.Worker.WorkerStreamWrapper.Process
-  nameWithType: WorkerStreamWrapper.Process
 - uid: armonik_extensions_csharp_api
   name: Armonik.Extensions.Csharp API
   href: api/index.html
