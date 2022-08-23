@@ -128,7 +128,7 @@ namespace ArmoniK.EndToEndTests.Tests.CheckTypeOfSubmission
           };
 
           this.SubmitTaskWithDependencies(aggPayload.Serialize(),
-                                          taskIds.Select(id => id.ResultIds.Single()).ToList(), true);
+                                          taskIds.Select(id => id.ResultIds.Single()), true);
 
           return null; //Delegate to subTasks
         }

@@ -210,10 +210,10 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.api
     /// <param name="payloadsWithDependencies">A list of Tuple(taskId, Payload) in dependence of those created tasks</param>
     /// <param name="resultForParent"></param>
     /// <returns>return a list of taskIds of the created tasks </returns>
-    public IEnumerable<TaskResultId> SubmitTasksWithDependencies(IEnumerable<Tuple<byte[], IList<string>>> payloadsWithDependencies, bool resultForParent = false)
+    public IEnumerable<TaskResultId> SubmitTasksWithDependencies(IEnumerable<Tuple<byte[], IEnumerable<string>>> payloadsWithDependencies, bool resultForParent = false)
     {
       using var _                = Logger.LogFunction();
-      var       withDependencies = payloadsWithDependencies as Tuple<byte[], IList<string>>[] ?? payloadsWithDependencies.ToArray();
+      var       withDependencies = payloadsWithDependencies as Tuple<byte[], IEnumerable<string>>[] ?? payloadsWithDependencies.ToArray();
       Logger.LogDebug("payload with dependencies {len}",
                       withDependencies.Count());
       var taskRequests = new List<TaskRequest>();
@@ -233,7 +233,7 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.api
           },
         };
 
-        if (dependencies != null && dependencies.Count != 0)
+        if (dependencies != null && dependencies.Count() != 0)
         {
           taskRequest.DataDependencies.AddRange(dependencies);
 
@@ -314,7 +314,7 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.api
     /// <param name="payload">The payload to submit</param>
     /// <param name="dependencies">A list of task Id in dependence of this created task</param>
     /// <returns>return the taskId of the created task </returns>
-    public static TaskResultId SubmitTaskWithDependencies(this SessionPollingService client, byte[] payload, IList<string> dependencies)
+    public static TaskResultId SubmitTaskWithDependencies(this SessionPollingService client, byte[] payload, IEnumerable<string> dependencies)
     {
       return client.SubmitTasksWithDependencies(new[]
       {
