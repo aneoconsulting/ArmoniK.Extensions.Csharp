@@ -32,7 +32,6 @@ using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.SymphonyApi.Client;
 using ArmoniK.DevelopmentKit.SymphonyApi.Client.api;
 using ArmoniK.EndToEndTests.Common;
-using ArmoniK.EndToEndTests.Tests.CheckMultipleTasks;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;

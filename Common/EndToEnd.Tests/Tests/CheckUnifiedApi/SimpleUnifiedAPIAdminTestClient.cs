@@ -38,7 +38,6 @@ using ArmoniK.EndToEndTests.Common;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-using SessionService = ArmoniK.DevelopmentKit.SymphonyApi.Client.api.SessionService;
 using TaskStatus = ArmoniK.Api.gRPC.V1.TaskStatus;
 
 namespace ArmoniK.EndToEndTests.Tests.CheckUnifiedApi

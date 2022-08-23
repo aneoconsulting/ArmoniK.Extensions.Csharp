@@ -27,9 +27,8 @@ using ArmoniK.DevelopmentKit.GridServer.Client;
 using ArmoniK.EndToEndTests.Common;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using System;
+
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 
 using SessionService = ArmoniK.DevelopmentKit.SymphonyApi.Client.api.SessionService;

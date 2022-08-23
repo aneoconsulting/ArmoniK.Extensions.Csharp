@@ -36,8 +36,6 @@ using ArmoniK.EndToEndTests.Common;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-using SessionService = ArmoniK.DevelopmentKit.SymphonyApi.Client.api.SessionService;
-
 namespace ArmoniK.EndToEndTests.Tests.CheckUnifiedApi
 {
   public class SimpleUnifiedAPITestClient : ClientBaseTest<SimpleUnifiedAPITestClient>, IServiceInvocationHandler
