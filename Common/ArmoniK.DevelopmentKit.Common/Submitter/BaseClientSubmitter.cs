@@ -206,7 +206,7 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
       using var _           = Logger.LogFunction();
       var       taskCreated = new List<string>();
 
-      foreach (var tup in payloadsWithDependencies.Batch(1000))
+      foreach (var tup in payloadsWithDependencies.ToArray().Batch(1000))
       {
         var taskRequests = new List<TaskRequest>();
         foreach (var (payload, dependencies) in tup)
