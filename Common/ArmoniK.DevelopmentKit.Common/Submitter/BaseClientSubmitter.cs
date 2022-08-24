@@ -181,6 +181,7 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
     [UsedImplicitly]
     public IEnumerable<string> SubmitTasksWithDependencies(IEnumerable<Tuple<byte[], IList<string>>> payloadsWithDependencies)
     {
+      using var _           = Logger.LogFunction();
       var payloadsWithTaskIdAndDependencies = payloadsWithDependencies.Select(payload =>
       {
         var taskId = Guid.NewGuid().ToString();
