@@ -33,7 +33,6 @@
   </Target>
 
 <ItemGroup>
-    <PackageReference Include="Google.Protobuf" Version="3.21.5" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.0" />
     <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.0" PrivateAssets="All" />
     <PackageReference Include="protobuf-net" Version="3.1.17" />
