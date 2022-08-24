@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
 using Serilog;
@@ -46,7 +47,7 @@ namespace ArmoniK.DevelopmentKit.Client.Services.Common
       {
         new SerilogLoggerProvider(new LoggerConfiguration()
                                   .ReadFrom
-                                  .Configuration(props.Configuration)
+                                  .KeyValuePairs(props.Configuration.AsEnumerable())
                                   .CreateLogger())
       });
     }

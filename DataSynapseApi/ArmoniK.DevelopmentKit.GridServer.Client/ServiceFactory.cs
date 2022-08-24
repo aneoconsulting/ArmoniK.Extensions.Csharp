@@ -23,6 +23,7 @@
 
 using ArmoniK.DevelopmentKit.Common;
 
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
 using Serilog;
@@ -67,7 +68,7 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
       {
         new SerilogLoggerProvider(new LoggerConfiguration()
                                   .ReadFrom
-                                  .Configuration(props.Configuration)
+                                  .KeyValuePairs(props.Configuration.AsEnumerable())
                                   .CreateLogger())
       });
       return new Service(serviceType,
