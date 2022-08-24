@@ -22,11 +22,8 @@
 // limitations under the License.
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 
 using ArmoniK.DevelopmentKit.Common.Exceptions;
 

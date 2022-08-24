@@ -27,11 +27,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 
-using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.Common.Exceptions;
 using ArmoniK.DevelopmentKit.SymphonyApi;
 using ArmoniK.DevelopmentKit.SymphonyApi.api;
-using ArmoniK.DevelopmentKit.WorkerApi.Common;
 using ArmoniK.EndToEndTests.Common;
 
 using Microsoft.Extensions.Logging;

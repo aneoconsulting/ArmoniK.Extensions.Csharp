@@ -23,8 +23,6 @@
 
 using System;
 
-using ArmoniK.DevelopmentKit.Common.Exceptions;
-
 //TODO : remove pragma
 #pragma warning disable CS1591
 

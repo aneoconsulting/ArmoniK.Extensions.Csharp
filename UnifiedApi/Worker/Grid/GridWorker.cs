@@ -34,8 +34,6 @@ using ArmoniK.DevelopmentKit.Worker.Grid;
 using ArmoniK.DevelopmentKit.WorkerApi.Common;
 using ArmoniK.Extensions.Common.StreamWrapper.Worker;
 
-using Google.Protobuf.WellKnownTypes;
-
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 

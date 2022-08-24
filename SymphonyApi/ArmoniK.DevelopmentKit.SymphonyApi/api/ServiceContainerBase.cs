@@ -31,13 +31,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
 using Serilog;
-using Serilog.Extensions.Logging;
 using Serilog.Formatting.Compact;
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace ArmoniK.DevelopmentKit.SymphonyApi.api
 {
