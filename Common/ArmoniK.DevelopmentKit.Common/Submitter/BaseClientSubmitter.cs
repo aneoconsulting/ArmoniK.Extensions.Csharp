@@ -181,24 +181,14 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
     [UsedImplicitly]
     public IEnumerable<string> SubmitTasksWithDependencies(IEnumerable<Tuple<byte[], IList<string>>> payloadsWithDependencies)
     {
-      var tuples = payloadsWithDependencies as Tuple<byte[], IList<string>>[] ?? payloadsWithDependencies.ToArray();
-
-
-      //ReTriggerBuffer();
-
-      var payloadsWithTaskIdAndDependencies = tuples.Select(payload =>
+      var payloadsWithTaskIdAndDependencies = payloadsWithDependencies.Select(payload =>
       {
         var taskId = Guid.NewGuid().ToString();
         return Tuple.Create(Tuple.Create(taskId,
                                          payload.Item1),
                             payload.Item2);
-      }).ToArray();
+      });
 
-
-      //foreach (var payload in payloadsWithTaskIdAndDependencies)
-      //  bufferPayloads.Post(payload);
-
-      //return payloadsWithTaskIdAndDependencies.Select(p => p.Item1.Item1).ToList();
       return SubmitTasksWithDependencies(payloadsWithTaskIdAndDependencies);
     }
 
@@ -212,13 +202,10 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
     [UsedImplicitly]
     public IEnumerable<string> SubmitTasksWithDependencies(IEnumerable<Tuple<Tuple<string, byte[]>, IList<string>>> payloadsWithDependencies, int maxRetries = 5)
     {
-      using var _                = Logger.LogFunction();
-      var       withDependencies = payloadsWithDependencies as Tuple<Tuple<string, byte[]>, IList<string>>[] ?? payloadsWithDependencies.ToArray();
-      Logger.LogDebug("payload with dependencies {len}",
-                      withDependencies.Count());
-      var taskCreated = new List<string>();
+      using var _           = Logger.LogFunction();
+      var       taskCreated = new List<string>();
 
-      withDependencies.Batch(1000).ToList().ForEach(tup =>
+      foreach (var tup in payloadsWithDependencies.Batch(1000))
       {
         var taskRequests = new List<TaskRequest>();
         foreach (var (payload, dependencies) in tup)
@@ -312,11 +299,11 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
                 Payload = taskReq.Payload,
                 DataDependencies =
                 {
-                  taskReq.DataDependencies
+                  taskReq.DataDependencies,
                 },
                 ExpectedOutputKeys =
                 {
-                  newTaskId
+                  newTaskId,
                 },
               };
 
@@ -325,7 +312,8 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
             }).ToList();
           }
         }
-      });
+      }
+
       Logger.LogDebug("Tasks created : {ids}",
                       taskCreated);
 
@@ -358,9 +346,7 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
     [UsedImplicitly]
     public void WaitForTasksCompletion(IEnumerable<string> taskIds)
     {
-      var ids = taskIds as string[] ?? taskIds.ToArray();
-      using var _ = Logger.LogFunction(string.Join(", ",
-                                                   ids));
+      using var _ = Logger.LogFunction();
       Retry.WhileException(5,
                            200,
                            () =>
@@ -373,7 +359,7 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
                                  {
                                    Ids =
                                    {
-                                     ids,
+                                     taskIds,
                                    },
                                  },
                                },
@@ -414,7 +400,7 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
                                           typeof(RpcException));
 
 
-      var ids       = taskIds as string[] ?? taskIds.ToArray();
+      var ids       = taskIds.ToList();
       var statusIds = idStatus as Tuple<string, ResultStatus>[] ?? idStatus.ToArray();
 
       var resultStatusList = new ResultStatusCollection()
