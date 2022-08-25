@@ -48,18 +48,16 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
     private ServiceContext       serviceContext_;
     private SessionContext       sessionContext_;
 
-    public GridWorker()
-    {
-      Configuration = GridWorkerExt.GetDefaultConfiguration();
-      Logger        = GridWorkerExt.GetDefaultLoggerFactory(Configuration).CreateLogger<GridWorker>();
-    }
-
     public GridWorker(IConfiguration configuration, ILoggerFactory factory)
     {
       Configuration = configuration;
 
       Logger = factory.CreateLogger<GridWorker>();
+
+      Factory = factory;
     }
+
+    public ILoggerFactory Factory { get; set; }
 
     public TaskOptions TaskOptions { get; set; }
 
@@ -99,7 +97,8 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi
       serviceContainerBase_ = appsLoader.GetServiceContainerInstance<ServiceContainerBase>(GridAppNamespace,
                                                                                            "ServiceContainer");
 
-      serviceContainerBase_.Configure(configuration,
+      serviceContainerBase_.Configure(Factory,
+                                      configuration,
                                       clientOptions);
       Logger.LogDebug("Call OnCreateService");
 
