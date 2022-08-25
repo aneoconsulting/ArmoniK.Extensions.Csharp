@@ -252,7 +252,7 @@ namespace ArmoniK.DevelopmentKit.Worker.Grid
       clientOptions.ToList()
                    .ForEach(pair => ClientOptions[pair.Key] = pair.Value);
 
-      var logger = new LoggerConfiguration().ReadFrom.Configuration(Configuration)
+      var logger = new LoggerConfiguration().ReadFrom.KeyValuePairs(Configuration.AsEnumerable())
                                             .WriteTo.Console(new CompactJsonFormatter())
                                             .Enrich.FromLogContext()
                                             .CreateLogger();

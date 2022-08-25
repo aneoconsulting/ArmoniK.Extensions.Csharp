@@ -252,7 +252,7 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.api
       clientOptions.ToList()
                    .ForEach(pair => ClientOptions[pair.Key] = pair.Value);
 
-      var logger = new LoggerConfiguration().ReadFrom.Configuration(Configuration)
+      var logger = new LoggerConfiguration().ReadFrom.KeyValuePairs(configuration.AsEnumerable())
                                             .WriteTo.Console(new CompactJsonFormatter())
                                             .Enrich.FromLogContext()
                                             .CreateLogger();
