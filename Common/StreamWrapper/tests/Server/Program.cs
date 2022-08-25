@@ -96,16 +96,7 @@ namespace ArmoniK.Extensions.Common.StreamWrapper.Tests.Server
         app.UseRouting();
 
 
-        app.UseEndpoints(endpoints =>
-        {
-          endpoints.MapGrpcService<WorkerService>();
-
-          if (app.Environment.IsDevelopment())
-          {
-            endpoints.MapGrpcReflectionService();
-            logger.LogInformation("Grpc Reflection Activated");
-          }
-        });
+        app.UseEndpoints(endpoints => endpoints.MapGrpcService<WorkerService>());
 
         app.Run();
 
