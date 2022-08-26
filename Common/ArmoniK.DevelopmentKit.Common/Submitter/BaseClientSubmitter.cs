@@ -392,8 +392,11 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
       using var _ = Logger.LogFunction();
       var idStatus = Retry.WhileException(5,
                                           200,
-                                          () =>
+                                          retry =>
                                           {
+                                            Logger.LogInformation("Try {try} for {funcName}",
+                                                                  retry,
+                                                                  nameof(ControlPlaneService.GetResultStatus));
                                             var resultStatusReply = ControlPlaneService.GetResultStatus(new GetResultStatusRequest()
                                             {
                                               ResultId =
@@ -532,8 +535,11 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
 
       var resultReply = Retry.WhileException(5,
                                              200,
-                                             () =>
+                                             retry =>
                                              {
+                                               Logger.LogInformation("Try {try} for {funcName}",
+                                                                     retry,
+                                                                     "ControlPlaneService.TryGetResultAsync");
                                                Task<byte[]> response;
                                                try
                                                {

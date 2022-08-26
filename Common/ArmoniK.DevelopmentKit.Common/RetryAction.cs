@@ -101,7 +101,7 @@ namespace ArmoniK.DevelopmentKit.Common
     public static T WhileException<T>(
       int           retries,
       int           delayMs,
-      Func<T>       operation,
+      Func<int, T>  operation,
       bool          allowDerivedExceptions = false,
       params Type[] exceptionType
     )
@@ -112,7 +112,7 @@ namespace ArmoniK.DevelopmentKit.Common
         try
         {
           // Try the operation. If it succeeds, return its result
-          return operation();
+          return operation(retry);
         }
         catch (Exception ex)
         {
@@ -144,7 +144,7 @@ namespace ArmoniK.DevelopmentKit.Common
       // Try the operation one last time. This may or may not succeed.
       // Exceptions pass unchanged. If this is an expected exception we need to know about it because
       // we're out of retries. If it's unexpected, throwing is the right thing to do anyway
-      return operation();
+      return operation(retries);
     }
   }
 }
