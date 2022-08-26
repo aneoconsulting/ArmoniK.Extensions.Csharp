@@ -96,6 +96,7 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
     [UsedImplicitly]
     public void HealthCheckResult(string taskId)
     {
+      using var _ = Logger.LogFunction(taskId);
       var resultRequest = new ResultRequest
       {
         Key     = taskId,
@@ -106,8 +107,11 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
 
       Retry.WhileException(5,
                            200,
-                           () =>
+                           retry =>
                            {
+                             Logger.LogInformation("Try {try} for {funcName}",
+                                                   retry,
+                                                   nameof(ControlPlaneService.TryGetTaskOutput));
                              var taskOutput = ControlPlaneService.TryGetTaskOutput(resultRequest);
 
                              switch (taskOutput.TypeCase)
@@ -135,7 +139,8 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
     /// <returns></returns>
     public TaskStatus GetTaskStatus(string taskId)
     {
-      var status = GetTaskStatues(taskId).Single();
+      using var _      = Logger.LogFunction(taskId);
+      var       status = GetTaskStatues(taskId).Single();
 
       return status.Item2;
     }
@@ -147,6 +152,7 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
     /// <returns></returns>
     public IEnumerable<Tuple<string, TaskStatus>> GetTaskStatues(params string[] taskIds)
     {
+      using var _ = Logger.LogFunction();
       return ControlPlaneService.GetTaskStatus(new()
       {
         TaskId =
@@ -164,10 +170,11 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
     /// <returns></returns>
     public Output GetTaskOutputInfo(string taskId)
     {
+      using var _ = Logger.LogFunction(taskId);
       return ControlPlaneService.TryGetTaskOutput(new ResultRequest()
       {
         Key     = taskId,
-        Session = SessionId.Id
+        Session = SessionId.Id,
       });
     }
 
@@ -181,7 +188,7 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
     [UsedImplicitly]
     public IEnumerable<string> SubmitTasksWithDependencies(IEnumerable<Tuple<byte[], IList<string>>> payloadsWithDependencies)
     {
-      using var _           = Logger.LogFunction();
+      using var _ = Logger.LogFunction();
       var payloadsWithTaskIdAndDependencies = payloadsWithDependencies.Select(payload =>
       {
         var taskId = Guid.NewGuid().ToString();
@@ -331,13 +338,11 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
     public void WaitForTaskCompletion(string taskId, int retry = 5)
     {
       using var _ = Logger.LogFunction(taskId);
-
       WaitForTasksCompletion(new[]
       {
-        taskId
+        taskId,
       });
     }
-
 
     /// <summary>
     ///   User method to wait for only the parent task from the client
@@ -350,8 +355,11 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
       using var _ = Logger.LogFunction();
       Retry.WhileException(5,
                            200,
-                           () =>
+                           retry =>
                            {
+                             Logger.LogInformation("Try {try} for {funcName}",
+                                                   retry,
+                                                   nameof(ControlPlaneService.WaitForCompletion));
                              var __ = ControlPlaneService.WaitForCompletion(new WaitRequest
                              {
                                Filter = new TaskFilter
@@ -381,6 +389,7 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
     /// <returns>A ResultCollection sorted by Status Completed, Result in Error or missing</returns>
     public ResultStatusCollection GetResultStatus(IEnumerable<string> taskIds, CancellationToken cancellationToken = default)
     {
+      using var _ = Logger.LogFunction();
       var idStatus = Retry.WhileException(5,
                                           200,
                                           () =>
@@ -436,8 +445,11 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
 
       Retry.WhileException(5,
                            200,
-                           () =>
+                           retry =>
                            {
+                             Logger.LogInformation("Try {try} for {funcName}",
+                                                   retry,
+                                                   nameof(ControlPlaneService.WaitForAvailability));
                              var availabilityReply = ControlPlaneService.WaitForAvailability(resultRequest,
                                                                                              cancellationToken: cancellationToken);
 
@@ -489,6 +501,7 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
     /// <exception cref="ArgumentException"></exception>
     public IEnumerable<Tuple<string, byte[]>> GetResults(IEnumerable<string> taskIds, CancellationToken cancellationToken = default)
     {
+      using var _ = Logger.LogFunction();
       return taskIds.Select(id =>
       {
         var res = GetResult(id,
@@ -601,6 +614,8 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
     /// <returns>Returns an Enumerable pair of </returns>
     public IList<Tuple<string, byte[]>> TryGetResults(IEnumerable<string> taskIds)
     {
+      using var _ = Logger.LogFunction();
+
       var resultStatus = GetResultStatus(taskIds);
 
       if (!resultStatus.IdsReady.Any() && !resultStatus.IdsNotReady.Any())

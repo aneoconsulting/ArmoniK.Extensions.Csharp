@@ -44,7 +44,7 @@ namespace ArmoniK.DevelopmentKit.Common
     public static void WhileException(
       int           retries,
       int           delayMs,
-      Action        operation,
+      Action<int>   operation,
       bool          allowDerivedExceptions = false,
       params Type[] exceptionType
     )
@@ -55,7 +55,7 @@ namespace ArmoniK.DevelopmentKit.Common
         try
         {
           // Try the operation. If it succeeds, return its result
-          operation();
+          operation(retry);
           return;
         }
         catch (Exception ex)
