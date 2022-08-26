@@ -63,7 +63,7 @@ namespace ArmoniK.EndToEndTests
                                         {
                                           new SerilogLoggerProvider(new LoggerConfiguration()
                                                                     .ReadFrom
-                                                                    .KeyValuePairs(Configuration.AsEnumerable())
+                                                                    .Configuration(Configuration)
                                                                     .CreateLogger())
                                         },
                                         new LoggerFilterOptions().AddFilter("Grpc",

@@ -19,9 +19,10 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" PrivateAssets="All" />
+    <PackageReference Include="Serilog.Settings.Configuration" Version="3.3.0" />
   </ItemGroup>
 
-	<PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
 		<DebugType>embedded</DebugType>
 		<IncludeSymbols>true</IncludeSymbols>
 		<DefineConstants>DEBUG;TRACE</DefineConstants>

@@ -68,7 +68,7 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
       {
         new SerilogLoggerProvider(new LoggerConfiguration()
                                   .ReadFrom
-                                  .KeyValuePairs(props.Configuration.AsEnumerable())
+                                  .Configuration(props.Configuration)
                                   .CreateLogger())
       });
       return new Service(serviceType,

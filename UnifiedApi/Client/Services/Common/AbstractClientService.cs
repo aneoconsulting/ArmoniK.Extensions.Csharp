@@ -47,7 +47,7 @@ namespace ArmoniK.DevelopmentKit.Client.Services.Common
       {
         new SerilogLoggerProvider(new LoggerConfiguration()
                                   .ReadFrom
-                                  .KeyValuePairs(props.Configuration.AsEnumerable())
+                                  .Configuration(props.Configuration)
                                   .CreateLogger())
       });
     }

@@ -26,7 +26,7 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Common
     {
       configuration ??= GetDefaultConfiguration();
 
-      var loggerConfig = new LoggerConfiguration().ReadFrom.KeyValuePairs(configuration.AsEnumerable())
+      var loggerConfig = new LoggerConfiguration().ReadFrom.Configuration(configuration)
                                             .WriteTo.Console(new CompactJsonFormatter())
                                             .Enrich.FromLogContext()
                                             .CreateLogger();
