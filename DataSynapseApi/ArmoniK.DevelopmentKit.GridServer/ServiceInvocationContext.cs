@@ -23,7 +23,6 @@
 
 using ArmoniK.Api.gRPC.V1;
 using ArmoniK.DevelopmentKit.Common;
-using ArmoniK.DevelopmentKit.WorkerApi.Common;
 
 
 namespace ArmoniK.DevelopmentKit.GridServer

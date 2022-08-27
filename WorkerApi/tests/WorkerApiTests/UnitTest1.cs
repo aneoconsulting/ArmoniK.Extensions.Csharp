@@ -23,7 +23,6 @@
 
 using System.Linq;
 
-using ArmoniK.DevelopmentKit.WorkerApi.Common.Adaptater;
 using ArmoniK.DevelopmentKit.Common;
 
 using NUnit.Framework;

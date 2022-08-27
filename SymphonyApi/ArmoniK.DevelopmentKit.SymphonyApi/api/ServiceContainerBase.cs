@@ -31,13 +31,12 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
 using Serilog;
-using Serilog.Extensions.Logging;
 using Serilog.Formatting.Compact;
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using ILogger = Microsoft.Extensions.Logging.ILogger;
 
 namespace ArmoniK.DevelopmentKit.SymphonyApi.api
 {
@@ -244,9 +243,10 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.api
     ///   The configure method is an internal call to prepare the ServiceContainer.
     ///   Its holds several configuration coming from the Client call
     /// </summary>
+    /// <param name="factory">Logger factory</param>
     /// <param name="configuration">The appSettings.json configuration prepared during the deployment</param>
     /// <param name="clientOptions">All data coming from Client within TaskOptions.Options </param>
-    public void Configure(IConfiguration configuration, IReadOnlyDictionary<string, string> clientOptions)
+    public void Configure(ILoggerFactory factory, IConfiguration configuration, IReadOnlyDictionary<string, string> clientOptions)
     {
       Configuration = configuration;
 
@@ -254,13 +254,8 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.api
       clientOptions.ToList()
                    .ForEach(pair => ClientOptions[pair.Key] = pair.Value);
 
-      var logger = new LoggerConfiguration().ReadFrom.Configuration(Configuration)
-                                            .WriteTo.Console(new CompactJsonFormatter())
-                                            .Enrich.FromLogContext()
-                                            .CreateLogger();
-      LoggerFactory = Microsoft.Extensions.Logging.LoggerFactory.Create(loggingBuilder => loggingBuilder.AddSerilog(logger));
-      Logger        = LoggerFactory.CreateLogger<ServiceContainerBase>();
-      Logger.LogInformation("Configuring ServiceContainerBase");
+      LoggerFactory = factory;
+      Logger        = factory.CreateLogger<ServiceContainerBase>();
     }
 
     /// <summary>

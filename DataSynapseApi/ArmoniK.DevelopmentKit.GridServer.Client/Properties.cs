@@ -29,7 +29,6 @@ using Google.Protobuf.WellKnownTypes;
 using Microsoft.Extensions.Configuration;
 
 using System;
-using System.IO;
 
 
 namespace ArmoniK.DevelopmentKit.GridServer.Client

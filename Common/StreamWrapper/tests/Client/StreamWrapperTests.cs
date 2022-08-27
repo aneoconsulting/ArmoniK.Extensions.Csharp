@@ -33,7 +33,6 @@ using ArmoniK.Extensions.Common.StreamWrapper.Tests.Common;
 using Google.Protobuf;
 using Google.Protobuf.WellKnownTypes;
 
-using Grpc.Core;
 using Grpc.Net.Client;
 
 using Microsoft.Extensions.Configuration;

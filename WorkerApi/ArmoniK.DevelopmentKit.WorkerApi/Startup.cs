@@ -63,6 +63,7 @@ namespace ArmoniK.DevelopmentKit.WorkerApi
       //services.AddConfiguration(Configuration);
       services.AddGrpc();
       services.AddLogging();
+      services.AddSingleton(LoggerFactory);
       services.AddSingleton<ServiceRequestContext>(new ServiceRequestContext(LoggerFactory));
     }
 

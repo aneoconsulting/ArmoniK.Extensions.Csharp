@@ -23,7 +23,6 @@
 
 using ArmoniK.Api.gRPC.V1;
 using ArmoniK.DevelopmentKit.Common;
-using ArmoniK.DevelopmentKit.Common.Exceptions;
 using ArmoniK.Extensions.Common.StreamWrapper.Worker;
 
 using Microsoft.Extensions.Configuration;

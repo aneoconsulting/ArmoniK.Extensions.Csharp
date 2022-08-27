@@ -23,6 +23,7 @@
 
 using ArmoniK.DevelopmentKit.Common;
 
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
 using Serilog;

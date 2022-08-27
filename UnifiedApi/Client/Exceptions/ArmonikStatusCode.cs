@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ArmoniK.DevelopmentKit.Client.Exceptions
+﻿namespace ArmoniK.DevelopmentKit.Client.Exceptions
 {
   /// <summary>
   /// List of status for task and result in Armonik

@@ -48,6 +48,7 @@ namespace ArmoniK.DevelopmentKit.WorkerApi
           .UseSerilog((context, services, configuration) => configuration
                                                             .ReadFrom.Configuration(context.Configuration)
                                                             .ReadFrom.Services(services)
+                                                            .WriteTo.Console()
                                                             .MinimumLevel
                                                             .Override("Microsoft.AspNetCore",
                                                                       LogEventLevel.Debug)

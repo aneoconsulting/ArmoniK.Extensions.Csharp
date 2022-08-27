@@ -21,17 +21,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-
-using ArmoniK.Api.gRPC.V1;
 using ArmoniK.DevelopmentKit.Client.Factory;
 using ArmoniK.DevelopmentKit.Client.Services.Common;
-using ArmoniK.DevelopmentKit.Common;
-
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 
 
 namespace ArmoniK.DevelopmentKit.Client.Services.Admin

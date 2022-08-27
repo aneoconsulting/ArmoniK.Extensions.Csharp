@@ -18,10 +18,11 @@
 
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.0" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" PrivateAssets="All" />
+    <PackageReference Include="Serilog.Settings.Configuration" Version="3.3.0" />
   </ItemGroup>
 
-	<PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
 		<DebugType>embedded</DebugType>
 		<IncludeSymbols>true</IncludeSymbols>
 		<DefineConstants>DEBUG;TRACE</DefineConstants>
@@ -32,25 +33,6 @@
   <ItemGroup>
     <RuntimeHostConfigurationOption Include="System.Globalization.Invariant" Value="true" />
   </ItemGroup>
-
-
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net5.0' Or '$(TargetFramework)' == 'net6.0'">
-    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="6.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="6.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="6.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="6.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.0" />
-    <PackageReference Include="Grpc.AspNetCore" Version="2.41.0" />
-  </ItemGroup>
-
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net48' Or '$(TargetFramework)' == 'net472'">
-    <PackageReference Include="Grpc.Core" Version="2.41.0" />
-  </ItemGroup>
-  <!--<ItemGroup>
-		<Content Update="publish" CopyToPublishDirectory="Never" />
-	</ItemGroup>-->
 
   <ItemGroup>
     <Folder Include="Properties\PublishProfiles\" />
