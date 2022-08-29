@@ -25,29 +25,11 @@
     <ProjectReference Include="..\..\WorkerApi\ArmoniK.DevelopmentKit.WorkerApi.Common\ArmoniK.DevelopmentKit.WorkerApi.Common.csproj" />
   </ItemGroup>
 
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net6.0'">
-    <PackageReference Include="Grpc.Net.ClientFactory" Version="2.41.0" />
-    <PackageReference Include="Grpc.Tools" Version="2.43.0">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.14.0" />
-    <PackageReference Include="Serilog.Sinks.Seq" Version="5.1.0" />
-    <!--<PackageReference Include="Armonik.MarkDownGen" Version="0.0.3" />-->
-  </ItemGroup>
-
-  <ItemGroup Condition="  '$(TargetFramework)' == 'net6.0'">
-    <PackageReference Include="Grpc.AspNetCore" Version="2.41.0" />
+  <ItemGroup>
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.17.0" />
   </ItemGroup>
 
   <Target Name="DeleteLocalCache" BeforeTargets="Pack">
     <RemoveDir Directories="$(NugetPackageRoot)/$(PackageId.ToLower())/$(ArmonikVersion)" />
   </Target>
-
-  <!--<UsingTask TaskName="MarkDownTask" AssemblyFile="$(OutputPath)Armonik.MarkDown.VSTask.dll" />
-  <Target Name="MyTarget" AfterTargets="AfterBuild">
-
-    <MarkDownTask Namespace="ArmoniK.DevelopmentKit.*" DirectoryLibPath="bin\Debug\net5.0\linux-x64" OutputPath="md" />
-  </Target>-->
-
 </Project>
