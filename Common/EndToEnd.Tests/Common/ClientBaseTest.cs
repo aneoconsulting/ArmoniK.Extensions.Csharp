@@ -63,7 +63,7 @@ namespace ArmoniK.EndToEndTests.Common
         },
         MaxRetries = 5,
         Priority   = 1,
-        PartitionId = Environment.GetEnvironmentVariable("PARTITION"),
+        PartitionId = Environment.GetEnvironmentVariable("PARTITION") ?? "",
       };
 
       taskOptions.Options[AppsOptions.GridAppNameKey] = "ArmoniK.EndToEndTests";

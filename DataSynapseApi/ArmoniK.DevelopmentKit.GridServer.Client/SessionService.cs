@@ -60,7 +60,10 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
 
       Logger.LogDebug("Creating Session... ");
 
-      SessionId = CreateSession();
+      SessionId = CreateSession(new List<string>
+      {
+        taskOptions.PartitionId,
+      });
 
       Logger.LogDebug($"Session Created {SessionId}");
     }
@@ -143,6 +146,7 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
         MaxDuration = taskOptions.MaxDuration,
         MaxRetries  = taskOptions.MaxRetries,
         Priority    = taskOptions.Priority,
+        PartitionId = taskOptions.PartitionId,
         Options =
         {
           ["MaxDuration"] = taskOptions.MaxDuration.Seconds.ToString(),
@@ -180,12 +184,16 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client
       return taskOptions;
     }
 
-    private Session CreateSession()
+    private Session CreateSession(IEnumerable<string> partitionIds)
     {
       using var _ = Logger.LogFunction();
       var createSessionRequest = new CreateSessionRequest
       {
         DefaultTaskOption = TaskOptions,
+        PartitionIds =
+        {
+          partitionIds,
+        },
       };
       var session = ControlPlaneService.CreateSession(createSessionRequest);
 
