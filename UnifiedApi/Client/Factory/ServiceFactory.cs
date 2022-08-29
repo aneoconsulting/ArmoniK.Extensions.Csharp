@@ -26,11 +26,6 @@ using ArmoniK.DevelopmentKit.Client.Services.Admin;
 using ArmoniK.DevelopmentKit.Client.Services.Submitter;
 using ArmoniK.DevelopmentKit.Common;
 
-using Microsoft.Extensions.Logging;
-
-using Serilog;
-using Serilog.Extensions.Logging;
-
 namespace ArmoniK.DevelopmentKit.Client.Factory
 {
   /// <summary>

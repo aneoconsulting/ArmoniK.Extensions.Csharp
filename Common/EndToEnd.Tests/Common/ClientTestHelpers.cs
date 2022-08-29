@@ -25,15 +25,10 @@ using System.IO;
 
 using ArmoniK.Api.gRPC.V1;
 using ArmoniK.DevelopmentKit.Common;
-using ArmoniK.DevelopmentKit.WorkerApi.Common;
 
 using Google.Protobuf.WellKnownTypes;
 
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
-
-using Serilog;
-using Serilog.Extensions.Logging;
 
 namespace ArmoniK.EndToEndTests.Common
 {
