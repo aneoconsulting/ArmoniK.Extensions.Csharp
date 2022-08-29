@@ -241,16 +241,17 @@ namespace ArmoniK.DevelopmentKit.Worker.Grid
         Logger.LogDebug("Create task {task}",
                         taskId);
         resultsCreated.Add(taskId);
-        var expectedTaskId = resultForParent ? TaskHandler.TaskId : taskId;
         var taskRequest = new TaskRequest
         {
           Payload = ByteString.CopyFrom(payload),
-
-          ExpectedOutputKeys =
-          {
-            expectedTaskId,
-          },
         };
+
+        taskRequest.ExpectedOutputKeys.AddRange(resultForParent
+                                                  ? TaskHandler.ExpectedResults
+                                                  : new[]
+                                                  {
+                                                    taskId,
+                                                  });
 
         if (dependencies != null && dependencies.Count != 0)
         {
