@@ -27,8 +27,6 @@ using System.Collections.Generic;
 using ArmoniK.Api.gRPC.V1;
 using ArmoniK.Api.Worker.Worker;
 
-using Google.Protobuf.Collections;
-
 using Microsoft.Extensions.Configuration;
 
 namespace ArmoniK.DevelopmentKit.WorkerApi.Common

@@ -28,8 +28,6 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-using ArmoniK.Api.gRPC.V1.Submitter;
-
 //TODO : remove pragma
 #pragma warning disable CS1591
 

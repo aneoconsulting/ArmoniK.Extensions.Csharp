@@ -41,8 +41,6 @@ using ArmoniK.Api.gRPC.V1.Submitter;
 using ArmoniK.DevelopmentKit.Common.Exceptions;
 using ArmoniK.DevelopmentKit.Common.Status;
 
-using Google.Protobuf.WellKnownTypes;
-
 using Grpc.Core;
 
 using JetBrains.Annotations;

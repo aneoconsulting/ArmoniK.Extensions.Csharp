@@ -1,7 +1,5 @@
 ﻿using System.IO;
 
-using ArmoniK.Api.gRPC.V1;
-
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 

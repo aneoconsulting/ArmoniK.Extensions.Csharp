@@ -34,8 +34,6 @@ using ArmoniK.DevelopmentKit.Common.Exceptions;
 using ArmoniK.DevelopmentKit.Worker.Grid;
 using ArmoniK.DevelopmentKit.WorkerApi.Common;
 
-using Google.Protobuf.WellKnownTypes;
-
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
