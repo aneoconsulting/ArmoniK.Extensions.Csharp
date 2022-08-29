@@ -179,29 +179,16 @@ namespace ArmoniK.DevelopmentKit.Client.Services
 
     private Session CreateSession()
     {
-      using var _         = Logger.LogFunction();
-      var       sessionId = Guid.NewGuid().ToString();
+      using var _ = Logger.LogFunction();
       var createSessionRequest = new CreateSessionRequest
       {
         DefaultTaskOption = TaskOptions,
-        Id                = sessionId,
       };
       var session = ControlPlaneService.CreateSession(createSessionRequest);
-      switch (session.ResultCase)
-      {
-        case CreateSessionReply.ResultOneofCase.Error:
-          throw new Exception("Error while creating session : " + session.Error);
-        case CreateSessionReply.ResultOneofCase.None:
-          throw new Exception("Issue with Server !");
-        case CreateSessionReply.ResultOneofCase.Ok:
-          break;
-        default:
-          throw new ArgumentOutOfRangeException();
-      }
 
       return new Session()
       {
-        Id = sessionId,
+        Id = session.SessionId,
       };
     }
 

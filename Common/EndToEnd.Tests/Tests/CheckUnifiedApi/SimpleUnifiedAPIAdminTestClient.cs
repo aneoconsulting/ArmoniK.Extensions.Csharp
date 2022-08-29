@@ -141,7 +141,7 @@ namespace ArmoniK.EndToEndTests.Tests.CheckUnifiedApi
 
 
       var countErrorTasks = serviceAdmin.AdminMonitoringService.CountTaskBySession(sessionService.SessionId,
-                                                                                   TaskStatus.Error, TaskStatus.Failed, TaskStatus.Timeout);
+                                                                                   TaskStatus.Error, TaskStatus.Timeout);
 
       Log.LogInformation($"Number of error tasks after Session cancel is {countErrorTasks}");
     }

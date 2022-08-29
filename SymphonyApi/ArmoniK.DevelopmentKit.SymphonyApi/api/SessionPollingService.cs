@@ -32,6 +32,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+using ArmoniK.Api.gRPC.V1.Agent;
 using ArmoniK.Api.Worker.Worker;
 
 namespace ArmoniK.DevelopmentKit.SymphonyApi.api
@@ -171,16 +172,17 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.api
 
       Logger.LogDebug("payload {len}",
                       ePayloads.Count());
-      var taskRequests = new List<TaskRequest>();
+      var taskRequests   = new List<TaskRequest>();
+      var resultsCreated = new List<string>();
 
       foreach (var payload in ePayloads)
       {
         var taskId = Guid.NewGuid().ToString();
+        resultsCreated.Add(taskId);
         Logger.LogDebug("Create task {task}",
                         taskId);
         var taskRequest = new TaskRequest
         {
-          Id      = taskId,
           Payload = ByteString.CopyFrom(payload),
 
           ExpectedOutputKeys =
@@ -192,29 +194,29 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.api
         taskRequests.Add(taskRequest);
       }
 
-      TaskHandler.CreateTasksAsync(taskRequests,
-                                   TaskOptions).Wait();
+      var createTaskReply = TaskHandler.CreateTasksAsync(taskRequests,
+                                                         TaskOptions).Result;
 
-      var taskCreated = taskRequests.Select(t => t.Id);
+      switch (createTaskReply.ResponseCase)
+      {
+        case CreateTaskReply.ResponseOneofCase.None:
+          throw new Exception("Issue with Server !");
+        case CreateTaskReply.ResponseOneofCase.CreationStatusList:
+          Logger.LogInformation("Tasks created : {ids}",
+                                string.Join(",",
+                                            createTaskReply.CreationStatusList.CreationStatuses));
+          break;
+        case CreateTaskReply.ResponseOneofCase.Error:
+          throw new Exception("Error while creating tasks !");
+        default:
+          throw new ArgumentOutOfRangeException();
+      }
 
-      Logger.LogDebug("Tasks created : {ids}",
-                      taskCreated);
-      return taskCreated;
+
+      Logger.LogDebug("Results created : {ids}",
+                      resultsCreated);
+      return resultsCreated;
     }
-
-    /// <summary>
-    ///   The method to submit sub task inside a parent task
-    ///   Use this method only on server side development
-    /// </summary>
-    /// <param name="parentTaskId">The task Id of a parent task</param>
-    /// <param name="payloads">A lists of payloads creating a list of subTask</param>
-    /// <returns>Return a list of taskId</returns>
-    [Obsolete]
-    public IEnumerable<string> SubmitSubTasks(string parentTaskId, IEnumerable<byte[]> payloads)
-    {
-      throw new NotImplementedException("This method is obsolete please call function SubmitTasks");
-    }
-
 
     /// <summary>
     ///   The method to submit several tasks with dependencies tasks. This task will wait for
@@ -229,17 +231,18 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.api
       var       withDependencies = payloadsWithDependencies as Tuple<byte[], IList<string>>[] ?? payloadsWithDependencies.ToArray();
       Logger.LogDebug("payload with dependencies {len}",
                       withDependencies.Count());
-      var taskRequests = new List<TaskRequest>();
+      var taskRequests   = new List<TaskRequest>();
+      var resultsCreated = new List<string>();
 
       foreach (var (payload, dependencies) in withDependencies)
       {
         var taskId = Guid.NewGuid().ToString();
         Logger.LogDebug("Create task {task}",
                         taskId);
+        resultsCreated.Add(taskId);
         var expectedTaskId = resultForParent ? TaskHandler.TaskId : taskId;
         var taskRequest = new TaskRequest
         {
-          Id      = taskId,
           Payload = ByteString.CopyFrom(payload),
 
           ExpectedOutputKeys =
@@ -260,44 +263,29 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.api
         taskRequests.Add(taskRequest);
       }
 
-      TaskHandler.CreateTasksAsync(taskRequests,
-                                   TaskOptions).Wait();
+      var createTaskReply = TaskHandler.CreateTasksAsync(taskRequests,
+                                                         TaskOptions).Result;
 
+      switch (createTaskReply.ResponseCase)
+      {
+        case CreateTaskReply.ResponseOneofCase.None:
+          throw new Exception("Issue with Server !");
+        case CreateTaskReply.ResponseOneofCase.CreationStatusList:
+          Logger.LogInformation("Tasks created : {ids}",
+                                string.Join(",",
+                                            createTaskReply.CreationStatusList.CreationStatuses));
+          break;
+        case CreateTaskReply.ResponseOneofCase.Error:
+          throw new Exception("Error while creating tasks !");
+        default:
+          throw new ArgumentOutOfRangeException();
+      }
 
-      var taskCreated = taskRequests.Select(t => t.Id);
 
       Logger.LogDebug("Tasks created : {ids}",
-                      taskCreated);
-      return taskCreated;
+                      resultsCreated);
+      return resultsCreated;
     }
-
-    /// <summary>
-    ///   The method to submit One SubTask with dependencies tasks. This task will wait for
-    ///   to start until all dependencies are completed successfully
-    /// </summary>
-    /// <param name="parentId">The parent Task who want to create the SubTask</param>
-    /// <param name="payload">The payload to submit</param>
-    /// <param name="dependencies">A list of task Id in dependence of this created SubTask</param>
-    /// <returns>return the taskId of the created SubTask </returns>
-    [Obsolete]
-    public string SubmitSubtaskWithDependencies(string parentId, byte[] payload, IList<string> dependencies)
-    {
-      throw new NotImplementedException("This function is obsolete please use SubmitTasksWithDependencies");
-    }
-
-    /// <summary>
-    ///   The method to submit several tasks with dependencies tasks. This task will wait for
-    ///   to start until all dependencies are completed successfully
-    /// </summary>
-    /// <param name="parentTaskId">The parent Task who want to create the SubTasks</param>
-    /// <param name="payloadWithDependencies">A list of Tuple(taskId, Payload) in dependence of those created Subtasks</param>
-    /// <returns>return a list of taskIds of the created Subtasks </returns>
-    [Obsolete]
-    public IEnumerable<string> SubmitSubtasksWithDependencies(string parentTaskId, IEnumerable<Tuple<byte[], IList<string>>> payloadWithDependencies)
-    {
-      throw new NotImplementedException("This function is obsolete please use SubmitTasksWithDependencies");
-    }
-
 
     /// <summary>
     /// 
@@ -343,21 +331,6 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.api
     {
       return client.SubmitTasks(new[] { payload })
                    .Single();
-    }
-
-    /// <summary>
-    ///   The method to submit sub task coming from a parent task
-    ///   Use this method only on server side development
-    /// </summary>
-    /// <param name="client">The client instance for extension</param>
-    /// <param name="parentTaskId">The task Id of a parent task</param>
-    /// <param name="payloads">A lists of payloads creating a list of subTask</param>
-    /// <returns>Return a list of taskId</returns>
-    [Obsolete]
-    public static string SubmitSubTask(this SessionPollingService client, string parentTaskId, byte[] payloads)
-    {
-      return client.SubmitSubTasks(parentTaskId,
-                                   new[] { payloads }).Single();
     }
 
     /// <summary>

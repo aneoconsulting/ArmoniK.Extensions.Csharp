@@ -21,7 +21,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ArmoniK.Api.Worker" Version="3.0.2-SNAPSHOT.16.d86364c" />
+    <PackageReference Include="ArmoniK.Api.Worker" Version="3.0.2-SNAPSHOT.22.0dffe3e" />
     <PackageReference Include="AWSSDK.S3" Version="3.7.9.43" />
     <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.17.0" />
