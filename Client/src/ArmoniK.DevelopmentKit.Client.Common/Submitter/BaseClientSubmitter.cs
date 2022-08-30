@@ -366,15 +366,15 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
     /// <summary>
     ///   Try to find the result of One task. If there no result, the function return byte[0]
     /// </summary>
-    /// <param name="taskId">The task Id trying to get result</param>
+    /// <param name="resultId">The task Id trying to get result</param>
     /// <param name="cancellationToken">The optional cancellationToken</param>
     /// <returns>Returns the result or byte[0] if there no result</returns>
-    public byte[] GetResult(string taskId, CancellationToken cancellationToken = default)
+    public byte[] GetResult(string resultId, CancellationToken cancellationToken = default)
     {
-      using var _ = Logger.LogFunction(taskId);
+      using var _ = Logger.LogFunction(resultId);
       var resultRequest = new ResultRequest
       {
-        ResultId = taskId,
+        ResultId = resultId,
         Session  = SessionId.Id,
       };
 
@@ -398,10 +398,10 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
                                  break;
                                case AvailabilityReply.TypeOneofCase.Error:
                                  throw new ClientResultsException(
-                                   $"Task in Error - {taskId}\nMessage :\n{string.Join("Inner message:\n", availabilityReply.Error.Errors)}",
-                                   taskId);
+                                   $"Result in Error - {resultId}\nMessage :\n{string.Join("Inner message:\n", availabilityReply.Error.Errors)}",
+                                   resultId);
                                case AvailabilityReply.TypeOneofCase.NotCompletedTask:
-                                 throw new DataException($"Task {taskId} was not yet completed");
+                                 throw new DataException($"Result {resultId} was not yet completed");
                                default:
                                  throw new ArgumentOutOfRangeException();
                              }
@@ -410,7 +410,7 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
                            typeof(IOException),
                            typeof(RpcException));
 
-      res = TryGetResult(taskId,
+      res = TryGetResult(resultId,
                          cancellationToken: cancellationToken);
 
       if (res != null)
@@ -419,23 +419,23 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
       }
       else
       {
-        throw new ClientResultsException($"Cannot retrieve result for taskId {taskId}",
-                                         taskId);
+        throw new ClientResultsException($"Cannot retrieve result {resultId}",
+                                         resultId);
       }
     }
 
 
     /// <summary>
-    ///   Method to GetResults when the result is returned by a task
+    ///   Retrieve results from control plane
     /// </summary>
-    /// <param name="taskIds">The Task Ids list of the tasks which the result is expected</param>
+    /// <param name="resultIds">Collection of result ids</param>
     /// <param name="cancellationToken">The optional cancellationToken</param>
     /// <returns>return a dictionary with key taskId and payload</returns>
     /// <exception cref="ArgumentNullException"></exception>
     /// <exception cref="ArgumentException"></exception>
-    public IEnumerable<Tuple<string, byte[]>> GetResults(IEnumerable<string> taskIds, CancellationToken cancellationToken = default)
+    public IEnumerable<Tuple<string, byte[]>> GetResults(IEnumerable<string> resultIds, CancellationToken cancellationToken = default)
     {
-      return taskIds.Select(id =>
+      return resultIds.Select(id =>
       {
         var res = GetResult(id,
                             cancellationToken);
@@ -506,17 +506,17 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
     /// <summary>
     ///   Try to find the result of One task. If there no result, the function return byte[0]
     /// </summary>
-    /// <param name="taskId">The task Id trying to get result</param>
+    /// <param name="resultId">The task Id trying to get result</param>
     /// <param name="checkOutput"></param>
     /// <param name="cancellationToken">The optional cancellationToken</param>
     /// <returns>Returns the result or byte[0] if there no result or null if task is not yet ready</returns>
     [UsedImplicitly]
-    public byte[] TryGetResult(string taskId, bool checkOutput = true, CancellationToken cancellationToken = default)
+    public byte[] TryGetResult(string resultId, bool checkOutput = true, CancellationToken cancellationToken = default)
     {
-      using var _ = Logger.LogFunction(taskId);
+      using var _ = Logger.LogFunction(resultId);
       var resultRequest = new ResultRequest
       {
-        ResultId = taskId,
+        ResultId = resultId,
         Session  = SessionId.Id,
       };
 
@@ -572,11 +572,11 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
     /// <summary>
     /// Try to get result of a list of taskIds 
     /// </summary>
-    /// <param name="taskIds"></param>
+    /// <param name="resultIds"></param>
     /// <returns>Returns an Enumerable pair of </returns>
-    public IList<Tuple<string, byte[]>> TryGetResults(IEnumerable<string> taskIds)
+    public IList<Tuple<string, byte[]>> TryGetResults(IEnumerable<string> resultIds)
     {
-      var resultStatus = GetResultStatus(taskIds);
+      var resultStatus = GetResultStatus(resultIds);
 
       if (!resultStatus.IdsReady.Any() && !resultStatus.IdsNotReady.Any())
       {
