@@ -586,20 +586,7 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
 
           var taskIdInError = resultStatus.IdsError.Any() ? resultStatus.IdsError.First() : resultStatus.IdsResultError.First().Item1;
 
-          msg += $"1st task Id {taskIdInError} in error : root cause : \n";
-          var taskStatus = GetTaskStatus(taskIdInError);
-          if (taskStatus is TaskStatus.Error)
-          {
-            var output = GetTaskOutputInfo(taskIdInError);
-            if (output is { TypeCase: Output.TypeOneofCase.Error })
-            {
-              msg += output.Error.Details;
-            }
-            else
-            {
-              msg += "Unknown root cause";
-            }
-          }
+          msg += $"1st result id where the task which should create it is in error : {taskIdInError}";
 
           Logger.LogError(msg);
 

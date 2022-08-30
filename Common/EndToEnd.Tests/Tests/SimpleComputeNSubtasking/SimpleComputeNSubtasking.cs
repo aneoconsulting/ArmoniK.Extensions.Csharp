@@ -111,39 +111,6 @@ namespace ArmoniK.EndToEndTests.Tests.SimpleComputeNSubtasking
       }
     }
 
-    private void Job_of_N_Tasks(byte[] payload, int nbTasks)
-    {
-      var payloads = new List<byte[]>(nbTasks);
-      for (var i = 0; i < nbTasks; i++)
-        payloads.Add(payload);
-
-      var sw      = Stopwatch.StartNew();
-      var taskIds = SubmitTasks(payloads);
-
-      ClientPayload aggPayload = new()
-      {
-        Type = ClientPayload.TaskType.AggregationNTask,
-      };
-      ;
-      this.SubmitTaskWithDependencies(aggPayload.Serialize(),
-                                      taskIds.ToList());
-
-      var elapsedMilliseconds = sw.ElapsedMilliseconds;
-      Logger.LogInformation($"Server called {nbTasks} tasks in {elapsedMilliseconds} ms");
-    }
-
-
-    public byte[] ComputeCube(TaskContext taskContext, ClientPayload clientPayload)
-    {
-      var value = clientPayload.Numbers[0] * clientPayload.Numbers[0] * clientPayload.Numbers[0];
-      return new ClientPayload
-        {
-          Type   = ClientPayload.TaskType.Result,
-          Result = value,
-        }
-        .Serialize(); //nothing to do
-    }
-
     public override byte[] OnInvoke(SessionContext sessionContext, TaskContext taskContext)
     {
       var clientPayload = ClientPayload.Deserialize(taskContext.TaskInput);
@@ -152,79 +119,14 @@ namespace ArmoniK.EndToEndTests.Tests.SimpleComputeNSubtasking
         return ComputeSquare(taskContext,
                              clientPayload);
 
-      if (clientPayload.Type == ClientPayload.TaskType.ComputeCube)
-      {
-        return ComputeCube(taskContext,
-                           clientPayload);
-      }
-
-      if (clientPayload.Type == ClientPayload.TaskType.Sleep)
-      {
-        Logger.LogInformation($"Empty task, sessionId : {sessionContext.SessionId}, taskId : {taskContext.TaskId}, sessionId from task : {taskContext.SessionId}");
-        Thread.Sleep(clientPayload.Sleep * 1000);
-      }
-      else if (clientPayload.Type == ClientPayload.TaskType.JobOfNTasks)
-      {
-        var newPayload = new ClientPayload
-        {
-          Type  = ClientPayload.TaskType.Sleep,
-          Sleep = clientPayload.Sleep,
-        };
-
-        var bytePayload = newPayload.Serialize();
-
-        Job_of_N_Tasks(bytePayload,
-                       clientPayload.Numbers[0] - 1);
-
-        return new ClientPayload
-          {
-            Type   = ClientPayload.TaskType.Result,
-            Result = 42,
-          }
-          .Serialize(); //nothing to do
-      }
-      else if (clientPayload.Type == ClientPayload.TaskType.AggregationNTask)
-      {
-        return AggregateValuesNTasks(taskContext,
-                                     clientPayload);
-      }
-      else if (clientPayload.Type == ClientPayload.TaskType.Aggregation)
+      if (clientPayload.Type == ClientPayload.TaskType.Aggregation)
       {
         return AggregateValues(taskContext,
                                clientPayload);
       }
-      else
-      {
-        Logger.LogInformation($"Task type is unManaged {clientPayload.Type}");
-        throw new WorkerApiException($"Task type is unManaged {clientPayload.Type}");
-      }
 
-      return new ClientPayload
-        {
-          Type   = ClientPayload.TaskType.Result,
-          Result = 42,
-        }
-        .Serialize(); //nothing to do
-    }
-
-    private byte[] AggregateValuesNTasks(TaskContext taskContext, ClientPayload clientPayload)
-    {
-      var finalResult = 0;
-
-      foreach (var pair in taskContext.DataDependencies)
-      {
-        var taskResult = pair.Value;
-        finalResult += BitConverter.ToInt32(taskResult,
-                                            0);
-      }
-
-      ClientPayload childResult = new()
-      {
-        Type   = ClientPayload.TaskType.Result,
-        Result = finalResult,
-      };
-
-      return childResult.Serialize();
+      Logger.LogInformation($"Task type is unManaged {clientPayload.Type}");
+      throw new WorkerApiException($"Task type is unManaged {clientPayload.Type}");
     }
 
     private byte[] AggregateValues(TaskContext taskContext, ClientPayload clientPayload)

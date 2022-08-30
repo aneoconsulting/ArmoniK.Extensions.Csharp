@@ -116,7 +116,6 @@ namespace ArmoniK.EndToEndTests.Tests.CheckRandomException
     /// </summary>
     /// <param name="client"></param>
     /// <param name="numSession"></param>
-    /// <param name="priority"></param>
     private void ClientStartup(ArmonikSymphonyClient client, int numSession)
     {
       var clientPayload = new ClientPayload

@@ -181,10 +181,14 @@ namespace ArmoniK.EndToEndTests
                                                                                           LoggerFactory),
                                            NameSpaceTest = x.Item1.Namespace ?? string.Empty,
                                            MethodTests   = x.Item2,
-                                         }).Where(x => listTests.Any(t => x.ClassClient != null &&
-                                                                          string.Equals(x.ClassClient.Name,
-                                                                                        t,
-                                                                                        StringComparison.CurrentCultureIgnoreCase)));
+                                         }).Where(x =>
+                                         {
+                                           Logger.LogInformation("test detected {test}", x.ClassClient?.Name);
+                                           return listTests.Any(t => x.ClassClient != null &&
+                                                                     string.Equals(x.ClassClient.Name,
+                                                                                   t,
+                                                                                   StringComparison.CurrentCultureIgnoreCase));
+                                         });
 
       var retrieveClientTests = results.ToList();
 
