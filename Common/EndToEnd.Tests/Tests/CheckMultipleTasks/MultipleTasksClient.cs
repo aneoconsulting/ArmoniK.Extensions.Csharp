@@ -97,7 +97,6 @@ namespace ArmoniK.EndToEndTests.Tests.CheckMultipleTasks
         Type       = ClientPayload.TaskType.None,
       };
 
-
       var listOfNbTasks = new List<int>
       {
         100,
@@ -125,7 +124,6 @@ namespace ArmoniK.EndToEndTests.Tests.CheckMultipleTasks
       if (!finished)
       {
         waitCancellationToken.Cancel();
-
 
         try
         {
@@ -176,7 +174,6 @@ namespace ArmoniK.EndToEndTests.Tests.CheckMultipleTasks
 
       Assert.AreEqual(nbTasks * 8,
                       finalResult);
-
 
       var elapsedMilliseconds = sw.ElapsedMilliseconds;
       Log.LogInformation($"Client called {nbTasks} tasks in {elapsedMilliseconds} ms aggregated Result = {finalResult}");

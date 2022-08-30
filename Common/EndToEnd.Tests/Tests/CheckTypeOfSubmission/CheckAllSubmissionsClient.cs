@@ -188,24 +188,6 @@ namespace ArmoniK.EndToEndTests.Tests.CheckTypeOfSubmission
       //}
     }
 
-    /// <summary>
-    ///   Simple function to wait and get the result from subTasking and result delegation
-    ///   to a subTask
-    /// </summary>
-    /// <param name="sessionService">The sessionService API to connect to the Control plane Service</param>
-    /// <param name="taskIds">The tasks which are waiting for</param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
-    private static IEnumerable<Tuple<string, byte[]>> GetResults(SessionService      sessionService,
-                                                                 IEnumerable<string> taskIds,
-                                                                 CancellationToken   cancellationToken = default)
-    {
-      var taskResult = sessionService.GetResults(taskIds,
-                                                 cancellationToken);
-
-      return taskResult;
-    }
-
     private void SubmissionTask(SessionService sessionService, int nbJob, int nbSubTasks, SubmissionType submissionType, GetResultType getResultType)
     {
       Log.LogInformation($"==  Running {nbJob} Tasks with {nbSubTasks} subTasks " +
@@ -259,8 +241,7 @@ namespace ArmoniK.EndToEndTests.Tests.CheckTypeOfSubmission
 
       if (getResultType == GetResultType.GetResult)
       {
-        results = GetResults(sessionService,
-                             taskIds);
+        results = sessionService.GetResults(taskIds);
       }
       else
       {
@@ -296,7 +277,10 @@ namespace ArmoniK.EndToEndTests.Tests.CheckTypeOfSubmission
     private static void PeriodicInfo(Action action, int seconds, CancellationToken token = default)
     {
       if (action == null)
+      {
         return;
+      }
+
       Task.Run(async () =>
                {
                  while (!token.IsCancellationRequested)

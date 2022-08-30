@@ -39,51 +39,17 @@ namespace ArmoniK.EndToEndTests.Tests.CheckMultipleTasks
       //END USER PLEASE FIXME
     }
 
-
-    private static double ExpM1(double x)
-    {
-      return ((((((((((((((15.0 + x) * x + 210.0) * x + 2730.0) * x + 32760.0) * x + 360360.0) * x + 3603600.0) * x + 32432400.0) * x + 259459200.0) * x +
-                   1816214400.0) *
-                  x +
-                  10897286400.0) *
-                 x +
-                 54486432000.0) *
-                x +
-                217945728000.0) *
-               x +
-               653837184000.0) *
-              x +
-              1307674368000.0) *
-             x *
-             7.6471637318198164759011319857881e-13;
-    }
-
-
     public override byte[] OnInvoke(SessionContext sessionContext, TaskContext taskContext)
     {
       var payload = ClientPayload.Deserialize(taskContext.TaskInput);
 
-      if (payload.Type == ClientPayload.TaskType.Expm1)
-      {
-
-        return new ClientPayload
-          {
-            Type   = ClientPayload.TaskType.Result,
-            Result = (int)ExpM1(4.0),
-          }
-          .Serialize(); //nothing to do
-      }
-      else
-      {
-        return new ClientPayload
-          {
-            Type   = ClientPayload.TaskType.Result,
-            Result = 8,
-          }
-          .Serialize(); //nothing to do
-      }
+      return new ClientPayload
+        {
+          Type   = ClientPayload.TaskType.Result,
+          Result = 8,
+        }
+        .Serialize(); //nothing to do
       /////////////////// TO SERVER SIDE TEST HERE //////////////////////////////////////////
-
     }
 
 

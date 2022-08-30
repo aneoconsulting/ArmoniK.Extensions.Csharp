@@ -47,30 +47,6 @@ namespace ArmoniK.EndToEndTests.Tests.CheckTryGetResults
       //END USER PLEASE FIXME
     }
 
-    private string Job_of_N_Tasks(byte[] payload, int nbTasks)
-    {
-      Logger.LogInformation($"Executing {nbTasks} Subtasks with ExpM1 compute");
-
-      var payloads = new List<byte[]>(nbTasks);
-      for (var i = 0; i < nbTasks; i++)
-        payloads.Add(payload);
-
-      var sw      = Stopwatch.StartNew();
-      var taskIds = SubmitTasks(payloads);
-      var newPayload = new ClientPayload()
-      {
-        Type = ClientPayload.TaskType.Aggregation,
-      };
-
-      var aggTaskId = this.SubmitTaskWithDependencies(newPayload.Serialize(),
-                                                      taskIds.ToList());
-
-      var elapsedMilliseconds = sw.ElapsedMilliseconds;
-      Logger.LogInformation($"Server called {nbTasks} tasks in {elapsedMilliseconds} ms");
-
-      return aggTaskId;
-    }
-
     private static double ExpM1(double x)
     {
       return ((((((((((((((15.0 + x) * x + 210.0) * x + 2730.0) * x + 32760.0) * x + 360360.0) * x + 3603600.0) * x + 32432400.0) * x + 259459200.0) * x +
@@ -93,13 +69,8 @@ namespace ArmoniK.EndToEndTests.Tests.CheckTryGetResults
     {
       var clientPayload = ClientPayload.Deserialize(taskContext.TaskInput);
 
-
       switch (clientPayload.Type)
       {
-        case ClientPayload.TaskType.Sleep:
-          Logger.LogInformation($"Empty task, sessionId : {sessionContext.SessionId}, taskId : {taskContext.TaskId}, sessionId from task : {taskContext.SessionId}");
-          Thread.Sleep(clientPayload.Sleep * 1000);
-          break;
         case ClientPayload.TaskType.Expm1:
         {
           Logger.LogInformation($"ExpM1 task, sessionId : {sessionContext.SessionId}, taskId : {taskContext.TaskId}, sessionId from task : {taskContext.SessionId}");
@@ -116,29 +87,10 @@ namespace ArmoniK.EndToEndTests.Tests.CheckTryGetResults
             Result = (int)result,
           }.Serialize();
         }
-        case ClientPayload.TaskType.Aggregation:
-          Logger.LogInformation($"!!!! All subtask Finished sessionId : {sessionContext.SessionId}\n\n");
-          break;
-        case ClientPayload.TaskType.JobOfNTasks:
-        {
-          var newPayload = new ClientPayload
-          {
-            Type = ClientPayload.TaskType.Expm1,
-          };
-
-          var bytePayload = newPayload.Serialize();
-
-          var aggTaskId = Job_of_N_Tasks(bytePayload,
-                                         clientPayload.SingleInput);
-
-          return null;
-        }
         default:
           Logger.LogInformation($"Task type is unManaged {clientPayload.Type}");
           throw new WorkerApiException($"Task type is unManaged {clientPayload.Type}");
       }
-
-      return null; //nothing to do
     }
 
     public override void OnSessionLeave(SessionContext sessionContext)
