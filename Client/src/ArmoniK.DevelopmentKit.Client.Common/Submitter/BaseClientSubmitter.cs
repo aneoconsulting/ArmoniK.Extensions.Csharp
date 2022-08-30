@@ -116,7 +116,7 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
           taskIds,
         },
       }).IdStatuses.Select(x => Tuple.Create(x.TaskId,
-                                           x.Status));
+                                             x.Status));
     }
 
     /// <summary>
@@ -225,6 +225,7 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
               default:
                 throw new ArgumentOutOfRangeException();
             }
+
             break;
           }
           catch (Exception e)
@@ -293,8 +294,12 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
                                                    ids));
       Retry.WhileException(5,
                            200,
-                           () =>
+                           retry =>
                            {
+                             Logger.LogDebug("Try {try} for {funcName}",
+                                             retry,
+                                             nameof(ControlPlaneService.WaitForCompletion));
+
                              var __ = ControlPlaneService.WaitForCompletion(new WaitRequest
                              {
                                Filter = new TaskFilter
@@ -326,8 +331,11 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
     {
       var idStatus = Retry.WhileException(5,
                                           200,
-                                          () =>
+                                          retry =>
                                           {
+                                            Logger.LogDebug("Try {try} for {funcName}",
+                                                            retry,
+                                                            nameof(ControlPlaneService.GetResultStatus));
                                             var resultStatusReply = ControlPlaneService.GetResultStatus(new GetResultStatusRequest()
                                             {
                                               ResultIds =
@@ -337,7 +345,7 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
                                               SessionId = SessionId.Id,
                                             });
                                             return resultStatusReply.IdStatuses.Select(x => Tuple.Create(x.ResultId,
-                                                                                                       x.Status));
+                                                                                                         x.Status));
                                           },
                                           true,
                                           typeof(IOException),
@@ -369,16 +377,19 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
       using var _ = Logger.LogFunction(taskId);
       var resultRequest = new ResultRequest
       {
-        ResultId     = taskId,
-        Session = SessionId.Id,
+        ResultId = taskId,
+        Session  = SessionId.Id,
       };
 
       byte[] res = null;
 
       Retry.WhileException(5,
                            200,
-                           () =>
+                           retry =>
                            {
+                             Logger.LogDebug("Try {try} for {funcName}",
+                                             retry,
+                                             nameof(ControlPlaneService.WaitForAvailability));
                              var availabilityReply = ControlPlaneService.WaitForAvailability(resultRequest,
                                                                                              cancellationToken: cancellationToken);
 
@@ -445,11 +456,11 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
     /// <returns></returns>
     /// <exception cref="Exception"></exception>
     /// <exception cref="ArgumentOutOfRangeException"></exception>
-    public async Task<byte[]> TryGetResultAsync(ResultRequest                  resultRequest,
-                                                       CancellationToken              cancellationToken = default)
+    public async Task<byte[]> TryGetResultAsync(ResultRequest     resultRequest,
+                                                CancellationToken cancellationToken = default)
     {
       var streamingCall = ControlPlaneService.TryGetResultStream(resultRequest,
-                                                    cancellationToken: cancellationToken);
+                                                                 cancellationToken: cancellationToken);
 
       var result = new List<byte>();
 
@@ -514,12 +525,15 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
 
       var resultReply = Retry.WhileException(5,
                                              200,
-                                             () =>
+                                             retry =>
                                              {
+                                               Logger.LogDebug("Try {try} for {funcName}",
+                                                               retry,
+                                                               "ControlPlaneService.TryGetResultAsync");
                                                try
                                                {
                                                  var response = TryGetResultAsync(resultRequest,
-                                                                              cancellationToken);
+                                                                                  cancellationToken);
                                                  return response;
                                                }
                                                catch (AggregateException ex)
