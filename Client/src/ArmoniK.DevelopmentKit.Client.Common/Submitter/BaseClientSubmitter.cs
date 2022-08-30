@@ -164,13 +164,10 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
     [UsedImplicitly]
     public IEnumerable<string> SubmitTasksWithDependencies(IEnumerable<Tuple<Tuple<string, byte[]>, IList<string>>> payloadsWithDependencies, int maxRetries = 5)
     {
-      using var _                = Logger.LogFunction();
-      var       withDependencies = payloadsWithDependencies as Tuple<Tuple<string, byte[]>, IList<string>>[] ?? payloadsWithDependencies.ToArray();
-      Logger.LogDebug("payload with dependencies {len}",
-                      withDependencies.Count());
-      var taskCreated = new List<string>();
+      using var _           = Logger.LogFunction();
+      var       taskCreated = new List<string>();
 
-      withDependencies.Batch(1000).ToList().ForEach(tup =>
+      payloadsWithDependencies.Batch(1000).ToList().ForEach(tup =>
       {
         var taskRequests = new List<TaskRequest>();
         foreach (var (payload, dependencies) in tup)
