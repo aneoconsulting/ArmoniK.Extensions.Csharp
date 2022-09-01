@@ -430,15 +430,15 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.CountRunningTasksBySession
   nameWithType: AdminMonitoringService.CountRunningTasksBySession
-- uid: ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.CountTaskBySession(System.String,ArmoniK.Api.gRPC.V1.TaskStatus[])
-  name: CountTaskBySession(String, Api.gRPC.V1.TaskStatus[])
-  href: api/ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.html#ArmoniK_DevelopmentKit_Client_Services_Admin_AdminMonitoringService_CountTaskBySession_System_String_ArmoniK_Api_gRPC_V1_TaskStatus___
-  commentId: M:ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.CountTaskBySession(System.String,ArmoniK.Api.gRPC.V1.TaskStatus[])
-  name.vb: CountTaskBySession(String, Api.gRPC.V1.TaskStatus())
-  fullName: ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.CountTaskBySession(System.String, ArmoniK.Api.gRPC.V1.TaskStatus[])
-  fullName.vb: ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.CountTaskBySession(System.String, ArmoniK.Api.gRPC.V1.TaskStatus())
-  nameWithType: AdminMonitoringService.CountTaskBySession(String, Api.gRPC.V1.TaskStatus[])
-  nameWithType.vb: AdminMonitoringService.CountTaskBySession(String, Api.gRPC.V1.TaskStatus())
+- uid: ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.CountTaskBySession(System.String,TaskStatus[])
+  name: CountTaskBySession(String, TaskStatus[])
+  href: api/ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.html#ArmoniK_DevelopmentKit_Client_Services_Admin_AdminMonitoringService_CountTaskBySession_System_String_TaskStatus___
+  commentId: M:ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.CountTaskBySession(System.String,TaskStatus[])
+  name.vb: CountTaskBySession(String, TaskStatus())
+  fullName: ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.CountTaskBySession(System.String, TaskStatus[])
+  fullName.vb: ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.CountTaskBySession(System.String, TaskStatus())
+  nameWithType: AdminMonitoringService.CountTaskBySession(String, TaskStatus[])
+  nameWithType.vb: AdminMonitoringService.CountTaskBySession(String, TaskStatus())
 - uid: ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.CountTaskBySession*
   name: CountTaskBySession
   href: api/ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.html#ArmoniK_DevelopmentKit_Client_Services_Admin_AdminMonitoringService_CountTaskBySession_
@@ -605,15 +605,15 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.ListTasks
   nameWithType: AdminMonitoringService.ListTasks
-- uid: ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.ListTasksBySession(System.String,ArmoniK.Api.gRPC.V1.TaskStatus[])
-  name: ListTasksBySession(String, Api.gRPC.V1.TaskStatus[])
-  href: api/ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.html#ArmoniK_DevelopmentKit_Client_Services_Admin_AdminMonitoringService_ListTasksBySession_System_String_ArmoniK_Api_gRPC_V1_TaskStatus___
-  commentId: M:ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.ListTasksBySession(System.String,ArmoniK.Api.gRPC.V1.TaskStatus[])
-  name.vb: ListTasksBySession(String, Api.gRPC.V1.TaskStatus())
-  fullName: ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.ListTasksBySession(System.String, ArmoniK.Api.gRPC.V1.TaskStatus[])
-  fullName.vb: ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.ListTasksBySession(System.String, ArmoniK.Api.gRPC.V1.TaskStatus())
-  nameWithType: AdminMonitoringService.ListTasksBySession(String, Api.gRPC.V1.TaskStatus[])
-  nameWithType.vb: AdminMonitoringService.ListTasksBySession(String, Api.gRPC.V1.TaskStatus())
+- uid: ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.ListTasksBySession(System.String,TaskStatus[])
+  name: ListTasksBySession(String, TaskStatus[])
+  href: api/ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.html#ArmoniK_DevelopmentKit_Client_Services_Admin_AdminMonitoringService_ListTasksBySession_System_String_TaskStatus___
+  commentId: M:ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.ListTasksBySession(System.String,TaskStatus[])
+  name.vb: ListTasksBySession(String, TaskStatus())
+  fullName: ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.ListTasksBySession(System.String, TaskStatus[])
+  fullName.vb: ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.ListTasksBySession(System.String, TaskStatus())
+  nameWithType: AdminMonitoringService.ListTasksBySession(String, TaskStatus[])
+  nameWithType.vb: AdminMonitoringService.ListTasksBySession(String, TaskStatus())
 - uid: ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.ListTasksBySession*
   name: ListTasksBySession
   href: api/ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.html#ArmoniK_DevelopmentKit_Client_Services_Admin_AdminMonitoringService_ListTasksBySession_
@@ -7984,12 +7984,12 @@ references:
   commentId: T:ArmoniK.EndToEndTests.Program
   fullName: ArmoniK.EndToEndTests.Program
   nameWithType: Program
-- uid: ArmoniK.EndToEndTests.Program.GetMethods(System.Type)
-  name: GetMethods(System.Type)
-  href: api/ArmoniK.EndToEndTests.Program.html#ArmoniK_EndToEndTests_Program_GetMethods_System_Type_
-  commentId: M:ArmoniK.EndToEndTests.Program.GetMethods(System.Type)
-  fullName: ArmoniK.EndToEndTests.Program.GetMethods(System.Type)
-  nameWithType: Program.GetMethods(System.Type)
+- uid: ArmoniK.EndToEndTests.Program.GetMethods(Type)
+  name: GetMethods(Type)
+  href: api/ArmoniK.EndToEndTests.Program.html#ArmoniK_EndToEndTests_Program_GetMethods_Type_
+  commentId: M:ArmoniK.EndToEndTests.Program.GetMethods(Type)
+  fullName: ArmoniK.EndToEndTests.Program.GetMethods(Type)
+  nameWithType: Program.GetMethods(Type)
 - uid: ArmoniK.EndToEndTests.Program.GetMethods*
   name: GetMethods
   href: api/ArmoniK.EndToEndTests.Program.html#ArmoniK_EndToEndTests_Program_GetMethods_
