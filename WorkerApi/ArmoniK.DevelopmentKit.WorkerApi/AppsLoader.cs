@@ -39,9 +39,9 @@ public class AppsLoader : IAppsLoader
 {
   private readonly Assembly   assemblyGridWorker_;
   private readonly EngineType engineType_;
-  private          Assembly   assembly_;
 
   private readonly ILogger<AppsLoader> logger_;
+  private          Assembly            assembly_;
 
   public AppsLoader(IConfiguration configuration,
                     ILoggerFactory loggerFactory,

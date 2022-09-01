@@ -1,4 +1,4 @@
-﻿// This file is part of the ArmoniK project
+// This file is part of the ArmoniK project
 // 
 // Copyright (C) ANEO, 2021-2022.
 //   W. Kirschenmann   <wkirschenmann@aneo.fr>
@@ -33,11 +33,7 @@ using ArmoniK.DevelopmentKit.Common.Submitter;
 
 using Google.Protobuf.WellKnownTypes;
 
-#if NET5_0_OR_GREATER
 using Microsoft.Extensions.Logging;
-
-#else
-#endif
 
 namespace ArmoniK.DevelopmentKit.Client.Factory;
 

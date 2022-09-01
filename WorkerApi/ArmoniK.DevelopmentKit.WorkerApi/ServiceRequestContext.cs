@@ -214,9 +214,9 @@ public class ServiceRequestContext
   public static ServiceId GenerateServiceId(string engineTypeName,
                                             string uniqueKey,
                                             string namespaceService)
-    => new ServiceId(engineTypeName,
-                     uniqueKey,
-                     namespaceService);
+    => new(engineTypeName,
+           uniqueKey,
+           namespaceService);
 
   public static IFileAdaptater CreateOrGetFileAdaptater(IConfiguration configuration,
                                                         string         localDirectoryZip)
