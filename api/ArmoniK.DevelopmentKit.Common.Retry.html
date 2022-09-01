@@ -177,20 +177,20 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/main/apiSpec/new?filename=ArmoniK_DevelopmentKit_Common_Retry_WhileException_System_Int32_System_Int32_System_Action_System_Boolean_System_Type___.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Common.Retry.WhileException(System.Int32%2CSystem.Int32%2CSystem.Action%2CSystem.Boolean%2CSystem.Type%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/main/apiSpec/new?filename=ArmoniK_DevelopmentKit_Common_Retry_WhileException_System_Int32_System_Int32_System_Action_System_Int32__System_Boolean_System_Type___.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Common.Retry.WhileException(System.Int32%2CSystem.Int32%2CSystem.Action%7BSystem.Int32%7D%2CSystem.Boolean%2CSystem.Type%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Common/ArmoniK.DevelopmentKit.Common/RetryAction.cs/#L44">View Source</a>
   </span>
   <a id="ArmoniK_DevelopmentKit_Common_Retry_WhileException_" data-uid="ArmoniK.DevelopmentKit.Common.Retry.WhileException*"></a>
-  <h4 id="ArmoniK_DevelopmentKit_Common_Retry_WhileException_System_Int32_System_Int32_System_Action_System_Boolean_System_Type___" data-uid="ArmoniK.DevelopmentKit.Common.Retry.WhileException(System.Int32,System.Int32,System.Action,System.Boolean,System.Type[])">WhileException(Int32, Int32, Action, Boolean, Type[])</h4>
+  <h4 id="ArmoniK_DevelopmentKit_Common_Retry_WhileException_System_Int32_System_Int32_System_Action_System_Int32__System_Boolean_System_Type___" data-uid="ArmoniK.DevelopmentKit.Common.Retry.WhileException(System.Int32,System.Int32,System.Action{System.Int32},System.Boolean,System.Type[])">WhileException(Int32, Int32, Action&lt;Int32&gt;, Boolean, Type[])</h4>
   <div class="markdown level1 summary"><p>Retry the specified operation the specified number of times, until there are no more retries or it succeeded
 without an exception.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static void WhileException(int retries, int delayMs, Action operation, bool allowDerivedExceptions = false, params Type[] exceptionType)</code></pre>
+    <pre><code class="lang-csharp hljs">public static void WhileException(int retries, int delayMs, Action&lt;int&gt; operation, bool allowDerivedExceptions = false, params Type[] exceptionType)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -215,7 +215,7 @@ without an exception.</p>
 </td>
       </tr>
       <tr>
-        <td><span class="xref">System.Action</span></td>
+        <td><span class="xref">System.Action</span>&lt;<span class="xref">System.Int32</span>&gt;</td>
         <td><span class="parametername">operation</span></td>
         <td><p>the operation to perform</p>
 </td>
@@ -236,20 +236,20 @@ without an exception.</p>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/main/apiSpec/new?filename=ArmoniK_DevelopmentKit_Common_Retry_WhileException__1_System_Int32_System_Int32_System_Func___0__System_Boolean_System_Type___.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Common.Retry.WhileException%60%601(System.Int32%2CSystem.Int32%2CSystem.Func%7B%60%600%7D%2CSystem.Boolean%2CSystem.Type%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/main/apiSpec/new?filename=ArmoniK_DevelopmentKit_Common_Retry_WhileException__1_System_Int32_System_Int32_System_Func_System_Int32___0__System_Boolean_System_Type___.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Common.Retry.WhileException%60%601(System.Int32%2CSystem.Int32%2CSystem.Func%7BSystem.Int32%2C%60%600%7D%2CSystem.Boolean%2CSystem.Type%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Common/ArmoniK.DevelopmentKit.Common/RetryAction.cs/#L101">View Source</a>
   </span>
   <a id="ArmoniK_DevelopmentKit_Common_Retry_WhileException_" data-uid="ArmoniK.DevelopmentKit.Common.Retry.WhileException*"></a>
-  <h4 id="ArmoniK_DevelopmentKit_Common_Retry_WhileException__1_System_Int32_System_Int32_System_Func___0__System_Boolean_System_Type___" data-uid="ArmoniK.DevelopmentKit.Common.Retry.WhileException``1(System.Int32,System.Int32,System.Func{``0},System.Boolean,System.Type[])">WhileException&lt;T&gt;(Int32, Int32, Func&lt;T&gt;, Boolean, Type[])</h4>
+  <h4 id="ArmoniK_DevelopmentKit_Common_Retry_WhileException__1_System_Int32_System_Int32_System_Func_System_Int32___0__System_Boolean_System_Type___" data-uid="ArmoniK.DevelopmentKit.Common.Retry.WhileException``1(System.Int32,System.Int32,System.Func{System.Int32,``0},System.Boolean,System.Type[])">WhileException&lt;T&gt;(Int32, Int32, Func&lt;Int32, T&gt;, Boolean, Type[])</h4>
   <div class="markdown level1 summary"><p>Retry the specified operation the specified number of times, until there are no more retries or it succeeded
 without an exception.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static T WhileException&lt;T&gt;(int retries, int delayMs, Func&lt;T&gt; operation, bool allowDerivedExceptions = false, params Type[] exceptionType)</code></pre>
+    <pre><code class="lang-csharp hljs">public static T WhileException&lt;T&gt;(int retries, int delayMs, Func&lt;int, T&gt; operation, bool allowDerivedExceptions = false, params Type[] exceptionType)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -274,7 +274,7 @@ without an exception.</p>
 </td>
       </tr>
       <tr>
-        <td><span class="xref">System.Func</span>&lt;T&gt;</td>
+        <td><span class="xref">System.Func</span>&lt;<span class="xref">System.Int32</span>, T&gt;</td>
         <td><span class="parametername">operation</span></td>
         <td><p>the operation to perform</p>
 </td>

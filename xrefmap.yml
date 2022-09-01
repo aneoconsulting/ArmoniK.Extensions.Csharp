@@ -2044,15 +2044,15 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.Common.Retry.UntilTrue
   nameWithType: Retry.UntilTrue
-- uid: ArmoniK.DevelopmentKit.Common.Retry.WhileException(System.Int32,System.Int32,System.Action,System.Boolean,System.Type[])
-  name: WhileException(Int32, Int32, Action, Boolean, Type[])
-  href: api/ArmoniK.DevelopmentKit.Common.Retry.html#ArmoniK_DevelopmentKit_Common_Retry_WhileException_System_Int32_System_Int32_System_Action_System_Boolean_System_Type___
-  commentId: M:ArmoniK.DevelopmentKit.Common.Retry.WhileException(System.Int32,System.Int32,System.Action,System.Boolean,System.Type[])
-  name.vb: WhileException(Int32, Int32, Action, Boolean, Type())
-  fullName: ArmoniK.DevelopmentKit.Common.Retry.WhileException(System.Int32, System.Int32, System.Action, System.Boolean, System.Type[])
-  fullName.vb: ArmoniK.DevelopmentKit.Common.Retry.WhileException(System.Int32, System.Int32, System.Action, System.Boolean, System.Type())
-  nameWithType: Retry.WhileException(Int32, Int32, Action, Boolean, Type[])
-  nameWithType.vb: Retry.WhileException(Int32, Int32, Action, Boolean, Type())
+- uid: ArmoniK.DevelopmentKit.Common.Retry.WhileException(System.Int32,System.Int32,System.Action{System.Int32},System.Boolean,System.Type[])
+  name: WhileException(Int32, Int32, Action<Int32>, Boolean, Type[])
+  href: api/ArmoniK.DevelopmentKit.Common.Retry.html#ArmoniK_DevelopmentKit_Common_Retry_WhileException_System_Int32_System_Int32_System_Action_System_Int32__System_Boolean_System_Type___
+  commentId: M:ArmoniK.DevelopmentKit.Common.Retry.WhileException(System.Int32,System.Int32,System.Action{System.Int32},System.Boolean,System.Type[])
+  name.vb: WhileException(Int32, Int32, Action(Of Int32), Boolean, Type())
+  fullName: ArmoniK.DevelopmentKit.Common.Retry.WhileException(System.Int32, System.Int32, System.Action<System.Int32>, System.Boolean, System.Type[])
+  fullName.vb: ArmoniK.DevelopmentKit.Common.Retry.WhileException(System.Int32, System.Int32, System.Action(Of System.Int32), System.Boolean, System.Type())
+  nameWithType: Retry.WhileException(Int32, Int32, Action<Int32>, Boolean, Type[])
+  nameWithType.vb: Retry.WhileException(Int32, Int32, Action(Of Int32), Boolean, Type())
 - uid: ArmoniK.DevelopmentKit.Common.Retry.WhileException*
   name: WhileException
   href: api/ArmoniK.DevelopmentKit.Common.Retry.html#ArmoniK_DevelopmentKit_Common_Retry_WhileException_
@@ -2060,15 +2060,15 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.Common.Retry.WhileException
   nameWithType: Retry.WhileException
-- uid: ArmoniK.DevelopmentKit.Common.Retry.WhileException``1(System.Int32,System.Int32,System.Func{``0},System.Boolean,System.Type[])
-  name: WhileException<T>(Int32, Int32, Func<T>, Boolean, Type[])
-  href: api/ArmoniK.DevelopmentKit.Common.Retry.html#ArmoniK_DevelopmentKit_Common_Retry_WhileException__1_System_Int32_System_Int32_System_Func___0__System_Boolean_System_Type___
-  commentId: M:ArmoniK.DevelopmentKit.Common.Retry.WhileException``1(System.Int32,System.Int32,System.Func{``0},System.Boolean,System.Type[])
-  name.vb: WhileException(Of T)(Int32, Int32, Func(Of T), Boolean, Type())
-  fullName: ArmoniK.DevelopmentKit.Common.Retry.WhileException<T>(System.Int32, System.Int32, System.Func<T>, System.Boolean, System.Type[])
-  fullName.vb: ArmoniK.DevelopmentKit.Common.Retry.WhileException(Of T)(System.Int32, System.Int32, System.Func(Of T), System.Boolean, System.Type())
-  nameWithType: Retry.WhileException<T>(Int32, Int32, Func<T>, Boolean, Type[])
-  nameWithType.vb: Retry.WhileException(Of T)(Int32, Int32, Func(Of T), Boolean, Type())
+- uid: ArmoniK.DevelopmentKit.Common.Retry.WhileException``1(System.Int32,System.Int32,System.Func{System.Int32,``0},System.Boolean,System.Type[])
+  name: WhileException<T>(Int32, Int32, Func<Int32, T>, Boolean, Type[])
+  href: api/ArmoniK.DevelopmentKit.Common.Retry.html#ArmoniK_DevelopmentKit_Common_Retry_WhileException__1_System_Int32_System_Int32_System_Func_System_Int32___0__System_Boolean_System_Type___
+  commentId: M:ArmoniK.DevelopmentKit.Common.Retry.WhileException``1(System.Int32,System.Int32,System.Func{System.Int32,``0},System.Boolean,System.Type[])
+  name.vb: WhileException(Of T)(Int32, Int32, Func(Of Int32, T), Boolean, Type())
+  fullName: ArmoniK.DevelopmentKit.Common.Retry.WhileException<T>(System.Int32, System.Int32, System.Func<System.Int32, T>, System.Boolean, System.Type[])
+  fullName.vb: ArmoniK.DevelopmentKit.Common.Retry.WhileException(Of T)(System.Int32, System.Int32, System.Func(Of System.Int32, T), System.Boolean, System.Type())
+  nameWithType: Retry.WhileException<T>(Int32, Int32, Func<Int32, T>, Boolean, Type[])
+  nameWithType.vb: Retry.WhileException(Of T)(Int32, Int32, Func(Of Int32, T), Boolean, Type())
 - uid: ArmoniK.DevelopmentKit.Common.Status
   name: ArmoniK.DevelopmentKit.Common.Status
   href: api/ArmoniK.DevelopmentKit.Common.Status.html
@@ -2230,15 +2230,15 @@ references:
   fullName.vb: ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter(Of T).GetResults
   nameWithType: BaseClientSubmitter<T>.GetResults
   nameWithType.vb: BaseClientSubmitter(Of T).GetResults
-- uid: ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter`1.GetResultStatus(System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)
-  name: GetResultStatus(IEnumerable<String>, CancellationToken)
-  href: api/ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Common_Submitter_BaseClientSubmitter_1_GetResultStatus_System_Collections_Generic_IEnumerable_System_String__System_Threading_CancellationToken_
-  commentId: M:ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter`1.GetResultStatus(System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)
-  name.vb: GetResultStatus(IEnumerable(Of String), CancellationToken)
-  fullName: ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter<T>.GetResultStatus(System.Collections.Generic.IEnumerable<System.String>, System.Threading.CancellationToken)
-  fullName.vb: ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter(Of T).GetResultStatus(System.Collections.Generic.IEnumerable(Of System.String), System.Threading.CancellationToken)
-  nameWithType: BaseClientSubmitter<T>.GetResultStatus(IEnumerable<String>, CancellationToken)
-  nameWithType.vb: BaseClientSubmitter(Of T).GetResultStatus(IEnumerable(Of String), CancellationToken)
+- uid: ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter`1.GetResultStatus(System.Collections.Generic.ICollection{System.String},System.Threading.CancellationToken)
+  name: GetResultStatus(ICollection<String>, CancellationToken)
+  href: api/ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Common_Submitter_BaseClientSubmitter_1_GetResultStatus_System_Collections_Generic_ICollection_System_String__System_Threading_CancellationToken_
+  commentId: M:ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter`1.GetResultStatus(System.Collections.Generic.ICollection{System.String},System.Threading.CancellationToken)
+  name.vb: GetResultStatus(ICollection(Of String), CancellationToken)
+  fullName: ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter<T>.GetResultStatus(System.Collections.Generic.ICollection<System.String>, System.Threading.CancellationToken)
+  fullName.vb: ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter(Of T).GetResultStatus(System.Collections.Generic.ICollection(Of System.String), System.Threading.CancellationToken)
+  nameWithType: BaseClientSubmitter<T>.GetResultStatus(ICollection<String>, CancellationToken)
+  nameWithType.vb: BaseClientSubmitter(Of T).GetResultStatus(ICollection(Of String), CancellationToken)
 - uid: ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter`1.GetResultStatus*
   name: GetResultStatus
   href: api/ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Common_Submitter_BaseClientSubmitter_1_GetResultStatus_
@@ -2300,23 +2300,6 @@ references:
   fullName.vb: ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter(Of T).GetTaskStatus
   nameWithType: BaseClientSubmitter<T>.GetTaskStatus
   nameWithType.vb: BaseClientSubmitter(Of T).GetTaskStatus
-- uid: ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter`1.HealthCheckResult(System.String)
-  name: HealthCheckResult(String)
-  href: api/ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Common_Submitter_BaseClientSubmitter_1_HealthCheckResult_System_String_
-  commentId: M:ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter`1.HealthCheckResult(System.String)
-  fullName: ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter<T>.HealthCheckResult(System.String)
-  fullName.vb: ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter(Of T).HealthCheckResult(System.String)
-  nameWithType: BaseClientSubmitter<T>.HealthCheckResult(String)
-  nameWithType.vb: BaseClientSubmitter(Of T).HealthCheckResult(String)
-- uid: ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter`1.HealthCheckResult*
-  name: HealthCheckResult
-  href: api/ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Common_Submitter_BaseClientSubmitter_1_HealthCheckResult_
-  commentId: Overload:ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter`1.HealthCheckResult
-  isSpec: "True"
-  fullName: ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter<T>.HealthCheckResult
-  fullName.vb: ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter(Of T).HealthCheckResult
-  nameWithType: BaseClientSubmitter<T>.HealthCheckResult
-  nameWithType.vb: BaseClientSubmitter(Of T).HealthCheckResult
 - uid: ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter`1.Logger
   name: Logger
   href: api/ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Common_Submitter_BaseClientSubmitter_1_Logger
@@ -2360,15 +2343,15 @@ references:
   fullName.vb: ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter(Of T).SubmitTasksWithDependencies(System.Collections.Generic.IEnumerable(Of System.Tuple(Of System.Byte(), System.Collections.Generic.IList(Of System.String))))
   nameWithType: BaseClientSubmitter<T>.SubmitTasksWithDependencies(IEnumerable<Tuple<Byte[], IList<String>>>)
   nameWithType.vb: BaseClientSubmitter(Of T).SubmitTasksWithDependencies(IEnumerable(Of Tuple(Of Byte(), IList(Of String))))
-- uid: ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter`1.SubmitTasksWithDependencies(System.Collections.Generic.IEnumerable{System.Tuple{System.Tuple{System.String,System.Byte[]},System.Collections.Generic.IList{System.String}}},System.Int32)
-  name: SubmitTasksWithDependencies(IEnumerable<Tuple<Tuple<String, Byte[]>, IList<String>>>, Int32)
-  href: api/ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Common_Submitter_BaseClientSubmitter_1_SubmitTasksWithDependencies_System_Collections_Generic_IEnumerable_System_Tuple_System_Tuple_System_String_System_Byte____System_Collections_Generic_IList_System_String____System_Int32_
-  commentId: M:ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter`1.SubmitTasksWithDependencies(System.Collections.Generic.IEnumerable{System.Tuple{System.Tuple{System.String,System.Byte[]},System.Collections.Generic.IList{System.String}}},System.Int32)
-  name.vb: SubmitTasksWithDependencies(IEnumerable(Of Tuple(Of Tuple(Of String, Byte()), IList(Of String))), Int32)
-  fullName: ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter<T>.SubmitTasksWithDependencies(System.Collections.Generic.IEnumerable<System.Tuple<System.Tuple<System.String, System.Byte[]>, System.Collections.Generic.IList<System.String>>>, System.Int32)
-  fullName.vb: ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter(Of T).SubmitTasksWithDependencies(System.Collections.Generic.IEnumerable(Of System.Tuple(Of System.Tuple(Of System.String, System.Byte()), System.Collections.Generic.IList(Of System.String))), System.Int32)
-  nameWithType: BaseClientSubmitter<T>.SubmitTasksWithDependencies(IEnumerable<Tuple<Tuple<String, Byte[]>, IList<String>>>, Int32)
-  nameWithType.vb: BaseClientSubmitter(Of T).SubmitTasksWithDependencies(IEnumerable(Of Tuple(Of Tuple(Of String, Byte()), IList(Of String))), Int32)
+- uid: ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter`1.SubmitTasksWithDependencies(System.Collections.Generic.IEnumerable{System.Tuple{System.String,System.Byte[],System.Collections.Generic.IList{System.String}}},System.Int32)
+  name: SubmitTasksWithDependencies(IEnumerable<Tuple<String, Byte[], IList<String>>>, Int32)
+  href: api/ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Common_Submitter_BaseClientSubmitter_1_SubmitTasksWithDependencies_System_Collections_Generic_IEnumerable_System_Tuple_System_String_System_Byte___System_Collections_Generic_IList_System_String____System_Int32_
+  commentId: M:ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter`1.SubmitTasksWithDependencies(System.Collections.Generic.IEnumerable{System.Tuple{System.String,System.Byte[],System.Collections.Generic.IList{System.String}}},System.Int32)
+  name.vb: SubmitTasksWithDependencies(IEnumerable(Of Tuple(Of String, Byte(), IList(Of String))), Int32)
+  fullName: ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter<T>.SubmitTasksWithDependencies(System.Collections.Generic.IEnumerable<System.Tuple<System.String, System.Byte[], System.Collections.Generic.IList<System.String>>>, System.Int32)
+  fullName.vb: ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter(Of T).SubmitTasksWithDependencies(System.Collections.Generic.IEnumerable(Of System.Tuple(Of System.String, System.Byte(), System.Collections.Generic.IList(Of System.String))), System.Int32)
+  nameWithType: BaseClientSubmitter<T>.SubmitTasksWithDependencies(IEnumerable<Tuple<String, Byte[], IList<String>>>, Int32)
+  nameWithType.vb: BaseClientSubmitter(Of T).SubmitTasksWithDependencies(IEnumerable(Of Tuple(Of String, Byte(), IList(Of String))), Int32)
 - uid: ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter`1.SubmitTasksWithDependencies*
   name: SubmitTasksWithDependencies
   href: api/ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Common_Submitter_BaseClientSubmitter_1_SubmitTasksWithDependencies_
@@ -2429,15 +2412,15 @@ references:
   fullName.vb: ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter(Of T).TryGetResultAsync
   nameWithType: BaseClientSubmitter<T>.TryGetResultAsync
   nameWithType.vb: BaseClientSubmitter(Of T).TryGetResultAsync
-- uid: ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter`1.TryGetResults(System.Collections.Generic.IEnumerable{System.String})
-  name: TryGetResults(IEnumerable<String>)
-  href: api/ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Common_Submitter_BaseClientSubmitter_1_TryGetResults_System_Collections_Generic_IEnumerable_System_String__
-  commentId: M:ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter`1.TryGetResults(System.Collections.Generic.IEnumerable{System.String})
-  name.vb: TryGetResults(IEnumerable(Of String))
-  fullName: ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter<T>.TryGetResults(System.Collections.Generic.IEnumerable<System.String>)
-  fullName.vb: ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter(Of T).TryGetResults(System.Collections.Generic.IEnumerable(Of System.String))
-  nameWithType: BaseClientSubmitter<T>.TryGetResults(IEnumerable<String>)
-  nameWithType.vb: BaseClientSubmitter(Of T).TryGetResults(IEnumerable(Of String))
+- uid: ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter`1.TryGetResults(System.Collections.Generic.IList{System.String})
+  name: TryGetResults(IList<String>)
+  href: api/ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Common_Submitter_BaseClientSubmitter_1_TryGetResults_System_Collections_Generic_IList_System_String__
+  commentId: M:ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter`1.TryGetResults(System.Collections.Generic.IList{System.String})
+  name.vb: TryGetResults(IList(Of String))
+  fullName: ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter<T>.TryGetResults(System.Collections.Generic.IList<System.String>)
+  fullName.vb: ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter(Of T).TryGetResults(System.Collections.Generic.IList(Of System.String))
+  nameWithType: BaseClientSubmitter<T>.TryGetResults(IList<String>)
+  nameWithType.vb: BaseClientSubmitter(Of T).TryGetResults(IList(Of String))
 - uid: ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter`1.TryGetResults*
   name: TryGetResults
   href: api/ArmoniK.DevelopmentKit.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Common_Submitter_BaseClientSubmitter_1_TryGetResults_
@@ -4488,22 +4471,6 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.SessionId
   nameWithType: ServiceContainerBase.SessionId
-- uid: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.SubmitSubTasks(IEnumerable{System.Byte[]},System.String)
-  name: SubmitSubTasks(IEnumerable<Byte[]>, String)
-  href: api/ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.html#ArmoniK_DevelopmentKit_SymphonyApi_api_ServiceContainerBase_SubmitSubTasks_IEnumerable_System_Byte____System_String_
-  commentId: M:ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.SubmitSubTasks(IEnumerable{System.Byte[]},System.String)
-  name.vb: SubmitSubTasks(IEnumerable(Of Byte()), String)
-  fullName: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.SubmitSubTasks(IEnumerable<System.Byte[]>, System.String)
-  fullName.vb: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.SubmitSubTasks(IEnumerable(Of System.Byte()), System.String)
-  nameWithType: ServiceContainerBase.SubmitSubTasks(IEnumerable<Byte[]>, String)
-  nameWithType.vb: ServiceContainerBase.SubmitSubTasks(IEnumerable(Of Byte()), String)
-- uid: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.SubmitSubTasks*
-  name: SubmitSubTasks
-  href: api/ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.html#ArmoniK_DevelopmentKit_SymphonyApi_api_ServiceContainerBase_SubmitSubTasks_
-  commentId: Overload:ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.SubmitSubTasks
-  isSpec: "True"
-  fullName: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.SubmitSubTasks
-  nameWithType: ServiceContainerBase.SubmitSubTasks
 - uid: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.SubmitSubtasksWithDependencies(IEnumerable{Tuple{System.Byte[],IList{System.String}}})
   name: SubmitSubtasksWithDependencies(IEnumerable<Tuple<Byte[], IList<String>>>)
   href: api/ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.html#ArmoniK_DevelopmentKit_SymphonyApi_api_ServiceContainerBase_SubmitSubtasksWithDependencies_IEnumerable_Tuple_System_Byte___IList_System_String____
@@ -4629,22 +4596,6 @@ references:
   commentId: T:ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBaseExt
   fullName: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBaseExt
   nameWithType: ServiceContainerBaseExt
-- uid: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBaseExt.SubmitSubTask(ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase,System.Byte[],System.String)
-  name: SubmitSubTask(ServiceContainerBase, Byte[], String)
-  href: api/ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBaseExt.html#ArmoniK_DevelopmentKit_SymphonyApi_api_ServiceContainerBaseExt_SubmitSubTask_ArmoniK_DevelopmentKit_SymphonyApi_api_ServiceContainerBase_System_Byte___System_String_
-  commentId: M:ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBaseExt.SubmitSubTask(ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase,System.Byte[],System.String)
-  name.vb: SubmitSubTask(ServiceContainerBase, Byte(), String)
-  fullName: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBaseExt.SubmitSubTask(ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase, System.Byte[], System.String)
-  fullName.vb: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBaseExt.SubmitSubTask(ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase, System.Byte(), System.String)
-  nameWithType: ServiceContainerBaseExt.SubmitSubTask(ServiceContainerBase, Byte[], String)
-  nameWithType.vb: ServiceContainerBaseExt.SubmitSubTask(ServiceContainerBase, Byte(), String)
-- uid: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBaseExt.SubmitSubTask*
-  name: SubmitSubTask
-  href: api/ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBaseExt.html#ArmoniK_DevelopmentKit_SymphonyApi_api_ServiceContainerBaseExt_SubmitSubTask_
-  commentId: Overload:ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBaseExt.SubmitSubTask
-  isSpec: "True"
-  fullName: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBaseExt.SubmitSubTask
-  nameWithType: ServiceContainerBaseExt.SubmitSubTask
 - uid: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBaseExt.SubmitTask(ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase,System.Byte[])
   name: SubmitTask(ServiceContainerBase, Byte[])
   href: api/ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBaseExt.html#ArmoniK_DevelopmentKit_SymphonyApi_api_ServiceContainerBaseExt_SubmitTask_ArmoniK_DevelopmentKit_SymphonyApi_api_ServiceContainerBase_System_Byte___
@@ -4735,54 +4686,6 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.SessionId
   nameWithType: SessionPollingService.SessionId
-- uid: ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.SubmitSubTasks(System.String,IEnumerable{System.Byte[]})
-  name: SubmitSubTasks(String, IEnumerable<Byte[]>)
-  href: api/ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.html#ArmoniK_DevelopmentKit_SymphonyApi_api_SessionPollingService_SubmitSubTasks_System_String_IEnumerable_System_Byte____
-  commentId: M:ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.SubmitSubTasks(System.String,IEnumerable{System.Byte[]})
-  name.vb: SubmitSubTasks(String, IEnumerable(Of Byte()))
-  fullName: ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.SubmitSubTasks(System.String, IEnumerable<System.Byte[]>)
-  fullName.vb: ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.SubmitSubTasks(System.String, IEnumerable(Of System.Byte()))
-  nameWithType: SessionPollingService.SubmitSubTasks(String, IEnumerable<Byte[]>)
-  nameWithType.vb: SessionPollingService.SubmitSubTasks(String, IEnumerable(Of Byte()))
-- uid: ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.SubmitSubTasks*
-  name: SubmitSubTasks
-  href: api/ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.html#ArmoniK_DevelopmentKit_SymphonyApi_api_SessionPollingService_SubmitSubTasks_
-  commentId: Overload:ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.SubmitSubTasks
-  isSpec: "True"
-  fullName: ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.SubmitSubTasks
-  nameWithType: SessionPollingService.SubmitSubTasks
-- uid: ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.SubmitSubtasksWithDependencies(System.String,IEnumerable{Tuple{System.Byte[],IList{System.String}}})
-  name: SubmitSubtasksWithDependencies(String, IEnumerable<Tuple<Byte[], IList<String>>>)
-  href: api/ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.html#ArmoniK_DevelopmentKit_SymphonyApi_api_SessionPollingService_SubmitSubtasksWithDependencies_System_String_IEnumerable_Tuple_System_Byte___IList_System_String____
-  commentId: M:ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.SubmitSubtasksWithDependencies(System.String,IEnumerable{Tuple{System.Byte[],IList{System.String}}})
-  name.vb: SubmitSubtasksWithDependencies(String, IEnumerable(Of Tuple(Of Byte(), IList(Of String))))
-  fullName: ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.SubmitSubtasksWithDependencies(System.String, IEnumerable<Tuple<System.Byte[], IList<System.String>>>)
-  fullName.vb: ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.SubmitSubtasksWithDependencies(System.String, IEnumerable(Of Tuple(Of System.Byte(), IList(Of System.String))))
-  nameWithType: SessionPollingService.SubmitSubtasksWithDependencies(String, IEnumerable<Tuple<Byte[], IList<String>>>)
-  nameWithType.vb: SessionPollingService.SubmitSubtasksWithDependencies(String, IEnumerable(Of Tuple(Of Byte(), IList(Of String))))
-- uid: ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.SubmitSubtasksWithDependencies*
-  name: SubmitSubtasksWithDependencies
-  href: api/ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.html#ArmoniK_DevelopmentKit_SymphonyApi_api_SessionPollingService_SubmitSubtasksWithDependencies_
-  commentId: Overload:ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.SubmitSubtasksWithDependencies
-  isSpec: "True"
-  fullName: ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.SubmitSubtasksWithDependencies
-  nameWithType: SessionPollingService.SubmitSubtasksWithDependencies
-- uid: ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.SubmitSubtaskWithDependencies(System.String,System.Byte[],IList{System.String})
-  name: SubmitSubtaskWithDependencies(String, Byte[], IList<String>)
-  href: api/ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.html#ArmoniK_DevelopmentKit_SymphonyApi_api_SessionPollingService_SubmitSubtaskWithDependencies_System_String_System_Byte___IList_System_String__
-  commentId: M:ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.SubmitSubtaskWithDependencies(System.String,System.Byte[],IList{System.String})
-  name.vb: SubmitSubtaskWithDependencies(String, Byte(), IList(Of String))
-  fullName: ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.SubmitSubtaskWithDependencies(System.String, System.Byte[], IList<System.String>)
-  fullName.vb: ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.SubmitSubtaskWithDependencies(System.String, System.Byte(), IList(Of System.String))
-  nameWithType: SessionPollingService.SubmitSubtaskWithDependencies(String, Byte[], IList<String>)
-  nameWithType.vb: SessionPollingService.SubmitSubtaskWithDependencies(String, Byte(), IList(Of String))
-- uid: ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.SubmitSubtaskWithDependencies*
-  name: SubmitSubtaskWithDependencies
-  href: api/ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.html#ArmoniK_DevelopmentKit_SymphonyApi_api_SessionPollingService_SubmitSubtaskWithDependencies_
-  commentId: Overload:ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.SubmitSubtaskWithDependencies
-  isSpec: "True"
-  fullName: ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.SubmitSubtaskWithDependencies
-  nameWithType: SessionPollingService.SubmitSubtaskWithDependencies
 - uid: ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.SubmitTasks(IEnumerable{System.Byte[]})
   name: SubmitTasks(IEnumerable<Byte[]>)
   href: api/ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.html#ArmoniK_DevelopmentKit_SymphonyApi_api_SessionPollingService_SubmitTasks_IEnumerable_System_Byte____
@@ -4860,22 +4763,6 @@ references:
   commentId: T:ArmoniK.DevelopmentKit.SymphonyApi.api.SessionServiceExt
   fullName: ArmoniK.DevelopmentKit.SymphonyApi.api.SessionServiceExt
   nameWithType: SessionServiceExt
-- uid: ArmoniK.DevelopmentKit.SymphonyApi.api.SessionServiceExt.SubmitSubTask(ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService,System.String,System.Byte[])
-  name: SubmitSubTask(SessionPollingService, String, Byte[])
-  href: api/ArmoniK.DevelopmentKit.SymphonyApi.api.SessionServiceExt.html#ArmoniK_DevelopmentKit_SymphonyApi_api_SessionServiceExt_SubmitSubTask_ArmoniK_DevelopmentKit_SymphonyApi_api_SessionPollingService_System_String_System_Byte___
-  commentId: M:ArmoniK.DevelopmentKit.SymphonyApi.api.SessionServiceExt.SubmitSubTask(ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService,System.String,System.Byte[])
-  name.vb: SubmitSubTask(SessionPollingService, String, Byte())
-  fullName: ArmoniK.DevelopmentKit.SymphonyApi.api.SessionServiceExt.SubmitSubTask(ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService, System.String, System.Byte[])
-  fullName.vb: ArmoniK.DevelopmentKit.SymphonyApi.api.SessionServiceExt.SubmitSubTask(ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService, System.String, System.Byte())
-  nameWithType: SessionServiceExt.SubmitSubTask(SessionPollingService, String, Byte[])
-  nameWithType.vb: SessionServiceExt.SubmitSubTask(SessionPollingService, String, Byte())
-- uid: ArmoniK.DevelopmentKit.SymphonyApi.api.SessionServiceExt.SubmitSubTask*
-  name: SubmitSubTask
-  href: api/ArmoniK.DevelopmentKit.SymphonyApi.api.SessionServiceExt.html#ArmoniK_DevelopmentKit_SymphonyApi_api_SessionServiceExt_SubmitSubTask_
-  commentId: Overload:ArmoniK.DevelopmentKit.SymphonyApi.api.SessionServiceExt.SubmitSubTask
-  isSpec: "True"
-  fullName: ArmoniK.DevelopmentKit.SymphonyApi.api.SessionServiceExt.SubmitSubTask
-  nameWithType: SessionServiceExt.SubmitSubTask
 - uid: ArmoniK.DevelopmentKit.SymphonyApi.api.SessionServiceExt.SubmitTask(ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService,System.Byte[])
   name: SubmitTask(SessionPollingService, Byte[])
   href: api/ArmoniK.DevelopmentKit.SymphonyApi.api.SessionServiceExt.html#ArmoniK_DevelopmentKit_SymphonyApi_api_SessionServiceExt_SubmitTask_ArmoniK_DevelopmentKit_SymphonyApi_api_SessionPollingService_System_Byte___
@@ -6232,38 +6119,6 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.Worker.Grid.SessionPollingService.SessionId
   nameWithType: SessionPollingService.SessionId
-- uid: ArmoniK.DevelopmentKit.Worker.Grid.SessionPollingService.SubmitSubtasksWithDependencies(System.String,IEnumerable{Tuple{System.Byte[],IList{System.String}}})
-  name: SubmitSubtasksWithDependencies(String, IEnumerable<Tuple<Byte[], IList<String>>>)
-  href: api/ArmoniK.DevelopmentKit.Worker.Grid.SessionPollingService.html#ArmoniK_DevelopmentKit_Worker_Grid_SessionPollingService_SubmitSubtasksWithDependencies_System_String_IEnumerable_Tuple_System_Byte___IList_System_String____
-  commentId: M:ArmoniK.DevelopmentKit.Worker.Grid.SessionPollingService.SubmitSubtasksWithDependencies(System.String,IEnumerable{Tuple{System.Byte[],IList{System.String}}})
-  name.vb: SubmitSubtasksWithDependencies(String, IEnumerable(Of Tuple(Of Byte(), IList(Of String))))
-  fullName: ArmoniK.DevelopmentKit.Worker.Grid.SessionPollingService.SubmitSubtasksWithDependencies(System.String, IEnumerable<Tuple<System.Byte[], IList<System.String>>>)
-  fullName.vb: ArmoniK.DevelopmentKit.Worker.Grid.SessionPollingService.SubmitSubtasksWithDependencies(System.String, IEnumerable(Of Tuple(Of System.Byte(), IList(Of System.String))))
-  nameWithType: SessionPollingService.SubmitSubtasksWithDependencies(String, IEnumerable<Tuple<Byte[], IList<String>>>)
-  nameWithType.vb: SessionPollingService.SubmitSubtasksWithDependencies(String, IEnumerable(Of Tuple(Of Byte(), IList(Of String))))
-- uid: ArmoniK.DevelopmentKit.Worker.Grid.SessionPollingService.SubmitSubtasksWithDependencies*
-  name: SubmitSubtasksWithDependencies
-  href: api/ArmoniK.DevelopmentKit.Worker.Grid.SessionPollingService.html#ArmoniK_DevelopmentKit_Worker_Grid_SessionPollingService_SubmitSubtasksWithDependencies_
-  commentId: Overload:ArmoniK.DevelopmentKit.Worker.Grid.SessionPollingService.SubmitSubtasksWithDependencies
-  isSpec: "True"
-  fullName: ArmoniK.DevelopmentKit.Worker.Grid.SessionPollingService.SubmitSubtasksWithDependencies
-  nameWithType: SessionPollingService.SubmitSubtasksWithDependencies
-- uid: ArmoniK.DevelopmentKit.Worker.Grid.SessionPollingService.SubmitSubtaskWithDependencies(System.String,System.Byte[],IList{System.String})
-  name: SubmitSubtaskWithDependencies(String, Byte[], IList<String>)
-  href: api/ArmoniK.DevelopmentKit.Worker.Grid.SessionPollingService.html#ArmoniK_DevelopmentKit_Worker_Grid_SessionPollingService_SubmitSubtaskWithDependencies_System_String_System_Byte___IList_System_String__
-  commentId: M:ArmoniK.DevelopmentKit.Worker.Grid.SessionPollingService.SubmitSubtaskWithDependencies(System.String,System.Byte[],IList{System.String})
-  name.vb: SubmitSubtaskWithDependencies(String, Byte(), IList(Of String))
-  fullName: ArmoniK.DevelopmentKit.Worker.Grid.SessionPollingService.SubmitSubtaskWithDependencies(System.String, System.Byte[], IList<System.String>)
-  fullName.vb: ArmoniK.DevelopmentKit.Worker.Grid.SessionPollingService.SubmitSubtaskWithDependencies(System.String, System.Byte(), IList(Of System.String))
-  nameWithType: SessionPollingService.SubmitSubtaskWithDependencies(String, Byte[], IList<String>)
-  nameWithType.vb: SessionPollingService.SubmitSubtaskWithDependencies(String, Byte(), IList(Of String))
-- uid: ArmoniK.DevelopmentKit.Worker.Grid.SessionPollingService.SubmitSubtaskWithDependencies*
-  name: SubmitSubtaskWithDependencies
-  href: api/ArmoniK.DevelopmentKit.Worker.Grid.SessionPollingService.html#ArmoniK_DevelopmentKit_Worker_Grid_SessionPollingService_SubmitSubtaskWithDependencies_
-  commentId: Overload:ArmoniK.DevelopmentKit.Worker.Grid.SessionPollingService.SubmitSubtaskWithDependencies
-  isSpec: "True"
-  fullName: ArmoniK.DevelopmentKit.Worker.Grid.SessionPollingService.SubmitSubtaskWithDependencies
-  nameWithType: SessionPollingService.SubmitSubtaskWithDependencies
 - uid: ArmoniK.DevelopmentKit.Worker.Grid.SessionPollingService.SubmitTasks(IEnumerable{System.Byte[]})
   name: SubmitTasks(IEnumerable<Byte[]>)
   href: api/ArmoniK.DevelopmentKit.Worker.Grid.SessionPollingService.html#ArmoniK_DevelopmentKit_Worker_Grid_SessionPollingService_SubmitTasks_IEnumerable_System_Byte____
@@ -7347,44 +7202,6 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.WorkerApi.Common.ZipArchiver.UnzipArchive
   nameWithType: ZipArchiver.UnzipArchive
-- uid: ArmoniK.DevelopmentKit.WorkerApi.Program
-  name: Program
-  href: api/ArmoniK.DevelopmentKit.WorkerApi.Program.html
-  commentId: T:ArmoniK.DevelopmentKit.WorkerApi.Program
-  fullName: ArmoniK.DevelopmentKit.WorkerApi.Program
-  nameWithType: Program
-- uid: ArmoniK.DevelopmentKit.WorkerApi.Program.CreateHostBuilder(System.String[])
-  name: CreateHostBuilder(String[])
-  href: api/ArmoniK.DevelopmentKit.WorkerApi.Program.html#ArmoniK_DevelopmentKit_WorkerApi_Program_CreateHostBuilder_System_String___
-  commentId: M:ArmoniK.DevelopmentKit.WorkerApi.Program.CreateHostBuilder(System.String[])
-  name.vb: CreateHostBuilder(String())
-  fullName: ArmoniK.DevelopmentKit.WorkerApi.Program.CreateHostBuilder(System.String[])
-  fullName.vb: ArmoniK.DevelopmentKit.WorkerApi.Program.CreateHostBuilder(System.String())
-  nameWithType: Program.CreateHostBuilder(String[])
-  nameWithType.vb: Program.CreateHostBuilder(String())
-- uid: ArmoniK.DevelopmentKit.WorkerApi.Program.CreateHostBuilder*
-  name: CreateHostBuilder
-  href: api/ArmoniK.DevelopmentKit.WorkerApi.Program.html#ArmoniK_DevelopmentKit_WorkerApi_Program_CreateHostBuilder_
-  commentId: Overload:ArmoniK.DevelopmentKit.WorkerApi.Program.CreateHostBuilder
-  isSpec: "True"
-  fullName: ArmoniK.DevelopmentKit.WorkerApi.Program.CreateHostBuilder
-  nameWithType: Program.CreateHostBuilder
-- uid: ArmoniK.DevelopmentKit.WorkerApi.Program.Main(System.String[])
-  name: Main(String[])
-  href: api/ArmoniK.DevelopmentKit.WorkerApi.Program.html#ArmoniK_DevelopmentKit_WorkerApi_Program_Main_System_String___
-  commentId: M:ArmoniK.DevelopmentKit.WorkerApi.Program.Main(System.String[])
-  name.vb: Main(String())
-  fullName: ArmoniK.DevelopmentKit.WorkerApi.Program.Main(System.String[])
-  fullName.vb: ArmoniK.DevelopmentKit.WorkerApi.Program.Main(System.String())
-  nameWithType: Program.Main(String[])
-  nameWithType.vb: Program.Main(String())
-- uid: ArmoniK.DevelopmentKit.WorkerApi.Program.Main*
-  name: Main
-  href: api/ArmoniK.DevelopmentKit.WorkerApi.Program.html#ArmoniK_DevelopmentKit_WorkerApi_Program_Main_
-  commentId: Overload:ArmoniK.DevelopmentKit.WorkerApi.Program.Main
-  isSpec: "True"
-  fullName: ArmoniK.DevelopmentKit.WorkerApi.Program.Main
-  nameWithType: Program.Main
 - uid: ArmoniK.DevelopmentKit.WorkerApi.ServiceId
   name: ServiceId
   href: api/ArmoniK.DevelopmentKit.WorkerApi.ServiceId.html
@@ -7613,77 +7430,6 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.WorkerApi.Services.ComputerService.ServiceRequestContext
   nameWithType: ComputerService.ServiceRequestContext
-- uid: ArmoniK.DevelopmentKit.WorkerApi.Startup
-  name: Startup
-  href: api/ArmoniK.DevelopmentKit.WorkerApi.Startup.html
-  commentId: T:ArmoniK.DevelopmentKit.WorkerApi.Startup
-  fullName: ArmoniK.DevelopmentKit.WorkerApi.Startup
-  nameWithType: Startup
-- uid: ArmoniK.DevelopmentKit.WorkerApi.Startup.#ctor(IWebHostEnvironment)
-  name: Startup(IWebHostEnvironment)
-  href: api/ArmoniK.DevelopmentKit.WorkerApi.Startup.html#ArmoniK_DevelopmentKit_WorkerApi_Startup__ctor_IWebHostEnvironment_
-  commentId: M:ArmoniK.DevelopmentKit.WorkerApi.Startup.#ctor(IWebHostEnvironment)
-  fullName: ArmoniK.DevelopmentKit.WorkerApi.Startup.Startup(IWebHostEnvironment)
-  nameWithType: Startup.Startup(IWebHostEnvironment)
-- uid: ArmoniK.DevelopmentKit.WorkerApi.Startup.#ctor*
-  name: Startup
-  href: api/ArmoniK.DevelopmentKit.WorkerApi.Startup.html#ArmoniK_DevelopmentKit_WorkerApi_Startup__ctor_
-  commentId: Overload:ArmoniK.DevelopmentKit.WorkerApi.Startup.#ctor
-  isSpec: "True"
-  fullName: ArmoniK.DevelopmentKit.WorkerApi.Startup.Startup
-  nameWithType: Startup.Startup
-- uid: ArmoniK.DevelopmentKit.WorkerApi.Startup.Configuration
-  name: Configuration
-  href: api/ArmoniK.DevelopmentKit.WorkerApi.Startup.html#ArmoniK_DevelopmentKit_WorkerApi_Startup_Configuration
-  commentId: P:ArmoniK.DevelopmentKit.WorkerApi.Startup.Configuration
-  fullName: ArmoniK.DevelopmentKit.WorkerApi.Startup.Configuration
-  nameWithType: Startup.Configuration
-- uid: ArmoniK.DevelopmentKit.WorkerApi.Startup.Configuration*
-  name: Configuration
-  href: api/ArmoniK.DevelopmentKit.WorkerApi.Startup.html#ArmoniK_DevelopmentKit_WorkerApi_Startup_Configuration_
-  commentId: Overload:ArmoniK.DevelopmentKit.WorkerApi.Startup.Configuration
-  isSpec: "True"
-  fullName: ArmoniK.DevelopmentKit.WorkerApi.Startup.Configuration
-  nameWithType: Startup.Configuration
-- uid: ArmoniK.DevelopmentKit.WorkerApi.Startup.Configure(IApplicationBuilder,IWebHostEnvironment)
-  name: Configure(IApplicationBuilder, IWebHostEnvironment)
-  href: api/ArmoniK.DevelopmentKit.WorkerApi.Startup.html#ArmoniK_DevelopmentKit_WorkerApi_Startup_Configure_IApplicationBuilder_IWebHostEnvironment_
-  commentId: M:ArmoniK.DevelopmentKit.WorkerApi.Startup.Configure(IApplicationBuilder,IWebHostEnvironment)
-  fullName: ArmoniK.DevelopmentKit.WorkerApi.Startup.Configure(IApplicationBuilder, IWebHostEnvironment)
-  nameWithType: Startup.Configure(IApplicationBuilder, IWebHostEnvironment)
-- uid: ArmoniK.DevelopmentKit.WorkerApi.Startup.Configure*
-  name: Configure
-  href: api/ArmoniK.DevelopmentKit.WorkerApi.Startup.html#ArmoniK_DevelopmentKit_WorkerApi_Startup_Configure_
-  commentId: Overload:ArmoniK.DevelopmentKit.WorkerApi.Startup.Configure
-  isSpec: "True"
-  fullName: ArmoniK.DevelopmentKit.WorkerApi.Startup.Configure
-  nameWithType: Startup.Configure
-- uid: ArmoniK.DevelopmentKit.WorkerApi.Startup.ConfigureServices(IServiceCollection)
-  name: ConfigureServices(IServiceCollection)
-  href: api/ArmoniK.DevelopmentKit.WorkerApi.Startup.html#ArmoniK_DevelopmentKit_WorkerApi_Startup_ConfigureServices_IServiceCollection_
-  commentId: M:ArmoniK.DevelopmentKit.WorkerApi.Startup.ConfigureServices(IServiceCollection)
-  fullName: ArmoniK.DevelopmentKit.WorkerApi.Startup.ConfigureServices(IServiceCollection)
-  nameWithType: Startup.ConfigureServices(IServiceCollection)
-- uid: ArmoniK.DevelopmentKit.WorkerApi.Startup.ConfigureServices*
-  name: ConfigureServices
-  href: api/ArmoniK.DevelopmentKit.WorkerApi.Startup.html#ArmoniK_DevelopmentKit_WorkerApi_Startup_ConfigureServices_
-  commentId: Overload:ArmoniK.DevelopmentKit.WorkerApi.Startup.ConfigureServices
-  isSpec: "True"
-  fullName: ArmoniK.DevelopmentKit.WorkerApi.Startup.ConfigureServices
-  nameWithType: Startup.ConfigureServices
-- uid: ArmoniK.DevelopmentKit.WorkerApi.Startup.LoggerFactory
-  name: LoggerFactory
-  href: api/ArmoniK.DevelopmentKit.WorkerApi.Startup.html#ArmoniK_DevelopmentKit_WorkerApi_Startup_LoggerFactory
-  commentId: P:ArmoniK.DevelopmentKit.WorkerApi.Startup.LoggerFactory
-  fullName: ArmoniK.DevelopmentKit.WorkerApi.Startup.LoggerFactory
-  nameWithType: Startup.LoggerFactory
-- uid: ArmoniK.DevelopmentKit.WorkerApi.Startup.LoggerFactory*
-  name: LoggerFactory
-  href: api/ArmoniK.DevelopmentKit.WorkerApi.Startup.html#ArmoniK_DevelopmentKit_WorkerApi_Startup_LoggerFactory_
-  commentId: Overload:ArmoniK.DevelopmentKit.WorkerApi.Startup.LoggerFactory
-  isSpec: "True"
-  fullName: ArmoniK.DevelopmentKit.WorkerApi.Startup.LoggerFactory
-  nameWithType: Startup.LoggerFactory
 - uid: ArmoniK.EndToEndTests
   name: ArmoniK.EndToEndTests
   href: api/ArmoniK.EndToEndTests.html
@@ -8742,128 +8488,6 @@ references:
   isSpec: "True"
   fullName: ArmoniK.EndToEndTests.Tests.CheckMultipleTasks.ServiceContainer.OnSessionLeave
   nameWithType: ServiceContainer.OnSessionLeave
-- uid: ArmoniK.EndToEndTests.Tests.CheckPriority
-  name: ArmoniK.EndToEndTests.Tests.CheckPriority
-  href: api/ArmoniK.EndToEndTests.Tests.CheckPriority.html
-  commentId: N:ArmoniK.EndToEndTests.Tests.CheckPriority
-  fullName: ArmoniK.EndToEndTests.Tests.CheckPriority
-  nameWithType: ArmoniK.EndToEndTests.Tests.CheckPriority
-- uid: ArmoniK.EndToEndTests.Tests.CheckPriority.CheckPriorityTestsClient
-  name: CheckPriorityTestsClient
-  href: api/ArmoniK.EndToEndTests.Tests.CheckPriority.CheckPriorityTestsClient.html
-  commentId: T:ArmoniK.EndToEndTests.Tests.CheckPriority.CheckPriorityTestsClient
-  fullName: ArmoniK.EndToEndTests.Tests.CheckPriority.CheckPriorityTestsClient
-  nameWithType: CheckPriorityTestsClient
-- uid: ArmoniK.EndToEndTests.Tests.CheckPriority.CheckPriorityTestsClient.#ctor(IConfiguration,ILoggerFactory)
-  name: CheckPriorityTestsClient(IConfiguration, ILoggerFactory)
-  href: api/ArmoniK.EndToEndTests.Tests.CheckPriority.CheckPriorityTestsClient.html#ArmoniK_EndToEndTests_Tests_CheckPriority_CheckPriorityTestsClient__ctor_IConfiguration_ILoggerFactory_
-  commentId: M:ArmoniK.EndToEndTests.Tests.CheckPriority.CheckPriorityTestsClient.#ctor(IConfiguration,ILoggerFactory)
-  fullName: ArmoniK.EndToEndTests.Tests.CheckPriority.CheckPriorityTestsClient.CheckPriorityTestsClient(IConfiguration, ILoggerFactory)
-  nameWithType: CheckPriorityTestsClient.CheckPriorityTestsClient(IConfiguration, ILoggerFactory)
-- uid: ArmoniK.EndToEndTests.Tests.CheckPriority.CheckPriorityTestsClient.#ctor*
-  name: CheckPriorityTestsClient
-  href: api/ArmoniK.EndToEndTests.Tests.CheckPriority.CheckPriorityTestsClient.html#ArmoniK_EndToEndTests_Tests_CheckPriority_CheckPriorityTestsClient__ctor_
-  commentId: Overload:ArmoniK.EndToEndTests.Tests.CheckPriority.CheckPriorityTestsClient.#ctor
-  isSpec: "True"
-  fullName: ArmoniK.EndToEndTests.Tests.CheckPriority.CheckPriorityTestsClient.CheckPriorityTestsClient
-  nameWithType: CheckPriorityTestsClient.CheckPriorityTestsClient
-- uid: ArmoniK.EndToEndTests.Tests.CheckPriority.CheckPriorityTestsClient.ClientStartup(ArmoniK.DevelopmentKit.SymphonyApi.Client.ArmonikSymphonyClient,System.Int32,System.Int32)
-  name: ClientStartup(ArmonikSymphonyClient, Int32, Int32)
-  href: api/ArmoniK.EndToEndTests.Tests.CheckPriority.CheckPriorityTestsClient.html#ArmoniK_EndToEndTests_Tests_CheckPriority_CheckPriorityTestsClient_ClientStartup_ArmoniK_DevelopmentKit_SymphonyApi_Client_ArmonikSymphonyClient_System_Int32_System_Int32_
-  commentId: M:ArmoniK.EndToEndTests.Tests.CheckPriority.CheckPriorityTestsClient.ClientStartup(ArmoniK.DevelopmentKit.SymphonyApi.Client.ArmonikSymphonyClient,System.Int32,System.Int32)
-  fullName: ArmoniK.EndToEndTests.Tests.CheckPriority.CheckPriorityTestsClient.ClientStartup(ArmoniK.DevelopmentKit.SymphonyApi.Client.ArmonikSymphonyClient, System.Int32, System.Int32)
-  nameWithType: CheckPriorityTestsClient.ClientStartup(ArmonikSymphonyClient, Int32, Int32)
-- uid: ArmoniK.EndToEndTests.Tests.CheckPriority.CheckPriorityTestsClient.ClientStartup*
-  name: ClientStartup
-  href: api/ArmoniK.EndToEndTests.Tests.CheckPriority.CheckPriorityTestsClient.html#ArmoniK_EndToEndTests_Tests_CheckPriority_CheckPriorityTestsClient_ClientStartup_
-  commentId: Overload:ArmoniK.EndToEndTests.Tests.CheckPriority.CheckPriorityTestsClient.ClientStartup
-  isSpec: "True"
-  fullName: ArmoniK.EndToEndTests.Tests.CheckPriority.CheckPriorityTestsClient.ClientStartup
-  nameWithType: CheckPriorityTestsClient.ClientStartup
-- uid: ArmoniK.EndToEndTests.Tests.CheckPriority.CheckPriorityTestsClient.EntryPoint
-  name: EntryPoint()
-  href: api/ArmoniK.EndToEndTests.Tests.CheckPriority.CheckPriorityTestsClient.html#ArmoniK_EndToEndTests_Tests_CheckPriority_CheckPriorityTestsClient_EntryPoint
-  commentId: M:ArmoniK.EndToEndTests.Tests.CheckPriority.CheckPriorityTestsClient.EntryPoint
-  fullName: ArmoniK.EndToEndTests.Tests.CheckPriority.CheckPriorityTestsClient.EntryPoint()
-  nameWithType: CheckPriorityTestsClient.EntryPoint()
-- uid: ArmoniK.EndToEndTests.Tests.CheckPriority.CheckPriorityTestsClient.EntryPoint*
-  name: EntryPoint
-  href: api/ArmoniK.EndToEndTests.Tests.CheckPriority.CheckPriorityTestsClient.html#ArmoniK_EndToEndTests_Tests_CheckPriority_CheckPriorityTestsClient_EntryPoint_
-  commentId: Overload:ArmoniK.EndToEndTests.Tests.CheckPriority.CheckPriorityTestsClient.EntryPoint
-  isSpec: "True"
-  fullName: ArmoniK.EndToEndTests.Tests.CheckPriority.CheckPriorityTestsClient.EntryPoint
-  nameWithType: CheckPriorityTestsClient.EntryPoint
-- uid: ArmoniK.EndToEndTests.Tests.CheckPriority.ServiceContainer
-  name: ServiceContainer
-  href: api/ArmoniK.EndToEndTests.Tests.CheckPriority.ServiceContainer.html
-  commentId: T:ArmoniK.EndToEndTests.Tests.CheckPriority.ServiceContainer
-  fullName: ArmoniK.EndToEndTests.Tests.CheckPriority.ServiceContainer
-  nameWithType: ServiceContainer
-- uid: ArmoniK.EndToEndTests.Tests.CheckPriority.ServiceContainer.OnCreateService(ArmoniK.DevelopmentKit.SymphonyApi.ServiceContext)
-  name: OnCreateService(ServiceContext)
-  href: api/ArmoniK.EndToEndTests.Tests.CheckPriority.ServiceContainer.html#ArmoniK_EndToEndTests_Tests_CheckPriority_ServiceContainer_OnCreateService_ArmoniK_DevelopmentKit_SymphonyApi_ServiceContext_
-  commentId: M:ArmoniK.EndToEndTests.Tests.CheckPriority.ServiceContainer.OnCreateService(ArmoniK.DevelopmentKit.SymphonyApi.ServiceContext)
-  fullName: ArmoniK.EndToEndTests.Tests.CheckPriority.ServiceContainer.OnCreateService(ArmoniK.DevelopmentKit.SymphonyApi.ServiceContext)
-  nameWithType: ServiceContainer.OnCreateService(ServiceContext)
-- uid: ArmoniK.EndToEndTests.Tests.CheckPriority.ServiceContainer.OnCreateService*
-  name: OnCreateService
-  href: api/ArmoniK.EndToEndTests.Tests.CheckPriority.ServiceContainer.html#ArmoniK_EndToEndTests_Tests_CheckPriority_ServiceContainer_OnCreateService_
-  commentId: Overload:ArmoniK.EndToEndTests.Tests.CheckPriority.ServiceContainer.OnCreateService
-  isSpec: "True"
-  fullName: ArmoniK.EndToEndTests.Tests.CheckPriority.ServiceContainer.OnCreateService
-  nameWithType: ServiceContainer.OnCreateService
-- uid: ArmoniK.EndToEndTests.Tests.CheckPriority.ServiceContainer.OnDestroyService(ArmoniK.DevelopmentKit.SymphonyApi.ServiceContext)
-  name: OnDestroyService(ServiceContext)
-  href: api/ArmoniK.EndToEndTests.Tests.CheckPriority.ServiceContainer.html#ArmoniK_EndToEndTests_Tests_CheckPriority_ServiceContainer_OnDestroyService_ArmoniK_DevelopmentKit_SymphonyApi_ServiceContext_
-  commentId: M:ArmoniK.EndToEndTests.Tests.CheckPriority.ServiceContainer.OnDestroyService(ArmoniK.DevelopmentKit.SymphonyApi.ServiceContext)
-  fullName: ArmoniK.EndToEndTests.Tests.CheckPriority.ServiceContainer.OnDestroyService(ArmoniK.DevelopmentKit.SymphonyApi.ServiceContext)
-  nameWithType: ServiceContainer.OnDestroyService(ServiceContext)
-- uid: ArmoniK.EndToEndTests.Tests.CheckPriority.ServiceContainer.OnDestroyService*
-  name: OnDestroyService
-  href: api/ArmoniK.EndToEndTests.Tests.CheckPriority.ServiceContainer.html#ArmoniK_EndToEndTests_Tests_CheckPriority_ServiceContainer_OnDestroyService_
-  commentId: Overload:ArmoniK.EndToEndTests.Tests.CheckPriority.ServiceContainer.OnDestroyService
-  isSpec: "True"
-  fullName: ArmoniK.EndToEndTests.Tests.CheckPriority.ServiceContainer.OnDestroyService
-  nameWithType: ServiceContainer.OnDestroyService
-- uid: ArmoniK.EndToEndTests.Tests.CheckPriority.ServiceContainer.OnInvoke(ArmoniK.DevelopmentKit.SymphonyApi.SessionContext,ArmoniK.DevelopmentKit.SymphonyApi.TaskContext)
-  name: OnInvoke(SessionContext, TaskContext)
-  href: api/ArmoniK.EndToEndTests.Tests.CheckPriority.ServiceContainer.html#ArmoniK_EndToEndTests_Tests_CheckPriority_ServiceContainer_OnInvoke_ArmoniK_DevelopmentKit_SymphonyApi_SessionContext_ArmoniK_DevelopmentKit_SymphonyApi_TaskContext_
-  commentId: M:ArmoniK.EndToEndTests.Tests.CheckPriority.ServiceContainer.OnInvoke(ArmoniK.DevelopmentKit.SymphonyApi.SessionContext,ArmoniK.DevelopmentKit.SymphonyApi.TaskContext)
-  fullName: ArmoniK.EndToEndTests.Tests.CheckPriority.ServiceContainer.OnInvoke(ArmoniK.DevelopmentKit.SymphonyApi.SessionContext, ArmoniK.DevelopmentKit.SymphonyApi.TaskContext)
-  nameWithType: ServiceContainer.OnInvoke(SessionContext, TaskContext)
-- uid: ArmoniK.EndToEndTests.Tests.CheckPriority.ServiceContainer.OnInvoke*
-  name: OnInvoke
-  href: api/ArmoniK.EndToEndTests.Tests.CheckPriority.ServiceContainer.html#ArmoniK_EndToEndTests_Tests_CheckPriority_ServiceContainer_OnInvoke_
-  commentId: Overload:ArmoniK.EndToEndTests.Tests.CheckPriority.ServiceContainer.OnInvoke
-  isSpec: "True"
-  fullName: ArmoniK.EndToEndTests.Tests.CheckPriority.ServiceContainer.OnInvoke
-  nameWithType: ServiceContainer.OnInvoke
-- uid: ArmoniK.EndToEndTests.Tests.CheckPriority.ServiceContainer.OnSessionEnter(ArmoniK.DevelopmentKit.SymphonyApi.SessionContext)
-  name: OnSessionEnter(SessionContext)
-  href: api/ArmoniK.EndToEndTests.Tests.CheckPriority.ServiceContainer.html#ArmoniK_EndToEndTests_Tests_CheckPriority_ServiceContainer_OnSessionEnter_ArmoniK_DevelopmentKit_SymphonyApi_SessionContext_
-  commentId: M:ArmoniK.EndToEndTests.Tests.CheckPriority.ServiceContainer.OnSessionEnter(ArmoniK.DevelopmentKit.SymphonyApi.SessionContext)
-  fullName: ArmoniK.EndToEndTests.Tests.CheckPriority.ServiceContainer.OnSessionEnter(ArmoniK.DevelopmentKit.SymphonyApi.SessionContext)
-  nameWithType: ServiceContainer.OnSessionEnter(SessionContext)
-- uid: ArmoniK.EndToEndTests.Tests.CheckPriority.ServiceContainer.OnSessionEnter*
-  name: OnSessionEnter
-  href: api/ArmoniK.EndToEndTests.Tests.CheckPriority.ServiceContainer.html#ArmoniK_EndToEndTests_Tests_CheckPriority_ServiceContainer_OnSessionEnter_
-  commentId: Overload:ArmoniK.EndToEndTests.Tests.CheckPriority.ServiceContainer.OnSessionEnter
-  isSpec: "True"
-  fullName: ArmoniK.EndToEndTests.Tests.CheckPriority.ServiceContainer.OnSessionEnter
-  nameWithType: ServiceContainer.OnSessionEnter
-- uid: ArmoniK.EndToEndTests.Tests.CheckPriority.ServiceContainer.OnSessionLeave(ArmoniK.DevelopmentKit.SymphonyApi.SessionContext)
-  name: OnSessionLeave(SessionContext)
-  href: api/ArmoniK.EndToEndTests.Tests.CheckPriority.ServiceContainer.html#ArmoniK_EndToEndTests_Tests_CheckPriority_ServiceContainer_OnSessionLeave_ArmoniK_DevelopmentKit_SymphonyApi_SessionContext_
-  commentId: M:ArmoniK.EndToEndTests.Tests.CheckPriority.ServiceContainer.OnSessionLeave(ArmoniK.DevelopmentKit.SymphonyApi.SessionContext)
-  fullName: ArmoniK.EndToEndTests.Tests.CheckPriority.ServiceContainer.OnSessionLeave(ArmoniK.DevelopmentKit.SymphonyApi.SessionContext)
-  nameWithType: ServiceContainer.OnSessionLeave(SessionContext)
-- uid: ArmoniK.EndToEndTests.Tests.CheckPriority.ServiceContainer.OnSessionLeave*
-  name: OnSessionLeave
-  href: api/ArmoniK.EndToEndTests.Tests.CheckPriority.ServiceContainer.html#ArmoniK_EndToEndTests_Tests_CheckPriority_ServiceContainer_OnSessionLeave_
-  commentId: Overload:ArmoniK.EndToEndTests.Tests.CheckPriority.ServiceContainer.OnSessionLeave
-  isSpec: "True"
-  fullName: ArmoniK.EndToEndTests.Tests.CheckPriority.ServiceContainer.OnSessionLeave
-  nameWithType: ServiceContainer.OnSessionLeave
 - uid: ArmoniK.EndToEndTests.Tests.CheckRandomException
   name: ArmoniK.EndToEndTests.Tests.CheckRandomException
   href: api/ArmoniK.EndToEndTests.Tests.CheckRandomException.html
@@ -9385,19 +9009,6 @@ references:
   commentId: T:ArmoniK.EndToEndTests.Tests.CheckTypeOfSubmission.ServiceContainer
   fullName: ArmoniK.EndToEndTests.Tests.CheckTypeOfSubmission.ServiceContainer
   nameWithType: ServiceContainer
-- uid: ArmoniK.EndToEndTests.Tests.CheckTypeOfSubmission.ServiceContainer.ComputeSum(ArmoniK.DevelopmentKit.SymphonyApi.TaskContext,ArmoniK.EndToEndTests.Common.ClientPayload)
-  name: ComputeSum(TaskContext, ClientPayload)
-  href: api/ArmoniK.EndToEndTests.Tests.CheckTypeOfSubmission.ServiceContainer.html#ArmoniK_EndToEndTests_Tests_CheckTypeOfSubmission_ServiceContainer_ComputeSum_ArmoniK_DevelopmentKit_SymphonyApi_TaskContext_ArmoniK_EndToEndTests_Common_ClientPayload_
-  commentId: M:ArmoniK.EndToEndTests.Tests.CheckTypeOfSubmission.ServiceContainer.ComputeSum(ArmoniK.DevelopmentKit.SymphonyApi.TaskContext,ArmoniK.EndToEndTests.Common.ClientPayload)
-  fullName: ArmoniK.EndToEndTests.Tests.CheckTypeOfSubmission.ServiceContainer.ComputeSum(ArmoniK.DevelopmentKit.SymphonyApi.TaskContext, ArmoniK.EndToEndTests.Common.ClientPayload)
-  nameWithType: ServiceContainer.ComputeSum(TaskContext, ClientPayload)
-- uid: ArmoniK.EndToEndTests.Tests.CheckTypeOfSubmission.ServiceContainer.ComputeSum*
-  name: ComputeSum
-  href: api/ArmoniK.EndToEndTests.Tests.CheckTypeOfSubmission.ServiceContainer.html#ArmoniK_EndToEndTests_Tests_CheckTypeOfSubmission_ServiceContainer_ComputeSum_
-  commentId: Overload:ArmoniK.EndToEndTests.Tests.CheckTypeOfSubmission.ServiceContainer.ComputeSum
-  isSpec: "True"
-  fullName: ArmoniK.EndToEndTests.Tests.CheckTypeOfSubmission.ServiceContainer.ComputeSum
-  nameWithType: ServiceContainer.ComputeSum
 - uid: ArmoniK.EndToEndTests.Tests.CheckTypeOfSubmission.ServiceContainer.OnCreateService(ArmoniK.DevelopmentKit.SymphonyApi.ServiceContext)
   name: OnCreateService(ServiceContext)
   href: api/ArmoniK.EndToEndTests.Tests.CheckTypeOfSubmission.ServiceContainer.html#ArmoniK_EndToEndTests_Tests_CheckTypeOfSubmission_ServiceContainer_OnCreateService_ArmoniK_DevelopmentKit_SymphonyApi_ServiceContext_
@@ -9711,19 +9322,6 @@ references:
   commentId: T:ArmoniK.EndToEndTests.Tests.SimpleComputeNSubtasking.ServiceContainer
   fullName: ArmoniK.EndToEndTests.Tests.SimpleComputeNSubtasking.ServiceContainer
   nameWithType: ServiceContainer
-- uid: ArmoniK.EndToEndTests.Tests.SimpleComputeNSubtasking.ServiceContainer.ComputeCube(ArmoniK.DevelopmentKit.SymphonyApi.TaskContext,ArmoniK.EndToEndTests.Common.ClientPayload)
-  name: ComputeCube(TaskContext, ClientPayload)
-  href: api/ArmoniK.EndToEndTests.Tests.SimpleComputeNSubtasking.ServiceContainer.html#ArmoniK_EndToEndTests_Tests_SimpleComputeNSubtasking_ServiceContainer_ComputeCube_ArmoniK_DevelopmentKit_SymphonyApi_TaskContext_ArmoniK_EndToEndTests_Common_ClientPayload_
-  commentId: M:ArmoniK.EndToEndTests.Tests.SimpleComputeNSubtasking.ServiceContainer.ComputeCube(ArmoniK.DevelopmentKit.SymphonyApi.TaskContext,ArmoniK.EndToEndTests.Common.ClientPayload)
-  fullName: ArmoniK.EndToEndTests.Tests.SimpleComputeNSubtasking.ServiceContainer.ComputeCube(ArmoniK.DevelopmentKit.SymphonyApi.TaskContext, ArmoniK.EndToEndTests.Common.ClientPayload)
-  nameWithType: ServiceContainer.ComputeCube(TaskContext, ClientPayload)
-- uid: ArmoniK.EndToEndTests.Tests.SimpleComputeNSubtasking.ServiceContainer.ComputeCube*
-  name: ComputeCube
-  href: api/ArmoniK.EndToEndTests.Tests.SimpleComputeNSubtasking.ServiceContainer.html#ArmoniK_EndToEndTests_Tests_SimpleComputeNSubtasking_ServiceContainer_ComputeCube_
-  commentId: Overload:ArmoniK.EndToEndTests.Tests.SimpleComputeNSubtasking.ServiceContainer.ComputeCube
-  isSpec: "True"
-  fullName: ArmoniK.EndToEndTests.Tests.SimpleComputeNSubtasking.ServiceContainer.ComputeCube
-  nameWithType: ServiceContainer.ComputeCube
 - uid: ArmoniK.EndToEndTests.Tests.SimpleComputeNSubtasking.ServiceContainer.ComputeSquare(ArmoniK.DevelopmentKit.SymphonyApi.TaskContext,ArmoniK.EndToEndTests.Common.ClientPayload)
   name: ComputeSquare(TaskContext, ClientPayload)
   href: api/ArmoniK.EndToEndTests.Tests.SimpleComputeNSubtasking.ServiceContainer.html#ArmoniK_EndToEndTests_Tests_SimpleComputeNSubtasking_ServiceContainer_ComputeSquare_ArmoniK_DevelopmentKit_SymphonyApi_TaskContext_ArmoniK_EndToEndTests_Common_ClientPayload_
@@ -9834,28 +9432,6 @@ references:
   isSpec: "True"
   fullName: ArmoniK.EndToEndTests.Tests.SimpleComputeNSubtasking.SimpleComputeNSubtaskingClient.EntryPoint
   nameWithType: SimpleComputeNSubtaskingClient.EntryPoint
-- uid: ArmoniK.EndToEndTests.Tests.SimpleComputeNSubtasking.TimeSpanExt
-  name: TimeSpanExt
-  href: api/ArmoniK.EndToEndTests.Tests.SimpleComputeNSubtasking.TimeSpanExt.html
-  commentId: T:ArmoniK.EndToEndTests.Tests.SimpleComputeNSubtasking.TimeSpanExt
-  fullName: ArmoniK.EndToEndTests.Tests.SimpleComputeNSubtasking.TimeSpanExt
-  nameWithType: TimeSpanExt
-- uid: ArmoniK.EndToEndTests.Tests.SimpleComputeNSubtasking.TimeSpanExt.Average(IEnumerable{TimeSpan})
-  name: Average(IEnumerable<TimeSpan>)
-  href: api/ArmoniK.EndToEndTests.Tests.SimpleComputeNSubtasking.TimeSpanExt.html#ArmoniK_EndToEndTests_Tests_SimpleComputeNSubtasking_TimeSpanExt_Average_IEnumerable_TimeSpan__
-  commentId: M:ArmoniK.EndToEndTests.Tests.SimpleComputeNSubtasking.TimeSpanExt.Average(IEnumerable{TimeSpan})
-  name.vb: Average(IEnumerable(Of TimeSpan))
-  fullName: ArmoniK.EndToEndTests.Tests.SimpleComputeNSubtasking.TimeSpanExt.Average(IEnumerable<TimeSpan>)
-  fullName.vb: ArmoniK.EndToEndTests.Tests.SimpleComputeNSubtasking.TimeSpanExt.Average(IEnumerable(Of TimeSpan))
-  nameWithType: TimeSpanExt.Average(IEnumerable<TimeSpan>)
-  nameWithType.vb: TimeSpanExt.Average(IEnumerable(Of TimeSpan))
-- uid: ArmoniK.EndToEndTests.Tests.SimpleComputeNSubtasking.TimeSpanExt.Average*
-  name: Average
-  href: api/ArmoniK.EndToEndTests.Tests.SimpleComputeNSubtasking.TimeSpanExt.html#ArmoniK_EndToEndTests_Tests_SimpleComputeNSubtasking_TimeSpanExt_Average_
-  commentId: Overload:ArmoniK.EndToEndTests.Tests.SimpleComputeNSubtasking.TimeSpanExt.Average
-  isSpec: "True"
-  fullName: ArmoniK.EndToEndTests.Tests.SimpleComputeNSubtasking.TimeSpanExt.Average
-  nameWithType: TimeSpanExt.Average
 - uid: ArmoniK.EndToEndTests.Tests.TemplateTest
   name: ArmoniK.EndToEndTests.Tests.TemplateTest
   href: api/ArmoniK.EndToEndTests.Tests.TemplateTest.html
