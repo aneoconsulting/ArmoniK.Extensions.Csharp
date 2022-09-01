@@ -21,7 +21,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System;
+using System.Collections.Generic;
+using System.IO;
+
 using ArmoniK.Api.gRPC.V1;
+using ArmoniK.Api.Worker.Worker;
 using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.Common.Exceptions;
 using ArmoniK.DevelopmentKit.WorkerApi.Common;
@@ -30,207 +35,207 @@ using ArmoniK.DevelopmentKit.WorkerApi.Common.Adaptater;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-using System;
-using System.Collections.Generic;
-using System.IO;
+namespace ArmoniK.DevelopmentKit.WorkerApi;
 
-using ArmoniK.Api.Worker.Worker;
-
-namespace ArmoniK.DevelopmentKit.WorkerApi
+public class ServiceId
 {
-  public class ServiceId
+  public ServiceId(string engineTypeName,
+                   string pathToZipFile,
+                   string namespaceService)
+    => Key = $"{engineTypeName}#{pathToZipFile}#{namespaceService}".ToLower();
+
+  public string Key { get; set; }
+
+  /// <summary>Returns a string that represents the current object.</summary>
+  /// <returns>A string that represents the current object.</returns>
+  public override string ToString()
+    => Key;
+}
+
+public class ArmonikServiceWorker : IDisposable
+{
+  public ArmonikServiceWorker()
+    => Initialized = false;
+
+  public AppsLoader  AppsLoader { get; set; }
+  public IGridWorker GridWorker { get; set; }
+
+  public bool Initialized { get; set; }
+
+  /// <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
+  public void Dispose()
   {
-    public ServiceId(string engineTypeName, string pathToZipFile, string namespaceService)
+    using (AppsLoader.UserAssemblyLoadContext.EnterContextualReflection())
     {
-      Key = $"{engineTypeName}#{pathToZipFile}#{namespaceService}".ToLower();
+      GridWorker?.Dispose();
     }
 
-    public string Key { get; set; }
+    GridWorker = null;
+    AppsLoader.Dispose();
+    AppsLoader = null;
+  }
 
-    /// <summary>Returns a string that represents the current object.</summary>
-    /// <returns>A string that represents the current object.</returns>
-    public override string ToString()
+  public void CloseSession()
+  {
+    using (AppsLoader.UserAssemblyLoadContext.EnterContextualReflection())
     {
-      return Key;
+      GridWorker?.SessionFinalize();
     }
   }
 
-  public class ArmonikServiceWorker : IDisposable
+  public void Configure(IConfiguration                      configuration,
+                        IReadOnlyDictionary<string, string> requestTaskOptions)
   {
-    public AppsLoader AppsLoader { get; set; }
-    public IGridWorker GridWorker { get; set; }
-
-    public bool Initialized { get; set; }
-
-    public ArmonikServiceWorker()
+    if (Initialized)
     {
-      Initialized = false;
+      return;
     }
 
-    public void CloseSession()
+    using (AppsLoader.UserAssemblyLoadContext.EnterContextualReflection())
     {
-      using (AppsLoader.UserAssemblyLoadContext.EnterContextualReflection())
-      {
-        GridWorker?.SessionFinalize();
-      }
+      GridWorker.Configure(configuration,
+                           requestTaskOptions,
+                           AppsLoader);
     }
 
-    public void Configure(IConfiguration configuration, IReadOnlyDictionary<string, string> requestTaskOptions)
+    Initialized = true;
+  }
+
+  public void InitializeSessionWorker(Session                             sessionId,
+                                      IReadOnlyDictionary<string, string> taskHandlerTaskOptions)
+  {
+    using (AppsLoader.UserAssemblyLoadContext.EnterContextualReflection())
     {
-      if (Initialized)
-        return;
-
-      using (AppsLoader.UserAssemblyLoadContext.EnterContextualReflection())
-      {
-        GridWorker.Configure(configuration,
-                             requestTaskOptions,
-                             AppsLoader);
-      }
-
-      Initialized = true;
-    }
-
-    /// <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
-    public void Dispose()
-    {
-      using (AppsLoader.UserAssemblyLoadContext.EnterContextualReflection())
-      {
-        GridWorker?.Dispose();
-      }
-
-      GridWorker = null;
-      AppsLoader.Dispose();
-      AppsLoader = null;
-    }
-
-    public void InitializeSessionWorker(Session sessionId, IReadOnlyDictionary<string, string> taskHandlerTaskOptions)
-    {
-      using (AppsLoader.UserAssemblyLoadContext.EnterContextualReflection())
-      {
-        GridWorker.InitializeSessionWorker(sessionId,
-                                           taskHandlerTaskOptions);
-      }
-    }
-
-    public byte[] Execute(ITaskHandler taskHandler)
-    {
-      using (AppsLoader.UserAssemblyLoadContext.EnterContextualReflection())
-      {
-        return GridWorker.Execute(taskHandler);
-      }
+      GridWorker.InitializeSessionWorker(sessionId,
+                                         taskHandlerTaskOptions);
     }
   }
 
-  public class ServiceRequestContext
+  public byte[] Execute(ITaskHandler taskHandler)
   {
-    public Session SessionId { get; set; }
-
-    public ILoggerFactory LoggerFactory { get; set; }
-    private IDictionary<string, ArmonikServiceWorker> ServicesMapper { get; set; }
-
-    public ServiceRequestContext(ILoggerFactory loggerFactory)
+    using (AppsLoader.UserAssemblyLoadContext.EnterContextualReflection())
     {
-      LoggerFactory  = loggerFactory;
-      ServicesMapper = new Dictionary<string, ArmonikServiceWorker>();
+      return GridWorker.Execute(taskHandler);
+    }
+  }
+}
+
+public class ServiceRequestContext
+{
+  public ServiceRequestContext(ILoggerFactory loggerFactory)
+  {
+    LoggerFactory  = loggerFactory;
+    ServicesMapper = new Dictionary<string, ArmonikServiceWorker>();
+  }
+
+  public Session SessionId { get; set; }
+
+  public  ILoggerFactory                            LoggerFactory  { get; set; }
+  private IDictionary<string, ArmonikServiceWorker> ServicesMapper { get; }
+
+  public bool IsNewSessionId(Session sessionId)
+  {
+    if (SessionId == null)
+    {
+      return true;
     }
 
-    public bool IsNewSessionId(Session sessionId)
-    {
-      if (SessionId == null) return true;
+    return SessionId.Id != sessionId.Id;
+  }
 
-      return SessionId.Id != sessionId.Id;
+  public bool IsNewSessionId(string sessionId)
+  {
+    if (sessionId == null)
+    {
+      throw new ArgumentNullException(nameof(sessionId));
     }
 
-    public bool IsNewSessionId(string sessionId)
+    if (SessionId == null)
     {
-      if (sessionId == null) throw new ArgumentNullException(nameof(sessionId));
-
-      if (SessionId == null) return true;
-
-      var currentSessionId = new Session()
-      {
-        Id = sessionId,
-      };
-
-      return IsNewSessionId(currentSessionId);
+      return true;
     }
 
-    public ServiceId CreateOrGetArmonikService(IConfiguration                      configuration,
-                                               string                              engineTypeName,
-                                               IFileAdaptater                      fileAdaptater,
-                                               string                              fileName,
-                                               IReadOnlyDictionary<string, string> requestTaskOptions)
+    var currentSessionId = new Session
+                           {
+                             Id = sessionId,
+                           };
+
+    return IsNewSessionId(currentSessionId);
+  }
+
+  public ServiceId CreateOrGetArmonikService(IConfiguration                      configuration,
+                                             string                              engineTypeName,
+                                             IFileAdaptater                      fileAdaptater,
+                                             string                              fileName,
+                                             IReadOnlyDictionary<string, string> requestTaskOptions)
+  {
+    if (!requestTaskOptions.ContainsKey(AppsOptions.GridAppNamespaceKey))
     {
-      if (!requestTaskOptions.ContainsKey(AppsOptions.GridAppNamespaceKey))
-      {
-        throw new WorkerApiException("Cannot find namespace service in TaskOptions. Please set the namespace");
-      }
+      throw new WorkerApiException("Cannot find namespace service in TaskOptions. Please set the namespace");
+    }
 
-      var serviceId = GenerateServiceId(engineTypeName,
-                                        Path.Combine(fileAdaptater.DestinationDirPath,
-                                                     fileName),
-                                        requestTaskOptions[AppsOptions.GridAppNamespaceKey]);
+    var serviceId = GenerateServiceId(engineTypeName,
+                                      Path.Combine(fileAdaptater.DestinationDirPath,
+                                                   fileName),
+                                      requestTaskOptions[AppsOptions.GridAppNamespaceKey]);
 
-      if (ServicesMapper.ContainsKey(serviceId.Key))
-        return serviceId;
-
-      var appsLoader = new AppsLoader(configuration,
-                                      LoggerFactory,
-                                      engineTypeName,
-                                      fileAdaptater,
-                                      fileName);
-
-      var armonikServiceWorker = new ArmonikServiceWorker()
-      {
-        AppsLoader = appsLoader,
-        GridWorker = appsLoader.GetGridWorkerInstance(configuration,
-                                                      LoggerFactory)
-      };
-
-      ServicesMapper[serviceId.Key] = armonikServiceWorker;
-
-      if (!armonikServiceWorker.Initialized)
-      {
-        armonikServiceWorker.Configure(configuration,
-                                       requestTaskOptions);
-      }
-
+    if (ServicesMapper.ContainsKey(serviceId.Key))
+    {
       return serviceId;
     }
 
-    public ArmonikServiceWorker GetService(ServiceId serviceId)
+    var appsLoader = new AppsLoader(configuration,
+                                    LoggerFactory,
+                                    engineTypeName,
+                                    fileAdaptater,
+                                    fileName);
+
+    var armonikServiceWorker = new ArmonikServiceWorker
+                               {
+                                 AppsLoader = appsLoader,
+                                 GridWorker = appsLoader.GetGridWorkerInstance(configuration,
+                                                                               LoggerFactory),
+                               };
+
+    ServicesMapper[serviceId.Key] = armonikServiceWorker;
+
+    if (!armonikServiceWorker.Initialized)
     {
-      return ServicesMapper[serviceId.Key];
+      armonikServiceWorker.Configure(configuration,
+                                     requestTaskOptions);
     }
 
-    public static ServiceId GenerateServiceId(string engineTypeName,
-                                              string uniqueKey,
-                                              string namespaceService)
+    return serviceId;
+  }
+
+  public ArmonikServiceWorker GetService(ServiceId serviceId)
+    => ServicesMapper[serviceId.Key];
+
+  public static ServiceId GenerateServiceId(string engineTypeName,
+                                            string uniqueKey,
+                                            string namespaceService)
+    => new ServiceId(engineTypeName,
+                     uniqueKey,
+                     namespaceService);
+
+  public static IFileAdaptater CreateOrGetFileAdaptater(IConfiguration configuration,
+                                                        string         localDirectoryZip)
+  {
+    var sectionStorage = configuration.GetSection("FileStorageType");
+    if (sectionStorage.Exists() && configuration["FileStorageType"] == "FS")
     {
-      return new ServiceId(engineTypeName,
-                           uniqueKey,
-                           namespaceService);
+      return new FsAdaptater(localDirectoryZip);
     }
 
-    public static IFileAdaptater CreateOrGetFileAdaptater(IConfiguration configuration, string localDirectoryZip)
+    if ((sectionStorage.Exists() && configuration["FileStorageType"] == "S3") || !sectionStorage.Exists())
     {
-      var sectionStorage = configuration.GetSection("FileStorageType");
-      if (sectionStorage.Exists() && configuration["FileStorageType"] == "FS")
-      {
-        return new FsAdaptater(localDirectoryZip);
-      }
-
-      if ((sectionStorage.Exists() && configuration["FileStorageType"] == "S3") ||
-          !sectionStorage.Exists())
-      {
-        return new S3Adaptater(configuration.GetSection("S3Storage")["ServiceURL"],
-                               configuration.GetSection("S3Storage")["BucketName"],
-                               configuration.GetSection("S3Storage")["AccessKeyId"],
-                               configuration.GetSection("S3Storage")["SecretAccessKey"],
-                               "");
-      }
-
-      throw new WorkerApiException("Cannot find the FileStorageType in the IConfiguration. Please make sure you have properly set the field [FileStorageType]");
+      return new S3Adaptater(configuration.GetSection("S3Storage")["ServiceURL"],
+                             configuration.GetSection("S3Storage")["BucketName"],
+                             configuration.GetSection("S3Storage")["AccessKeyId"],
+                             configuration.GetSection("S3Storage")["SecretAccessKey"],
+                             "");
     }
+
+    throw new WorkerApiException("Cannot find the FileStorageType in the IConfiguration. Please make sure you have properly set the field [FileStorageType]");
   }
 }

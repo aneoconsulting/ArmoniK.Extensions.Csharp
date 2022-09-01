@@ -23,32 +23,31 @@
 
 using ArmoniK.DevelopmentKit.Common;
 
-namespace ArmoniK.DevelopmentKit.Worker.Grid
+namespace ArmoniK.DevelopmentKit.Worker.Grid;
+
+/// <summary>
+///   Container for the information associated with a particular Session.
+///   Such information may be required during the servicing of a task from a Session.
+/// </summary>
+[MarkDownDoc]
+public class SessionContext
 {
   /// <summary>
-  ///   Container for the information associated with a particular Session.
-  ///   Such information may be required during the servicing of a task from a Session.
   /// </summary>
-  [MarkDownDoc]
-  public class SessionContext
-  {
-    /// <summary>
-    /// </summary>
-    public int TimeRemoteDebug;
+  public int TimeRemoteDebug;
 
-    /// <summary>
-    /// </summary>
-    public bool IsDebugMode => TimeRemoteDebug > 0;
+  /// <summary>
+  /// </summary>
+  public bool IsDebugMode
+    => TimeRemoteDebug > 0;
 
-    /// <summary>
-    /// </summary>
-    /// <value></value>
-    public string SessionId { get; set; }
+  /// <summary>
+  /// </summary>
+  /// <value></value>
+  public string SessionId { get; set; }
 
-    /// <summary>
-    /// </summary>
-    /// <value></value>
-    public string ClientLibVersion { get; set; }
-
-  }
+  /// <summary>
+  /// </summary>
+  /// <value></value>
+  public string ClientLibVersion { get; set; }
 }

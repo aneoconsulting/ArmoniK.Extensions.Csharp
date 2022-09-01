@@ -21,22 +21,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace ArmoniK.DevelopmentKit.Common
+namespace ArmoniK.DevelopmentKit.Common;
+
+/// <summary>
+///   The interface to download file
+/// </summary>
+public interface IFileAdaptater
 {
   /// <summary>
-  /// The interface to download file 
+  ///   Get The directory where the file will be downloaded
   /// </summary>
-  public interface IFileAdaptater
-  {
-    /// <summary>
-    /// Get The directory where the file will be downloaded
-    /// </summary>
-    public string DestinationDirPath { get; set; }
-    /// <summary>
-    /// The method to download file from form remote server
-    /// </summary>
-    /// <param name="fileName">The filename with extension and without directory path</param>
-    /// <returns>Returns the path where the file has been downloaded</returns>
-    public string DownloadFile(string fileName);
-  }
+  public string DestinationDirPath { get; set; }
+
+  /// <summary>
+  ///   The method to download file from form remote server
+  /// </summary>
+  /// <param name="fileName">The filename with extension and without directory path</param>
+  /// <returns>Returns the path where the file has been downloaded</returns>
+  public string DownloadFile(string fileName);
 }

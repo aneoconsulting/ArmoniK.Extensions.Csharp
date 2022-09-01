@@ -26,44 +26,56 @@ using System;
 using System.Reflection;
 using System.Runtime.Loader;
 
-namespace ArmoniK.DevelopmentKit.WorkerApi
+namespace ArmoniK.DevelopmentKit.WorkerApi;
+
+internal class AddonsAssemblyLoadContext : AssemblyLoadContext
 {
-  class AddonsAssemblyLoadContext : AssemblyLoadContext
+  private readonly AssemblyDependencyResolver _resolver;
+  private readonly AssemblyDependencyResolver _rootResolver;
+
+  public AddonsAssemblyLoadContext()
+    : base(Guid.NewGuid()
+               .ToString(),
+           true)
   {
-    private readonly AssemblyDependencyResolver _resolver;
-    private readonly AssemblyDependencyResolver _rootResolver;
+  }
 
-    public AddonsAssemblyLoadContext() : base(Guid.NewGuid().ToString(),
-                                              isCollectible: true)
+  public AddonsAssemblyLoadContext(string mainAssemblyToLoadPath)
+    : base(Guid.NewGuid()
+               .ToString(),
+           true)
+  {
+    _rootResolver = new AssemblyDependencyResolver(Assembly.GetExecutingAssembly()
+                                                           .Location);
+
+    _resolver = new AssemblyDependencyResolver(mainAssemblyToLoadPath);
+  }
+
+  protected override Assembly Load(AssemblyName name)
+  {
+    if (_rootResolver.ResolveAssemblyToPath(name) != null)
     {
-
+      return null;
     }
 
-    public AddonsAssemblyLoadContext(string mainAssemblyToLoadPath) : base(Guid.NewGuid().ToString(),
-                                                                           isCollectible: true)
-    {
-      _rootResolver = new AssemblyDependencyResolver(Assembly.GetExecutingAssembly().Location);
+    var assemblyPath = _resolver.ResolveAssemblyToPath(name);
 
-      _resolver     = new AssemblyDependencyResolver(mainAssemblyToLoadPath);
+    return assemblyPath != null
+             ? LoadFromAssemblyPath(assemblyPath)
+             : null;
+  }
 
-    }
-
-    protected override Assembly Load(AssemblyName name)
-    {
-      if (_rootResolver.ResolveAssemblyToPath(name) != null) return null;
-
-      var assemblyPath                       =  _resolver.ResolveAssemblyToPath(name);
-
-      return assemblyPath != null ? LoadFromAssemblyPath(assemblyPath) : null;
-    }
-
-    /// <summary>Allows derived class to load an unmanaged library by name.</summary>
-    /// <param name="unmanagedDllName">Name of the unmanaged library. Typically this is the filename without its path or extensions.</param>
-    /// <returns>A handle to the loaded library, or <see cref="F:System.IntPtr.Zero" />.</returns>
-    protected override IntPtr LoadUnmanagedDll(string unmanagedDllName)
-    {
-      var assemblyPath = _resolver.ResolveUnmanagedDllToPath(unmanagedDllName);
-      return assemblyPath != null ? base.LoadUnmanagedDllFromPath(assemblyPath) : IntPtr.Zero;
-    }
+  /// <summary>Allows derived class to load an unmanaged library by name.</summary>
+  /// <param name="unmanagedDllName">
+  ///   Name of the unmanaged library. Typically this is the filename without its path or
+  ///   extensions.
+  /// </param>
+  /// <returns>A handle to the loaded library, or <see cref="F:System.IntPtr.Zero" />.</returns>
+  protected override IntPtr LoadUnmanagedDll(string unmanagedDllName)
+  {
+    var assemblyPath = _resolver.ResolveUnmanagedDllToPath(unmanagedDllName);
+    return assemblyPath != null
+             ? LoadUnmanagedDllFromPath(assemblyPath)
+             : IntPtr.Zero;
   }
 }

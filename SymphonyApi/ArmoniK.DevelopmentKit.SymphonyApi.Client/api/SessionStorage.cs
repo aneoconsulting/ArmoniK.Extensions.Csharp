@@ -24,78 +24,82 @@
 using System.Collections.Generic;
 
 using ArmoniK.DevelopmentKit.Common.Exceptions;
+
 #pragma warning disable CS1591
 
-namespace ArmoniK.DevelopmentKit.SymphonyApi.Client.api
+namespace ArmoniK.DevelopmentKit.SymphonyApi.Client.api;
+
+public class SessionStorage
 {
-  public class SessionStorage
+  private static SessionStorage _instance;
+
+  private readonly Dictionary<string, string> sessionFromTaskIds_;
+
+  private readonly Dictionary<string, List<string>> taskIdsFromSession_;
+
+  private SessionStorage()
   {
-    private static SessionStorage                   _instance;
+    taskIdsFromSession_ = new Dictionary<string, List<string>>();
+    sessionFromTaskIds_ = new Dictionary<string, string>();
+  }
 
-    private readonly Dictionary<string, List<string>> taskIdsFromSession_;
-    
-    private readonly Dictionary<string, string> sessionFromTaskIds_;
+  /// <summary>
+  /// </summary>
+  /// <returns></returns>
+  public SessionStorage GetInstance()
+  {
+    _instance ??= new SessionStorage();
 
-    private SessionStorage()
+    return _instance;
+  }
+
+  /// <summary>
+  /// </summary>
+  /// <param name="session"></param>
+  /// <param name="taskId"></param>
+  public void AttachTaskToSession(string session,
+                                  string taskId)
+  {
+    taskIdsFromSession_[session] ??= new List<string>();
+
+    taskIdsFromSession_[session]
+      .Add(taskId);
+
+    if (sessionFromTaskIds_.ContainsKey(taskId))
     {
-      this.taskIdsFromSession_ = new Dictionary<string, List<string>>();
-      this.sessionFromTaskIds_ = new Dictionary<string, string>();
+      throw new WorkerApiException("TaskId {} already exist");
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <returns></returns>
-    public SessionStorage GetInstance()
-    {
-      _instance ??= new SessionStorage();
+    sessionFromTaskIds_[taskId] = session;
+  }
 
-      return _instance;
+  /// <summary>
+  /// </summary>
+  /// <param name="taskId"></param>
+  /// <returns></returns>
+  /// <exception cref="WorkerApiException"></exception>
+  public string GetSessionFromTaskId(string taskId)
+  {
+    if (!sessionFromTaskIds_.ContainsKey(taskId) || sessionFromTaskIds_[taskId] == null)
+    {
+      throw new WorkerApiException($"Cannot find the taskId {taskId} in the storage");
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="session"></param>
-    /// <param name="taskId"></param>
-    public void AttachTaskToSession(string session, string taskId)
+    return sessionFromTaskIds_[taskId];
+  }
+
+  /// <summary>
+  /// </summary>
+  /// <param name="session"></param>
+  /// <returns></returns>
+  /// <exception cref="WorkerApiException"></exception>
+  public IEnumerable<string> GetTaskIdsFromSession(string session)
+  {
+    if (!taskIdsFromSession_.ContainsKey(session))
     {
-      taskIdsFromSession_[session] ??= new List<string>();
-
-      taskIdsFromSession_[session].Add(taskId);
-
-      if (sessionFromTaskIds_.ContainsKey(taskId)) 
-        throw new WorkerApiException("TaskId {} already exist");
-
-      sessionFromTaskIds_[taskId] = session;
+      throw new WorkerApiException($"Cannot find Session {session} in the storage");
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="taskId"></param>
-    /// <returns></returns>
-    /// <exception cref="WorkerApiException"></exception>
-    public string GetSessionFromTaskId(string taskId)
-    {
-      if (!sessionFromTaskIds_.ContainsKey(taskId) || sessionFromTaskIds_[taskId] == null)
-        throw new WorkerApiException($"Cannot find the taskId {taskId} in the storage");
-
-      return sessionFromTaskIds_[taskId];
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="session"></param>
-    /// <returns></returns>
-    /// <exception cref="WorkerApiException"></exception>
-    public IEnumerable<string> GetTaskIdsFromSession(string session)
-    {
-      if (!taskIdsFromSession_.ContainsKey(session))
-        throw new WorkerApiException($"Cannot find Session {session} in the storage");
-
-      return taskIdsFromSession_[session];
-    }
+    return taskIdsFromSession_[session];
   }
 }

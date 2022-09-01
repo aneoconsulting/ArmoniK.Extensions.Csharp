@@ -27,35 +27,34 @@ using ArmoniK.DevelopmentKit.Common;
 
 #pragma warning disable CS1591
 
-namespace ArmoniK.DevelopmentKit.SymphonyApi
+namespace ArmoniK.DevelopmentKit.SymphonyApi;
+
+/// <summary>
+///   Provides the context for the task that is bound to the given service invocation
+/// </summary>
+[MarkDownDoc]
+public class TaskContext
 {
+  public byte[] Payload;
+  public string TaskId { get; set; }
+
+  public string SessionId { get; set; }
+
+  public IEnumerable<string> DependenciesTaskIds { get; set; }
+
+  public IDictionary<string, string> ClientOptions { get; set; }
+
+
   /// <summary>
-  ///   Provides the context for the task that is bound to the given service invocation
+  ///   The customer payload to deserialize by the customer
   /// </summary>
-  [MarkDownDoc]
-  public class TaskContext
+  /// <value></value>
+  public byte[] TaskInput
   {
-    public byte[] Payload;
-    public string TaskId { get; set; }
+    get => Payload;
 
-    public string SessionId { get; set; }
-
-    public IEnumerable<string> DependenciesTaskIds { get; set; }
-
-    public IDictionary<string, string> ClientOptions { get; set; }
-
-
-    /// <summary>
-    ///   The customer payload to deserialize by the customer
-    /// </summary>
-    /// <value></value>
-    public byte[] TaskInput
-    {
-      get => Payload;
-
-      set => Payload = value;
-    }
-
-    public IReadOnlyDictionary<string, byte[]> DataDependencies { get; set; }
+    set => Payload = value;
   }
+
+  public IReadOnlyDictionary<string, byte[]> DataDependencies { get; set; }
 }

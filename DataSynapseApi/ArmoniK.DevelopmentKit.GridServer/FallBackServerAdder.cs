@@ -27,22 +27,16 @@ using JetBrains.Annotations;
 
 #pragma warning disable CS1591
 
-namespace ArmoniK.DevelopmentKit.GridServer
+namespace ArmoniK.DevelopmentKit.GridServer;
+
+public class FallBackServerAdder
 {
-  public class FallBackServerAdder
-    {
+  [UsedImplicitly]
+  public double Add(double a,
+                    double b)
+    => a + b;
 
-
-      [UsedImplicitly]
-      public double Add(double a, double b)
-      {
-        return a + b;
-      }
-
-      [UsedImplicitly]
-      public double Square(double a)
-      {
-        return a * a;
-      }
-    }
+  [UsedImplicitly]
+  public double Square(double a)
+    => a * a;
 }

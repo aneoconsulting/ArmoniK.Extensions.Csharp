@@ -21,79 +21,97 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using ArmoniK.DevelopmentKit.GridServer.Client;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
+using ArmoniK.DevelopmentKit.GridServer.Client;
 using ArmoniK.DevelopmentKit.Worker.Grid;
 
-namespace ArmoniK.EndToEndTests.Tests.CheckUnifiedApi
+namespace ArmoniK.EndToEndTests.Tests.CheckUnifiedApi;
+
+public static class SelectExtensions
 {
-  public static class SelectExtensions
+  public static IEnumerable<double> ConvertToArray(this IEnumerable<byte> arr)
   {
-    public static IEnumerable<double> ConvertToArray(this IEnumerable<byte> arr)
+    var bytes = arr as byte[] ?? arr.ToArray();
+
+    var values = new double[bytes.Count() / sizeof(double)];
+
+    var i = 0;
+    for (; i < values.Length; i++)
     {
-      var bytes = arr as byte[] ?? arr.ToArray();
-
-      var values = new double[bytes.Count() / sizeof(double)];
-
-      var i = 0;
-      for (; i < values.Length; i++)
-        values[i] = BitConverter.ToDouble(bytes.ToArray(),
-                                          i * 8);
-      return values;
+      values[i] = BitConverter.ToDouble(bytes.ToArray(),
+                                        i * 8);
     }
+
+    return values;
+  }
+}
+
+public class SimpleService : BaseService<SimpleService>
+{
+  private readonly Random rd = new();
+
+  public double[] ComputeBasicArrayCube(double[] inputs)
+    => inputs.Select(x => x * x * x)
+             .ToArray();
+
+  public static double ComputeReduceCube(double[] inputs)
+    => inputs.Select(x => x * x * x)
+             .Sum();
+
+  public static double ComputeReduceCube(byte[] inputs)
+  {
+    var doubles = inputs.ConvertToArray();
+
+    return doubles.Select(x => x * x * x)
+                  .Sum();
   }
 
-  public class SimpleService : BaseService<SimpleService>
+  public static double[] ComputeMadd(byte[] inputs1,
+                                     byte[] inputs2,
+                                     double k)
   {
-    private Random rd = new Random();
-    public double[] ComputeBasicArrayCube(double[] inputs)
+    var doubles1 = inputs1.ConvertToArray()
+                          .ToArray();
+    var doubles2 = inputs2.ConvertToArray()
+                          .ToArray();
+
+
+    return doubles1.Select((x,
+                            idx) => k * x * doubles2[idx])
+                   .ToArray();
+  }
+
+  public double[] NonStaticComputeMadd(byte[] inputs1,
+                                       byte[] inputs2,
+                                       double k)
+  {
+    var doubles1 = inputs1.ConvertToArray()
+                          .ToArray();
+    var doubles2 = inputs2.ConvertToArray()
+                          .ToArray();
+
+
+    return doubles1.Select((x,
+                            idx) => k * x * doubles2[idx])
+                   .ToArray();
+  }
+
+  public double[] RandomTaskError(double percentageOfFailure = 0.25)
+  {
+    var randNum = rd.NextDouble();
+    if (randNum < percentageOfFailure / 100)
     {
-      return inputs.Select(x => x * x * x).ToArray();
+      throw new GridServerException("An expected failure in this random call");
     }
 
-    public static double ComputeReduceCube(double[] inputs)
-    {
-      return inputs.Select(x => x * x * x).Sum();
-    }
-
-    public static double ComputeReduceCube(byte[] inputs)
-    {
-      var doubles = inputs.ConvertToArray();
-
-      return doubles.Select(x => x * x * x).Sum();
-    }
-
-    public static double[] ComputeMadd(byte[] inputs1, byte[] inputs2, double k)
-    {
-      var doubles1 = inputs1.ConvertToArray().ToArray();
-      var doubles2 = inputs2.ConvertToArray().ToArray();
-
-
-      return doubles1.Select((x, idx) => k * x * doubles2[idx]).ToArray();
-    }
-
-    public double[] NonStaticComputeMadd(byte[] inputs1, byte[] inputs2, double k)
-    {
-      var doubles1 = inputs1.ConvertToArray().ToArray();
-      var doubles2 = inputs2.ConvertToArray().ToArray();
-
-
-      return doubles1.Select((x, idx) => k * x * doubles2[idx]).ToArray();
-    }
-
-    public double[] RandomTaskError(double percentageOfFailure = 0.25)
-    {
-      var randNum = rd.NextDouble();
-      if (randNum < (percentageOfFailure / 100))
-        throw new GridServerException("An expected failure in this random call");
-
-      return new[]
-      {
-        0.0, 1.0, 2.0,
-      };
-    }
+    return new[]
+           {
+             0.0,
+             1.0,
+             2.0,
+           };
   }
 }

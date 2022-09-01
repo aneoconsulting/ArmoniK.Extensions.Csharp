@@ -1,65 +1,63 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ArmoniK.DevelopmentKit.Common
+namespace ArmoniK.DevelopmentKit.Common;
+
+/// <summary>
+/// </summary>
+public static class IEnumerableExt
 {
   /// <summary>
-  /// 
   /// </summary>
-  public static class IEnumerableExt
+  /// <param name="source"></param>
+  /// <param name="size"></param>
+  /// <typeparam name="T"></typeparam>
+  /// <returns></returns>
+  /// <exception cref="ArgumentNullException"></exception>
+  /// <exception cref="ArgumentOutOfRangeException"></exception>
+  public static IEnumerable<T[]> Batch<T>(this IEnumerable<T> source,
+                                          int                 size)
   {
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="source"></param>
-    /// <param name="size"></param>
-    /// <typeparam name="T"></typeparam>
-    /// <returns></returns>
-    /// <exception cref="ArgumentNullException"></exception>
-    /// <exception cref="ArgumentOutOfRangeException"></exception>
-    public static IEnumerable<T[]> Batch<T>(this IEnumerable<T> source,
-                                                       int                 size)
+    if (source == null)
     {
-      if (source == null)
-      {
-        throw new ArgumentNullException(nameof(source));
-      }
-
-      if (size < 1)
-      {
-        throw new ArgumentOutOfRangeException(nameof(size),
-                                              "Should be at least 1");
-      }
-
-      return ChunkIterator(source,
-                           size);
+      throw new ArgumentNullException(nameof(source));
     }
 
-    private static IEnumerable<TSource[]> ChunkIterator<TSource>(IEnumerable<TSource> source, int size)
+    if (size < 1)
     {
-      using IEnumerator<TSource> e = source.GetEnumerator();
-      while (e.MoveNext())
+      throw new ArgumentOutOfRangeException(nameof(size),
+                                            "Should be at least 1");
+    }
+
+    return ChunkIterator(source,
+                         size);
+  }
+
+  private static IEnumerable<TSource[]> ChunkIterator<TSource>(IEnumerable<TSource> source,
+                                                               int                  size)
+  {
+    using var e = source.GetEnumerator();
+    while (e.MoveNext())
+    {
+      var chunk = new TSource[size];
+      chunk[0] = e.Current;
+
+      var i = 1;
+      for (; i < chunk.Length && e.MoveNext(); i++)
       {
-        TSource[] chunk = new TSource[size];
-        chunk[0] = e.Current;
+        chunk[i] = e.Current;
+      }
 
-        int i = 1;
-        for (; i < chunk.Length && e.MoveNext(); i++)
-        {
-          chunk[i] = e.Current;
-        }
-
-        if (i == chunk.Length)
-        {
-          yield return chunk;
-        }
-        else
-        {
-          Array.Resize(ref chunk,
-                       i);
-          yield return chunk;
-          yield break;
-        }
+      if (i == chunk.Length)
+      {
+        yield return chunk;
+      }
+      else
+      {
+        Array.Resize(ref chunk,
+                     i);
+        yield return chunk;
+        yield break;
       }
     }
   }

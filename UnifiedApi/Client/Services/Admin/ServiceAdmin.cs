@@ -24,36 +24,34 @@
 using ArmoniK.DevelopmentKit.Client.Factory;
 using ArmoniK.DevelopmentKit.Client.Services.Common;
 
+namespace ArmoniK.DevelopmentKit.Client.Services.Admin;
 
-namespace ArmoniK.DevelopmentKit.Client.Services.Admin
+/// <summary>
+///   The class to access to all Admin and monitoring API
+/// </summary>
+public class ServiceAdmin : AbstractClientService
 {
   /// <summary>
-  /// The class to access to all Admin and monitoring API 
+  ///   The constructor of the service Admin class
   /// </summary>
-  public class ServiceAdmin : AbstractClientService
+  /// <param name="properties">the properties setting to connection to the control plane</param>
+  public ServiceAdmin(Properties properties)
+    : base(properties)
   {
-    /// <summary>
-    /// the Properties that access to the control plane
-    /// </summary>
-    public AdminMonitoringService AdminMonitoringService { get; set; }
+    SessionServiceFactory = new SessionServiceFactory(LoggerFactory);
 
-    private SessionServiceFactory SessionServiceFactory { get; set; }
+    AdminMonitoringService = SessionServiceFactory.GetAdminMonitoringService(properties);
+  }
 
-    /// <summary>
-    /// The constructor of the service Admin class
-    /// </summary>
-    /// <param name="properties">the properties setting to connection to the control plane</param>
-    public ServiceAdmin(Properties properties) : base(properties)
-    {
-      SessionServiceFactory = new(LoggerFactory);
+  /// <summary>
+  ///   the Properties that access to the control plane
+  /// </summary>
+  public AdminMonitoringService AdminMonitoringService { get; set; }
 
-      AdminMonitoringService = SessionServiceFactory.GetAdminMonitoringService(properties);
-    }
-    
-    /// <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
-    public override void Dispose()
-    {
-    }
+  private SessionServiceFactory SessionServiceFactory { get; }
 
+  /// <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
+  public override void Dispose()
+  {
   }
 }

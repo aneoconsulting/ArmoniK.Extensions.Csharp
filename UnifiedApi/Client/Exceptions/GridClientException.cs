@@ -23,33 +23,31 @@
 
 using System;
 
+namespace ArmoniK.DevelopmentKit.Client.Exceptions;
 
-namespace ArmoniK.DevelopmentKit.Client.Exceptions
+/// <summary>
+///   The exception class for Client side reporting Grid Error
+/// </summary>
+public class GridClientException : Exception
 {
-    /// <summary>
-    /// The exception class for Client side reporting Grid Error
-    /// </summary>
-    public class GridClientException : Exception
-    {
+  /// <summary>
+  ///   The constructor in string message in parameters
+  /// </summary>
+  /// <param name="message">the message to include in the exception</param>
+  public GridClientException(string message)
+    : base(message)
+  {
+  }
 
-      /// <summary>
-      /// The constructor in string message in parameters
-      /// </summary>
-      /// <param name="message">the message to include in the exception</param>
-      public GridClientException(string message) : base(message)
-      {
-
-      }
-
-      /// <summary>
-      /// The constructor with Message and Exception
-      /// </summary>
-      /// <param name="message">The string message in the new exception</param>
-      /// <param name="e">the inner exception</param>
-      public GridClientException(string message, Exception e) : base(message,
-                                                                     e)
-      {
-      }
-
-    }
+  /// <summary>
+  ///   The constructor with Message and Exception
+  /// </summary>
+  /// <param name="message">The string message in the new exception</param>
+  /// <param name="e">the inner exception</param>
+  public GridClientException(string    message,
+                             Exception e)
+    : base(message,
+           e)
+  {
+  }
 }

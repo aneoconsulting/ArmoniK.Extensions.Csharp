@@ -26,33 +26,27 @@ using ArmoniK.DevelopmentKit.Client.Services.Admin;
 using ArmoniK.DevelopmentKit.Client.Services.Submitter;
 using ArmoniK.DevelopmentKit.Common;
 
-namespace ArmoniK.DevelopmentKit.Client.Factory
+namespace ArmoniK.DevelopmentKit.Client.Factory;
+
+/// <summary>
+///   The service Factory to load service previously registered
+/// </summary>
+[MarkDownDoc]
+public class ServiceFactory
 {
   /// <summary>
-  /// The service Factory to load service previously registered
+  ///   The method to create new Service
   /// </summary>
-  [MarkDownDoc]
-  public class ServiceFactory
-  {
+  /// <param name="props">Properties for the service containing IConfiguration and TaskOptions</param>
+  /// <returns>returns the new instantiated service</returns>
+  public static Service CreateService(Properties props)
+    => new(props);
 
-    /// <summary>
-    /// The method to create new Service
-    /// </summary>
-    /// <param name="props">Properties for the service containing IConfiguration and TaskOptions</param>
-    /// <returns>returns the new instantiated service</returns>
-    public static Service CreateService(Properties props)
-    {
-      return new(props);
-    }
-
-    /// <summary>
-    /// Method to get the ServiceAdmin
-    /// </summary>
-    /// <param name="props"></param>
-    /// <returns></returns>
-    public static ServiceAdmin GetServiceAdmin(Properties props)
-    {
-      return new(props);
-    }
-  }
+  /// <summary>
+  ///   Method to get the ServiceAdmin
+  /// </summary>
+  /// <param name="props"></param>
+  /// <returns></returns>
+  public static ServiceAdmin GetServiceAdmin(Properties props)
+    => new(props);
 }

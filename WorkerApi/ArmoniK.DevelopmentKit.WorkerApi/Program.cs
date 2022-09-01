@@ -27,4 +27,5 @@ using ArmoniK.DevelopmentKit.WorkerApi.Services;
 
 using Microsoft.Extensions.DependencyInjection;
 
-WorkerServer.Create<ComputerService>(serviceConfigurator:collection => collection.AddSingleton<ServiceRequestContext>()).Run();
+WorkerServer.Create<ComputerService>(serviceConfigurator: collection => collection.AddSingleton<ServiceRequestContext>())
+            .Run();

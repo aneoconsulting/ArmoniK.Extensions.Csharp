@@ -26,15 +26,12 @@ using JetBrains.Annotations;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace ArmoniK.Adapters.WorkerApi
+namespace ArmoniK.Adapters.WorkerApi;
+
+public static class ServiceCollectionExt
 {
-  public static class ServiceCollectionExt
-  {
-    [PublicAPI]
-    public static IServiceCollection AddConfiguration(
-      this IServiceCollection serviceCollection,
-      IConfiguration          configuration
-    )
-      => serviceCollection;
-  }
+  [PublicAPI]
+  public static IServiceCollection AddConfiguration(this IServiceCollection serviceCollection,
+                                                    IConfiguration          configuration)
+    => serviceCollection;
 }

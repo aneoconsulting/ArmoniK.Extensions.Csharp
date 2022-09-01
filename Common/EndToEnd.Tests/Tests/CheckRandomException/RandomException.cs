@@ -27,40 +27,46 @@ using System.Linq;
 
 using ArmoniK.DevelopmentKit.GridServer;
 
-namespace ArmoniK.EndToEndTests.Tests.CheckRandomException
+namespace ArmoniK.EndToEndTests.Tests.CheckRandomException;
+
+public static class SelectExtensions
 {
-  public static class SelectExtensions
+  public static IEnumerable<double> ConvertToArray(this IEnumerable<byte> arr)
   {
-    public static IEnumerable<double> ConvertToArray(this IEnumerable<byte> arr)
+    var bytes = arr as byte[] ?? arr.ToArray();
+
+    var values = new double[bytes.Count() / sizeof(double)];
+
+    var i = 0;
+    for (; i < values.Length; i++)
     {
-      var bytes = arr as byte[] ?? arr.ToArray();
-
-      var values = new double[bytes.Count() / sizeof(double)];
-
-      var i = 0;
-      for (; i < values.Length; i++)
-        values[i] = BitConverter.ToDouble(bytes.ToArray(),
-                                          i * 8);
-      return values;
+      values[i] = BitConverter.ToDouble(bytes.ToArray(),
+                                        i * 8);
     }
+
+    return values;
+  }
+}
+
+public class SimpleServiceContainer
+{
+  private readonly Random rd = new();
+
+  public SimpleServiceContainer()
+  {
+    var rand_num = rd.NextDouble();
   }
 
-  public class SimpleServiceContainer
+  public double[] ComputeBasicArrayCube(double[] inputs,
+                                        double   percentageOfFailure = 0.15)
   {
-    Random rd = new Random();
-
-    public SimpleServiceContainer()
+    var randNum = rd.NextDouble();
+    if (randNum < percentageOfFailure / 100)
     {
-      var rand_num = rd.NextDouble();
+      throw new GridServerException("An expected failure in this random call");
     }
 
-    public double[] ComputeBasicArrayCube(double[] inputs, double percentageOfFailure = 0.15)
-    {
-      var randNum = rd.NextDouble();
-      if (randNum < (percentageOfFailure / 100))
-        throw new GridServerException("An expected failure in this random call");
-
-      return inputs.Select(x => x * x * x).ToArray();
-    }
+    return inputs.Select(x => x * x * x)
+                 .ToArray();
   }
 }
