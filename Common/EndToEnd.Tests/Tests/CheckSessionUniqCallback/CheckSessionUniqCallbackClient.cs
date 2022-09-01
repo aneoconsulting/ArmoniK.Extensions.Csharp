@@ -21,6 +21,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.Linq;
+
 using ArmoniK.DevelopmentKit.SymphonyApi.Client;
 using ArmoniK.DevelopmentKit.SymphonyApi.Client.api;
 using ArmoniK.EndToEndTests.Common;
@@ -28,131 +30,130 @@ using ArmoniK.EndToEndTests.Common;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-using System.Linq;
+namespace ArmoniK.EndToEndTests.Tests.CheckSessionUniqCallback;
 
-namespace ArmoniK.EndToEndTests.Tests.CheckSessionUniqCallback
+[Disabled]
+public class CheckSessionUniqCallbackClient : ClientBaseTest<CheckSessionUniqCallbackClient>
 {
-  [Disabled]
-  public class CheckSessionUniqCallbackClient : ClientBaseTest<CheckSessionUniqCallbackClient>
-  {
-    public CheckSessionUniqCallbackClient(IConfiguration configuration, ILoggerFactory loggerFactory) :
-      base(configuration,
+  public CheckSessionUniqCallbackClient(IConfiguration configuration,
+                                        ILoggerFactory loggerFactory)
+    : base(configuration,
            loggerFactory)
-    {
-    }
+  {
+  }
 
-    [EntryPoint]
-    public override void EntryPoint()
-    {
-      var client = new ArmonikSymphonyClient(Configuration,
-                                             LoggerFactory);
+  [EntryPoint]
+  public override void EntryPoint()
+  {
+    var client = new ArmonikSymphonyClient(Configuration,
+                                           LoggerFactory);
 
-      var countTask    = 0;
-      var countSession = 0;
+    var countTask    = 0;
+    var countSession = 0;
 
-      var taskOptions = InitializeTaskOptions();
-
-
-      var sessionService = client.CreateSession(taskOptions);
-      Log.LogInformation($"INFO CLIENT : New session created {sessionService} num : {++countSession}");
-
-      var payload = new ClientPayload
-      {
-        IsRootTask = true,
-        Type       = ClientPayload.TaskType.None,
-      };
-      Log.LogInformation($"\tINFO CLIENT : Submitted new task       num : {++countTask}");
-      var taskId = sessionService.SubmitTask(payload.Serialize());
-
-      Log.LogInformation($"\tINFO CLIENT : Waiting taskId {taskId}  num : {countTask}");
-      _ = WaitForTaskResult(sessionService,
-                            taskId);
-
-      Log.LogInformation($"\tINFO CLIENT : Submitted new task       num : {++countTask}");
-      taskId = sessionService.SubmitTask(payload.Serialize());
-
-      Log.LogInformation($"\tINFO CLIENT : Waiting taskId {taskId}  num : {countTask}");
-      var taskResult = WaitForTaskResult(sessionService,
-                                         taskId);
-
-      var result = ClientPayload.Deserialize(taskResult);
-
-      Log.LogInformation($"\tINFO CLIENT stage of call after 2 submits in 1 session : {PrintStates(result.Result)}");
-      Log.LogInformation($"\tINFO SERVER                                            :\n\t{string.Join("\n\t", result.Message.Split('\n').Select(x => $"|\t{x}"))}");
-
-      var storeInitialNbCall = result.Result - 1000000 - 100000 - 1000 - 2;
-
-      sessionService = client.CreateSession(taskOptions);
-
-      Log.LogInformation($"INFO CLIENT : New session created : {sessionService}");
+    var taskOptions = InitializeTaskOptions();
 
 
-      Log.LogInformation($"\tINFO CLIENT : Submitted new task       num : {++countTask}");
-      taskId = sessionService.SubmitTask(payload.Serialize());
+    var sessionService = client.CreateSession(taskOptions);
+    Log.LogInformation($"INFO CLIENT : New session created {sessionService} num : {++countSession}");
 
-      Log.LogInformation($"\tINFO CLIENT : Waiting taskId {taskId}  num : {countTask}");
-      WaitForTaskResult(sessionService,
-                        taskId);
+    var payload = new ClientPayload
+                  {
+                    IsRootTask = true,
+                    Type       = ClientPayload.TaskType.None,
+                  };
+    Log.LogInformation($"\tINFO CLIENT : Submitted new task       num : {++countTask}");
+    var taskId = sessionService.SubmitTask(payload.Serialize());
 
-      Log.LogInformation($"\tINFO CLIENT : Submitted new task       num : {++countTask}");
-      taskId = sessionService.SubmitTask(payload.Serialize());
+    Log.LogInformation($"\tINFO CLIENT : Waiting taskId {taskId}  num : {countTask}");
+    _ = WaitForTaskResult(sessionService,
+                          taskId);
 
-      Log.LogInformation($"\tINFO CLIENT : Waiting taskId {taskId}  num : {countTask}");
-      WaitForTaskResult(sessionService,
-                        taskId);
+    Log.LogInformation($"\tINFO CLIENT : Submitted new task       num : {++countTask}");
+    taskId = sessionService.SubmitTask(payload.Serialize());
 
-      Log.LogInformation($"\tINFO CLIENT : Submitted new task       num : {++countTask}");
-      taskId = sessionService.SubmitTask(payload.Serialize());
+    Log.LogInformation($"\tINFO CLIENT : Waiting taskId {taskId}  num : {countTask}");
+    var taskResult = WaitForTaskResult(sessionService,
+                                       taskId);
 
-      Log.LogInformation($"\tINFO CLIENT : Waiting taskId {taskId}  num : {countTask}");
-      WaitForTaskResult(sessionService,
-                        taskId);
+    var result = ClientPayload.Deserialize(taskResult);
 
-      Log.LogInformation($"\tINFO CLIENT : Submitted new task       num : {++countTask}");
-      taskId = sessionService.SubmitTask(payload.Serialize());
+    Log.LogInformation($"\tINFO CLIENT stage of call after 2 submits in 1 session : {PrintStates(result.Result)}");
+    Log.LogInformation($"\tINFO SERVER                                            :\n\t{string.Join("\n\t", result.Message.Split('\n').Select(x => $"|\t{x}"))}");
 
-      Log.LogInformation($"\tINFO CLIENT : Waiting taskId {taskId}  num : {countTask}");
-      taskResult = WaitForTaskResult(sessionService,
-                                     taskId);
+    var storeInitialNbCall = result.Result - 1000000 - 100000 - 1000 - 2;
 
-      result = ClientPayload.Deserialize(taskResult);
+    sessionService = client.CreateSession(taskOptions);
 
-      Log.LogInformation($"\tINFO CLIENT stage of call after 6 submits in 2 sessions : {PrintStates(result.Result)}");
-      Log.LogInformation($"\tINFO SERVER                                             :\n\t{string.Join("\n\t", result.Message.Split('\n').Select(x => $"|\t{x}"))}");
-      Assert.AreEqual(storeInitialNbCall + (1000000 + 100000 + 2 * 1000 + 6),
-                      result.Result);
-    }
-
-    private string PrintStates(int resultCalls)
-    {
-      // service * 1000000 + session * 100000 + SessionEnter * 1000 + onInvoke * 1)
+    Log.LogInformation($"INFO CLIENT : New session created : {sessionService}");
 
 
-      int subResult = (resultCalls / 1000);
+    Log.LogInformation($"\tINFO CLIENT : Submitted new task       num : {++countTask}");
+    taskId = sessionService.SubmitTask(payload.Serialize());
 
-      var nbInvoke = resultCalls - subResult * 1000;
+    Log.LogInformation($"\tINFO CLIENT : Waiting taskId {taskId}  num : {countTask}");
+    WaitForTaskResult(sessionService,
+                      taskId);
 
-      // service * 1000 + session * 100 + SessionEnter * 1)
-      int nbOnSessionEnter = subResult - (subResult / 100) * 100;
+    Log.LogInformation($"\tINFO CLIENT : Submitted new task       num : {++countTask}");
+    taskId = sessionService.SubmitTask(payload.Serialize());
 
-      int createService = (resultCalls - 1000000 - nbOnSessionEnter * 1000 - nbInvoke) / 100000;
+    Log.LogInformation($"\tINFO CLIENT : Waiting taskId {taskId}  num : {countTask}");
+    WaitForTaskResult(sessionService,
+                      taskId);
+
+    Log.LogInformation($"\tINFO CLIENT : Submitted new task       num : {++countTask}");
+    taskId = sessionService.SubmitTask(payload.Serialize());
+
+    Log.LogInformation($"\tINFO CLIENT : Waiting taskId {taskId}  num : {countTask}");
+    WaitForTaskResult(sessionService,
+                      taskId);
+
+    Log.LogInformation($"\tINFO CLIENT : Submitted new task       num : {++countTask}");
+    taskId = sessionService.SubmitTask(payload.Serialize());
+
+    Log.LogInformation($"\tINFO CLIENT : Waiting taskId {taskId}  num : {countTask}");
+    taskResult = WaitForTaskResult(sessionService,
+                                   taskId);
+
+    result = ClientPayload.Deserialize(taskResult);
+
+    Log.LogInformation($"\tINFO CLIENT stage of call after 6 submits in 2 sessions : {PrintStates(result.Result)}");
+    Log.LogInformation($"\tINFO SERVER                                             :\n\t{string.Join("\n\t", result.Message.Split('\n').Select(x => $"|\t{x}"))}");
+    Assert.AreEqual(storeInitialNbCall + 1000000 + 100000 + 2 * 1000 + 6,
+                    result.Result);
+  }
+
+  private string PrintStates(int resultCalls)
+  {
+    // service * 1000000 + session * 100000 + SessionEnter * 1000 + onInvoke * 1)
 
 
-      return $"\n\t{createService} createService(s)\n\t{nbOnSessionEnter} sessionEnter(s)\n\t{nbInvoke} nbInvoke(s)";
-    }
+    var subResult = resultCalls / 1000;
 
-    /// <summary>
-    ///   Simple function to wait and get the result from subTasking and result delegation
-    ///   to a subTask
-    /// </summary>
-    /// <param name="sessionService">The sessionService API to connect to the Control plane Service</param>
-    /// <param name="taskId">The task which is waiting for</param>
-    /// <returns></returns>
-    private static byte[] WaitForTaskResult(SessionService sessionService, string taskId)
-    {
-      var taskResult = sessionService.GetResult(taskId);
+    var nbInvoke = resultCalls - subResult * 1000;
 
-      return taskResult;
-    }
+    // service * 1000 + session * 100 + SessionEnter * 1)
+    var nbOnSessionEnter = subResult - subResult / 100 * 100;
+
+    var createService = (resultCalls - 1000000 - nbOnSessionEnter * 1000 - nbInvoke) / 100000;
+
+
+    return $"\n\t{createService} createService(s)\n\t{nbOnSessionEnter} sessionEnter(s)\n\t{nbInvoke} nbInvoke(s)";
+  }
+
+  /// <summary>
+  ///   Simple function to wait and get the result from subTasking and result delegation
+  ///   to a subTask
+  /// </summary>
+  /// <param name="sessionService">The sessionService API to connect to the Control plane Service</param>
+  /// <param name="taskId">The task which is waiting for</param>
+  /// <returns></returns>
+  private static byte[] WaitForTaskResult(SessionService sessionService,
+                                          string         taskId)
+  {
+    var taskResult = sessionService.GetResult(taskId);
+
+    return taskResult;
   }
 }

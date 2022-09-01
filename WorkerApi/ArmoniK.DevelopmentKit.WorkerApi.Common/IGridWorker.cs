@@ -29,16 +29,20 @@ using ArmoniK.Api.Worker.Worker;
 
 using Microsoft.Extensions.Configuration;
 
-namespace ArmoniK.DevelopmentKit.WorkerApi.Common
+namespace ArmoniK.DevelopmentKit.WorkerApi.Common;
+
+public interface IGridWorker : IDisposable
 {
-  public interface IGridWorker : IDisposable
-  {
-    public void Configure(IConfiguration        configuration, IReadOnlyDictionary<string, string> clientOptions, IAppsLoader appsLoader);
-    public void InitializeSessionWorker(Session sessionId,     IReadOnlyDictionary<string, string> requestTaskOptions);
-    public byte[] Execute(ITaskHandler          taskHandler);
+  public void Configure(IConfiguration                      configuration,
+                        IReadOnlyDictionary<string, string> clientOptions,
+                        IAppsLoader                         appsLoader);
 
-    public void SessionFinalize();
+  public void InitializeSessionWorker(Session                             sessionId,
+                                      IReadOnlyDictionary<string, string> requestTaskOptions);
 
-    public void DestroyService();
-  }
+  public byte[] Execute(ITaskHandler taskHandler);
+
+  public void SessionFinalize();
+
+  public void DestroyService();
 }

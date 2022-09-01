@@ -33,207 +33,221 @@ using ArmoniK.DevelopmentKit.WorkerApi.Common;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-namespace ArmoniK.DevelopmentKit.WorkerApi
+namespace ArmoniK.DevelopmentKit.WorkerApi;
+
+public class AppsLoader : IAppsLoader
 {
-  public class AppsLoader : IAppsLoader
+  private readonly Assembly   assemblyGridWorker_;
+  private readonly EngineType engineType_;
+
+  private readonly ILogger<AppsLoader> logger_;
+  private          Assembly            assembly_;
+
+  public AppsLoader(IConfiguration configuration,
+                    ILoggerFactory loggerFactory,
+                    string         engineTypeAssemblyName,
+                    IFileAdaptater fileAdaptater,
+                    string         fileName)
   {
-    private Assembly assembly_;
+    engineType_ = EngineTypeHelper.ToEnum(engineTypeAssemblyName);
 
-    private          AssemblyLoadContext loadContext_;
-    private readonly Assembly            assemblyGridWorker_;
-    private          ILogger<AppsLoader> logger_;
-    private readonly EngineType          engineType_;
+    FileAdaptater = fileAdaptater;
 
-    private string ArmoniKDevelopmentKitServerApi { get; set; }
+    ArmoniKDevelopmentKitServerApi = new EngineTypes()[engineType_];
 
-    public AssemblyLoadContext UserAssemblyLoadContext => loadContext_;
+    logger_ = loggerFactory.CreateLogger<AppsLoader>();
 
-    public AppsLoader(IConfiguration configuration,
-                      ILoggerFactory loggerFactory,
-                      string         engineTypeAssemblyName,
-                      IFileAdaptater fileAdaptater,
-                      string         fileName)
+    if (!ZipArchiver.ArchiveAlreadyExtracted(fileAdaptater,
+                                             fileName))
     {
-      engineType_ = EngineTypeHelper.ToEnum(engineTypeAssemblyName);
-
-      FileAdaptater = fileAdaptater;
-
-      ArmoniKDevelopmentKitServerApi = new EngineTypes()[engineType_];
-
-      logger_ = loggerFactory.CreateLogger<AppsLoader>();
-
-      if (!ZipArchiver.ArchiveAlreadyExtracted(fileAdaptater,
-                                               fileName))
-        ZipArchiver.UnzipArchive(fileAdaptater,
-                                 fileName);
+      ZipArchiver.UnzipArchive(fileAdaptater,
+                               fileName);
+    }
 
 
-      var localPathToAssembly = ZipArchiver.GetLocalPathToAssembly(Path.Combine(fileAdaptater.DestinationDirPath,
-                                                                                fileName));
+    var localPathToAssembly = ZipArchiver.GetLocalPathToAssembly(Path.Combine(fileAdaptater.DestinationDirPath,
+                                                                              fileName));
 
-      loadContext_ = new AddonsAssemblyLoadContext(localPathToAssembly);
+    UserAssemblyLoadContext = new AddonsAssemblyLoadContext(localPathToAssembly);
 
-      assembly_ = loadContext_.LoadFromAssemblyPath(localPathToAssembly);
+    assembly_ = UserAssemblyLoadContext.LoadFromAssemblyPath(localPathToAssembly);
 
-      if (assembly_ == null)
-      {
-        logger_.LogError($"Cannot load assembly from path [${localPathToAssembly}]");
-        throw new WorkerApiException($"Cannot load assembly from path [${localPathToAssembly}]");
-      }
+    if (assembly_ == null)
+    {
+      logger_.LogError($"Cannot load assembly from path [${localPathToAssembly}]");
+      throw new WorkerApiException($"Cannot load assembly from path [${localPathToAssembly}]");
+    }
 
-      PathToAssembly = localPathToAssembly;
+    PathToAssembly = localPathToAssembly;
 
-      var localPathToAssemblyGridWorker = $"{Path.GetDirectoryName(localPathToAssembly)}/{ArmoniKDevelopmentKitServerApi}.dll";
+    var localPathToAssemblyGridWorker = $"{Path.GetDirectoryName(localPathToAssembly)}/{ArmoniKDevelopmentKitServerApi}.dll";
 
-      assemblyGridWorker_ = loadContext_.LoadFromAssemblyPath(localPathToAssemblyGridWorker);
+    assemblyGridWorker_ = UserAssemblyLoadContext.LoadFromAssemblyPath(localPathToAssemblyGridWorker);
 
-      if (assemblyGridWorker_ == null)
-      {
-        logger_.LogError($"Cannot load assembly from path [${localPathToAssemblyGridWorker}]");
-        throw new WorkerApiException($"Cannot load assembly from path [${localPathToAssemblyGridWorker}]");
-      }
-      
-      var location = Path.GetDirectoryName(localPathToAssembly);
-      if (location != null)
-      {
-        Directory.SetCurrentDirectory(location);
-        logger_.LogInformation($"Set Default path to [${location}]");
-      }
+    if (assemblyGridWorker_ == null)
+    {
+      logger_.LogError($"Cannot load assembly from path [${localPathToAssemblyGridWorker}]");
+      throw new WorkerApiException($"Cannot load assembly from path [${localPathToAssemblyGridWorker}]");
+    }
 
-      logger_.LogInformation($"GridWorker assembly from path [${localPathToAssemblyGridWorker}]");
+    var location = Path.GetDirectoryName(localPathToAssembly);
+    if (location != null)
+    {
+      Directory.SetCurrentDirectory(location);
+      logger_.LogInformation($"Set Default path to [${location}]");
+    }
 
-      PathToAssemblyGridWorker = localPathToAssemblyGridWorker;
+    logger_.LogInformation($"GridWorker assembly from path [${localPathToAssemblyGridWorker}]");
 
-      var currentDomain = AppDomain.CurrentDomain;
-      currentDomain.AssemblyResolve += new ResolveEventHandler(LoadFromSameFolder);
+    PathToAssemblyGridWorker = localPathToAssemblyGridWorker;
 
-      Assembly LoadFromSameFolder(object sender, ResolveEventArgs args)
-      {
-        var folderPath = Path.GetDirectoryName(PathToAssembly);
-        var assemblyPath = Path.Combine(folderPath ?? "",
-                                        new AssemblyName(args.Name).Name + ".dll");
+    var currentDomain = AppDomain.CurrentDomain;
+    currentDomain.AssemblyResolve += LoadFromSameFolder;
 
-        Assembly assembly;
-
-        try
-        {
-          assembly = Assembly.LoadFrom(assemblyPath);
-        }
-        catch (Exception)
-        {
-          folderPath = "/app";
-          assemblyPath = Path.Combine(folderPath,
+    Assembly LoadFromSameFolder(object           sender,
+                                ResolveEventArgs args)
+    {
+      var folderPath = Path.GetDirectoryName(PathToAssembly);
+      var assemblyPath = Path.Combine(folderPath ?? "",
                                       new AssemblyName(args.Name).Name + ".dll");
 
-          if (!File.Exists(assemblyPath)) return null;
+      Assembly assembly;
 
-          assembly = Assembly.LoadFrom(assemblyPath);
-        }
-
-        return assembly;
-      }
-    }
-
-    public IConfiguration Configuration { get; }
-
-    public IFileAdaptater FileAdaptater { get; set; }
-
-    public string PathToAssembly { get; set; }
-
-    public string PathToAssemblyGridWorker { get; set; }
-
-    public IGridWorker GetGridWorkerInstance(IConfiguration configuration, ILoggerFactory loggerFactory)
-    {
-      // Create an instance of a class from the assembly.
       try
       {
-        using (UserAssemblyLoadContext.EnterContextualReflection())
-        {
-          var classType = assemblyGridWorker_.GetType($"{ArmoniKDevelopmentKitServerApi}.GridWorker");
-
-          if (classType != null)
-          {
-            var args = new object[] { (IConfiguration)configuration, (ILoggerFactory)loggerFactory };
-
-
-            var gridWorker = (IGridWorker)Activator.CreateInstance(classType,
-                                                                   args);
-
-            return gridWorker;
-          }
-        }
+        assembly = Assembly.LoadFrom(assemblyPath);
       }
-      catch (Exception e)
+      catch (Exception)
       {
-        Console.WriteLine(e);
-        throw new WorkerApiException(e);
+        folderPath = "/app";
+        assemblyPath = Path.Combine(folderPath,
+                                    new AssemblyName(args.Name).Name + ".dll");
+
+        if (!File.Exists(assemblyPath))
+        {
+          return null;
+        }
+
+        assembly = Assembly.LoadFrom(assemblyPath);
       }
 
-      throw new NullReferenceException($"Cannot find ServiceContainer named : {ArmoniKDevelopmentKitServerApi}.GridWorker in dll [{PathToAssemblyGridWorker}]");
+      return assembly;
+    }
+  }
+
+  private string ArmoniKDevelopmentKitServerApi { get; }
+
+  public AssemblyLoadContext UserAssemblyLoadContext { get; private set; }
+
+  public IConfiguration Configuration { get; }
+
+  public IFileAdaptater FileAdaptater { get; set; }
+
+  public string PathToAssembly { get; set; }
+
+  public string PathToAssemblyGridWorker { get; set; }
+
+  public T GetServiceContainerInstance<T>(string appNamespace,
+                                          string serviceContainerClassName)
+  {
+    using (UserAssemblyLoadContext.EnterContextualReflection())
+    {
+      // Create an instance of a class from the assembly.
+      var classType = assembly_.GetType($"{appNamespace}.{serviceContainerClassName}");
+
+      if (classType != null)
+      {
+        var serviceContainer = (T)Activator.CreateInstance(classType);
+
+        return serviceContainer;
+      }
     }
 
-    public T GetServiceContainerInstance<T>(string appNamespace, string serviceContainerClassName)
+    Dispose();
+    throw new NullReferenceException($"Cannot find ServiceContainer named : {appNamespace}.{serviceContainerClassName} in dll [{PathToAssembly}]");
+  }
+
+  public void Dispose()
+  {
+    assembly_ = null;
+    if (UserAssemblyLoadContext != null)
+      // Unload the context.
+    {
+      UserAssemblyLoadContext.Unload();
+    }
+
+    UserAssemblyLoadContext = null;
+  }
+
+  public IGridWorker GetGridWorkerInstance(IConfiguration configuration,
+                                           ILoggerFactory loggerFactory)
+  {
+    // Create an instance of a class from the assembly.
+    try
     {
       using (UserAssemblyLoadContext.EnterContextualReflection())
       {
-        // Create an instance of a class from the assembly.
-        var classType = assembly_.GetType($"{appNamespace}.{serviceContainerClassName}");
+        var classType = assemblyGridWorker_.GetType($"{ArmoniKDevelopmentKitServerApi}.GridWorker");
 
         if (classType != null)
         {
-          var serviceContainer = (T)Activator.CreateInstance(classType);
+          var args = new object[]
+                     {
+                       configuration,
+                       loggerFactory,
+                     };
 
-          return serviceContainer;
+
+          var gridWorker = (IGridWorker)Activator.CreateInstance(classType,
+                                                                 args);
+
+          return gridWorker;
         }
       }
-
-      Dispose();
-      throw new NullReferenceException($"Cannot find ServiceContainer named : {appNamespace}.{serviceContainerClassName} in dll [{PathToAssembly}]");
+    }
+    catch (Exception e)
+    {
+      Console.WriteLine(e);
+      throw new WorkerApiException(e);
     }
 
-    public T GetServiceContainerInstance<T>(string appNamespace, string serviceContainerClassName, params object[] args)
+    throw new NullReferenceException($"Cannot find ServiceContainer named : {ArmoniKDevelopmentKitServerApi}.GridWorker in dll [{PathToAssemblyGridWorker}]");
+  }
+
+  public T GetServiceContainerInstance<T>(string          appNamespace,
+                                          string          serviceContainerClassName,
+                                          params object[] args)
+  {
+    using (UserAssemblyLoadContext.EnterContextualReflection())
     {
-      using (UserAssemblyLoadContext.EnterContextualReflection())
+      // Create an instance of a class from the assembly.
+      var classType = assembly_.GetType($"{appNamespace}.{serviceContainerClassName}");
+
+      if (classType != null)
       {
-        // Create an instance of a class from the assembly.
-        var classType = assembly_.GetType($"{appNamespace}.{serviceContainerClassName}");
+        var serviceContainer = (T)Activator.CreateInstance(classType,
+                                                           args);
 
-        if (classType != null)
-        {
-          var serviceContainer = (T)Activator.CreateInstance(classType, args);
-
-          return serviceContainer;
-        }
+        return serviceContainer;
       }
-
-      Dispose();
-      throw new NullReferenceException($"Cannot find ServiceContainer named : {appNamespace}.{serviceContainerClassName} in dll [{PathToAssembly}]");
     }
 
-    public void Dispose()
+    Dispose();
+    throw new NullReferenceException($"Cannot find ServiceContainer named : {appNamespace}.{serviceContainerClassName} in dll [{PathToAssembly}]");
+  }
+
+  ~AppsLoader()
+    => Dispose();
+
+  public bool RequestNewAssembly(string engineType,
+                                 string pathToZipFile)
+  {
+    if (pathToZipFile == null)
     {
-      assembly_ = null;
-      if (loadContext_ != null)
-        // Unload the context.
-        loadContext_.Unload();
-      loadContext_ = null;
+      throw new ArgumentNullException(nameof(pathToZipFile),
+                                      "pathToZipFile is a null argument");
     }
 
-    ~AppsLoader()
-    {
-      Dispose();
-    }
-
-    public bool RequestNewAssembly(string engineType, string pathToZipFile)
-    {
-      if (pathToZipFile == null)
-        throw new ArgumentNullException(nameof(pathToZipFile),
-                                        "pathToZipFile is a null argument");
-
-      return engineType == null ||
-             engineType_ != EngineTypeHelper.ToEnum(engineType) ||
-             FileAdaptater == null ||
-             !pathToZipFile.Equals(FileAdaptater);
-    }
+    return engineType == null || engineType_ != EngineTypeHelper.ToEnum(engineType) || FileAdaptater == null || !pathToZipFile.Equals(FileAdaptater);
   }
 }

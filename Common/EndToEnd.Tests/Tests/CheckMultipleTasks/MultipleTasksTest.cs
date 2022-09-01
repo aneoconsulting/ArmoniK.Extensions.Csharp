@@ -25,42 +25,41 @@ using ArmoniK.DevelopmentKit.SymphonyApi;
 using ArmoniK.DevelopmentKit.SymphonyApi.api;
 using ArmoniK.EndToEndTests.Common;
 
-namespace ArmoniK.EndToEndTests.Tests.CheckMultipleTasks
+namespace ArmoniK.EndToEndTests.Tests.CheckMultipleTasks;
+
+public class ServiceContainer : ServiceContainerBase
 {
-  public class ServiceContainer : ServiceContainerBase
+  public override void OnCreateService(ServiceContext serviceContext)
   {
-    public override void OnCreateService(ServiceContext serviceContext)
-    {
-      //END USER PLEASE FIXME
-    }
+    //END USER PLEASE FIXME
+  }
 
-    public override void OnSessionEnter(SessionContext sessionContext)
-    {
-      //END USER PLEASE FIXME
-    }
+  public override void OnSessionEnter(SessionContext sessionContext)
+  {
+    //END USER PLEASE FIXME
+  }
 
-    public override byte[] OnInvoke(SessionContext sessionContext, TaskContext taskContext)
-    {
-      var payload = ClientPayload.Deserialize(taskContext.TaskInput);
+  public override byte[] OnInvoke(SessionContext sessionContext,
+                                  TaskContext    taskContext)
+  {
+    var payload = ClientPayload.Deserialize(taskContext.TaskInput);
 
-      return new ClientPayload
-        {
-          Type   = ClientPayload.TaskType.Result,
-          Result = 8,
-        }
-        .Serialize(); //nothing to do
-      /////////////////// TO SERVER SIDE TEST HERE //////////////////////////////////////////
-    }
+    return new ClientPayload
+           {
+             Type   = ClientPayload.TaskType.Result,
+             Result = 8,
+           }.Serialize(); //nothing to do
+    /////////////////// TO SERVER SIDE TEST HERE //////////////////////////////////////////
+  }
 
 
-    public override void OnSessionLeave(SessionContext sessionContext)
-    {
-      //END USER PLEASE FIXME
-    }
+  public override void OnSessionLeave(SessionContext sessionContext)
+  {
+    //END USER PLEASE FIXME
+  }
 
-    public override void OnDestroyService(ServiceContext serviceContext)
-    {
-      //END USER PLEASE FIXME
-    }
+  public override void OnDestroyService(ServiceContext serviceContext)
+  {
+    //END USER PLEASE FIXME
   }
 }

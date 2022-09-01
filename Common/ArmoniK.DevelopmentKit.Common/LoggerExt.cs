@@ -24,11 +24,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive.Disposables;
 using System.Runtime.CompilerServices;
 
 using Microsoft.Extensions.Logging;
-
-using System.Reactive.Disposables;
 
 #pragma warning disable CS1591
 
@@ -63,15 +62,17 @@ public static class LoggerExt
   {
     if (!logger.IsEnabled(level))
     {
-      return Disposable.Create(() => { });
+      return Disposable.Create(() =>
+                               {
+                               });
     }
 
     var properties = new List<ValueTuple<string, object>>
-    {
-      (nameof(functionName), functionName),
-      (nameof(classFilePath), classFilePath),
-      (nameof(line), line),
-    };
+                     {
+                       (nameof(functionName), functionName),
+                       (nameof(classFilePath), classFilePath),
+                       (nameof(line), line),
+                     };
     if (!string.IsNullOrEmpty(id))
     {
       properties.Add(("Id", id));
@@ -87,13 +88,13 @@ public static class LoggerExt
                id);
 
     return Disposable.Create(() =>
-    {
-      logger.Log(level,
-                 "Leaving {classFilePath}.{functionName} - {Id}",
-                 classFilePath,
-                 functionName,
-                 id);
-      scope.Dispose();
-    });
+                             {
+                               logger.Log(level,
+                                          "Leaving {classFilePath}.{functionName} - {Id}",
+                                          classFilePath,
+                                          functionName,
+                                          id);
+                               scope.Dispose();
+                             });
   }
 }

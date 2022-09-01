@@ -30,39 +30,38 @@ using Google.Protobuf.WellKnownTypes;
 
 using Microsoft.Extensions.Configuration;
 
-namespace ArmoniK.EndToEndTests.Common
+namespace ArmoniK.EndToEndTests.Common;
+
+public class ClientTestHelpers
 {
-  public class ClientTestHelpers
+  public ClientTestHelpers()
   {
-    public ClientTestHelpers()
-    {
-      var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory())
-                                              .AddJsonFile("appsettings.json",
-                                                           true,
-                                                           false)
-                                              .AddEnvironmentVariables();
-    }
+    var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory())
+                                            .AddJsonFile("appsettings.json",
+                                                         true,
+                                                         false)
+                                            .AddEnvironmentVariables();
+  }
 
-    public static TaskOptions InitializeTaskOptions()
-    {
-      TaskOptions taskOptions = new()
-      {
-        MaxDuration = new Duration
-        {
-          Seconds = 300,
-        },
-        MaxRetries = 5,
-        Priority   = 1,
-      };
-      taskOptions.Options.Add(AppsOptions.GridAppNameKey,
-                              "ArmoniK.Samples.EndToEndTests");
+  public static TaskOptions InitializeTaskOptions()
+  {
+    TaskOptions taskOptions = new()
+                              {
+                                MaxDuration = new Duration
+                                              {
+                                                Seconds = 300,
+                                              },
+                                MaxRetries = 5,
+                                Priority   = 1,
+                              };
+    taskOptions.Options.Add(AppsOptions.GridAppNameKey,
+                            "ArmoniK.Samples.EndToEndTests");
 
-      taskOptions.Options.Add(AppsOptions.GridAppVersionKey,
-                              "1.0.0");
+    taskOptions.Options.Add(AppsOptions.GridAppVersionKey,
+                            "1.0.0");
 
-      taskOptions.Options.Add(AppsOptions.GridAppNamespaceKey,
-                              "ArmoniK.Samples.EndToEndTests");
-      return taskOptions;
-    }
+    taskOptions.Options.Add(AppsOptions.GridAppNamespaceKey,
+                            "ArmoniK.Samples.EndToEndTests");
+    return taskOptions;
   }
 }

@@ -23,9 +23,8 @@
 
 using System;
 
-namespace ArmoniK.Attributes
+namespace ArmoniK.Attributes;
+
+public class XmlDocIgnoreAttribute : Attribute
 {
-  public class XmlDocIgnoreAttribute : Attribute
-  {
-  }
 }

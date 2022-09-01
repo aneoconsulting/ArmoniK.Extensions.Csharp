@@ -23,78 +23,83 @@
 
 using System.Collections.Generic;
 
-namespace ArmoniK.DevelopmentKit.Common
+namespace ArmoniK.DevelopmentKit.Common;
+
+/// <summary>
+///   Engine type to set in TaskOption to select API to use during the execution on worker
+/// </summary>
+public enum EngineType
 {
   /// <summary>
-  /// Engine type to set in TaskOption to select API to use during the execution on worker
   /// </summary>
-  public enum EngineType
-  {
-    /// <summary>
-    /// 
-    /// </summary>
-    Symphony = 0,
+  Symphony = 0,
 
-
-    /// <summary>
-    /// 
-    /// </summary>
-    DataSynapse = 1,
-
-    /// <summary>
-    /// 
-    /// </summary>
-    Unified = 2,
-  }
 
   /// <summary>
-  /// Convert helper from Enum to class and reverse
   /// </summary>
-  public static class EngineTypeHelper
-  {
-    /// <summary>
-    /// The method to convert string enum name to obejct enum
-    /// </summary>
-    /// <param name="enumName"></param>
-    /// <returns></returns>
-    /// <exception cref="KeyNotFoundException"></exception>
-    public static EngineType ToEnum(string enumName)
-      => enumName switch
-         {
-           "Symphony"    => EngineType.Symphony,
-           "DataSynapse" => EngineType.DataSynapse,
-           "Unified" => EngineType.Unified,
-           _             => throw new KeyNotFoundException($"enumName, possible choice are [{string.Join(", ", typeof(EngineType).GetEnumNames())}]")
-         };
-  }
+  DataSynapse = 1,
 
   /// <summary>
-  /// Map table to target API
   /// </summary>
-  public class EngineTypes
+  Unified = 2,
+}
+
+/// <summary>
+///   Convert helper from Enum to class and reverse
+/// </summary>
+public static class EngineTypeHelper
+{
+  /// <summary>
+  ///   The method to convert string enum name to obejct enum
+  /// </summary>
+  /// <param name="enumName"></param>
+  /// <returns></returns>
+  /// <exception cref="KeyNotFoundException"></exception>
+  public static EngineType ToEnum(string enumName)
+    => enumName switch
+       {
+         "Symphony"    => EngineType.Symphony,
+         "DataSynapse" => EngineType.DataSynapse,
+         "Unified"     => EngineType.Unified,
+         _             => throw new KeyNotFoundException($"enumName, possible choice are [{string.Join(", ", typeof(EngineType).GetEnumNames())}]"),
+       };
+}
+
+/// <summary>
+///   Map table to target API
+/// </summary>
+public class EngineTypes
+{
+  private readonly Dictionary<EngineType, string> engineTypes_ = new()
+                                                                 {
+                                                                   {
+                                                                     EngineType.Symphony, "ArmoniK.DevelopmentKit.SymphonyApi"
+                                                                   },
+
+                                                                   {
+                                                                     EngineType.DataSynapse, "ArmoniK.DevelopmentKit.GridServer"
+                                                                   },
+
+                                                                   {
+                                                                     EngineType.Unified, "ArmoniK.DevelopmentKit.Worker"
+                                                                   },
+                                                                 };
+
+  /// <summary>
+  ///   Get the EngineType Assembly name for AppLoader
+  /// </summary>
+  /// <param name="key">The Engine type</param>
+  /// <exception cref="KeyNotFoundException">Exception the key doesn't exist</exception>
+  public string this[EngineType key]
   {
-    private readonly Dictionary<EngineType, string> engineTypes_ = new()
+    get
     {
-      { EngineType.Symphony, "ArmoniK.DevelopmentKit.SymphonyApi" },
-
-      { EngineType.DataSynapse, "ArmoniK.DevelopmentKit.GridServer" },
-
-      { EngineType.Unified, "ArmoniK.DevelopmentKit.Worker" },
-    };
-
-    /// <summary>
-    /// Get the EngineType Assembly name for AppLoader
-    /// </summary>
-    /// <param name="key">The Engine type</param>
-    /// <exception cref="KeyNotFoundException">Exception the key doesn't exist</exception>
-    public string this[EngineType key]
-    {
-      get
+      if (engineTypes_.ContainsKey(key))
       {
-        if (engineTypes_.ContainsKey(key)) return engineTypes_[key];
-
-        throw new KeyNotFoundException($"There is no engine type [{key}]");
+        return engineTypes_[key];
       }
+
+      throw new KeyNotFoundException($"There is no engine type [{key}]");
     }
   }
 }

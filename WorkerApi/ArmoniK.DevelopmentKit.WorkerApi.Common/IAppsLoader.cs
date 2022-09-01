@@ -23,10 +23,10 @@
 
 using System;
 
-namespace ArmoniK.DevelopmentKit.WorkerApi.Common
+namespace ArmoniK.DevelopmentKit.WorkerApi.Common;
+
+public interface IAppsLoader : IDisposable
 {
-  public interface IAppsLoader : IDisposable
-  {
-    T GetServiceContainerInstance<T>(string gridAppNamespace, string gridServiceName);
-  }
+  T GetServiceContainerInstance<T>(string gridAppNamespace,
+                                   string gridServiceName);
 }

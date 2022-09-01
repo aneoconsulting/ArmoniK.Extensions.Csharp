@@ -21,61 +21,60 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.Collections.Generic;
+
 using ArmoniK.DevelopmentKit.SymphonyApi.Client;
 using ArmoniK.EndToEndTests.Common;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-using System.Collections.Generic;
+namespace ArmoniK.EndToEndTests.Tests.SimpleComputeNSubtasking;
 
-namespace ArmoniK.EndToEndTests.Tests.SimpleComputeNSubtasking
+public class SimpleComputeNSubtaskingClient : ClientBaseTest<SimpleComputeNSubtaskingClient>
 {
-
-  public class SimpleComputeNSubtaskingClient : ClientBaseTest<SimpleComputeNSubtaskingClient>
-  {
-    public SimpleComputeNSubtaskingClient(IConfiguration configuration, ILoggerFactory loggerFactory) :
-      base(configuration,
+  public SimpleComputeNSubtaskingClient(IConfiguration configuration,
+                                        ILoggerFactory loggerFactory)
+    : base(configuration,
            loggerFactory)
-    {
-    }
+  {
+  }
 
-    [EntryPoint]
-    public override void EntryPoint()
-    {
-      var client = new ArmonikSymphonyClient(Configuration,
-                                             LoggerFactory);
+  [EntryPoint]
+  public override void EntryPoint()
+  {
+    var client = new ArmonikSymphonyClient(Configuration,
+                                           LoggerFactory);
 
-      Log.LogInformation("Configure taskOptions");
-      var taskOptions = InitializeTaskOptions();
+    Log.LogInformation("Configure taskOptions");
+    var taskOptions = InitializeTaskOptions();
 
-      var sessionService = client.CreateSession(taskOptions);
+    var sessionService = client.CreateSession(taskOptions);
 
-      Log.LogInformation($"New session created : {sessionService}");
+    Log.LogInformation($"New session created : {sessionService}");
 
-      Log.LogInformation("Running End to End test to compute Square value with SubTasking");
+    Log.LogInformation("Running End to End test to compute Square value with SubTasking");
 
-      var numbers = new List<int>
-      {
-        1,
-        2,
-        3,
-      };
-      var clientPayload = new ClientPayload
-      {
-        IsRootTask = true,
-        Numbers    = numbers,
-        Type       = ClientPayload.TaskType.ComputeSquare,
-      };
-      var taskId = sessionService.SubmitTask(clientPayload.Serialize());
+    var numbers = new List<int>
+                  {
+                    1,
+                    2,
+                    3,
+                  };
+    var clientPayload = new ClientPayload
+                        {
+                          IsRootTask = true,
+                          Numbers    = numbers,
+                          Type       = ClientPayload.TaskType.ComputeSquare,
+                        };
+    var taskId = sessionService.SubmitTask(clientPayload.Serialize());
 
-      Log.LogInformation($"Wait for root task to finish [task {taskId}]");
+    Log.LogInformation($"Wait for root task to finish [task {taskId}]");
 
-      var taskResult = sessionService.GetResult(taskId);
+    var taskResult = sessionService.GetResult(taskId);
 
-      var result = ClientPayload.Deserialize(taskResult);
+    var result = ClientPayload.Deserialize(taskResult);
 
-      Log.LogInformation($"output result : {result.Result}");
-    }
+    Log.LogInformation($"output result : {result.Result}");
   }
 }

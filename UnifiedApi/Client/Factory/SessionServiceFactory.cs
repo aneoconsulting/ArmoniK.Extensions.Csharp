@@ -1,4 +1,4 @@
-﻿// This file is part of the ArmoniK project
+// This file is part of the ArmoniK project
 // 
 // Copyright (C) ANEO, 2021-2022.
 //   W. Kirschenmann   <wkirschenmann@aneo.fr>
@@ -21,10 +21,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#if NET5_0_OR_GREATER
-using Grpc.Net.Client;
-#else
-#endif
+
 using System.Collections.Generic;
 
 using ArmoniK.Api.gRPC.V1;
@@ -38,131 +35,133 @@ using Google.Protobuf.WellKnownTypes;
 
 using Microsoft.Extensions.Logging;
 
-namespace ArmoniK.DevelopmentKit.Client.Factory
+namespace ArmoniK.DevelopmentKit.Client.Factory;
+
+/// <summary>
+///   The main object to communicate with the control Plane from the client side
+///   The class will connect to the control plane to createSession, SubmitTask,
+///   Wait for result and get the result.
+///   See an example in the project ArmoniK.Samples in the sub project
+///   https://github.com/aneoconsulting/ArmoniK.Samples/tree/main/Samples/UnifiedAPI
+///   Samples.ArmoniK.Sample.UnifiedAPI.Client
+/// </summary>
+[MarkDownDoc]
+public class SessionServiceFactory
 {
   /// <summary>
-  ///   The main object to communicate with the control Plane from the client side
-  ///   The class will connect to the control plane to createSession, SubmitTask,
-  ///   Wait for result and get the result.
-  ///   See an example in the project ArmoniK.Samples in the sub project
-  ///   https://github.com/aneoconsulting/ArmoniK.Samples/tree/main/Samples/UnifiedAPI
-  ///   Samples.ArmoniK.Sample.UnifiedAPI.Client
+  ///   The ctor with IConfiguration and optional TaskOptions
   /// </summary>
-  [MarkDownDoc]
-  public class SessionServiceFactory
+  /// <param name="loggerFactory">The factory to create the logger for clientService</param>
+  public SessionServiceFactory(ILoggerFactory loggerFactory)
   {
-    private ILogger<SessionServiceFactory> Logger { get; set; }
-    private Submitter.SubmitterClient ControlPlaneService { get; set; }
+    LoggerFactory = loggerFactory;
+    Logger        = loggerFactory.CreateLogger<SessionServiceFactory>();
+  }
+
+  private ILogger<SessionServiceFactory> Logger              { get; }
+  private Submitter.SubmitterClient      ControlPlaneService { get; set; }
 
 
-    private ILoggerFactory LoggerFactory { get; set; }
+  private ILoggerFactory LoggerFactory { get; }
 
-    /// <summary>
-    /// The ctor with IConfiguration and optional TaskOptions
-    /// 
-    /// </summary>
-    /// <param name="loggerFactory">The factory to create the logger for clientService</param>
-    public SessionServiceFactory(ILoggerFactory loggerFactory)
+  /// <summary>
+  ///   Create the session to submit task
+  /// </summary>
+  /// <param name="properties">All settings to create the session</param>
+  /// <returns></returns>
+  public SessionService CreateSession(Properties properties)
+  {
+    ControlPlaneConnection(properties);
+
+    Logger.LogDebug("Creating Session... ");
+
+    return new SessionService(LoggerFactory,
+                              ControlPlaneService,
+                              properties.TaskOptions);
+  }
+
+  private void ControlPlaneConnection(Properties properties)
+  {
+    if (ControlPlaneService != null)
     {
-      LoggerFactory = loggerFactory;
-      Logger        = loggerFactory.CreateLogger<SessionServiceFactory>();
+      return;
     }
 
-    /// <summary>
-    /// Create the session to submit task
-    /// </summary>
-    /// <param name="properties">All settings to create the session</param>
-    /// <returns></returns>
-    public SessionService CreateSession(Properties properties)
-    {
-      ControlPlaneConnection(properties);
 
-      Logger.LogDebug("Creating Session... ");
+    ControlPlaneService = ClientServiceConnector.ControlPlaneConnection(properties.ConnectionString,
+                                                                        properties.ClientCertFilePem,
+                                                                        properties.ClientKeyFilePem,
+                                                                        properties.ConfSSLValidation,
+                                                                        LoggerFactory);
+  }
 
-      return new SessionService(LoggerFactory,
-                                ControlPlaneService,
-                                properties.TaskOptions);
-    }
+  /// <summary>
+  ///   Set connection to an already opened Session
+  /// </summary>
+  /// <param name="properties">The properties setting for the session</param>
+  /// <param name="sessionId">SessionId previously opened</param>
+  /// <param name="clientOptions"></param>
+  public SessionService OpenSession(Properties                  properties,
+                                    string                      sessionId,
+                                    IDictionary<string, string> clientOptions = null)
+  {
+    ControlPlaneConnection(properties);
 
-    private void ControlPlaneConnection(Properties properties)
-    {
-      if (ControlPlaneService != null)
-        return;
+    return new SessionService(LoggerFactory,
+                              ControlPlaneService,
+                              new Session
+                              {
+                                Id = sessionId,
+                              },
+                              clientOptions);
+  }
 
+  /// <summary>
+  ///   This method is creating a default taskOptions initialization where
+  ///   MaxDuration is 40 seconds, MaxRetries = 2 The app name is ArmoniK.DevelopmentKit.GridServer
+  ///   The version is 1.0.0 the namespace ArmoniK.DevelopmentKit.GridServer and simple service FallBackServerAdder
+  /// </summary>
+  /// <returns>Return the default taskOptions</returns>
+  public static TaskOptions InitDefaultSessionOptions()
+  {
+    TaskOptions taskOptions = new()
+                              {
+                                MaxDuration = new Duration
+                                              {
+                                                Seconds = 40,
+                                              },
+                                MaxRetries = 2,
+                                Priority   = 1,
+                              };
 
-      ControlPlaneService = ClientServiceConnector.ControlPlaneConnection(properties.ConnectionString,
-                                                                          properties.ClientCertFilePem,
-                                                                          properties.ClientKeyFilePem,
-                                                                          properties.ConfSSLValidation,
-                                                                          LoggerFactory);
-    }
+    taskOptions.Options.Add(AppsOptions.EngineTypeNameKey,
+                            EngineType.DataSynapse.ToString());
 
-    /// <summary>
-    /// Set connection to an already opened Session
-    /// </summary>
-    /// <param name="properties">The properties setting for the session</param>
-    /// <param name="sessionId">SessionId previously opened</param>
-    /// <param name="clientOptions"></param>
-    public SessionService OpenSession(Properties properties, string sessionId, IDictionary<string, string> clientOptions = null)
-    {
-      ControlPlaneConnection(properties);
+    taskOptions.Options.Add(AppsOptions.GridAppNameKey,
+                            "ArmoniK.DevelopmentKit.GridServer");
 
-      return new SessionService(LoggerFactory,
-                                ControlPlaneService,
-                                new Session()
-                                {
-                                  Id = sessionId,
-                                },
-                                clientOptions);
-    }
+    taskOptions.Options.Add(AppsOptions.GridAppVersionKey,
+                            "1.X.X");
 
-    /// <summary>
-    /// This method is creating a default taskOptions initialization where
-    /// MaxDuration is 40 seconds, MaxRetries = 2 The app name is ArmoniK.DevelopmentKit.GridServer
-    /// The version is 1.0.0 the namespace ArmoniK.DevelopmentKit.GridServer and simple service FallBackServerAdder 
-    /// </summary>
-    /// <returns>Return the default taskOptions</returns>
-    public static TaskOptions InitDefaultSessionOptions()
-    {
-      TaskOptions taskOptions = new()
-      {
-        MaxDuration = new Duration
-        {
-          Seconds = 40,
-        },
-        MaxRetries = 2,
-        Priority   = 1,
-      };
+    taskOptions.Options.Add(AppsOptions.GridAppNamespaceKey,
+                            "ArmoniK.DevelopmentKit.GridServer");
 
-      taskOptions.Options.Add(AppsOptions.EngineTypeNameKey,
-                              EngineType.DataSynapse.ToString());
+    taskOptions.Options.Add(AppsOptions.GridServiceNameKey,
+                            "FallBackServerAdder");
 
-      taskOptions.Options.Add(AppsOptions.GridAppNameKey,
-                              "ArmoniK.DevelopmentKit.GridServer");
+    return taskOptions;
+  }
 
-      taskOptions.Options.Add(AppsOptions.GridAppVersionKey,
-                              "1.X.X");
+  /// <summary>
+  ///   Return a connection interface with the control plane to manage and monitor the Armonik grid
+  /// </summary>
+  /// <param name="properties">The properties containing all information for connection</param>
+  /// <returns>returns the services of Administration and Monitoring</returns>
+  public AdminMonitoringService GetAdminMonitoringService(Properties properties)
+  {
+    ControlPlaneConnection(properties);
 
-      taskOptions.Options.Add(AppsOptions.GridAppNamespaceKey,
-                              "ArmoniK.DevelopmentKit.GridServer");
-
-      taskOptions.Options.Add(AppsOptions.GridServiceNameKey,
-                              "FallBackServerAdder");
-
-      return taskOptions;
-    }
-
-    /// <summary>
-    /// Return a connection interface with the control plane to manage and monitor the Armonik grid
-    /// </summary>
-    /// <param name="properties">The properties containing all information for connection</param>
-    /// <returns>returns the services of Administration and Monitoring</returns>
-    public AdminMonitoringService GetAdminMonitoringService(Properties properties)
-    {
-      ControlPlaneConnection(properties);
-
-      return new AdminMonitoringService(LoggerFactory,
-                                        ControlPlaneService);
-    }
+    return new AdminMonitoringService(LoggerFactory,
+                                      ControlPlaneService);
   }
 }

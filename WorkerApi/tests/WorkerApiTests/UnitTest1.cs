@@ -27,55 +27,56 @@ using ArmoniK.DevelopmentKit.Common;
 
 using NUnit.Framework;
 
-namespace WorkerApiTests
+namespace WorkerApiTests;
+
+public class Tests
 {
-  public class Tests
+  private static object[] ParamsHelper(params object[] elements)
+    => elements;
+
+  [SetUp]
+  public void Setup()
   {
-    private static object[] ParamsHelper(params object[] elements)
-    {
-      return elements;
-    }
+  }
 
-    [SetUp]
-    public void Setup()
-    {
-    }
+  [Test]
+  public void TestSerializationInt()
+  {
+    var value = 100;
 
-    [Test]
-    public void TestSerializationInt()
-    {
-      int value = 100;
+    var res = ProtoSerializer.SerializeMessageObject(value);
+    ProtoSerializer.DeSerializeMessageObject(res);
+  }
 
-      var res = ProtoSerializer.SerializeMessageObject(value);
-      ProtoSerializer.DeSerializeMessageObject(res);
-    }
+  [Test]
+  public void TestSerializationShort()
+  {
+    short value = 100;
 
-    [Test]
-    public void TestSerializationShort()
-    {
-      short value = 100;
+    var res = ProtoSerializer.SerializeMessageObject(value);
+    ProtoSerializer.DeSerializeMessageObject(res);
+  }
 
-      var res = ProtoSerializer.SerializeMessageObject(value);
-      ProtoSerializer.DeSerializeMessageObject(res);
-    }
+  [Test]
+  public void TestSerializationIntArray()
+  {
+    var value = Enumerable.Range(1,
+                                 100)
+                          .ToArray();
 
-    [Test]
-    public void TestSerializationIntArray()
-    {
-      int[] value = Enumerable.Range(1,
-                                        100).ToArray();
+    var res = ProtoSerializer.SerializeMessageObject(value);
+    ProtoSerializer.DeSerializeMessageObject(res);
+  }
 
-      var res = ProtoSerializer.SerializeMessageObject(value);
-      ProtoSerializer.DeSerializeMessageObject(res);
-    }
+  [Test]
+  public void TestSerializationDoubleArray()
+  {
+    var value = Enumerable.Range(1,
+                                 100)
+                          .Select(x => (double)x)
+                          .ToArray();
 
-    [Test]
-    public void TestSerializationDoubleArray()
-    {
-      double[] value = Enumerable.Range(1, 100).Select(x => (double)x).ToArray();
-
-      var res = ProtoSerializer.SerializeMessageObject(value);
-      ProtoSerializer.DeSerializeMessageObject(res);
-    }
+    var res = ProtoSerializer.SerializeMessageObject(value);
+    ProtoSerializer.DeSerializeMessageObject(res);
   }
 }

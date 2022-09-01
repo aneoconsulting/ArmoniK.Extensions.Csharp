@@ -26,88 +26,88 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 
-namespace ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy
+namespace ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy;
+
+public static class SelectExtensions
 {
-  public static class SelectExtensions
+  public static IEnumerable<double> ConvertToArray(this IEnumerable<byte> arr)
   {
-    public static IEnumerable<double> ConvertToArray(this IEnumerable<byte> arr)
+    var bytes = arr as byte[] ?? arr.ToArray();
+
+    var values = new double[bytes.Count() / sizeof(double)];
+
+    var i = 0;
+    for (; i < values.Length; i++)
     {
-      var bytes = arr as byte[] ?? arr.ToArray();
-
-      var values = new double[bytes.Count() / sizeof(double)];
-
-      var i = 0;
-      for (; i < values.Length; i++)
-        values[i] = BitConverter.ToDouble(bytes.ToArray(),
-                                          i * 8);
-      return values;
+      values[i] = BitConverter.ToDouble(bytes.ToArray(),
+                                        i * 8);
     }
+
+    return values;
+  }
+}
+
+public class SimpleServiceContainer
+{
+  public static double[] ComputeBasicArrayCube(double[] inputs)
+    => inputs.Select(x => x * x * x)
+             .ToArray();
+
+  public static double[] GenerateHeavyResult(int nElements)
+    => Enumerable.Range(1,
+                        nElements)
+                 .Select(x => (double)x)
+                 .ToArray();
+
+  private static double ExpM1(double x)
+    => ((((((((((((((15.0 + x) * x + 210.0) * x + 2730.0) * x + 32760.0) * x + 360360.0) * x + 3603600.0) * x + 32432400.0) * x + 259459200.0) * x + 1816214400.0) * x +
+            10897286400.0) * x + 54486432000.0) * x + 217945728000.0) * x + 653837184000.0) * x + 1307674368000.0) * x * 7.6471637318198164759011319857881e-13;
+
+  public static double GenerateHeavyCompute(int nElements)
+  {
+    var agg = 0.0;
+
+
+    Thread.Sleep(1800);
+
+    return agg;
   }
 
-  public class SimpleServiceContainer
+  public static double ComputeReduceCube(byte[] inputs)
   {
-    public static double[] ComputeBasicArrayCube(double[] inputs)
-    {
-      return inputs.Select(x => x * x * x).ToArray();
-    }
+    var doubles = inputs.ConvertToArray();
 
-    public static double[] GenerateHeavyResult(int nElements)
-    {
-      return Enumerable.Range(1,
-                              nElements).Select(x => (double)x).ToArray();
-    }
+    return doubles.Select(x => x * x * x)
+                  .Sum();
+  }
 
-    private static double ExpM1(double x)
-    {
-      return ((((((((((((((15.0 + x) * x + 210.0) * x + 2730.0) * x + 32760.0) * x + 360360.0) * x + 3603600.0) * x + 32432400.0) * x + 259459200.0) * x +
-                   1816214400.0) *
-                  x +
-                  10897286400.0) *
-                 x +
-                 54486432000.0) *
-                x +
-                217945728000.0) *
-               x +
-               653837184000.0) *
-              x +
-              1307674368000.0) *
-             x *
-             7.6471637318198164759011319857881e-13;
-    }
-
-    public static double GenerateHeavyCompute(int nElements)
-    {
-      var agg = 0.0;
-
-      
-      Thread.Sleep(1800);
-
-      return agg;
-    }
-
-    public static double ComputeReduceCube(byte[] inputs)
-    {
-      var doubles = inputs.ConvertToArray();
-
-      return doubles.Select(x => x * x * x).Sum();
-    }
-
-    public static double[] ComputeMadd(byte[] inputs1, byte[] inputs2, double k)
-    {
-      var doubles1 = inputs1.ConvertToArray().ToArray();
-      var doubles2 = inputs2.ConvertToArray().ToArray();
+  public static double[] ComputeMadd(byte[] inputs1,
+                                     byte[] inputs2,
+                                     double k)
+  {
+    var doubles1 = inputs1.ConvertToArray()
+                          .ToArray();
+    var doubles2 = inputs2.ConvertToArray()
+                          .ToArray();
 
 
-      return doubles1.Select((x, idx) => k * x * doubles2[idx]).ToArray();
-    }
+    return doubles1.Select((x,
+                            idx) => k * x * doubles2[idx])
+                   .ToArray();
+  }
 
-    public double[] NonStaticComputeMadd(byte[] inputs1, byte[] inputs2, double k)
-    {
-      var doubles1 = inputs1.ConvertToArray().ToArray();
-      var doubles2 = inputs2.ConvertToArray().ToArray();
+  public double[] NonStaticComputeMadd(byte[] inputs1,
+                                       byte[] inputs2,
+                                       double k)
+  {
+    var doubles1 = inputs1.ConvertToArray()
+                          .ToArray();
+    var doubles2 = inputs2.ConvertToArray()
+                          .ToArray();
 
 
-      return doubles1.Select((x, idx) => k * x * doubles2[idx]).ToArray();
-    }
+    return doubles1.Select((x,
+                            idx) => k * x * doubles2[idx])
+                   .ToArray();
   }
 }

@@ -23,56 +23,63 @@
 
 using System;
 
-namespace ArmoniK.DevelopmentKit.Common.Exceptions
+namespace ArmoniK.DevelopmentKit.Common.Exceptions;
+
+/// <summary>
+///   General Worker API Exception
+/// </summary>
+public class ClientApiException : Exception
 {
+  private readonly string message_ = "ClientApi Exception during call function";
+
   /// <summary>
-  /// General Worker API Exception
+  ///   The ctor of ClientApiException
   /// </summary>
-  public class ClientApiException : Exception
+  public ClientApiException()
   {
-    private readonly string message_ = "ClientApi Exception during call function";
-
-    /// <summary>
-    /// The ctor of ClientApiException
-    /// </summary>
-    public ClientApiException()
-    {
-    }
-
-    /// <summary>
-    /// Th ctor to instantiate new thrown Exception with message
-    /// </summary>
-    /// <param name="message">The message that will be print in the exception</param>
-    public ClientApiException(string message) => message_ = message;
-
-    /// <summary>
-    /// The ctor to instantiate new thrown Exception with previous exception
-    /// </summary>
-    /// <param name="e">The previous exception</param>
-    public ClientApiException(Exception e) : base(e.Message,
-                                                  e) => message_ = $"{message_} with InnerException {e.GetType()} message : {e.Message}";
-
-    /// <summary>
-    /// The ctor with new message and the previous thrown exception
-    /// </summary>
-    /// <param name="message">The new message that will override the one from the previous exception</param>
-    /// <param name="e">The previous exception</param>
-    public ClientApiException(string message, ArgumentException e) : base(message,
-                                                                          e)
-      => message_ = message;
-
-    /// <summary>
-    /// The ctor with new message and the previous thrown exception
-    /// </summary>
-    /// <param name="message">The new message that will override the one from the previous exception</param>
-    /// <param name="e">The previous exception</param>
-    public ClientApiException(string message, Exception e) : base(message,
-                                                                          e)
-      => message_ = message;
-
-    /// <summary>
-    /// Overriding the Message property
-    /// </summary>
-    public override string Message => message_;
   }
+
+  /// <summary>
+  ///   Th ctor to instantiate new thrown Exception with message
+  /// </summary>
+  /// <param name="message">The message that will be print in the exception</param>
+  public ClientApiException(string message)
+    => message_ = message;
+
+  /// <summary>
+  ///   The ctor to instantiate new thrown Exception with previous exception
+  /// </summary>
+  /// <param name="e">The previous exception</param>
+  public ClientApiException(Exception e)
+    : base(e.Message,
+           e)
+    => message_ = $"{message_} with InnerException {e.GetType()} message : {e.Message}";
+
+  /// <summary>
+  ///   The ctor with new message and the previous thrown exception
+  /// </summary>
+  /// <param name="message">The new message that will override the one from the previous exception</param>
+  /// <param name="e">The previous exception</param>
+  public ClientApiException(string            message,
+                            ArgumentException e)
+    : base(message,
+           e)
+    => message_ = message;
+
+  /// <summary>
+  ///   The ctor with new message and the previous thrown exception
+  /// </summary>
+  /// <param name="message">The new message that will override the one from the previous exception</param>
+  /// <param name="e">The previous exception</param>
+  public ClientApiException(string    message,
+                            Exception e)
+    : base(message,
+           e)
+    => message_ = message;
+
+  /// <summary>
+  ///   Overriding the Message property
+  /// </summary>
+  public override string Message
+    => message_;
 }

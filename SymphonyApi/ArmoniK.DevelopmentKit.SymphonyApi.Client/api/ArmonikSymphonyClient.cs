@@ -21,134 +21,148 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using ArmoniK.Api.gRPC.V1;
-using ArmoniK.DevelopmentKit.Common;
-using ArmoniK.DevelopmentKit.SymphonyApi.Client.api;
+using System.Collections.Generic;
 
-#if NET5_0_OR_GREATER
-using Grpc.Net.Client;
-#else
-using Grpc.Core;
-#endif
+using ArmoniK.Api.gRPC.V1;
+using ArmoniK.Api.gRPC.V1.Submitter;
+using ArmoniK.DevelopmentKit.Common;
+using ArmoniK.DevelopmentKit.Common.Submitter;
+using ArmoniK.DevelopmentKit.SymphonyApi.Client.api;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-using System.Collections.Generic;
+#if NET5_0_OR_GREATER
+#else
+#endif
 
-using ArmoniK.Api.gRPC.V1.Submitter;
-using ArmoniK.DevelopmentKit.Common.Submitter;
+namespace ArmoniK.DevelopmentKit.SymphonyApi.Client;
 
-namespace ArmoniK.DevelopmentKit.SymphonyApi.Client
+/// <summary>
+///   The main object to communicate with the control Plane from the client side
+///   The class will connect to the control plane to createSession, SubmitTask,
+///   Wait for result and get the result.
+///   See an example in the project ArmoniK.Samples in the sub project
+///   https://github.com/aneoconsulting/ArmoniK.Samples/tree/main/Samples/SymphonyLike
+///   Samples.ArmoniK.Sample.SymphonyClient
+/// </summary>
+[MarkDownDoc]
+public class ArmonikSymphonyClient
 {
+  private readonly IConfigurationSection          controlPlanSection_;
+  private readonly ILogger<ArmonikSymphonyClient> Logger;
+
+
   /// <summary>
-  ///   The main object to communicate with the control Plane from the client side
-  ///   The class will connect to the control plane to createSession, SubmitTask,
-  ///   Wait for result and get the result.
-  ///   See an example in the project ArmoniK.Samples in the sub project
-  ///   https://github.com/aneoconsulting/ArmoniK.Samples/tree/main/Samples/SymphonyLike
-  ///   Samples.ArmoniK.Sample.SymphonyClient
+  ///   The ctor with IConfiguration and optional TaskOptions
   /// </summary>
-  [MarkDownDoc]
-  public class ArmonikSymphonyClient
+  /// <param name="configuration">IConfiguration to set Client Data information and Grpc EndPoint</param>
+  /// <param name="loggerFactory">Factory to create logger in the client service</param>
+  public ArmonikSymphonyClient(IConfiguration configuration,
+                               ILoggerFactory loggerFactory)
   {
-    private readonly IConfigurationSection          controlPlanSection_;
-    private readonly ILogger<ArmonikSymphonyClient> Logger;
-    private ILoggerFactory LoggerFactory { get; set; }
+    Configuration = configuration;
+    controlPlanSection_ = configuration.GetSection(SectionGrpc)
+                                       .Exists()
+                            ? configuration.GetSection(SectionGrpc)
+                            : null;
+    LoggerFactory = loggerFactory;
+    Logger        = loggerFactory.CreateLogger<ArmonikSymphonyClient>();
+  }
 
-    /// <summary>
-    ///   Returns the section key Grpc from appSettings.json
-    /// </summary>
-    public string SectionGrpc { get; set; } = "Grpc";
+  private ILoggerFactory LoggerFactory { get; }
 
-    private static string SectionEndPoint { get; } = "Endpoint";
+  /// <summary>
+  ///   Returns the section key Grpc from appSettings.json
+  /// </summary>
+  public string SectionGrpc { get; set; } = "Grpc";
 
-    /// <summary>
-    /// The key to to select option in configuration
-    /// </summary>
-    public string SectionMTLS { get; set; } = "mTLS";
-    private static string SectionSSlValidation { get; } = "SSLValidation";
-    private static string SectionClientCertFile { get; } = "ClientCert";
-    private static string SectionClientKeyFile { get; } = "ClientKey";
+  private static string SectionEndPoint { get; } = "Endpoint";
+
+  /// <summary>
+  ///   The key to to select option in configuration
+  /// </summary>
+  public string SectionMTLS { get; set; } = "mTLS";
+
+  private static string SectionSSlValidation  { get; } = "SSLValidation";
+  private static string SectionClientCertFile { get; } = "ClientCert";
+  private static string SectionClientKeyFile  { get; } = "ClientKey";
+
+  private Submitter.SubmitterClient ControlPlaneService { get; set; }
 
 
-    /// <summary>
-    ///   The ctor with IConfiguration and optional TaskOptions
-    /// </summary>
-    /// <param name="configuration">IConfiguration to set Client Data information and Grpc EndPoint</param>
-    /// <param name="loggerFactory">Factory to create logger in the client service</param>
-    public ArmonikSymphonyClient(IConfiguration configuration, ILoggerFactory loggerFactory)
+  private IConfiguration Configuration { get; }
+
+  /// <summary>
+  ///   Create the session to submit task
+  /// </summary>
+  /// <param name="taskOptions">Optional parameter to set TaskOptions during the Session creation</param>
+  /// <returns>Returns the SessionService to submit, wait or get result</returns>
+  public SessionService CreateSession(TaskOptions taskOptions = null)
+  {
+    ControlPlaneConnection();
+
+    return new SessionService(LoggerFactory,
+                              ControlPlaneService,
+                              taskOptions);
+  }
+
+  /// <summary>
+  ///   Open the session already created to submit task
+  /// </summary>
+  /// <param name="sessionId">The sessionId string which will opened</param>
+  /// <param name="clientOptions">the customer taskOptions.Options send to the server by the client</param>
+  /// <returns>Returns the SessionService to submit, wait or get result</returns>
+  public SessionService OpenSession(Session                     sessionId,
+                                    IDictionary<string, string> clientOptions = null)
+  {
+    ControlPlaneConnection();
+
+    return new SessionService(LoggerFactory,
+                              ControlPlaneService,
+                              sessionId,
+                              clientOptions);
+  }
+
+  private void ControlPlaneConnection()
+  {
+    if (ControlPlaneService != null)
     {
-      Configuration       = configuration;
-      controlPlanSection_ = configuration.GetSection(SectionGrpc).Exists() ? configuration.GetSection(SectionGrpc) : null;
-      LoggerFactory       = loggerFactory;
-      Logger              = loggerFactory.CreateLogger<ArmonikSymphonyClient>();
+      return;
     }
 
-    private Submitter.SubmitterClient ControlPlaneService { get; set; }
 
+    string clientCertFilename = null;
+    string clientKeyFilename  = null;
+    var    sslValidation      = true;
 
-    IConfiguration Configuration { get; set; }
-
-    /// <summary>
-    ///   Create the session to submit task
-    /// </summary>
-    /// <param name="taskOptions">Optional parameter to set TaskOptions during the Session creation</param>
-    /// <returns>Returns the SessionService to submit, wait or get result</returns>
-    public SessionService CreateSession(TaskOptions taskOptions = null)
+    if (controlPlanSection_!.GetSection(SectionMTLS)
+                            .Exists() && controlPlanSection_[SectionMTLS]
+          .ToLower() == "true")
     {
-      ControlPlaneConnection();
-
-      return new SessionService(LoggerFactory,
-                                ControlPlaneService,
-                                taskOptions);
-    }
-
-    /// <summary>
-    ///   Open the session already created to submit task
-    /// </summary>
-    /// <param name="sessionId">The sessionId string which will opened</param>
-    /// <param name="clientOptions">the customer taskOptions.Options send to the server by the client</param>
-    /// <returns>Returns the SessionService to submit, wait or get result</returns>
-    public SessionService OpenSession(Session sessionId, IDictionary<string, string> clientOptions = null)
-    {
-      ControlPlaneConnection();
-
-      return new SessionService(LoggerFactory,
-                                ControlPlaneService,
-                                sessionId,
-                                clientOptions);
-    }
-
-    private void ControlPlaneConnection()
-    {
-      if (ControlPlaneService != null) return;
-
-
-      string clientCertFilename = null;
-      string clientKeyFilename  = null;
-      var    sslValidation      = true;
-
-      if (controlPlanSection_!.GetSection(SectionMTLS).Exists() && controlPlanSection_[SectionMTLS].ToLower() == "true")
+      if (controlPlanSection_!.GetSection(SectionClientCertFile)
+                              .Exists())
       {
-        if (controlPlanSection_!.GetSection(SectionClientCertFile).Exists())
-          clientCertFilename = controlPlanSection_[SectionClientCertFile];
-
-        if (controlPlanSection_!.GetSection(SectionClientKeyFile).Exists())
-          clientKeyFilename = controlPlanSection_[SectionClientKeyFile];
+        clientCertFilename = controlPlanSection_[SectionClientCertFile];
       }
 
-      if (controlPlanSection_!.GetSection(SectionSSlValidation).Exists() &&
-          controlPlanSection_![SectionSSlValidation] == "disable")
-          sslValidation = false;
-
-      ControlPlaneService ??= ClientServiceConnector.ControlPlaneConnection(controlPlanSection_[SectionEndPoint],
-                                                                            clientCertFilename,
-                                                                            clientKeyFilename,
-                                                                            sslValidation,
-                                                                            LoggerFactory);
+      if (controlPlanSection_!.GetSection(SectionClientKeyFile)
+                              .Exists())
+      {
+        clientKeyFilename = controlPlanSection_[SectionClientKeyFile];
+      }
     }
 
-    
+    if (controlPlanSection_!.GetSection(SectionSSlValidation)
+                            .Exists() && controlPlanSection_![SectionSSlValidation] == "disable")
+    {
+      sslValidation = false;
+    }
+
+    ControlPlaneService ??= ClientServiceConnector.ControlPlaneConnection(controlPlanSection_[SectionEndPoint],
+                                                                          clientCertFilename,
+                                                                          clientKeyFilename,
+                                                                          sslValidation,
+                                                                          LoggerFactory);
   }
 }

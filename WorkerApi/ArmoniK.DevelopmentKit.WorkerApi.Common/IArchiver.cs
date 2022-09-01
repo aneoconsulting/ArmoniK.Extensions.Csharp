@@ -21,9 +21,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace ArmoniK.DevelopmentKit.WorkerApi.Common
+namespace ArmoniK.DevelopmentKit.WorkerApi.Common;
+
+public class Archiver
 {
-  public class Archiver
-  {
-  }
 }
