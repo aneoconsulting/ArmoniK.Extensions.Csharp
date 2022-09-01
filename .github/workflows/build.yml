@@ -123,7 +123,7 @@ jobs:
 
     - name: Push the package
       run: |
-        dotnet nuget push /tmp/packages/ArmoniK.*.nupkg --api-key AzureArtifacts --skip-duplicate
+        dotnet nuget push /tmp/packages/ArmoniK.*.nupkg -k ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
 
   buildWorkerEnd2End:
     runs-on: ubuntu-latest
@@ -162,7 +162,7 @@ jobs:
         with:
           ref: ${{ github.ref }}
 
-      - uses: aneoconsulting/ArmoniK@main
+      - uses: aneoconsulting/ArmoniK@LZK/partitioning
         id: deploy-infra
         with:
           worker-image: dockerhubaneo/armonik_worker_dll
@@ -173,6 +173,7 @@ jobs:
         run: |
          cd tools/tests
          mkdir -p ${HOME}/data
+         export PARTITION=athos
          bash -x ./endToEndTests.sh
 
   release-packages:

@@ -26,6 +26,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using ArmoniK.Api.gRPC.V1;
+using ArmoniK.Api.gRPC.V1.Agent;
 using ArmoniK.Api.Worker.Worker;
 using ArmoniK.DevelopmentKit.Common;
 
@@ -165,41 +166,47 @@ namespace ArmoniK.DevelopmentKit.Worker.Grid
     /// </param>
     public IEnumerable<string> SubmitTasks(IEnumerable<byte[]> payloads)
     {
-      using var _ = Logger.LogFunction();
+      using var _          = Logger.LogFunction();
+      var       resultsIds = new List<string>();
 
-      var ePayloads = payloads as byte[][] ?? payloads.ToArray();
-
-      Logger.LogDebug("payload {len}",
-                      ePayloads.Count());
-      var taskRequests = new List<TaskRequest>();
-
-      foreach (var payload in ePayloads)
+      var taskRequests = payloads.Select(bytes =>
       {
-        var taskId = Guid.NewGuid().ToString();
+        var resultId = Guid.NewGuid().ToString();
+        resultsIds.Add(resultId);
         Logger.LogDebug("Create task {task}",
-                        taskId);
-        var taskRequest = new TaskRequest
+                        resultId);
+        return new TaskRequest
         {
-          Id      = taskId,
-          Payload = ByteString.CopyFrom(payload),
+          Payload = ByteString.CopyFrom(bytes),
 
           ExpectedOutputKeys =
           {
-            taskId,
+            resultId,
           },
         };
+      });
 
-        taskRequests.Add(taskRequest);
+      var createTaskReply = TaskHandler.CreateTasksAsync(taskRequests,
+                                                         TaskOptions).Result;
+
+      switch (createTaskReply.ResponseCase)
+      {
+        case CreateTaskReply.ResponseOneofCase.None:
+          throw new Exception("Issue with Server !");
+        case CreateTaskReply.ResponseOneofCase.CreationStatusList:
+          Logger.LogInformation("Tasks created : {ids}",
+                                string.Join(",",
+                                            createTaskReply.CreationStatusList.CreationStatuses));
+          break;
+        case CreateTaskReply.ResponseOneofCase.Error:
+          throw new Exception("Error while creating tasks !");
+        default:
+          throw new ArgumentOutOfRangeException();
       }
 
-      TaskHandler.CreateTasksAsync(taskRequests,
-                                   TaskOptions).Wait();
-
-      var taskCreated = taskRequests.Select(t => t.Id);
-
-      Logger.LogDebug("Tasks created : {ids}",
-                      taskCreated);
-      return taskCreated;
+      Logger.LogDebug("Results created : {ids}",
+                      resultsIds);
+      return resultsIds;
     }
 
 
@@ -212,28 +219,27 @@ namespace ArmoniK.DevelopmentKit.Worker.Grid
     /// <returns>return a list of taskIds of the created tasks </returns>
     public IEnumerable<string> SubmitTasksWithDependencies(IEnumerable<Tuple<byte[], IList<string>>> payloadsWithDependencies, bool resultForParent = false)
     {
-      using var _                = Logger.LogFunction();
-      var       withDependencies = payloadsWithDependencies as Tuple<byte[], IList<string>>[] ?? payloadsWithDependencies.ToArray();
-      Logger.LogDebug("payload with dependencies {len}",
-                      withDependencies.Count());
-      var taskRequests = new List<TaskRequest>();
+      using var _                 = Logger.LogFunction();
+      var       taskRequests      = new List<TaskRequest>();
+      var       resultsIdsCreated = new List<string>();
 
-      foreach (var (payload, dependencies) in withDependencies)
+      foreach (var (payload, dependencies) in payloadsWithDependencies)
       {
-        var taskId = Guid.NewGuid().ToString();
+        var resultId = Guid.NewGuid().ToString();
         Logger.LogDebug("Create task {task}",
-                        taskId);
-        var expectedTaskId = resultForParent ? TaskHandler.TaskId : taskId;
+                        resultId);
+        resultsIdsCreated.Add(resultId);
         var taskRequest = new TaskRequest
         {
-          Id      = taskId,
           Payload = ByteString.CopyFrom(payload),
-
-          ExpectedOutputKeys =
-          {
-            expectedTaskId,
-          },
         };
+
+        taskRequest.ExpectedOutputKeys.AddRange(resultForParent
+                                                  ? TaskHandler.ExpectedResults
+                                                  : new[]
+                                                  {
+                                                    resultId,
+                                                  });
 
         if (dependencies != null && dependencies.Count != 0)
         {
@@ -247,44 +253,29 @@ namespace ArmoniK.DevelopmentKit.Worker.Grid
         taskRequests.Add(taskRequest);
       }
 
-      TaskHandler.CreateTasksAsync(taskRequests,
-                                   TaskOptions).Wait();
+      var createTaskReply = TaskHandler.CreateTasksAsync(taskRequests,
+                                                         TaskOptions).Result;
 
+      switch (createTaskReply.ResponseCase)
+      {
+        case CreateTaskReply.ResponseOneofCase.None:
+          throw new Exception("Issue with Server !");
+        case CreateTaskReply.ResponseOneofCase.CreationStatusList:
+          Logger.LogInformation("Tasks created : {ids}",
+                                string.Join(",",
+                                            createTaskReply.CreationStatusList.CreationStatuses));
+          break;
+        case CreateTaskReply.ResponseOneofCase.Error:
+          throw new Exception("Error while creating tasks !");
+        default:
+          throw new ArgumentOutOfRangeException();
+      }
 
-      var taskCreated = taskRequests.Select(t => t.Id);
 
       Logger.LogDebug("Tasks created : {ids}",
-                      taskCreated);
-      return taskCreated;
+                      resultsIdsCreated);
+      return resultsIdsCreated;
     }
-
-    /// <summary>
-    ///   The method to submit One SubTask with dependencies tasks. This task will wait for
-    ///   to start until all dependencies are completed successfully
-    /// </summary>
-    /// <param name="parentId">The parent Task who want to create the SubTask</param>
-    /// <param name="payload">The payload to submit</param>
-    /// <param name="dependencies">A list of task Id in dependence of this created SubTask</param>
-    /// <returns>return the taskId of the created SubTask </returns>
-    [Obsolete]
-    public string SubmitSubtaskWithDependencies(string parentId, byte[] payload, IList<string> dependencies)
-    {
-      throw new NotImplementedException("This function is obsolete please use SubmitTasksWithDependencies");
-    }
-
-    /// <summary>
-    ///   The method to submit several tasks with dependencies tasks. This task will wait for
-    ///   to start until all dependencies are completed successfully
-    /// </summary>
-    /// <param name="parentTaskId">The parent Task who want to create the SubTasks</param>
-    /// <param name="payloadWithDependencies">A list of Tuple(taskId, Payload) in dependence of those created Subtasks</param>
-    /// <returns>return a list of taskIds of the created Subtasks </returns>
-    [Obsolete]
-    public IEnumerable<string> SubmitSubtasksWithDependencies(string parentTaskId, IEnumerable<Tuple<byte[], IList<string>>> payloadWithDependencies)
-    {
-      throw new NotImplementedException("This function is obsolete please use SubmitTasksWithDependencies");
-    }
-
 
     /// <summary>
     /// 
@@ -328,7 +319,10 @@ namespace ArmoniK.DevelopmentKit.Worker.Grid
     /// </param>
     public static string SubmitTask(this SessionPollingService client, byte[] payload)
     {
-      return client.SubmitTasks(new[] { payload })
+      return client.SubmitTasks(new[]
+                   {
+                     payload
+                   })
                    .Single();
     }
 

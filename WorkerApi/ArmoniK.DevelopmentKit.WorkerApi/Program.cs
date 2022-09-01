@@ -21,51 +21,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.IO;
+using ArmoniK.Api.Worker.Utils;
+using ArmoniK.DevelopmentKit.WorkerApi;
+using ArmoniK.DevelopmentKit.WorkerApi.Services;
 
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Server.Kestrel.Core;
-using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.DependencyInjection;
 
-using Serilog;
-using Serilog.Events;
-
-namespace ArmoniK.DevelopmentKit.WorkerApi
-{
-  public class Program
-  {
-    private static readonly string SocketPath = "/cache/armonik.sock";
-
-    public static void Main(string[] args)
-    {
-      CreateHostBuilder(args).Build().Run();
-    }
-
-    // Additional configuration is required to successfully run gRPC on macOS.
-    // For instructions on how to configure Kestrel and gRPC clients on macOS, visit https://go.microsoft.com/fwlink/?linkid=2099682
-    public static IHostBuilder CreateHostBuilder(string[] args) =>
-      Host.CreateDefaultBuilder(args)
-          .UseSerilog((context, services, configuration) => configuration
-                                                            .ReadFrom.Configuration(context.Configuration)
-                                                            .ReadFrom.Services(services)
-                                                            .MinimumLevel
-                                                            .Override("Microsoft.AspNetCore",
-                                                                      LogEventLevel.Debug)
-                                                            .Enrich.FromLogContext())
-          .ConfigureWebHostDefaults(webBuilder =>
-          {
-            webBuilder.UseStartup<Startup>()
-                      .ConfigureKestrel(options =>
-                      {
-                        options.Limits.MaxRequestBodySize = 2097152000;
-                        if (File.Exists(SocketPath))
-                        {
-                          File.Delete(SocketPath);
-                        }
-
-                        options.ListenUnixSocket(SocketPath,
-                                                 listenOptions => { listenOptions.Protocols = HttpProtocols.Http2; });
-                      });
-          });
-  }
-}
+WorkerServer.Create<ComputerService>(serviceConfigurator:collection => collection.AddSingleton<ServiceRequestContext>()).Run();

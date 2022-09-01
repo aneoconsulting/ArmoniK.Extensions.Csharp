@@ -56,6 +56,8 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
   /// </summary>
   public class BaseClientSubmitter<T>
   {
+    private const int BatchSize = 1000;
+
     /// <summary>
     /// Base Object for all Client submitter
     /// </summary>
@@ -90,46 +92,6 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
     /// </summary>
     protected Api.gRPC.V1.Submitter.Submitter.SubmitterClient ControlPlaneService { get; set; }
 
-
-    /// <summary>
-    /// Check if any error occurred during the result retrieving 
-    /// </summary>
-    /// <param name="taskId">the taskId to check</param>
-    [UsedImplicitly]
-    public void HealthCheckResult(string taskId)
-    {
-      var resultRequest = new ResultRequest
-      {
-        Key     = taskId,
-        Session = SessionId.Id,
-      };
-
-      WaitForTaskCompletion(taskId);
-
-      Retry.WhileException(5,
-                           200,
-                           () =>
-                           {
-                             var taskOutput = ControlPlaneService.TryGetTaskOutput(resultRequest);
-
-                             switch (taskOutput.TypeCase)
-                             {
-                               case Output.TypeOneofCase.None:
-                                 Logger.LogError($"Issue retrieving result of task : {taskId} from session {SessionId.Id}");
-                                 throw new ClientApiException("Issue with Server !");
-                               case Output.TypeOneofCase.Ok:
-                                 break;
-                               case Output.TypeOneofCase.Error:
-                                 throw new ClientApiException($"HealthCheck result: Task in Error - {taskId}\nMessage :\n[{taskOutput.Error.Details}]");
-                               default:
-                                 throw new ArgumentOutOfRangeException();
-                             }
-                           },
-                           true,
-                           typeof(IOException),
-                           typeof(RpcException));
-    }
-
     /// <summary>
     /// Returns the status of the task
     /// </summary>
@@ -156,7 +118,7 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
           taskIds,
         },
       }).IdStatuses.Select(x => Tuple.Create(x.TaskId,
-                                           x.Status));
+                                             x.Status));
     }
 
     /// <summary>
@@ -166,10 +128,10 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
     /// <returns></returns>
     public Output GetTaskOutputInfo(string taskId)
     {
-      return ControlPlaneService.TryGetTaskOutput(new ResultRequest()
+      return ControlPlaneService.TryGetTaskOutput(new TaskOutputRequest()
       {
-        Key     = taskId,
-        Session = SessionId.Id
+        TaskId  = taskId,
+        Session = SessionId.Id,
       });
     }
 
@@ -181,28 +143,10 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
     /// <param name="payloadsWithDependencies">A list of Tuple(taskId, Payload) in dependence of those created tasks</param>
     /// <returns>return a list of taskIds of the created tasks </returns>
     [UsedImplicitly]
-    public IEnumerable<string> SubmitTasksWithDependencies(IEnumerable<Tuple<byte[], IList<string>>> payloadsWithDependencies)
-    {
-      var tuples = payloadsWithDependencies as Tuple<byte[], IList<string>>[] ?? payloadsWithDependencies.ToArray();
-
-
-      //ReTriggerBuffer();
-
-      var payloadsWithTaskIdAndDependencies = tuples.Select(payload =>
-      {
-        var taskId = Guid.NewGuid().ToString();
-        return Tuple.Create(Tuple.Create(taskId,
-                                         payload.Item1),
-                            payload.Item2);
-      }).ToArray();
-
-
-      //foreach (var payload in payloadsWithTaskIdAndDependencies)
-      //  bufferPayloads.Post(payload);
-
-      //return payloadsWithTaskIdAndDependencies.Select(p => p.Item1.Item1).ToList();
-      return SubmitTasksWithDependencies(payloadsWithTaskIdAndDependencies);
-    }
+    public IEnumerable<string> SubmitTasksWithDependencies(IEnumerable<Tuple<byte[], IList<string>>> payloadsWithDependencies) =>
+      SubmitTasksWithDependencies(payloadsWithDependencies.Select(payload => Tuple.Create(Guid.NewGuid().ToString(),
+                                                                                          payload.Item1,
+                                                                                          payload.Item2)));
 
     /// <summary>
     ///   The method to submit several tasks with dependencies tasks. This task will wait for
@@ -210,34 +154,29 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
     /// </summary>
     /// <param name="payloadsWithDependencies">A list of Tuple(taskId, Payload) in dependence of those created tasks</param>
     /// <param name="maxRetries">Set the number of retries Default Value 5</param>
-    /// <returns>return a list of taskIds of the created tasks </returns>
+    /// <returns>return the list of result id that are the output of the tasks </returns>
     [UsedImplicitly]
-    public IEnumerable<string> SubmitTasksWithDependencies(IEnumerable<Tuple<Tuple<string, byte[]>, IList<string>>> payloadsWithDependencies, int maxRetries = 5)
+    public IEnumerable<string> SubmitTasksWithDependencies(IEnumerable<Tuple<string, byte[], IList<string>>> payloadsWithDependencies, int maxRetries = 5)
     {
       using var _                = Logger.LogFunction();
-      var       withDependencies = payloadsWithDependencies as Tuple<Tuple<string, byte[]>, IList<string>>[] ?? payloadsWithDependencies.ToArray();
-      Logger.LogDebug("payload with dependencies {len}",
-                      withDependencies.Count());
-      var taskCreated = new List<string>();
+      var       resultIdsCreated = new List<string>();
 
-      withDependencies.Batch(1000).ToList().ForEach(tup =>
+      foreach (var tup in payloadsWithDependencies.Batch(BatchSize))
       {
         var taskRequests = new List<TaskRequest>();
-        foreach (var (payload, dependencies) in tup)
+        foreach (var (resultId, payload, dependencies) in tup)
         {
-          var taskId = payload.Item1;
-          taskCreated.Add(taskId);
+          resultIdsCreated.Add(resultId);
 
-          Logger.LogDebug("Create task {task}",
-                          taskId);
+          Logger.LogDebug("Create result {resultId}",
+                          resultId);
           var taskRequest = new TaskRequest
           {
-            Id      = taskId,
-            Payload = ByteString.CopyFrom(payload.Item2),
+            Payload = ByteString.CopyFrom(payload),
 
             ExpectedOutputKeys =
             {
-              taskId,
+              resultId,
             },
           };
 
@@ -262,14 +201,17 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
                                                                        TaskOptions,
                                                                        taskRequests).Result;
 
-            switch (createTaskReply.DataCase)
+            switch (createTaskReply.ResponseCase)
             {
-              case CreateTaskReply.DataOneofCase.NonSuccessfullIds:
-                throw new Exception($"NonSuccessFullIds : {createTaskReply.NonSuccessfullIds}");
-              case CreateTaskReply.DataOneofCase.None:
+              case CreateTaskReply.ResponseOneofCase.None:
                 throw new Exception("Issue with Server !");
-              case CreateTaskReply.DataOneofCase.Successfull:
+              case CreateTaskReply.ResponseOneofCase.CreationStatusList:
+                Logger.LogInformation("Tasks created : {ids}",
+                                      string.Join(",",
+                                                  createTaskReply.CreationStatusList.CreationStatuses));
                 break;
+              case CreateTaskReply.ResponseOneofCase.Error:
+                throw new Exception("Error while creating tasks !");
               default:
                 throw new ArgumentOutOfRangeException();
             }
@@ -302,36 +244,14 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
             }
 
             nbRetry++;
-
-            //Regenerate task Id
-            taskRequests = taskRequests.Select(taskReq =>
-            {
-              taskCreated.Remove(taskReq.Id);
-              var newTaskId = Guid.NewGuid().ToString();
-              var req = new TaskRequest
-              {
-                Id      = newTaskId,
-                Payload = taskReq.Payload,
-                DataDependencies =
-                {
-                  taskReq.DataDependencies
-                },
-                ExpectedOutputKeys =
-                {
-                  newTaskId
-                },
-              };
-
-              taskCreated.Add(newTaskId);
-              return req;
-            }).ToList();
           }
         }
-      });
-      Logger.LogDebug("Tasks created : {ids}",
-                      taskCreated);
+      }
 
-      return taskCreated;
+      Logger.LogDebug("Results created : {ids}",
+                      resultIdsCreated);
+
+      return resultIdsCreated;
     }
 
     /// <summary>
@@ -360,13 +280,15 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
     [UsedImplicitly]
     public void WaitForTasksCompletion(IEnumerable<string> taskIds)
     {
-      var ids = taskIds as string[] ?? taskIds.ToArray();
-      using var _ = Logger.LogFunction(string.Join(", ",
-                                                   ids));
+      using var _ = Logger.LogFunction();
       Retry.WhileException(5,
                            200,
-                           () =>
+                           retry =>
                            {
+                             Logger.LogDebug("Try {try} for {funcName}",
+                                             retry,
+                                             nameof(ControlPlaneService.WaitForCompletion));
+
                              var __ = ControlPlaneService.WaitForCompletion(new WaitRequest
                              {
                                Filter = new TaskFilter
@@ -375,7 +297,7 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
                                  {
                                    Ids =
                                    {
-                                     ids,
+                                     taskIds,
                                    },
                                  },
                                },
@@ -389,42 +311,69 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
     }
 
     /// <summary>
-    /// Get the result status of a list of taskId
+    /// Get the result status of a list of results
     /// </summary>
-    /// <param name="taskIds"></param>
+    /// <param name="resultIds">Collection of result ids</param>
     /// <param name="cancellationToken"></param>
     /// <returns>A ResultCollection sorted by Status Completed, Result in Error or missing</returns>
-    public ResultStatusCollection GetResultStatus(IEnumerable<string> taskIds, CancellationToken cancellationToken = default)
+    public ResultStatusCollection GetResultStatus(ICollection<string> resultIds, CancellationToken cancellationToken = default)
     {
       var idStatus = Retry.WhileException(5,
                                           200,
-                                          () =>
+                                          retry =>
                                           {
+                                            Logger.LogDebug("Try {try} for {funcName}",
+                                                            retry,
+                                                            nameof(ControlPlaneService.GetResultStatus));
                                             var resultStatusReply = ControlPlaneService.GetResultStatus(new GetResultStatusRequest()
                                             {
                                               ResultIds =
                                               {
-                                                taskIds,
+                                                resultIds,
                                               },
                                               SessionId = SessionId.Id,
                                             });
                                             return resultStatusReply.IdStatuses.Select(x => Tuple.Create(x.ResultId,
-                                                                                                       x.Status));
+                                                                                                         x.Status));
                                           },
                                           true,
                                           typeof(IOException),
-                                          typeof(RpcException));
+                                          typeof(RpcException)).ToHashSet();
 
+      var idsResultError = new List<Tuple<string, ResultStatus>>();
+      var idsReady       = new List<Tuple<string, ResultStatus>>();
+      var idsNotReady    = new List<Tuple<string, ResultStatus>>();
 
-      var ids       = taskIds as string[] ?? taskIds.ToArray();
-      var statusIds = idStatus as Tuple<string, ResultStatus>[] ?? idStatus.ToArray();
+      foreach (var tuple in idStatus)
+      {
+        if (tuple.Item2 is ResultStatus.Aborted or ResultStatus.Unspecified)
+        {
+          idsResultError.Add(tuple);
+          idStatus.Remove(tuple);
+          break;
+        }
+
+        if (tuple.Item2 is ResultStatus.Completed)
+        {
+          idsReady.Add(tuple);
+          idStatus.Remove(tuple);
+          break;
+        }
+
+        if (tuple.Item2 is ResultStatus.Created)
+        {
+          idsNotReady.Add(tuple);
+          idStatus.Remove(tuple);
+          break;
+        }
+      }
 
       var resultStatusList = new ResultStatusCollection()
       {
-        IdsResultError = statusIds.Where(x => x.Item2 is ResultStatus.Aborted or ResultStatus.Unspecified),
-        IdsError       = ids.Where(x => statusIds.All(rId => rId.Item1 != x)),
-        IdsReady       = statusIds.Where(x => x.Item2 is ResultStatus.Completed),
-        IdsNotReady    = statusIds.Where(x => x.Item2 is ResultStatus.Created),
+        IdsResultError = idsResultError,
+        IdsError       = idStatus.Select(tuple => tuple.Item1),
+        IdsReady       = idsReady,
+        IdsNotReady    = idsNotReady,
       };
 
       return resultStatusList;
@@ -433,26 +382,27 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
     /// <summary>
     ///   Try to find the result of One task. If there no result, the function return byte[0]
     /// </summary>
-    /// <param name="taskId">The task Id trying to get result</param>
+    /// <param name="resultId">The Id of the result</param>
     /// <param name="cancellationToken">The optional cancellationToken</param>
     /// <returns>Returns the result or byte[0] if there no result</returns>
-    public byte[] GetResult(string taskId, CancellationToken cancellationToken = default)
+    public byte[] GetResult(string resultId, CancellationToken cancellationToken = default)
     {
-      using var _ = Logger.LogFunction(taskId);
+      using var _ = Logger.LogFunction(resultId);
       var resultRequest = new ResultRequest
       {
-        Key     = taskId,
-        Session = SessionId.Id,
+        ResultId = resultId,
+        Session  = SessionId.Id,
       };
 
       byte[] res = null;
 
-      HealthCheckResult(taskId);
-
       Retry.WhileException(5,
                            200,
-                           () =>
+                           retry =>
                            {
+                             Logger.LogDebug("Try {try} for {funcName}",
+                                             retry,
+                                             nameof(ControlPlaneService.WaitForAvailability));
                              var availabilityReply = ControlPlaneService.WaitForAvailability(resultRequest,
                                                                                              cancellationToken: cancellationToken);
 
@@ -464,10 +414,10 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
                                  break;
                                case AvailabilityReply.TypeOneofCase.Error:
                                  throw new ClientResultsException(
-                                   $"Task in Error - {taskId}\nMessage :\n{string.Join("Inner message:\n", availabilityReply.Error.Errors)}",
-                                   taskId);
+                                   $"Result in Error - {resultId}\nMessage :\n{string.Join("Inner message:\n", availabilityReply.Error.Errors)}",
+                                   resultId);
                                case AvailabilityReply.TypeOneofCase.NotCompletedTask:
-                                 throw new DataException($"Task {taskId} was not yet completed");
+                                 throw new DataException($"Result {resultId} was not yet completed");
                                default:
                                  throw new ArgumentOutOfRangeException();
                              }
@@ -476,10 +426,7 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
                            typeof(IOException),
                            typeof(RpcException));
 
-      HealthCheckResult(taskId);
-
-
-      res = TryGetResult(taskId,
+      res = TryGetResult(resultId,
                          cancellationToken: cancellationToken);
 
       if (res != null)
@@ -488,23 +435,23 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
       }
       else
       {
-        throw new ClientResultsException($"Cannot retrieve result for taskId {taskId}",
-                                         taskId);
+        throw new ClientResultsException($"Cannot retrieve result {resultId}",
+                                         resultId);
       }
     }
 
 
     /// <summary>
-    ///   Method to GetResults when the result is returned by a task
+    ///   Retrieve results from control plane
     /// </summary>
-    /// <param name="taskIds">The Task Ids list of the tasks which the result is expected</param>
+    /// <param name="resultIds">Collection of result ids</param>
     /// <param name="cancellationToken">The optional cancellationToken</param>
     /// <returns>return a dictionary with key taskId and payload</returns>
     /// <exception cref="ArgumentNullException"></exception>
     /// <exception cref="ArgumentException"></exception>
-    public IEnumerable<Tuple<string, byte[]>> GetResults(IEnumerable<string> taskIds, CancellationToken cancellationToken = default)
+    public IEnumerable<Tuple<string, byte[]>> GetResults(IEnumerable<string> resultIds, CancellationToken cancellationToken = default)
     {
-      return taskIds.Select(id =>
+      return resultIds.AsParallel().Select(id =>
       {
         var res = GetResult(id,
                             cancellationToken);
@@ -522,13 +469,12 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
     /// <returns></returns>
     /// <exception cref="Exception"></exception>
     /// <exception cref="ArgumentOutOfRangeException"></exception>
-    public async Task<byte[]> TryGetResultAsync(ResultRequest                  resultRequest,
-                                                       CancellationToken              cancellationToken = default)
+    public async Task<byte[]> TryGetResultAsync(ResultRequest     resultRequest,
+                                                CancellationToken cancellationToken = default)
     {
       var streamingCall = ControlPlaneService.TryGetResultStream(resultRequest,
-                                                    cancellationToken: cancellationToken);
-
-      var result = new List<byte>();
+                                                                 cancellationToken: cancellationToken);
+      using var ms = new MemoryStream();
 
       while (await streamingCall.ResponseStream.MoveNext(cancellationToken))
       {
@@ -539,17 +485,10 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
           case ResultReply.TypeOneofCase.Result:
             if (!reply.Result.DataComplete)
             {
-              if (MemoryMarshal.TryGetArray(reply.Result.Data.Memory,
-                                            out var segment))
-              {
-                // Success. Use the ByteString's underlying array.
-                result.AddRange(segment);
-              }
-              else
-              {
-                // TryGetArray didn't succeed. Fall back to creating a copy of the data with ToByteArray.
-                result.AddRange(reply.Result.Data.ToByteArray());
-              }
+              var bytes = reply.Result.Data.ToByteArray();
+              ms.Write(bytes,
+                       0,
+                       bytes.Length);
             }
 
             break;
@@ -568,36 +507,39 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
         }
       }
 
-      return result.ToArray();
+      return ms.ToArray();
     }
 
 
     /// <summary>
     ///   Try to find the result of One task. If there no result, the function return byte[0]
     /// </summary>
-    /// <param name="taskId">The task Id trying to get result</param>
+    /// <param name="resultId">The Id of the result</param>
     /// <param name="checkOutput"></param>
     /// <param name="cancellationToken">The optional cancellationToken</param>
     /// <returns>Returns the result or byte[0] if there no result or null if task is not yet ready</returns>
     [UsedImplicitly]
-    public byte[] TryGetResult(string taskId, bool checkOutput = true, CancellationToken cancellationToken = default)
+    public byte[] TryGetResult(string resultId, bool checkOutput = true, CancellationToken cancellationToken = default)
     {
-      using var _ = Logger.LogFunction(taskId);
+      using var _ = Logger.LogFunction(resultId);
       var resultRequest = new ResultRequest
       {
-        Key     = taskId,
-        Session = SessionId.Id,
+        ResultId = resultId,
+        Session  = SessionId.Id,
       };
 
       var resultReply = Retry.WhileException(5,
                                              200,
-                                             () =>
+                                             retry =>
                                              {
-                                               Task<byte[]> response;
+                                               Logger.LogDebug("Try {try} for {funcName}",
+                                                               retry,
+                                                               "ControlPlaneService.TryGetResultAsync");
                                                try
                                                {
-                                                 response = TryGetResultAsync(resultRequest,
-                                                                                                  cancellationToken);
+                                                 var response = TryGetResultAsync(resultRequest,
+                                                                                  cancellationToken);
+                                                 return response;
                                                }
                                                catch (AggregateException ex)
                                                {
@@ -622,58 +564,27 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
 
                                                      Logger.LogError(rpcException,
                                                                      rpcException.Message);
-                                                     response = null;
-
-                                                     break;
+                                                     return null;
                                                    default:
                                                      throw;
                                                  }
                                                }
-
-                                               var taskOutput = ControlPlaneService.TryGetTaskOutput(resultRequest,
-                                                                                                     cancellationToken: cancellationToken);
-
-                                               //Unbelievable but in case the response still have something to return ??
-                                               if (taskOutput.TypeCase == Output.TypeOneofCase.Ok && response != null)
-                                               {
-                                                 return response.Result;
-                                               }
-
-                                               switch (taskOutput.TypeCase)
-                                               {
-                                                 case Output.TypeOneofCase.None:
-                                                 case Output.TypeOneofCase.Ok:
-                                                   break;
-                                                 case Output.TypeOneofCase.Error when !string.IsNullOrEmpty(taskOutput.Error.Details):
-                                                   throw new ClientResultsException($"Task in Error - {taskId} : {taskOutput.Error.Details}",
-                                                                                    taskId);
-                                                 default:
-                                                   throw new ArgumentOutOfRangeException();
-                                               }
-
-                                               if (response == null)
-                                               {
-                                                 throw new ClientResultsException($"Unknown error while retrieving result of task {taskId}",
-                                                                                  taskId);
-                                               }
-
-                                               return response.Result;
                                              },
                                              true,
                                              typeof(IOException),
                                              typeof(RpcException));
 
-      return resultReply;
+      return resultReply.Result;
     }
 
     /// <summary>
     /// Try to get result of a list of taskIds 
     /// </summary>
-    /// <param name="taskIds"></param>
+    /// <param name="resultIds">A list of result ids</param>
     /// <returns>Returns an Enumerable pair of </returns>
-    public IList<Tuple<string, byte[]>> TryGetResults(IEnumerable<string> taskIds)
+    public IList<Tuple<string, byte[]>> TryGetResults(IList<string> resultIds)
     {
-      var resultStatus = GetResultStatus(taskIds);
+      var resultStatus = GetResultStatus(resultIds);
 
       if (!resultStatus.IdsReady.Any() && !resultStatus.IdsNotReady.Any())
       {
@@ -694,20 +605,7 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
 
           var taskIdInError = resultStatus.IdsError.Any() ? resultStatus.IdsError.First() : resultStatus.IdsResultError.First().Item1;
 
-          msg += $"1st task Id {taskIdInError} in error : root cause : \n";
-          var taskStatus = GetTaskStatus(taskIdInError);
-          if (taskStatus is TaskStatus.Error)
-          {
-            var output = GetTaskOutputInfo(taskIdInError);
-            if (output is { TypeCase: Output.TypeOneofCase.Error })
-            {
-              msg += output.Error.Details;
-            }
-            else
-            {
-              msg += "Unknown root cause";
-            }
-          }
+          msg += $"1st result id where the task which should create it is in error : {taskIdInError}";
 
           Logger.LogError(msg);
 

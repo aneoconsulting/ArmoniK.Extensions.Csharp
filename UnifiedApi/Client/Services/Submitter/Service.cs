@@ -103,8 +103,6 @@ namespace ArmoniK.DevelopmentKit.Client.Services.Submitter
                    ArmonikStatusCode.ResultNotReady),
       Tuple.Create(TaskStatus.Unspecified,
                    ArmonikStatusCode.TaskFailed),
-      Tuple.Create(TaskStatus.Failed,
-                   ArmonikStatusCode.TaskFailed),
       Tuple.Create(TaskStatus.Processed,
                    ArmonikStatusCode.ResultReady),
     }.ToDictionary(k => k.Item1,

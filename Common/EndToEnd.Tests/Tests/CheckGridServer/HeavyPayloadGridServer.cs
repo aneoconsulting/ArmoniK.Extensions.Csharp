@@ -80,7 +80,7 @@ namespace ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy
       var agg = 0.0;
 
       
-      Thread.Sleep(180000);
+      Thread.Sleep(1800);
 
       return agg;
     }

@@ -60,7 +60,10 @@ namespace ArmoniK.DevelopmentKit.Client.Services
 
       Logger.LogDebug("Creating Session... ");
 
-      SessionId = CreateSession();
+      SessionId = CreateSession(new List<string>
+      {
+        taskOptions.PartitionId,
+      });
 
       Logger.LogDebug($"Session Created {SessionId}");
     }
@@ -140,6 +143,7 @@ namespace ArmoniK.DevelopmentKit.Client.Services
         MaxDuration = taskOptions.MaxDuration,
         MaxRetries  = taskOptions.MaxRetries,
         Priority    = taskOptions.Priority,
+        PartitionId = taskOptions.PartitionId,
         Options =
         {
           ["MaxDuration"] = taskOptions.MaxDuration.Seconds.ToString(),
@@ -177,31 +181,22 @@ namespace ArmoniK.DevelopmentKit.Client.Services
       return taskOptions;
     }
 
-    private Session CreateSession()
+    private Session CreateSession(IEnumerable<string> partitionIds)
     {
-      using var _         = Logger.LogFunction();
-      var       sessionId = Guid.NewGuid().ToString();
+      using var _ = Logger.LogFunction();
       var createSessionRequest = new CreateSessionRequest
       {
         DefaultTaskOption = TaskOptions,
-        Id                = sessionId,
+        PartitionIds =
+        {
+          partitionIds,
+        },
       };
       var session = ControlPlaneService.CreateSession(createSessionRequest);
-      switch (session.ResultCase)
-      {
-        case CreateSessionReply.ResultOneofCase.Error:
-          throw new Exception("Error while creating session : " + session.Error);
-        case CreateSessionReply.ResultOneofCase.None:
-          throw new Exception("Issue with Server !");
-        case CreateSessionReply.ResultOneofCase.Ok:
-          break;
-        default:
-          throw new ArgumentOutOfRangeException();
-      }
 
       return new Session()
       {
-        Id = sessionId,
+        Id = session.SessionId,
       };
     }
 

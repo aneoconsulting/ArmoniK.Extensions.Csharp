@@ -105,12 +105,11 @@ namespace ArmoniK.EndToEndTests.Tests.CheckTryGetResults
     /// </summary>
     /// <param name="client"></param>
     /// <param name="numSession"></param>
-    /// <param name="priority"></param>
     private void ClientStartup(ArmonikSymphonyClient client, int numSession)
     {
       var clientPayload = new ClientPayload
       {
-        Type        = ClientPayload.TaskType.Expm1,
+        Type = ClientPayload.TaskType.Expm1,
       };
 
       Log.LogInformation($"Configure taskOptions for Session {numSession}");

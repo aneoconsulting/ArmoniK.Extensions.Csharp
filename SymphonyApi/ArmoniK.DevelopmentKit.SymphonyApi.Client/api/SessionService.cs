@@ -58,7 +58,10 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client.api
 
       Logger.LogDebug("Creating Session... ");
 
-      SessionId = CreateSession();
+      SessionId = CreateSession(new List<string>
+      {
+        taskOptions.PartitionId,
+      });
 
       Logger.LogDebug($"Session Created {SessionId}");
 
@@ -129,6 +132,7 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client.api
         MaxDuration = taskOptions.MaxDuration,
         MaxRetries  = taskOptions.MaxRetries,
         Priority    = taskOptions.Priority,
+        PartitionId = taskOptions.PartitionId,
         Options =
         {
           ["MaxDuration"] = taskOptions.MaxDuration.Seconds.ToString(),
@@ -165,31 +169,22 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client.api
       return taskOptions;
     }
 
-    private Session CreateSession()
+    private Session CreateSession(IEnumerable<string> partitionIds)
     {
-      using var _         = Logger.LogFunction();
-      var       sessionId = Guid.NewGuid().ToString();
+      using var _ = Logger.LogFunction();
       var createSessionRequest = new CreateSessionRequest
       {
         DefaultTaskOption = TaskOptions,
-        Id                = sessionId,
+        PartitionIds =
+        {
+          partitionIds,
+        },
       };
       var session = ControlPlaneService.CreateSession(createSessionRequest);
-      switch (session.ResultCase)
-      {
-        case CreateSessionReply.ResultOneofCase.Error:
-          throw new Exception("Error while creating session : " + session.Error);
-        case CreateSessionReply.ResultOneofCase.None:
-          throw new Exception("Issue with Server !");
-        case CreateSessionReply.ResultOneofCase.Ok:
-          break;
-        default:
-          throw new ArgumentOutOfRangeException();
-      }
 
       return new Session()
       {
-        Id = sessionId,
+        Id = session.SessionId,
       };
     }
 
@@ -211,12 +206,9 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client.api
     /// <param name="payloads">
     ///   The user payload list to execute. General used for subTasking.
     /// </param>
-    public IEnumerable<string> SubmitTasks(IEnumerable<byte[]> payloads)
-    {
-
-      return SubmitTasksWithDependencies(payloads.Select(payload => new Tuple<byte[], IList<string>>(payload,
-                                                                                                     null)));
-    }
+    public IEnumerable<string> SubmitTasks(IEnumerable<byte[]> payloads) =>
+      SubmitTasksWithDependencies(payloads.Select(payload => new Tuple<byte[], IList<string>>(payload,
+                                                                                              null)));
 
     /// <summary>
     ///   User method to submit task from the client
@@ -226,7 +218,6 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.Client.api
     /// </param>
     public string SubmitTask(byte[] payload)
     {
-      Thread.Sleep(5); // Twice the keep alive 
       return SubmitTasks(new[] { payload })
         .Single();
     }

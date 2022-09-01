@@ -163,7 +163,6 @@ namespace ArmoniK.DevelopmentKit.Client.Services.Admin
           Statuses =
           {
             TaskStatus.Error,
-            TaskStatus.Failed,
             TaskStatus.Timeout,
           },
         }
@@ -324,7 +323,6 @@ namespace ArmoniK.DevelopmentKit.Client.Services.Admin
           Statuses =
           {
             TaskStatus.Error,
-            TaskStatus.Failed,
             TaskStatus.Timeout,
           },
         },

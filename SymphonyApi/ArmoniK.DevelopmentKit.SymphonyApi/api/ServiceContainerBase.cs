@@ -150,18 +150,6 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.api
 
 
     /// <summary>
-    ///   User method to submit task from the service
-    /// </summary>
-    /// <param name="payloads">
-    ///   The user payload list to execute. Generally used for subTasking.
-    /// </param>
-    /// <param name="parentTaskIds">The parent task Id attaching the subTask</param>
-    [Obsolete]
-    public IEnumerable<string> SubmitSubTasks(IEnumerable<byte[]> payloads, string parentTaskIds)
-      => SessionService.SubmitSubTasks(parentTaskIds,
-                                       payloads);
-
-    /// <summary>
     ///   The method to submit several tasks with dependencies tasks. This task will wait for
     ///   to start until all dependencies are completed successfully
     /// </summary>
@@ -306,21 +294,6 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.api
     public static string SubmitTask(this ServiceContainerBase serviceContainerBase, byte[] payload)
     {
       return serviceContainerBase.SessionService.SubmitTasks(new[] { payload }).Single();
-    }
-
-    /// <summary>
-    ///   User method to submit task from the service
-    /// </summary>
-    /// <param name="serviceContainerBase"></param>
-    /// <param name="payload">
-    ///   The user payload to execute. Generally used for subtasking.
-    /// </param>
-    /// <param name="parentId">With one Parent task Id</param>
-    [Obsolete]
-    public static string SubmitSubTask(this ServiceContainerBase serviceContainerBase, byte[] payload, string parentId)
-    {
-      return serviceContainerBase.SubmitSubTasks(new[] { payload },
-                                                 parentId).Single();
     }
 
     /// <summary>

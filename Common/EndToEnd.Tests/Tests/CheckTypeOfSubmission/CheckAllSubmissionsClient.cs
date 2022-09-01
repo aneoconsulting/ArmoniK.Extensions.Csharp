@@ -188,24 +188,6 @@ namespace ArmoniK.EndToEndTests.Tests.CheckTypeOfSubmission
       //}
     }
 
-    /// <summary>
-    ///   Simple function to wait and get the result from subTasking and result delegation
-    ///   to a subTask
-    /// </summary>
-    /// <param name="sessionService">The sessionService API to connect to the Control plane Service</param>
-    /// <param name="taskIds">The tasks which are waiting for</param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
-    private static IEnumerable<Tuple<string, byte[]>> GetResults(SessionService      sessionService,
-                                                                 IEnumerable<string> taskIds,
-                                                                 CancellationToken   cancellationToken = default)
-    {
-      var taskResult = sessionService.GetResults(taskIds,
-                                                 cancellationToken);
-
-      return taskResult;
-    }
-
     private void SubmissionTask(SessionService sessionService, int nbJob, int nbSubTasks, SubmissionType submissionType, GetResultType getResultType)
     {
       Log.LogInformation($"==  Running {nbJob} Tasks with {nbSubTasks} subTasks " +
@@ -259,13 +241,12 @@ namespace ArmoniK.EndToEndTests.Tests.CheckTypeOfSubmission
 
       if (getResultType == GetResultType.GetResult)
       {
-        results = GetResults(sessionService,
-                             taskIds);
+        results = sessionService.GetResults(taskIds);
       }
       else
       {
         results = GetTryResults(sessionService,
-                                taskIds);
+                                taskIds.ToList());
       }
 
       var tuples = results as Tuple<string, byte[]>[] ?? results.ToArray();
@@ -296,7 +277,10 @@ namespace ArmoniK.EndToEndTests.Tests.CheckTypeOfSubmission
     private static void PeriodicInfo(Action action, int seconds, CancellationToken token = default)
     {
       if (action == null)
+      {
         return;
+      }
+
       Task.Run(async () =>
                {
                  while (!token.IsCancellationRequested)
@@ -310,7 +294,7 @@ namespace ArmoniK.EndToEndTests.Tests.CheckTypeOfSubmission
     }
 
 
-    private IEnumerable<Tuple<string, byte[]>> GetTryResults(SessionService sessionService, IEnumerable<string> taskIds)
+    private IEnumerable<Tuple<string, byte[]>> GetTryResults(SessionService sessionService, IList<string> taskIds)
     {
       var ids      = taskIds.ToList();
       var missing  = ids;
@@ -336,7 +320,7 @@ namespace ArmoniK.EndToEndTests.Tests.CheckTypeOfSubmission
 
         buckets.ForEach(bucket =>
         {
-          var partialResults = sessionService.TryGetResults(bucket);
+          var partialResults = sessionService.TryGetResults(bucket.ToList());
 
           var listPartialResults = partialResults.ToList();
 

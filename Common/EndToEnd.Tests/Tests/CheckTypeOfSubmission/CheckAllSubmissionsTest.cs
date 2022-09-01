@@ -42,47 +42,6 @@ namespace ArmoniK.EndToEndTests.Tests.CheckTypeOfSubmission
       //END USER PLEASE FIXME
     }
 
-
-    private static double ExpM1(double x)
-    {
-      return ((((((((((((((15.0 + x) * x + 210.0) * x + 2730.0) * x + 32760.0) * x + 360360.0) * x + 3603600.0) * x + 32432400.0) * x + 259459200.0) * x +
-                   1816214400.0) *
-                  x +
-                  10897286400.0) *
-                 x +
-                 54486432000.0) *
-                x +
-                217945728000.0) *
-               x +
-               653837184000.0) *
-              x +
-              1307674368000.0) *
-             x *
-             7.6471637318198164759011319857881e-13;
-    }
-
-    public byte[] ComputeSum(TaskContext taskContext, ClientPayload clientPayload)
-    {
-      Logger.LogInformation($"Enter in function : ComputeSum");
-
-      if (clientPayload.Numbers.Count == 0)
-        return new ClientPayload
-          {
-            Type   = ClientPayload.TaskType.Result,
-            Result = 0,
-          }
-          .Serialize(); // Nothing to do
-
-
-      ClientPayload aggPayload = new()
-      {
-        Type   = ClientPayload.TaskType.Result,
-        Result = clientPayload.Numbers.Sum(),
-      };
-
-      return aggPayload.Serialize(); //nothing to do
-    }
-
     private byte[] AggregateValues(TaskContext taskContext)
     {
       Logger.LogInformation($"Aggregate Task from Dependencies TaskIds : [{string.Join(", ", taskContext.DependenciesTaskIds)}]");
