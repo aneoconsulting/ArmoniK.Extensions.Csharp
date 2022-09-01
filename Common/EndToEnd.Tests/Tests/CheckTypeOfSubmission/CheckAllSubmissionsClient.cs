@@ -246,7 +246,7 @@ namespace ArmoniK.EndToEndTests.Tests.CheckTypeOfSubmission
       else
       {
         results = GetTryResults(sessionService,
-                                taskIds);
+                                taskIds.ToList());
       }
 
       var tuples = results as Tuple<string, byte[]>[] ?? results.ToArray();
@@ -294,7 +294,7 @@ namespace ArmoniK.EndToEndTests.Tests.CheckTypeOfSubmission
     }
 
 
-    private IEnumerable<Tuple<string, byte[]>> GetTryResults(SessionService sessionService, IEnumerable<string> taskIds)
+    private IEnumerable<Tuple<string, byte[]>> GetTryResults(SessionService sessionService, IList<string> taskIds)
     {
       var ids      = taskIds.ToList();
       var missing  = ids;
@@ -320,7 +320,7 @@ namespace ArmoniK.EndToEndTests.Tests.CheckTypeOfSubmission
 
         buckets.ForEach(bucket =>
         {
-          var partialResults = sessionService.TryGetResults(bucket);
+          var partialResults = sessionService.TryGetResults(bucket.ToList());
 
           var listPartialResults = partialResults.ToList();
 

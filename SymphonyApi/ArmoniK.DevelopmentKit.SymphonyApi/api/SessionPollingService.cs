@@ -166,33 +166,25 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.api
     /// </param>
     public IEnumerable<string> SubmitTasks(IEnumerable<byte[]> payloads)
     {
-      using var _ = Logger.LogFunction();
+      using var _            = Logger.LogFunction();
+      var       resultsIds   = new List<string>();
 
-      var ePayloads = payloads as byte[][] ?? payloads.ToArray();
-
-      Logger.LogDebug("payload {len}",
-                      ePayloads.Count());
-      var taskRequests   = new List<TaskRequest>();
-      var resultsCreated = new List<string>();
-
-      foreach (var payload in ePayloads)
+      var taskRequests = payloads.Select(bytes =>
       {
-        var taskId = Guid.NewGuid().ToString();
-        resultsCreated.Add(taskId);
+        var resultId = Guid.NewGuid().ToString();
+        resultsIds.Add(resultId);
         Logger.LogDebug("Create task {task}",
-                        taskId);
-        var taskRequest = new TaskRequest
+                        resultId);
+        return new TaskRequest
         {
-          Payload = ByteString.CopyFrom(payload),
+          Payload = ByteString.CopyFrom(bytes),
 
           ExpectedOutputKeys =
           {
-            taskId,
+            resultId,
           },
         };
-
-        taskRequests.Add(taskRequest);
-      }
+      });
 
       var createTaskReply = TaskHandler.CreateTasksAsync(taskRequests,
                                                          TaskOptions).Result;
@@ -212,10 +204,9 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.api
           throw new ArgumentOutOfRangeException();
       }
 
-
       Logger.LogDebug("Results created : {ids}",
-                      resultsCreated);
-      return resultsCreated;
+                      resultsIds);
+      return resultsIds;
     }
 
     /// <summary>
@@ -227,19 +218,16 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.api
     /// <returns>return a list of taskIds of the created tasks </returns>
     public IEnumerable<string> SubmitTasksWithDependencies(IEnumerable<Tuple<byte[], IList<string>>> payloadsWithDependencies, bool resultForParent = false)
     {
-      using var _                = Logger.LogFunction();
-      var       withDependencies = payloadsWithDependencies as Tuple<byte[], IList<string>>[] ?? payloadsWithDependencies.ToArray();
-      Logger.LogDebug("payload with dependencies {len}",
-                      withDependencies.Count());
-      var taskRequests   = new List<TaskRequest>();
-      var resultsCreated = new List<string>();
+      using var _                 = Logger.LogFunction();
+      var       taskRequests      = new List<TaskRequest>();
+      var       resultsIdsCreated = new List<string>();
 
-      foreach (var (payload, dependencies) in withDependencies)
+      foreach (var (payload, dependencies) in payloadsWithDependencies)
       {
-        var taskId = Guid.NewGuid().ToString();
+        var resultId = Guid.NewGuid().ToString();
         Logger.LogDebug("Create task {task}",
-                        taskId);
-        resultsCreated.Add(taskId);
+                        resultId);
+        resultsIdsCreated.Add(resultId);
         var taskRequest = new TaskRequest
         {
           Payload = ByteString.CopyFrom(payload),
@@ -249,7 +237,7 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.api
                                                   ? TaskHandler.ExpectedResults
                                                   : new[]
                                                   {
-                                                    taskId,
+                                                    resultId,
                                                   });
 
         if (dependencies != null && dependencies.Count != 0)
@@ -284,8 +272,8 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.api
 
 
       Logger.LogDebug("Tasks created : {ids}",
-                      resultsCreated);
-      return resultsCreated;
+                      resultsIdsCreated);
+      return resultsIdsCreated;
     }
 
     /// <summary>
@@ -330,7 +318,10 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.api
     /// </param>
     public static string SubmitTask(this SessionPollingService client, byte[] payload)
     {
-      return client.SubmitTasks(new[] { payload })
+      return client.SubmitTasks(new[]
+                   {
+                     payload
+                   })
                    .Single();
     }
 
