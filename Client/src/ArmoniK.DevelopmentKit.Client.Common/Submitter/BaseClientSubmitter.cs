@@ -334,11 +334,11 @@ namespace ArmoniK.DevelopmentKit.Common.Submitter
                                               SessionId = SessionId.Id,
                                             });
                                             return resultStatusReply.IdStatuses.Select(x => Tuple.Create(x.ResultId,
-                                                                                                         x.Status)).ToHashSet();
+                                                                                                         x.Status));
                                           },
                                           true,
                                           typeof(IOException),
-                                          typeof(RpcException));
+                                          typeof(RpcException)).ToHashSet();
 
       var idsResultError = new List<Tuple<string, ResultStatus>>();
       var idsReady       = new List<Tuple<string, ResultStatus>>();
