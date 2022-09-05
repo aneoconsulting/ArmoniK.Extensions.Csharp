@@ -1,4 +1,4 @@
-﻿// This file is part of the ArmoniK project
+// This file is part of the ArmoniK project
 // 
 // Copyright (C) ANEO, 2021-2022.
 //   W. Kirschenmann   <wkirschenmann@aneo.fr>
@@ -120,22 +120,12 @@ public class SessionService : BaseClientSubmitter<SessionService>
                                               },
                                 MaxRetries = 2,
                                 Priority   = 1,
+                                EngineType = EngineType.Unified.ToString(),
+                                ApplicationName = "ArmoniK.DevelopmentKit.UnifiedApi",
+                                ApplicationVersion = "1.X.X",
+                                ApplicationNamespace = "ArmoniK.DevelopmentKit.UnifiedApi",
+                                ApplicationService = "FallBackServerAdder",
                               };
-
-    taskOptions.Options.Add(AppsOptions.EngineTypeNameKey,
-                            EngineType.DataSynapse.ToString());
-
-    taskOptions.Options.Add(AppsOptions.GridAppNameKey,
-                            "ArmoniK.DevelopmentKit.UnifiedApi");
-
-    taskOptions.Options.Add(AppsOptions.GridAppVersionKey,
-                            "1.X.X");
-
-    taskOptions.Options.Add(AppsOptions.GridAppNamespaceKey,
-                            "ArmoniK.DevelopmentKit.UnifiedApi");
-
-    taskOptions.Options.Add(AppsOptions.GridServiceNameKey,
-                            "FallBackServerAdder");
 
     return taskOptions;
   }

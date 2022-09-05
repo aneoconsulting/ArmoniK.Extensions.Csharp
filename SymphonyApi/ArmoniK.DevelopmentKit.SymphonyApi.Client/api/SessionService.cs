@@ -1,4 +1,4 @@
-﻿// This file is part of the ArmoniK project
+// This file is part of the ArmoniK project
 // 
 // Copyright (C) ANEO, 2021-2022.
 //   W. Kirschenmann   <wkirschenmann@aneo.fr>
@@ -115,17 +115,11 @@ public class SessionService : BaseClientSubmitter<SessionService>
                                               },
                                 MaxRetries = 3,
                                 Priority   = 1,
+                                EngineType = EngineType.Symphony.ToString(),
+                                ApplicationName = "ArmoniK.Samples.SymphonyPackage",
+                                ApplicationVersion = "1.X.X",
+                                ApplicationNamespace = "ArmoniK.Samples.Symphony.Packages",
                               };
-    taskOptions.Options.Add(AppsOptions.EngineTypeNameKey,
-                            EngineType.Symphony.ToString());
-
-    taskOptions.Options.Add(AppsOptions.GridAppNameKey,
-                            "ArmoniK.Samples.SymphonyPackage");
-    taskOptions.Options.Add(AppsOptions.GridAppVersionKey,
-                            "1.X.X");
-    taskOptions.Options.Add(AppsOptions.GridAppNamespaceKey,
-                            "ArmoniK.Samples.Symphony.Packages");
-
     return taskOptions;
   }
 

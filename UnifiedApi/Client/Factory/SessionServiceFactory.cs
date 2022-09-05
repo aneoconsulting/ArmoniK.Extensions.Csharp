@@ -132,22 +132,12 @@ public class SessionServiceFactory
                                               },
                                 MaxRetries = 2,
                                 Priority   = 1,
+                                EngineType = EngineType.DataSynapse.ToString(),
+                                ApplicationName = "ArmoniK.DevelopmentKit.GridServer",
+                                ApplicationVersion = "1.X.X",
+                                ApplicationNamespace = "ArmoniK.DevelopmentKit.GridServer",
+                                ApplicationService = "FallBackServerAdder",
                               };
-
-    taskOptions.Options.Add(AppsOptions.EngineTypeNameKey,
-                            EngineType.DataSynapse.ToString());
-
-    taskOptions.Options.Add(AppsOptions.GridAppNameKey,
-                            "ArmoniK.DevelopmentKit.GridServer");
-
-    taskOptions.Options.Add(AppsOptions.GridAppVersionKey,
-                            "1.X.X");
-
-    taskOptions.Options.Add(AppsOptions.GridAppNamespaceKey,
-                            "ArmoniK.DevelopmentKit.GridServer");
-
-    taskOptions.Options.Add(AppsOptions.GridServiceNameKey,
-                            "FallBackServerAdder");
 
     return taskOptions;
   }

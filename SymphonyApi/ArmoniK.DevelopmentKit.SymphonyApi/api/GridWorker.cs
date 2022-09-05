@@ -79,12 +79,12 @@ public class GridWorker : IGridWorker
   public TaskId TaskId { get; set; }
 
   public void Configure(IConfiguration                      configuration,
-                        IReadOnlyDictionary<string, string> clientOptions,
+                        TaskOptions clientOptions,
                         IAppsLoader                         appsLoader)
   {
-    GridAppName      = clientOptions[AppsOptions.GridAppNameKey];
-    GridAppVersion   = clientOptions[AppsOptions.GridAppVersionKey];
-    GridAppNamespace = clientOptions[AppsOptions.GridAppNamespaceKey];
+    GridAppName      = clientOptions.ApplicationName;
+    GridAppVersion   = clientOptions.ApplicationVersion;
+    GridAppNamespace = clientOptions.ApplicationNamespace;
 
     serviceContext_ = new ServiceContext
                       {
@@ -109,7 +109,7 @@ public class GridWorker : IGridWorker
   }
 
   public void InitializeSessionWorker(Session                             sessionId,
-                                      IReadOnlyDictionary<string, string> requestTaskOptions)
+                                      TaskOptions requestTaskOptions)
   {
     Logger.BeginPropertyScope(("SessionId", sessionId));
 

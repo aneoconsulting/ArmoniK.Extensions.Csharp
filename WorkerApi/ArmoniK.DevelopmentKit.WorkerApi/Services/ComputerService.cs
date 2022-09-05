@@ -85,37 +85,23 @@ public class ComputerService : WorkerStreamWrapper
 
       Logger.LogInformation($"Receive new task Session        {sessionIdCaller} -> task {taskId}");
       Logger.LogInformation($"Previous Session#SubSession was {ServiceRequestContext.SessionId?.Id ?? "NOT SET"}");
-
-      var keyOkList = new[]
-                      {
-                        AppsOptions.GridAppNameKey,
-                        AppsOptions.GridAppVersionKey,
-                        AppsOptions.GridAppNamespaceKey,
-                      }.Select(key => (key, val: taskHandler.TaskOptions.Options.ContainsKey(key)))
-                       .ToArray();
-
-      if (keyOkList.Any(el => el.val == false))
+      if (new[]
+          {
+            (nameof(taskHandler.TaskOptions.ApplicationName), string.IsNullOrEmpty(taskHandler.TaskOptions.ApplicationName)),
+            (nameof(taskHandler.TaskOptions.ApplicationVersion), string.IsNullOrEmpty(taskHandler.TaskOptions.ApplicationVersion)),
+            (nameof(taskHandler.TaskOptions.ApplicationNamespace), string.IsNullOrEmpty(taskHandler.TaskOptions.ApplicationNamespace)),
+          }.Where(x => x.Item2).ToArray() is var missingKeys && !missingKeys.Any())
       {
         throw new
-          WorkerApiException($"Error in TaskOptions.Options : One of Keys is missing [{string.Join(";", keyOkList.Where(x => x.Item2 == false).Select(el => $"{el.key} => {el.val}"))}]");
+          WorkerApiException($"Error in TaskOptions.Options : One of Keys is missing [{string.Join(";", missingKeys.Select(el => $"{el.Item1} => {el.Item2}"))}]");
       }
 
+      var fileName          = $"{taskHandler.TaskOptions.ApplicationName}-v{taskHandler.TaskOptions.ApplicationVersion}.zip";
+      var localDirectoryZip = $"{Configuration[AppsOptions.GridDataVolumesKey]}";
 
-      var fileName          = $"{taskHandler.TaskOptions.Options[AppsOptions.GridAppNameKey]}-v{taskHandler.TaskOptions.Options[AppsOptions.GridAppVersionKey]}.zip";
-      var localDirectoryZip = $"{Configuration["target_data_path"]}";
-
-      var engineTypeName = taskHandler.TaskOptions.Options.ContainsKey(AppsOptions.EngineTypeNameKey)
-                             ? taskHandler.TaskOptions.Options[AppsOptions.EngineTypeNameKey]
-                             : EngineType.Symphony.ToString();
-
-      if (!taskHandler.TaskOptions.Options.ContainsKey(AppsOptions.GridAppNamespaceKey))
-      {
-        throw new WorkerApiException("Cannot find namespace service in TaskOptions. Please set the namespace");
-      }
-
-      var _ = taskHandler.TaskOptions.Options.ContainsKey(AppsOptions.GridAppNamespaceKey)
-                ? taskHandler.TaskOptions.Options[AppsOptions.GridAppNamespaceKey]
-                : "UnknownNamespaceService avoid previous validation !!";
+      var engineTypeName = string.IsNullOrEmpty(taskHandler.TaskOptions.EngineType)
+                             ? EngineType.Symphony.ToString()
+                             : taskHandler.TaskOptions.EngineType;
 
       var fileAdaptater = ServiceRequestContext.CreateOrGetFileAdaptater(Configuration,
                                                                          localDirectoryZip);
@@ -125,7 +111,7 @@ public class ComputerService : WorkerStreamWrapper
                                                                       engineTypeName,
                                                                       fileAdaptater,
                                                                       fileName,
-                                                                      taskHandler.TaskOptions.Options);
+                                                                      taskHandler.TaskOptions);
 
       var serviceWorker = ServiceRequestContext.GetService(serviceId);
 
@@ -187,8 +173,10 @@ public class ComputerService : WorkerStreamWrapper
   {
     var             level   = 1;
     var             current = e;
-    List<Exception> exList  = new();
-    exList.Add(e);
+    List<Exception> exList  = new()
+                              {
+                                e,
+                              };
 
     while (current.InnerException != null)
     {
