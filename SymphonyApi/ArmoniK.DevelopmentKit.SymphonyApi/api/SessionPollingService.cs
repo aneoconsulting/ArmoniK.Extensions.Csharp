@@ -54,8 +54,8 @@ public class SessionPollingService
     Logger        = loggerFactory.CreateLogger<SessionPollingService>();
     LoggerFactory = loggerFactory;
     TaskHandler   = taskHandler;
-
-    TaskOptions = CopyClientToTaskOptions(TaskHandler.TaskOptions.Options);
+    TaskOptions   = InitializeDefaultTaskOptions();
+    TaskOptions.MergeFrom(taskHandler.TaskOptions);
 
     Logger.LogDebug("Creating Session... ");
 
@@ -109,52 +109,13 @@ public class SessionPollingService
                                               {
                                                 Seconds = 300,
                                               },
-                                MaxRetries = 3,
-                                Priority   = 1,
-                                EngineType = EngineType.Symphony.ToString(),
-                                ApplicationName = "ArmoniK.Samples.SymphonyPackage",
-                                ApplicationVersion = "1.0.0",
+                                MaxRetries           = 3,
+                                Priority             = 1,
+                                EngineType           = EngineType.Symphony.ToString(),
+                                ApplicationName      = "ArmoniK.Samples.SymphonyPackage",
+                                ApplicationVersion   = "1.0.0",
                                 ApplicationNamespace = "ArmoniK.Samples.Symphony.Packages",
                               };
-
-    CopyTaskOptionsForClient(taskOptions);
-
-    return taskOptions;
-  }
-
-
-  private static void CopyTaskOptionsForClient(TaskOptions taskOptions)
-  {
-    taskOptions.Options["MaxDuration"] = taskOptions.MaxDuration.Seconds.ToString();
-    taskOptions.Options["MaxRetries"]  = taskOptions.MaxRetries.ToString();
-    taskOptions.Options["Priority"]    = taskOptions.Priority.ToString();
-  }
-
-  private TaskOptions CopyClientToTaskOptions(IReadOnlyDictionary<string, string> clientOptions)
-  {
-    var defaultTaskOption = InitializeDefaultTaskOptions();
-
-    TaskOptions taskOptions = new()
-                              {
-                                MaxDuration = new Duration
-                                              {
-                                                Seconds = clientOptions.ContainsKey("MaxDuration")
-                                                            ? long.Parse(clientOptions["MaxDuration"])
-                                                            : defaultTaskOption.MaxDuration.Seconds,
-                                              },
-                                MaxRetries = clientOptions.ContainsKey("MaxRetries")
-                                               ? int.Parse(clientOptions["MaxRetries"])
-                                               : defaultTaskOption.MaxRetries,
-                                Priority = clientOptions.ContainsKey("Priority")
-                                             ? int.Parse(clientOptions["Priority"])
-                                             : defaultTaskOption.Priority,
-                              };
-
-    defaultTaskOption.Options.ToList()
-                     .ForEach(pair => taskOptions.Options[pair.Key] = pair.Value);
-
-    clientOptions.ToList()
-                 .ForEach(pair => taskOptions.Options[pair.Key] = pair.Value);
 
     return taskOptions;
   }

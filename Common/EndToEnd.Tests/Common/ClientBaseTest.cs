@@ -53,28 +53,26 @@ public abstract class ClientBaseTest<T>
   protected IConfiguration Configuration { get; set; }
 
   protected static ILogger<T> Log { get; set; }
-  
+
   protected ILoggerFactory LoggerFactory { get; set; }
 
   protected virtual TaskOptions InitializeTaskOptions()
-  {
-    return new TaskOptions()
-           {
-             MaxDuration = new Duration
-                           {
-                             Seconds = 300,
-                           },
-             MaxRetries      = 5,
-             Priority        = 1,
-             PartitionId     = Environment.GetEnvironmentVariable("PARTITION") ?? "",
-             ApplicationName = "ArmoniK.EndToEndTests",
-             ApplicationVersion = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly()
-                                                                         .Location)
-                                                 .ProductVersion ?? "1.0.0-700",
-             ApplicationNamespace = typeof(T).Namespace,
-             EngineType           = EngineType.Symphony.ToString(),
-           };
-  }
+    => new()
+       {
+         MaxDuration = new Duration
+                       {
+                         Seconds = 300,
+                       },
+         MaxRetries      = 5,
+         Priority        = 1,
+         PartitionId     = Environment.GetEnvironmentVariable("PARTITION") ?? "",
+         ApplicationName = "ArmoniK.EndToEndTests",
+         ApplicationVersion = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly()
+                                                                     .Location)
+                                             .ProductVersion ?? "1.0.0-700",
+         ApplicationNamespace = typeof(T).Namespace,
+         EngineType           = EngineType.Symphony.ToString(),
+       };
 
 
   public abstract void EntryPoint();

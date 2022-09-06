@@ -88,22 +88,20 @@ public class ArmonikDataSynapsePollingService
   /// </summary>
   /// <returns>Return the default taskOptions</returns>
   public static TaskOptions InitializeDefaultTaskOptions()
-  {
-    return new TaskOptions
-           {
-             MaxDuration = new Duration
-                           {
-                             Seconds = 40,
-                           },
-             MaxRetries           = 2,
-             Priority             = 1,
-             EngineType           = EngineType.DataSynapse.ToString(),
-             ApplicationName      = "ArmoniK.DevelopmentKit.GridServer",
-             ApplicationVersion   = "1.0.0",
-             ApplicationNamespace = "ArmoniK.DevelopmentKit.GridServer",
-             ApplicationService   = "FallBackServerAdder",
-           };
-  }
+    => new()
+       {
+         MaxDuration = new Duration
+                       {
+                         Seconds = 40,
+                       },
+         MaxRetries           = 2,
+         Priority             = 1,
+         EngineType           = EngineType.DataSynapse.ToString(),
+         ApplicationName      = "ArmoniK.DevelopmentKit.GridServer",
+         ApplicationVersion   = "1.0.0",
+         ApplicationNamespace = "ArmoniK.DevelopmentKit.GridServer",
+         ApplicationService   = "FallBackServerAdder",
+       };
 
 
   /// <summary>

@@ -27,7 +27,7 @@ namespace ArmoniK.DevelopmentKit.Common;
 [MarkDownDoc]
 public static class AppsOptions
 {
-  public const string GridVolumesKey    = "gridVolumes";
-  public const string GridAppVolumesKey = "target_app_path";
+  public const string GridVolumesKey     = "gridVolumes";
+  public const string GridAppVolumesKey  = "target_app_path";
   public const string GridDataVolumesKey = "target_data_path";
 }

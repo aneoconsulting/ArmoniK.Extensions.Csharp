@@ -24,7 +24,6 @@
 using System.IO;
 
 using ArmoniK.Api.gRPC.V1;
-using ArmoniK.DevelopmentKit.Common;
 
 using Google.Protobuf.WellKnownTypes;
 
@@ -44,18 +43,16 @@ public class ClientTestHelpers
   }
 
   public static TaskOptions InitializeTaskOptions()
-  {
-    return new TaskOptions
-           {
-             MaxDuration = new Duration
-                           {
-                             Seconds = 300,
-                           },
-             MaxRetries           = 5,
-             Priority             = 1,
-             ApplicationName      = "ArmoniK.Samples.EndToEndTests",
-             ApplicationVersion   = "1.0.0",
-             ApplicationNamespace = "ArmoniK.Samples.EndToEndTests",
-           };
-  }
+    => new()
+       {
+         MaxDuration = new Duration
+                       {
+                         Seconds = 300,
+                       },
+         MaxRetries           = 5,
+         Priority             = 1,
+         ApplicationName      = "ArmoniK.Samples.EndToEndTests",
+         ApplicationVersion   = "1.0.0",
+         ApplicationNamespace = "ArmoniK.Samples.EndToEndTests",
+       };
 }

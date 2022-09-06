@@ -78,10 +78,10 @@ public class SessionService : BaseClientSubmitter<SessionService>
   /// <param name="controlPlaneService"></param>
   /// <param name="clientOptions">Client options passed during the CreateSession</param>
   /// <param name="sessionId"></param>
-  public SessionService(ILoggerFactory              loggerFactory,
-                        Submitter.SubmitterClient   controlPlaneService,
-                        Session                     sessionId,
-                        TaskOptions clientOptions)
+  public SessionService(ILoggerFactory            loggerFactory,
+                        Submitter.SubmitterClient controlPlaneService,
+                        Session                   sessionId,
+                        TaskOptions               clientOptions)
     : base(loggerFactory)
   {
     TaskOptions = InitializeDefaultTaskOptions();
@@ -100,9 +100,7 @@ public class SessionService : BaseClientSubmitter<SessionService>
   /// <summary>Returns a string that represents the current object.</summary>
   /// <returns>A string that represents the current object.</returns>
   public override string ToString()
-  {
-    return SessionId?.Id ?? "Session_Not_ready";
-  }
+    => SessionId?.Id ?? "Session_Not_ready";
 
   /// <summary>
   ///   Set to default taskOption with
@@ -112,22 +110,20 @@ public class SessionService : BaseClientSubmitter<SessionService>
   /// </summary>
   /// <returns>Default taskOptions</returns>
   public static TaskOptions InitializeDefaultTaskOptions()
-  {
-    return new TaskOptions()
-           {
-             MaxDuration = new Duration
-                           {
-                             Seconds = 40,
-                           },
-             MaxRetries           = 2,
-             Priority             = 1,
-             EngineType           = EngineType.DataSynapse.ToString(),
-             ApplicationName      = "ArmoniK.DevelopmentKit.GridServer",
-             ApplicationVersion   = "1.X.X",
-             ApplicationNamespace = "ArmoniK.DevelopmentKit.GridServer",
-             ApplicationService   = "FallBackServerAdder",
-           };
-  }
+    => new()
+       {
+         MaxDuration = new Duration
+                       {
+                         Seconds = 40,
+                       },
+         MaxRetries           = 2,
+         Priority             = 1,
+         EngineType           = EngineType.DataSynapse.ToString(),
+         ApplicationName      = "ArmoniK.DevelopmentKit.GridServer",
+         ApplicationVersion   = "1.X.X",
+         ApplicationNamespace = "ArmoniK.DevelopmentKit.GridServer",
+         ApplicationService   = "FallBackServerAdder",
+       };
 
   private Session CreateSession(IEnumerable<string> partitionIds)
   {

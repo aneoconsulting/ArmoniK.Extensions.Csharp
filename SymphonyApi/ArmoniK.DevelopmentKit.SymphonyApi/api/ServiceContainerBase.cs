@@ -64,9 +64,9 @@ public abstract class ServiceContainerBase
   //internal ITaskHandler TaskHandler { get; set; }
 
   /// <summary>
-  ///   Return TaskOption.Options coming from Client side
+  ///   Return TaskOption coming from Client side
   /// </summary>
-  public IDictionary<string, string> ClientOptions { get; set; } = new Dictionary<string, string>();
+  public TaskOptions TaskOptions { get; set; } = new();
 
   /// <summary>
   ///   Get or set the taskId (ONLY INTERNAL USED)
@@ -236,16 +236,13 @@ public abstract class ServiceContainerBase
   ///   Its holds several configuration coming from the Client call
   /// </summary>
   /// <param name="configuration">The appSettings.json configuration prepared during the deployment</param>
-  /// <param name="clientOptions">All data coming from Client within TaskOptions.Options </param>
-  public void Configure(IConfiguration                      configuration,
-                        TaskOptions clientOptions)
+  /// <param name="clientOptions">All data coming from Client within TaskOptions </param>
+  public void Configure(IConfiguration configuration,
+                        TaskOptions    clientOptions)
   {
     Configuration = configuration;
-    foreach (var kv in clientOptions.Options)
-    {
-      ClientOptions[kv.Key] = kv.Value;
-    }
-    //Append or overwrite Dictionary Options in TaskOptions with one coming from client
+    TaskOptions.MergeFrom(clientOptions);
+    //Append or overwrite TaskOptions with one coming from client
 
     var logger = new LoggerConfiguration().ReadFrom.Configuration(Configuration)
                                           .WriteTo.Console(new CompactJsonFormatter())
@@ -261,16 +258,13 @@ public abstract class ServiceContainerBase
   /// </summary>
   /// <param name="sessionId"></param>
   /// <param name="requestTaskOptions"></param>
-  public void ConfigureSession(Session                             sessionId,
+  public void ConfigureSession(Session     sessionId,
                                TaskOptions requestTaskOptions)
   {
     SessionId = sessionId;
 
-    //Append or overwrite Dictionary Options in TaskOptions with one coming from client
-    foreach (var kv in requestTaskOptions.Options)
-    {
-      ClientOptions[kv.Key] = kv.Value;
-    }
+    //Append or overwrite TaskOptions with one coming from client
+    TaskOptions.MergeFrom(requestTaskOptions);
   }
 
   /// <summary>

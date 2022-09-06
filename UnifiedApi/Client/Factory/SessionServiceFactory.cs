@@ -22,8 +22,6 @@
 // limitations under the License.
 
 
-using System.Collections.Generic;
-
 using ArmoniK.Api.gRPC.V1;
 using ArmoniK.Api.gRPC.V1.Submitter;
 using ArmoniK.DevelopmentKit.Client.Services;
@@ -101,9 +99,9 @@ public class SessionServiceFactory
   /// <param name="properties">The properties setting for the session</param>
   /// <param name="sessionId">SessionId previously opened</param>
   /// <param name="clientOptions"></param>
-  public SessionService OpenSession(Properties                  properties,
-                                    string                      sessionId,
-                                    IDictionary<string, string> clientOptions = null)
+  public SessionService OpenSession(Properties  properties,
+                                    string      sessionId,
+                                    TaskOptions clientOptions = null)
   {
     ControlPlaneConnection(properties);
 
@@ -130,13 +128,13 @@ public class SessionServiceFactory
                                               {
                                                 Seconds = 40,
                                               },
-                                MaxRetries = 2,
-                                Priority   = 1,
-                                EngineType = EngineType.DataSynapse.ToString(),
-                                ApplicationName = "ArmoniK.DevelopmentKit.GridServer",
-                                ApplicationVersion = "1.X.X",
+                                MaxRetries           = 2,
+                                Priority             = 1,
+                                EngineType           = EngineType.DataSynapse.ToString(),
+                                ApplicationName      = "ArmoniK.DevelopmentKit.GridServer",
+                                ApplicationVersion   = "1.X.X",
                                 ApplicationNamespace = "ArmoniK.DevelopmentKit.GridServer",
-                                ApplicationService = "FallBackServerAdder",
+                                ApplicationService   = "FallBackServerAdder",
                               };
 
     return taskOptions;

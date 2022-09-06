@@ -22,7 +22,6 @@
 // limitations under the License.
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
@@ -72,7 +71,7 @@ public class GridWorker : IGridWorker
 
   public string GridAppName { get; set; }
 
-  public IReadOnlyDictionary<string, string> ClientServiceOptions { get; set; }
+  public TaskOptions TaskOptions { get; set; }
 
   public IConfiguration Configurations { get; set; }
 
@@ -80,8 +79,8 @@ public class GridWorker : IGridWorker
                         TaskOptions    clientOptions,
                         IAppsLoader    appsLoader)
   {
-    Configurations       = configuration;
-    ClientServiceOptions = clientOptions.Options;
+    Configurations = configuration;
+    TaskOptions    = clientOptions.Clone();
 
 
     GridAppName      = clientOptions.ApplicationName;
@@ -101,7 +100,7 @@ public class GridWorker : IGridWorker
                                                                   GridServiceName);
   }
 
-  public void InitializeSessionWorker(Session                             session,
+  public void InitializeSessionWorker(Session     session,
                                       TaskOptions requestTaskOptions)
   {
     if (session == null)

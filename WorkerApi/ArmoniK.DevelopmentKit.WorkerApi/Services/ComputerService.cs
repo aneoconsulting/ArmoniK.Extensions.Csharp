@@ -90,10 +90,10 @@ public class ComputerService : WorkerStreamWrapper
             (nameof(taskHandler.TaskOptions.ApplicationName), string.IsNullOrEmpty(taskHandler.TaskOptions.ApplicationName)),
             (nameof(taskHandler.TaskOptions.ApplicationVersion), string.IsNullOrEmpty(taskHandler.TaskOptions.ApplicationVersion)),
             (nameof(taskHandler.TaskOptions.ApplicationNamespace), string.IsNullOrEmpty(taskHandler.TaskOptions.ApplicationNamespace)),
-          }.Where(x => x.Item2).ToArray() is var missingKeys && !missingKeys.Any())
+          }.Where(x => x.Item2)
+           .ToArray() is var missingKeys && missingKeys.Any())
       {
-        throw new
-          WorkerApiException($"Error in TaskOptions.Options : One of Keys is missing [{string.Join(";", missingKeys.Select(el => $"{el.Item1} => {el.Item2}"))}]");
+        throw new WorkerApiException($"Error in TaskOptions : One of Keys is missing [{string.Join(";", missingKeys.Select(el => $"{el.Item1} => {el.Item2}"))}]");
       }
 
       var fileName          = $"{taskHandler.TaskOptions.ApplicationName}-v{taskHandler.TaskOptions.ApplicationVersion}.zip";
@@ -171,12 +171,12 @@ public class ComputerService : WorkerStreamWrapper
 
   private static string ExtractException(Exception e)
   {
-    var             level   = 1;
-    var             current = e;
-    List<Exception> exList  = new()
-                              {
-                                e,
-                              };
+    var level   = 1;
+    var current = e;
+    List<Exception> exList = new()
+                             {
+                               e,
+                             };
 
     while (current.InnerException != null)
     {

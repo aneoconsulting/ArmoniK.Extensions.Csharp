@@ -22,7 +22,6 @@
 // limitations under the License.
 
 using System;
-using System.Collections.Generic;
 
 using ArmoniK.Api.gRPC.V1;
 using ArmoniK.Api.Worker.Worker;

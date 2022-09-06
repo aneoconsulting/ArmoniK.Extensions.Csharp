@@ -95,8 +95,8 @@ public class SimpleUnifiedAPITestClient : ClientBaseTest<SimpleUnifiedAPITestCli
     var taskOptions = InitializeTaskOptions();
     OverrideTaskOptions(taskOptions);
 
-    taskOptions.ApplicationService = "SimpleService";
-    taskOptions.MaxDuration.Seconds                     = 1800;
+    taskOptions.ApplicationService  = "SimpleService";
+    taskOptions.MaxDuration.Seconds = 1800;
 
     var props = new Properties(taskOptions,
                                Configuration.GetSection("Grpc")["EndPoint"],

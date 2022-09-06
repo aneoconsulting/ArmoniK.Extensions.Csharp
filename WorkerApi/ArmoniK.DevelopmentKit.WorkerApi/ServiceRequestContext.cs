@@ -83,8 +83,8 @@ public class ArmonikServiceWorker : IDisposable
     }
   }
 
-  public void Configure(IConfiguration                      configuration,
-                        TaskOptions requestTaskOptions)
+  public void Configure(IConfiguration configuration,
+                        TaskOptions    requestTaskOptions)
   {
     if (Initialized)
     {
@@ -101,7 +101,7 @@ public class ArmonikServiceWorker : IDisposable
     Initialized = true;
   }
 
-  public void InitializeSessionWorker(Session                             sessionId,
+  public void InitializeSessionWorker(Session     sessionId,
                                       TaskOptions taskHandlerTaskOptions)
   {
     using (AppsLoader.UserAssemblyLoadContext.EnterContextualReflection())
@@ -163,11 +163,11 @@ public class ServiceRequestContext
     return IsNewSessionId(currentSessionId);
   }
 
-  public ServiceId CreateOrGetArmonikService(IConfiguration                      configuration,
-                                             string                              engineTypeName,
-                                             IFileAdaptater                      fileAdaptater,
-                                             string                              fileName,
-                                             TaskOptions requestTaskOptions)
+  public ServiceId CreateOrGetArmonikService(IConfiguration configuration,
+                                             string         engineTypeName,
+                                             IFileAdaptater fileAdaptater,
+                                             string         fileName,
+                                             TaskOptions    requestTaskOptions)
   {
     if (string.IsNullOrEmpty(requestTaskOptions.ApplicationNamespace))
     {

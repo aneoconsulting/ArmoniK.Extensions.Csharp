@@ -93,9 +93,7 @@ public class SessionPollingService
   /// <summary>Returns a string that represents the current object.</summary>
   /// <returns>A string that represents the current object.</returns>
   public override string ToString()
-  {
-    return SessionId?.Id ?? "Session_Not_ready";
-  }
+    => SessionId?.Id ?? "Session_Not_ready";
 
   private static TaskOptions InitializeDefaultTaskOptions()
   {
@@ -105,11 +103,11 @@ public class SessionPollingService
                                               {
                                                 Seconds = 300,
                                               },
-                                MaxRetries = 3,
-                                Priority   = 1,
-                                EngineType = EngineType.Symphony.ToString(),
-                                ApplicationName = "ArmoniK.Samples.SymphonyPackage",
-                                ApplicationVersion = "1.0.0",
+                                MaxRetries           = 3,
+                                Priority             = 1,
+                                EngineType           = EngineType.Symphony.ToString(),
+                                ApplicationName      = "ArmoniK.Samples.SymphonyPackage",
+                                ApplicationVersion   = "1.0.0",
                                 ApplicationNamespace = "ArmoniK.Samples.Symphony.Packages",
                               };
 
