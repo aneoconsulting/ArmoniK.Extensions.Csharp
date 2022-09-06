@@ -1,4 +1,4 @@
-﻿// This file is part of the ArmoniK project
+// This file is part of the ArmoniK project
 // 
 // Copyright (C) ANEO, 2021-2022.
 //   W. Kirschenmann   <wkirschenmann@aneo.fr>
@@ -55,7 +55,7 @@ public class SessionPollingService
     LoggerFactory = loggerFactory;
     TaskHandler   = taskHandler;
 
-    TaskOptions = CopyClientToTaskOptions(TaskHandler.TaskOptions.Options);
+    TaskOptions = TaskHandler.TaskOptions.Clone();
 
     Logger.LogDebug("Creating Session... ");
 
@@ -94,12 +94,7 @@ public class SessionPollingService
   /// <returns>A string that represents the current object.</returns>
   public override string ToString()
   {
-    if (SessionId?.Id != null)
-    {
-      return SessionId?.Id;
-    }
-
-    return "Session_Not_ready";
+    return SessionId?.Id ?? "Session_Not_ready";
   }
 
   private static TaskOptions InitializeDefaultTaskOptions()
@@ -112,55 +107,11 @@ public class SessionPollingService
                                               },
                                 MaxRetries = 3,
                                 Priority   = 1,
+                                EngineType = EngineType.Symphony.ToString(),
+                                ApplicationName = "ArmoniK.Samples.SymphonyPackage",
+                                ApplicationVersion = "1.0.0",
+                                ApplicationNamespace = "ArmoniK.Samples.Symphony.Packages",
                               };
-    taskOptions.Options.Add(AppsOptions.EngineTypeNameKey,
-                            EngineType.Symphony.ToString());
-
-    taskOptions.Options.Add(AppsOptions.GridAppNameKey,
-                            "ArmoniK.Samples.SymphonyPackage");
-    taskOptions.Options.Add(AppsOptions.GridAppVersionKey,
-                            "1.0.0");
-    taskOptions.Options.Add(AppsOptions.GridAppNamespaceKey,
-                            "ArmoniK.Samples.Symphony.Packages");
-
-    CopyTaskOptionsForClient(taskOptions);
-
-    return taskOptions;
-  }
-
-
-  private static void CopyTaskOptionsForClient(TaskOptions taskOptions)
-  {
-    taskOptions.Options["MaxDuration"] = taskOptions.MaxDuration.Seconds.ToString();
-    taskOptions.Options["MaxRetries"]  = taskOptions.MaxRetries.ToString();
-    taskOptions.Options["Priority"]    = taskOptions.Priority.ToString();
-  }
-
-  private TaskOptions CopyClientToTaskOptions(IReadOnlyDictionary<string, string> clientOptions)
-  {
-    var defaultTaskOption = InitializeDefaultTaskOptions();
-
-    TaskOptions taskOptions = new()
-                              {
-                                MaxDuration = new Duration
-                                              {
-                                                Seconds = clientOptions.ContainsKey("MaxDuration")
-                                                            ? long.Parse(clientOptions["MaxDuration"])
-                                                            : defaultTaskOption.MaxDuration.Seconds,
-                                              },
-                                MaxRetries = clientOptions.ContainsKey("MaxRetries")
-                                               ? int.Parse(clientOptions["MaxRetries"])
-                                               : defaultTaskOption.MaxRetries,
-                                Priority = clientOptions.ContainsKey("Priority")
-                                             ? int.Parse(clientOptions["Priority"])
-                                             : defaultTaskOption.Priority,
-                              };
-
-    defaultTaskOption.Options.ToList()
-                     .ForEach(pair => taskOptions.Options[pair.Key] = pair.Value);
-
-    clientOptions.ToList()
-                 .ForEach(pair => taskOptions.Options[pair.Key] = pair.Value);
 
     return taskOptions;
   }

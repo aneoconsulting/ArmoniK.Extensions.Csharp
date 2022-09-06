@@ -45,23 +45,17 @@ public class ClientTestHelpers
 
   public static TaskOptions InitializeTaskOptions()
   {
-    TaskOptions taskOptions = new()
-                              {
-                                MaxDuration = new Duration
-                                              {
-                                                Seconds = 300,
-                                              },
-                                MaxRetries = 5,
-                                Priority   = 1,
-                              };
-    taskOptions.Options.Add(AppsOptions.GridAppNameKey,
-                            "ArmoniK.Samples.EndToEndTests");
-
-    taskOptions.Options.Add(AppsOptions.GridAppVersionKey,
-                            "1.0.0");
-
-    taskOptions.Options.Add(AppsOptions.GridAppNamespaceKey,
-                            "ArmoniK.Samples.EndToEndTests");
-    return taskOptions;
+    return new TaskOptions
+           {
+             MaxDuration = new Duration
+                           {
+                             Seconds = 300,
+                           },
+             MaxRetries           = 5,
+             Priority             = 1,
+             ApplicationName      = "ArmoniK.Samples.EndToEndTests",
+             ApplicationVersion   = "1.0.0",
+             ApplicationNamespace = "ArmoniK.Samples.EndToEndTests",
+           };
   }
 }

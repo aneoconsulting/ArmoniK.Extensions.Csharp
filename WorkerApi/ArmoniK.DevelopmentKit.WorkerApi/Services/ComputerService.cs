@@ -123,7 +123,7 @@ public class ComputerService : WorkerStreamWrapper
         serviceWorker.CloseSession();
 
         serviceWorker.InitializeSessionWorker(ServiceRequestContext.SessionId,
-                                              taskHandler.TaskOptions.Options);
+                                              taskHandler.TaskOptions);
       }
 
       ServiceRequestContext.SessionId = sessionIdCaller;

@@ -102,7 +102,7 @@ public class ArmonikServiceWorker : IDisposable
   }
 
   public void InitializeSessionWorker(Session                             sessionId,
-                                      IReadOnlyDictionary<string, string> taskHandlerTaskOptions)
+                                      TaskOptions taskHandlerTaskOptions)
   {
     using (AppsLoader.UserAssemblyLoadContext.EnterContextualReflection())
     {

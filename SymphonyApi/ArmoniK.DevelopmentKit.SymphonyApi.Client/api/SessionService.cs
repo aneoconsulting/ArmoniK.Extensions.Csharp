@@ -52,17 +52,18 @@ public class SessionService : BaseClientSubmitter<SessionService>
                         TaskOptions               taskOptions = null)
     : base(loggerFactory)
   {
-    taskOptions ??= InitializeDefaultTaskOptions();
-
-    TaskOptions = CopyTaskOptionsForClient(taskOptions);
-
+    TaskOptions = InitializeDefaultTaskOptions();
+    if (taskOptions != null)
+    {
+      TaskOptions.MergeFrom(taskOptions);
+    }
     ControlPlaneService = controlPlaneService;
 
     Logger.LogDebug("Creating Session... ");
 
     SessionId = CreateSession(new List<string>
                               {
-                                taskOptions.PartitionId,
+                                TaskOptions.PartitionId,
                               });
 
     Logger.LogDebug($"Session Created {SessionId}");
@@ -78,10 +79,11 @@ public class SessionService : BaseClientSubmitter<SessionService>
   public SessionService(ILoggerFactory              loggerFactory,
                         Submitter.SubmitterClient   controlPlaneService,
                         Session                     sessionId,
-                        IDictionary<string, string> clientOptions)
+                        TaskOptions clientOptions)
     : base(loggerFactory)
   {
-    TaskOptions = CopyClientToTaskOptions(clientOptions);
+    TaskOptions = InitializeDefaultTaskOptions();
+    TaskOptions.MergeFrom(clientOptions);
 
     ControlPlaneService = controlPlaneService;
 
@@ -97,30 +99,28 @@ public class SessionService : BaseClientSubmitter<SessionService>
   /// <returns>A string that represents the current object.</returns>
   public override string ToString()
   {
-    if (SessionId?.Id != null)
-    {
-      return SessionId?.Id;
-    }
-
-    return "Session_Not_ready";
+    return SessionId?.Id ?? "Session_Not_ready";
   }
 
-  private static TaskOptions InitializeDefaultTaskOptions()
+  /// <summary>
+  /// Default task options
+  /// </summary>
+  /// <returns></returns>
+  public static TaskOptions InitializeDefaultTaskOptions()
   {
-    TaskOptions taskOptions = new()
-                              {
-                                MaxDuration = new Duration
-                                              {
-                                                Seconds = 300,
-                                              },
-                                MaxRetries = 3,
-                                Priority   = 1,
-                                EngineType = EngineType.Symphony.ToString(),
-                                ApplicationName = "ArmoniK.Samples.SymphonyPackage",
-                                ApplicationVersion = "1.X.X",
-                                ApplicationNamespace = "ArmoniK.Samples.Symphony.Packages",
-                              };
-    return taskOptions;
+    return new TaskOptions
+           {
+             MaxDuration = new Duration
+                           {
+                             Seconds = 300,
+                           },
+             MaxRetries           = 3,
+             Priority             = 1,
+             EngineType           = EngineType.Symphony.ToString(),
+             ApplicationName      = "ArmoniK.Samples.SymphonyPackage",
+             ApplicationVersion   = "1.X.X",
+             ApplicationNamespace = "ArmoniK.Samples.Symphony.Packages",
+           };
   }
 
   private static TaskOptions CopyTaskOptionsForClient(TaskOptions taskOptions)

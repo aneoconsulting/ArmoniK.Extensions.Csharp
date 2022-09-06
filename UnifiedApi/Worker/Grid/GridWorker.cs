@@ -1,4 +1,4 @@
-﻿// This file is part of the ArmoniK project
+// This file is part of the ArmoniK project
 // 
 // Copyright (C) ANEO, 2021-2022.
 //   W. Kirschenmann   <wkirschenmann@aneo.fr>
@@ -76,18 +76,18 @@ public class GridWorker : IGridWorker
 
   public IConfiguration Configurations { get; set; }
 
-  public void Configure(IConfiguration                      configuration,
-                        IReadOnlyDictionary<string, string> clientOptions,
-                        IAppsLoader                         appsLoader)
+  public void Configure(IConfiguration configuration,
+                        TaskOptions    clientOptions,
+                        IAppsLoader    appsLoader)
   {
     Configurations       = configuration;
-    ClientServiceOptions = clientOptions;
+    ClientServiceOptions = clientOptions.Options;
 
 
-    GridAppName      = clientOptions[AppsOptions.GridAppNameKey];
-    GridAppVersion   = clientOptions[AppsOptions.GridAppVersionKey];
-    GridAppNamespace = clientOptions[AppsOptions.GridAppNamespaceKey];
-    GridServiceName  = clientOptions[AppsOptions.GridServiceNameKey];
+    GridAppName      = clientOptions.ApplicationName;
+    GridAppVersion   = clientOptions.ApplicationVersion;
+    GridAppNamespace = clientOptions.ApplicationNamespace;
+    GridServiceName  = clientOptions.ApplicationService;
 
     serviceContext_ = new ServiceContext
                       {
@@ -102,7 +102,7 @@ public class GridWorker : IGridWorker
   }
 
   public void InitializeSessionWorker(Session                             session,
-                                      IReadOnlyDictionary<string, string> requestTaskOptions)
+                                      TaskOptions requestTaskOptions)
   {
     if (session == null)
     {

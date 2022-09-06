@@ -238,13 +238,14 @@ public abstract class ServiceContainerBase
   /// <param name="configuration">The appSettings.json configuration prepared during the deployment</param>
   /// <param name="clientOptions">All data coming from Client within TaskOptions.Options </param>
   public void Configure(IConfiguration                      configuration,
-                        IReadOnlyDictionary<string, string> clientOptions)
+                        TaskOptions clientOptions)
   {
     Configuration = configuration;
-
+    foreach (var kv in clientOptions.Options)
+    {
+      ClientOptions[kv.Key] = kv.Value;
+    }
     //Append or overwrite Dictionary Options in TaskOptions with one coming from client
-    clientOptions.ToList()
-                 .ForEach(pair => ClientOptions[pair.Key] = pair.Value);
 
     var logger = new LoggerConfiguration().ReadFrom.Configuration(Configuration)
                                           .WriteTo.Console(new CompactJsonFormatter())
@@ -261,13 +262,15 @@ public abstract class ServiceContainerBase
   /// <param name="sessionId"></param>
   /// <param name="requestTaskOptions"></param>
   public void ConfigureSession(Session                             sessionId,
-                               IReadOnlyDictionary<string, string> requestTaskOptions)
+                               TaskOptions requestTaskOptions)
   {
     SessionId = sessionId;
 
     //Append or overwrite Dictionary Options in TaskOptions with one coming from client
-    requestTaskOptions.ToList()
-                      .ForEach(pair => ClientOptions[pair.Key] = pair.Value);
+    foreach (var kv in requestTaskOptions.Options)
+    {
+      ClientOptions[kv.Key] = kv.Value;
+    }
   }
 
   /// <summary>

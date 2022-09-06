@@ -69,6 +69,8 @@ public class GridWorker : IGridWorker
 
   public string GridAppName { get; set; }
 
+  public TaskOptions ClientTaskOptions { get; set; }
+
   public IReadOnlyDictionary<string, string> ClientServiceOptions { get; set; }
 
   public IConfiguration Configurations { get; set; }

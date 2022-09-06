@@ -115,7 +115,7 @@ public class ArmonikDataSynapseClientService
   /// <param name="sessionId">SessionId previously opened</param>
   /// <param name="clientOptions"></param>
   public SessionService OpenSession(string                      sessionId,
-                                    IDictionary<string, string> clientOptions = null)
+                                    TaskOptions clientOptions = null)
   {
     ControlPlaneConnection();
 
@@ -125,7 +125,7 @@ public class ArmonikDataSynapseClientService
                               {
                                 Id = sessionId,
                               },
-                              clientOptions);
+                              clientOptions?? SessionService.InitializeDefaultTaskOptions());
   }
 
   /// <summary>

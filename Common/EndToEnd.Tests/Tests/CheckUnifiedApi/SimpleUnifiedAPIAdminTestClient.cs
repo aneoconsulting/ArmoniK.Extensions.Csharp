@@ -102,7 +102,7 @@ public class SimpleUnifiedApiAdminTestClient : ClientBaseTest<SimpleUnifiedAPITe
     var taskOptions = InitializeTaskOptions();
     OverrideTaskOptions(taskOptions);
 
-    taskOptions.Options[AppsOptions.GridServiceNameKey] = "SimpleService";
+    taskOptions.ApplicationService = "SimpleService";
 
     var props = new Properties(taskOptions,
                                Configuration.GetSection("Grpc")["EndPoint"],
@@ -123,7 +123,7 @@ public class SimpleUnifiedApiAdminTestClient : ClientBaseTest<SimpleUnifiedAPITe
   }
 
   private static void OverrideTaskOptions(TaskOptions taskOptions)
-    => taskOptions.Options[AppsOptions.EngineTypeNameKey] = EngineType.Unified.ToString();
+    => taskOptions.EngineType = EngineType.Unified.ToString();
 
 
   private static object[] ParamsHelper(params object[] elements)

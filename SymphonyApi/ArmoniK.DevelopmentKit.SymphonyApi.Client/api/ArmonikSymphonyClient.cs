@@ -114,14 +114,14 @@ public class ArmonikSymphonyClient
   /// <param name="clientOptions">the customer taskOptions.Options send to the server by the client</param>
   /// <returns>Returns the SessionService to submit, wait or get result</returns>
   public SessionService OpenSession(Session                     sessionId,
-                                    IDictionary<string, string> clientOptions = null)
+                                    TaskOptions clientOptions = null)
   {
     ControlPlaneConnection();
 
     return new SessionService(LoggerFactory,
                               ControlPlaneService,
                               sessionId,
-                              clientOptions);
+                              clientOptions?? SessionService.InitializeDefaultTaskOptions());
   }
 
   private void ControlPlaneConnection()
