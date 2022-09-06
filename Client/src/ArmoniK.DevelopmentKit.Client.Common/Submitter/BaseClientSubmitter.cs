@@ -193,7 +193,7 @@ public class BaseClientSubmitter<T>
                                                                                       },
                                                                                       DataDependencies =
                                                                                       {
-                                                                                        dependencies,
+                                                                                        dependencies ?? new List<string>(),
                                                                                       },
                                                                                     },
                                                                          },
