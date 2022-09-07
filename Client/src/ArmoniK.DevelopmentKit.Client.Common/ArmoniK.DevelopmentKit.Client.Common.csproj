@@ -24,7 +24,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ArmoniK.Api.Client" Version="3.0.2-SNAPSHOT.22.0dffe3e" />
+    <PackageReference Include="ArmoniK.Api.Client" Version="3.0.2-SNAPSHOT.32.1a7a62f" />
     <PackageReference Include="Grpc.Core" Version="2.46.3" />
     <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="6.0.0" />
     <PackageReference Include="System.Net.Http" Version="4.3.4" />

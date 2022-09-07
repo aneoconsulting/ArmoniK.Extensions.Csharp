@@ -30,11 +30,14 @@ using ArmoniK.DevelopmentKit.Common;
 
 using Google.Protobuf.WellKnownTypes;
 
+using JetBrains.Annotations;
+
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
 namespace ArmoniK.EndToEndTests.Common;
 
+[PublicAPI]
 public abstract class ClientBaseTest<T>
 {
   public ClientBaseTest(IConfiguration configuration,
@@ -51,53 +54,37 @@ public abstract class ClientBaseTest<T>
 
   protected static ILogger<T> Log { get; set; }
 
-  //protected TaskOptions TaskOptions { get; set; }
   protected ILoggerFactory LoggerFactory { get; set; }
 
   protected virtual TaskOptions InitializeTaskOptions()
-  {
-    TaskOptions taskOptions = new()
-                              {
-                                MaxDuration = new Duration
-                                              {
-                                                Seconds = 300,
-                                              },
-                                MaxRetries  = 5,
-                                Priority    = 1,
-                                PartitionId = Environment.GetEnvironmentVariable("PARTITION") ?? "",
-                              };
-
-    taskOptions.Options[AppsOptions.GridAppNameKey] = "ArmoniK.EndToEndTests";
-    var version = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly()
-                                                         .Location)
-                                 .ProductVersion;
-    //var    version         = typeof(ClientBaseTest<T>).Assembly.GetName().Version;
-    if (version != null)
-    {
-      taskOptions.Options[AppsOptions.GridAppVersionKey] = version;
-    }
-    else
-    {
-      taskOptions.Options[AppsOptions.GridAppVersionKey] = "1.0.0-700";
-    }
-
-    taskOptions.Options[AppsOptions.GridAppNamespaceKey] = typeof(T).Namespace;
-
-    taskOptions.Options[AppsOptions.EngineTypeNameKey] = EngineType.Symphony.ToString();
-
-    return taskOptions;
-  }
+    => new()
+       {
+         MaxDuration = new Duration
+                       {
+                         Seconds = 300,
+                       },
+         MaxRetries      = 5,
+         Priority        = 1,
+         PartitionId     = Environment.GetEnvironmentVariable("PARTITION") ?? "",
+         ApplicationName = "ArmoniK.EndToEndTests",
+         ApplicationVersion = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly()
+                                                                     .Location)
+                                             .ProductVersion ?? "1.0.0-700",
+         ApplicationNamespace = typeof(T).Namespace,
+         EngineType           = EngineType.Symphony.ToString(),
+       };
 
 
   public abstract void EntryPoint();
 }
 
+[PublicAPI]
 public static class TaskOptionsExt
 {
   public static TaskOptions SetVersion(this TaskOptions taskOptions,
                                        string           version)
   {
-    taskOptions.Options[AppsOptions.GridAppVersionKey] = version;
+    taskOptions.ApplicationVersion = version;
 
     return taskOptions;
   }
@@ -105,7 +92,7 @@ public static class TaskOptionsExt
   public static TaskOptions SetEngineType(this TaskOptions taskOptions,
                                           string           engineType)
   {
-    taskOptions.Options[AppsOptions.EngineTypeNameKey] = engineType;
+    taskOptions.EngineType = engineType;
 
     return taskOptions;
   }
@@ -113,7 +100,7 @@ public static class TaskOptionsExt
   public static TaskOptions SetNamespaceService(this TaskOptions taskOptions,
                                                 string           namespaceService)
   {
-    taskOptions.Options[AppsOptions.GridAppNamespaceKey] = namespaceService;
+    taskOptions.ApplicationNamespace = namespaceService;
 
     return taskOptions;
   }
@@ -121,7 +108,7 @@ public static class TaskOptionsExt
   public static TaskOptions SetApplicationName(this TaskOptions taskOptions,
                                                string           applicationName)
   {
-    taskOptions.Options[AppsOptions.GridAppNameKey] = applicationName;
+    taskOptions.ApplicationName = applicationName;
 
     return taskOptions;
   }

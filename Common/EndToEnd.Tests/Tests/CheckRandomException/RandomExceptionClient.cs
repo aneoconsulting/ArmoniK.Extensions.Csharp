@@ -91,7 +91,7 @@ public class RandomExceptionClient : ClientBaseTest<RandomExceptionClient>, ISer
     var taskOptions = InitializeTaskOptions();
     OverrideTaskOptions(taskOptions);
 
-    taskOptions.Options[AppsOptions.GridServiceNameKey] = "SimpleServiceContainer";
+    taskOptions.ApplicationService = "SimpleServiceContainer";
 
     //var props = new Properties(Configuration,
     //                           taskOptions);
@@ -103,7 +103,7 @@ public class RandomExceptionClient : ClientBaseTest<RandomExceptionClient>, ISer
 
 
     using var cs = ServiceFactory.GetInstance()
-                                 .CreateService(taskOptions.Options[AppsOptions.GridAppNameKey],
+                                 .CreateService(taskOptions.ApplicationName,
                                                 props);
 
 
@@ -114,7 +114,7 @@ public class RandomExceptionClient : ClientBaseTest<RandomExceptionClient>, ISer
   }
 
   private static void OverrideTaskOptions(TaskOptions taskOptions)
-    => taskOptions.Options[AppsOptions.EngineTypeNameKey] = EngineType.DataSynapse.ToString();
+    => taskOptions.EngineType = EngineType.DataSynapse.ToString();
 
   /// <summary>
   ///   Simple function to wait and get the result from subTasking and result delegation

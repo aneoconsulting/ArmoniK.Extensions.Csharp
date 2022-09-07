@@ -1,4 +1,4 @@
-﻿// This file is part of the ArmoniK project
+// This file is part of the ArmoniK project
 // 
 // Copyright (C) ANEO, 2021-2022.
 //   W. Kirschenmann   <wkirschenmann@aneo.fr>
@@ -22,7 +22,6 @@
 // limitations under the License.
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
@@ -69,7 +68,7 @@ public class GridWorker : IGridWorker
 
   public string GridAppName { get; set; }
 
-  public IReadOnlyDictionary<string, string> ClientServiceOptions { get; set; }
+  public TaskOptions TaskOptions { get; set; }
 
   public IConfiguration Configurations { get; set; }
 
@@ -77,29 +76,30 @@ public class GridWorker : IGridWorker
 
   public ServiceInvocationContext ServiceInvocationContext { get; set; }
 
-  public void Configure(IConfiguration                      configuration,
-                        IReadOnlyDictionary<string, string> clientOptions,
-                        IAppsLoader                         appsLoader)
+  public void Configure(IConfiguration configuration,
+                        TaskOptions    clientOptions,
+                        IAppsLoader    appsLoader)
   {
-    Configurations       = configuration;
-    ClientServiceOptions = clientOptions;
+    Configurations = configuration;
+    TaskOptions    = clientOptions;
 
 
-    GridAppName      = clientOptions[AppsOptions.GridAppNameKey];
-    GridAppVersion   = clientOptions[AppsOptions.GridAppVersionKey];
-    GridAppNamespace = clientOptions[AppsOptions.GridAppNamespaceKey];
-    GridServiceName  = clientOptions[AppsOptions.GridServiceNameKey];
+    GridAppName      = clientOptions.ApplicationName;
+    GridAppVersion   = clientOptions.ApplicationVersion;
+    GridAppNamespace = clientOptions.ApplicationNamespace;
+    GridServiceName  = clientOptions.ApplicationService;
 
     ServiceClass = appsLoader.GetServiceContainerInstance<object>(GridAppNamespace,
                                                                   GridServiceName);
   }
 
-  public void InitializeSessionWorker(Session                             session,
-                                      IReadOnlyDictionary<string, string> requestTaskOptions)
+  public void InitializeSessionWorker(Session     session,
+                                      TaskOptions requestTaskOptions)
   {
     if (session == null)
     {
-      throw new ArgumentNullException("Session is null in the Execute function");
+      throw new ArgumentNullException(nameof(session),
+                                      "Session is null in the Execute function");
     }
 
     ServiceInvocationContext ??= new ServiceInvocationContext

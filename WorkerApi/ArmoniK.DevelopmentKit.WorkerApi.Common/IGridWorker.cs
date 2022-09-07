@@ -22,7 +22,6 @@
 // limitations under the License.
 
 using System;
-using System.Collections.Generic;
 
 using ArmoniK.Api.gRPC.V1;
 using ArmoniK.Api.Worker.Worker;
@@ -33,12 +32,12 @@ namespace ArmoniK.DevelopmentKit.WorkerApi.Common;
 
 public interface IGridWorker : IDisposable
 {
-  public void Configure(IConfiguration                      configuration,
-                        IReadOnlyDictionary<string, string> clientOptions,
-                        IAppsLoader                         appsLoader);
+  public void Configure(IConfiguration configuration,
+                        TaskOptions    clientOptions,
+                        IAppsLoader    appsLoader);
 
-  public void InitializeSessionWorker(Session                             sessionId,
-                                      IReadOnlyDictionary<string, string> requestTaskOptions);
+  public void InitializeSessionWorker(Session     sessionId,
+                                      TaskOptions requestTaskOptions);
 
   public byte[] Execute(ITaskHandler taskHandler);
 

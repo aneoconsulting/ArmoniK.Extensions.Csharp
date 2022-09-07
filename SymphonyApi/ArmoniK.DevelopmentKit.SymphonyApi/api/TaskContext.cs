@@ -23,6 +23,7 @@
 
 using System.Collections.Generic;
 
+using ArmoniK.Api.gRPC.V1;
 using ArmoniK.DevelopmentKit.Common;
 
 #pragma warning disable CS1591
@@ -42,7 +43,7 @@ public class TaskContext
 
   public IEnumerable<string> DependenciesTaskIds { get; set; }
 
-  public IDictionary<string, string> ClientOptions { get; set; }
+  public TaskOptions TaskOptions { get; set; }
 
 
   /// <summary>

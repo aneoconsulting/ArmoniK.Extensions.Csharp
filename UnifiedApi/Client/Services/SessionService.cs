@@ -1,4 +1,4 @@
-﻿// This file is part of the ArmoniK project
+// This file is part of the ArmoniK project
 // 
 // Copyright (C) ANEO, 2021-2022.
 //   W. Kirschenmann   <wkirschenmann@aneo.fr>
@@ -53,9 +53,11 @@ public class SessionService : BaseClientSubmitter<SessionService>
                         TaskOptions                                     taskOptions = null)
     : base(loggerFactory)
   {
-    taskOptions ??= InitializeDefaultTaskOptions();
-
-    TaskOptions = CopyTaskOptionsForClient(taskOptions);
+    TaskOptions = InitializeDefaultTaskOptions();
+    if (taskOptions != null)
+    {
+      TaskOptions.MergeFrom(taskOptions);
+    }
 
     ControlPlaneService = controlPlaneService;
 
@@ -79,10 +81,11 @@ public class SessionService : BaseClientSubmitter<SessionService>
   public SessionService(ILoggerFactory                                  loggerFactory,
                         Api.gRPC.V1.Submitter.Submitter.SubmitterClient controlPlaneService,
                         Session                                         sessionId,
-                        IDictionary<string, string>                     clientOptions)
+                        TaskOptions                                     clientOptions)
     : base(loggerFactory)
   {
-    TaskOptions = CopyClientToTaskOptions(clientOptions);
+    TaskOptions = InitializeDefaultTaskOptions();
+    TaskOptions.MergeFrom(clientOptions);
 
     ControlPlaneService = controlPlaneService;
 
@@ -118,75 +121,14 @@ public class SessionService : BaseClientSubmitter<SessionService>
                                               {
                                                 Seconds = 40,
                                               },
-                                MaxRetries = 2,
-                                Priority   = 1,
+                                MaxRetries           = 2,
+                                Priority             = 1,
+                                EngineType           = EngineType.Unified.ToString(),
+                                ApplicationName      = "ArmoniK.DevelopmentKit.UnifiedApi",
+                                ApplicationVersion   = "1.X.X",
+                                ApplicationNamespace = "ArmoniK.DevelopmentKit.UnifiedApi",
+                                ApplicationService   = "FallBackServerAdder",
                               };
-
-    taskOptions.Options.Add(AppsOptions.EngineTypeNameKey,
-                            EngineType.DataSynapse.ToString());
-
-    taskOptions.Options.Add(AppsOptions.GridAppNameKey,
-                            "ArmoniK.DevelopmentKit.UnifiedApi");
-
-    taskOptions.Options.Add(AppsOptions.GridAppVersionKey,
-                            "1.X.X");
-
-    taskOptions.Options.Add(AppsOptions.GridAppNamespaceKey,
-                            "ArmoniK.DevelopmentKit.UnifiedApi");
-
-    taskOptions.Options.Add(AppsOptions.GridServiceNameKey,
-                            "FallBackServerAdder");
-
-    return taskOptions;
-  }
-
-  private static TaskOptions CopyTaskOptionsForClient(TaskOptions taskOptions)
-  {
-    var res = new TaskOptions
-              {
-                MaxDuration = taskOptions.MaxDuration,
-                MaxRetries  = taskOptions.MaxRetries,
-                Priority    = taskOptions.Priority,
-                PartitionId = taskOptions.PartitionId,
-                Options =
-                {
-                  ["MaxDuration"] = taskOptions.MaxDuration.Seconds.ToString(),
-                  ["MaxRetries"]  = taskOptions.MaxRetries.ToString(),
-                  ["Priority"]    = taskOptions.Priority.ToString(),
-                },
-              };
-
-    taskOptions.Options.ToList()
-               .ForEach(pair => res.Options[pair.Key] = pair.Value);
-
-    return res;
-  }
-
-  private TaskOptions CopyClientToTaskOptions(IDictionary<string, string> clientOptions)
-  {
-    var defaultTaskOption = InitializeDefaultTaskOptions();
-
-    TaskOptions taskOptions = new()
-                              {
-                                MaxDuration = new Duration
-                                              {
-                                                Seconds = clientOptions.ContainsKey("MaxDuration")
-                                                            ? long.Parse(clientOptions["MaxDuration"])
-                                                            : defaultTaskOption.MaxDuration.Seconds,
-                                              },
-                                MaxRetries = clientOptions.ContainsKey("MaxRetries")
-                                               ? int.Parse(clientOptions["MaxRetries"])
-                                               : defaultTaskOption.MaxRetries,
-                                Priority = clientOptions.ContainsKey("Priority")
-                                             ? int.Parse(clientOptions["Priority"])
-                                             : defaultTaskOption.Priority,
-                              };
-
-    defaultTaskOption.Options.ToList()
-                     .ForEach(pair => taskOptions.Options[pair.Key] = pair.Value);
-
-    clientOptions.ToList()
-                 .ForEach(pair => taskOptions.Options[pair.Key] = pair.Value);
 
     return taskOptions;
   }

@@ -21,8 +21,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.Collections.Generic;
-
 using ArmoniK.Api.gRPC.V1;
 using ArmoniK.Api.gRPC.V1.Submitter;
 using ArmoniK.DevelopmentKit.Common;
@@ -111,17 +109,17 @@ public class ArmonikSymphonyClient
   ///   Open the session already created to submit task
   /// </summary>
   /// <param name="sessionId">The sessionId string which will opened</param>
-  /// <param name="clientOptions">the customer taskOptions.Options send to the server by the client</param>
+  /// <param name="clientOptions">the customer taskOptions send to the server by the client</param>
   /// <returns>Returns the SessionService to submit, wait or get result</returns>
-  public SessionService OpenSession(Session                     sessionId,
-                                    IDictionary<string, string> clientOptions = null)
+  public SessionService OpenSession(Session     sessionId,
+                                    TaskOptions clientOptions = null)
   {
     ControlPlaneConnection();
 
     return new SessionService(LoggerFactory,
                               ControlPlaneService,
                               sessionId,
-                              clientOptions);
+                              clientOptions ?? SessionService.InitializeDefaultTaskOptions());
   }
 
   private void ControlPlaneConnection()

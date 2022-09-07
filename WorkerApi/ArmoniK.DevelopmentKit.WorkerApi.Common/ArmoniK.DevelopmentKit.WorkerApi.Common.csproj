@@ -21,11 +21,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ArmoniK.Api.Worker" Version="3.0.2-jgaddserviceconfigurator.23.22a88e0" />
-    <PackageReference Include="AWSSDK.S3" Version="3.7.9.43" />
+    <PackageReference Include="ArmoniK.Api.Worker" Version="3.0.2-SNAPSHOT.32.1a7a62f" />
+    <PackageReference Include="AWSSDK.S3" Version="3.7.9.47" />
     <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.17.0" />
-    <PackageReference Include="Grpc.Tools" Version="2.48.0">
+    <PackageReference Include="Grpc.Tools" Version="2.48.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>

@@ -21,7 +21,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Loader;
 
@@ -78,13 +77,13 @@ public class GridWorker : IGridWorker
 
   public TaskId TaskId { get; set; }
 
-  public void Configure(IConfiguration                      configuration,
-                        IReadOnlyDictionary<string, string> clientOptions,
-                        IAppsLoader                         appsLoader)
+  public void Configure(IConfiguration configuration,
+                        TaskOptions    clientOptions,
+                        IAppsLoader    appsLoader)
   {
-    GridAppName      = clientOptions[AppsOptions.GridAppNameKey];
-    GridAppVersion   = clientOptions[AppsOptions.GridAppVersionKey];
-    GridAppNamespace = clientOptions[AppsOptions.GridAppNamespaceKey];
+    GridAppName      = clientOptions.ApplicationName;
+    GridAppVersion   = clientOptions.ApplicationVersion;
+    GridAppNamespace = clientOptions.ApplicationNamespace;
 
     serviceContext_ = new ServiceContext
                       {
@@ -108,8 +107,8 @@ public class GridWorker : IGridWorker
     OnCreateService();
   }
 
-  public void InitializeSessionWorker(Session                             sessionId,
-                                      IReadOnlyDictionary<string, string> requestTaskOptions)
+  public void InitializeSessionWorker(Session     sessionId,
+                                      TaskOptions requestTaskOptions)
   {
     Logger.BeginPropertyScope(("SessionId", sessionId));
 
@@ -155,8 +154,7 @@ public class GridWorker : IGridWorker
                         SessionId           = taskHandler.SessionId,
                         DependenciesTaskIds = taskHandler.DataDependencies.Select(t => t.Key),
                         DataDependencies    = taskHandler.DataDependencies,
-                        ClientOptions = taskHandler.TaskOptions.Options.ToDictionary(id => id.Key,
-                                                                                     id => id.Value),
+                        TaskOptions         = taskHandler.TaskOptions,
                       };
 
     serviceContainerBase_.ConfigureSessionService(taskHandler);

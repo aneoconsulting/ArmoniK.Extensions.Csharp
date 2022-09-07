@@ -1,4 +1,4 @@
-﻿// This file is part of the ArmoniK project
+// This file is part of the ArmoniK project
 // 
 // Copyright (C) ANEO, 2021-2022.
 //   W. Kirschenmann   <wkirschenmann@aneo.fr>
@@ -52,9 +52,11 @@ public class SessionService : BaseClientSubmitter<SessionService>
                         TaskOptions               taskOptions = null)
     : base(loggerFactory)
   {
-    taskOptions ??= InitializeDefaultTaskOptions();
-
-    TaskOptions = CopyTaskOptionsForClient(taskOptions);
+    TaskOptions = InitializeDefaultTaskOptions();
+    if (taskOptions != null)
+    {
+      TaskOptions.MergeFrom(taskOptions);
+    }
 
     ControlPlaneService = controlPlaneService;
 
@@ -62,7 +64,7 @@ public class SessionService : BaseClientSubmitter<SessionService>
 
     SessionId = CreateSession(new List<string>
                               {
-                                taskOptions.PartitionId,
+                                TaskOptions.PartitionId,
                               });
 
     Logger.LogDebug($"Session Created {SessionId}");
@@ -75,13 +77,14 @@ public class SessionService : BaseClientSubmitter<SessionService>
   /// <param name="controlPlaneService"></param>
   /// <param name="clientOptions">Client options passed during the CreateSession</param>
   /// <param name="sessionId"></param>
-  public SessionService(ILoggerFactory              loggerFactory,
-                        Submitter.SubmitterClient   controlPlaneService,
-                        Session                     sessionId,
-                        IDictionary<string, string> clientOptions)
+  public SessionService(ILoggerFactory            loggerFactory,
+                        Submitter.SubmitterClient controlPlaneService,
+                        Session                   sessionId,
+                        TaskOptions               clientOptions)
     : base(loggerFactory)
   {
-    TaskOptions = CopyClientToTaskOptions(clientOptions);
+    TaskOptions = InitializeDefaultTaskOptions();
+    TaskOptions.MergeFrom(clientOptions);
 
     ControlPlaneService = controlPlaneService;
 
@@ -96,88 +99,26 @@ public class SessionService : BaseClientSubmitter<SessionService>
   /// <summary>Returns a string that represents the current object.</summary>
   /// <returns>A string that represents the current object.</returns>
   public override string ToString()
-  {
-    if (SessionId?.Id != null)
-    {
-      return SessionId?.Id;
-    }
+    => SessionId?.Id ?? "Session_Not_ready";
 
-    return "Session_Not_ready";
-  }
-
-  private static TaskOptions InitializeDefaultTaskOptions()
-  {
-    TaskOptions taskOptions = new()
-                              {
-                                MaxDuration = new Duration
-                                              {
-                                                Seconds = 300,
-                                              },
-                                MaxRetries = 3,
-                                Priority   = 1,
-                              };
-    taskOptions.Options.Add(AppsOptions.EngineTypeNameKey,
-                            EngineType.Symphony.ToString());
-
-    taskOptions.Options.Add(AppsOptions.GridAppNameKey,
-                            "ArmoniK.Samples.SymphonyPackage");
-    taskOptions.Options.Add(AppsOptions.GridAppVersionKey,
-                            "1.X.X");
-    taskOptions.Options.Add(AppsOptions.GridAppNamespaceKey,
-                            "ArmoniK.Samples.Symphony.Packages");
-
-    return taskOptions;
-  }
-
-  private static TaskOptions CopyTaskOptionsForClient(TaskOptions taskOptions)
-  {
-    var res = new TaskOptions
-              {
-                MaxDuration = taskOptions.MaxDuration,
-                MaxRetries  = taskOptions.MaxRetries,
-                Priority    = taskOptions.Priority,
-                PartitionId = taskOptions.PartitionId,
-                Options =
-                {
-                  ["MaxDuration"] = taskOptions.MaxDuration.Seconds.ToString(),
-                  ["MaxRetries"]  = taskOptions.MaxRetries.ToString(),
-                  ["Priority"]    = taskOptions.Priority.ToString(),
-                },
-              };
-    taskOptions.Options.ToList()
-               .ForEach(pair => res.Options[pair.Key] = pair.Value);
-
-    return res;
-  }
-
-  private TaskOptions CopyClientToTaskOptions(IDictionary<string, string> clientOptions)
-  {
-    var defaultTaskOption = InitializeDefaultTaskOptions();
-
-    TaskOptions taskOptions = new()
-                              {
-                                MaxDuration = new Duration
-                                              {
-                                                Seconds = clientOptions.ContainsKey("MaxDuration")
-                                                            ? long.Parse(clientOptions["MaxDuration"])
-                                                            : defaultTaskOption.MaxDuration.Seconds,
-                                              },
-                                MaxRetries = clientOptions.ContainsKey("MaxRetries")
-                                               ? int.Parse(clientOptions["MaxRetries"])
-                                               : defaultTaskOption.MaxRetries,
-                                Priority = clientOptions.ContainsKey("Priority")
-                                             ? int.Parse(clientOptions["Priority"])
-                                             : defaultTaskOption.Priority,
-                              };
-
-    defaultTaskOption.Options.ToList()
-                     .ForEach(pair => taskOptions.Options[pair.Key] = pair.Value);
-
-    clientOptions.ToList()
-                 .ForEach(pair => taskOptions.Options[pair.Key] = pair.Value);
-
-    return taskOptions;
-  }
+  /// <summary>
+  ///   Default task options
+  /// </summary>
+  /// <returns></returns>
+  public static TaskOptions InitializeDefaultTaskOptions()
+    => new()
+       {
+         MaxDuration = new Duration
+                       {
+                         Seconds = 300,
+                       },
+         MaxRetries           = 3,
+         Priority             = 1,
+         EngineType           = EngineType.Symphony.ToString(),
+         ApplicationName      = "ArmoniK.Samples.SymphonyPackage",
+         ApplicationVersion   = "1.X.X",
+         ApplicationNamespace = "ArmoniK.Samples.Symphony.Packages",
+       };
 
   private Session CreateSession(IEnumerable<string> partitionIds)
   {

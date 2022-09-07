@@ -83,8 +83,8 @@ public class ArmonikServiceWorker : IDisposable
     }
   }
 
-  public void Configure(IConfiguration                      configuration,
-                        IReadOnlyDictionary<string, string> requestTaskOptions)
+  public void Configure(IConfiguration configuration,
+                        TaskOptions    requestTaskOptions)
   {
     if (Initialized)
     {
@@ -101,8 +101,8 @@ public class ArmonikServiceWorker : IDisposable
     Initialized = true;
   }
 
-  public void InitializeSessionWorker(Session                             sessionId,
-                                      IReadOnlyDictionary<string, string> taskHandlerTaskOptions)
+  public void InitializeSessionWorker(Session     sessionId,
+                                      TaskOptions taskHandlerTaskOptions)
   {
     using (AppsLoader.UserAssemblyLoadContext.EnterContextualReflection())
     {
@@ -163,13 +163,13 @@ public class ServiceRequestContext
     return IsNewSessionId(currentSessionId);
   }
 
-  public ServiceId CreateOrGetArmonikService(IConfiguration                      configuration,
-                                             string                              engineTypeName,
-                                             IFileAdaptater                      fileAdaptater,
-                                             string                              fileName,
-                                             IReadOnlyDictionary<string, string> requestTaskOptions)
+  public ServiceId CreateOrGetArmonikService(IConfiguration configuration,
+                                             string         engineTypeName,
+                                             IFileAdaptater fileAdaptater,
+                                             string         fileName,
+                                             TaskOptions    requestTaskOptions)
   {
-    if (!requestTaskOptions.ContainsKey(AppsOptions.GridAppNamespaceKey))
+    if (string.IsNullOrEmpty(requestTaskOptions.ApplicationNamespace))
     {
       throw new WorkerApiException("Cannot find namespace service in TaskOptions. Please set the namespace");
     }
@@ -177,7 +177,7 @@ public class ServiceRequestContext
     var serviceId = GenerateServiceId(engineTypeName,
                                       Path.Combine(fileAdaptater.DestinationDirPath,
                                                    fileName),
-                                      requestTaskOptions[AppsOptions.GridAppNamespaceKey]);
+                                      requestTaskOptions.ApplicationNamespace);
 
     if (ServicesMapper.ContainsKey(serviceId.Key))
     {

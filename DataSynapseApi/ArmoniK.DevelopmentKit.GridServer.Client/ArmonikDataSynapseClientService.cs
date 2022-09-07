@@ -1,4 +1,4 @@
-﻿// This file is part of the ArmoniK project
+// This file is part of the ArmoniK project
 // 
 // Copyright (C) ANEO, 2021-2022.
 //   W. Kirschenmann   <wkirschenmann@aneo.fr>
@@ -20,8 +20,6 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-
-using System.Collections.Generic;
 
 using ArmoniK.Api.gRPC.V1;
 using ArmoniK.Api.gRPC.V1.Submitter;
@@ -114,8 +112,8 @@ public class ArmonikDataSynapseClientService
   /// </summary>
   /// <param name="sessionId">SessionId previously opened</param>
   /// <param name="clientOptions"></param>
-  public SessionService OpenSession(string                      sessionId,
-                                    IDictionary<string, string> clientOptions = null)
+  public SessionService OpenSession(string      sessionId,
+                                    TaskOptions clientOptions = null)
   {
     ControlPlaneConnection();
 
@@ -125,7 +123,7 @@ public class ArmonikDataSynapseClientService
                               {
                                 Id = sessionId,
                               },
-                              clientOptions);
+                              clientOptions ?? SessionService.InitializeDefaultTaskOptions());
   }
 
   /// <summary>
@@ -135,32 +133,18 @@ public class ArmonikDataSynapseClientService
   /// </summary>
   /// <returns>Return the default taskOptions</returns>
   public static TaskOptions InitializeDefaultTaskOptions()
-  {
-    TaskOptions taskOptions = new()
-                              {
-                                MaxDuration = new Duration
-                                              {
-                                                Seconds = 40,
-                                              },
-                                MaxRetries = 2,
-                                Priority   = 1,
-                              };
-
-    taskOptions.Options.Add(AppsOptions.EngineTypeNameKey,
-                            EngineType.DataSynapse.ToString());
-
-    taskOptions.Options.Add(AppsOptions.GridAppNameKey,
-                            "ArmoniK.DevelopmentKit.GridServer");
-
-    taskOptions.Options.Add(AppsOptions.GridAppVersionKey,
-                            "1.X.X");
-
-    taskOptions.Options.Add(AppsOptions.GridAppNamespaceKey,
-                            "ArmoniK.DevelopmentKit.GridServer");
-
-    taskOptions.Options.Add(AppsOptions.GridServiceNameKey,
-                            "FallBackServerAdder");
-
-    return taskOptions;
-  }
+    => new()
+       {
+         MaxDuration = new Duration
+                       {
+                         Seconds = 40,
+                       },
+         MaxRetries           = 2,
+         Priority             = 1,
+         ApplicationName      = "ArmoniK.DevelopmentKit.GridServer",
+         ApplicationNamespace = "ArmoniK.DevelopmentKit.GridServer",
+         ApplicationService   = "FallBackServerAdder",
+         ApplicationVersion   = "1.X.X",
+         EngineType           = EngineType.DataSynapse.ToString(),
+       };
 }
