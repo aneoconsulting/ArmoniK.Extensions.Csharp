@@ -289,15 +289,12 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.Client.Factory.SessionServiceFactory.InitDefaultSessionOptions
   nameWithType: SessionServiceFactory.InitDefaultSessionOptions
-- uid: ArmoniK.DevelopmentKit.Client.Factory.SessionServiceFactory.OpenSession(ArmoniK.DevelopmentKit.Client.Services.Properties,System.String,System.Collections.Generic.IDictionary{System.String,System.String})
-  name: OpenSession(Properties, String, IDictionary<String, String>)
-  href: api/ArmoniK.DevelopmentKit.Client.Factory.SessionServiceFactory.html#ArmoniK_DevelopmentKit_Client_Factory_SessionServiceFactory_OpenSession_ArmoniK_DevelopmentKit_Client_Services_Properties_System_String_System_Collections_Generic_IDictionary_System_String_System_String__
-  commentId: M:ArmoniK.DevelopmentKit.Client.Factory.SessionServiceFactory.OpenSession(ArmoniK.DevelopmentKit.Client.Services.Properties,System.String,System.Collections.Generic.IDictionary{System.String,System.String})
-  name.vb: OpenSession(Properties, String, IDictionary(Of String, String))
-  fullName: ArmoniK.DevelopmentKit.Client.Factory.SessionServiceFactory.OpenSession(ArmoniK.DevelopmentKit.Client.Services.Properties, System.String, System.Collections.Generic.IDictionary<System.String, System.String>)
-  fullName.vb: ArmoniK.DevelopmentKit.Client.Factory.SessionServiceFactory.OpenSession(ArmoniK.DevelopmentKit.Client.Services.Properties, System.String, System.Collections.Generic.IDictionary(Of System.String, System.String))
-  nameWithType: SessionServiceFactory.OpenSession(Properties, String, IDictionary<String, String>)
-  nameWithType.vb: SessionServiceFactory.OpenSession(Properties, String, IDictionary(Of String, String))
+- uid: ArmoniK.DevelopmentKit.Client.Factory.SessionServiceFactory.OpenSession(ArmoniK.DevelopmentKit.Client.Services.Properties,System.String,TaskOptions)
+  name: OpenSession(Properties, String, TaskOptions)
+  href: api/ArmoniK.DevelopmentKit.Client.Factory.SessionServiceFactory.html#ArmoniK_DevelopmentKit_Client_Factory_SessionServiceFactory_OpenSession_ArmoniK_DevelopmentKit_Client_Services_Properties_System_String_TaskOptions_
+  commentId: M:ArmoniK.DevelopmentKit.Client.Factory.SessionServiceFactory.OpenSession(ArmoniK.DevelopmentKit.Client.Services.Properties,System.String,TaskOptions)
+  fullName: ArmoniK.DevelopmentKit.Client.Factory.SessionServiceFactory.OpenSession(ArmoniK.DevelopmentKit.Client.Services.Properties, System.String, TaskOptions)
+  nameWithType: SessionServiceFactory.OpenSession(Properties, String, TaskOptions)
 - uid: ArmoniK.DevelopmentKit.Client.Factory.SessionServiceFactory.OpenSession*
   name: OpenSession
   href: api/ArmoniK.DevelopmentKit.Client.Factory.SessionServiceFactory.html#ArmoniK_DevelopmentKit_Client_Factory_SessionServiceFactory_OpenSession_
@@ -968,15 +965,12 @@ references:
   commentId: T:ArmoniK.DevelopmentKit.Client.Services.SessionService
   fullName: ArmoniK.DevelopmentKit.Client.Services.SessionService
   nameWithType: SessionService
-- uid: ArmoniK.DevelopmentKit.Client.Services.SessionService.#ctor(ILoggerFactory,Api.gRPC.V1.Submitter.Submitter.SubmitterClient,Session,System.Collections.Generic.IDictionary{System.String,System.String})
-  name: SessionService(ILoggerFactory, Api.gRPC.V1.Submitter.Submitter.SubmitterClient, Session, IDictionary<String, String>)
-  href: api/ArmoniK.DevelopmentKit.Client.Services.SessionService.html#ArmoniK_DevelopmentKit_Client_Services_SessionService__ctor_ILoggerFactory_Api_gRPC_V1_Submitter_Submitter_SubmitterClient_Session_System_Collections_Generic_IDictionary_System_String_System_String__
-  commentId: M:ArmoniK.DevelopmentKit.Client.Services.SessionService.#ctor(ILoggerFactory,Api.gRPC.V1.Submitter.Submitter.SubmitterClient,Session,System.Collections.Generic.IDictionary{System.String,System.String})
-  name.vb: SessionService(ILoggerFactory, Api.gRPC.V1.Submitter.Submitter.SubmitterClient, Session, IDictionary(Of String, String))
-  fullName: ArmoniK.DevelopmentKit.Client.Services.SessionService.SessionService(ILoggerFactory, Api.gRPC.V1.Submitter.Submitter.SubmitterClient, Session, System.Collections.Generic.IDictionary<System.String, System.String>)
-  fullName.vb: ArmoniK.DevelopmentKit.Client.Services.SessionService.SessionService(ILoggerFactory, Api.gRPC.V1.Submitter.Submitter.SubmitterClient, Session, System.Collections.Generic.IDictionary(Of System.String, System.String))
-  nameWithType: SessionService.SessionService(ILoggerFactory, Api.gRPC.V1.Submitter.Submitter.SubmitterClient, Session, IDictionary<String, String>)
-  nameWithType.vb: SessionService.SessionService(ILoggerFactory, Api.gRPC.V1.Submitter.Submitter.SubmitterClient, Session, IDictionary(Of String, String))
+- uid: ArmoniK.DevelopmentKit.Client.Services.SessionService.#ctor(ILoggerFactory,Api.gRPC.V1.Submitter.Submitter.SubmitterClient,Session,TaskOptions)
+  name: SessionService(ILoggerFactory, Api.gRPC.V1.Submitter.Submitter.SubmitterClient, Session, TaskOptions)
+  href: api/ArmoniK.DevelopmentKit.Client.Services.SessionService.html#ArmoniK_DevelopmentKit_Client_Services_SessionService__ctor_ILoggerFactory_Api_gRPC_V1_Submitter_Submitter_SubmitterClient_Session_TaskOptions_
+  commentId: M:ArmoniK.DevelopmentKit.Client.Services.SessionService.#ctor(ILoggerFactory,Api.gRPC.V1.Submitter.Submitter.SubmitterClient,Session,TaskOptions)
+  fullName: ArmoniK.DevelopmentKit.Client.Services.SessionService.SessionService(ILoggerFactory, Api.gRPC.V1.Submitter.Submitter.SubmitterClient, Session, TaskOptions)
+  nameWithType: SessionService.SessionService(ILoggerFactory, Api.gRPC.V1.Submitter.Submitter.SubmitterClient, Session, TaskOptions)
 - uid: ArmoniK.DevelopmentKit.Client.Services.SessionService.#ctor(ILoggerFactory,Api.gRPC.V1.Submitter.Submitter.SubmitterClient,TaskOptions)
   name: SessionService(ILoggerFactory, Api.gRPC.V1.Submitter.Submitter.SubmitterClient, TaskOptions)
   href: api/ArmoniK.DevelopmentKit.Client.Services.SessionService.html#ArmoniK_DevelopmentKit_Client_Services_SessionService__ctor_ILoggerFactory_Api_gRPC_V1_Submitter_Submitter_SubmitterClient_TaskOptions_
@@ -1324,95 +1318,22 @@ references:
   commentId: T:ArmoniK.DevelopmentKit.Common.AppsOptions
   fullName: ArmoniK.DevelopmentKit.Common.AppsOptions
   nameWithType: AppsOptions
-- uid: ArmoniK.DevelopmentKit.Common.AppsOptions.EngineTypeNameKey
-  name: EngineTypeNameKey
-  href: api/ArmoniK.DevelopmentKit.Common.AppsOptions.html#ArmoniK_DevelopmentKit_Common_AppsOptions_EngineTypeNameKey
-  commentId: P:ArmoniK.DevelopmentKit.Common.AppsOptions.EngineTypeNameKey
-  fullName: ArmoniK.DevelopmentKit.Common.AppsOptions.EngineTypeNameKey
-  nameWithType: AppsOptions.EngineTypeNameKey
-- uid: ArmoniK.DevelopmentKit.Common.AppsOptions.EngineTypeNameKey*
-  name: EngineTypeNameKey
-  href: api/ArmoniK.DevelopmentKit.Common.AppsOptions.html#ArmoniK_DevelopmentKit_Common_AppsOptions_EngineTypeNameKey_
-  commentId: Overload:ArmoniK.DevelopmentKit.Common.AppsOptions.EngineTypeNameKey
-  isSpec: "True"
-  fullName: ArmoniK.DevelopmentKit.Common.AppsOptions.EngineTypeNameKey
-  nameWithType: AppsOptions.EngineTypeNameKey
-- uid: ArmoniK.DevelopmentKit.Common.AppsOptions.GridAppNameKey
-  name: GridAppNameKey
-  href: api/ArmoniK.DevelopmentKit.Common.AppsOptions.html#ArmoniK_DevelopmentKit_Common_AppsOptions_GridAppNameKey
-  commentId: P:ArmoniK.DevelopmentKit.Common.AppsOptions.GridAppNameKey
-  fullName: ArmoniK.DevelopmentKit.Common.AppsOptions.GridAppNameKey
-  nameWithType: AppsOptions.GridAppNameKey
-- uid: ArmoniK.DevelopmentKit.Common.AppsOptions.GridAppNameKey*
-  name: GridAppNameKey
-  href: api/ArmoniK.DevelopmentKit.Common.AppsOptions.html#ArmoniK_DevelopmentKit_Common_AppsOptions_GridAppNameKey_
-  commentId: Overload:ArmoniK.DevelopmentKit.Common.AppsOptions.GridAppNameKey
-  isSpec: "True"
-  fullName: ArmoniK.DevelopmentKit.Common.AppsOptions.GridAppNameKey
-  nameWithType: AppsOptions.GridAppNameKey
-- uid: ArmoniK.DevelopmentKit.Common.AppsOptions.GridAppNamespaceKey
-  name: GridAppNamespaceKey
-  href: api/ArmoniK.DevelopmentKit.Common.AppsOptions.html#ArmoniK_DevelopmentKit_Common_AppsOptions_GridAppNamespaceKey
-  commentId: P:ArmoniK.DevelopmentKit.Common.AppsOptions.GridAppNamespaceKey
-  fullName: ArmoniK.DevelopmentKit.Common.AppsOptions.GridAppNamespaceKey
-  nameWithType: AppsOptions.GridAppNamespaceKey
-- uid: ArmoniK.DevelopmentKit.Common.AppsOptions.GridAppNamespaceKey*
-  name: GridAppNamespaceKey
-  href: api/ArmoniK.DevelopmentKit.Common.AppsOptions.html#ArmoniK_DevelopmentKit_Common_AppsOptions_GridAppNamespaceKey_
-  commentId: Overload:ArmoniK.DevelopmentKit.Common.AppsOptions.GridAppNamespaceKey
-  isSpec: "True"
-  fullName: ArmoniK.DevelopmentKit.Common.AppsOptions.GridAppNamespaceKey
-  nameWithType: AppsOptions.GridAppNamespaceKey
-- uid: ArmoniK.DevelopmentKit.Common.AppsOptions.GridAppVersionKey
-  name: GridAppVersionKey
-  href: api/ArmoniK.DevelopmentKit.Common.AppsOptions.html#ArmoniK_DevelopmentKit_Common_AppsOptions_GridAppVersionKey
-  commentId: P:ArmoniK.DevelopmentKit.Common.AppsOptions.GridAppVersionKey
-  fullName: ArmoniK.DevelopmentKit.Common.AppsOptions.GridAppVersionKey
-  nameWithType: AppsOptions.GridAppVersionKey
-- uid: ArmoniK.DevelopmentKit.Common.AppsOptions.GridAppVersionKey*
-  name: GridAppVersionKey
-  href: api/ArmoniK.DevelopmentKit.Common.AppsOptions.html#ArmoniK_DevelopmentKit_Common_AppsOptions_GridAppVersionKey_
-  commentId: Overload:ArmoniK.DevelopmentKit.Common.AppsOptions.GridAppVersionKey
-  isSpec: "True"
-  fullName: ArmoniK.DevelopmentKit.Common.AppsOptions.GridAppVersionKey
-  nameWithType: AppsOptions.GridAppVersionKey
 - uid: ArmoniK.DevelopmentKit.Common.AppsOptions.GridAppVolumesKey
   name: GridAppVolumesKey
   href: api/ArmoniK.DevelopmentKit.Common.AppsOptions.html#ArmoniK_DevelopmentKit_Common_AppsOptions_GridAppVolumesKey
-  commentId: P:ArmoniK.DevelopmentKit.Common.AppsOptions.GridAppVolumesKey
+  commentId: F:ArmoniK.DevelopmentKit.Common.AppsOptions.GridAppVolumesKey
   fullName: ArmoniK.DevelopmentKit.Common.AppsOptions.GridAppVolumesKey
   nameWithType: AppsOptions.GridAppVolumesKey
-- uid: ArmoniK.DevelopmentKit.Common.AppsOptions.GridAppVolumesKey*
-  name: GridAppVolumesKey
-  href: api/ArmoniK.DevelopmentKit.Common.AppsOptions.html#ArmoniK_DevelopmentKit_Common_AppsOptions_GridAppVolumesKey_
-  commentId: Overload:ArmoniK.DevelopmentKit.Common.AppsOptions.GridAppVolumesKey
-  isSpec: "True"
-  fullName: ArmoniK.DevelopmentKit.Common.AppsOptions.GridAppVolumesKey
-  nameWithType: AppsOptions.GridAppVolumesKey
-- uid: ArmoniK.DevelopmentKit.Common.AppsOptions.GridServiceNameKey
-  name: GridServiceNameKey
-  href: api/ArmoniK.DevelopmentKit.Common.AppsOptions.html#ArmoniK_DevelopmentKit_Common_AppsOptions_GridServiceNameKey
-  commentId: P:ArmoniK.DevelopmentKit.Common.AppsOptions.GridServiceNameKey
-  fullName: ArmoniK.DevelopmentKit.Common.AppsOptions.GridServiceNameKey
-  nameWithType: AppsOptions.GridServiceNameKey
-- uid: ArmoniK.DevelopmentKit.Common.AppsOptions.GridServiceNameKey*
-  name: GridServiceNameKey
-  href: api/ArmoniK.DevelopmentKit.Common.AppsOptions.html#ArmoniK_DevelopmentKit_Common_AppsOptions_GridServiceNameKey_
-  commentId: Overload:ArmoniK.DevelopmentKit.Common.AppsOptions.GridServiceNameKey
-  isSpec: "True"
-  fullName: ArmoniK.DevelopmentKit.Common.AppsOptions.GridServiceNameKey
-  nameWithType: AppsOptions.GridServiceNameKey
+- uid: ArmoniK.DevelopmentKit.Common.AppsOptions.GridDataVolumesKey
+  name: GridDataVolumesKey
+  href: api/ArmoniK.DevelopmentKit.Common.AppsOptions.html#ArmoniK_DevelopmentKit_Common_AppsOptions_GridDataVolumesKey
+  commentId: F:ArmoniK.DevelopmentKit.Common.AppsOptions.GridDataVolumesKey
+  fullName: ArmoniK.DevelopmentKit.Common.AppsOptions.GridDataVolumesKey
+  nameWithType: AppsOptions.GridDataVolumesKey
 - uid: ArmoniK.DevelopmentKit.Common.AppsOptions.GridVolumesKey
   name: GridVolumesKey
   href: api/ArmoniK.DevelopmentKit.Common.AppsOptions.html#ArmoniK_DevelopmentKit_Common_AppsOptions_GridVolumesKey
-  commentId: P:ArmoniK.DevelopmentKit.Common.AppsOptions.GridVolumesKey
-  fullName: ArmoniK.DevelopmentKit.Common.AppsOptions.GridVolumesKey
-  nameWithType: AppsOptions.GridVolumesKey
-- uid: ArmoniK.DevelopmentKit.Common.AppsOptions.GridVolumesKey*
-  name: GridVolumesKey
-  href: api/ArmoniK.DevelopmentKit.Common.AppsOptions.html#ArmoniK_DevelopmentKit_Common_AppsOptions_GridVolumesKey_
-  commentId: Overload:ArmoniK.DevelopmentKit.Common.AppsOptions.GridVolumesKey
-  isSpec: "True"
+  commentId: F:ArmoniK.DevelopmentKit.Common.AppsOptions.GridVolumesKey
   fullName: ArmoniK.DevelopmentKit.Common.AppsOptions.GridVolumesKey
   nameWithType: AppsOptions.GridVolumesKey
 - uid: ArmoniK.DevelopmentKit.Common.ArmonikPayload
@@ -2806,15 +2727,12 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.GridServer.Client.ArmonikDataSynapseClientService.InitializeDefaultTaskOptions
   nameWithType: ArmonikDataSynapseClientService.InitializeDefaultTaskOptions
-- uid: ArmoniK.DevelopmentKit.GridServer.Client.ArmonikDataSynapseClientService.OpenSession(System.String,System.Collections.Generic.IDictionary{System.String,System.String})
-  name: OpenSession(String, IDictionary<String, String>)
-  href: api/ArmoniK.DevelopmentKit.GridServer.Client.ArmonikDataSynapseClientService.html#ArmoniK_DevelopmentKit_GridServer_Client_ArmonikDataSynapseClientService_OpenSession_System_String_System_Collections_Generic_IDictionary_System_String_System_String__
-  commentId: M:ArmoniK.DevelopmentKit.GridServer.Client.ArmonikDataSynapseClientService.OpenSession(System.String,System.Collections.Generic.IDictionary{System.String,System.String})
-  name.vb: OpenSession(String, IDictionary(Of String, String))
-  fullName: ArmoniK.DevelopmentKit.GridServer.Client.ArmonikDataSynapseClientService.OpenSession(System.String, System.Collections.Generic.IDictionary<System.String, System.String>)
-  fullName.vb: ArmoniK.DevelopmentKit.GridServer.Client.ArmonikDataSynapseClientService.OpenSession(System.String, System.Collections.Generic.IDictionary(Of System.String, System.String))
-  nameWithType: ArmonikDataSynapseClientService.OpenSession(String, IDictionary<String, String>)
-  nameWithType.vb: ArmonikDataSynapseClientService.OpenSession(String, IDictionary(Of String, String))
+- uid: ArmoniK.DevelopmentKit.GridServer.Client.ArmonikDataSynapseClientService.OpenSession(System.String,TaskOptions)
+  name: OpenSession(String, TaskOptions)
+  href: api/ArmoniK.DevelopmentKit.GridServer.Client.ArmonikDataSynapseClientService.html#ArmoniK_DevelopmentKit_GridServer_Client_ArmonikDataSynapseClientService_OpenSession_System_String_TaskOptions_
+  commentId: M:ArmoniK.DevelopmentKit.GridServer.Client.ArmonikDataSynapseClientService.OpenSession(System.String,TaskOptions)
+  fullName: ArmoniK.DevelopmentKit.GridServer.Client.ArmonikDataSynapseClientService.OpenSession(System.String, TaskOptions)
+  nameWithType: ArmonikDataSynapseClientService.OpenSession(String, TaskOptions)
 - uid: ArmoniK.DevelopmentKit.GridServer.Client.ArmonikDataSynapseClientService.OpenSession*
   name: OpenSession
   href: api/ArmoniK.DevelopmentKit.GridServer.Client.ArmonikDataSynapseClientService.html#ArmoniK_DevelopmentKit_GridServer_Client_ArmonikDataSynapseClientService_OpenSession_
@@ -3607,15 +3525,12 @@ references:
   commentId: T:ArmoniK.DevelopmentKit.GridServer.Client.SessionService
   fullName: ArmoniK.DevelopmentKit.GridServer.Client.SessionService
   nameWithType: SessionService
-- uid: ArmoniK.DevelopmentKit.GridServer.Client.SessionService.#ctor(ILoggerFactory,Submitter.SubmitterClient,Session,System.Collections.Generic.IDictionary{System.String,System.String})
-  name: SessionService(ILoggerFactory, Submitter.SubmitterClient, Session, IDictionary<String, String>)
-  href: api/ArmoniK.DevelopmentKit.GridServer.Client.SessionService.html#ArmoniK_DevelopmentKit_GridServer_Client_SessionService__ctor_ILoggerFactory_Submitter_SubmitterClient_Session_System_Collections_Generic_IDictionary_System_String_System_String__
-  commentId: M:ArmoniK.DevelopmentKit.GridServer.Client.SessionService.#ctor(ILoggerFactory,Submitter.SubmitterClient,Session,System.Collections.Generic.IDictionary{System.String,System.String})
-  name.vb: SessionService(ILoggerFactory, Submitter.SubmitterClient, Session, IDictionary(Of String, String))
-  fullName: ArmoniK.DevelopmentKit.GridServer.Client.SessionService.SessionService(ILoggerFactory, Submitter.SubmitterClient, Session, System.Collections.Generic.IDictionary<System.String, System.String>)
-  fullName.vb: ArmoniK.DevelopmentKit.GridServer.Client.SessionService.SessionService(ILoggerFactory, Submitter.SubmitterClient, Session, System.Collections.Generic.IDictionary(Of System.String, System.String))
-  nameWithType: SessionService.SessionService(ILoggerFactory, Submitter.SubmitterClient, Session, IDictionary<String, String>)
-  nameWithType.vb: SessionService.SessionService(ILoggerFactory, Submitter.SubmitterClient, Session, IDictionary(Of String, String))
+- uid: ArmoniK.DevelopmentKit.GridServer.Client.SessionService.#ctor(ILoggerFactory,Submitter.SubmitterClient,Session,TaskOptions)
+  name: SessionService(ILoggerFactory, Submitter.SubmitterClient, Session, TaskOptions)
+  href: api/ArmoniK.DevelopmentKit.GridServer.Client.SessionService.html#ArmoniK_DevelopmentKit_GridServer_Client_SessionService__ctor_ILoggerFactory_Submitter_SubmitterClient_Session_TaskOptions_
+  commentId: M:ArmoniK.DevelopmentKit.GridServer.Client.SessionService.#ctor(ILoggerFactory,Submitter.SubmitterClient,Session,TaskOptions)
+  fullName: ArmoniK.DevelopmentKit.GridServer.Client.SessionService.SessionService(ILoggerFactory, Submitter.SubmitterClient, Session, TaskOptions)
+  nameWithType: SessionService.SessionService(ILoggerFactory, Submitter.SubmitterClient, Session, TaskOptions)
 - uid: ArmoniK.DevelopmentKit.GridServer.Client.SessionService.#ctor(ILoggerFactory,Submitter.SubmitterClient,TaskOptions)
   name: SessionService(ILoggerFactory, Submitter.SubmitterClient, TaskOptions)
   href: api/ArmoniK.DevelopmentKit.GridServer.Client.SessionService.html#ArmoniK_DevelopmentKit_GridServer_Client_SessionService__ctor_ILoggerFactory_Submitter_SubmitterClient_TaskOptions_
@@ -3792,19 +3707,6 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.GridServer.GridWorker.GridWorker
   nameWithType: GridWorker.GridWorker
-- uid: ArmoniK.DevelopmentKit.GridServer.GridWorker.ClientServiceOptions
-  name: ClientServiceOptions
-  href: api/ArmoniK.DevelopmentKit.GridServer.GridWorker.html#ArmoniK_DevelopmentKit_GridServer_GridWorker_ClientServiceOptions
-  commentId: P:ArmoniK.DevelopmentKit.GridServer.GridWorker.ClientServiceOptions
-  fullName: ArmoniK.DevelopmentKit.GridServer.GridWorker.ClientServiceOptions
-  nameWithType: GridWorker.ClientServiceOptions
-- uid: ArmoniK.DevelopmentKit.GridServer.GridWorker.ClientServiceOptions*
-  name: ClientServiceOptions
-  href: api/ArmoniK.DevelopmentKit.GridServer.GridWorker.html#ArmoniK_DevelopmentKit_GridServer_GridWorker_ClientServiceOptions_
-  commentId: Overload:ArmoniK.DevelopmentKit.GridServer.GridWorker.ClientServiceOptions
-  isSpec: "True"
-  fullName: ArmoniK.DevelopmentKit.GridServer.GridWorker.ClientServiceOptions
-  nameWithType: GridWorker.ClientServiceOptions
 - uid: ArmoniK.DevelopmentKit.GridServer.GridWorker.Configuration
   name: Configuration
   href: api/ArmoniK.DevelopmentKit.GridServer.GridWorker.html#ArmoniK_DevelopmentKit_GridServer_GridWorker_Configuration
@@ -3831,15 +3733,12 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.GridServer.GridWorker.Configurations
   nameWithType: GridWorker.Configurations
-- uid: ArmoniK.DevelopmentKit.GridServer.GridWorker.Configure(IConfiguration,IReadOnlyDictionary{System.String,System.String},ArmoniK.DevelopmentKit.WorkerApi.Common.IAppsLoader)
-  name: Configure(IConfiguration, IReadOnlyDictionary<String, String>, IAppsLoader)
-  href: api/ArmoniK.DevelopmentKit.GridServer.GridWorker.html#ArmoniK_DevelopmentKit_GridServer_GridWorker_Configure_IConfiguration_IReadOnlyDictionary_System_String_System_String__ArmoniK_DevelopmentKit_WorkerApi_Common_IAppsLoader_
-  commentId: M:ArmoniK.DevelopmentKit.GridServer.GridWorker.Configure(IConfiguration,IReadOnlyDictionary{System.String,System.String},ArmoniK.DevelopmentKit.WorkerApi.Common.IAppsLoader)
-  name.vb: Configure(IConfiguration, IReadOnlyDictionary(Of String, String), IAppsLoader)
-  fullName: ArmoniK.DevelopmentKit.GridServer.GridWorker.Configure(IConfiguration, IReadOnlyDictionary<System.String, System.String>, ArmoniK.DevelopmentKit.WorkerApi.Common.IAppsLoader)
-  fullName.vb: ArmoniK.DevelopmentKit.GridServer.GridWorker.Configure(IConfiguration, IReadOnlyDictionary(Of System.String, System.String), ArmoniK.DevelopmentKit.WorkerApi.Common.IAppsLoader)
-  nameWithType: GridWorker.Configure(IConfiguration, IReadOnlyDictionary<String, String>, IAppsLoader)
-  nameWithType.vb: GridWorker.Configure(IConfiguration, IReadOnlyDictionary(Of String, String), IAppsLoader)
+- uid: ArmoniK.DevelopmentKit.GridServer.GridWorker.Configure(IConfiguration,TaskOptions,ArmoniK.DevelopmentKit.WorkerApi.Common.IAppsLoader)
+  name: Configure(IConfiguration, TaskOptions, IAppsLoader)
+  href: api/ArmoniK.DevelopmentKit.GridServer.GridWorker.html#ArmoniK_DevelopmentKit_GridServer_GridWorker_Configure_IConfiguration_TaskOptions_ArmoniK_DevelopmentKit_WorkerApi_Common_IAppsLoader_
+  commentId: M:ArmoniK.DevelopmentKit.GridServer.GridWorker.Configure(IConfiguration,TaskOptions,ArmoniK.DevelopmentKit.WorkerApi.Common.IAppsLoader)
+  fullName: ArmoniK.DevelopmentKit.GridServer.GridWorker.Configure(IConfiguration, TaskOptions, ArmoniK.DevelopmentKit.WorkerApi.Common.IAppsLoader)
+  nameWithType: GridWorker.Configure(IConfiguration, TaskOptions, IAppsLoader)
 - uid: ArmoniK.DevelopmentKit.GridServer.GridWorker.Configure*
   name: Configure
   href: api/ArmoniK.DevelopmentKit.GridServer.GridWorker.html#ArmoniK_DevelopmentKit_GridServer_GridWorker_Configure_
@@ -3938,15 +3837,12 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.GridServer.GridWorker.GridServiceName
   nameWithType: GridWorker.GridServiceName
-- uid: ArmoniK.DevelopmentKit.GridServer.GridWorker.InitializeSessionWorker(Session,IReadOnlyDictionary{System.String,System.String})
-  name: InitializeSessionWorker(Session, IReadOnlyDictionary<String, String>)
-  href: api/ArmoniK.DevelopmentKit.GridServer.GridWorker.html#ArmoniK_DevelopmentKit_GridServer_GridWorker_InitializeSessionWorker_Session_IReadOnlyDictionary_System_String_System_String__
-  commentId: M:ArmoniK.DevelopmentKit.GridServer.GridWorker.InitializeSessionWorker(Session,IReadOnlyDictionary{System.String,System.String})
-  name.vb: InitializeSessionWorker(Session, IReadOnlyDictionary(Of String, String))
-  fullName: ArmoniK.DevelopmentKit.GridServer.GridWorker.InitializeSessionWorker(Session, IReadOnlyDictionary<System.String, System.String>)
-  fullName.vb: ArmoniK.DevelopmentKit.GridServer.GridWorker.InitializeSessionWorker(Session, IReadOnlyDictionary(Of System.String, System.String))
-  nameWithType: GridWorker.InitializeSessionWorker(Session, IReadOnlyDictionary<String, String>)
-  nameWithType.vb: GridWorker.InitializeSessionWorker(Session, IReadOnlyDictionary(Of String, String))
+- uid: ArmoniK.DevelopmentKit.GridServer.GridWorker.InitializeSessionWorker(Session,TaskOptions)
+  name: InitializeSessionWorker(Session, TaskOptions)
+  href: api/ArmoniK.DevelopmentKit.GridServer.GridWorker.html#ArmoniK_DevelopmentKit_GridServer_GridWorker_InitializeSessionWorker_Session_TaskOptions_
+  commentId: M:ArmoniK.DevelopmentKit.GridServer.GridWorker.InitializeSessionWorker(Session,TaskOptions)
+  fullName: ArmoniK.DevelopmentKit.GridServer.GridWorker.InitializeSessionWorker(Session, TaskOptions)
+  nameWithType: GridWorker.InitializeSessionWorker(Session, TaskOptions)
 - uid: ArmoniK.DevelopmentKit.GridServer.GridWorker.InitializeSessionWorker*
   name: InitializeSessionWorker
   href: api/ArmoniK.DevelopmentKit.GridServer.GridWorker.html#ArmoniK_DevelopmentKit_GridServer_GridWorker_InitializeSessionWorker_
@@ -4019,6 +3915,19 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.GridServer.GridWorker.SessionFinalize
   nameWithType: GridWorker.SessionFinalize
+- uid: ArmoniK.DevelopmentKit.GridServer.GridWorker.TaskOptions
+  name: TaskOptions
+  href: api/ArmoniK.DevelopmentKit.GridServer.GridWorker.html#ArmoniK_DevelopmentKit_GridServer_GridWorker_TaskOptions
+  commentId: P:ArmoniK.DevelopmentKit.GridServer.GridWorker.TaskOptions
+  fullName: ArmoniK.DevelopmentKit.GridServer.GridWorker.TaskOptions
+  nameWithType: GridWorker.TaskOptions
+- uid: ArmoniK.DevelopmentKit.GridServer.GridWorker.TaskOptions*
+  name: TaskOptions
+  href: api/ArmoniK.DevelopmentKit.GridServer.GridWorker.html#ArmoniK_DevelopmentKit_GridServer_GridWorker_TaskOptions_
+  commentId: Overload:ArmoniK.DevelopmentKit.GridServer.GridWorker.TaskOptions
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.GridServer.GridWorker.TaskOptions
+  nameWithType: GridWorker.TaskOptions
 - uid: ArmoniK.DevelopmentKit.GridServer.ServiceAdminWorker
   name: ServiceAdminWorker
   href: api/ArmoniK.DevelopmentKit.GridServer.ServiceAdminWorker.html
@@ -4283,19 +4192,6 @@ references:
   commentId: T:ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase
   fullName: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase
   nameWithType: ServiceContainerBase
-- uid: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.ClientOptions
-  name: ClientOptions
-  href: api/ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.html#ArmoniK_DevelopmentKit_SymphonyApi_api_ServiceContainerBase_ClientOptions
-  commentId: P:ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.ClientOptions
-  fullName: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.ClientOptions
-  nameWithType: ServiceContainerBase.ClientOptions
-- uid: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.ClientOptions*
-  name: ClientOptions
-  href: api/ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.html#ArmoniK_DevelopmentKit_SymphonyApi_api_ServiceContainerBase_ClientOptions_
-  commentId: Overload:ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.ClientOptions
-  isSpec: "True"
-  fullName: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.ClientOptions
-  nameWithType: ServiceContainerBase.ClientOptions
 - uid: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.Configuration
   name: Configuration
   href: api/ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.html#ArmoniK_DevelopmentKit_SymphonyApi_api_ServiceContainerBase_Configuration
@@ -4309,15 +4205,12 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.Configuration
   nameWithType: ServiceContainerBase.Configuration
-- uid: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.Configure(IConfiguration,IReadOnlyDictionary{System.String,System.String})
-  name: Configure(IConfiguration, IReadOnlyDictionary<String, String>)
-  href: api/ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.html#ArmoniK_DevelopmentKit_SymphonyApi_api_ServiceContainerBase_Configure_IConfiguration_IReadOnlyDictionary_System_String_System_String__
-  commentId: M:ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.Configure(IConfiguration,IReadOnlyDictionary{System.String,System.String})
-  name.vb: Configure(IConfiguration, IReadOnlyDictionary(Of String, String))
-  fullName: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.Configure(IConfiguration, IReadOnlyDictionary<System.String, System.String>)
-  fullName.vb: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.Configure(IConfiguration, IReadOnlyDictionary(Of System.String, System.String))
-  nameWithType: ServiceContainerBase.Configure(IConfiguration, IReadOnlyDictionary<String, String>)
-  nameWithType.vb: ServiceContainerBase.Configure(IConfiguration, IReadOnlyDictionary(Of String, String))
+- uid: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.Configure(IConfiguration,TaskOptions)
+  name: Configure(IConfiguration, TaskOptions)
+  href: api/ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.html#ArmoniK_DevelopmentKit_SymphonyApi_api_ServiceContainerBase_Configure_IConfiguration_TaskOptions_
+  commentId: M:ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.Configure(IConfiguration,TaskOptions)
+  fullName: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.Configure(IConfiguration, TaskOptions)
+  nameWithType: ServiceContainerBase.Configure(IConfiguration, TaskOptions)
 - uid: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.Configure*
   name: Configure
   href: api/ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.html#ArmoniK_DevelopmentKit_SymphonyApi_api_ServiceContainerBase_Configure_
@@ -4325,15 +4218,12 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.Configure
   nameWithType: ServiceContainerBase.Configure
-- uid: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.ConfigureSession(Session,IReadOnlyDictionary{System.String,System.String})
-  name: ConfigureSession(Session, IReadOnlyDictionary<String, String>)
-  href: api/ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.html#ArmoniK_DevelopmentKit_SymphonyApi_api_ServiceContainerBase_ConfigureSession_Session_IReadOnlyDictionary_System_String_System_String__
-  commentId: M:ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.ConfigureSession(Session,IReadOnlyDictionary{System.String,System.String})
-  name.vb: ConfigureSession(Session, IReadOnlyDictionary(Of String, String))
-  fullName: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.ConfigureSession(Session, IReadOnlyDictionary<System.String, System.String>)
-  fullName.vb: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.ConfigureSession(Session, IReadOnlyDictionary(Of System.String, System.String))
-  nameWithType: ServiceContainerBase.ConfigureSession(Session, IReadOnlyDictionary<String, String>)
-  nameWithType.vb: ServiceContainerBase.ConfigureSession(Session, IReadOnlyDictionary(Of String, String))
+- uid: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.ConfigureSession(Session,TaskOptions)
+  name: ConfigureSession(Session, TaskOptions)
+  href: api/ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.html#ArmoniK_DevelopmentKit_SymphonyApi_api_ServiceContainerBase_ConfigureSession_Session_TaskOptions_
+  commentId: M:ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.ConfigureSession(Session,TaskOptions)
+  fullName: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.ConfigureSession(Session, TaskOptions)
+  nameWithType: ServiceContainerBase.ConfigureSession(Session, TaskOptions)
 - uid: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.ConfigureSession*
   name: ConfigureSession
   href: api/ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.html#ArmoniK_DevelopmentKit_SymphonyApi_api_ServiceContainerBase_ConfigureSession_
@@ -4548,6 +4438,19 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.TaskId
   nameWithType: ServiceContainerBase.TaskId
+- uid: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.TaskOptions
+  name: TaskOptions
+  href: api/ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.html#ArmoniK_DevelopmentKit_SymphonyApi_api_ServiceContainerBase_TaskOptions
+  commentId: P:ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.TaskOptions
+  fullName: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.TaskOptions
+  nameWithType: ServiceContainerBase.TaskOptions
+- uid: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.TaskOptions*
+  name: TaskOptions
+  href: api/ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.html#ArmoniK_DevelopmentKit_SymphonyApi_api_ServiceContainerBase_TaskOptions_
+  commentId: Overload:ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.TaskOptions
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.TaskOptions
+  nameWithType: ServiceContainerBase.TaskOptions
 - uid: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.WaitForSubTasksCompletion(System.String)
   name: WaitForSubTasksCompletion(String)
   href: api/ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.html#ArmoniK_DevelopmentKit_SymphonyApi_api_ServiceContainerBase_WaitForSubTasksCompletion_System_String_
@@ -4813,15 +4716,12 @@ references:
   commentId: T:ArmoniK.DevelopmentKit.SymphonyApi.Client.api.SessionService
   fullName: ArmoniK.DevelopmentKit.SymphonyApi.Client.api.SessionService
   nameWithType: SessionService
-- uid: ArmoniK.DevelopmentKit.SymphonyApi.Client.api.SessionService.#ctor(ILoggerFactory,Submitter.SubmitterClient,Session,System.Collections.Generic.IDictionary{System.String,System.String})
-  name: SessionService(ILoggerFactory, Submitter.SubmitterClient, Session, IDictionary<String, String>)
-  href: api/ArmoniK.DevelopmentKit.SymphonyApi.Client.api.SessionService.html#ArmoniK_DevelopmentKit_SymphonyApi_Client_api_SessionService__ctor_ILoggerFactory_Submitter_SubmitterClient_Session_System_Collections_Generic_IDictionary_System_String_System_String__
-  commentId: M:ArmoniK.DevelopmentKit.SymphonyApi.Client.api.SessionService.#ctor(ILoggerFactory,Submitter.SubmitterClient,Session,System.Collections.Generic.IDictionary{System.String,System.String})
-  name.vb: SessionService(ILoggerFactory, Submitter.SubmitterClient, Session, IDictionary(Of String, String))
-  fullName: ArmoniK.DevelopmentKit.SymphonyApi.Client.api.SessionService.SessionService(ILoggerFactory, Submitter.SubmitterClient, Session, System.Collections.Generic.IDictionary<System.String, System.String>)
-  fullName.vb: ArmoniK.DevelopmentKit.SymphonyApi.Client.api.SessionService.SessionService(ILoggerFactory, Submitter.SubmitterClient, Session, System.Collections.Generic.IDictionary(Of System.String, System.String))
-  nameWithType: SessionService.SessionService(ILoggerFactory, Submitter.SubmitterClient, Session, IDictionary<String, String>)
-  nameWithType.vb: SessionService.SessionService(ILoggerFactory, Submitter.SubmitterClient, Session, IDictionary(Of String, String))
+- uid: ArmoniK.DevelopmentKit.SymphonyApi.Client.api.SessionService.#ctor(ILoggerFactory,Submitter.SubmitterClient,Session,TaskOptions)
+  name: SessionService(ILoggerFactory, Submitter.SubmitterClient, Session, TaskOptions)
+  href: api/ArmoniK.DevelopmentKit.SymphonyApi.Client.api.SessionService.html#ArmoniK_DevelopmentKit_SymphonyApi_Client_api_SessionService__ctor_ILoggerFactory_Submitter_SubmitterClient_Session_TaskOptions_
+  commentId: M:ArmoniK.DevelopmentKit.SymphonyApi.Client.api.SessionService.#ctor(ILoggerFactory,Submitter.SubmitterClient,Session,TaskOptions)
+  fullName: ArmoniK.DevelopmentKit.SymphonyApi.Client.api.SessionService.SessionService(ILoggerFactory, Submitter.SubmitterClient, Session, TaskOptions)
+  nameWithType: SessionService.SessionService(ILoggerFactory, Submitter.SubmitterClient, Session, TaskOptions)
 - uid: ArmoniK.DevelopmentKit.SymphonyApi.Client.api.SessionService.#ctor(ILoggerFactory,Submitter.SubmitterClient,TaskOptions)
   name: SessionService(ILoggerFactory, Submitter.SubmitterClient, TaskOptions)
   href: api/ArmoniK.DevelopmentKit.SymphonyApi.Client.api.SessionService.html#ArmoniK_DevelopmentKit_SymphonyApi_Client_api_SessionService__ctor_ILoggerFactory_Submitter_SubmitterClient_TaskOptions_
@@ -4835,6 +4735,19 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.SymphonyApi.Client.api.SessionService.SessionService
   nameWithType: SessionService.SessionService
+- uid: ArmoniK.DevelopmentKit.SymphonyApi.Client.api.SessionService.InitializeDefaultTaskOptions
+  name: InitializeDefaultTaskOptions()
+  href: api/ArmoniK.DevelopmentKit.SymphonyApi.Client.api.SessionService.html#ArmoniK_DevelopmentKit_SymphonyApi_Client_api_SessionService_InitializeDefaultTaskOptions
+  commentId: M:ArmoniK.DevelopmentKit.SymphonyApi.Client.api.SessionService.InitializeDefaultTaskOptions
+  fullName: ArmoniK.DevelopmentKit.SymphonyApi.Client.api.SessionService.InitializeDefaultTaskOptions()
+  nameWithType: SessionService.InitializeDefaultTaskOptions()
+- uid: ArmoniK.DevelopmentKit.SymphonyApi.Client.api.SessionService.InitializeDefaultTaskOptions*
+  name: InitializeDefaultTaskOptions
+  href: api/ArmoniK.DevelopmentKit.SymphonyApi.Client.api.SessionService.html#ArmoniK_DevelopmentKit_SymphonyApi_Client_api_SessionService_InitializeDefaultTaskOptions_
+  commentId: Overload:ArmoniK.DevelopmentKit.SymphonyApi.Client.api.SessionService.InitializeDefaultTaskOptions
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.SymphonyApi.Client.api.SessionService.InitializeDefaultTaskOptions
+  nameWithType: SessionService.InitializeDefaultTaskOptions
 - uid: ArmoniK.DevelopmentKit.SymphonyApi.Client.api.SessionService.OpenSession(Session)
   name: OpenSession(Session)
   href: api/ArmoniK.DevelopmentKit.SymphonyApi.Client.api.SessionService.html#ArmoniK_DevelopmentKit_SymphonyApi_Client_api_SessionService_OpenSession_Session_
@@ -4999,15 +4912,12 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.SymphonyApi.Client.ArmonikSymphonyClient.CreateSession
   nameWithType: ArmonikSymphonyClient.CreateSession
-- uid: ArmoniK.DevelopmentKit.SymphonyApi.Client.ArmonikSymphonyClient.OpenSession(Session,System.Collections.Generic.IDictionary{System.String,System.String})
-  name: OpenSession(Session, IDictionary<String, String>)
-  href: api/ArmoniK.DevelopmentKit.SymphonyApi.Client.ArmonikSymphonyClient.html#ArmoniK_DevelopmentKit_SymphonyApi_Client_ArmonikSymphonyClient_OpenSession_Session_System_Collections_Generic_IDictionary_System_String_System_String__
-  commentId: M:ArmoniK.DevelopmentKit.SymphonyApi.Client.ArmonikSymphonyClient.OpenSession(Session,System.Collections.Generic.IDictionary{System.String,System.String})
-  name.vb: OpenSession(Session, IDictionary(Of String, String))
-  fullName: ArmoniK.DevelopmentKit.SymphonyApi.Client.ArmonikSymphonyClient.OpenSession(Session, System.Collections.Generic.IDictionary<System.String, System.String>)
-  fullName.vb: ArmoniK.DevelopmentKit.SymphonyApi.Client.ArmonikSymphonyClient.OpenSession(Session, System.Collections.Generic.IDictionary(Of System.String, System.String))
-  nameWithType: ArmonikSymphonyClient.OpenSession(Session, IDictionary<String, String>)
-  nameWithType.vb: ArmonikSymphonyClient.OpenSession(Session, IDictionary(Of String, String))
+- uid: ArmoniK.DevelopmentKit.SymphonyApi.Client.ArmonikSymphonyClient.OpenSession(Session,TaskOptions)
+  name: OpenSession(Session, TaskOptions)
+  href: api/ArmoniK.DevelopmentKit.SymphonyApi.Client.ArmonikSymphonyClient.html#ArmoniK_DevelopmentKit_SymphonyApi_Client_ArmonikSymphonyClient_OpenSession_Session_TaskOptions_
+  commentId: M:ArmoniK.DevelopmentKit.SymphonyApi.Client.ArmonikSymphonyClient.OpenSession(Session,TaskOptions)
+  fullName: ArmoniK.DevelopmentKit.SymphonyApi.Client.ArmonikSymphonyClient.OpenSession(Session, TaskOptions)
+  nameWithType: ArmonikSymphonyClient.OpenSession(Session, TaskOptions)
 - uid: ArmoniK.DevelopmentKit.SymphonyApi.Client.ArmonikSymphonyClient.OpenSession*
   name: OpenSession
   href: api/ArmoniK.DevelopmentKit.SymphonyApi.Client.ArmonikSymphonyClient.html#ArmoniK_DevelopmentKit_SymphonyApi_Client_ArmonikSymphonyClient_OpenSession_
@@ -5079,15 +4989,12 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.SymphonyApi.GridWorker.Configuration
   nameWithType: GridWorker.Configuration
-- uid: ArmoniK.DevelopmentKit.SymphonyApi.GridWorker.Configure(IConfiguration,IReadOnlyDictionary{System.String,System.String},ArmoniK.DevelopmentKit.WorkerApi.Common.IAppsLoader)
-  name: Configure(IConfiguration, IReadOnlyDictionary<String, String>, IAppsLoader)
-  href: api/ArmoniK.DevelopmentKit.SymphonyApi.GridWorker.html#ArmoniK_DevelopmentKit_SymphonyApi_GridWorker_Configure_IConfiguration_IReadOnlyDictionary_System_String_System_String__ArmoniK_DevelopmentKit_WorkerApi_Common_IAppsLoader_
-  commentId: M:ArmoniK.DevelopmentKit.SymphonyApi.GridWorker.Configure(IConfiguration,IReadOnlyDictionary{System.String,System.String},ArmoniK.DevelopmentKit.WorkerApi.Common.IAppsLoader)
-  name.vb: Configure(IConfiguration, IReadOnlyDictionary(Of String, String), IAppsLoader)
-  fullName: ArmoniK.DevelopmentKit.SymphonyApi.GridWorker.Configure(IConfiguration, IReadOnlyDictionary<System.String, System.String>, ArmoniK.DevelopmentKit.WorkerApi.Common.IAppsLoader)
-  fullName.vb: ArmoniK.DevelopmentKit.SymphonyApi.GridWorker.Configure(IConfiguration, IReadOnlyDictionary(Of System.String, System.String), ArmoniK.DevelopmentKit.WorkerApi.Common.IAppsLoader)
-  nameWithType: GridWorker.Configure(IConfiguration, IReadOnlyDictionary<String, String>, IAppsLoader)
-  nameWithType.vb: GridWorker.Configure(IConfiguration, IReadOnlyDictionary(Of String, String), IAppsLoader)
+- uid: ArmoniK.DevelopmentKit.SymphonyApi.GridWorker.Configure(IConfiguration,TaskOptions,ArmoniK.DevelopmentKit.WorkerApi.Common.IAppsLoader)
+  name: Configure(IConfiguration, TaskOptions, IAppsLoader)
+  href: api/ArmoniK.DevelopmentKit.SymphonyApi.GridWorker.html#ArmoniK_DevelopmentKit_SymphonyApi_GridWorker_Configure_IConfiguration_TaskOptions_ArmoniK_DevelopmentKit_WorkerApi_Common_IAppsLoader_
+  commentId: M:ArmoniK.DevelopmentKit.SymphonyApi.GridWorker.Configure(IConfiguration,TaskOptions,ArmoniK.DevelopmentKit.WorkerApi.Common.IAppsLoader)
+  fullName: ArmoniK.DevelopmentKit.SymphonyApi.GridWorker.Configure(IConfiguration, TaskOptions, ArmoniK.DevelopmentKit.WorkerApi.Common.IAppsLoader)
+  nameWithType: GridWorker.Configure(IConfiguration, TaskOptions, IAppsLoader)
 - uid: ArmoniK.DevelopmentKit.SymphonyApi.GridWorker.Configure*
   name: Configure
   href: api/ArmoniK.DevelopmentKit.SymphonyApi.GridWorker.html#ArmoniK_DevelopmentKit_SymphonyApi_GridWorker_Configure_
@@ -5173,15 +5080,12 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.SymphonyApi.GridWorker.GridAppVersion
   nameWithType: GridWorker.GridAppVersion
-- uid: ArmoniK.DevelopmentKit.SymphonyApi.GridWorker.InitializeSessionWorker(Session,IReadOnlyDictionary{System.String,System.String})
-  name: InitializeSessionWorker(Session, IReadOnlyDictionary<String, String>)
-  href: api/ArmoniK.DevelopmentKit.SymphonyApi.GridWorker.html#ArmoniK_DevelopmentKit_SymphonyApi_GridWorker_InitializeSessionWorker_Session_IReadOnlyDictionary_System_String_System_String__
-  commentId: M:ArmoniK.DevelopmentKit.SymphonyApi.GridWorker.InitializeSessionWorker(Session,IReadOnlyDictionary{System.String,System.String})
-  name.vb: InitializeSessionWorker(Session, IReadOnlyDictionary(Of String, String))
-  fullName: ArmoniK.DevelopmentKit.SymphonyApi.GridWorker.InitializeSessionWorker(Session, IReadOnlyDictionary<System.String, System.String>)
-  fullName.vb: ArmoniK.DevelopmentKit.SymphonyApi.GridWorker.InitializeSessionWorker(Session, IReadOnlyDictionary(Of System.String, System.String))
-  nameWithType: GridWorker.InitializeSessionWorker(Session, IReadOnlyDictionary<String, String>)
-  nameWithType.vb: GridWorker.InitializeSessionWorker(Session, IReadOnlyDictionary(Of String, String))
+- uid: ArmoniK.DevelopmentKit.SymphonyApi.GridWorker.InitializeSessionWorker(Session,TaskOptions)
+  name: InitializeSessionWorker(Session, TaskOptions)
+  href: api/ArmoniK.DevelopmentKit.SymphonyApi.GridWorker.html#ArmoniK_DevelopmentKit_SymphonyApi_GridWorker_InitializeSessionWorker_Session_TaskOptions_
+  commentId: M:ArmoniK.DevelopmentKit.SymphonyApi.GridWorker.InitializeSessionWorker(Session,TaskOptions)
+  fullName: ArmoniK.DevelopmentKit.SymphonyApi.GridWorker.InitializeSessionWorker(Session, TaskOptions)
+  nameWithType: GridWorker.InitializeSessionWorker(Session, TaskOptions)
 - uid: ArmoniK.DevelopmentKit.SymphonyApi.GridWorker.InitializeSessionWorker*
   name: InitializeSessionWorker
   href: api/ArmoniK.DevelopmentKit.SymphonyApi.GridWorker.html#ArmoniK_DevelopmentKit_SymphonyApi_GridWorker_InitializeSessionWorker_
@@ -5408,19 +5312,6 @@ references:
   commentId: T:ArmoniK.DevelopmentKit.SymphonyApi.TaskContext
   fullName: ArmoniK.DevelopmentKit.SymphonyApi.TaskContext
   nameWithType: TaskContext
-- uid: ArmoniK.DevelopmentKit.SymphonyApi.TaskContext.ClientOptions
-  name: ClientOptions
-  href: api/ArmoniK.DevelopmentKit.SymphonyApi.TaskContext.html#ArmoniK_DevelopmentKit_SymphonyApi_TaskContext_ClientOptions
-  commentId: P:ArmoniK.DevelopmentKit.SymphonyApi.TaskContext.ClientOptions
-  fullName: ArmoniK.DevelopmentKit.SymphonyApi.TaskContext.ClientOptions
-  nameWithType: TaskContext.ClientOptions
-- uid: ArmoniK.DevelopmentKit.SymphonyApi.TaskContext.ClientOptions*
-  name: ClientOptions
-  href: api/ArmoniK.DevelopmentKit.SymphonyApi.TaskContext.html#ArmoniK_DevelopmentKit_SymphonyApi_TaskContext_ClientOptions_
-  commentId: Overload:ArmoniK.DevelopmentKit.SymphonyApi.TaskContext.ClientOptions
-  isSpec: "True"
-  fullName: ArmoniK.DevelopmentKit.SymphonyApi.TaskContext.ClientOptions
-  nameWithType: TaskContext.ClientOptions
 - uid: ArmoniK.DevelopmentKit.SymphonyApi.TaskContext.DataDependencies
   name: DataDependencies
   href: api/ArmoniK.DevelopmentKit.SymphonyApi.TaskContext.html#ArmoniK_DevelopmentKit_SymphonyApi_TaskContext_DataDependencies
@@ -5492,6 +5383,19 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.SymphonyApi.TaskContext.TaskInput
   nameWithType: TaskContext.TaskInput
+- uid: ArmoniK.DevelopmentKit.SymphonyApi.TaskContext.TaskOptions
+  name: TaskOptions
+  href: api/ArmoniK.DevelopmentKit.SymphonyApi.TaskContext.html#ArmoniK_DevelopmentKit_SymphonyApi_TaskContext_TaskOptions
+  commentId: P:ArmoniK.DevelopmentKit.SymphonyApi.TaskContext.TaskOptions
+  fullName: ArmoniK.DevelopmentKit.SymphonyApi.TaskContext.TaskOptions
+  nameWithType: TaskContext.TaskOptions
+- uid: ArmoniK.DevelopmentKit.SymphonyApi.TaskContext.TaskOptions*
+  name: TaskOptions
+  href: api/ArmoniK.DevelopmentKit.SymphonyApi.TaskContext.html#ArmoniK_DevelopmentKit_SymphonyApi_TaskContext_TaskOptions_
+  commentId: Overload:ArmoniK.DevelopmentKit.SymphonyApi.TaskContext.TaskOptions
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.SymphonyApi.TaskContext.TaskOptions
+  nameWithType: TaskContext.TaskOptions
 - uid: ArmoniK.DevelopmentKit.Worker
   name: ArmoniK.DevelopmentKit.Worker
   href: api/ArmoniK.DevelopmentKit.Worker.html
@@ -5569,23 +5473,6 @@ references:
   fullName.vb: ArmoniK.DevelopmentKit.Worker.Grid.BaseService(Of T).BaseService
   nameWithType: BaseService<T>.BaseService
   nameWithType.vb: BaseService(Of T).BaseService
-- uid: ArmoniK.DevelopmentKit.Worker.Grid.BaseService`1.ClientOptions
-  name: ClientOptions
-  href: api/ArmoniK.DevelopmentKit.Worker.Grid.BaseService-1.html#ArmoniK_DevelopmentKit_Worker_Grid_BaseService_1_ClientOptions
-  commentId: P:ArmoniK.DevelopmentKit.Worker.Grid.BaseService`1.ClientOptions
-  fullName: ArmoniK.DevelopmentKit.Worker.Grid.BaseService<T>.ClientOptions
-  fullName.vb: ArmoniK.DevelopmentKit.Worker.Grid.BaseService(Of T).ClientOptions
-  nameWithType: BaseService<T>.ClientOptions
-  nameWithType.vb: BaseService(Of T).ClientOptions
-- uid: ArmoniK.DevelopmentKit.Worker.Grid.BaseService`1.ClientOptions*
-  name: ClientOptions
-  href: api/ArmoniK.DevelopmentKit.Worker.Grid.BaseService-1.html#ArmoniK_DevelopmentKit_Worker_Grid_BaseService_1_ClientOptions_
-  commentId: Overload:ArmoniK.DevelopmentKit.Worker.Grid.BaseService`1.ClientOptions
-  isSpec: "True"
-  fullName: ArmoniK.DevelopmentKit.Worker.Grid.BaseService<T>.ClientOptions
-  fullName.vb: ArmoniK.DevelopmentKit.Worker.Grid.BaseService(Of T).ClientOptions
-  nameWithType: BaseService<T>.ClientOptions
-  nameWithType.vb: BaseService(Of T).ClientOptions
 - uid: ArmoniK.DevelopmentKit.Worker.Grid.BaseService`1.Configuration
   name: Configuration
   href: api/ArmoniK.DevelopmentKit.Worker.Grid.BaseService-1.html#ArmoniK_DevelopmentKit_Worker_Grid_BaseService_1_Configuration
@@ -5603,15 +5490,14 @@ references:
   fullName.vb: ArmoniK.DevelopmentKit.Worker.Grid.BaseService(Of T).Configuration
   nameWithType: BaseService<T>.Configuration
   nameWithType.vb: BaseService(Of T).Configuration
-- uid: ArmoniK.DevelopmentKit.Worker.Grid.BaseService`1.Configure(IConfiguration,IReadOnlyDictionary{System.String,System.String})
-  name: Configure(IConfiguration, IReadOnlyDictionary<String, String>)
-  href: api/ArmoniK.DevelopmentKit.Worker.Grid.BaseService-1.html#ArmoniK_DevelopmentKit_Worker_Grid_BaseService_1_Configure_IConfiguration_IReadOnlyDictionary_System_String_System_String__
-  commentId: M:ArmoniK.DevelopmentKit.Worker.Grid.BaseService`1.Configure(IConfiguration,IReadOnlyDictionary{System.String,System.String})
-  name.vb: Configure(IConfiguration, IReadOnlyDictionary(Of String, String))
-  fullName: ArmoniK.DevelopmentKit.Worker.Grid.BaseService<T>.Configure(IConfiguration, IReadOnlyDictionary<System.String, System.String>)
-  fullName.vb: ArmoniK.DevelopmentKit.Worker.Grid.BaseService(Of T).Configure(IConfiguration, IReadOnlyDictionary(Of System.String, System.String))
-  nameWithType: BaseService<T>.Configure(IConfiguration, IReadOnlyDictionary<String, String>)
-  nameWithType.vb: BaseService(Of T).Configure(IConfiguration, IReadOnlyDictionary(Of String, String))
+- uid: ArmoniK.DevelopmentKit.Worker.Grid.BaseService`1.Configure(IConfiguration,TaskOptions)
+  name: Configure(IConfiguration, TaskOptions)
+  href: api/ArmoniK.DevelopmentKit.Worker.Grid.BaseService-1.html#ArmoniK_DevelopmentKit_Worker_Grid_BaseService_1_Configure_IConfiguration_TaskOptions_
+  commentId: M:ArmoniK.DevelopmentKit.Worker.Grid.BaseService`1.Configure(IConfiguration,TaskOptions)
+  fullName: ArmoniK.DevelopmentKit.Worker.Grid.BaseService<T>.Configure(IConfiguration, TaskOptions)
+  fullName.vb: ArmoniK.DevelopmentKit.Worker.Grid.BaseService(Of T).Configure(IConfiguration, TaskOptions)
+  nameWithType: BaseService<T>.Configure(IConfiguration, TaskOptions)
+  nameWithType.vb: BaseService(Of T).Configure(IConfiguration, TaskOptions)
 - uid: ArmoniK.DevelopmentKit.Worker.Grid.BaseService`1.Configure*
   name: Configure
   href: api/ArmoniK.DevelopmentKit.Worker.Grid.BaseService-1.html#ArmoniK_DevelopmentKit_Worker_Grid_BaseService_1_Configure_
@@ -5621,15 +5507,14 @@ references:
   fullName.vb: ArmoniK.DevelopmentKit.Worker.Grid.BaseService(Of T).Configure
   nameWithType: BaseService<T>.Configure
   nameWithType.vb: BaseService(Of T).Configure
-- uid: ArmoniK.DevelopmentKit.Worker.Grid.BaseService`1.ConfigureSession(Session,IReadOnlyDictionary{System.String,System.String})
-  name: ConfigureSession(Session, IReadOnlyDictionary<String, String>)
-  href: api/ArmoniK.DevelopmentKit.Worker.Grid.BaseService-1.html#ArmoniK_DevelopmentKit_Worker_Grid_BaseService_1_ConfigureSession_Session_IReadOnlyDictionary_System_String_System_String__
-  commentId: M:ArmoniK.DevelopmentKit.Worker.Grid.BaseService`1.ConfigureSession(Session,IReadOnlyDictionary{System.String,System.String})
-  name.vb: ConfigureSession(Session, IReadOnlyDictionary(Of String, String))
-  fullName: ArmoniK.DevelopmentKit.Worker.Grid.BaseService<T>.ConfigureSession(Session, IReadOnlyDictionary<System.String, System.String>)
-  fullName.vb: ArmoniK.DevelopmentKit.Worker.Grid.BaseService(Of T).ConfigureSession(Session, IReadOnlyDictionary(Of System.String, System.String))
-  nameWithType: BaseService<T>.ConfigureSession(Session, IReadOnlyDictionary<String, String>)
-  nameWithType.vb: BaseService(Of T).ConfigureSession(Session, IReadOnlyDictionary(Of String, String))
+- uid: ArmoniK.DevelopmentKit.Worker.Grid.BaseService`1.ConfigureSession(Session,TaskOptions)
+  name: ConfigureSession(Session, TaskOptions)
+  href: api/ArmoniK.DevelopmentKit.Worker.Grid.BaseService-1.html#ArmoniK_DevelopmentKit_Worker_Grid_BaseService_1_ConfigureSession_Session_TaskOptions_
+  commentId: M:ArmoniK.DevelopmentKit.Worker.Grid.BaseService`1.ConfigureSession(Session,TaskOptions)
+  fullName: ArmoniK.DevelopmentKit.Worker.Grid.BaseService<T>.ConfigureSession(Session, TaskOptions)
+  fullName.vb: ArmoniK.DevelopmentKit.Worker.Grid.BaseService(Of T).ConfigureSession(Session, TaskOptions)
+  nameWithType: BaseService<T>.ConfigureSession(Session, TaskOptions)
+  nameWithType.vb: BaseService(Of T).ConfigureSession(Session, TaskOptions)
 - uid: ArmoniK.DevelopmentKit.Worker.Grid.BaseService`1.ConfigureSession*
   name: ConfigureSession
   href: api/ArmoniK.DevelopmentKit.Worker.Grid.BaseService-1.html#ArmoniK_DevelopmentKit_Worker_Grid_BaseService_1_ConfigureSession_
@@ -5862,6 +5747,23 @@ references:
   fullName.vb: ArmoniK.DevelopmentKit.Worker.Grid.BaseService(Of T).TaskId
   nameWithType: BaseService<T>.TaskId
   nameWithType.vb: BaseService(Of T).TaskId
+- uid: ArmoniK.DevelopmentKit.Worker.Grid.BaseService`1.TaskOptions
+  name: TaskOptions
+  href: api/ArmoniK.DevelopmentKit.Worker.Grid.BaseService-1.html#ArmoniK_DevelopmentKit_Worker_Grid_BaseService_1_TaskOptions
+  commentId: P:ArmoniK.DevelopmentKit.Worker.Grid.BaseService`1.TaskOptions
+  fullName: ArmoniK.DevelopmentKit.Worker.Grid.BaseService<T>.TaskOptions
+  fullName.vb: ArmoniK.DevelopmentKit.Worker.Grid.BaseService(Of T).TaskOptions
+  nameWithType: BaseService<T>.TaskOptions
+  nameWithType.vb: BaseService(Of T).TaskOptions
+- uid: ArmoniK.DevelopmentKit.Worker.Grid.BaseService`1.TaskOptions*
+  name: TaskOptions
+  href: api/ArmoniK.DevelopmentKit.Worker.Grid.BaseService-1.html#ArmoniK_DevelopmentKit_Worker_Grid_BaseService_1_TaskOptions_
+  commentId: Overload:ArmoniK.DevelopmentKit.Worker.Grid.BaseService`1.TaskOptions
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Worker.Grid.BaseService<T>.TaskOptions
+  fullName.vb: ArmoniK.DevelopmentKit.Worker.Grid.BaseService(Of T).TaskOptions
+  nameWithType: BaseService<T>.TaskOptions
+  nameWithType.vb: BaseService(Of T).TaskOptions
 - uid: ArmoniK.DevelopmentKit.Worker.Grid.BaseService`1.WaitForSubTasksCompletion(System.String)
   name: WaitForSubTasksCompletion(String)
   href: api/ArmoniK.DevelopmentKit.Worker.Grid.BaseService-1.html#ArmoniK_DevelopmentKit_Worker_Grid_BaseService_1_WaitForSubTasksCompletion_System_String_
@@ -6337,19 +6239,6 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.Worker.GridWorker.GridWorker
   nameWithType: GridWorker.GridWorker
-- uid: ArmoniK.DevelopmentKit.Worker.GridWorker.ClientServiceOptions
-  name: ClientServiceOptions
-  href: api/ArmoniK.DevelopmentKit.Worker.GridWorker.html#ArmoniK_DevelopmentKit_Worker_GridWorker_ClientServiceOptions
-  commentId: P:ArmoniK.DevelopmentKit.Worker.GridWorker.ClientServiceOptions
-  fullName: ArmoniK.DevelopmentKit.Worker.GridWorker.ClientServiceOptions
-  nameWithType: GridWorker.ClientServiceOptions
-- uid: ArmoniK.DevelopmentKit.Worker.GridWorker.ClientServiceOptions*
-  name: ClientServiceOptions
-  href: api/ArmoniK.DevelopmentKit.Worker.GridWorker.html#ArmoniK_DevelopmentKit_Worker_GridWorker_ClientServiceOptions_
-  commentId: Overload:ArmoniK.DevelopmentKit.Worker.GridWorker.ClientServiceOptions
-  isSpec: "True"
-  fullName: ArmoniK.DevelopmentKit.Worker.GridWorker.ClientServiceOptions
-  nameWithType: GridWorker.ClientServiceOptions
 - uid: ArmoniK.DevelopmentKit.Worker.GridWorker.Configuration
   name: Configuration
   href: api/ArmoniK.DevelopmentKit.Worker.GridWorker.html#ArmoniK_DevelopmentKit_Worker_GridWorker_Configuration
@@ -6376,15 +6265,12 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.Worker.GridWorker.Configurations
   nameWithType: GridWorker.Configurations
-- uid: ArmoniK.DevelopmentKit.Worker.GridWorker.Configure(IConfiguration,IReadOnlyDictionary{System.String,System.String},ArmoniK.DevelopmentKit.WorkerApi.Common.IAppsLoader)
-  name: Configure(IConfiguration, IReadOnlyDictionary<String, String>, IAppsLoader)
-  href: api/ArmoniK.DevelopmentKit.Worker.GridWorker.html#ArmoniK_DevelopmentKit_Worker_GridWorker_Configure_IConfiguration_IReadOnlyDictionary_System_String_System_String__ArmoniK_DevelopmentKit_WorkerApi_Common_IAppsLoader_
-  commentId: M:ArmoniK.DevelopmentKit.Worker.GridWorker.Configure(IConfiguration,IReadOnlyDictionary{System.String,System.String},ArmoniK.DevelopmentKit.WorkerApi.Common.IAppsLoader)
-  name.vb: Configure(IConfiguration, IReadOnlyDictionary(Of String, String), IAppsLoader)
-  fullName: ArmoniK.DevelopmentKit.Worker.GridWorker.Configure(IConfiguration, IReadOnlyDictionary<System.String, System.String>, ArmoniK.DevelopmentKit.WorkerApi.Common.IAppsLoader)
-  fullName.vb: ArmoniK.DevelopmentKit.Worker.GridWorker.Configure(IConfiguration, IReadOnlyDictionary(Of System.String, System.String), ArmoniK.DevelopmentKit.WorkerApi.Common.IAppsLoader)
-  nameWithType: GridWorker.Configure(IConfiguration, IReadOnlyDictionary<String, String>, IAppsLoader)
-  nameWithType.vb: GridWorker.Configure(IConfiguration, IReadOnlyDictionary(Of String, String), IAppsLoader)
+- uid: ArmoniK.DevelopmentKit.Worker.GridWorker.Configure(IConfiguration,TaskOptions,ArmoniK.DevelopmentKit.WorkerApi.Common.IAppsLoader)
+  name: Configure(IConfiguration, TaskOptions, IAppsLoader)
+  href: api/ArmoniK.DevelopmentKit.Worker.GridWorker.html#ArmoniK_DevelopmentKit_Worker_GridWorker_Configure_IConfiguration_TaskOptions_ArmoniK_DevelopmentKit_WorkerApi_Common_IAppsLoader_
+  commentId: M:ArmoniK.DevelopmentKit.Worker.GridWorker.Configure(IConfiguration,TaskOptions,ArmoniK.DevelopmentKit.WorkerApi.Common.IAppsLoader)
+  fullName: ArmoniK.DevelopmentKit.Worker.GridWorker.Configure(IConfiguration, TaskOptions, ArmoniK.DevelopmentKit.WorkerApi.Common.IAppsLoader)
+  nameWithType: GridWorker.Configure(IConfiguration, TaskOptions, IAppsLoader)
 - uid: ArmoniK.DevelopmentKit.Worker.GridWorker.Configure*
   name: Configure
   href: api/ArmoniK.DevelopmentKit.Worker.GridWorker.html#ArmoniK_DevelopmentKit_Worker_GridWorker_Configure_
@@ -6483,15 +6369,12 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.Worker.GridWorker.GridServiceName
   nameWithType: GridWorker.GridServiceName
-- uid: ArmoniK.DevelopmentKit.Worker.GridWorker.InitializeSessionWorker(Session,IReadOnlyDictionary{System.String,System.String})
-  name: InitializeSessionWorker(Session, IReadOnlyDictionary<String, String>)
-  href: api/ArmoniK.DevelopmentKit.Worker.GridWorker.html#ArmoniK_DevelopmentKit_Worker_GridWorker_InitializeSessionWorker_Session_IReadOnlyDictionary_System_String_System_String__
-  commentId: M:ArmoniK.DevelopmentKit.Worker.GridWorker.InitializeSessionWorker(Session,IReadOnlyDictionary{System.String,System.String})
-  name.vb: InitializeSessionWorker(Session, IReadOnlyDictionary(Of String, String))
-  fullName: ArmoniK.DevelopmentKit.Worker.GridWorker.InitializeSessionWorker(Session, IReadOnlyDictionary<System.String, System.String>)
-  fullName.vb: ArmoniK.DevelopmentKit.Worker.GridWorker.InitializeSessionWorker(Session, IReadOnlyDictionary(Of System.String, System.String))
-  nameWithType: GridWorker.InitializeSessionWorker(Session, IReadOnlyDictionary<String, String>)
-  nameWithType.vb: GridWorker.InitializeSessionWorker(Session, IReadOnlyDictionary(Of String, String))
+- uid: ArmoniK.DevelopmentKit.Worker.GridWorker.InitializeSessionWorker(Session,TaskOptions)
+  name: InitializeSessionWorker(Session, TaskOptions)
+  href: api/ArmoniK.DevelopmentKit.Worker.GridWorker.html#ArmoniK_DevelopmentKit_Worker_GridWorker_InitializeSessionWorker_Session_TaskOptions_
+  commentId: M:ArmoniK.DevelopmentKit.Worker.GridWorker.InitializeSessionWorker(Session,TaskOptions)
+  fullName: ArmoniK.DevelopmentKit.Worker.GridWorker.InitializeSessionWorker(Session, TaskOptions)
+  nameWithType: GridWorker.InitializeSessionWorker(Session, TaskOptions)
 - uid: ArmoniK.DevelopmentKit.Worker.GridWorker.InitializeSessionWorker*
   name: InitializeSessionWorker
   href: api/ArmoniK.DevelopmentKit.Worker.GridWorker.html#ArmoniK_DevelopmentKit_Worker_GridWorker_InitializeSessionWorker_
@@ -6538,6 +6421,19 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.Worker.GridWorker.SessionFinalize
   nameWithType: GridWorker.SessionFinalize
+- uid: ArmoniK.DevelopmentKit.Worker.GridWorker.TaskOptions
+  name: TaskOptions
+  href: api/ArmoniK.DevelopmentKit.Worker.GridWorker.html#ArmoniK_DevelopmentKit_Worker_GridWorker_TaskOptions
+  commentId: P:ArmoniK.DevelopmentKit.Worker.GridWorker.TaskOptions
+  fullName: ArmoniK.DevelopmentKit.Worker.GridWorker.TaskOptions
+  nameWithType: GridWorker.TaskOptions
+- uid: ArmoniK.DevelopmentKit.Worker.GridWorker.TaskOptions*
+  name: TaskOptions
+  href: api/ArmoniK.DevelopmentKit.Worker.GridWorker.html#ArmoniK_DevelopmentKit_Worker_GridWorker_TaskOptions_
+  commentId: Overload:ArmoniK.DevelopmentKit.Worker.GridWorker.TaskOptions
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Worker.GridWorker.TaskOptions
+  nameWithType: GridWorker.TaskOptions
 - uid: ArmoniK.DevelopmentKit.WorkerApi
   name: ArmoniK.DevelopmentKit.WorkerApi
   href: api/ArmoniK.DevelopmentKit.WorkerApi.html
@@ -6750,15 +6646,12 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.WorkerApi.ArmonikServiceWorker.CloseSession
   nameWithType: ArmonikServiceWorker.CloseSession
-- uid: ArmoniK.DevelopmentKit.WorkerApi.ArmonikServiceWorker.Configure(IConfiguration,IReadOnlyDictionary{System.String,System.String})
-  name: Configure(IConfiguration, IReadOnlyDictionary<String, String>)
-  href: api/ArmoniK.DevelopmentKit.WorkerApi.ArmonikServiceWorker.html#ArmoniK_DevelopmentKit_WorkerApi_ArmonikServiceWorker_Configure_IConfiguration_IReadOnlyDictionary_System_String_System_String__
-  commentId: M:ArmoniK.DevelopmentKit.WorkerApi.ArmonikServiceWorker.Configure(IConfiguration,IReadOnlyDictionary{System.String,System.String})
-  name.vb: Configure(IConfiguration, IReadOnlyDictionary(Of String, String))
-  fullName: ArmoniK.DevelopmentKit.WorkerApi.ArmonikServiceWorker.Configure(IConfiguration, IReadOnlyDictionary<System.String, System.String>)
-  fullName.vb: ArmoniK.DevelopmentKit.WorkerApi.ArmonikServiceWorker.Configure(IConfiguration, IReadOnlyDictionary(Of System.String, System.String))
-  nameWithType: ArmonikServiceWorker.Configure(IConfiguration, IReadOnlyDictionary<String, String>)
-  nameWithType.vb: ArmonikServiceWorker.Configure(IConfiguration, IReadOnlyDictionary(Of String, String))
+- uid: ArmoniK.DevelopmentKit.WorkerApi.ArmonikServiceWorker.Configure(IConfiguration,TaskOptions)
+  name: Configure(IConfiguration, TaskOptions)
+  href: api/ArmoniK.DevelopmentKit.WorkerApi.ArmonikServiceWorker.html#ArmoniK_DevelopmentKit_WorkerApi_ArmonikServiceWorker_Configure_IConfiguration_TaskOptions_
+  commentId: M:ArmoniK.DevelopmentKit.WorkerApi.ArmonikServiceWorker.Configure(IConfiguration,TaskOptions)
+  fullName: ArmoniK.DevelopmentKit.WorkerApi.ArmonikServiceWorker.Configure(IConfiguration, TaskOptions)
+  nameWithType: ArmonikServiceWorker.Configure(IConfiguration, TaskOptions)
 - uid: ArmoniK.DevelopmentKit.WorkerApi.ArmonikServiceWorker.Configure*
   name: Configure
   href: api/ArmoniK.DevelopmentKit.WorkerApi.ArmonikServiceWorker.html#ArmoniK_DevelopmentKit_WorkerApi_ArmonikServiceWorker_Configure_
@@ -6818,15 +6711,12 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.WorkerApi.ArmonikServiceWorker.Initialized
   nameWithType: ArmonikServiceWorker.Initialized
-- uid: ArmoniK.DevelopmentKit.WorkerApi.ArmonikServiceWorker.InitializeSessionWorker(Session,IReadOnlyDictionary{System.String,System.String})
-  name: InitializeSessionWorker(Session, IReadOnlyDictionary<String, String>)
-  href: api/ArmoniK.DevelopmentKit.WorkerApi.ArmonikServiceWorker.html#ArmoniK_DevelopmentKit_WorkerApi_ArmonikServiceWorker_InitializeSessionWorker_Session_IReadOnlyDictionary_System_String_System_String__
-  commentId: M:ArmoniK.DevelopmentKit.WorkerApi.ArmonikServiceWorker.InitializeSessionWorker(Session,IReadOnlyDictionary{System.String,System.String})
-  name.vb: InitializeSessionWorker(Session, IReadOnlyDictionary(Of String, String))
-  fullName: ArmoniK.DevelopmentKit.WorkerApi.ArmonikServiceWorker.InitializeSessionWorker(Session, IReadOnlyDictionary<System.String, System.String>)
-  fullName.vb: ArmoniK.DevelopmentKit.WorkerApi.ArmonikServiceWorker.InitializeSessionWorker(Session, IReadOnlyDictionary(Of System.String, System.String))
-  nameWithType: ArmonikServiceWorker.InitializeSessionWorker(Session, IReadOnlyDictionary<String, String>)
-  nameWithType.vb: ArmonikServiceWorker.InitializeSessionWorker(Session, IReadOnlyDictionary(Of String, String))
+- uid: ArmoniK.DevelopmentKit.WorkerApi.ArmonikServiceWorker.InitializeSessionWorker(Session,TaskOptions)
+  name: InitializeSessionWorker(Session, TaskOptions)
+  href: api/ArmoniK.DevelopmentKit.WorkerApi.ArmonikServiceWorker.html#ArmoniK_DevelopmentKit_WorkerApi_ArmonikServiceWorker_InitializeSessionWorker_Session_TaskOptions_
+  commentId: M:ArmoniK.DevelopmentKit.WorkerApi.ArmonikServiceWorker.InitializeSessionWorker(Session,TaskOptions)
+  fullName: ArmoniK.DevelopmentKit.WorkerApi.ArmonikServiceWorker.InitializeSessionWorker(Session, TaskOptions)
+  nameWithType: ArmonikServiceWorker.InitializeSessionWorker(Session, TaskOptions)
 - uid: ArmoniK.DevelopmentKit.WorkerApi.ArmonikServiceWorker.InitializeSessionWorker*
   name: InitializeSessionWorker
   href: api/ArmoniK.DevelopmentKit.WorkerApi.ArmonikServiceWorker.html#ArmoniK_DevelopmentKit_WorkerApi_ArmonikServiceWorker_InitializeSessionWorker_
@@ -7028,15 +6918,12 @@ references:
   commentId: T:ArmoniK.DevelopmentKit.WorkerApi.Common.IGridWorker
   fullName: ArmoniK.DevelopmentKit.WorkerApi.Common.IGridWorker
   nameWithType: IGridWorker
-- uid: ArmoniK.DevelopmentKit.WorkerApi.Common.IGridWorker.Configure(IConfiguration,IReadOnlyDictionary{System.String,System.String},ArmoniK.DevelopmentKit.WorkerApi.Common.IAppsLoader)
-  name: Configure(IConfiguration, IReadOnlyDictionary<String, String>, IAppsLoader)
-  href: api/ArmoniK.DevelopmentKit.WorkerApi.Common.IGridWorker.html#ArmoniK_DevelopmentKit_WorkerApi_Common_IGridWorker_Configure_IConfiguration_IReadOnlyDictionary_System_String_System_String__ArmoniK_DevelopmentKit_WorkerApi_Common_IAppsLoader_
-  commentId: M:ArmoniK.DevelopmentKit.WorkerApi.Common.IGridWorker.Configure(IConfiguration,IReadOnlyDictionary{System.String,System.String},ArmoniK.DevelopmentKit.WorkerApi.Common.IAppsLoader)
-  name.vb: Configure(IConfiguration, IReadOnlyDictionary(Of String, String), IAppsLoader)
-  fullName: ArmoniK.DevelopmentKit.WorkerApi.Common.IGridWorker.Configure(IConfiguration, IReadOnlyDictionary<System.String, System.String>, ArmoniK.DevelopmentKit.WorkerApi.Common.IAppsLoader)
-  fullName.vb: ArmoniK.DevelopmentKit.WorkerApi.Common.IGridWorker.Configure(IConfiguration, IReadOnlyDictionary(Of System.String, System.String), ArmoniK.DevelopmentKit.WorkerApi.Common.IAppsLoader)
-  nameWithType: IGridWorker.Configure(IConfiguration, IReadOnlyDictionary<String, String>, IAppsLoader)
-  nameWithType.vb: IGridWorker.Configure(IConfiguration, IReadOnlyDictionary(Of String, String), IAppsLoader)
+- uid: ArmoniK.DevelopmentKit.WorkerApi.Common.IGridWorker.Configure(IConfiguration,TaskOptions,ArmoniK.DevelopmentKit.WorkerApi.Common.IAppsLoader)
+  name: Configure(IConfiguration, TaskOptions, IAppsLoader)
+  href: api/ArmoniK.DevelopmentKit.WorkerApi.Common.IGridWorker.html#ArmoniK_DevelopmentKit_WorkerApi_Common_IGridWorker_Configure_IConfiguration_TaskOptions_ArmoniK_DevelopmentKit_WorkerApi_Common_IAppsLoader_
+  commentId: M:ArmoniK.DevelopmentKit.WorkerApi.Common.IGridWorker.Configure(IConfiguration,TaskOptions,ArmoniK.DevelopmentKit.WorkerApi.Common.IAppsLoader)
+  fullName: ArmoniK.DevelopmentKit.WorkerApi.Common.IGridWorker.Configure(IConfiguration, TaskOptions, ArmoniK.DevelopmentKit.WorkerApi.Common.IAppsLoader)
+  nameWithType: IGridWorker.Configure(IConfiguration, TaskOptions, IAppsLoader)
 - uid: ArmoniK.DevelopmentKit.WorkerApi.Common.IGridWorker.Configure*
   name: Configure
   href: api/ArmoniK.DevelopmentKit.WorkerApi.Common.IGridWorker.html#ArmoniK_DevelopmentKit_WorkerApi_Common_IGridWorker_Configure_
@@ -7070,15 +6957,12 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.WorkerApi.Common.IGridWorker.Execute
   nameWithType: IGridWorker.Execute
-- uid: ArmoniK.DevelopmentKit.WorkerApi.Common.IGridWorker.InitializeSessionWorker(Session,IReadOnlyDictionary{System.String,System.String})
-  name: InitializeSessionWorker(Session, IReadOnlyDictionary<String, String>)
-  href: api/ArmoniK.DevelopmentKit.WorkerApi.Common.IGridWorker.html#ArmoniK_DevelopmentKit_WorkerApi_Common_IGridWorker_InitializeSessionWorker_Session_IReadOnlyDictionary_System_String_System_String__
-  commentId: M:ArmoniK.DevelopmentKit.WorkerApi.Common.IGridWorker.InitializeSessionWorker(Session,IReadOnlyDictionary{System.String,System.String})
-  name.vb: InitializeSessionWorker(Session, IReadOnlyDictionary(Of String, String))
-  fullName: ArmoniK.DevelopmentKit.WorkerApi.Common.IGridWorker.InitializeSessionWorker(Session, IReadOnlyDictionary<System.String, System.String>)
-  fullName.vb: ArmoniK.DevelopmentKit.WorkerApi.Common.IGridWorker.InitializeSessionWorker(Session, IReadOnlyDictionary(Of System.String, System.String))
-  nameWithType: IGridWorker.InitializeSessionWorker(Session, IReadOnlyDictionary<String, String>)
-  nameWithType.vb: IGridWorker.InitializeSessionWorker(Session, IReadOnlyDictionary(Of String, String))
+- uid: ArmoniK.DevelopmentKit.WorkerApi.Common.IGridWorker.InitializeSessionWorker(Session,TaskOptions)
+  name: InitializeSessionWorker(Session, TaskOptions)
+  href: api/ArmoniK.DevelopmentKit.WorkerApi.Common.IGridWorker.html#ArmoniK_DevelopmentKit_WorkerApi_Common_IGridWorker_InitializeSessionWorker_Session_TaskOptions_
+  commentId: M:ArmoniK.DevelopmentKit.WorkerApi.Common.IGridWorker.InitializeSessionWorker(Session,TaskOptions)
+  fullName: ArmoniK.DevelopmentKit.WorkerApi.Common.IGridWorker.InitializeSessionWorker(Session, TaskOptions)
+  nameWithType: IGridWorker.InitializeSessionWorker(Session, TaskOptions)
 - uid: ArmoniK.DevelopmentKit.WorkerApi.Common.IGridWorker.InitializeSessionWorker*
   name: InitializeSessionWorker
   href: api/ArmoniK.DevelopmentKit.WorkerApi.Common.IGridWorker.html#ArmoniK_DevelopmentKit_WorkerApi_Common_IGridWorker_InitializeSessionWorker_
@@ -7266,15 +7150,12 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.WorkerApi.ServiceRequestContext.ServiceRequestContext
   nameWithType: ServiceRequestContext.ServiceRequestContext
-- uid: ArmoniK.DevelopmentKit.WorkerApi.ServiceRequestContext.CreateOrGetArmonikService(IConfiguration,System.String,IFileAdaptater,System.String,IReadOnlyDictionary{System.String,System.String})
-  name: CreateOrGetArmonikService(IConfiguration, String, IFileAdaptater, String, IReadOnlyDictionary<String, String>)
-  href: api/ArmoniK.DevelopmentKit.WorkerApi.ServiceRequestContext.html#ArmoniK_DevelopmentKit_WorkerApi_ServiceRequestContext_CreateOrGetArmonikService_IConfiguration_System_String_IFileAdaptater_System_String_IReadOnlyDictionary_System_String_System_String__
-  commentId: M:ArmoniK.DevelopmentKit.WorkerApi.ServiceRequestContext.CreateOrGetArmonikService(IConfiguration,System.String,IFileAdaptater,System.String,IReadOnlyDictionary{System.String,System.String})
-  name.vb: CreateOrGetArmonikService(IConfiguration, String, IFileAdaptater, String, IReadOnlyDictionary(Of String, String))
-  fullName: ArmoniK.DevelopmentKit.WorkerApi.ServiceRequestContext.CreateOrGetArmonikService(IConfiguration, System.String, IFileAdaptater, System.String, IReadOnlyDictionary<System.String, System.String>)
-  fullName.vb: ArmoniK.DevelopmentKit.WorkerApi.ServiceRequestContext.CreateOrGetArmonikService(IConfiguration, System.String, IFileAdaptater, System.String, IReadOnlyDictionary(Of System.String, System.String))
-  nameWithType: ServiceRequestContext.CreateOrGetArmonikService(IConfiguration, String, IFileAdaptater, String, IReadOnlyDictionary<String, String>)
-  nameWithType.vb: ServiceRequestContext.CreateOrGetArmonikService(IConfiguration, String, IFileAdaptater, String, IReadOnlyDictionary(Of String, String))
+- uid: ArmoniK.DevelopmentKit.WorkerApi.ServiceRequestContext.CreateOrGetArmonikService(IConfiguration,System.String,IFileAdaptater,System.String,TaskOptions)
+  name: CreateOrGetArmonikService(IConfiguration, String, IFileAdaptater, String, TaskOptions)
+  href: api/ArmoniK.DevelopmentKit.WorkerApi.ServiceRequestContext.html#ArmoniK_DevelopmentKit_WorkerApi_ServiceRequestContext_CreateOrGetArmonikService_IConfiguration_System_String_IFileAdaptater_System_String_TaskOptions_
+  commentId: M:ArmoniK.DevelopmentKit.WorkerApi.ServiceRequestContext.CreateOrGetArmonikService(IConfiguration,System.String,IFileAdaptater,System.String,TaskOptions)
+  fullName: ArmoniK.DevelopmentKit.WorkerApi.ServiceRequestContext.CreateOrGetArmonikService(IConfiguration, System.String, IFileAdaptater, System.String, TaskOptions)
+  nameWithType: ServiceRequestContext.CreateOrGetArmonikService(IConfiguration, String, IFileAdaptater, String, TaskOptions)
 - uid: ArmoniK.DevelopmentKit.WorkerApi.ServiceRequestContext.CreateOrGetArmonikService*
   name: CreateOrGetArmonikService
   href: api/ArmoniK.DevelopmentKit.WorkerApi.ServiceRequestContext.html#ArmoniK_DevelopmentKit_WorkerApi_ServiceRequestContext_CreateOrGetArmonikService_
