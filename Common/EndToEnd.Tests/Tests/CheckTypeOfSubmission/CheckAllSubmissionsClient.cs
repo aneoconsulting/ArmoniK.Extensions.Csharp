@@ -71,6 +71,10 @@ public class CheckAllSubmissionsClient : ClientBaseTest<CheckAllSubmissionsClien
 
     var sessionService = client.CreateSession(taskOptions);
 
+    var resultClient = new ArmonikSymphonyClient(Configuration,
+                                                 LoggerFactory);
+    var resultService = resultClient.OpenSession(sessionService.SessionId);
+
     Log.LogInformation($"New session created : {sessionService}");
 
     Log.LogInformation("Running End to End test to compute Square value with SubTasking");
@@ -78,6 +82,7 @@ public class CheckAllSubmissionsClient : ClientBaseTest<CheckAllSubmissionsClien
     try
     {
       SubmissionTask(sessionService,
+                     resultService,
                      10,
                      1,
                      SubmissionType.Sequential,
@@ -87,11 +92,13 @@ public class CheckAllSubmissionsClient : ClientBaseTest<CheckAllSubmissionsClien
     {
       Log.LogError(e,
                    "Submission Error 10 Jobs with 1 subtask");
+      throw;
     }
 
     try
     {
       SubmissionTask(sessionService,
+                     resultService,
                      5000,
                      0,
                      SubmissionType.Sequential,
@@ -101,11 +108,13 @@ public class CheckAllSubmissionsClient : ClientBaseTest<CheckAllSubmissionsClien
     {
       Log.LogError(e,
                    "Submission Error 5000 Jobs with 0 subtask");
+      throw;
     }
 
     try
     {
       SubmissionTask(sessionService,
+                     resultService,
                      5000,
                      0,
                      SubmissionType.Batch,
@@ -115,6 +124,7 @@ public class CheckAllSubmissionsClient : ClientBaseTest<CheckAllSubmissionsClien
     {
       Log.LogError(e,
                    "Submission Error 1 Jobs with 5000 subtasks");
+      throw;
     }
 
     //try
@@ -149,6 +159,7 @@ public class CheckAllSubmissionsClient : ClientBaseTest<CheckAllSubmissionsClien
     try
     {
       SubmissionTask(sessionService,
+                     resultService,
                      10000,
                      0,
                      SubmissionType.Batch,
@@ -158,6 +169,7 @@ public class CheckAllSubmissionsClient : ClientBaseTest<CheckAllSubmissionsClien
     {
       Log.LogError(e,
                    "Submission Error 10000 Jobs with 0 subtask");
+      throw;
     }
 
     //try
@@ -176,6 +188,7 @@ public class CheckAllSubmissionsClient : ClientBaseTest<CheckAllSubmissionsClien
   }
 
   private void SubmissionTask(SessionService sessionService,
+                              SessionService resultService,
                               int            nbJob,
                               int            nbSubTasks,
                               SubmissionType submissionType,
@@ -234,11 +247,11 @@ public class CheckAllSubmissionsClient : ClientBaseTest<CheckAllSubmissionsClien
 
     if (getResultType == GetResultType.GetResult)
     {
-      results = sessionService.GetResults(taskIds);
+      results = resultService.GetResults(taskIds);
     }
     else
     {
-      results = GetTryResults(sessionService,
+      results = GetTryResults(resultService,
                               taskIds.ToList());
     }
 
