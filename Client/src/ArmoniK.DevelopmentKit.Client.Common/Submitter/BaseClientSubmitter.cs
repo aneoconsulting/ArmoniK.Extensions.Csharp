@@ -159,8 +159,7 @@ public class BaseClientSubmitter<T>
     var serviceConfiguration = ControlPlaneService.GetServiceConfigurationAsync(new Empty())
                                                   .ResponseAsync.Result;
 
-    var nbRetry = 0;
-    while (true)
+    for (var nbRetry = 0; nbRetry < maxRetries; nbRetry++)
     {
       resultIdsCreated.Clear();
       try
@@ -288,8 +287,6 @@ public class BaseClientSubmitter<T>
           default:
             throw;
         }
-
-        nbRetry++;
       }
     }
 
@@ -523,6 +520,7 @@ public class BaseClientSubmitter<T>
     var streamingCall = ControlPlaneService.TryGetResultStream(resultRequest,
                                                                cancellationToken: cancellationToken);
     var chunks = new List<ReadOnlyMemory<byte>>();
+    var len    = 0;
 
     while (await streamingCall.ResponseStream.MoveNext(cancellationToken))
     {
@@ -534,6 +532,7 @@ public class BaseClientSubmitter<T>
           if (!reply.Result.DataComplete)
           {
             chunks.Add(reply.Result.Data.Memory);
+            len += reply.Result.Data.Memory.Length;
           }
 
           break;
@@ -552,7 +551,7 @@ public class BaseClientSubmitter<T>
       }
     }
 
-    var res = new byte[chunks.Sum(rm => rm.Length)];
+    var res = new byte[len];
     var idx = 0;
     foreach (var rm in chunks)
     {
