@@ -360,7 +360,7 @@ public class BaseClientSubmitter<T>
   /// <param name="resultIds">Collection of result ids</param>
   /// <param name="cancellationToken"></param>
   /// <returns>A ResultCollection sorted by Status Completed, Result in Error or missing</returns>
-  public ResultStatusCollection GetResultStatus(ICollection<string> resultIds,
+  public ResultStatusCollection GetResultStatus(IEnumerable<string> resultIds,
                                                 CancellationToken   cancellationToken = default)
   {
     var remainingIds = resultIds.ToHashSet();
@@ -375,7 +375,7 @@ public class BaseClientSubmitter<T>
                                                                                                       {
                                                                                                         ResultIds =
                                                                                                         {
-                                                                                                          resultIds,
+                                                                                                          remainingIds,
                                                                                                         },
                                                                                                         SessionId = SessionId.Id,
                                                                                                       });
@@ -471,7 +471,7 @@ public class BaseClientSubmitter<T>
                          typeof(RpcException));
 
     var res = TryGetResult(resultId,
-                       cancellationToken: cancellationToken);
+                           cancellationToken: cancellationToken);
 
     if (res != null)
     {
