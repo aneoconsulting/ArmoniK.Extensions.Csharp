@@ -215,7 +215,6 @@ jobs:
         run: |
          cd Tests
          mkdir -p ${HOME}/data
-         export PARTITION=athos
          bash -x ./endToEndTests.sh
 
   release-packages:
