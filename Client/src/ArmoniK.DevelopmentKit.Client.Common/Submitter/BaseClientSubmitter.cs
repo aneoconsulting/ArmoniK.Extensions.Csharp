@@ -1,4 +1,4 @@
-﻿// This file is part of the ArmoniK project
+// This file is part of the ArmoniK project
 // 
 // Copyright (C) ANEO, 2021-2022.
 //   W. Kirschenmann   <wkirschenmann@aneo.fr>
@@ -32,8 +32,9 @@ using System.Threading.Tasks;
 using ArmoniK.Api.Client.Submitter;
 using ArmoniK.Api.gRPC.V1;
 using ArmoniK.Api.gRPC.V1.Submitter;
+using ArmoniK.DevelopmentKit.Client.Common.Status;
+using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.Common.Exceptions;
-using ArmoniK.DevelopmentKit.Common.Status;
 
 using Google.Protobuf;
 
@@ -45,7 +46,7 @@ using Microsoft.Extensions.Logging;
 
 using TaskStatus = ArmoniK.Api.gRPC.V1.TaskStatus;
 
-namespace ArmoniK.DevelopmentKit.Common.Submitter;
+namespace ArmoniK.DevelopmentKit.Client.Common.Submitter;
 
 /// <summary>
 ///   Base Object for all Client submitter

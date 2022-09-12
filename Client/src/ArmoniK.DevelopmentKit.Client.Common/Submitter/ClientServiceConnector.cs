@@ -1,4 +1,4 @@
-﻿#if NET5_0_OR_GREATER
+#if NET5_0_OR_GREATER
 using Grpc.Net.Client;
 using Grpc.Core;
 
@@ -6,6 +6,7 @@ using System.Runtime.InteropServices;
 using System.Security.Cryptography.X509Certificates;
 #else
 using Grpc.Core;
+
 #endif
 using System;
 using System.IO;
@@ -13,8 +14,7 @@ using System.Net.Http;
 
 using Microsoft.Extensions.Logging;
 
-
-namespace ArmoniK.DevelopmentKit.Common.Submitter;
+namespace ArmoniK.DevelopmentKit.Client.Common.Submitter;
 
 /// <summary>
 ///   ClientServiceConnector is the class to connection to the control plane with different

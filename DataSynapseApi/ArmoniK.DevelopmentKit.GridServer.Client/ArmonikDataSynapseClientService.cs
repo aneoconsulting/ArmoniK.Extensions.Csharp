@@ -24,7 +24,7 @@
 using ArmoniK.Api.gRPC.V1;
 using ArmoniK.Api.gRPC.V1.Submitter;
 using ArmoniK.DevelopmentKit.Common;
-using ArmoniK.DevelopmentKit.Common.Submitter;
+using ArmoniK.DevelopmentKit.Client.Common.Submitter;
 
 using Google.Protobuf.WellKnownTypes;
 
