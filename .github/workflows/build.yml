@@ -204,7 +204,7 @@ jobs:
         with:
           ref: ${{ github.ref }}
 
-      - uses: aneoconsulting/ArmoniK@LZK/partitioning
+      - uses: aneoconsulting/ArmoniK@main
         id: deploy-infra
         with:
           worker-image: dockerhubaneo/armonik_worker_dll
@@ -215,7 +215,6 @@ jobs:
         run: |
          cd tools/tests
          mkdir -p ${HOME}/data
-         export PARTITION=athos
          bash -x ./endToEndTests.sh
 
   release-packages:
