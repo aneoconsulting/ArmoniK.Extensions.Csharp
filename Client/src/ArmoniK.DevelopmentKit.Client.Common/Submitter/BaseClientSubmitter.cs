@@ -363,6 +363,7 @@ public class BaseClientSubmitter<T>
   public ResultStatusCollection GetResultStatus(ICollection<string> resultIds,
                                                 CancellationToken   cancellationToken = default)
   {
+    var remainingIds = resultIds.ToHashSet();
     var idStatus = Retry.WhileException(5,
                                         200,
                                         retry =>
@@ -378,46 +379,44 @@ public class BaseClientSubmitter<T>
                                                                                                         },
                                                                                                         SessionId = SessionId.Id,
                                                                                                       });
-                                          return resultStatusReply.IdStatuses.Select(x => Tuple.Create(x.ResultId,
-                                                                                                       x.Status));
+                                          return resultStatusReply.IdStatuses;
                                         },
                                         true,
                                         typeof(IOException),
-                                        typeof(RpcException))
-                        .ToHashSet();
+                                        typeof(RpcException));
 
     var idsResultError = new List<Tuple<string, ResultStatus>>();
     var idsReady       = new List<Tuple<string, ResultStatus>>();
     var idsNotReady    = new List<Tuple<string, ResultStatus>>();
 
-    foreach (var tuple in idStatus)
+    foreach (var idStatusPair in idStatus)
     {
-      if (tuple.Item2 is ResultStatus.Aborted or ResultStatus.Unspecified)
+      var tuple = Tuple.Create(idStatusPair.ResultId,
+                               idStatusPair.Status);
+      switch (idStatusPair.Status)
       {
-        idsResultError.Add(tuple);
-        idStatus.Remove(tuple);
-        break;
+        case ResultStatus.Notfound:
+          continue;
+        case ResultStatus.Completed:
+          idsReady.Add(tuple);
+          break;
+        case ResultStatus.Created:
+          idsNotReady.Add(tuple);
+          break;
+        case ResultStatus.Unspecified:
+        case ResultStatus.Aborted:
+        default:
+          idsResultError.Add(tuple);
+          break;
       }
 
-      if (tuple.Item2 is ResultStatus.Completed)
-      {
-        idsReady.Add(tuple);
-        idStatus.Remove(tuple);
-        break;
-      }
-
-      if (tuple.Item2 is ResultStatus.Created)
-      {
-        idsNotReady.Add(tuple);
-        idStatus.Remove(tuple);
-        break;
-      }
+      remainingIds.Remove(idStatusPair.ResultId);
     }
 
     var resultStatusList = new ResultStatusCollection
                            {
                              IdsResultError = idsResultError,
-                             IdsError       = idStatus.Select(tuple => tuple.Item1),
+                             IdsError       = remainingIds,
                              IdsReady       = idsReady,
                              IdsNotReady    = idsNotReady,
                            };
@@ -440,8 +439,6 @@ public class BaseClientSubmitter<T>
                           ResultId = resultId,
                           Session  = SessionId.Id,
                         };
-
-    byte[] res = null;
 
     Retry.WhileException(5,
                          200,
@@ -473,7 +470,7 @@ public class BaseClientSubmitter<T>
                          typeof(IOException),
                          typeof(RpcException));
 
-    res = TryGetResult(resultId,
+    var res = TryGetResult(resultId,
                        cancellationToken: cancellationToken);
 
     if (res != null)
