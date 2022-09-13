@@ -73,6 +73,11 @@ public class BaseClientSubmitter<T>
   /// </summary>
   public Session SessionId { get; protected set; }
 
+  /// <summary>
+  ///   Protects the access to gRPC service.
+  /// </summary>
+  private readonly SemaphoreSlim mutex_ = new(1);
+
 
 #pragma warning restore CS1591
 
@@ -106,15 +111,15 @@ public class BaseClientSubmitter<T>
   /// <param name="taskIds">The list of taskIds</param>
   /// <returns></returns>
   public IEnumerable<Tuple<string, TaskStatus>> GetTaskStatues(params string[] taskIds)
-    => ControlPlaneService.GetTaskStatus(new GetTaskStatusRequest
-                                         {
-                                           TaskIds =
-                                           {
-                                             taskIds,
-                                           },
-                                         })
-                          .IdStatuses.Select(x => Tuple.Create(x.TaskId,
-                                                               x.Status));
+    => mutex_.LockedExecute(() => ControlPlaneService.GetTaskStatus(new GetTaskStatusRequest
+                                                                    {
+                                                                      TaskIds =
+                                                                      {
+                                                                        taskIds,
+                                                                      },
+                                                                    })
+                                                     .IdStatuses.Select(x => Tuple.Create(x.TaskId,
+                                                                                          x.Status)));
 
   /// <summary>
   ///   Return the taskOutput when error occurred
@@ -122,11 +127,11 @@ public class BaseClientSubmitter<T>
   /// <param name="taskId"></param>
   /// <returns></returns>
   public Output GetTaskOutputInfo(string taskId)
-    => ControlPlaneService.TryGetTaskOutput(new TaskOutputRequest
-                                            {
-                                              TaskId  = taskId,
-                                              Session = SessionId.Id,
-                                            });
+    => mutex_.LockedExecute(() => ControlPlaneService.TryGetTaskOutput(new TaskOutputRequest
+                                                                       {
+                                                                         TaskId  = taskId,
+                                                                         Session = SessionId.Id,
+                                                                       }));
 
 
   /// <summary>
@@ -156,60 +161,73 @@ public class BaseClientSubmitter<T>
     using var _                = Logger.LogFunction();
     var       resultIdsCreated = new List<string>();
 
-    var serviceConfiguration = ControlPlaneService.GetServiceConfigurationAsync(new Empty())
-                                                  .ResponseAsync.Result;
-
-    for (var nbRetry = 0; nbRetry < maxRetries; nbRetry++)
+    mutex_.Wait();
+    try
     {
-      resultIdsCreated.Clear();
-      try
+      var serviceConfiguration = ControlPlaneService.GetServiceConfigurationAsync(new Empty())
+                                                    .ResponseAsync.Result;
+
+      for (var nbRetry = 0; nbRetry < maxRetries; nbRetry++)
       {
-        using var asyncClientStreamingCall = ControlPlaneService.CreateLargeTasks();
-
-        asyncClientStreamingCall.RequestStream.WriteAsync(new CreateLargeTaskRequest
-                                                          {
-                                                            InitRequest = new CreateLargeTaskRequest.Types.InitRequest
-                                                                          {
-                                                                            SessionId   = SessionId.Id,
-                                                                            TaskOptions = TaskOptions,
-                                                                          },
-                                                          })
-                                .Wait();
-
-
-        foreach (var (resultId, payload, dependencies) in payloadsWithDependencies)
+        resultIdsCreated.Clear();
+        try
         {
-          resultIdsCreated.Add(resultId);
+          using var asyncClientStreamingCall = ControlPlaneService.CreateLargeTasks();
+
           asyncClientStreamingCall.RequestStream.WriteAsync(new CreateLargeTaskRequest
                                                             {
-                                                              InitTask = new InitTaskRequest
-                                                                         {
-                                                                           Header = new TaskRequestHeader
-                                                                                    {
-                                                                                      ExpectedOutputKeys =
-                                                                                      {
-                                                                                        resultId,
-                                                                                      },
-                                                                                      DataDependencies =
-                                                                                      {
-                                                                                        dependencies ?? new List<string>(),
-                                                                                      },
-                                                                                    },
-                                                                         },
+                                                              InitRequest = new CreateLargeTaskRequest.Types.InitRequest
+                                                                            {
+                                                                              SessionId   = SessionId.Id,
+                                                                              TaskOptions = TaskOptions,
+                                                                            },
                                                             })
                                   .Wait();
 
-          for (var j = 0; j < payload.Length; j += serviceConfiguration.DataChunkMaxSize)
+
+          foreach (var (resultId, payload, dependencies) in payloadsWithDependencies)
           {
-            var chunkSize = Math.Min(serviceConfiguration.DataChunkMaxSize,
-                                     payload.Length - j);
+            resultIdsCreated.Add(resultId);
+            asyncClientStreamingCall.RequestStream.WriteAsync(new CreateLargeTaskRequest
+                                                              {
+                                                                InitTask = new InitTaskRequest
+                                                                           {
+                                                                             Header = new TaskRequestHeader
+                                                                                      {
+                                                                                        ExpectedOutputKeys =
+                                                                                        {
+                                                                                          resultId,
+                                                                                        },
+                                                                                        DataDependencies =
+                                                                                        {
+                                                                                          dependencies ?? new List<string>(),
+                                                                                        },
+                                                                                      },
+                                                                           },
+                                                              })
+                                    .Wait();
+
+            for (var j = 0; j < payload.Length; j += serviceConfiguration.DataChunkMaxSize)
+            {
+              var chunkSize = Math.Min(serviceConfiguration.DataChunkMaxSize,
+                                       payload.Length - j);
+
+              asyncClientStreamingCall.RequestStream.WriteAsync(new CreateLargeTaskRequest
+                                                                {
+                                                                  TaskPayload = new DataChunk
+                                                                                {
+                                                                                  Data = UnsafeByteOperations.UnsafeWrap(payload.AsMemory(j,
+                                                                                                                                          chunkSize)),
+                                                                                },
+                                                                })
+                                      .Wait();
+            }
 
             asyncClientStreamingCall.RequestStream.WriteAsync(new CreateLargeTaskRequest
                                                               {
                                                                 TaskPayload = new DataChunk
                                                                               {
-                                                                                Data = UnsafeByteOperations.UnsafeWrap(payload.AsMemory(j,
-                                                                                                                                        chunkSize)),
+                                                                                DataComplete = true,
                                                                               },
                                                               })
                                     .Wait();
@@ -217,77 +235,73 @@ public class BaseClientSubmitter<T>
 
           asyncClientStreamingCall.RequestStream.WriteAsync(new CreateLargeTaskRequest
                                                             {
-                                                              TaskPayload = new DataChunk
-                                                                            {
-                                                                              DataComplete = true,
-                                                                            },
+                                                              InitTask = new InitTaskRequest
+                                                                         {
+                                                                           LastTask = true,
+                                                                         },
                                                             })
                                   .Wait();
+
+          asyncClientStreamingCall.RequestStream.CompleteAsync()
+                                  .Wait();
+
+          var createTaskReply = asyncClientStreamingCall.ResponseAsync.Result;
+
+
+          switch (createTaskReply.ResponseCase)
+          {
+            case CreateTaskReply.ResponseOneofCase.None:
+              throw new Exception("Issue with Server !");
+            case CreateTaskReply.ResponseOneofCase.CreationStatusList:
+              Logger.LogInformation("Tasks created : {ids}",
+                                    string.Join(",",
+                                                createTaskReply.CreationStatusList.CreationStatuses));
+              break;
+            case CreateTaskReply.ResponseOneofCase.Error:
+              throw new Exception("Error while creating tasks !");
+            default:
+              throw new ArgumentOutOfRangeException();
+          }
+
+          break;
         }
-
-        asyncClientStreamingCall.RequestStream.WriteAsync(new CreateLargeTaskRequest
-                                                          {
-                                                            InitTask = new InitTaskRequest
-                                                                       {
-                                                                         LastTask = true,
-                                                                       },
-                                                          })
-                                .Wait();
-
-        asyncClientStreamingCall.RequestStream.CompleteAsync()
-                                .Wait();
-
-        var createTaskReply = asyncClientStreamingCall.ResponseAsync.Result;
-
-
-        switch (createTaskReply.ResponseCase)
+        catch (Exception e)
         {
-          case CreateTaskReply.ResponseOneofCase.None:
-            throw new Exception("Issue with Server !");
-          case CreateTaskReply.ResponseOneofCase.CreationStatusList:
-            Logger.LogInformation("Tasks created : {ids}",
-                                  string.Join(",",
-                                              createTaskReply.CreationStatusList.CreationStatuses));
-            break;
-          case CreateTaskReply.ResponseOneofCase.Error:
-            throw new Exception("Error while creating tasks !");
-          default:
-            throw new ArgumentOutOfRangeException();
-        }
-
-        break;
-      }
-      catch (Exception e)
-      {
-        if (nbRetry >= maxRetries)
-        {
-          throw;
-        }
-
-        switch (e)
-        {
-          case AggregateException
-               {
-                 InnerException: RpcException,
-               } ex:
-            Logger.LogWarning(ex.InnerException,
-                              "Failure to submit");
-            break;
-          case AggregateException
-               {
-                 InnerException: IOException,
-               } ex:
-            Logger.LogWarning(ex.InnerException,
-                              "IOException : Failure to submit, Retrying");
-            break;
-          case IOException ex:
-            Logger.LogWarning(ex,
-                              "IOException Failure to submit");
-            break;
-          default:
+          if (nbRetry >= maxRetries)
+          {
             throw;
+          }
+
+          switch (e)
+          {
+            case AggregateException
+                 {
+                   InnerException: RpcException,
+                 } ex:
+              Logger.LogWarning(ex.InnerException,
+                                "Failure to submit");
+              break;
+            case AggregateException
+                 {
+                   InnerException: IOException,
+                 } ex:
+              Logger.LogWarning(ex.InnerException,
+                                "IOException : Failure to submit, Retrying");
+              break;
+            case IOException ex:
+              Logger.LogWarning(ex,
+                                "IOException Failure to submit");
+              break;
+            default:
+              throw;
+          }
         }
       }
+
+    }
+    finally
+    {
+      mutex_.Release();
     }
 
     Logger.LogDebug("Results created : {ids}",
@@ -333,21 +347,21 @@ public class BaseClientSubmitter<T>
                                            retry,
                                            nameof(ControlPlaneService.WaitForCompletion));
 
-                           var __ = ControlPlaneService.WaitForCompletion(new WaitRequest
-                                                                          {
-                                                                            Filter = new TaskFilter
-                                                                                     {
-                                                                                       Task = new TaskFilter.Types.IdsRequest
-                                                                                              {
-                                                                                                Ids =
-                                                                                                {
-                                                                                                  taskIds,
-                                                                                                },
-                                                                                              },
-                                                                                     },
-                                                                            StopOnFirstTaskCancellation = true,
-                                                                            StopOnFirstTaskError        = true,
-                                                                          });
+                           var __ = mutex_.LockedExecute(() => ControlPlaneService.WaitForCompletion(new WaitRequest
+                                                                                                     {
+                                                                                                       Filter = new TaskFilter
+                                                                                                                {
+                                                                                                                  Task = new TaskFilter.Types.IdsRequest
+                                                                                                                         {
+                                                                                                                           Ids =
+                                                                                                                           {
+                                                                                                                             taskIds,
+                                                                                                                           },
+                                                                                                                         },
+                                                                                                                },
+                                                                                                       StopOnFirstTaskCancellation = true,
+                                                                                                       StopOnFirstTaskError        = true,
+                                                                                                     }));
                          },
                          true,
                          typeof(IOException),
@@ -371,14 +385,14 @@ public class BaseClientSubmitter<T>
                                           Logger.LogDebug("Try {try} for {funcName}",
                                                           retry,
                                                           nameof(ControlPlaneService.GetResultStatus));
-                                          var resultStatusReply = ControlPlaneService.GetResultStatus(new GetResultStatusRequest
-                                                                                                      {
-                                                                                                        ResultIds =
-                                                                                                        {
-                                                                                                          remainingIds,
-                                                                                                        },
-                                                                                                        SessionId = SessionId.Id,
-                                                                                                      });
+                                          var resultStatusReply = mutex_.LockedExecute(() => ControlPlaneService.GetResultStatus(new GetResultStatusRequest
+                                                                                                                                 {
+                                                                                                                                   ResultIds =
+                                                                                                                                   {
+                                                                                                                                     remainingIds,
+                                                                                                                                   },
+                                                                                                                                   SessionId = SessionId.Id,
+                                                                                                                                 }));
                                           return resultStatusReply.IdStatuses;
                                         },
                                         true,
@@ -447,8 +461,8 @@ public class BaseClientSubmitter<T>
                            Logger.LogDebug("Try {try} for {funcName}",
                                            retry,
                                            nameof(ControlPlaneService.WaitForAvailability));
-                           var availabilityReply = ControlPlaneService.WaitForAvailability(resultRequest,
-                                                                                           cancellationToken: cancellationToken);
+                           var availabilityReply = mutex_.LockedExecute(() => ControlPlaneService.WaitForAvailability(resultRequest,
+                                                                                                                      cancellationToken: cancellationToken));
 
                            switch (availabilityReply.TypeCase)
                            {
@@ -514,38 +528,50 @@ public class BaseClientSubmitter<T>
   public async Task<byte[]> TryGetResultAsync(ResultRequest     resultRequest,
                                               CancellationToken cancellationToken = default)
   {
-    var streamingCall = ControlPlaneService.TryGetResultStream(resultRequest,
-                                                               cancellationToken: cancellationToken);
-    var chunks = new List<ReadOnlyMemory<byte>>();
-    var len    = 0;
+    await mutex_.WaitAsync(cancellationToken);
 
-    while (await streamingCall.ResponseStream.MoveNext(cancellationToken))
+    List<ReadOnlyMemory<byte>> chunks;
+    int                        len;
+
+    try
     {
-      var reply = streamingCall.ResponseStream.Current;
+      var streamingCall = ControlPlaneService.TryGetResultStream(resultRequest,
+                                                                 cancellationToken: cancellationToken);
+      chunks = new List<ReadOnlyMemory<byte>>();
+      len    = 0;
 
-      switch (reply.TypeCase)
+      while (await streamingCall.ResponseStream.MoveNext(cancellationToken))
       {
-        case ResultReply.TypeOneofCase.Result:
-          if (!reply.Result.DataComplete)
-          {
-            chunks.Add(reply.Result.Data.Memory);
-            len += reply.Result.Data.Memory.Length;
-          }
+        var reply = streamingCall.ResponseStream.Current;
 
-          break;
-        case ResultReply.TypeOneofCase.None:
-          return null;
+        switch (reply.TypeCase)
+        {
+          case ResultReply.TypeOneofCase.Result:
+            if (!reply.Result.DataComplete)
+            {
+              chunks.Add(reply.Result.Data.Memory);
+              len += reply.Result.Data.Memory.Length;
+            }
 
-        case ResultReply.TypeOneofCase.Error:
-          throw new Exception($"Error in task {reply.Error.TaskId} {string.Join("Message is : ", reply.Error.Errors.Select(x => x.Detail))}");
+            break;
+          case ResultReply.TypeOneofCase.None:
+            return null;
 
-        case ResultReply.TypeOneofCase.NotCompletedTask:
-          return null;
+          case ResultReply.TypeOneofCase.Error:
+            throw new Exception($"Error in task {reply.Error.TaskId} {string.Join("Message is : ", reply.Error.Errors.Select(x => x.Detail))}");
 
-        default:
-          throw new ArgumentOutOfRangeException("Got a reply with an unexpected message type.",
-                                                (Exception)null);
+          case ResultReply.TypeOneofCase.NotCompletedTask:
+            return null;
+
+          default:
+            throw new ArgumentOutOfRangeException("Got a reply with an unexpected message type.",
+                                                  (Exception)null);
+        }
       }
+    }
+    finally
+    {
+      mutex_.Release();
     }
 
     var res = new byte[len];
