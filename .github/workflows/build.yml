@@ -95,7 +95,7 @@ jobs:
 
     - name: Reformat
       run: |
-        jb cleanupcode ArmoniK.Extensions.Csharp.sln
+        jb cleanupcode --exclude="**.props" ArmoniK.Extensions.Csharp.sln
 
     - name: Check Diff
       run: |
