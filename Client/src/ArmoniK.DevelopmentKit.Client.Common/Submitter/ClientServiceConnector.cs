@@ -6,7 +6,6 @@ using System.Runtime.InteropServices;
 using System.Security.Cryptography.X509Certificates;
 #else
 using Grpc.Core;
-
 #endif
 using System;
 using System.IO;

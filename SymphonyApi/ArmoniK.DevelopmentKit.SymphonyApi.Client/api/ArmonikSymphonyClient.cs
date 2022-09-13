@@ -30,7 +30,6 @@ using ArmoniK.DevelopmentKit.SymphonyApi.Client.api;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-
 namespace ArmoniK.DevelopmentKit.SymphonyApi.Client;
 
 /// <summary>

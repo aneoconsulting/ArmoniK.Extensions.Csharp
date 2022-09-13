@@ -25,37 +25,36 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-using ArmoniK.DevelopmentKit.GridServer.Client;
 using ArmoniK.DevelopmentKit.Worker.Grid;
 
-namespace ArmoniK.EndToEndTests.Tests.HeavyMatrixCompute
+namespace ArmoniK.EndToEndTests.Tests.HeavyMatrixCompute;
+
+public static class SelectExtensions
 {
-  public static class SelectExtensions
+  public static IEnumerable<double> ConvertToArray(this IEnumerable<byte> arr)
   {
-    public static IEnumerable<double> ConvertToArray(this IEnumerable<byte> arr)
+    var bytes = arr as byte[] ?? arr.ToArray();
+
+    var values = new double[bytes.Count() / sizeof(double)];
+
+    var i = 0;
+    for (; i < values.Length; i++)
     {
-      var bytes = arr as byte[] ?? arr.ToArray();
-
-      var values = new double[bytes.Count() / sizeof(double)];
-
-      var i = 0;
-      for (; i < values.Length; i++)
-        values[i] = BitConverter.ToDouble(bytes.ToArray(),
-                                          i * 8);
-      return values;
+      values[i] = BitConverter.ToDouble(bytes.ToArray(),
+                                        i * 8);
     }
+
+    return values;
   }
+}
 
-  public class HeavyMatrixCompute : BaseService<HeavyMatrixCompute>
-  {
-    public static double[] ComputeBasicArrayCube(double[] inputs)
-    {
-      return inputs.Select(x => x * x * x).ToArray();
-    }
+public class HeavyMatrixCompute : BaseService<HeavyMatrixCompute>
+{
+  public static double[] ComputeBasicArrayCube(double[] inputs)
+    => inputs.Select(x => x * x * x)
+             .ToArray();
 
-    public static double ComputeReduceCube(double[] inputs)
-    {
-      return inputs.Select(x => x * x * x).Sum();
-    }
-  }
+  public static double ComputeReduceCube(double[] inputs)
+    => inputs.Select(x => x * x * x)
+             .Sum();
 }
