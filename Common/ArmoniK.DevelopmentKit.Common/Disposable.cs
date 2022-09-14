@@ -1,6 +1,6 @@
 // This file is part of the ArmoniK project
 //
-// Copyright (C) ANEO, 2021-2022. All rights reserved.
+// Copyright (C) ANEO, 2021-$CURRENT_YEAR$. All rights reserved.
 //   W. Kirschenmann   <wkirschenmann@aneo.fr>
 //   J. Gurhem         <jgurhem@aneo.fr>
 //   D. Dubuc          <ddubuc@aneo.fr>
@@ -23,42 +23,23 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace ArmoniK.DevelopmentKit.Common;
 
-/// <summary>
-///   Threading extensions
-/// </summary>
-public static class ThreadingExt
+public static class Disposable
 {
-  /// <summary>
-  ///   Lock the semaphore and return a lock guard that will unlock the semaphore when disposed
-  /// </summary>
-  public static IDisposable LockGuard(this SemaphoreSlim sem)
-  {
-    sem.Wait();
-    return Disposable.Create(() => sem.Release());
-  }
+  public static IDisposable Create(Action action)
+    => new DisposableImpl(action);
 
-  /// <summary>
-  ///   Lock the semaphore and return a lock guard that will unlock the semaphore when disposed
-  /// </summary>
-  public static async Task<IDisposable> LockGuardAsync(this SemaphoreSlim sem)
+  private class DisposableImpl : IDisposable
   {
-    await sem.WaitAsync();
-    return Disposable.Create(() => sem.Release());
-  }
+    private readonly Action action_;
 
-  /// <summary>
-  ///   Acquire the semaphore before calling the function,
-  ///   and release it after.
-  /// </summary>
-  public static T LockedExecute<T>(this SemaphoreSlim sem,
-                                   Func<T>            func)
-  {
-    using var guard = sem.LockGuard();
-    return func();
+    public DisposableImpl(Action action)
+      => action_ = action;
+
+    /// <inheritdoc />
+    public void Dispose()
+      => action_();
   }
 }

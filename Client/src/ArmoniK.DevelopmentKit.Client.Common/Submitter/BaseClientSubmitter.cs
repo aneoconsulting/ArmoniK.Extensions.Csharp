@@ -161,73 +161,62 @@ public class BaseClientSubmitter<T>
     using var _                = Logger.LogFunction();
     var       resultIdsCreated = new List<string>();
 
-    mutex_.Wait();
-    try
+    using var lockGuard = mutex_.LockGuard();
+
+    var serviceConfiguration = ControlPlaneService.GetServiceConfigurationAsync(new Empty())
+                                                  .ResponseAsync.Result;
+
+    for (var nbRetry = 0; nbRetry < maxRetries; nbRetry++)
     {
-      var serviceConfiguration = ControlPlaneService.GetServiceConfigurationAsync(new Empty())
-                                                    .ResponseAsync.Result;
-
-      for (var nbRetry = 0; nbRetry < maxRetries; nbRetry++)
+      resultIdsCreated.Clear();
+      try
       {
-        resultIdsCreated.Clear();
-        try
-        {
-          using var asyncClientStreamingCall = ControlPlaneService.CreateLargeTasks();
+        using var asyncClientStreamingCall = ControlPlaneService.CreateLargeTasks();
 
+        asyncClientStreamingCall.RequestStream.WriteAsync(new CreateLargeTaskRequest
+                                                          {
+                                                            InitRequest = new CreateLargeTaskRequest.Types.InitRequest
+                                                                          {
+                                                                            SessionId   = SessionId.Id,
+                                                                            TaskOptions = TaskOptions,
+                                                                          },
+                                                          })
+                                .Wait();
+
+
+        foreach (var (resultId, payload, dependencies) in payloadsWithDependencies)
+        {
+          resultIdsCreated.Add(resultId);
           asyncClientStreamingCall.RequestStream.WriteAsync(new CreateLargeTaskRequest
                                                             {
-                                                              InitRequest = new CreateLargeTaskRequest.Types.InitRequest
-                                                                            {
-                                                                              SessionId   = SessionId.Id,
-                                                                              TaskOptions = TaskOptions,
-                                                                            },
+                                                              InitTask = new InitTaskRequest
+                                                                         {
+                                                                           Header = new TaskRequestHeader
+                                                                                    {
+                                                                                      ExpectedOutputKeys =
+                                                                                      {
+                                                                                        resultId,
+                                                                                      },
+                                                                                      DataDependencies =
+                                                                                      {
+                                                                                        dependencies ?? new List<string>(),
+                                                                                      },
+                                                                                    },
+                                                                         },
                                                             })
                                   .Wait();
 
-
-          foreach (var (resultId, payload, dependencies) in payloadsWithDependencies)
+          for (var j = 0; j < payload.Length; j += serviceConfiguration.DataChunkMaxSize)
           {
-            resultIdsCreated.Add(resultId);
-            asyncClientStreamingCall.RequestStream.WriteAsync(new CreateLargeTaskRequest
-                                                              {
-                                                                InitTask = new InitTaskRequest
-                                                                           {
-                                                                             Header = new TaskRequestHeader
-                                                                                      {
-                                                                                        ExpectedOutputKeys =
-                                                                                        {
-                                                                                          resultId,
-                                                                                        },
-                                                                                        DataDependencies =
-                                                                                        {
-                                                                                          dependencies ?? new List<string>(),
-                                                                                        },
-                                                                                      },
-                                                                           },
-                                                              })
-                                    .Wait();
-
-            for (var j = 0; j < payload.Length; j += serviceConfiguration.DataChunkMaxSize)
-            {
-              var chunkSize = Math.Min(serviceConfiguration.DataChunkMaxSize,
-                                       payload.Length - j);
-
-              asyncClientStreamingCall.RequestStream.WriteAsync(new CreateLargeTaskRequest
-                                                                {
-                                                                  TaskPayload = new DataChunk
-                                                                                {
-                                                                                  Data = UnsafeByteOperations.UnsafeWrap(payload.AsMemory(j,
-                                                                                                                                          chunkSize)),
-                                                                                },
-                                                                })
-                                      .Wait();
-            }
+            var chunkSize = Math.Min(serviceConfiguration.DataChunkMaxSize,
+                                     payload.Length - j);
 
             asyncClientStreamingCall.RequestStream.WriteAsync(new CreateLargeTaskRequest
                                                               {
                                                                 TaskPayload = new DataChunk
                                                                               {
-                                                                                DataComplete = true,
+                                                                                Data = UnsafeByteOperations.UnsafeWrap(payload.AsMemory(j,
+                                                                                                                                        chunkSize)),
                                                                               },
                                                               })
                                     .Wait();
@@ -235,74 +224,79 @@ public class BaseClientSubmitter<T>
 
           asyncClientStreamingCall.RequestStream.WriteAsync(new CreateLargeTaskRequest
                                                             {
-                                                              InitTask = new InitTaskRequest
-                                                                         {
-                                                                           LastTask = true,
-                                                                         },
+                                                              TaskPayload = new DataChunk
+                                                                            {
+                                                                              DataComplete = true,
+                                                                            },
                                                             })
                                   .Wait();
-
-          asyncClientStreamingCall.RequestStream.CompleteAsync()
-                                  .Wait();
-
-          var createTaskReply = asyncClientStreamingCall.ResponseAsync.Result;
-
-
-          switch (createTaskReply.ResponseCase)
-          {
-            case CreateTaskReply.ResponseOneofCase.None:
-              throw new Exception("Issue with Server !");
-            case CreateTaskReply.ResponseOneofCase.CreationStatusList:
-              Logger.LogInformation("Tasks created : {ids}",
-                                    string.Join(",",
-                                                createTaskReply.CreationStatusList.CreationStatuses));
-              break;
-            case CreateTaskReply.ResponseOneofCase.Error:
-              throw new Exception("Error while creating tasks !");
-            default:
-              throw new ArgumentOutOfRangeException();
-          }
-
-          break;
         }
-        catch (Exception e)
-        {
-          if (nbRetry >= maxRetries)
-          {
-            throw;
-          }
 
-          switch (e)
-          {
-            case AggregateException
-                 {
-                   InnerException: RpcException,
-                 } ex:
-              Logger.LogWarning(ex.InnerException,
-                                "Failure to submit");
-              break;
-            case AggregateException
-                 {
-                   InnerException: IOException,
-                 } ex:
-              Logger.LogWarning(ex.InnerException,
-                                "IOException : Failure to submit, Retrying");
-              break;
-            case IOException ex:
-              Logger.LogWarning(ex,
-                                "IOException Failure to submit");
-              break;
-            default:
-              throw;
-          }
+        asyncClientStreamingCall.RequestStream.WriteAsync(new CreateLargeTaskRequest
+                                                          {
+                                                            InitTask = new InitTaskRequest
+                                                                       {
+                                                                         LastTask = true,
+                                                                       },
+                                                          })
+                                .Wait();
+
+        asyncClientStreamingCall.RequestStream.CompleteAsync()
+                                .Wait();
+
+        var createTaskReply = asyncClientStreamingCall.ResponseAsync.Result;
+
+
+        switch (createTaskReply.ResponseCase)
+        {
+          case CreateTaskReply.ResponseOneofCase.None:
+            throw new Exception("Issue with Server !");
+          case CreateTaskReply.ResponseOneofCase.CreationStatusList:
+            Logger.LogInformation("Tasks created : {ids}",
+                                  string.Join(",",
+                                              createTaskReply.CreationStatusList.CreationStatuses));
+            break;
+          case CreateTaskReply.ResponseOneofCase.Error:
+            throw new Exception("Error while creating tasks !");
+          default:
+            throw new ArgumentOutOfRangeException();
+        }
+
+        break;
+      }
+      catch (Exception e)
+      {
+        if (nbRetry >= maxRetries)
+        {
+          throw;
+        }
+
+        switch (e)
+        {
+          case AggregateException
+               {
+                 InnerException: RpcException,
+               } ex:
+            Logger.LogWarning(ex.InnerException,
+                              "Failure to submit");
+            break;
+          case AggregateException
+               {
+                 InnerException: IOException,
+               } ex:
+            Logger.LogWarning(ex.InnerException,
+                              "IOException : Failure to submit, Retrying");
+            break;
+          case IOException ex:
+            Logger.LogWarning(ex,
+                              "IOException Failure to submit");
+            break;
+          default:
+            throw;
         }
       }
+    }
 
-    }
-    finally
-    {
-      mutex_.Release();
-    }
 
     Logger.LogDebug("Results created : {ids}",
                     resultIdsCreated);
@@ -528,12 +522,11 @@ public class BaseClientSubmitter<T>
   public async Task<byte[]> TryGetResultAsync(ResultRequest     resultRequest,
                                               CancellationToken cancellationToken = default)
   {
-    await mutex_.WaitAsync(cancellationToken);
-
     List<ReadOnlyMemory<byte>> chunks;
     int                        len;
 
-    try
+    using (await mutex_.LockGuardAsync()
+                       .ConfigureAwait(false))
     {
       var streamingCall = ControlPlaneService.TryGetResultStream(resultRequest,
                                                                  cancellationToken: cancellationToken);
@@ -568,10 +561,6 @@ public class BaseClientSubmitter<T>
                                                   (Exception)null);
         }
       }
-    }
-    finally
-    {
-      mutex_.Release();
     }
 
     var res = new byte[len];
