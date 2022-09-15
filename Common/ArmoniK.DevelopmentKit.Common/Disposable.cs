@@ -26,8 +26,17 @@ using System;
 
 namespace ArmoniK.DevelopmentKit.Common;
 
+/// <summary>
+///   Create a disposable object from an action.
+/// </summary>
 public static class Disposable
 {
+  /// <summary>
+  ///   Create a disposable object from an action.
+  ///   The returned object will call the action when disposed.
+  /// </summary>
+  /// <param name="action">Dispose action</param>
+  /// <returns>Disposable object</returns>
   public static IDisposable Create(Action action)
     => new DisposableImpl(action);
 
