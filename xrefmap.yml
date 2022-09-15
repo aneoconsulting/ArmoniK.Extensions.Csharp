@@ -1465,6 +1465,25 @@ references:
   commentId: F:ArmoniK.DevelopmentKit.Common.ArmonikRequestType.Upload
   fullName: ArmoniK.DevelopmentKit.Common.ArmonikRequestType.Upload
   nameWithType: ArmonikRequestType.Upload
+- uid: ArmoniK.DevelopmentKit.Common.Disposable
+  name: Disposable
+  href: api/ArmoniK.DevelopmentKit.Common.Disposable.html
+  commentId: T:ArmoniK.DevelopmentKit.Common.Disposable
+  fullName: ArmoniK.DevelopmentKit.Common.Disposable
+  nameWithType: Disposable
+- uid: ArmoniK.DevelopmentKit.Common.Disposable.Create(System.Action)
+  name: Create(Action)
+  href: api/ArmoniK.DevelopmentKit.Common.Disposable.html#ArmoniK_DevelopmentKit_Common_Disposable_Create_System_Action_
+  commentId: M:ArmoniK.DevelopmentKit.Common.Disposable.Create(System.Action)
+  fullName: ArmoniK.DevelopmentKit.Common.Disposable.Create(System.Action)
+  nameWithType: Disposable.Create(Action)
+- uid: ArmoniK.DevelopmentKit.Common.Disposable.Create*
+  name: Create
+  href: api/ArmoniK.DevelopmentKit.Common.Disposable.html#ArmoniK_DevelopmentKit_Common_Disposable_Create_
+  commentId: Overload:ArmoniK.DevelopmentKit.Common.Disposable.Create
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Common.Disposable.Create
+  nameWithType: Disposable.Create
 - uid: ArmoniK.DevelopmentKit.Common.EngineType
   name: EngineType
   href: api/ArmoniK.DevelopmentKit.Common.EngineType.html
@@ -2420,6 +2439,54 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.Common.Submitter.ClientServiceConnector.ControlPlaneConnection
   nameWithType: ClientServiceConnector.ControlPlaneConnection
+- uid: ArmoniK.DevelopmentKit.Common.ThreadingExt
+  name: ThreadingExt
+  href: api/ArmoniK.DevelopmentKit.Common.ThreadingExt.html
+  commentId: T:ArmoniK.DevelopmentKit.Common.ThreadingExt
+  fullName: ArmoniK.DevelopmentKit.Common.ThreadingExt
+  nameWithType: ThreadingExt
+- uid: ArmoniK.DevelopmentKit.Common.ThreadingExt.LockedExecute*
+  name: LockedExecute
+  href: api/ArmoniK.DevelopmentKit.Common.ThreadingExt.html#ArmoniK_DevelopmentKit_Common_ThreadingExt_LockedExecute_
+  commentId: Overload:ArmoniK.DevelopmentKit.Common.ThreadingExt.LockedExecute
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Common.ThreadingExt.LockedExecute
+  nameWithType: ThreadingExt.LockedExecute
+- uid: ArmoniK.DevelopmentKit.Common.ThreadingExt.LockedExecute``1(System.Threading.SemaphoreSlim,System.Func{``0})
+  name: LockedExecute<T>(SemaphoreSlim, Func<T>)
+  href: api/ArmoniK.DevelopmentKit.Common.ThreadingExt.html#ArmoniK_DevelopmentKit_Common_ThreadingExt_LockedExecute__1_System_Threading_SemaphoreSlim_System_Func___0__
+  commentId: M:ArmoniK.DevelopmentKit.Common.ThreadingExt.LockedExecute``1(System.Threading.SemaphoreSlim,System.Func{``0})
+  name.vb: LockedExecute(Of T)(SemaphoreSlim, Func(Of T))
+  fullName: ArmoniK.DevelopmentKit.Common.ThreadingExt.LockedExecute<T>(System.Threading.SemaphoreSlim, System.Func<T>)
+  fullName.vb: ArmoniK.DevelopmentKit.Common.ThreadingExt.LockedExecute(Of T)(System.Threading.SemaphoreSlim, System.Func(Of T))
+  nameWithType: ThreadingExt.LockedExecute<T>(SemaphoreSlim, Func<T>)
+  nameWithType.vb: ThreadingExt.LockedExecute(Of T)(SemaphoreSlim, Func(Of T))
+- uid: ArmoniK.DevelopmentKit.Common.ThreadingExt.LockGuard(System.Threading.SemaphoreSlim)
+  name: LockGuard(SemaphoreSlim)
+  href: api/ArmoniK.DevelopmentKit.Common.ThreadingExt.html#ArmoniK_DevelopmentKit_Common_ThreadingExt_LockGuard_System_Threading_SemaphoreSlim_
+  commentId: M:ArmoniK.DevelopmentKit.Common.ThreadingExt.LockGuard(System.Threading.SemaphoreSlim)
+  fullName: ArmoniK.DevelopmentKit.Common.ThreadingExt.LockGuard(System.Threading.SemaphoreSlim)
+  nameWithType: ThreadingExt.LockGuard(SemaphoreSlim)
+- uid: ArmoniK.DevelopmentKit.Common.ThreadingExt.LockGuard*
+  name: LockGuard
+  href: api/ArmoniK.DevelopmentKit.Common.ThreadingExt.html#ArmoniK_DevelopmentKit_Common_ThreadingExt_LockGuard_
+  commentId: Overload:ArmoniK.DevelopmentKit.Common.ThreadingExt.LockGuard
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Common.ThreadingExt.LockGuard
+  nameWithType: ThreadingExt.LockGuard
+- uid: ArmoniK.DevelopmentKit.Common.ThreadingExt.LockGuardAsync(System.Threading.SemaphoreSlim)
+  name: LockGuardAsync(SemaphoreSlim)
+  href: api/ArmoniK.DevelopmentKit.Common.ThreadingExt.html#ArmoniK_DevelopmentKit_Common_ThreadingExt_LockGuardAsync_System_Threading_SemaphoreSlim_
+  commentId: M:ArmoniK.DevelopmentKit.Common.ThreadingExt.LockGuardAsync(System.Threading.SemaphoreSlim)
+  fullName: ArmoniK.DevelopmentKit.Common.ThreadingExt.LockGuardAsync(System.Threading.SemaphoreSlim)
+  nameWithType: ThreadingExt.LockGuardAsync(SemaphoreSlim)
+- uid: ArmoniK.DevelopmentKit.Common.ThreadingExt.LockGuardAsync*
+  name: LockGuardAsync
+  href: api/ArmoniK.DevelopmentKit.Common.ThreadingExt.html#ArmoniK_DevelopmentKit_Common_ThreadingExt_LockGuardAsync_
+  commentId: Overload:ArmoniK.DevelopmentKit.Common.ThreadingExt.LockGuardAsync
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Common.ThreadingExt.LockGuardAsync
+  nameWithType: ThreadingExt.LockGuardAsync
 - uid: ArmoniK.DevelopmentKit.Common.Timer
   name: ArmoniK.DevelopmentKit.Common.Timer
   href: api/ArmoniK.DevelopmentKit.Common.Timer.html
