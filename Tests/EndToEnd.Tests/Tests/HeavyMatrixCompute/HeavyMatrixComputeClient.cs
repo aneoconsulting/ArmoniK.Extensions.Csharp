@@ -151,28 +151,28 @@ public class HeavyMatrixComputeClient : ClientBaseTest<HeavyMatrixComputeClient>
   /// <param name="sessionService"></param>
   private void ComputeMatrix(Service sessionService)
   {
-    var index_task = 0;
-    var prev_index = 0;
+    var index_task     = 0;
+    var prev_index     = 0;
     var nb_doubles_elt = 76800; // 600 Ko of payload
-    var nb_tasks = 20000;
+    var nb_tasks       = 20000;
 
-    var cts      = new CancellationTokenSource();
+    var cts = new CancellationTokenSource();
     var numbers = Enumerable.Range(0,
                                    nb_doubles_elt)
                             .Select(x => (double)x)
                             .ToArray();
     Log.LogInformation($"Running from {nb_tasks} tasks with payload by task {nb_doubles_elt * 8 / 1024} Ko...");
-    
-    PeriodicInfo(() =>
-                   {
-                     Log.LogInformation($"Got {nbTask_} results. Check Submission perf : Payload {2 * (index_task - prev_index) * nb_doubles_elt * 8.0 / 1024.0 / 20.0} Ko/s, {2 * (index_task - prev_index) / 20} tasks/s");
-                     prev_index = index_task;
-                   },
-                   20,
-                   cts.Token);
 
-    
-    var sw    = Stopwatch.StartNew();
+    PeriodicInfo(() =>
+                 {
+                   Log.LogInformation($"Got {nbTask_} results. Check Submission perf : Payload {2 * (index_task - prev_index) * nb_doubles_elt * 8.0 / 1024.0 / 20.0} Ko/s, {2 * (index_task - prev_index) / 20} tasks/s");
+                   prev_index = index_task;
+                 },
+                 20,
+                 cts.Token);
+
+
+    var sw = Stopwatch.StartNew();
 
     for (index_task = 0; index_task < nb_tasks / 2; index_task++)
     {

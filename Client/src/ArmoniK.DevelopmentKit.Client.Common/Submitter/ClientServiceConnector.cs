@@ -1,6 +1,7 @@
 #if NET5_0_OR_GREATER
 using Grpc.Net.Client;
 using Grpc.Core;
+using Grpc.Net.Client.Configuration;
 
 using System.Runtime.InteropServices;
 using System.Security.Cryptography.X509Certificates;
@@ -11,9 +12,8 @@ using System;
 using System.IO;
 using System.Net.Http;
 
-using Grpc.Net.Client.Configuration;
-
 using Microsoft.Extensions.Logging;
+
 
 namespace ArmoniK.DevelopmentKit.Client.Common.Submitter;
 
