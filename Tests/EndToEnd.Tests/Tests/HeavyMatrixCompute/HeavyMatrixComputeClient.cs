@@ -1,5 +1,5 @@
 // This file is part of the ArmoniK project
-// 
+//
 // Copyright (C) ANEO, 2021-2022.
 //   W. Kirschenmann   <wkirschenmann@aneo.fr>
 //   J. Gurhem         <jgurhem@aneo.fr>
@@ -8,13 +8,13 @@
 //   F. Lemaitre       <flemaitre@aneo.fr>
 //   S. Djebbar        <sdjebbar@aneo.fr>
 //   J. Fonseca        <jfonseca@aneo.fr>
-// 
+//
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
-// 
+//
 //     http://www.apache.org/licenses/LICENSE-2.0
-// 
+//
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -22,7 +22,10 @@
 // limitations under the License.
 
 using System;
+using System.Diagnostics;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 using ArmoniK.Api.gRPC.V1;
 using ArmoniK.DevelopmentKit.Client.Exceptions;
@@ -37,7 +40,6 @@ using Microsoft.Extensions.Logging;
 
 namespace ArmoniK.EndToEndTests.Tests.HeavyMatrixCompute;
 
-[Disabled]
 public class HeavyMatrixComputeClient : ClientBaseTest<HeavyMatrixComputeClient>, IServiceInvocationHandler
 {
   private int nbTask_;
@@ -77,11 +79,12 @@ public class HeavyMatrixComputeClient : ClientBaseTest<HeavyMatrixComputeClient>
         Log.LogInformation("Task finished but nothing returned in Result");
         break;
       case double value:
-        Log.LogInformation($"Task {nbTask_++} finished with result {value}");
+        nbTask_++;
+        //Log.LogInformation($"Task {nbTask_++} finished with result {value}");
         break;
       case double[] doubles:
-        Log.LogInformation("Result is " + string.Join(", ",
-                                                      doubles));
+        //Log.LogInformation("Result is " + string.Join(", ",
+        //                                              doubles));
         break;
       case byte[] values:
         Log.LogInformation("Result is " + string.Join(", ",
@@ -121,20 +124,59 @@ public class HeavyMatrixComputeClient : ClientBaseTest<HeavyMatrixComputeClient>
   private static object[] ParamsHelper(params object[] elements)
     => elements;
 
+  private static void PeriodicInfo(Action            action,
+                                   int               seconds,
+                                   CancellationToken token = default)
+  {
+    if (action == null)
+    {
+      return;
+    }
+
+    Task.Run(async () =>
+             {
+               while (!token.IsCancellationRequested)
+               {
+                 action();
+                 await Task.Delay(TimeSpan.FromSeconds(seconds),
+                                  token);
+               }
+             },
+             token);
+  }
+
   /// <summary>
   ///   The first test developed to validate dependencies subTasking
   /// </summary>
   /// <param name="sessionService"></param>
   private void ComputeMatrix(Service sessionService)
   {
+    var index_task = 0;
+    var prev_index = 0;
+    var nb_doubles_elt = 76800; // 600 Ko of payload
+    var nb_tasks = 20000;
+
+    var cts      = new CancellationTokenSource();
     var numbers = Enumerable.Range(0,
-                                   50000)
+                                   nb_doubles_elt)
                             .Select(x => (double)x)
                             .ToArray();
-    Log.LogInformation("Running from 2000 task : ");
+    Log.LogInformation($"Running from {nb_tasks} tasks with payload by task {nb_doubles_elt * 8 / 1024} Ko...");
+    
+    PeriodicInfo(() =>
+                   {
+                     Log.LogInformation($"Got {nbTask_} results. Check Submission perf : Payload {2 * (index_task - prev_index) * nb_doubles_elt * 8.0 / 1024.0 / 20.0} Ko/s, {2 * (index_task - prev_index) / 20} tasks/s");
+                     prev_index = index_task;
+                   },
+                   20,
+                   cts.Token);
 
-    for (var i = 0; i < 100; i++)
+    
+    var sw    = Stopwatch.StartNew();
+
+    for (index_task = 0; index_task < nb_tasks / 2; index_task++)
     {
+      Log.LogInformation($"{index_task}/{nb_tasks} Task Time avg to submit {index_task * 2.0 / (sw.ElapsedMilliseconds / 1000.0):0.00} Task/s");
       sessionService.Submit("ComputeBasicArrayCube",
                             ParamsHelper(numbers),
                             this);
@@ -143,5 +185,10 @@ public class HeavyMatrixComputeClient : ClientBaseTest<HeavyMatrixComputeClient>
                             ParamsHelper(numbers),
                             this);
     }
+
+    Log.LogInformation($"{nb_tasks} tasks executed in : {sw.ElapsedMilliseconds / 1000} secs");
+    cts.Cancel();
+
+    Thread.Sleep(20000); // let some time to get last results. Need to  implement a wait in ResultHandler ??
   }
 }

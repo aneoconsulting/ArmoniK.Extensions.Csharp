@@ -2,25 +2,16 @@
 
 	<PropertyGroup>
     <TargetFrameworks>net6.0</TargetFrameworks>
-		<PackageId>$(MSBuildProjectName)</PackageId>
+		
 		<Version>1.0.0-700</Version>
-		<Authors>ANEO</Authors>
-		<Company>ANEO</Company>
+	
 		<AppendRuntimeIdentifierToOutputPath>true</AppendRuntimeIdentifierToOutputPath>
 		<AppendTargetFrameworkToOutputPath>true</AppendTargetFrameworkToOutputPath>
 		<RuntimeIdentifier>win-x64</RuntimeIdentifier>
 		<OutputPath>bin/$(Configuration)/</OutputPath>
 		<PublishDir>../publish/$(MSBuildProjectName)/$(Version)/</PublishDir>
 		<PublishUrl>../publish/$(MSBuildProjectName)/$(Version)/</PublishUrl>
-    <LangVersion>latest</LangVersion>
-    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
 		<IsPackable>false</IsPackable>
-	</PropertyGroup>
-
-	<PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-		<DebugType>embedded</DebugType>
-		<IncludeSymbols>true</IncludeSymbols>
-		<DefineConstants>DEBUG;TRACE</DefineConstants>
 	</PropertyGroup>
 
   <ItemGroup>

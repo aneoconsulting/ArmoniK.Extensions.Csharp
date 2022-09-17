@@ -215,7 +215,8 @@ jobs:
         run: |
          cd Tests
          mkdir -p ${HOME}/data
-         bash -x ./endToEndTests.sh
+         echo "WARNING TESTS DISABLED !!! Remove -b option"
+         bash -x ./endToEndTests.sh -b
 
   release-packages:
     runs-on: ubuntu-latest

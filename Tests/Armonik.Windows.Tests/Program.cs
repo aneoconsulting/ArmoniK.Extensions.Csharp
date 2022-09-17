@@ -73,8 +73,7 @@ namespace Armonik.Windows.Tests
 
       var taskOptions = InitializeSimpleTaskOptions();
 
-      // var props = new Properties(taskOptions, configuration_.GetSection("Grpc")["EndPoint"], 5001, sslValidation: false);
-      var props = new Properties(taskOptions, "https://ANEO-SB2-8454-wsl.local:5001", 5001, sslValidation: false);
+      var props = new Properties(taskOptions, configuration_.GetSection("Grpc")["EndPoint"], 5001, sslValidation: false);
 
       using var sessionService = ServiceFactory.GetInstance().CreateService("ArmoniK.Samples.GridServer.Package",
                                                                             props, factory);

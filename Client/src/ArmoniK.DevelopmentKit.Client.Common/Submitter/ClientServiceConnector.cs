@@ -11,6 +11,8 @@ using System;
 using System.IO;
 using System.Net.Http;
 
+using Grpc.Net.Client.Configuration;
+
 using Microsoft.Extensions.Logging;
 
 namespace ArmoniK.DevelopmentKit.Client.Common.Submitter;
@@ -122,6 +124,26 @@ public class ClientServiceConnector
     }
 
 #if NET5_0_OR_GREATER
+    var defaultMethodConfig = new MethodConfig
+                              {
+                                Names =
+                                {
+                                  MethodName.Default,
+                                },
+                                RetryPolicy = new RetryPolicy
+                                              {
+                                                MaxAttempts = 15,
+                                                InitialBackoff = TimeSpan.FromSeconds(1),
+                                                MaxBackoff = TimeSpan.FromSeconds(60),
+                                                BackoffMultiplier = 1.5,
+                                                RetryableStatusCodes =
+                                                {
+                                                  StatusCode.Unavailable,
+                                                  StatusCode.Aborted,
+                                                  StatusCode.Unknown,
+                                                },
+                                              },
+                              };
     if (clientPem != null)
     {
       var cert = X509Certificate2.CreateFromPem(clientPem.Item1,
@@ -147,6 +169,13 @@ public class ClientServiceConnector
                                            : ChannelCredentials.Insecure,
                            HttpHandler = httpClientHandler,
                            LoggerFactory = loggerFactory,
+                           ServiceConfig = new ServiceConfig
+                                           {
+                                             MethodConfigs =
+                                             {
+                                               defaultMethodConfig,
+                                             },
+                                           },
                          };
 
     var channel = GrpcChannel.ForAddress(endPoint,
