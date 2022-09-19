@@ -1,4 +1,4 @@
-﻿// This file is part of the ArmoniK project
+// This file is part of the ArmoniK project
 // 
 // Copyright (C) ANEO, 2021-2022.
 //   W. Kirschenmann   <wkirschenmann@aneo.fr>
@@ -82,12 +82,17 @@ public class Service : AbstractClientService
   ///   and create the session to ArmoniK
   /// </summary>
   /// <param name="properties">The properties containing TaskOptions and information to communicate with Control plane and </param>
-  public Service(Properties properties)
-    : base(properties)
+  /// <param name="loggerFactory">The loggerFactory</param>
+  /// <param name="cancelAfterTimeSpan">Time before cancel Result task</param>
+  public Service(Properties     properties,
+                 ILoggerFactory loggerFactory, TimeSpan? cancelAfterTimeSpan = null)
+    : base(loggerFactory)
   {
     SessionServiceFactory = new SessionServiceFactory(LoggerFactory);
 
-    SessionService = SessionServiceFactory.CreateSession(properties);
+    SessionService      = SessionServiceFactory.CreateSession(properties);
+    
+    CancelAfterTimeSpan = cancelAfterTimeSpan ?? TimeSpan.FromMinutes(1);
 
     ProtoSerializer = new ProtoSerializer();
 
@@ -100,6 +105,8 @@ public class Service : AbstractClientService
     Logger.BeginPropertyScope(("SessionId", SessionService.SessionId),
                               ("Class", "Service"));
   }
+
+  private TimeSpan CancelAfterTimeSpan { get; set; }
 
   /// <summary>
   ///   Property Get the SessionId
@@ -124,6 +131,11 @@ public class Service : AbstractClientService
   /// </summary>
   public string SessionId
     => SessionService?.SessionId.Id;
+
+  /// <summary>
+  /// Property to wait after last result coming from server before dispose the object
+  /// </summary>
+  public bool WaitResultsBeforeDispose { get; set; } = false;
 
   /// <summary>
   ///   This function execute code locally with the same configuration as Armonik Grid execution
@@ -270,7 +282,7 @@ public class Service : AbstractClientService
     var holdPrev = 0;
     var waitInSeconds = new List<int>
                         {
-                          1000,
+                          10,
                           5000,
                           10000,
                           20000,
@@ -281,7 +293,7 @@ public class Service : AbstractClientService
 
     while (missing.Count != 0)
     {
-      foreach (var bucket in missing.Batch(10000))
+      foreach (var bucket in missing.Batch(500))
       {
         try
         {
@@ -329,8 +341,9 @@ public class Service : AbstractClientService
 
   private void ResultTask()
   {
-    while (!CancellationTokenSource.Token.IsCancellationRequested)
+    while (!CancellationTokenSource.Token.IsCancellationRequested || WaitResultsBeforeDispose)
     {
+
       if (!ResultHandlerDictionary.IsEmpty)
       {
         try
@@ -552,7 +565,11 @@ public class Service : AbstractClientService
   /// <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
   public override void Dispose()
   {
-    CancellationTokenSource.Cancel();
+    if (WaitResultsBeforeDispose)
+    {
+      Logger.LogInformation("Dispose : Waiting for the last results");
+    }
+    CancellationTokenSource.CancelAfter(CancelAfterTimeSpan);
     HandlerResponse?.Wait();
     HandlerResponse?.Dispose();
 

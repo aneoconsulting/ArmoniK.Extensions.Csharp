@@ -111,8 +111,9 @@ public class SimpleUnifiedApiAdminTestClient : ClientBaseTest<SimpleUnifiedAPITe
     //var resourceId = ServiceAdmin.CreateInstance(Configuration, LoggerFactory,props).UploadResource("filePath");
 
 
-    using var cs  = ServiceFactory.CreateService(props);
-    using var csa = ServiceFactory.GetServiceAdmin(props);
+    using var cs  = ServiceFactory.CreateService(props, LoggerFactory);
+    using var csa = ServiceFactory.GetServiceAdmin(props,
+                                                   LoggerFactory);
 
     Log.LogInformation($"New session created : {cs.SessionId}");
 

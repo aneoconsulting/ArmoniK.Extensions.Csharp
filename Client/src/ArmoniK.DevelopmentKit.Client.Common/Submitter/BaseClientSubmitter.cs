@@ -253,9 +253,9 @@ public class BaseClientSubmitter<T>
           case CreateTaskReply.ResponseOneofCase.None:
             throw new Exception("Issue with Server !");
           case CreateTaskReply.ResponseOneofCase.CreationStatusList:
-            Logger.LogInformation("Tasks created : {ids}",
-                                  string.Join(",",
-                                              createTaskReply.CreationStatusList.CreationStatuses));
+            Logger.LogDebug("Tasks created : {ids}",
+                            string.Join(",",
+                                        createTaskReply.CreationStatusList.CreationStatuses));
             break;
           case CreateTaskReply.ResponseOneofCase.Error:
             throw new Exception("Error while creating tasks !");

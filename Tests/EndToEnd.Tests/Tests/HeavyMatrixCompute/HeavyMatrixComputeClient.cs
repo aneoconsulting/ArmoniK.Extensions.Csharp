@@ -40,16 +40,19 @@ using Microsoft.Extensions.Logging;
 
 namespace ArmoniK.EndToEndTests.Tests.HeavyMatrixCompute;
 
-public class HeavyMatrixComputeClient : ClientBaseTest<HeavyMatrixComputeClient>, IServiceInvocationHandler
+public class HeavyMatrixComputeClient : ClientBaseTest<HeavyMatrixComputeClient>, IServiceInvocationHandler, IDisposable
 {
-  private int nbTask_;
+  private int nbResults_;
 
   public HeavyMatrixComputeClient(IConfiguration configuration,
                                   ILoggerFactory loggerFactory)
     : base(configuration,
            loggerFactory)
   {
+    Cts = new CancellationTokenSource();
   }
+
+  public CancellationTokenSource Cts { get; set; }
 
 
   /// <summary>
@@ -79,8 +82,8 @@ public class HeavyMatrixComputeClient : ClientBaseTest<HeavyMatrixComputeClient>
         Log.LogInformation("Task finished but nothing returned in Result");
         break;
       case double value:
-        nbTask_++;
-        //Log.LogInformation($"Task {nbTask_++} finished with result {value}");
+        nbResults_++;
+        //Log.LogInformation($"Task {nbResults_++} finished with result {value}");
         break;
       case double[] doubles:
         //Log.LogInformation("Result is " + string.Join(", ",
@@ -107,14 +110,21 @@ public class HeavyMatrixComputeClient : ClientBaseTest<HeavyMatrixComputeClient>
                                Configuration.GetSection("Grpc")["EndPoint"],
                                5001);
 
-
     //using var cs = ServiceFactory.CreateService(props, LoggerFactory);
-    using var cs = ServiceFactory.CreateService(props);
+    using var cs = ServiceFactory.CreateService(props,
+                                                LoggerFactory, TimeSpan.FromMinutes(20));
+    
 
     Log.LogInformation($"New session created : {cs.SessionId}");
 
     Log.LogInformation("Running End to End test to compute heavy matrix in sequential");
-    ComputeMatrix(cs);
+
+    ComputeMatrix(cs,
+                  nbTasks: 10000,
+                  nbElement: 384); // 1000 tasks x 3 KB of payload
+    ComputeMatrix(cs,
+                  nbTasks: 1000,
+                  nbElement: 3932160); // 1000 tasks x 3 MB of payload
   }
 
   private static void OverrideTaskOptions(TaskOptions taskOptions)
@@ -149,46 +159,57 @@ public class HeavyMatrixComputeClient : ClientBaseTest<HeavyMatrixComputeClient>
   ///   The first test developed to validate dependencies subTasking
   /// </summary>
   /// <param name="sessionService"></param>
-  private void ComputeMatrix(Service sessionService)
+  /// <param name="cancellationTokenSource"></param>
+  private void ComputeMatrix(Service sessionService,
+                             int     nbTasks,
+                             int     nbElement)
   {
-    var index_task     = 0;
-    var prev_index     = 0;
-    var nb_doubles_elt = 76800; // 600 Ko of payload
-    var nb_tasks       = 20000;
+    var index_task = 0;
+    var prev_index = 0;
 
-    var cts = new CancellationTokenSource();
+
     var numbers = Enumerable.Range(0,
-                                   nb_doubles_elt)
+                                   nbElement)
                             .Select(x => (double)x)
                             .ToArray();
-    Log.LogInformation($"Running from {nb_tasks} tasks with payload by task {nb_doubles_elt * 8 / 1024} Ko...");
+    Log.LogInformation($"Running from {nbTasks} tasks with payload by task {nbElement * 8 / 1024} Ko...");
 
     PeriodicInfo(() =>
                  {
-                   Log.LogInformation($"Got {nbTask_} results. Check Submission perf : Payload {2 * (index_task - prev_index) * nb_doubles_elt * 8.0 / 1024.0 / 20.0} Ko/s, {2 * (index_task - prev_index) / 20} tasks/s");
+                   Log.LogInformation($"{index_task}/{nbTasks} Tasks. " + $"Got {nbResults_} results. " +
+                                      $"Check Submission perf : Payload {(index_task - prev_index) * nbElement * 8.0 / 1024.0 / 20.0} Ko/s, " +
+                                      $"{(index_task - prev_index)                                                   / 20} tasks/s");
                    prev_index = index_task;
+
+                   if (nbResults_ >= nbTasks)
+                   {
+                     sessionService.WaitResultsBeforeDispose = false;
+                   }
                  },
                  20,
-                 cts.Token);
+                 Cts.Token);
 
 
     var sw = Stopwatch.StartNew();
 
-    for (index_task = 0; index_task < nb_tasks / 2; index_task++)
+    for (index_task = 0; index_task < nbTasks; index_task++)
     {
-      Log.LogDebug($"{index_task}/{nb_tasks} Task Time avg to submit {index_task * 2.0 / (sw.ElapsedMilliseconds / 1000.0):0.00} Task/s");
-      sessionService.Submit("ComputeBasicArrayCube",
-                            ParamsHelper(numbers),
-                            this);
+      Log.LogDebug($"{index_task}/{nbTasks} Task Time avg to submit {index_task / (sw.ElapsedMilliseconds / 1000.0):0.00} Task/s");
 
       sessionService.Submit("ComputeReduceCube",
                             ParamsHelper(numbers),
                             this);
     }
 
-    Log.LogInformation($"{nb_tasks} tasks executed in : {sw.ElapsedMilliseconds / 1000} secs");
-    cts.Cancel();
+    Log.LogInformation($"{nbTasks} tasks executed in : {sw.ElapsedMilliseconds / 1000} secs");
 
-    Thread.Sleep(20000); // let some time to get last results. Need to  implement a wait in ResultHandler ??
+
+    sessionService.Destroy();
+  }
+
+  /// <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
+  public void Dispose()
+  {
+    Cts.Cancel();
   }
 }
