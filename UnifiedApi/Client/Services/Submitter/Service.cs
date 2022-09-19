@@ -264,9 +264,8 @@ public class Service : AbstractClientService
                                   Action<string, byte[]> responseHandler,
                                   Action<string, string> errorHandler)
   {
-    var missing      = taskIds.ToHashSet();
-    var resultsCount = 0;
-    var holdPrev     = 0;
+    var missing  = taskIds.ToHashSet();
+    var holdPrev = missing.Count;
     var waitInSeconds = new List<int>
                         {
                           10,
@@ -301,17 +300,7 @@ public class Service : AbstractClientService
           }
         }
 
-        resultsCount += resultStatusCollection.IdsReady.Count();
         missing.ExceptWith(resultStatusCollection.IdsReady.Select(x => x.Item1));
-
-        foreach (var taskId in resultStatusCollection.IdsError)
-        {
-          // todo : replace by error from task when reusing tasks ids
-          errorHandler(taskId,
-                       "Task Crashed without result message");
-        }
-
-        missing.ExceptWith(resultStatusCollection.IdsError);
 
         foreach (var resTuple in resultStatusCollection.IdsResultError)
         {
@@ -322,7 +311,7 @@ public class Service : AbstractClientService
 
         missing.ExceptWith(resultStatusCollection.IdsResultError.Select(x => x.Item1));
 
-        if (holdPrev == resultsCount)
+        if (holdPrev == missing.Count)
         {
           idx = idx >= waitInSeconds.Count - 1
                   ? waitInSeconds.Count - 1
@@ -335,7 +324,7 @@ public class Service : AbstractClientService
           idx = 0;
         }
 
-        holdPrev = resultsCount;
+        holdPrev = missing.Count;
 
         Thread.Sleep(waitInSeconds[idx]);
       }
@@ -435,6 +424,13 @@ public class Service : AbstractClientService
       {
         Thread.Sleep(100);
       }
+    }
+
+    if (!ResultHandlerDictionary.IsEmpty)
+    {
+      Logger.LogWarning("Results not processed : [{resultsNotProcessed}]",
+                        string.Join(", ",
+                                    ResultHandlerDictionary.Keys));
     }
   }
 
