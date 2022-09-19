@@ -1,6 +1,6 @@
 <Project>
   <!--
-  This work allows to build on wsl and on windows with any conf²cts in object neither binary folders
+  This work allows to build on wsl and on windows without any conflicts in either object or binary folders
   https://docs.microsoft.com/fr-fr/visualstudio/msbuild/common-msbuild-project-properties?view=vs-2022
   https://stackoverflow.com/questions/45575280/msbuild-nuget-restoreoutputpath-how-to-make-it-work
   https://stackoverflow.com/questions/60647277/visual-studio-change-nugets-output-directory-for-temporary-files
@@ -64,7 +64,7 @@
     <RepositoryUrl>https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-    
+
     <!--Package Validation-->
     <EnablePackageValidation>true</EnablePackageValidation>
     <Deterministic>true</Deterministic>
@@ -77,7 +77,7 @@
   </PropertyGroup>
 
 
-  
+
   <ItemGroup>
     <None Remove="**\*.orig" />
     <None Include="$(RootProjectDir)/LICENSE" Pack="true" PackagePath="LICENSE.md" />
