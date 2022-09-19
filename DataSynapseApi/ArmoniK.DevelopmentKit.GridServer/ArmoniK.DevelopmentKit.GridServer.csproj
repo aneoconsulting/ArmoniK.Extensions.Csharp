@@ -2,66 +2,7 @@
 
   <PropertyGroup>
     <TargetFrameworks>net6.0</TargetFrameworks>
-    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-    <DockerfileContext>..\..\..\..\..\..\..</DockerfileContext>
     <OutputType>Library</OutputType>
-    <Authors>$(Authors)</Authors>
-    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <IsPackable>true</IsPackable>
-    <PackageOutputPath>../../../publish</PackageOutputPath>
-    <RuntimeIdentifier>linux-x64</RuntimeIdentifier>
-    <GenerateDocumentationFile>True</GenerateDocumentationFile>
-    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
-    <LangVersion>latest</LangVersion>
-    <Version>1.0.0-local</Version>
-    <Authors>ANEO</Authors>
-    <Company>ANEO</Company>
-    <Product>ArmoniK</Product>
-    <Description>ArmoniK Package SDK for high level API</Description>
-    <Copyright>Copyright © ANEO 2022</Copyright>
-    <Summary>ArmoniK Package SDK for high level API</Summary>
-    <NeutralLanguage>en-US</NeutralLanguage>
-    <Title>$(MSBuildProjectName)</Title>
-    <PackageId>$(MSBuildProjectName)</PackageId>
-    <PackageTags>armonik</PackageTags>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackageIcon>armonik-logo.png</PackageIcon>
-    <!--<PackageIconUrl></PackageIconUrl>-->
-    <!--<PackageProjectUrl></PackageProjectUrl>-->
-    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
-    <PublishRepositoryUrl>true</PublishRepositoryUrl>
-    <RootNamespace>$(MSBuildProjectName)</RootNamespace>
-    <AssemblyName>$(MSBuildProjectName)</AssemblyName>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    
-    <IncludeSymbols>true</IncludeSymbols>
-    <EmbedUntrackedSources>true</EmbedUntrackedSources>
-    <!--Package Validation-->
-    <EnablePackageValidation>true</EnablePackageValidation>
-    <Deterministic>true</Deterministic>
-  </PropertyGroup>
-
-  <ItemGroup>
-    <None Remove="**\*.orig" />
-    <None Include="../../LICENSE" Pack="true" PackagePath="LICENSE.md" />
-    <None Include="../../armonik-logo.png" Pack="true" PackagePath="\" />
-    <None Include="../../README.md" Pack="true" PackagePath="\" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="6.0.0" PrivateAssets="All" />
-    <PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="All" Version="1.1.1" />
-  </ItemGroup>
-
-
-
-  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-    <DebugType>Embedded</DebugType>
-    <IncludeSymbols>true</IncludeSymbols>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)'=='Release'">
-    <Optimize>true</Optimize>
   </PropertyGroup>
 
   <ItemGroup>

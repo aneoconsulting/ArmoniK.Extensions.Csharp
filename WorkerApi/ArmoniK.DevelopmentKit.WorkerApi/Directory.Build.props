@@ -1,33 +1,10 @@
 <Project>
-  <!--
-  This work allows to build on wsl and on windows with any conf²cts in object neither binary folders
-  https://docs.microsoft.com/fr-fr/visualstudio/msbuild/common-msbuild-project-properties?view=vs-2022
-  https://stackoverflow.com/questions/45575280/msbuild-nuget-restoreoutputpath-how-to-make-it-work
-  https://stackoverflow.com/questions/60647277/visual-studio-change-nugets-output-directory-for-temporary-files
-  -->
   <PropertyGroup>
-    <IsWindows
-      Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Windows)))' == 'true'">true</IsWindows>
-    <IsLinux
-      Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))' == 'true'">true</IsLinux>
+    <RootProjectDir>../..</RootProjectDir>
   </PropertyGroup>
 
-  <PropertyGroup Condition=" '$(IsLinux)' == 'true' ">
-    <OSBuilder>linux-x64</OSBuilder>
-    <OSExcludeBuilder>win-x64</OSExcludeBuilder>
-  </PropertyGroup>
 
-  <PropertyGroup Condition=" '$(IsWindows)' == 'true' ">
-    <OSBuilder>win-x64</OSBuilder>
-    <OSExcludeBuilder>linux-x64</OSExcludeBuilder>
-  </PropertyGroup>
+  <Import Project="$(RootProjectDir)/Directory.Build.props"/>
 
-  <PropertyGroup>
-    <RootProjectDir>../../build</RootProjectDir>
-    <BaseOutputPath>$(RootProjectDir)/$(OSBuilder)/$(MSBuildProjectName)/bin</BaseOutputPath>
-    <BaseIntermediateOutputPath>$(RootProjectDir)/$(OSBuilder)/$(MSBuildProjectName)/obj/</BaseIntermediateOutputPath>
-    <!--<GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>-->
-    <DefaultItemExcludes>$(DefaultItemExcludes);build/**;$(RootProjectDir)/**;bin/**;obj/**</DefaultItemExcludes>
-  </PropertyGroup>
 
 </Project>
