@@ -4,19 +4,6 @@
     <TargetFrameworks>net6.0</TargetFrameworks>
   </PropertyGroup>
 
-  <ItemGroup>
-    <None Remove="**\*.orig" />
-    <None Include="../../LICENSE" Pack="true" PackagePath="LICENSE.md" />
-    <None Include="../../armonik-logo.png" Pack="true" PackagePath="\" />
-    <None Include="../../README.md" Pack="true" PackagePath="\" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="6.0.0" PrivateAssets="All" />
-    <PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="All" Version="1.1.1" />
-  </ItemGroup>
-
-
-
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugType>Embedded</DebugType>
     <IncludeSymbols>true</IncludeSymbols>

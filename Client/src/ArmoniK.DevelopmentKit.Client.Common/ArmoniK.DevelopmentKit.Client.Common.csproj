@@ -8,7 +8,6 @@
  <ItemGroup>
     <PackageReference Include="ArmoniK.Api.Client" Version="$(ArmonikAPIVersion)" />
     <PackageReference Include="Grpc.Core" Version="2.46.3" />
-    <PackageReference Include="Grpc.Net.Client" Version="2.47.0" />
     <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="6.0.0" />
     <PackageReference Include="System.Net.Http" Version="4.3.4" />
   </ItemGroup>
