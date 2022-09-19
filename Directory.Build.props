@@ -33,7 +33,7 @@
     <Company>ANEO</Company>
     <Product>ArmoniK</Product>
     <Description>ArmoniK Package SDK for high level API</Description>
-    <Copyright>Copyright © ANEO 2022</Copyright>
+    <Copyright>Copyright © ANEO 2021-2022</Copyright>
     <Summary>ArmoniK Package SDK for high level API</Summary>
     <NeutralLanguage>en-US</NeutralLanguage>
     <Title>$(MSBuildProjectName)</Title>
