@@ -113,7 +113,7 @@ public class HeavyMatrixComputeClient : ClientBaseTest<HeavyMatrixComputeClient>
     //using var cs = ServiceFactory.CreateService(props, LoggerFactory);
     using var cs = ServiceFactory.CreateService(props,
                                                 LoggerFactory, TimeSpan.FromMinutes(20));
-    
+
 
     Log.LogInformation($"New session created : {cs.SessionId}");
 
@@ -166,8 +166,7 @@ public class HeavyMatrixComputeClient : ClientBaseTest<HeavyMatrixComputeClient>
   {
     var index_task = 0;
     var prev_index = 0;
-
-
+    
     var numbers = Enumerable.Range(0,
                                    nbElement)
                             .Select(x => (double)x)
@@ -202,7 +201,6 @@ public class HeavyMatrixComputeClient : ClientBaseTest<HeavyMatrixComputeClient>
     }
 
     Log.LogInformation($"{nbTasks} tasks executed in : {sw.ElapsedMilliseconds / 1000} secs");
-
 
     sessionService.Destroy();
   }
