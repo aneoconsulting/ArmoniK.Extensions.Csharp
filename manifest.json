@@ -237,7 +237,7 @@
       "output": {
         ".html": {
           "relative_path": "api/ArmoniK.DevelopmentKit.Client.Services.Submitter.Service.ServiceResult.html",
-          "hash": "aPN0hGH6nhCCkokFF2w7zV9sS40jy6yBLl95zkMQ86A="
+          "hash": "BOBvouEyMf6647YT/vldENLxoj/lnn+2lw7S/EEo3Kg="
         }
       },
       "is_incremental": false,
@@ -249,7 +249,7 @@
       "output": {
         ".html": {
           "relative_path": "api/ArmoniK.DevelopmentKit.Client.Services.Submitter.Service.html",
-          "hash": "KFUkfzDukG2hB561/UyStWZJDeGQoa1FrXNpd7G6n04="
+          "hash": "2OAjgJaDaXGREVHEvqnee696ohu+7SmO0UzjS/KL2qY="
         }
       },
       "is_incremental": false,
@@ -1865,6 +1865,18 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.IgnoreErrorHandler.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.IgnoreErrorHandler.html",
+          "hash": "xrtnJwBb5JQP8hkrHSCbkA4F/z1cTamlALzh6FNY7uM="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.SelectExtensions.yml",
       "output": {
         ".html": {
@@ -1893,7 +1905,7 @@
       "output": {
         ".html": {
           "relative_path": "api/ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.SimpleUnifiedAPITestClient.html",
-          "hash": "NBRrK2r0AEJul3IlKk2AMItZVnOJRWtHT7oyo3veT+k="
+          "hash": "5UOG91jETH4wkkfkJPOg/Tgt05v58N44uckcYh7d0Lo="
         }
       },
       "is_incremental": false,
@@ -1917,7 +1929,7 @@
       "output": {
         ".html": {
           "relative_path": "api/ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.html",
-          "hash": "TGW3dIM4SyjMthSkCU41xs+ylWR+CfYbnkOpSZVwwUc="
+          "hash": "Cnhi2PJtEr7gTGN58H6Cy7K1eYqoKysRaMNyJI7iGps="
         }
       },
       "is_incremental": false,
@@ -2049,7 +2061,7 @@
       "output": {
         ".html": {
           "relative_path": "api/toc.html",
-          "hash": "w7jmaPlZHx7iPnGKtj3Qo+6dYL2eUpbtWu5bb+Qf4qM="
+          "hash": "EF02EFDOUtDIToRkeQnPQyP4wQyLhxGUgtKY1AOc8pg="
         }
       },
       "is_incremental": false,
@@ -2124,7 +2136,7 @@
         "ManagedReferenceDocumentProcessor": {
           "can_incremental": false,
           "incrementalPhase": "build",
-          "total_file_count": 169,
+          "total_file_count": 170,
           "skipped_file_count": 0
         },
         "TocDocumentProcessor": {

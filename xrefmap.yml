@@ -9028,6 +9028,51 @@ references:
   commentId: N:ArmoniK.EndToEndTests.Tests.CheckUnifiedApi
   fullName: ArmoniK.EndToEndTests.Tests.CheckUnifiedApi
   nameWithType: ArmoniK.EndToEndTests.Tests.CheckUnifiedApi
+- uid: ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.IgnoreErrorHandler
+  name: IgnoreErrorHandler
+  href: api/ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.IgnoreErrorHandler.html
+  commentId: T:ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.IgnoreErrorHandler
+  fullName: ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.IgnoreErrorHandler
+  nameWithType: IgnoreErrorHandler
+- uid: ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.IgnoreErrorHandler.#ctor(ILogger)
+  name: IgnoreErrorHandler(ILogger)
+  href: api/ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.IgnoreErrorHandler.html#ArmoniK_EndToEndTests_Tests_CheckUnifiedApi_IgnoreErrorHandler__ctor_ILogger_
+  commentId: M:ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.IgnoreErrorHandler.#ctor(ILogger)
+  fullName: ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.IgnoreErrorHandler.IgnoreErrorHandler(ILogger)
+  nameWithType: IgnoreErrorHandler.IgnoreErrorHandler(ILogger)
+- uid: ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.IgnoreErrorHandler.#ctor*
+  name: IgnoreErrorHandler
+  href: api/ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.IgnoreErrorHandler.html#ArmoniK_EndToEndTests_Tests_CheckUnifiedApi_IgnoreErrorHandler__ctor_
+  commentId: Overload:ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.IgnoreErrorHandler.#ctor
+  isSpec: "True"
+  fullName: ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.IgnoreErrorHandler.IgnoreErrorHandler
+  nameWithType: IgnoreErrorHandler.IgnoreErrorHandler
+- uid: ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.IgnoreErrorHandler.HandleError(ArmoniK.DevelopmentKit.Client.Exceptions.ServiceInvocationException,System.String)
+  name: HandleError(ServiceInvocationException, String)
+  href: api/ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.IgnoreErrorHandler.html#ArmoniK_EndToEndTests_Tests_CheckUnifiedApi_IgnoreErrorHandler_HandleError_ArmoniK_DevelopmentKit_Client_Exceptions_ServiceInvocationException_System_String_
+  commentId: M:ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.IgnoreErrorHandler.HandleError(ArmoniK.DevelopmentKit.Client.Exceptions.ServiceInvocationException,System.String)
+  fullName: ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.IgnoreErrorHandler.HandleError(ArmoniK.DevelopmentKit.Client.Exceptions.ServiceInvocationException, System.String)
+  nameWithType: IgnoreErrorHandler.HandleError(ServiceInvocationException, String)
+- uid: ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.IgnoreErrorHandler.HandleError*
+  name: HandleError
+  href: api/ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.IgnoreErrorHandler.html#ArmoniK_EndToEndTests_Tests_CheckUnifiedApi_IgnoreErrorHandler_HandleError_
+  commentId: Overload:ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.IgnoreErrorHandler.HandleError
+  isSpec: "True"
+  fullName: ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.IgnoreErrorHandler.HandleError
+  nameWithType: IgnoreErrorHandler.HandleError
+- uid: ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.IgnoreErrorHandler.HandleResponse(System.Object,System.String)
+  name: HandleResponse(Object, String)
+  href: api/ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.IgnoreErrorHandler.html#ArmoniK_EndToEndTests_Tests_CheckUnifiedApi_IgnoreErrorHandler_HandleResponse_System_Object_System_String_
+  commentId: M:ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.IgnoreErrorHandler.HandleResponse(System.Object,System.String)
+  fullName: ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.IgnoreErrorHandler.HandleResponse(System.Object, System.String)
+  nameWithType: IgnoreErrorHandler.HandleResponse(Object, String)
+- uid: ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.IgnoreErrorHandler.HandleResponse*
+  name: HandleResponse
+  href: api/ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.IgnoreErrorHandler.html#ArmoniK_EndToEndTests_Tests_CheckUnifiedApi_IgnoreErrorHandler_HandleResponse_
+  commentId: Overload:ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.IgnoreErrorHandler.HandleResponse
+  isSpec: "True"
+  fullName: ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.IgnoreErrorHandler.HandleResponse
+  nameWithType: IgnoreErrorHandler.HandleResponse
 - uid: ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.SelectExtensions
   name: SelectExtensions
   href: api/ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.SelectExtensions.html
