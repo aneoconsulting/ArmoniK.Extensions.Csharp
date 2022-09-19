@@ -69,13 +69,6 @@
     <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
   </PropertyGroup>
 
-
-  <PropertyGroup>
-    <ArmonikAPIVersion>3.0.2</ArmonikAPIVersion>
-  </PropertyGroup>
-
-
-
   <ItemGroup>
     <None Remove="**\*.orig" />
     <None Include="$(RootProjectDir)/LICENSE" Pack="true" PackagePath="LICENSE.md" />
