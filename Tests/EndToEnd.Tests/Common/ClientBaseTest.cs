@@ -24,6 +24,7 @@
 using System;
 using System.Diagnostics;
 using System.Reflection;
+using System.Text.RegularExpressions;
 
 using ArmoniK.Api.gRPC.V1;
 using ArmoniK.DevelopmentKit.Common;
@@ -67,9 +68,11 @@ public abstract class ClientBaseTest<T>
          Priority        = 1,
          PartitionId     = Environment.GetEnvironmentVariable("PARTITION") ?? "",
          ApplicationName = "ArmoniK.EndToEndTests",
-         ApplicationVersion = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly()
-                                                                     .Location)
-                                             .ProductVersion ?? "1.0.0-700",
+         ApplicationVersion = Regex.Replace(FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly()
+                                                                                   .Location)
+                                                           .ProductVersion,
+                                            @"\+.*", // Remove Hash build From Version
+                                            "") ?? "1.0.0-700",
          ApplicationNamespace = typeof(T).Namespace,
          EngineType           = EngineType.Symphony.ToString(),
        };

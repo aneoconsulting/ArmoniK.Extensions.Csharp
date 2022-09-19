@@ -176,7 +176,7 @@ public class HeavyMatrixComputeClient : ClientBaseTest<HeavyMatrixComputeClient>
 
     for (index_task = 0; index_task < nb_tasks / 2; index_task++)
     {
-      Log.LogInformation($"{index_task}/{nb_tasks} Task Time avg to submit {index_task * 2.0 / (sw.ElapsedMilliseconds / 1000.0):0.00} Task/s");
+      Log.LogDebug($"{index_task}/{nb_tasks} Task Time avg to submit {index_task * 2.0 / (sw.ElapsedMilliseconds / 1000.0):0.00} Task/s");
       sessionService.Submit("ComputeBasicArrayCube",
                             ParamsHelper(numbers),
                             this);
