@@ -269,6 +269,7 @@ public class Service : AbstractClientService
     var holdPrev     = 0;
     var waitInSeconds = new List<int>
                         {
+                          10,
                           1000,
                           5000,
                           10000,
@@ -284,18 +285,33 @@ public class Service : AbstractClientService
       {
         var resultStatusCollection = SessionService.GetResultStatus(bucket);
 
-        var partialResults = SessionService.TryGetResults(resultStatusCollection.IdsReady.Select(tuple => tuple.Item1)
-                                                                                .ToList());
-
-        foreach (var (taskId, bytesArray) in partialResults)
+        foreach (var taskId in resultStatusCollection.IdsReady.Select(tuple => tuple.Item1))
         {
-          responseHandler(taskId,
-                          bytesArray);
+          try
+          {
+            responseHandler(taskId,
+                            SessionService.TryGetResult(taskId,
+                                                        false,
+                                                        CancellationTokenSource.Token));
+          }
+          catch (Exception e)
+          {
+            errorHandler(taskId,
+                         e.Message + e.StackTrace);
+          }
         }
 
-        resultsCount += partialResults.Count;
+        resultsCount += resultStatusCollection.IdsReady.Count();
+        missing.ExceptWith(resultStatusCollection.IdsReady.Select(x => x.Item1));
 
-        missing.ExceptWith(partialResults.Select(x => x.Item1));
+        foreach (var taskId in resultStatusCollection.IdsError)
+        {
+          // todo : replace by error from task when reusing tasks ids
+          errorHandler(taskId,
+                       "Task Crashed without result message");
+        }
+
+        missing.ExceptWith(resultStatusCollection.IdsError);
 
         foreach (var resTuple in resultStatusCollection.IdsResultError)
         {
