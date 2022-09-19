@@ -3,6 +3,8 @@
   <PropertyGroup>
     <TargetFrameworks>net472;net48;net5.0;net6.0</TargetFrameworks>
     <OutputType>Library</OutputType>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <IsPackable>true</IsPackable>
   </PropertyGroup>
 
  <ItemGroup>

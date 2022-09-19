@@ -40,8 +40,6 @@
     <SignAssembly>True</SignAssembly>
     <AssemblyOriginatorKeyFile>$(RootProjectDir)/kp.snk</AssemblyOriginatorKeyFile>
 
-    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <IsPackable>true</IsPackable>
     <PackageOutputPath>$(RootProjectDir)/publish</PackageOutputPath>
     <RuntimeIdentifiers>win-x64;linux-x64</RuntimeIdentifiers>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
