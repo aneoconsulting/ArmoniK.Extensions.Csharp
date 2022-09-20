@@ -30,8 +30,8 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using ArmoniK.Api.gRPC.V1;
+using ArmoniK.Api.gRPC.V1.Results;
 using ArmoniK.Api.gRPC.V1.Submitter;
-
 using ArmoniK.Api.gRPC.V1.Tasks;
 using ArmoniK.DevelopmentKit.Client.Common.Status;
 using ArmoniK.DevelopmentKit.Common;
@@ -62,8 +62,14 @@ public class BaseClientSubmitter<T>
   ///   Base Object for all Client submitter
   /// </summary>
   /// <param name="loggerFactory">the logger factory to pass for root object</param>
-  public BaseClientSubmitter(ILoggerFactory loggerFactory)
-    => Logger = loggerFactory.CreateLogger<T>();
+  public BaseClientSubmitter(ILoggerFactory loggerFactory,
+                             ChannelBase    channelBase)
+  {
+    Logger           = loggerFactory.CreateLogger<T>();
+    TaskService      = new Tasks.TasksClient(channelBase);
+    ResultService    = new Results.ResultsClient(channelBase);
+    SubmitterService = new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channelBase);
+  }
 
   /// <summary>
   ///   Set or Get TaskOptions with inside MaxDuration, Priority, AppName, VersionName and AppNamespace
@@ -93,17 +99,17 @@ public class BaseClientSubmitter<T>
   /// <summary>
   ///   The submitter and receiver Service to submit, wait and get the result
   /// </summary>
-  protected Api.gRPC.V1.Submitter.Submitter.SubmitterClient ControlPlaneService { get; set; }
+  protected Api.gRPC.V1.Submitter.Submitter.SubmitterClient SubmitterService { get; set; }
 
   /// <summary>
   ///   Service for interacting with results
   /// </summary>
-  protected Api.gRPC.V1.Results.Results.ResultsClient ResultService { get; set; }
+  protected Results.ResultsClient ResultService { get; set; }
 
   /// <summary>
   ///   Service for interacting with results
   /// </summary>
-  protected Api.gRPC.V1.Tasks.Tasks.TasksClient TaskService { get; set; }
+  protected Tasks.TasksClient TaskService { get; set; }
 
   /// <summary>
   ///   Returns the status of the task
@@ -124,15 +130,15 @@ public class BaseClientSubmitter<T>
   /// <param name="taskIds">The list of taskIds</param>
   /// <returns></returns>
   public IEnumerable<Tuple<string, TaskStatus>> GetTaskStatues(params string[] taskIds)
-    => mutex_.LockedExecute(() => ControlPlaneService.GetTaskStatus(new GetTaskStatusRequest
-                                                                    {
-                                                                      TaskIds =
-                                                                      {
-                                                                        taskIds,
-                                                                      },
-                                                                    })
-                                                     .IdStatuses.Select(x => Tuple.Create(x.TaskId,
-                                                                                          x.Status)));
+    => mutex_.LockedExecute(() => SubmitterService.GetTaskStatus(new GetTaskStatusRequest
+                                                                 {
+                                                                   TaskIds =
+                                                                   {
+                                                                     taskIds,
+                                                                   },
+                                                                 })
+                                                  .IdStatuses.Select(x => Tuple.Create(x.TaskId,
+                                                                                       x.Status)));
 
   /// <summary>
   ///   Return the taskOutput when error occurred
@@ -140,11 +146,11 @@ public class BaseClientSubmitter<T>
   /// <param name="taskId"></param>
   /// <returns></returns>
   public Output GetTaskOutputInfo(string taskId)
-    => mutex_.LockedExecute(() => ControlPlaneService.TryGetTaskOutput(new TaskOutputRequest
-                                                                       {
-                                                                         TaskId  = taskId,
-                                                                         Session = SessionId.Id,
-                                                                       }));
+    => mutex_.LockedExecute(() => SubmitterService.TryGetTaskOutput(new TaskOutputRequest
+                                                                    {
+                                                                      TaskId  = taskId,
+                                                                      Session = SessionId.Id,
+                                                                    }));
 
 
   /// <summary>
@@ -171,18 +177,18 @@ public class BaseClientSubmitter<T>
   public IEnumerable<string> SubmitTasksWithDependencies(IEnumerable<Tuple<string, byte[], IList<string>>> payloadsWithDependencies,
                                                          int                                               maxRetries = 5)
   {
-    using var _                = Logger.LogFunction();
+    using var _ = Logger.LogFunction();
 
     using var lockGuard = mutex_.LockGuard();
 
-    var serviceConfiguration = ControlPlaneService.GetServiceConfigurationAsync(new Empty())
-                                                  .ResponseAsync.Result;
+    var serviceConfiguration = SubmitterService.GetServiceConfigurationAsync(new Empty())
+                                               .ResponseAsync.Result;
 
     for (var nbRetry = 0; nbRetry < maxRetries; nbRetry++)
     {
       try
       {
-        using var asyncClientStreamingCall = ControlPlaneService.CreateLargeTasks();
+        using var asyncClientStreamingCall = SubmitterService.CreateLargeTasks();
 
         asyncClientStreamingCall.RequestStream.WriteAsync(new CreateLargeTaskRequest
                                                           {
@@ -339,23 +345,23 @@ public class BaseClientSubmitter<T>
                          {
                            Logger.LogDebug("Try {try} for {funcName}",
                                            retry,
-                                           nameof(ControlPlaneService.WaitForCompletion));
+                                           nameof(SubmitterService.WaitForCompletion));
 
-                           var __ = mutex_.LockedExecute(() => ControlPlaneService.WaitForCompletion(new WaitRequest
-                                                                                                     {
-                                                                                                       Filter = new TaskFilter
-                                                                                                                {
-                                                                                                                  Task = new TaskFilter.Types.IdsRequest
-                                                                                                                         {
-                                                                                                                           Ids =
-                                                                                                                           {
-                                                                                                                             taskIds,
-                                                                                                                           },
-                                                                                                                         },
-                                                                                                                },
-                                                                                                       StopOnFirstTaskCancellation = true,
-                                                                                                       StopOnFirstTaskError        = true,
-                                                                                                     }));
+                           var __ = mutex_.LockedExecute(() => SubmitterService.WaitForCompletion(new WaitRequest
+                                                                                                  {
+                                                                                                    Filter = new TaskFilter
+                                                                                                             {
+                                                                                                               Task = new TaskFilter.Types.IdsRequest
+                                                                                                                      {
+                                                                                                                        Ids =
+                                                                                                                        {
+                                                                                                                          taskIds,
+                                                                                                                        },
+                                                                                                                      },
+                                                                                                             },
+                                                                                                    StopOnFirstTaskCancellation = true,
+                                                                                                    StopOnFirstTaskError        = true,
+                                                                                                  }));
                          },
                          true,
                          typeof(IOException),
@@ -372,29 +378,31 @@ public class BaseClientSubmitter<T>
                                                 CancellationToken   cancellationToken = default)
   {
     var mapTaskResults = TaskService.GetResultIds(new GetResultIdsRequest
-                             {
-                               TaskId =
-                               {
-                                 taskIds,
-                               },
-                             }).TaskResult;
+                                                  {
+                                                    TaskId =
+                                                    {
+                                                      taskIds,
+                                                    },
+                                                  })
+                                    .TaskResult;
 
-    var remainingIds = mapTaskResults.SelectMany(result => result.ResultIds).ToHashSet();
+    var remainingIds = mapTaskResults.SelectMany(result => result.ResultIds)
+                                     .ToHashSet();
     var idStatus = Retry.WhileException(5,
                                         200,
                                         retry =>
                                         {
                                           Logger.LogDebug("Try {try} for {funcName}",
                                                           retry,
-                                                          nameof(ControlPlaneService.GetResultStatus));
-                                          var resultStatusReply = mutex_.LockedExecute(() => ControlPlaneService.GetResultStatus(new GetResultStatusRequest
-                                                                                                                                 {
-                                                                                                                                   ResultIds =
-                                                                                                                                   {
-                                                                                                                                     remainingIds,
-                                                                                                                                   },
-                                                                                                                                   SessionId = SessionId.Id,
-                                                                                                                                 }));
+                                                          nameof(SubmitterService.GetResultStatus));
+                                          var resultStatusReply = mutex_.LockedExecute(() => SubmitterService.GetResultStatus(new GetResultStatusRequest
+                                                                                                                              {
+                                                                                                                                ResultIds =
+                                                                                                                                {
+                                                                                                                                  remainingIds,
+                                                                                                                                },
+                                                                                                                                SessionId = SessionId.Id,
+                                                                                                                              }));
                                           return resultStatusReply.IdStatuses;
                                         },
                                         true,
@@ -473,9 +481,9 @@ public class BaseClientSubmitter<T>
                          {
                            Logger.LogDebug("Try {try} for {funcName}",
                                            retry,
-                                           nameof(ControlPlaneService.WaitForAvailability));
-                           var availabilityReply = mutex_.LockedExecute(() => ControlPlaneService.WaitForAvailability(resultRequest,
-                                                                                                                      cancellationToken: cancellationToken));
+                                           nameof(SubmitterService.WaitForAvailability));
+                           var availabilityReply = mutex_.LockedExecute(() => SubmitterService.WaitForAvailability(resultRequest,
+                                                                                                                   cancellationToken: cancellationToken));
 
                            switch (availabilityReply.TypeCase)
                            {
@@ -547,8 +555,8 @@ public class BaseClientSubmitter<T>
     using (await mutex_.LockGuardAsync()
                        .ConfigureAwait(false))
     {
-      var streamingCall = ControlPlaneService.TryGetResultStream(resultRequest,
-                                                                 cancellationToken: cancellationToken);
+      var streamingCall = SubmitterService.TryGetResultStream(resultRequest,
+                                                              cancellationToken: cancellationToken);
       chunks = new List<ReadOnlyMemory<byte>>();
       len    = 0;
 
@@ -630,7 +638,7 @@ public class BaseClientSubmitter<T>
                                            {
                                              Logger.LogDebug("Try {try} for {funcName}",
                                                              retry,
-                                                             "ControlPlaneService.TryGetResultAsync");
+                                                             "SubmitterService.TryGetResultAsync");
                                              try
                                              {
                                                var response = TryGetResultAsync(resultRequest,

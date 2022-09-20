@@ -124,7 +124,7 @@ public class SessionPollingService
   /// </param>
   public IEnumerable<string> SubmitTasks(IEnumerable<byte[]> payloads)
   {
-    using var _          = Logger.LogFunction();
+    using var _ = Logger.LogFunction();
 
     var taskRequests = payloads.Select(bytes =>
                                        {

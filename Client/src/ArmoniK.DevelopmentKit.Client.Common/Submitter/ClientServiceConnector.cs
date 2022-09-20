@@ -28,9 +28,9 @@ public class ClientServiceConnector
   /// <param name="sslValidation">Optional : Check if the ssl must have a strong validation (default true)</param>
   /// <param name="loggerFactory">Optional : the logger factory to create the logger</param>
   /// <returns></returns>
-  public static Api.gRPC.V1.Submitter.Submitter.SubmitterClient ControlPlaneConnection(string         endPoint,
-                                                                                       bool           sslValidation = true,
-                                                                                       ILoggerFactory loggerFactory = null)
+  public static ChannelBase ControlPlaneConnection(string         endPoint,
+                                                   bool           sslValidation = true,
+                                                   ILoggerFactory loggerFactory = null)
     => ControlPlaneConnection(endPoint,
                               "",
                               "",
@@ -46,11 +46,11 @@ public class ClientServiceConnector
   /// <param name="sslValidation">Check if the ssl must have a strong validation</param>
   /// <param name="loggerFactory">Optional logger factory</param>
   /// <returns></returns>
-  public static Api.gRPC.V1.Submitter.Submitter.SubmitterClient ControlPlaneConnection(string         endPoint,
-                                                                                       string         clientCertFilename,
-                                                                                       string         clientKeyFilename,
-                                                                                       bool           sslValidation = true,
-                                                                                       ILoggerFactory loggerFactory = null)
+  public static ChannelBase ControlPlaneConnection(string         endPoint,
+                                                   string         clientCertFilename,
+                                                   string         clientKeyFilename,
+                                                   bool           sslValidation = true,
+                                                   ILoggerFactory loggerFactory = null)
   {
     var logger = loggerFactory!.CreateLogger<ClientServiceConnector>();
     if ((!string.IsNullOrEmpty(clientCertFilename) && string.IsNullOrEmpty(clientKeyFilename)) ||
@@ -102,10 +102,10 @@ public class ClientServiceConnector
   /// <param name="sslValidation">Check if the ssl must have a strong validation</param>
   /// <param name="loggerFactory">Optional logger factory</param>
   /// <returns></returns>
-  public static Api.gRPC.V1.Submitter.Submitter.SubmitterClient ControlPlaneConnection(string                endPoint,
-                                                                                       Tuple<string, string> clientPem     = null,
-                                                                                       bool                  sslValidation = true,
-                                                                                       ILoggerFactory        loggerFactory = null)
+  public static ChannelBase ControlPlaneConnection(string                endPoint,
+                                                   Tuple<string, string> clientPem     = null,
+                                                   bool                  sslValidation = true,
+                                                   ILoggerFactory        loggerFactory = null)
   {
     var logger = loggerFactory!.CreateLogger<ClientServiceConnector>();
     var uri    = new Uri(endPoint);
@@ -145,7 +145,7 @@ public class ClientServiceConnector
                            Credentials = uri.Scheme == Uri.UriSchemeHttps
                                            ? new SslCredentials()
                                            : ChannelCredentials.Insecure,
-                           HttpHandler = httpClientHandler,
+                           HttpHandler   = httpClientHandler,
                            LoggerFactory = loggerFactory,
                          };
 
@@ -165,6 +165,6 @@ public class ClientServiceConnector
     var channel = new Channel($"{uri.Host}:{uri.Port}",
                               credentials);
 #endif
-    return new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel);
+    return channel;
   }
 }

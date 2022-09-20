@@ -23,13 +23,14 @@
 
 
 using ArmoniK.Api.gRPC.V1;
-using ArmoniK.Api.gRPC.V1.Submitter;
 using ArmoniK.DevelopmentKit.Client.Common.Submitter;
 using ArmoniK.DevelopmentKit.Client.Services;
 using ArmoniK.DevelopmentKit.Client.Services.Admin;
 using ArmoniK.DevelopmentKit.Common;
 
 using Google.Protobuf.WellKnownTypes;
+
+using Grpc.Core;
 
 using Microsoft.Extensions.Logging;
 
@@ -56,8 +57,8 @@ public class SessionServiceFactory
     Logger        = loggerFactory.CreateLogger<SessionServiceFactory>();
   }
 
-  private ILogger<SessionServiceFactory> Logger              { get; }
-  private Submitter.SubmitterClient      ControlPlaneService { get; set; }
+  private ILogger<SessionServiceFactory> Logger      { get; }
+  private ChannelBase                    GrpcChannel { get; set; }
 
 
   private ILoggerFactory LoggerFactory { get; }
@@ -74,23 +75,23 @@ public class SessionServiceFactory
     Logger.LogDebug("Creating Session... ");
 
     return new SessionService(LoggerFactory,
-                              ControlPlaneService,
+                              GrpcChannel,
                               properties.TaskOptions);
   }
 
   private void ControlPlaneConnection(Properties properties)
   {
-    if (ControlPlaneService != null)
+    if (GrpcChannel != null)
     {
       return;
     }
 
 
-    ControlPlaneService = ClientServiceConnector.ControlPlaneConnection(properties.ConnectionString,
-                                                                        properties.ClientCertFilePem,
-                                                                        properties.ClientKeyFilePem,
-                                                                        properties.ConfSSLValidation,
-                                                                        LoggerFactory);
+    GrpcChannel = ClientServiceConnector.ControlPlaneConnection(properties.ConnectionString,
+                                                                properties.ClientCertFilePem,
+                                                                properties.ClientKeyFilePem,
+                                                                properties.ConfSSLValidation,
+                                                                LoggerFactory);
   }
 
   /// <summary>
@@ -106,12 +107,12 @@ public class SessionServiceFactory
     ControlPlaneConnection(properties);
 
     return new SessionService(LoggerFactory,
-                              ControlPlaneService,
+                              GrpcChannel,
+                              clientOptions,
                               new Session
                               {
                                 Id = sessionId,
-                              },
-                              clientOptions);
+                              });
   }
 
   /// <summary>
@@ -150,6 +151,6 @@ public class SessionServiceFactory
     ControlPlaneConnection(properties);
 
     return new AdminMonitoringService(LoggerFactory,
-                                      ControlPlaneService);
+                                      GrpcChannel);
   }
 }

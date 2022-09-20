@@ -130,7 +130,7 @@ public class SessionPollingService
   /// </param>
   public IEnumerable<string> SubmitTasks(IEnumerable<byte[]> payloads)
   {
-    using var _          = Logger.LogFunction();
+    using var _ = Logger.LogFunction();
 
     var taskRequests = payloads.Select(bytes =>
                                        {
@@ -176,8 +176,8 @@ public class SessionPollingService
   public IEnumerable<string> SubmitTasksWithDependencies(IEnumerable<Tuple<byte[], IList<string>>> payloadsWithDependencies,
                                                          bool                                      resultForParent = false)
   {
-    using var _                 = Logger.LogFunction();
-    var       taskRequests      = new List<TaskRequest>();
+    using var _            = Logger.LogFunction();
+    var       taskRequests = new List<TaskRequest>();
 
     foreach (var (payload, dependencies) in payloadsWithDependencies)
     {
