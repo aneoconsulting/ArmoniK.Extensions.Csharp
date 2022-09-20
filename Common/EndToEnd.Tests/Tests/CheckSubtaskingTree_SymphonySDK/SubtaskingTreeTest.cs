@@ -185,6 +185,7 @@ public class ServiceContainer : ServiceContainerBase
     }
   }
 
+
   private byte[] AggregateValues(TaskContext   taskContext,
                                  ClientPayload clientPayload)
   {
