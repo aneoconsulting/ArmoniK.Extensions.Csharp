@@ -489,9 +489,9 @@ public class Service : AbstractClientService
   /// <param name="argument">One serialized argument that will already serialize for MethodName.</param>
   /// <param name="handler">The handler callBack implemented as IServiceInvocationHandler to get response or result or error</param>
   /// <returns>Return the taskId string</returns>
-  public IEnumerable<string> Submit(string                    methodName,
-                                    byte[]                    argument,
-                                    IServiceInvocationHandler handler)
+  public string Submit(string                    methodName,
+                       byte[]                    argument,
+                       IServiceInvocationHandler handler)
   {
     ArmonikPayload payload = new()
                              {
@@ -505,7 +505,8 @@ public class Service : AbstractClientService
                        {
                          payload,
                        },
-                       handler);
+                       handler)
+      .Single();
   }
 
   /// <summary>
@@ -541,9 +542,9 @@ public class Service : AbstractClientService
   /// <param name="arguments">List of serialized arguments that will already serialize for MethodName.</param>
   /// <param name="handler">The handler callBack implemented as IServiceInvocationHandler to get response or result or error</param>
   /// <returns>Return the taskId string</returns>
-  public string Submit(string                    methodName,
-                       IEnumerable<byte[]>       arguments,
-                       IServiceInvocationHandler handler)
+  public IEnumerable<string> Submit(string                    methodName,
+                                    IEnumerable<byte[]>       arguments,
+                                    IServiceInvocationHandler handler)
   {
     var armonikPayloads = arguments.Select(args => new ArmonikPayload
                                                    {
@@ -554,8 +555,7 @@ public class Service : AbstractClientService
                                                    });
 
     return SubmitTasks(armonikPayloads,
-                       handler)
-      .Single();
+                       handler);
   }
 
   /// <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
