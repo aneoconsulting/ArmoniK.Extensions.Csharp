@@ -62,6 +62,7 @@ public class BaseClientSubmitter<T>
   ///   Base Object for all Client submitter
   /// </summary>
   /// <param name="loggerFactory">the logger factory to pass for root object</param>
+  /// <param name="channelBase">Channel used to create grpc clients</param>
   public BaseClientSubmitter(ILoggerFactory loggerFactory,
                              ChannelBase    channelBase)
   {

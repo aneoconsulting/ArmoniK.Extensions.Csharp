@@ -155,10 +155,10 @@ public class ArmonikSymphonyClient
       sslValidation = false;
     }
 
-    GrpcChannel ??= ClientServiceConnector.ControlPlaneConnection(controlPlanSection_[SectionEndPoint],
-                                                                  clientCertFilename,
-                                                                  clientKeyFilename,
-                                                                  sslValidation,
-                                                                  LoggerFactory);
+    GrpcChannel = ClientServiceConnector.ControlPlaneConnection(controlPlanSection_[SectionEndPoint],
+                                                                clientCertFilename,
+                                                                clientKeyFilename,
+                                                                sslValidation,
+                                                                LoggerFactory);
   }
 }
