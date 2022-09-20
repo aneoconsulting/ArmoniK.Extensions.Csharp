@@ -23,16 +23,12 @@
 
 using ArmoniK.Api.gRPC.V1;
 using ArmoniK.Api.gRPC.V1.Submitter;
+using ArmoniK.DevelopmentKit.Client.Common.Submitter;
 using ArmoniK.DevelopmentKit.Common;
-using ArmoniK.DevelopmentKit.Common.Submitter;
 using ArmoniK.DevelopmentKit.SymphonyApi.Client.api;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-
-#if NET5_0_OR_GREATER
-#else
-#endif
 
 namespace ArmoniK.DevelopmentKit.SymphonyApi.Client;
 

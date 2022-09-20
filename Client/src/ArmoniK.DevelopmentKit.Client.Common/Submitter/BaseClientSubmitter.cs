@@ -31,8 +31,9 @@ using System.Threading.Tasks;
 
 using ArmoniK.Api.gRPC.V1;
 using ArmoniK.Api.gRPC.V1.Submitter;
+using ArmoniK.DevelopmentKit.Client.Common.Status;
+using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.Common.Exceptions;
-using ArmoniK.DevelopmentKit.Common.Status;
 
 using Google.Protobuf;
 
@@ -44,7 +45,7 @@ using Microsoft.Extensions.Logging;
 
 using TaskStatus = ArmoniK.Api.gRPC.V1.TaskStatus;
 
-namespace ArmoniK.DevelopmentKit.Common.Submitter;
+namespace ArmoniK.DevelopmentKit.Client.Common.Submitter;
 
 /// <summary>
 ///   Base Object for all Client submitter

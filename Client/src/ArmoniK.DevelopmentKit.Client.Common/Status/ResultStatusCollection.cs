@@ -1,9 +1,9 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 using ArmoniK.Api.gRPC.V1;
 
-namespace ArmoniK.DevelopmentKit.Common.Status;
+namespace ArmoniK.DevelopmentKit.Client.Common.Status;
 
 /// <summary>
 ///   List of result status that will be collected during the request GetResultStatus
