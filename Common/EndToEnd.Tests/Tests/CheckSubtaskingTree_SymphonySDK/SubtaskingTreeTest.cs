@@ -46,23 +46,23 @@ public class ServiceContainer : ServiceContainerBase
     //END USER PLEASE FIXME
   }
 
-  public void ChheckPayload(ClientPayload payload)
+  public void CheckPayload(ClientPayload payload)
   {
     if (payload == null)
     {
-      throw new ArgumentException($"ChheckPayload: payload must not be null");
+      throw new ArgumentException($"CheckPayload: payload must not be null");
     }
 
     if (payload.Type != ClientPayload.TaskType.Aggregation)
     {
       if (payload.Numbers == null)
       {
-        throw new ArgumentException($"ChheckPayload: payload numbers must not be null");
+        throw new ArgumentException($"CheckPayload: payload numbers must not be null");
       }
 
       if (payload.NbSubTasks <= 1)
       {
-        throw new ArgumentException($"ChheckPayload: payload.NbSubTasks:{payload.NbSubTasks} must be >= 2");
+        throw new ArgumentException($"CheckPayload: payload.NbSubTasks:{payload.NbSubTasks} must be >= 2");
       }
     }
   }
@@ -71,7 +71,7 @@ public class ServiceContainer : ServiceContainerBase
                                   TaskContext    taskContext)
   {
     var payload = ClientPayload.Deserialize(taskContext.TaskInput);
-    ChheckPayload(payload);
+    CheckPayload(payload);
 
     if (payload.Type == ClientPayload.TaskType.None)
     {
@@ -184,7 +184,6 @@ public class ServiceContainer : ServiceContainerBase
       return null; //nothing to do
     }
   }
-
 
   private byte[] AggregateValues(TaskContext   taskContext,
                                  ClientPayload clientPayload)

@@ -46,7 +46,6 @@ public class SubtaskingTreeClient : ClientBaseTest<SubtaskingTreeClient>
   {
   }
 
-
   [EntryPoint]
   public override void EntryPoint()
   {
