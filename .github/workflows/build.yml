@@ -204,7 +204,7 @@ jobs:
         with:
           ref: ${{ github.ref }}
 
-      - uses: aneoconsulting/ArmoniK@main
+      - uses: aneoconsulting/ArmoniK@jg/serviceforext
         id: deploy-infra
         with:
           worker-image: dockerhubaneo/armonik_worker_dll

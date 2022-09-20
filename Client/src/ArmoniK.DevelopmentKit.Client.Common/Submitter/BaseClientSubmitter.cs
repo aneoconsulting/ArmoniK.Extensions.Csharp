@@ -31,6 +31,8 @@ using System.Threading.Tasks;
 
 using ArmoniK.Api.gRPC.V1;
 using ArmoniK.Api.gRPC.V1.Submitter;
+
+using ArmoniK.Api.gRPC.V1.Tasks;
 using ArmoniK.DevelopmentKit.Client.Common.Status;
 using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.Common.Exceptions;
@@ -94,6 +96,16 @@ public class BaseClientSubmitter<T>
   protected Api.gRPC.V1.Submitter.Submitter.SubmitterClient ControlPlaneService { get; set; }
 
   /// <summary>
+  ///   Service for interacting with results
+  /// </summary>
+  protected Api.gRPC.V1.Results.Results.ResultsClient ResultService { get; set; }
+
+  /// <summary>
+  ///   Service for interacting with results
+  /// </summary>
+  protected Api.gRPC.V1.Tasks.Tasks.TasksClient TaskService { get; set; }
+
+  /// <summary>
   ///   Returns the status of the task
   /// </summary>
   /// <param name="taskId">The taskId of the task</param>
@@ -152,15 +164,14 @@ public class BaseClientSubmitter<T>
   ///   The method to submit several tasks with dependencies tasks. This task will wait for
   ///   to start until all dependencies are completed successfully
   /// </summary>
-  /// <param name="payloadsWithDependencies">A list of Tuple(taskId, Payload) in dependence of those created tasks</param>
+  /// <param name="payloadsWithDependencies">A list of Tuple(resultId, Payload) in dependence of those created tasks</param>
   /// <param name="maxRetries">Set the number of retries Default Value 5</param>
-  /// <returns>return the list of result id that are the output of the tasks </returns>
+  /// <returns>return the ids of the created tasks</returns>
   [PublicAPI]
   public IEnumerable<string> SubmitTasksWithDependencies(IEnumerable<Tuple<string, byte[], IList<string>>> payloadsWithDependencies,
                                                          int                                               maxRetries = 5)
   {
     using var _                = Logger.LogFunction();
-    var       resultIdsCreated = new List<string>();
 
     using var lockGuard = mutex_.LockGuard();
 
@@ -169,7 +180,6 @@ public class BaseClientSubmitter<T>
 
     for (var nbRetry = 0; nbRetry < maxRetries; nbRetry++)
     {
-      resultIdsCreated.Clear();
       try
       {
         using var asyncClientStreamingCall = ControlPlaneService.CreateLargeTasks();
@@ -187,7 +197,6 @@ public class BaseClientSubmitter<T>
 
         foreach (var (resultId, payload, dependencies) in payloadsWithDependencies)
         {
-          resultIdsCreated.Add(resultId);
           asyncClientStreamingCall.RequestStream.WriteAsync(new CreateLargeTaskRequest
                                                             {
                                                               InitTask = new InitTaskRequest
@@ -247,23 +256,17 @@ public class BaseClientSubmitter<T>
 
         var createTaskReply = asyncClientStreamingCall.ResponseAsync.Result;
 
-
         switch (createTaskReply.ResponseCase)
         {
           case CreateTaskReply.ResponseOneofCase.None:
             throw new Exception("Issue with Server !");
           case CreateTaskReply.ResponseOneofCase.CreationStatusList:
-            Logger.LogInformation("Tasks created : {ids}",
-                                  string.Join(",",
-                                              createTaskReply.CreationStatusList.CreationStatuses));
-            break;
+            return createTaskReply.CreationStatusList.CreationStatuses.Select(status => status.TaskInfo.TaskId);
           case CreateTaskReply.ResponseOneofCase.Error:
             throw new Exception("Error while creating tasks !");
           default:
             throw new ArgumentOutOfRangeException();
         }
-
-        break;
       }
       catch (Exception e)
       {
@@ -298,11 +301,7 @@ public class BaseClientSubmitter<T>
       }
     }
 
-
-    Logger.LogDebug("Results created : {ids}",
-                    resultIdsCreated);
-
-    return resultIdsCreated;
+    throw new Exception("Should not pass there");
   }
 
   /// <summary>
@@ -366,13 +365,21 @@ public class BaseClientSubmitter<T>
   /// <summary>
   ///   Get the result status of a list of results
   /// </summary>
-  /// <param name="resultIds">Collection of result ids</param>
+  /// <param name="taskIds">Collection of task ids from which to retrieve results</param>
   /// <param name="cancellationToken"></param>
   /// <returns>A ResultCollection sorted by Status Completed, Result in Error or missing</returns>
-  public ResultStatusCollection GetResultStatus(IEnumerable<string> resultIds,
+  public ResultStatusCollection GetResultStatus(IEnumerable<string> taskIds,
                                                 CancellationToken   cancellationToken = default)
   {
-    var remainingIds = resultIds.ToHashSet();
+    var mapTaskResults = TaskService.GetResultIds(new GetResultIdsRequest
+                             {
+                               TaskId =
+                               {
+                                 taskIds,
+                               },
+                             }).TaskResult;
+
+    var remainingIds = mapTaskResults.SelectMany(result => result.ResultIds).ToHashSet();
     var idStatus = Retry.WhileException(5,
                                         200,
                                         retry =>
@@ -436,13 +443,24 @@ public class BaseClientSubmitter<T>
   /// <summary>
   ///   Try to find the result of One task. If there no result, the function return byte[0]
   /// </summary>
-  /// <param name="resultId">The Id of the result</param>
+  /// <param name="taskId">The Id of the task</param>
   /// <param name="cancellationToken">The optional cancellationToken</param>
   /// <returns>Returns the result or byte[0] if there no result</returns>
-  public byte[] GetResult(string            resultId,
+  public byte[] GetResult(string            taskId,
                           CancellationToken cancellationToken = default)
   {
-    using var _ = Logger.LogFunction(resultId);
+    using var _ = Logger.LogFunction(taskId);
+
+    var resultId = TaskService.GetResultIds(new GetResultIdsRequest
+                                            {
+                                              TaskId =
+                                              {
+                                                taskId,
+                                              },
+                                            })
+                              .TaskResult.Single()
+                              .ResultIds.Single();
+
     var resultRequest = new ResultRequest
                         {
                           ResultId = resultId,
@@ -495,22 +513,22 @@ public class BaseClientSubmitter<T>
   /// <summary>
   ///   Retrieve results from control plane
   /// </summary>
-  /// <param name="resultIds">Collection of result ids</param>
+  /// <param name="taskIds">Collection of task ids</param>
   /// <param name="cancellationToken">The optional cancellationToken</param>
   /// <returns>return a dictionary with key taskId and payload</returns>
   /// <exception cref="ArgumentNullException"></exception>
   /// <exception cref="ArgumentException"></exception>
-  public IEnumerable<Tuple<string, byte[]>> GetResults(IEnumerable<string> resultIds,
+  public IEnumerable<Tuple<string, byte[]>> GetResults(IEnumerable<string> taskIds,
                                                        CancellationToken   cancellationToken = default)
-    => resultIds.AsParallel()
-                .Select(id =>
-                        {
-                          var res = GetResult(id,
-                                              cancellationToken);
+    => taskIds.AsParallel()
+              .Select(id =>
+                      {
+                        var res = GetResult(id,
+                                            cancellationToken);
 
-                          return new Tuple<string, byte[]>(id,
-                                                           res);
-                        });
+                        return new Tuple<string, byte[]>(id,
+                                                         res);
+                      });
 
   /// <summary>
   ///   Try to get the result if it is available
@@ -580,16 +598,26 @@ public class BaseClientSubmitter<T>
   /// <summary>
   ///   Try to find the result of One task. If there no result, the function return byte[0]
   /// </summary>
-  /// <param name="resultId">The Id of the result</param>
+  /// <param name="taskId">The Id of the task</param>
   /// <param name="checkOutput"></param>
   /// <param name="cancellationToken">The optional cancellationToken</param>
   /// <returns>Returns the result or byte[0] if there no result or null if task is not yet ready</returns>
   [UsedImplicitly]
-  public byte[] TryGetResult(string            resultId,
+  public byte[] TryGetResult(string            taskId,
                              bool              checkOutput       = true,
                              CancellationToken cancellationToken = default)
   {
-    using var _ = Logger.LogFunction(resultId);
+    using var _ = Logger.LogFunction(taskId);
+    var resultId = TaskService.GetResultIds(new GetResultIdsRequest
+                                            {
+                                              TaskId =
+                                              {
+                                                taskId,
+                                              },
+                                            })
+                              .TaskResult.Single()
+                              .ResultIds.Single();
+
     var resultRequest = new ResultRequest
                         {
                           ResultId = resultId,
@@ -701,8 +729,12 @@ public class BaseClientSubmitter<T>
                                         {
                                           var (id, _) = pair;
 
-                                          var res = TryGetResult(id,
-                                                                 false);
+                                          var res = TryGetResultAsync(new ResultRequest
+                                                                      {
+                                                                        ResultId = id,
+                                                                        Session  = SessionId.Id,
+                                                                      })
+                                            .Result;
                                           return res == null
                                                    ? null
                                                    : new Tuple<string, byte[]>(id,

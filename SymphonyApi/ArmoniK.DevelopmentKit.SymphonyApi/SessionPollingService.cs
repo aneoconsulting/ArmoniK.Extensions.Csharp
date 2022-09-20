@@ -131,13 +131,11 @@ public class SessionPollingService
   public IEnumerable<string> SubmitTasks(IEnumerable<byte[]> payloads)
   {
     using var _          = Logger.LogFunction();
-    var       resultsIds = new List<string>();
 
     var taskRequests = payloads.Select(bytes =>
                                        {
                                          var resultId = Guid.NewGuid()
                                                             .ToString();
-                                         resultsIds.Add(resultId);
                                          Logger.LogDebug("Create task {task}",
                                                          resultId);
                                          return new TaskRequest
@@ -160,19 +158,12 @@ public class SessionPollingService
       case CreateTaskReply.ResponseOneofCase.None:
         throw new Exception("Issue with Server !");
       case CreateTaskReply.ResponseOneofCase.CreationStatusList:
-        Logger.LogInformation("Tasks created : {ids}",
-                              string.Join(",",
-                                          createTaskReply.CreationStatusList.CreationStatuses));
-        break;
+        return createTaskReply.CreationStatusList.CreationStatuses.Select(status => status.TaskInfo.TaskId);
       case CreateTaskReply.ResponseOneofCase.Error:
         throw new Exception("Error while creating tasks !");
       default:
         throw new ArgumentOutOfRangeException();
     }
-
-    Logger.LogDebug("Results created : {ids}",
-                    resultsIds);
-    return resultsIds;
   }
 
   /// <summary>
@@ -187,7 +178,6 @@ public class SessionPollingService
   {
     using var _                 = Logger.LogFunction();
     var       taskRequests      = new List<TaskRequest>();
-    var       resultsIdsCreated = new List<string>();
 
     foreach (var (payload, dependencies) in payloadsWithDependencies)
     {
@@ -195,7 +185,6 @@ public class SessionPollingService
                          .ToString();
       Logger.LogDebug("Create task {task}",
                       resultId);
-      resultsIdsCreated.Add(resultId);
       var taskRequest = new TaskRequest
                         {
                           Payload = ByteString.CopyFrom(payload),
@@ -229,20 +218,12 @@ public class SessionPollingService
       case CreateTaskReply.ResponseOneofCase.None:
         throw new Exception("Issue with Server !");
       case CreateTaskReply.ResponseOneofCase.CreationStatusList:
-        Logger.LogInformation("Tasks created : {ids}",
-                              string.Join(",",
-                                          createTaskReply.CreationStatusList.CreationStatuses));
-        break;
+        return createTaskReply.CreationStatusList.CreationStatuses.Select(status => status.TaskInfo.TaskId);
       case CreateTaskReply.ResponseOneofCase.Error:
         throw new Exception("Error while creating tasks !");
       default:
         throw new ArgumentOutOfRangeException();
     }
-
-
-    Logger.LogDebug("Tasks created : {ids}",
-                    resultsIdsCreated);
-    return resultsIdsCreated;
   }
 
   /// <summary>
