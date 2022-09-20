@@ -229,10 +229,10 @@ public class SimpleUnifiedAPITestClient : ClientBaseTest<SimpleUnifiedAPITestCli
     const int wantedCount = 100;
 
     var tasksBasic = sessionService.Submit("ComputeBasicArrayCube",
-                          Enumerable.Range(1,
-                                           wantedCount)
-                                    .Select(n => ParamsHelper(numbers)),
-                          this);
+                                           Enumerable.Range(1,
+                                                            wantedCount)
+                                                     .Select(n => ParamsHelper(numbers)),
+                                           this);
     if (tasksBasic.Count() is var countBasic && countBasic != wantedCount)
     {
       throw new ApplicationException($"Expected {wantedCount} submitted tasks, got {countBasic}");
@@ -240,10 +240,10 @@ public class SimpleUnifiedAPITestClient : ClientBaseTest<SimpleUnifiedAPITestCli
 
     var handler = new IgnoreErrorHandler(Log);
     var tasksRandom = sessionService.Submit("RandomTaskError",
-                          Enumerable.Range(1,
-                                           wantedCount)
-                                    .Select(_ => ParamsHelper(90)),
-                          handler);
+                                            Enumerable.Range(1,
+                                                             wantedCount)
+                                                      .Select(_ => ParamsHelper(90)),
+                                            handler);
     if (tasksRandom.Count() is var countRandom && countRandom != wantedCount)
     {
       throw new ApplicationException($"Expected {wantedCount} submitted tasks, got {countRandom}");
