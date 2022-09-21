@@ -29,6 +29,7 @@ using ArmoniK.Api.gRPC.V1;
 using ArmoniK.Api.gRPC.V1.Agent;
 using ArmoniK.Api.Worker.Worker;
 using ArmoniK.DevelopmentKit.Common;
+using ArmoniK.DevelopmentKit.Common.Exceptions;
 
 using Google.Protobuf;
 using Google.Protobuf.WellKnownTypes;
@@ -44,6 +45,8 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.api;
 [MarkDownDoc]
 public class SessionPollingService
 {
+  private readonly SortedDictionary<string, string> tasksResultsMap_;
+
   /// <summary>
   ///   Ctor to instantiate a new SessionService
   ///   This is an object to send task or get Results from a session
@@ -65,6 +68,8 @@ public class SessionPollingService
                 };
 
     Logger.LogDebug($"Session Created {SessionId}");
+
+    tasksResultsMap_ = new SortedDictionary<string, string>();
   }
 
   /// <summary>
@@ -158,6 +163,12 @@ public class SessionPollingService
       case CreateTaskReply.ResponseOneofCase.None:
         throw new Exception("Issue with Server !");
       case CreateTaskReply.ResponseOneofCase.CreationStatusList:
+        foreach (var creationStatus in createTaskReply.CreationStatusList.CreationStatuses)
+        {
+          tasksResultsMap_.Add(creationStatus.TaskInfo.TaskId,
+                               creationStatus.TaskInfo.ExpectedOutputKeys.Single());
+        }
+
         return createTaskReply.CreationStatusList.CreationStatuses.Select(status => status.TaskInfo.TaskId);
       case CreateTaskReply.ResponseOneofCase.Error:
         throw new Exception("Error while creating tasks !");
@@ -199,7 +210,16 @@ public class SessionPollingService
 
       if (dependencies != null && dependencies.Count != 0)
       {
-        taskRequest.DataDependencies.AddRange(dependencies);
+        foreach (var dependency in dependencies)
+        {
+          if (!tasksResultsMap_.TryGetValue(dependency,
+                                            out resultId))
+          {
+            throw new WorkerApiException($"Dependency {dependency} has no corresponding result id.");
+          }
+
+          taskRequest.DataDependencies.Add(resultId);
+        }
 
         Logger.LogDebug("Dependencies : {dep}",
                         string.Join(", ",
@@ -218,6 +238,12 @@ public class SessionPollingService
       case CreateTaskReply.ResponseOneofCase.None:
         throw new Exception("Issue with Server !");
       case CreateTaskReply.ResponseOneofCase.CreationStatusList:
+        foreach (var creationStatus in createTaskReply.CreationStatusList.CreationStatuses)
+        {
+          tasksResultsMap_.Add(creationStatus.TaskInfo.TaskId,
+                               creationStatus.TaskInfo.ExpectedOutputKeys.Single());
+        }
+
         return createTaskReply.CreationStatusList.CreationStatuses.Select(status => status.TaskInfo.TaskId);
       case CreateTaskReply.ResponseOneofCase.Error:
         throw new Exception("Error while creating tasks !");
