@@ -315,8 +315,12 @@ public class Service : AbstractClientService
             idx = idx >= waitInSeconds.Count - 1
                     ? waitInSeconds.Count - 1
                     : idx                 + 1;
-            Logger.LogInformation("No Result is ready. Wait for {timeWait} seconds before new retry",
-                                  waitInSeconds[idx] / 1000);
+
+            if (idx == waitInSeconds.Count - 1) // Start log only when we are waiting after 30 secs
+            {
+              Logger.LogWarning("No Result is ready. Wait for {timeWait} seconds before new retry",
+                                    waitInSeconds[idx] / 1000);
+            }
           }
           else
           {
@@ -565,10 +569,8 @@ public class Service : AbstractClientService
   /// <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
   public override void Dispose()
   {
-    if (WaitResultsBeforeDispose)
-    {
-      Logger.LogInformation("Dispose : Waiting for the last results");
-    }
+    Logger.LogInformation($"Dispose : Waiting for the last results (Cancel after {CancelAfterTimeSpan.Minutes} min");
+
     CancellationTokenSource.CancelAfter(CancelAfterTimeSpan);
     HandlerResponse?.Wait();
     HandlerResponse?.Dispose();
