@@ -45,8 +45,7 @@ public class SimpleUnifiedApiAdminTestClient : ClientBaseTest<SimpleUnifiedAPITe
   private ILoggerFactory loggerFactory_;
 
   public SimpleUnifiedApiAdminTestClient(IConfiguration configuration,
-                                         ILoggerFactory loggerFactory,
-                                         ILoggerFactory loggerFactory1)
+                                         ILoggerFactory loggerFactory)
     : base(configuration,
            loggerFactory)
     => loggerFactory_ = loggerFactory;
