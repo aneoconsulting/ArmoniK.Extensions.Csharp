@@ -40,6 +40,7 @@ export Grpc__CaCert=""
 export Grpc__ClientCert=""
 export Grpc__ClientKey=""
 export Grpc__mTLS="false"
+export ARMONIK_SHARED_HOST_PATH=${ARMONIK_SHARED_HOST_PATH:="${HOME}/data"}
 
 nuget_cache=$(dotnet nuget locals global-packages --list | awk '{ print $2 }')
 
@@ -77,8 +78,15 @@ function GetGrpcEndPoint()
     echo "Running with endPoint ${Grpc__Endpoint}"
 }
 
-echo "Need to create Data folder for application"
-mkdir -p "${HOME}/data"
+function createZipFolderIfNeeded()
+{
+  if [ ! -d "${ARMONIK_SHARED_HOST_PATH}" ]; then
+    mkdir -p ${ARMONIK_SHARED_HOST_PATH}
+    echo "Folder ${ARMONIK_SHARED_HOST_PATH} created."
+  else
+    echo "Folder ${ARMONIK_SHARED_HOST_PATH} already exists."
+  fi
+}
 
 function build() {
   cd ${TestDir}/
@@ -95,7 +103,7 @@ function deploy() {
     echo "Copy of S3 Bucket ${TO_BUCKET}"
     aws s3 cp "../packages/${PACKAGE_NAME}" "s3://$S3_BUCKET"
   else
-    cp -v "../packages/${PACKAGE_NAME}" "${HOME}/data"
+    cp -v "../packages/${PACKAGE_NAME}" "${ARMONIK_SHARED_HOST_PATH}"
   fi
   kubectl delete -n armonik $(kubectl get pods -n armonik -l service=compute-plane --no-headers=true -o name) || true
 }
@@ -126,12 +134,15 @@ EOF
 }
 
 function printConfiguration() {
-  echo "Running script $0 $@"
   echo
+  echo "******* Configuration used : *******"
+  echo "Running script $0 $@"
   echo "SSL is actived ? ${Grpc__mTLS}"
-
   echo "SSL check strong auth server [${Grpc__SSLValidation}]"
   echo "SSL Client file [${Grpc__ClientCert}]"
+  echo "Data folder : [${ARMONIK_SHARED_HOST_PATH}]"
+  echo "Control plane IP : [${CPIP}]"
+  echo "************************************"
   echo
 }
 
@@ -167,6 +178,10 @@ while [ $# -ne 0 ]; do
       exit
       ;;
 
+    -l | --localwslrun)
+      setlocalwslrunconfig
+      shift
+      ;;
     *)
       echo "Add Args '$1' to list ${args[*]}"
       args+=("$1")
@@ -175,6 +190,7 @@ while [ $# -ne 0 ]; do
     esac
   done
 
+  createZipFolderIfNeeded
   printConfiguration
 
 echo "List of args : ${args[*]}"
