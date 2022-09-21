@@ -506,16 +506,17 @@ public class BaseClientSubmitter<T>
                          typeof(IOException),
                          typeof(RpcException));
 
-    var res = TryGetResult(resultId,
-                           cancellationToken: cancellationToken);
+    var res = TryGetResultAsync(resultRequest,
+                                cancellationToken: cancellationToken)
+      .Result;
 
     if (res != null)
     {
       return res;
     }
 
-    throw new ClientResultsException($"Cannot retrieve result {resultId}",
-                                     resultId);
+    throw new ClientResultsException($"Cannot retrieve result for task : {taskId}",
+                                     taskId);
   }
 
 
