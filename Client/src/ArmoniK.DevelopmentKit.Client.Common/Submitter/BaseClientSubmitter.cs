@@ -519,7 +519,7 @@ public class BaseClientSubmitter<T>
                          typeof(RpcException));
 
     var res = TryGetResultAsync(resultRequest,
-                                cancellationToken: cancellationToken)
+                                cancellationToken)
       .Result;
 
     if (res != null)
