@@ -384,7 +384,7 @@ public class BaseClientSubmitter<T>
                                                       taskIds,
                                                     },
                                                   })
-                                    .TaskResult;
+                                    .TaskResults;
 
     var result2TaskDic = mapTaskResults.ToDictionary(result => result.ResultIds.Single(),
                                                      result => result.TaskId);
@@ -472,7 +472,7 @@ public class BaseClientSubmitter<T>
                                                 taskId,
                                               },
                                             })
-                              .TaskResult.Single()
+                              .TaskResults.Single()
                               .ResultIds.Single();
 
     var resultRequest = new ResultRequest
@@ -630,7 +630,7 @@ public class BaseClientSubmitter<T>
                                                 taskId,
                                               },
                                             })
-                              .TaskResult.Single()
+                              .TaskResults.Single()
                               .ResultIds.Single();
 
     var resultRequest = new ResultRequest

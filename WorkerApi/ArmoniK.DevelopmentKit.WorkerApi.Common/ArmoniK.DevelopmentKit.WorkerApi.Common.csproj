@@ -8,7 +8,7 @@
   </PropertyGroup>
 
  <ItemGroup>
-    <PackageReference Include="ArmoniK.Api.Worker" Version="3.0.3-jgservicesforext.8.53da215" />
+    <PackageReference Include="ArmoniK.Api.Worker" Version="3.0.3" />
     <PackageReference Include="AWSSDK.S3" Version="3.7.9.47" />
     <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.17.0" />
