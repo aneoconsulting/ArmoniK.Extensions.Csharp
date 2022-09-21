@@ -981,7 +981,7 @@
       "output": {
         ".html": {
           "relative_path": "api/ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.html",
-          "hash": "mq17bp3DF8n7g/fXG4WItGO1g03HOUPbBlrQVP5Ts/w="
+          "hash": "8Hp03yxwlw2JzGm8M1nI7At9quJIJJuwVIfrqxMD82c="
         }
       },
       "is_incremental": false,
@@ -1413,7 +1413,7 @@
       "output": {
         ".html": {
           "relative_path": "api/ArmoniK.EndToEndTests.Common.ClientBaseTest-1.html",
-          "hash": "/0oo4XlVe20e1CR4jVcLEG+2wZnI6koOFQ5m7L/x9F8="
+          "hash": "DAfiMG+TcCbJ9yh1QrQkY8q+teA0+Prg/LE1aHK1Y/U="
         }
       },
       "is_incremental": false,
@@ -1781,6 +1781,42 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/ArmoniK.EndToEndTests.Tests.CheckSubtaskingTree_SymphonySDK.ServiceContainer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ArmoniK.EndToEndTests.Tests.CheckSubtaskingTree_SymphonySDK.ServiceContainer.html",
+          "hash": "vyhkluIaURRCtvsjKYBR97xxC15p1tPNUEMsv9NEVrg="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ArmoniK.EndToEndTests.Tests.CheckSubtaskingTree_SymphonySDK.SubtaskingTreeClient.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ArmoniK.EndToEndTests.Tests.CheckSubtaskingTree_SymphonySDK.SubtaskingTreeClient.html",
+          "hash": "IgDCsyrmshh4rGu9GAdG2TJTRFJMAKgnd6WPnqJDLUw="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ArmoniK.EndToEndTests.Tests.CheckSubtaskingTree_SymphonySDK.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ArmoniK.EndToEndTests.Tests.CheckSubtaskingTree_SymphonySDK.html",
+          "hash": "vYrX6SuPq5FGjoCm2GDDGoUVu6Zwq1YSHg4ZiX7fG+M="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/ArmoniK.EndToEndTests.Tests.CheckTryGetResults.CheckTryGetResultsClient.yml",
       "output": {
         ".html": {
@@ -2037,7 +2073,7 @@
       "output": {
         ".html": {
           "relative_path": "api/toc.html",
-          "hash": "XnMuybyWuzhEa8407DA/fQXs/EBJGkQn7eY0zFjwhy0="
+          "hash": "JpeoFx6SQuq2Ng2ER4l8PXGQrdhd5JTkBc3KINlKt5g="
         }
       },
       "is_incremental": false,
@@ -2112,7 +2148,7 @@
         "ManagedReferenceDocumentProcessor": {
           "can_incremental": false,
           "incrementalPhase": "build",
-          "total_file_count": 168,
+          "total_file_count": 171,
           "skipped_file_count": 0
         },
         "TocDocumentProcessor": {
