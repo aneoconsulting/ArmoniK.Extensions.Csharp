@@ -105,7 +105,9 @@ public class SimpleUnifiedAPITestClient : ClientBaseTest<SimpleUnifiedAPITestCli
     //var resourceId = ServiceAdmin.CreateInstance(Configuration, LoggerFactory,props).UploadResource("filePath");
 
 
-    using var cs = ServiceFactory.CreateService(props);
+    using var cs = ServiceFactory.CreateService(props,
+                                                LoggerFactory,
+                                                TimeSpan.FromMinutes(5));
 
     Log.LogInformation($"New session created : {cs.SessionId}");
 
@@ -115,7 +117,8 @@ public class SimpleUnifiedAPITestClient : ClientBaseTest<SimpleUnifiedAPITestCli
     Log.LogInformation("Submit Batch of 100 tasks in one submit call");
     ClientStartup2(cs);
 
-    Log.LogInformation("Submit Batch of 5000 tasks with sequential submits");
+    //TODO Reduce number of task to 500 for pipeline Need to move Test in integration tests
+    Log.LogInformation("Submit Batch of 500 tasks with sequential submits");
     ClientStartup3(cs);
   }
 
@@ -224,7 +227,7 @@ public class SimpleUnifiedAPITestClient : ClientBaseTest<SimpleUnifiedAPITestCli
                   }.ToArray();
 
 
-    for (var i = 0; i < 5000; i++)
+    for (var i = 0; i < 500; i++) // Reduce tile in pipeline Need to move Test in integration tests
     {
       sessionService.Submit("ComputeBasicArrayCube",
                             ParamsHelper(numbers),
