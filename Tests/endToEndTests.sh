@@ -40,6 +40,7 @@ export Grpc__CaCert=""
 export Grpc__ClientCert=""
 export Grpc__ClientKey=""
 export Grpc__mTLS="false"
+export ZipFolder="${HOME}/data"
 
 nuget_cache=$(dotnet nuget locals global-packages --list | awk '{ print $2 }')
 
@@ -77,8 +78,15 @@ function GetGrpcEndPoint()
     echo "Running with endPoint ${Grpc__Endpoint}"
 }
 
-echo "Need to create Data folder for application"
-mkdir -p "${HOME}/data"
+function createZipFolderIfNeeded()
+{
+  if [ ! -d "{$ZipFolder}" ]; then
+    mkdir -p {$ZipFolder}
+    echo "Folder {$ZipFolder} created."
+  else
+    echo "Folder {$ZipFolder} already exists."
+  fi
+}
 
 function build() {
   cd ${TestDir}/
@@ -95,7 +103,7 @@ function deploy() {
     echo "Copy of S3 Bucket ${TO_BUCKET}"
     aws s3 cp "../packages/${PACKAGE_NAME}" "s3://$S3_BUCKET"
   else
-    cp -v "../packages/${PACKAGE_NAME}" "${HOME}/data"
+    cp -v "../packages/${PACKAGE_NAME}" "${ZipFolder}"
   fi
   kubectl delete -n armonik $(kubectl get pods -n armonik -l service=compute-plane --no-headers=true -o name) || true
 }
@@ -105,6 +113,13 @@ function execute() {
   cd "${TestDir}/${RELATIVE_CLIENT}/"
   echo dotnet run --self-contained -r linux-x64 -f ${FRAMEWORK} -c ${configuration} $@
   dotnet run --self-contained -r linux-x64 -f ${FRAMEWORK} -c ${configuration} $@
+}
+
+function setlocalwslrunconfig(){
+  #On local env we reused 'ARMONIK_SHARED_HOST_PATH' env variable if setted.
+  export ZipFolder=${ARMONIK_SHARED_HOST_PATH:=${ZipFolder}}
+  #if you are in your wsl = outside of kubernetes cluster you need ingress outside IP
+  export CPIP=$(kubectl get svc ingress -n armonik -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
 }
 
 function usage() {
@@ -120,18 +135,22 @@ function usage() {
         -r | --run          : To run only deploy package and test
         -a                  : To run only deploy package and test
         -s3                 : Need S3 copy with aws cp
+        -l | --localwslrun: To test on your local WSL. ARMONIK_SHARED_HOST_PATH will be used if any for data folder
 EOF
   echo
   exit 0
 }
 
 function printConfiguration() {
-  echo "Running script $0 $@"
   echo
+  echo "******* Configuration used : *******"
+  echo "Running script $0 $@"
   echo "SSL is actived ? ${Grpc__mTLS}"
-
   echo "SSL check strong auth server [${Grpc__SSLValidation}]"
   echo "SSL Client file [${Grpc__ClientCert}]"
+  echo "Data folder : [${ZipFolder}]"
+  echo "Control plane IP : [${CPIP}]"
+  echo "************************************"
   echo
 }
 
@@ -167,6 +186,10 @@ while [ $# -ne 0 ]; do
       exit
       ;;
 
+    -l | --localwslrun)
+      setlocalwslrunconfig
+      shift
+      ;;
     *)
       echo "Add Args '$1' to list ${args[*]}"
       args+=("$1")
@@ -175,6 +198,7 @@ while [ $# -ne 0 ]; do
     esac
   done
 
+  createZipFolderIfNeeded
   printConfiguration
 
 echo "List of args : ${args[*]}"
