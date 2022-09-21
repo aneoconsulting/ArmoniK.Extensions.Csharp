@@ -45,7 +45,7 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.api;
 [MarkDownDoc]
 public class SessionPollingService
 {
-  private readonly SortedDictionary<string, string> tasksResultsMap_;
+  private readonly Dictionary<string, string> tasksResultsMap_;
 
   /// <summary>
   ///   Ctor to instantiate a new SessionService

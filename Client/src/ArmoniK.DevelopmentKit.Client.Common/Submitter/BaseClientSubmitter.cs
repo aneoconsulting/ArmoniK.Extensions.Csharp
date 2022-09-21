@@ -23,7 +23,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Data;
 using System.IO;
 using System.Linq;
@@ -387,10 +386,8 @@ public class BaseClientSubmitter<T>
                                                   })
                                     .TaskResult;
 
-    var remainingIds = mapTaskResults.Select(result => result.ResultIds.Single())
-                                     .ToHashSet();
-    var result2TaskDic = mapTaskResults.ToImmutableSortedDictionary(result => result.ResultIds.Single(),
-                                                                    result => result.TaskId);
+    var result2TaskDic = mapTaskResults.ToDictionary(result => result.ResultIds.Single(),
+                                                     result => result.TaskId);
 
     var idStatus = Retry.WhileException(5,
                                         200,
@@ -403,7 +400,7 @@ public class BaseClientSubmitter<T>
                                                                                                                               {
                                                                                                                                 ResultIds =
                                                                                                                                 {
-                                                                                                                                  remainingIds,
+                                                                                                                                  result2TaskDic.Keys,
                                                                                                                                 },
                                                                                                                                 SessionId = SessionId.Id,
                                                                                                                               }));
@@ -443,13 +440,13 @@ public class BaseClientSubmitter<T>
           break;
       }
 
-      remainingIds.Remove(idStatusPair.ResultId);
+      result2TaskDic.Remove(idStatusPair.ResultId);
     }
 
     var resultStatusList = new ResultStatusCollection
                            {
                              IdsResultError = idsResultError,
-                             IdsError       = remainingIds,
+                             IdsError       = result2TaskDic.Values,
                              IdsReady       = idsReady,
                              IdsNotReady    = idsNotReady,
                            };
