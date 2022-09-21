@@ -82,14 +82,21 @@ public class Service : AbstractClientService
   ///   and create the session to ArmoniK
   /// </summary>
   /// <param name="properties">The properties containing TaskOptions and information to communicate with Control plane and </param>
-  public Service(Properties properties)
-    : base(properties)
+  /// <param name="loggerFactory"></param>
+  /// <param name="cancellationTimeSpan">Time to wait cancellation in dispose method</param>
+  public Service(Properties     properties,
+                 ILoggerFactory loggerFactory,
+                 TimeSpan?      cancellationTimeSpan = null)
+    : base(properties,
+           loggerFactory)
   {
     SessionServiceFactory = new SessionServiceFactory(LoggerFactory);
 
     SessionService = SessionServiceFactory.CreateSession(properties);
 
     ProtoSerializer = new ProtoSerializer();
+
+    CancellationMinutes = cancellationTimeSpan ?? TimeSpan.FromMinutes(1);
 
     CancellationTokenSource = new CancellationTokenSource();
 
@@ -100,6 +107,8 @@ public class Service : AbstractClientService
     Logger.BeginPropertyScope(("SessionId", SessionService.SessionId),
                               ("Class", "Service"));
   }
+
+  private TimeSpan CancellationMinutes { get; }
 
   /// <summary>
   ///   Property Get the SessionId
@@ -316,8 +325,12 @@ public class Service : AbstractClientService
           idx = idx >= waitInSeconds.Count - 1
                   ? waitInSeconds.Count - 1
                   : idx                 + 1;
-          Logger.LogInformation("No Results are ready. Wait for {timeWait} seconds before new retry",
-                                waitInSeconds[idx] / 1000);
+
+          if (idx == waitInSeconds.Count - 1)
+          {
+            Logger.LogWarning("No Results are ready. Wait for {timeWait} seconds before new retry",
+                              waitInSeconds[idx] / 1000);
+          }
         }
         else
         {
@@ -561,7 +574,9 @@ public class Service : AbstractClientService
   /// <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
   public override void Dispose()
   {
-    CancellationTokenSource.Cancel();
+    Logger.LogWarning($"Wait {CancellationMinutes.Minutes} Minutes for cancellation before shutdown client Service");
+
+    CancellationTokenSource.CancelAfter(CancellationMinutes);
     HandlerResponse?.Wait();
     HandlerResponse?.Dispose();
 

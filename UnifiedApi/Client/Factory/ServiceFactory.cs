@@ -1,4 +1,4 @@
-﻿// This file is part of the ArmoniK project
+// This file is part of the ArmoniK project
 // 
 // Copyright (C) ANEO, 2021-2022.
 //   W. Kirschenmann   <wkirschenmann@aneo.fr>
@@ -21,10 +21,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System;
+
 using ArmoniK.DevelopmentKit.Client.Services;
 using ArmoniK.DevelopmentKit.Client.Services.Admin;
 using ArmoniK.DevelopmentKit.Client.Services.Submitter;
 using ArmoniK.DevelopmentKit.Common;
+
+using Microsoft.Extensions.Logging;
 
 namespace ArmoniK.DevelopmentKit.Client.Factory;
 
@@ -38,15 +42,24 @@ public class ServiceFactory
   ///   The method to create new Service
   /// </summary>
   /// <param name="props">Properties for the service containing IConfiguration and TaskOptions</param>
+  /// <param name="loggerFactory"></param>
+  /// <param name="cancellationTimeSpan">Time to wait cancellation in dispose method</param>
   /// <returns>returns the new instantiated service</returns>
-  public static Service CreateService(Properties props)
-    => new(props);
+  public static Service CreateService(Properties     props,
+                                      ILoggerFactory loggerFactory,
+                                      TimeSpan?      cancellationTimeSpan = null)
+    => new(props,
+           loggerFactory,
+           cancellationTimeSpan);
 
   /// <summary>
   ///   Method to get the ServiceAdmin
   /// </summary>
   /// <param name="props"></param>
+  /// <param name="loggerFactory"></param>
   /// <returns></returns>
-  public static ServiceAdmin GetServiceAdmin(Properties props)
-    => new(props);
+  public static ServiceAdmin GetServiceAdmin(Properties     props,
+                                             ILoggerFactory loggerFactory)
+    => new(props,
+           loggerFactory);
 }
