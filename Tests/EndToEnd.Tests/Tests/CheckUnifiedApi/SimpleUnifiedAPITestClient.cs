@@ -38,6 +38,40 @@ using Microsoft.Extensions.Logging;
 
 namespace ArmoniK.EndToEndTests.Tests.CheckUnifiedApi;
 
+public class IgnoreErrorHandler : IServiceInvocationHandler
+{
+  private readonly ILogger logger_;
+
+  public IgnoreErrorHandler(ILogger logger)
+    => logger_ = logger;
+
+  public void HandleError(ServiceInvocationException e,
+                          string                     taskId)
+    => logger_.LogError($"Error (ignore) from {taskId} : " + e.Message);
+
+  public void HandleResponse(object response,
+                             string taskId)
+  {
+    switch (response)
+    {
+      case null:
+        logger_.LogInformation("Task finished but nothing returned in Result");
+        break;
+      case double value:
+        logger_.LogInformation($"Task finished with result {value}");
+        break;
+      case double[] doubles:
+        logger_.LogInformation("Result is " + string.Join(", ",
+                                                          doubles));
+        break;
+      case byte[] values:
+        logger_.LogInformation("Result is " + string.Join(", ",
+                                                          values.ConvertToArray()));
+        break;
+    }
+  }
+}
+
 public class SimpleUnifiedAPITestClient : ClientBaseTest<SimpleUnifiedAPITestClient>, IServiceInvocationHandler
 {
   public SimpleUnifiedAPITestClient(IConfiguration configuration,
@@ -195,17 +229,28 @@ public class SimpleUnifiedAPITestClient : ClientBaseTest<SimpleUnifiedAPITestCli
                     3.0,
                   }.ToArray();
 
-    sessionService.Submit("ComputeBasicArrayCube",
-                          Enumerable.Range(1,
-                                           100)
-                                    .Select(n => ParamsHelper(numbers)),
-                          this);
+    const int wantedCount = 100;
 
-    sessionService.Submit("RandomTaskError",
-                          Enumerable.Range(1,
-                                           100)
-                                    .Select(_ => ParamsHelper(0.90)),
-                          this);
+    var tasksBasic = sessionService.Submit("ComputeBasicArrayCube",
+                                           Enumerable.Range(1,
+                                                            wantedCount)
+                                                     .Select(n => ParamsHelper(numbers)),
+                                           this);
+    if (tasksBasic.Count() is var countBasic && countBasic != wantedCount)
+    {
+      throw new ApplicationException($"Expected {wantedCount} submitted tasks, got {countBasic}");
+    }
+
+    var handler = new IgnoreErrorHandler(Log);
+    var tasksRandom = sessionService.Submit("RandomTaskError",
+                                            Enumerable.Range(1,
+                                                             wantedCount)
+                                                      .Select(_ => ParamsHelper(90)),
+                                            handler);
+    if (tasksRandom.Count() is var countRandom && countRandom != wantedCount)
+    {
+      throw new ApplicationException($"Expected {wantedCount} submitted tasks, got {countRandom}");
+    }
   }
 
   /// <summary>
@@ -226,8 +271,7 @@ public class SimpleUnifiedAPITestClient : ClientBaseTest<SimpleUnifiedAPITestCli
                     3.0,
                   }.ToArray();
 
-
-    for (var i = 0; i < 500; i++) // Reduce tile in pipeline Need to move Test in integration tests
+    for (var i = 0; i < 500; i++)
     {
       sessionService.Submit("ComputeBasicArrayCube",
                             ParamsHelper(numbers),

@@ -1,6 +1,6 @@
 <Project>
   <!--
-  This work allows to build on wsl and on windows with any conf²cts in object neither binary folders
+  This work allows to build on wsl and on windows without any conflicts in either object or binary folders
   https://docs.microsoft.com/fr-fr/visualstudio/msbuild/common-msbuild-project-properties?view=vs-2022
   https://stackoverflow.com/questions/45575280/msbuild-nuget-restoreoutputpath-how-to-make-it-work
   https://stackoverflow.com/questions/60647277/visual-studio-change-nugets-output-directory-for-temporary-files
@@ -33,15 +33,13 @@
     <Company>ANEO</Company>
     <Product>ArmoniK</Product>
     <Description>ArmoniK Package SDK for high level API</Description>
-    <Copyright>Copyright © ANEO 2022</Copyright>
+    <Copyright>Copyright © ANEO 2021-2022</Copyright>
     <Summary>ArmoniK Package SDK for high level API</Summary>
     <NeutralLanguage>en-US</NeutralLanguage>
     <Title>$(MSBuildProjectName)</Title>
     <SignAssembly>True</SignAssembly>
     <AssemblyOriginatorKeyFile>$(RootProjectDir)/kp.snk</AssemblyOriginatorKeyFile>
 
-    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <IsPackable>true</IsPackable>
     <PackageOutputPath>$(RootProjectDir)/publish</PackageOutputPath>
     <RuntimeIdentifiers>win-x64;linux-x64</RuntimeIdentifiers>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
@@ -64,20 +62,13 @@
     <RepositoryUrl>https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-    
+
     <!--Package Validation-->
     <EnablePackageValidation>true</EnablePackageValidation>
     <Deterministic>true</Deterministic>
     <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
   </PropertyGroup>
 
-
-  <PropertyGroup>
-    <ArmonikAPIVersion>3.0.2</ArmonikAPIVersion>
-  </PropertyGroup>
-
-
-  
   <ItemGroup>
     <None Remove="**\*.orig" />
     <None Include="$(RootProjectDir)/LICENSE" Pack="true" PackagePath="LICENSE.md" />

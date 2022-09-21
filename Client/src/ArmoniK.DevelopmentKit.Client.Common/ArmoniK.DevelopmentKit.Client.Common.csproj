@@ -3,10 +3,12 @@
   <PropertyGroup>
     <TargetFrameworks>net472;net48;net5.0;net6.0</TargetFrameworks>
     <OutputType>Library</OutputType>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <IsPackable>true</IsPackable>
   </PropertyGroup>
 
  <ItemGroup>
-    <PackageReference Include="ArmoniK.Api.Client" Version="$(ArmonikAPIVersion)" />
+    <PackageReference Include="ArmoniK.Api.Client" Version="3.0.2" />
     <PackageReference Include="Grpc.Core" Version="2.46.3" />
     <PackageReference Include="Grpc.Net.Client" Version="2.47.0" />
     <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="6.0.0" />

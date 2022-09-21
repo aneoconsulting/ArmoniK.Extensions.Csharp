@@ -110,21 +110,28 @@ public class HeavyMatrixComputeClient : ClientBaseTest<HeavyMatrixComputeClient>
                                Configuration.GetSection("Grpc")["EndPoint"],
                                5001);
 
-    //using var cs = ServiceFactory.CreateService(props, LoggerFactory);
     using var cs = ServiceFactory.CreateService(props,
-                                                LoggerFactory, TimeSpan.FromMinutes(20));
+                                                LoggerFactory, TimeSpan.FromMinutes(5));
 
 
     Log.LogInformation($"New session created : {cs.SessionId}");
 
     Log.LogInformation("Running End to End test to compute heavy matrix in sequential");
 
+
     ComputeMatrix(cs,
-                  nbTasks: 10000,
-                  nbElement: 384); // 1000 tasks x 3 KB of payload
-    ComputeMatrix(cs,
-                  nbTasks: 1000,
-                  nbElement: 3932160); // 1000 tasks x 3 MB of payload
+                  nbTasks: 16000,
+                  nbElement: 64000); // 100 000 tasks x 30 KB of payload
+
+    Cts = new CancellationTokenSource();
+    //ComputeMatrix(cs,
+    //              nbTasks: 100000,
+    //              nbElement: 3840); // 100 000 tasks x 3 KB of payload
+
+    //Cts = new CancellationTokenSource();
+    //ComputeMatrix(cs,
+    //              nbTasks: 1000,
+    //              nbElement: 393216); // 1 000 tasks x 3 MB of payload
   }
 
   private static void OverrideTaskOptions(TaskOptions taskOptions)
@@ -159,33 +166,31 @@ public class HeavyMatrixComputeClient : ClientBaseTest<HeavyMatrixComputeClient>
   ///   The first test developed to validate dependencies subTasking
   /// </summary>
   /// <param name="sessionService"></param>
-  /// <param name="cancellationTokenSource"></param>
+  /// <param name="nbTasks">The number of task to submit</param>
+  /// <param name="nbElement">The number of element n x M in the Matrix</param>
   private void ComputeMatrix(Service sessionService,
                              int     nbTasks,
                              int     nbElement)
   {
     var index_task = 0;
     var prev_index = 0;
-    
+    var elapse     = 30;
+    nbResults_ = 0;
     var numbers = Enumerable.Range(0,
                                    nbElement)
                             .Select(x => (double)x)
                             .ToArray();
-    Log.LogInformation($"Running from {nbTasks} tasks with payload by task {nbElement * 8 / 1024} Ko...");
+    Log.LogInformation($"===  Running from {nbTasks} tasks with payload by task {(nbElement * 8) / 1024} Ko Total : {(nbTasks * nbElement / 128) } Ko...   ===");
 
     PeriodicInfo(() =>
                  {
                    Log.LogInformation($"{index_task}/{nbTasks} Tasks. " + $"Got {nbResults_} results. " +
-                                      $"Check Submission perf : Payload {(index_task - prev_index) * nbElement * 8.0 / 1024.0 / 20.0} Ko/s, " +
-                                      $"{(index_task - prev_index)                                                   / 20} tasks/s");
+                                      $"Check Submission perf : Payload {(index_task - prev_index) * nbElement * 8.0 / 1024.0 / elapse:0.0} Ko/s, " +
+                                      $"{(index_task - prev_index)                                                   / (double)elapse:0.00} tasks/s");
                    prev_index = index_task;
 
-                   if (nbResults_ >= nbTasks)
-                   {
-                     sessionService.WaitResultsBeforeDispose = false;
-                   }
                  },
-                 20,
+                 elapse,
                  Cts.Token);
 
 
@@ -200,14 +205,13 @@ public class HeavyMatrixComputeClient : ClientBaseTest<HeavyMatrixComputeClient>
                             this);
     }
 
-    Log.LogInformation($"{nbTasks} tasks executed in : {sw.ElapsedMilliseconds / 1000} secs");
-
-    sessionService.Destroy();
+    Log.LogInformation($"{nbTasks} tasks executed in : {sw.ElapsedMilliseconds / 1000} secs with Total bytes {nbTasks * nbElement / 128} Ko");
+    Cts.Cancel();
   }
 
   /// <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
   public void Dispose()
   {
-    Cts.Cancel();
+   
   }
 }
