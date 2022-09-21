@@ -69,7 +69,7 @@ public class SessionPollingService
 
     Logger.LogDebug($"Session Created {SessionId}");
 
-    tasksResultsMap_ = new SortedDictionary<string, string>();
+    tasksResultsMap_ = new Dictionary<string, string>();
   }
 
   /// <summary>
