@@ -50,14 +50,14 @@ public class ServiceContainer : ServiceContainerBase
   {
     if (payload == null)
     {
-      throw new ArgumentException($"CheckPayload: payload must not be null");
+      throw new ArgumentException("CheckPayload: payload must not be null");
     }
 
     if (payload.Type != ClientPayload.TaskType.Aggregation)
     {
       if (payload.Numbers == null)
       {
-        throw new ArgumentException($"CheckPayload: payload numbers must not be null");
+        throw new ArgumentException("CheckPayload: payload numbers must not be null");
       }
 
       if (payload.NbSubTasks <= 1)
@@ -79,7 +79,8 @@ public class ServiceContainer : ServiceContainerBase
       return SplitAndSum(taskContext,
                          payload);
     }
-    else if (payload.Type == ClientPayload.TaskType.Aggregation)
+
+    if (payload.Type == ClientPayload.TaskType.Aggregation)
     {
       return AggregateValues(taskContext,
                              payload);
@@ -104,7 +105,7 @@ public class ServiceContainer : ServiceContainerBase
                                                int     nbSplit = 2)
   {
 #if NET6_0_OR_GREATER
-    return listToSplit.Chunk((int)Math.Ceiling((decimal)listToSplit.Count / (decimal)nbSplit));
+    return listToSplit.Chunk((int)Math.Ceiling(listToSplit.Count / (decimal)nbSplit));
 #else
             int nbElemToTake = (int)Math.Ceiling((decimal)listToSplit.Count / (decimal)nbSplit);
             List<T> tempList = listToSplit;
@@ -142,47 +143,46 @@ public class ServiceContainer : ServiceContainerBase
                Result = value,
              }.Serialize();
     }
-    else // if (clientPayload.numbers.Count > 1)
+
+    // if (clientPayload.numbers.Count > 1)
+    var splittedLists = SplitList(clientPayload.Numbers,
+                                  clientPayload.NbSubTasks);
+
+    var subTaskIds = new List<string>(clientPayload.NbSubTasks);
+    foreach (var splittedList in splittedLists)
     {
-      var splittedLists = SplitList(clientPayload.Numbers,
-                                    clientPayload.NbSubTasks);
-
-      var subTaskIds = new List<string>(clientPayload.NbSubTasks);
-      foreach (var splittedList in splittedLists)
+      var childPayload = new ClientPayload
+                         {
+                           Type       = clientPayload.Type,
+                           Numbers    = splittedList.ToList(),
+                           NbSubTasks = clientPayload.NbSubTasks,
+                           Result     = 0,
+                         };
+      if (splittedList.Count() <= 100)
       {
-        var childPayload = new ClientPayload
-                           {
-                             Type       = clientPayload.Type,
-                             Numbers    = splittedList.ToList(),
-                             NbSubTasks = clientPayload.NbSubTasks,
-                             Result     = 0,
-                           };
-        if (splittedList.Count() <= 100)
-        {
-          Logger.LogInformation($"Submitting subTask from task          : {taskContext.TaskId} from Session {SessionId.Id} numbers : [{string.Join(';', splittedList)}] {clientPayload.Type}");
-        }
-        else
-        {
-          Logger.LogInformation($"Submitting subTask from task          : {taskContext.TaskId} from Session {SessionId.Id} numbers : [{string.Join(';', splittedList.Take(50))};...;{string.Join(';', splittedList.TakeLast(50))}] {clientPayload.Type}");
-        }
-
-        var subTaskId = this.SubmitTask(childPayload.Serialize());
-        subTaskIds.Add(subTaskId);
+        Logger.LogInformation($"Submitting subTask from task          : {taskContext.TaskId} from Session {SessionId.Id} numbers : [{string.Join(';', splittedList)}] {clientPayload.Type}");
+      }
+      else
+      {
+        Logger.LogInformation($"Submitting subTask from task          : {taskContext.TaskId} from Session {SessionId.Id} numbers : [{string.Join(';', splittedList.Take(50))};...;{string.Join(';', splittedList.TakeLast(50))}] {clientPayload.Type}");
       }
 
-      ClientPayload aggPayload = new()
-                                 {
-                                   Type   = ClientPayload.TaskType.Aggregation,
-                                   Result = 0,
-                                 };
-
-      Logger.LogInformation($"Submitting aggregation task             : {taskContext.TaskId} from Session {SessionId.Id}");
-      var aggTaskId = this.SubmitTaskWithDependencies(aggPayload.Serialize(),
-                                                      subTaskIds,
-                                                      true);
-      Logger.LogInformation($"Submitted  SubmitTaskWithDependencies : {aggTaskId} with task dependencies      {string.Join(';', subTaskIds.Take(10))}...");
-      return null; //nothing to do
+      var subTaskId = this.SubmitTask(childPayload.Serialize());
+      subTaskIds.Add(subTaskId);
     }
+
+    ClientPayload aggPayload = new()
+                               {
+                                 Type   = ClientPayload.TaskType.Aggregation,
+                                 Result = 0,
+                               };
+
+    Logger.LogInformation($"Submitting aggregation task             : {taskContext.TaskId} from Session {SessionId.Id}");
+    var aggTaskId = this.SubmitTaskWithDependencies(aggPayload.Serialize(),
+                                                    subTaskIds,
+                                                    true);
+    Logger.LogInformation($"Submitted  SubmitTaskWithDependencies : {aggTaskId} with task dependencies      {string.Join(';', subTaskIds.Take(10))}...");
+    return null; //nothing to do
   }
 
   private byte[] AggregateValues(TaskContext   taskContext,

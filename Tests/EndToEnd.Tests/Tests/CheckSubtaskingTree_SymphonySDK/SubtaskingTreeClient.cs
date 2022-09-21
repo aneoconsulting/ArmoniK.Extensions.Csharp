@@ -21,8 +21,6 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
@@ -61,8 +59,7 @@ public class SubtaskingTreeClient : ClientBaseTest<SubtaskingTreeClient>
 
     Log.LogInformation("Running End to End test to compute Sum of numbers in a subtasking tree way");
     ExecuteTreeSubtasking(sessionService,
-                          1024,
-                          2);
+                          1024);
   }
 
   /// <summary>
