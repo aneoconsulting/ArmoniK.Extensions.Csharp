@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
 
-using ArmoniK.Api.gRPC.V1;
-
 namespace ArmoniK.DevelopmentKit.Client.Common.Status;
 
 /// <summary>
@@ -13,12 +11,12 @@ public class ResultStatusCollection
   /// <summary>
   ///   List of completed task where the result is ready to be retrieved
   /// </summary>
-  public IEnumerable<Tuple<string, ResultStatus>> IdsReady { get; set; } = default;
+  public IEnumerable<ResultStatusData> IdsReady { get; set; } = default;
 
   /// <summary>
   ///   List of task or task result in error
   /// </summary>
-  public IEnumerable<Tuple<string, ResultStatus>> IdsResultError { get; set; } = default;
+  public IEnumerable<ResultStatusData> IdsResultError { get; set; } = default;
 
   /// <summary>
   ///   List of Unknown TaskIds. There is a heavy error somewhere else in the execution when this list has element
@@ -28,10 +26,10 @@ public class ResultStatusCollection
   /// <summary>
   ///   List of result not yet written in database
   /// </summary>
-  public IEnumerable<Tuple<string, ResultStatus>> IdsNotReady { get; set; }
+  public IEnumerable<ResultStatusData> IdsNotReady { get; set; }
 
   /// <summary>
   ///   The list of canceled task
   /// </summary>
-  public IEnumerable<Tuple<string, ResultStatus>> Canceled { get; set; }
+  public IEnumerable<ResultStatusData> Canceled { get; set; }
 }

@@ -329,7 +329,6 @@ public class BaseClientSubmitter<T>
                            });
   }
 
-
   /// <summary>
   ///   User method to wait for only the parent task from the client
   /// </summary>
@@ -387,8 +386,16 @@ public class BaseClientSubmitter<T>
                                                   })
                                     .TaskResult;
 
-    var remainingIds = mapTaskResults.SelectMany(result => result.ResultIds)
+    var remainingIds = mapTaskResults.Select(result => result.ResultIds.Single())
                                      .ToHashSet();
+    var result2TaskDic = new SortedDictionary<string, string>();
+
+    foreach (var taskResult in mapTaskResults)
+    {
+      result2TaskDic.Add(taskResult.ResultIds.Single(),
+                         taskResult.TaskId);
+    }
+
     var idStatus = Retry.WhileException(5,
                                         200,
                                         retry =>
@@ -410,28 +417,33 @@ public class BaseClientSubmitter<T>
                                         typeof(IOException),
                                         typeof(RpcException));
 
-    var idsResultError = new List<Tuple<string, ResultStatus>>();
-    var idsReady       = new List<Tuple<string, ResultStatus>>();
-    var idsNotReady    = new List<Tuple<string, ResultStatus>>();
+    var idsResultError = new List<ResultStatusData>();
+    var idsReady       = new List<ResultStatusData>();
+    var idsNotReady    = new List<ResultStatusData>();
 
     foreach (var idStatusPair in idStatus)
     {
-      var tuple = Tuple.Create(idStatusPair.ResultId,
-                               idStatusPair.Status);
+      result2TaskDic.TryGetValue(idStatusPair.ResultId,
+                                 out var taskId);
+
+      var resData = new ResultStatusData(idStatusPair.ResultId,
+                                         taskId,
+                                         idStatusPair.Status);
+
       switch (idStatusPair.Status)
       {
         case ResultStatus.Notfound:
           continue;
         case ResultStatus.Completed:
-          idsReady.Add(tuple);
+          idsReady.Add(resData);
           break;
         case ResultStatus.Created:
-          idsNotReady.Add(tuple);
+          idsNotReady.Add(resData);
           break;
         case ResultStatus.Unspecified:
         case ResultStatus.Aborted:
         default:
-          idsResultError.Add(tuple);
+          idsResultError.Add(resData);
           break;
       }
 
@@ -706,7 +718,7 @@ public class BaseClientSubmitter<T>
       if (resultStatus.IdsError.Any() || resultStatus.IdsResultError.Any())
       {
         var msg =
-          $"The missing result is in error or canceled. Please check log for more information on Armonik grid server list of taskIds in Error : [ {string.Join(", ", resultStatus.IdsResultError.Select(x => x.Item1))}";
+          $"The missing result is in error or canceled. Please check log for more information on Armonik grid server list of taskIds in Error : [ {string.Join(", ", resultStatus.IdsResultError.Select(x => x.TaskId))}";
 
         if (resultStatus.IdsError.Any())
         {
@@ -723,31 +735,28 @@ public class BaseClientSubmitter<T>
         var taskIdInError = resultStatus.IdsError.Any()
                               ? resultStatus.IdsError.First()
                               : resultStatus.IdsResultError.First()
-                                            .Item1;
+                                            .TaskId;
 
         msg += $"1st result id where the task which should create it is in error : {taskIdInError}";
 
         Logger.LogError(msg);
 
         throw new ClientResultsException(msg,
-                                         (resultStatus.IdsError ?? Enumerable.Empty<string>()).Concat(resultStatus.IdsResultError.Select(x => x.Item1)));
+                                         (resultStatus.IdsError ?? Enumerable.Empty<string>()).Concat(resultStatus.IdsResultError.Select(x => x.TaskId)));
       }
     }
 
-
-    return resultStatus.IdsReady.Select(pair =>
+    return resultStatus.IdsReady.Select(resultStatusData =>
                                         {
-                                          var (id, _) = pair;
-
                                           var res = TryGetResultAsync(new ResultRequest
                                                                       {
-                                                                        ResultId = id,
+                                                                        ResultId = resultStatusData.ResultId,
                                                                         Session  = SessionId.Id,
                                                                       })
                                             .Result;
                                           return res == null
                                                    ? null
-                                                   : new Tuple<string, byte[]>(id,
+                                                   : new Tuple<string, byte[]>(resultStatusData.TaskId,
                                                                                res);
                                         })
                        .Where(el => el != null)

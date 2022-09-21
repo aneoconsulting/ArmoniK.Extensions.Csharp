@@ -149,7 +149,7 @@ public class SimpleUnifiedAPITestClient : ClientBaseTest<SimpleUnifiedAPITestCli
     Log.LogInformation("Submit Batch of 100 tasks in one submit call");
     ClientStartup2(cs);
 
-    Log.LogInformation("Submit Batch of 5000 tasks with sequential submits");
+    Log.LogInformation("Submit Batch of 500 tasks with sequential submits");
     ClientStartup3(cs);
   }
 
@@ -255,7 +255,7 @@ public class SimpleUnifiedAPITestClient : ClientBaseTest<SimpleUnifiedAPITestCli
                     3.0,
                     3.0,
                     3.0,
-                    3.0,
+                    4.0,
                   }.ToArray();
 
     for (var i = 0; i < 500; i++)
