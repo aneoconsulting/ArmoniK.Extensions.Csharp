@@ -23,6 +23,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Data;
 using System.IO;
 using System.Linq;
@@ -388,13 +389,8 @@ public class BaseClientSubmitter<T>
 
     var remainingIds = mapTaskResults.Select(result => result.ResultIds.Single())
                                      .ToHashSet();
-    var result2TaskDic = new SortedDictionary<string, string>();
-
-    foreach (var taskResult in mapTaskResults)
-    {
-      result2TaskDic.Add(taskResult.ResultIds.Single(),
-                         taskResult.TaskId);
-    }
+    var result2TaskDic = mapTaskResults.ToImmutableSortedDictionary(result => result.ResultIds.Single(),
+                                                                    result => result.TaskId);
 
     var idStatus = Retry.WhileException(5,
                                         200,
