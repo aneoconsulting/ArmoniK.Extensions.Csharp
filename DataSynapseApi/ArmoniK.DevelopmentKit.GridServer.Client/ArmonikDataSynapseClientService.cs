@@ -22,7 +22,6 @@
 // limitations under the License.
 
 using ArmoniK.Api.gRPC.V1;
-using ArmoniK.Api.gRPC.V1.Submitter;
 using ArmoniK.DevelopmentKit.Client.Common.Submitter;
 using ArmoniK.DevelopmentKit.Common;
 
