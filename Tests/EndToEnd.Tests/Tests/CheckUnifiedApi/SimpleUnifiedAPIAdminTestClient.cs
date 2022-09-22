@@ -26,6 +26,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 
+using Amazon.Runtime.Internal.Util;
+
 using ArmoniK.Api.gRPC.V1;
 using ArmoniK.DevelopmentKit.Client.Exceptions;
 using ArmoniK.DevelopmentKit.Client.Factory;
@@ -42,11 +44,15 @@ namespace ArmoniK.EndToEndTests.Tests.CheckUnifiedApi;
 
 public class SimpleUnifiedApiAdminTestClient : ClientBaseTest<SimpleUnifiedAPITestClient>, IServiceInvocationHandler
 {
+  private ILoggerFactory loggerFactory_;
+
   public SimpleUnifiedApiAdminTestClient(IConfiguration configuration,
-                                         ILoggerFactory loggerFactory)
+                                         ILoggerFactory loggerFactory,
+                                         ILoggerFactory loggerFactory1)
     : base(configuration,
            loggerFactory)
   {
+    loggerFactory_ = loggerFactory;
   }
 
   /// <summary>
@@ -110,9 +116,11 @@ public class SimpleUnifiedApiAdminTestClient : ClientBaseTest<SimpleUnifiedAPITe
 
     //var resourceId = ServiceAdmin.CreateInstance(Configuration, LoggerFactory,props).UploadResource("filePath");
 
+    using var cs = ServiceFactory.CreateService(props,
+                                                LoggerFactory);
 
-    using var cs  = ServiceFactory.CreateService(props);
-    using var csa = ServiceFactory.GetServiceAdmin(props);
+    using var csa = ServiceFactory.GetServiceAdmin(props,
+                                                   LoggerFactory);
 
     Log.LogInformation($"New session created : {cs.SessionId}");
 

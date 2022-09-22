@@ -17,9 +17,11 @@ public abstract class AbstractClientService : IDisposable
   ///   The default constructor with properties information
   /// </summary>
   /// <param name="properties"></param>
-  public AbstractClientService(Properties properties)
+  /// <param name="loggerFactory"></param>
+  public AbstractClientService(Properties     properties,
+                               ILoggerFactory loggerFactory)
   {
-    LoggerFactory = CreateLogFactory(properties);
+    LoggerFactory = loggerFactory;
 
     ResultHandlerDictionary = new ConcurrentDictionary<string, IServiceInvocationHandler>();
   }
@@ -36,17 +38,4 @@ public abstract class AbstractClientService : IDisposable
 
   /// <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
   public abstract void Dispose();
-
-
-  /// <summary>
-  ///   Method to build ILoggerFactory
-  /// </summary>
-  /// <param name="props"></param>
-  /// <returns></returns>
-  protected ILoggerFactory CreateLogFactory(Properties props)
-    => new LoggerFactory(new[]
-                         {
-                           new SerilogLoggerProvider(new LoggerConfiguration().ReadFrom.Configuration(props.Configuration)
-                                                                              .CreateLogger()),
-                         });
 }

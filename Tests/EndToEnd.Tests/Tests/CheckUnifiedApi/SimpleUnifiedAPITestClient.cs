@@ -139,7 +139,7 @@ public class SimpleUnifiedAPITestClient : ClientBaseTest<SimpleUnifiedAPITestCli
     //var resourceId = ServiceAdmin.CreateInstance(Configuration, LoggerFactory,props).UploadResource("filePath");
 
 
-    using var cs = ServiceFactory.CreateService(props);
+    using var cs = ServiceFactory.CreateService(props, LoggerFactory);
 
     Log.LogInformation($"New session created : {cs.SessionId}");
 

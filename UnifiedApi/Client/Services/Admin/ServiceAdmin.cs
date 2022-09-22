@@ -1,4 +1,4 @@
-﻿// This file is part of the ArmoniK project
+// This file is part of the ArmoniK project
 // 
 // Copyright (C) ANEO, 2021-2022.
 //   W. Kirschenmann   <wkirschenmann@aneo.fr>
@@ -24,6 +24,8 @@
 using ArmoniK.DevelopmentKit.Client.Factory;
 using ArmoniK.DevelopmentKit.Client.Services.Common;
 
+using Microsoft.Extensions.Logging;
+
 namespace ArmoniK.DevelopmentKit.Client.Services.Admin;
 
 /// <summary>
@@ -35,8 +37,10 @@ public class ServiceAdmin : AbstractClientService
   ///   The constructor of the service Admin class
   /// </summary>
   /// <param name="properties">the properties setting to connection to the control plane</param>
-  public ServiceAdmin(Properties properties)
-    : base(properties)
+  /// <param name="loggerFactory"></param>
+  public ServiceAdmin(Properties     properties,
+                      ILoggerFactory loggerFactory)
+    : base(properties, loggerFactory)
   {
     SessionServiceFactory = new SessionServiceFactory(LoggerFactory);
 

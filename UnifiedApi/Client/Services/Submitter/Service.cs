@@ -82,8 +82,11 @@ public class Service : AbstractClientService
   ///   and create the session to ArmoniK
   /// </summary>
   /// <param name="properties">The properties containing TaskOptions and information to communicate with Control plane and </param>
-  public Service(Properties properties)
-    : base(properties)
+  /// <param name="loggerFactory"></param>
+  public Service(Properties     properties,
+                 ILoggerFactory loggerFactory)
+    : base(properties,
+           loggerFactory)
   {
     SessionServiceFactory = new SessionServiceFactory(LoggerFactory);
 
