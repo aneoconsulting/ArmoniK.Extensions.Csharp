@@ -47,17 +47,17 @@ public class ResultStatusData
   }
 
   /// <summary>
-  ///   Result Id
+  ///   The id of the result
   /// </summary>
   public string ResultId { get; }
 
   /// <summary>
-  ///   Task Id
+  ///   The id of the task producing the result
   /// </summary>
   public string TaskId { get; }
 
   /// <summary>
-  ///   Result status
+  ///   The status of the result
   /// </summary>
   public ResultStatus Status { get; }
 }
