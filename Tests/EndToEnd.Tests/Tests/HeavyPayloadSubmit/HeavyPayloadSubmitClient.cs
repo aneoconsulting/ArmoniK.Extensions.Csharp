@@ -103,7 +103,7 @@ public class HeavyPayloadSubmitClient : ClientBaseTest<HeavyPayloadSubmitClient>
         break;
       case byte[] values:
         Log.LogInformation("Result is " + string.Join(", ",
-                                                      SelectExtensions.ConvertToArray(values)));
+                                                      values.ConvertToArray()));
         break;
     }
   }
