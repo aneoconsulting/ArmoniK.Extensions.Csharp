@@ -22,11 +22,12 @@
 // limitations under the License.
 
 using ArmoniK.Api.gRPC.V1;
-using ArmoniK.Api.gRPC.V1.Submitter;
 using ArmoniK.DevelopmentKit.Client.Common.Submitter;
 using ArmoniK.DevelopmentKit.Common;
 
 using Google.Protobuf.WellKnownTypes;
+
+using Grpc.Core;
 
 using Microsoft.Extensions.Logging;
 
@@ -60,8 +61,8 @@ public class ArmonikDataSynapseClientService
     TaskOptions = properties_.TaskOptions;
   }
 
-  private ILogger<ArmonikDataSynapseClientService> Logger              { get; }
-  private Submitter.SubmitterClient                ControlPlaneService { get; set; }
+  private ILogger<ArmonikDataSynapseClientService> Logger      { get; }
+  private ChannelBase                              GrpcChannel { get; set; }
 
 
   /// <summary>
@@ -88,23 +89,23 @@ public class ArmonikDataSynapseClientService
     Logger.LogDebug("Creating Session... ");
 
     return new SessionService(LoggerFactory,
-                              ControlPlaneService,
+                              GrpcChannel,
                               TaskOptions);
   }
 
   private void ControlPlaneConnection()
   {
-    if (ControlPlaneService != null)
+    if (GrpcChannel != null)
     {
       return;
     }
 
 
-    ControlPlaneService = ClientServiceConnector.ControlPlaneConnection(properties_.ConnectionString,
-                                                                        properties_.ClientCertFilePem,
-                                                                        properties_.ClientKeyFilePem,
-                                                                        properties_.ConfSSLValidation,
-                                                                        LoggerFactory);
+    GrpcChannel = ClientServiceConnector.ControlPlaneConnection(properties_.ConnectionString,
+                                                                properties_.ClientCertFilePem,
+                                                                properties_.ClientKeyFilePem,
+                                                                properties_.ConfSSLValidation,
+                                                                LoggerFactory);
   }
 
   /// <summary>
@@ -118,12 +119,12 @@ public class ArmonikDataSynapseClientService
     ControlPlaneConnection();
 
     return new SessionService(LoggerFactory,
-                              ControlPlaneService,
+                              GrpcChannel,
+                              clientOptions ?? SessionService.InitializeDefaultTaskOptions(),
                               new Session
                               {
                                 Id = sessionId,
-                              },
-                              clientOptions ?? SessionService.InitializeDefaultTaskOptions());
+                              });
   }
 
   /// <summary>

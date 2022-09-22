@@ -22,37 +22,42 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System.Collections.Generic;
+using ArmoniK.Api.gRPC.V1;
 
 namespace ArmoniK.DevelopmentKit.Client.Common.Status;
 
 /// <summary>
-///   List of result status that will be collected during the request GetResultStatus
+///   Class for storing relation between result id, task id and result status
 /// </summary>
-public class ResultStatusCollection
+public class ResultStatusData
 {
   /// <summary>
-  ///   List of completed task where the result is ready to be retrieved
+  ///   Constructor for the class
   /// </summary>
-  public IEnumerable<ResultStatusData> IdsReady { get; set; } = default;
+  /// <param name="resultId">The id of the result</param>
+  /// <param name="taskId">The id of the task producing the result</param>
+  /// <param name="status">The status of the result</param>
+  public ResultStatusData(string       resultId,
+                          string       taskId,
+                          ResultStatus status)
+  {
+    ResultId = resultId;
+    TaskId   = taskId;
+    Status   = status;
+  }
 
   /// <summary>
-  ///   List of task or task result in error
+  ///   The id of the result
   /// </summary>
-  public IEnumerable<ResultStatusData> IdsResultError { get; set; } = default;
+  public string ResultId { get; }
 
   /// <summary>
-  ///   List of Unknown TaskIds. There is a heavy error somewhere else in the execution when this list has element
+  ///   The id of the task producing the result
   /// </summary>
-  public IEnumerable<string> IdsError { get; set; } = default;
+  public string TaskId { get; }
 
   /// <summary>
-  ///   List of result not yet written in database
+  ///   The status of the result
   /// </summary>
-  public IEnumerable<ResultStatusData> IdsNotReady { get; set; }
-
-  /// <summary>
-  ///   The list of canceled task
-  /// </summary>
-  public IEnumerable<ResultStatusData> Canceled { get; set; }
+  public ResultStatus Status { get; }
 }
