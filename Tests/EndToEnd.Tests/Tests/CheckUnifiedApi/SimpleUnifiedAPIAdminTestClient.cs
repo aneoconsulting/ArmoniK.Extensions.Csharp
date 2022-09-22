@@ -21,6 +21,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,12 +43,13 @@ namespace ArmoniK.EndToEndTests.Tests.CheckUnifiedApi;
 
 public class SimpleUnifiedApiAdminTestClient : ClientBaseTest<SimpleUnifiedAPITestClient>, IServiceInvocationHandler
 {
+  private ILoggerFactory loggerFactory_;
+
   public SimpleUnifiedApiAdminTestClient(IConfiguration configuration,
                                          ILoggerFactory loggerFactory)
     : base(configuration,
            loggerFactory)
-  {
-  }
+    => loggerFactory_ = loggerFactory;
 
   /// <summary>
   ///   The callBack method which has to be implemented to retrieve error or exception
@@ -110,9 +112,11 @@ public class SimpleUnifiedApiAdminTestClient : ClientBaseTest<SimpleUnifiedAPITe
 
     //var resourceId = ServiceAdmin.CreateInstance(Configuration, LoggerFactory,props).UploadResource("filePath");
 
+    using var cs = ServiceFactory.CreateService(props,
+                                                LoggerFactory);
 
-    using var cs  = ServiceFactory.CreateService(props);
-    using var csa = ServiceFactory.GetServiceAdmin(props);
+    using var csa = ServiceFactory.GetServiceAdmin(props,
+                                                   LoggerFactory);
 
     Log.LogInformation($"New session created : {cs.SessionId}");
 

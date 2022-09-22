@@ -26,6 +26,8 @@ using ArmoniK.DevelopmentKit.Client.Services.Admin;
 using ArmoniK.DevelopmentKit.Client.Services.Submitter;
 using ArmoniK.DevelopmentKit.Common;
 
+using Microsoft.Extensions.Logging;
+
 namespace ArmoniK.DevelopmentKit.Client.Factory;
 
 /// <summary>
@@ -38,15 +40,20 @@ public class ServiceFactory
   ///   The method to create new Service
   /// </summary>
   /// <param name="props">Properties for the service containing IConfiguration and TaskOptions</param>
+  /// <param name="loggerFactory"></param>
   /// <returns>returns the new instantiated service</returns>
-  public static Service CreateService(Properties props)
-    => new(props);
+  public static Service CreateService(Properties     props,
+                                      ILoggerFactory loggerFactory)
+    => new(props,
+           loggerFactory);
 
   /// <summary>
   ///   Method to get the ServiceAdmin
   /// </summary>
   /// <param name="props"></param>
   /// <returns></returns>
-  public static ServiceAdmin GetServiceAdmin(Properties props)
-    => new(props);
+  public static ServiceAdmin GetServiceAdmin(Properties     props,
+                                             ILoggerFactory loggerFactory)
+    => new(props,
+           loggerFactory);
 }
