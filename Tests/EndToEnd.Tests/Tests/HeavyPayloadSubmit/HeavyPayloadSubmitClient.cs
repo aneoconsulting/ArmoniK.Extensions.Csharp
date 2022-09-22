@@ -34,6 +34,7 @@ using ArmoniK.DevelopmentKit.Client.Services;
 using ArmoniK.DevelopmentKit.Client.Services.Submitter;
 using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.EndToEndTests.Common;
+using ArmoniK.EndToEndTests.Tests.CheckUnifiedApi;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -41,14 +42,14 @@ using Microsoft.Extensions.Logging;
 namespace ArmoniK.EndToEndTests.Tests.HeavyPayloadSubmit;
 
 /// <summary>
-/// Test to submit large payload
+///   Test to submit large payload
 /// </summary>
 public class HeavyPayloadSubmitClient : ClientBaseTest<HeavyPayloadSubmitClient>, IServiceInvocationHandler, IDisposable
 {
   private int nbResults_;
 
   /// <summary>
-  /// The main constructor called by reflection
+  ///   The main constructor called by reflection
   /// </summary>
   /// <param name="configuration"></param>
   /// <param name="loggerFactory"></param>
@@ -56,11 +57,14 @@ public class HeavyPayloadSubmitClient : ClientBaseTest<HeavyPayloadSubmitClient>
                                   ILoggerFactory loggerFactory)
     : base(configuration,
            loggerFactory)
-  {
-    Cts = new CancellationTokenSource();
-  }
+    => Cts = new CancellationTokenSource();
 
-  private CancellationTokenSource Cts { get; set; }
+  private CancellationTokenSource Cts { get; }
+
+  /// <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
+  public void Dispose()
+  {
+  }
 
 
   /// <summary>
@@ -99,14 +103,14 @@ public class HeavyPayloadSubmitClient : ClientBaseTest<HeavyPayloadSubmitClient>
         break;
       case byte[] values:
         Log.LogInformation("Result is " + string.Join(", ",
-                                                      CheckUnifiedApi.SelectExtensions.ConvertToArray(values)));
+                                                      SelectExtensions.ConvertToArray(values)));
         break;
     }
   }
 
 
   /// <summary>
-  /// The main entry point for test caller
+  ///   The main entry point for test caller
   /// </summary>
   [EntryPoint]
   public override void EntryPoint()
@@ -121,7 +125,8 @@ public class HeavyPayloadSubmitClient : ClientBaseTest<HeavyPayloadSubmitClient>
                                Configuration.GetSection("Grpc")["EndPoint"],
                                5001);
 
-    using var cs = ServiceFactory.CreateService(props, LoggerFactory);
+    using var cs = ServiceFactory.CreateService(props,
+                                                LoggerFactory);
 
 
     Log.LogInformation($"New session created : {cs.SessionId}");
@@ -129,9 +134,9 @@ public class HeavyPayloadSubmitClient : ClientBaseTest<HeavyPayloadSubmitClient>
     Log.LogInformation("Running End to End test to compute heavy vector in sequential");
 
     ComputeVector(cs,
-                  nbTasks: 1000,
-                  nbElement: 3840,
-                  workLoadInMs: 10); // 1000 tasks x 3 KB of payload
+                  1000,
+                  3840,
+                  10); // 1000 tasks x 3 KB of payload
   }
 
   private static void OverrideTaskOptions(TaskOptions taskOptions)
@@ -172,7 +177,7 @@ public class HeavyPayloadSubmitClient : ClientBaseTest<HeavyPayloadSubmitClient>
   private void ComputeVector(Service sessionService,
                              int     nbTasks,
                              int     nbElement,
-                             int  workLoadInMs)
+                             int     workLoadInMs)
   {
     var       index_task = 0;
     var       prev_index = 0;
@@ -186,7 +191,7 @@ public class HeavyPayloadSubmitClient : ClientBaseTest<HeavyPayloadSubmitClient>
                             .Select(x => (double)x)
                             .ToArray();
 
-    Log.LogInformation($"===  Running from {nbTasks} tasks with payload by task {(nbElement * 8) / 1024} Ko Total : {(nbTasks * nbElement / 128) } Ko...   ===");
+    Log.LogInformation($"===  Running from {nbTasks} tasks with payload by task {nbElement * 8 / 1024} Ko Total : {nbTasks * nbElement / 128} Ko...   ===");
 
     PeriodicInfo(() =>
                  {
@@ -194,7 +199,6 @@ public class HeavyPayloadSubmitClient : ClientBaseTest<HeavyPayloadSubmitClient>
                                       $"Check Submission perf : Payload {(index_task - prev_index) * nbElement * 8.0 / 1024.0 / elapse:0.0} Ko/s, " +
                                       $"{(index_task - prev_index)                                                   / (double)elapse:0.00} tasks/s");
                    prev_index = index_task;
-
                  },
                  elapse,
                  Cts.Token);
@@ -207,17 +211,12 @@ public class HeavyPayloadSubmitClient : ClientBaseTest<HeavyPayloadSubmitClient>
       Log.LogDebug($"{index_task}/{nbTasks} Task Time avg to submit {index_task / (sw.ElapsedMilliseconds / 1000.0):0.00} Task/s");
 
       sessionService.Submit("ComputeReduceCube",
-                            ParamsHelper(numbers, workLoadInMs),
+                            ParamsHelper(numbers,
+                                         workLoadInMs),
                             this);
     }
 
     Log.LogInformation($"{nbTasks} tasks executed in : {sw.ElapsedMilliseconds / 1000} secs with Total bytes {nbTasks * nbElement / 128} Ko");
     Cts.Cancel();
-  }
-
-  /// <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
-  public void Dispose()
-  {
-   
   }
 }

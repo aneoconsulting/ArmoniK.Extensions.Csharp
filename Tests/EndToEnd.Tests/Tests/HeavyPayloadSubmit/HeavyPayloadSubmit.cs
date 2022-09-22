@@ -21,28 +21,29 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using ArmoniK.DevelopmentKit.Worker.Grid;
-
 using System.Linq;
 using System.Threading;
+
+using ArmoniK.DevelopmentKit.Worker.Grid;
 
 using JetBrains.Annotations;
 
 namespace ArmoniK.EndToEndTests.Tests.HeavyPayloadSubmit;
 
 /// <summary>
-/// The service executed in the worker
+///   The service executed in the worker
 /// </summary>
 [PublicAPI]
 public class HeavyPayloadSubmit : BaseService<HeavyPayloadSubmit>
 {
   /// <summary>
-  /// THe function called by the submitter
+  ///   The function called by the submitter
   /// </summary>
   /// <param name="inputs"></param>
   /// <param name="workLoadInMs">Simulate workload time in milliseconds </param>
   /// <returns>Return the sum of vector</returns>
-  public static double ComputeReduceCube(double[] inputs, int workLoadInMs)
+  public static double ComputeReduceCube(double[] inputs,
+                                         int      workLoadInMs)
   {
     Thread.Sleep(workLoadInMs);
     return inputs.Select(x => x * x * x)
