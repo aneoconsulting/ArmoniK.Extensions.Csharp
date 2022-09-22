@@ -22,10 +22,11 @@
 // limitations under the License.
 
 using ArmoniK.Api.gRPC.V1;
-using ArmoniK.Api.gRPC.V1.Submitter;
 using ArmoniK.DevelopmentKit.Client.Common.Submitter;
 using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.SymphonyApi.Client.api;
+
+using Grpc.Core;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -82,7 +83,7 @@ public class ArmonikSymphonyClient
   private static string SectionClientCertFile { get; } = "ClientCert";
   private static string SectionClientKeyFile  { get; } = "ClientKey";
 
-  private Submitter.SubmitterClient ControlPlaneService { get; set; }
+  private ChannelBase GrpcChannel { get; set; }
 
 
   private IConfiguration Configuration { get; }
@@ -97,7 +98,7 @@ public class ArmonikSymphonyClient
     ControlPlaneConnection();
 
     return new SessionService(LoggerFactory,
-                              ControlPlaneService,
+                              GrpcChannel,
                               taskOptions);
   }
 
@@ -113,14 +114,14 @@ public class ArmonikSymphonyClient
     ControlPlaneConnection();
 
     return new SessionService(LoggerFactory,
-                              ControlPlaneService,
-                              sessionId,
-                              clientOptions ?? SessionService.InitializeDefaultTaskOptions());
+                              GrpcChannel,
+                              clientOptions ?? SessionService.InitializeDefaultTaskOptions(),
+                              sessionId);
   }
 
   private void ControlPlaneConnection()
   {
-    if (ControlPlaneService != null)
+    if (GrpcChannel != null)
     {
       return;
     }
@@ -153,10 +154,10 @@ public class ArmonikSymphonyClient
       sslValidation = false;
     }
 
-    ControlPlaneService ??= ClientServiceConnector.ControlPlaneConnection(controlPlanSection_[SectionEndPoint],
-                                                                          clientCertFilename,
-                                                                          clientKeyFilename,
-                                                                          sslValidation,
-                                                                          LoggerFactory);
+    GrpcChannel = ClientServiceConnector.ControlPlaneConnection(controlPlanSection_[SectionEndPoint],
+                                                                clientCertFilename,
+                                                                clientKeyFilename,
+                                                                sslValidation,
+                                                                LoggerFactory);
   }
 }

@@ -29,6 +29,7 @@ using ArmoniK.Api.gRPC.V1;
 using ArmoniK.Api.gRPC.V1.Agent;
 using ArmoniK.Api.Worker.Worker;
 using ArmoniK.DevelopmentKit.Common;
+using ArmoniK.DevelopmentKit.Common.Exceptions;
 
 using Google.Protobuf;
 using Google.Protobuf.WellKnownTypes;
@@ -44,6 +45,8 @@ namespace ArmoniK.DevelopmentKit.Worker.Grid;
 [MarkDownDoc]
 public class SessionPollingService
 {
+  private readonly Dictionary<string, string> taskId2OutputId_;
+
   /// <summary>
   ///   Ctor to instantiate a new SessionService
   ///   This is an object to send task or get Results from a session
@@ -65,6 +68,8 @@ public class SessionPollingService
                 };
 
     Logger.LogDebug($"Session Created {SessionId}");
+
+    taskId2OutputId_ = new Dictionary<string, string>();
   }
 
   /// <summary>
@@ -124,14 +129,12 @@ public class SessionPollingService
   /// </param>
   public IEnumerable<string> SubmitTasks(IEnumerable<byte[]> payloads)
   {
-    using var _          = Logger.LogFunction();
-    var       resultsIds = new List<string>();
+    using var _ = Logger.LogFunction();
 
     var taskRequests = payloads.Select(bytes =>
                                        {
                                          var resultId = Guid.NewGuid()
                                                             .ToString();
-                                         resultsIds.Add(resultId);
                                          Logger.LogDebug("Create task {task}",
                                                          resultId);
                                          return new TaskRequest
@@ -154,19 +157,18 @@ public class SessionPollingService
       case CreateTaskReply.ResponseOneofCase.None:
         throw new Exception("Issue with Server !");
       case CreateTaskReply.ResponseOneofCase.CreationStatusList:
-        Logger.LogInformation("Tasks created : {ids}",
-                              string.Join(",",
-                                          createTaskReply.CreationStatusList.CreationStatuses));
-        break;
+        foreach (var creationStatus in createTaskReply.CreationStatusList.CreationStatuses)
+        {
+          taskId2OutputId_.Add(creationStatus.TaskInfo.TaskId,
+                               creationStatus.TaskInfo.ExpectedOutputKeys.Single());
+        }
+
+        return createTaskReply.CreationStatusList.CreationStatuses.Select(status => status.TaskInfo.TaskId);
       case CreateTaskReply.ResponseOneofCase.Error:
         throw new Exception("Error while creating tasks !");
       default:
         throw new ArgumentOutOfRangeException();
     }
-
-    Logger.LogDebug("Results created : {ids}",
-                    resultsIds);
-    return resultsIds;
   }
 
 
@@ -180,9 +182,8 @@ public class SessionPollingService
   public IEnumerable<string> SubmitTasksWithDependencies(IEnumerable<Tuple<byte[], IList<string>>> payloadsWithDependencies,
                                                          bool                                      resultForParent = false)
   {
-    using var _                 = Logger.LogFunction();
-    var       taskRequests      = new List<TaskRequest>();
-    var       resultsIdsCreated = new List<string>();
+    using var _            = Logger.LogFunction();
+    var       taskRequests = new List<TaskRequest>();
 
     foreach (var (payload, dependencies) in payloadsWithDependencies)
     {
@@ -190,7 +191,6 @@ public class SessionPollingService
                          .ToString();
       Logger.LogDebug("Create task {task}",
                       resultId);
-      resultsIdsCreated.Add(resultId);
       var taskRequest = new TaskRequest
                         {
                           Payload = ByteString.CopyFrom(payload),
@@ -205,7 +205,16 @@ public class SessionPollingService
 
       if (dependencies != null && dependencies.Count != 0)
       {
-        taskRequest.DataDependencies.AddRange(dependencies);
+        foreach (var dependency in dependencies)
+        {
+          if (!taskId2OutputId_.TryGetValue(dependency,
+                                            out resultId))
+          {
+            throw new WorkerApiException($"Dependency {dependency} has no corresponding result id.");
+          }
+
+          taskRequest.DataDependencies.Add(resultId);
+        }
 
         Logger.LogDebug("Dependencies : {dep}",
                         string.Join(", ",
@@ -224,20 +233,18 @@ public class SessionPollingService
       case CreateTaskReply.ResponseOneofCase.None:
         throw new Exception("Issue with Server !");
       case CreateTaskReply.ResponseOneofCase.CreationStatusList:
-        Logger.LogInformation("Tasks created : {ids}",
-                              string.Join(",",
-                                          createTaskReply.CreationStatusList.CreationStatuses));
-        break;
+        foreach (var creationStatus in createTaskReply.CreationStatusList.CreationStatuses)
+        {
+          taskId2OutputId_.Add(creationStatus.TaskInfo.TaskId,
+                               creationStatus.TaskInfo.ExpectedOutputKeys.Single());
+        }
+
+        return createTaskReply.CreationStatusList.CreationStatuses.Select(status => status.TaskInfo.TaskId);
       case CreateTaskReply.ResponseOneofCase.Error:
         throw new Exception("Error while creating tasks !");
       default:
         throw new ArgumentOutOfRangeException();
     }
-
-
-    Logger.LogDebug("Tasks created : {ids}",
-                    resultsIdsCreated);
-    return resultsIdsCreated;
   }
 
   /// <summary>

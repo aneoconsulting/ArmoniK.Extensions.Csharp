@@ -33,6 +33,8 @@ using ArmoniK.DevelopmentKit.Common;
 
 using Google.Protobuf.WellKnownTypes;
 
+using Grpc.Core;
+
 using Microsoft.Extensions.Logging;
 
 namespace ArmoniK.DevelopmentKit.GridServer.Client;
@@ -48,10 +50,12 @@ public class SessionService : BaseClientSubmitter<SessionService>
   ///   Ctor to instantiate a new SessionService
   ///   This is an object to send task or get Results from a session
   /// </summary>
-  public SessionService(ILoggerFactory            loggerFactory,
-                        Submitter.SubmitterClient controlPlaneService,
-                        TaskOptions               taskOptions = null)
-    : base(loggerFactory)
+  public SessionService(ILoggerFactory loggerFactory,
+                        ChannelBase    grpcChannel,
+                        TaskOptions    taskOptions = null,
+                        Session        sessionId   = null)
+    : base(loggerFactory,
+           grpcChannel)
   {
     TaskOptions = InitializeDefaultTaskOptions();
     if (taskOptions != null)
@@ -59,42 +63,14 @@ public class SessionService : BaseClientSubmitter<SessionService>
       TaskOptions.MergeFrom(taskOptions);
     }
 
-    ControlPlaneService = controlPlaneService;
-
     Logger.LogDebug("Creating Session... ");
 
-    SessionId = CreateSession(new List<string>
-                              {
-                                TaskOptions.PartitionId,
-                              });
+    SessionId = sessionId ?? CreateSession(new List<string>
+                                           {
+                                             TaskOptions.PartitionId,
+                                           });
 
     Logger.LogDebug($"Session Created {SessionId}");
-  }
-
-  /// <summary>
-  ///   Create SessionService with a previous opened session
-  /// </summary>
-  /// <param name="loggerFactory"></param>
-  /// <param name="controlPlaneService"></param>
-  /// <param name="clientOptions">Client options passed during the CreateSession</param>
-  /// <param name="sessionId"></param>
-  public SessionService(ILoggerFactory            loggerFactory,
-                        Submitter.SubmitterClient controlPlaneService,
-                        Session                   sessionId,
-                        TaskOptions               clientOptions)
-    : base(loggerFactory)
-  {
-    TaskOptions = InitializeDefaultTaskOptions();
-    TaskOptions.MergeFrom(clientOptions);
-
-    ControlPlaneService = controlPlaneService;
-
-
-    Logger.LogDebug("Creating Session... ");
-
-    SessionId = sessionId;
-
-    Logger.LogInformation($"Session Created {SessionId} with taskOptions.Priority : {TaskOptions.Priority}");
   }
 
   /// <summary>Returns a string that represents the current object.</summary>
@@ -136,7 +112,7 @@ public class SessionService : BaseClientSubmitter<SessionService>
                                    partitionIds,
                                  },
                                };
-    var session = ControlPlaneService.CreateSession(createSessionRequest);
+    var session = SubmitterService.CreateSession(createSessionRequest);
 
     return new Session
            {
@@ -161,7 +137,7 @@ public class SessionService : BaseClientSubmitter<SessionService>
   /// <summary>
   ///   User method to submit task from the client
   ///   Need a client Service. In case of ServiceContainer
-  ///   controlPlaneService can be null until the OpenSession is called
+  ///   submitterService can be null until the OpenSession is called
   /// </summary>
   /// <param name="payloads">
   ///   The user payload list to execute. General used for subTasking.

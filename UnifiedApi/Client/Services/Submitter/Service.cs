@@ -293,32 +293,49 @@ public class Service : AbstractClientService
       {
         var resultStatusCollection = SessionService.GetResultStatus(bucket);
 
-        foreach (var taskId in resultStatusCollection.IdsReady.Select(tuple => tuple.Item1))
+        foreach (var resultStatusData in resultStatusCollection.IdsReady)
         {
+          if (CancellationTokenSource.IsCancellationRequested)
+          {
+            Logger.LogWarning("Cancellation triggered before processing all results");
+            return;
+          }
+
           try
           {
-            responseHandler(taskId,
-                            SessionService.TryGetResult(taskId,
-                                                        false,
-                                                        CancellationTokenSource.Token));
+            responseHandler(resultStatusData.TaskId,
+                            SessionService.TryGetResultAsync(new ResultRequest
+                                                             {
+                                                               ResultId = resultStatusData.ResultId,
+                                                               Session  = SessionId,
+                                                             },
+                                                             CancellationToken.None)
+                                          .Result);
           }
           catch (Exception e)
           {
-            errorHandler(taskId,
+            if (CancellationTokenSource.IsCancellationRequested)
+            {
+              Logger.LogError(e,
+                              "Cancellation triggered before processing all results");
+              return;
+            }
+
+            errorHandler(resultStatusData.TaskId,
                          e.Message + e.StackTrace);
           }
         }
 
-        missing.ExceptWith(resultStatusCollection.IdsReady.Select(x => x.Item1));
+        missing.ExceptWith(resultStatusCollection.IdsReady.Select(x => x.TaskId));
 
         foreach (var resTuple in resultStatusCollection.IdsResultError)
         {
           // todo : replace by error from task when reusing tasks ids
-          errorHandler(resTuple.Item1,
-                       resTuple.Item2.ToString());
+          errorHandler(resTuple.TaskId,
+                       resTuple.Status.ToString());
         }
 
-        missing.ExceptWith(resultStatusCollection.IdsResultError.Select(x => x.Item1));
+        missing.ExceptWith(resultStatusCollection.IdsResultError.Select(x => x.TaskId));
 
         if (holdPrev == missing.Count)
         {

@@ -267,7 +267,7 @@ public class SimpleUnifiedAPITestClient : ClientBaseTest<SimpleUnifiedAPITestCli
                     3.0,
                     3.0,
                     3.0,
-                    3.0,
+                    4.0,
                   }.ToArray();
 
     for (var i = 0; i < 500; i++)

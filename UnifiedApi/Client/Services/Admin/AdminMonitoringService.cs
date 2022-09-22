@@ -1,9 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
 using ArmoniK.Api.gRPC.V1;
 using ArmoniK.Api.gRPC.V1.Submitter;
+
+using Grpc.Core;
 
 using Microsoft.Extensions.Logging;
 
@@ -18,13 +20,13 @@ public class AdminMonitoringService
   ///   The constructor to instantiate this service
   /// </summary>
   /// <param name="loggerFactory">The factory logger to create logger</param>
-  /// <param name="controlPlaneService">The entry point to the control plane</param>
-  public AdminMonitoringService(ILoggerFactory                                  loggerFactory,
-                                Api.gRPC.V1.Submitter.Submitter.SubmitterClient controlPlaneService)
+  /// <param name="channel">The entry point to the control plane</param>
+  public AdminMonitoringService(ILoggerFactory loggerFactory,
+                                ChannelBase    channel)
   {
     LoggerFactory       = loggerFactory;
     Logger              = LoggerFactory.CreateLogger<AdminMonitoringService>();
-    ControlPlaneService = controlPlaneService;
+    ControlPlaneService = new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel);
   }
 
   private ILoggerFactory LoggerFactory { get; }
