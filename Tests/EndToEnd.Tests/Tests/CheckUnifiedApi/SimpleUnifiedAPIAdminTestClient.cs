@@ -21,13 +21,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-
-using Amazon.Runtime.Internal.Util;
-
 using ArmoniK.Api.gRPC.V1;
 using ArmoniK.DevelopmentKit.Client.Exceptions;
 using ArmoniK.DevelopmentKit.Client.Factory;
@@ -40,6 +33,11 @@ using ArmoniK.EndToEndTests.Common;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+
 namespace ArmoniK.EndToEndTests.Tests.CheckUnifiedApi;
 
 public class SimpleUnifiedApiAdminTestClient : ClientBaseTest<SimpleUnifiedAPITestClient>, IServiceInvocationHandler
@@ -47,13 +45,10 @@ public class SimpleUnifiedApiAdminTestClient : ClientBaseTest<SimpleUnifiedAPITe
   private ILoggerFactory loggerFactory_;
 
   public SimpleUnifiedApiAdminTestClient(IConfiguration configuration,
-                                         ILoggerFactory loggerFactory,
-                                         ILoggerFactory loggerFactory1)
+                                         ILoggerFactory loggerFactory)
     : base(configuration,
            loggerFactory)
-  {
-    loggerFactory_ = loggerFactory;
-  }
+    => loggerFactory_ = loggerFactory;
 
   /// <summary>
   ///   The callBack method which has to be implemented to retrieve error or exception

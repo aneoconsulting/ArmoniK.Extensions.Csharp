@@ -136,10 +136,8 @@ public class SimpleUnifiedAPITestClient : ClientBaseTest<SimpleUnifiedAPITestCli
                                Configuration.GetSection("Grpc")["EndPoint"],
                                5001);
 
-    //var resourceId = ServiceAdmin.CreateInstance(Configuration, LoggerFactory,props).UploadResource("filePath");
-
-
-    using var cs = ServiceFactory.CreateService(props, LoggerFactory);
+    using var cs = ServiceFactory.CreateService(props,
+                                                LoggerFactory);
 
     Log.LogInformation($"New session created : {cs.SessionId}");
 

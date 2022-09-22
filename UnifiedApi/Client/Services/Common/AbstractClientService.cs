@@ -1,10 +1,7 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
+
+using System;
 using System.Collections.Concurrent;
-
-using Microsoft.Extensions.Logging;
-
-using Serilog;
-using Serilog.Extensions.Logging;
 
 namespace ArmoniK.DevelopmentKit.Client.Services.Common;
 
