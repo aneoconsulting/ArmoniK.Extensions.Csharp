@@ -77,7 +77,7 @@ public class SimpleGridServerTestClient : ClientBaseTest<SimpleGridServerTestCli
         break;
       case double[] doubles:
         Log.LogDebug("Result is " + string.Join(", ",
-                                                      doubles));
+                                                doubles));
         break;
       case byte[] values:
         Log.LogDebug("Result is " + string.Join(", ",
