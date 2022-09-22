@@ -115,6 +115,64 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.Client.Common.Status.ResultStatusCollection.IdsResultError
   nameWithType: ResultStatusCollection.IdsResultError
+- uid: ArmoniK.DevelopmentKit.Client.Common.Status.ResultStatusData
+  name: ResultStatusData
+  href: api/ArmoniK.DevelopmentKit.Client.Common.Status.ResultStatusData.html
+  commentId: T:ArmoniK.DevelopmentKit.Client.Common.Status.ResultStatusData
+  fullName: ArmoniK.DevelopmentKit.Client.Common.Status.ResultStatusData
+  nameWithType: ResultStatusData
+- uid: ArmoniK.DevelopmentKit.Client.Common.Status.ResultStatusData.#ctor(System.String,System.String,ResultStatus)
+  name: ResultStatusData(String, String, ResultStatus)
+  href: api/ArmoniK.DevelopmentKit.Client.Common.Status.ResultStatusData.html#ArmoniK_DevelopmentKit_Client_Common_Status_ResultStatusData__ctor_System_String_System_String_ResultStatus_
+  commentId: M:ArmoniK.DevelopmentKit.Client.Common.Status.ResultStatusData.#ctor(System.String,System.String,ResultStatus)
+  fullName: ArmoniK.DevelopmentKit.Client.Common.Status.ResultStatusData.ResultStatusData(System.String, System.String, ResultStatus)
+  nameWithType: ResultStatusData.ResultStatusData(String, String, ResultStatus)
+- uid: ArmoniK.DevelopmentKit.Client.Common.Status.ResultStatusData.#ctor*
+  name: ResultStatusData
+  href: api/ArmoniK.DevelopmentKit.Client.Common.Status.ResultStatusData.html#ArmoniK_DevelopmentKit_Client_Common_Status_ResultStatusData__ctor_
+  commentId: Overload:ArmoniK.DevelopmentKit.Client.Common.Status.ResultStatusData.#ctor
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Client.Common.Status.ResultStatusData.ResultStatusData
+  nameWithType: ResultStatusData.ResultStatusData
+- uid: ArmoniK.DevelopmentKit.Client.Common.Status.ResultStatusData.ResultId
+  name: ResultId
+  href: api/ArmoniK.DevelopmentKit.Client.Common.Status.ResultStatusData.html#ArmoniK_DevelopmentKit_Client_Common_Status_ResultStatusData_ResultId
+  commentId: P:ArmoniK.DevelopmentKit.Client.Common.Status.ResultStatusData.ResultId
+  fullName: ArmoniK.DevelopmentKit.Client.Common.Status.ResultStatusData.ResultId
+  nameWithType: ResultStatusData.ResultId
+- uid: ArmoniK.DevelopmentKit.Client.Common.Status.ResultStatusData.ResultId*
+  name: ResultId
+  href: api/ArmoniK.DevelopmentKit.Client.Common.Status.ResultStatusData.html#ArmoniK_DevelopmentKit_Client_Common_Status_ResultStatusData_ResultId_
+  commentId: Overload:ArmoniK.DevelopmentKit.Client.Common.Status.ResultStatusData.ResultId
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Client.Common.Status.ResultStatusData.ResultId
+  nameWithType: ResultStatusData.ResultId
+- uid: ArmoniK.DevelopmentKit.Client.Common.Status.ResultStatusData.Status
+  name: Status
+  href: api/ArmoniK.DevelopmentKit.Client.Common.Status.ResultStatusData.html#ArmoniK_DevelopmentKit_Client_Common_Status_ResultStatusData_Status
+  commentId: P:ArmoniK.DevelopmentKit.Client.Common.Status.ResultStatusData.Status
+  fullName: ArmoniK.DevelopmentKit.Client.Common.Status.ResultStatusData.Status
+  nameWithType: ResultStatusData.Status
+- uid: ArmoniK.DevelopmentKit.Client.Common.Status.ResultStatusData.Status*
+  name: Status
+  href: api/ArmoniK.DevelopmentKit.Client.Common.Status.ResultStatusData.html#ArmoniK_DevelopmentKit_Client_Common_Status_ResultStatusData_Status_
+  commentId: Overload:ArmoniK.DevelopmentKit.Client.Common.Status.ResultStatusData.Status
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Client.Common.Status.ResultStatusData.Status
+  nameWithType: ResultStatusData.Status
+- uid: ArmoniK.DevelopmentKit.Client.Common.Status.ResultStatusData.TaskId
+  name: TaskId
+  href: api/ArmoniK.DevelopmentKit.Client.Common.Status.ResultStatusData.html#ArmoniK_DevelopmentKit_Client_Common_Status_ResultStatusData_TaskId
+  commentId: P:ArmoniK.DevelopmentKit.Client.Common.Status.ResultStatusData.TaskId
+  fullName: ArmoniK.DevelopmentKit.Client.Common.Status.ResultStatusData.TaskId
+  nameWithType: ResultStatusData.TaskId
+- uid: ArmoniK.DevelopmentKit.Client.Common.Status.ResultStatusData.TaskId*
+  name: TaskId
+  href: api/ArmoniK.DevelopmentKit.Client.Common.Status.ResultStatusData.html#ArmoniK_DevelopmentKit_Client_Common_Status_ResultStatusData_TaskId_
+  commentId: Overload:ArmoniK.DevelopmentKit.Client.Common.Status.ResultStatusData.TaskId
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Client.Common.Status.ResultStatusData.TaskId
+  nameWithType: ResultStatusData.TaskId
 - uid: ArmoniK.DevelopmentKit.Client.Common.Submitter
   name: ArmoniK.DevelopmentKit.Client.Common.Submitter
   href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.html
@@ -130,14 +188,14 @@ references:
   fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter(Of T)
   nameWithType: BaseClientSubmitter<T>
   nameWithType.vb: BaseClientSubmitter(Of T)
-- uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.#ctor(ILoggerFactory)
-  name: BaseClientSubmitter(ILoggerFactory)
-  href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1__ctor_ILoggerFactory_
-  commentId: M:ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.#ctor(ILoggerFactory)
-  fullName: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter<T>.BaseClientSubmitter(ILoggerFactory)
-  fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter(Of T).BaseClientSubmitter(ILoggerFactory)
-  nameWithType: BaseClientSubmitter<T>.BaseClientSubmitter(ILoggerFactory)
-  nameWithType.vb: BaseClientSubmitter(Of T).BaseClientSubmitter(ILoggerFactory)
+- uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.#ctor(ILoggerFactory,ChannelBase)
+  name: BaseClientSubmitter(ILoggerFactory, ChannelBase)
+  href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1__ctor_ILoggerFactory_ChannelBase_
+  commentId: M:ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.#ctor(ILoggerFactory,ChannelBase)
+  fullName: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter<T>.BaseClientSubmitter(ILoggerFactory, ChannelBase)
+  fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter(Of T).BaseClientSubmitter(ILoggerFactory, ChannelBase)
+  nameWithType: BaseClientSubmitter<T>.BaseClientSubmitter(ILoggerFactory, ChannelBase)
+  nameWithType.vb: BaseClientSubmitter(Of T).BaseClientSubmitter(ILoggerFactory, ChannelBase)
 - uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.#ctor*
   name: BaseClientSubmitter
   href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1__ctor_
@@ -147,23 +205,6 @@ references:
   fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter(Of T).BaseClientSubmitter
   nameWithType: BaseClientSubmitter<T>.BaseClientSubmitter
   nameWithType.vb: BaseClientSubmitter(Of T).BaseClientSubmitter
-- uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.ControlPlaneService
-  name: ControlPlaneService
-  href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_ControlPlaneService
-  commentId: P:ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.ControlPlaneService
-  fullName: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter<T>.ControlPlaneService
-  fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter(Of T).ControlPlaneService
-  nameWithType: BaseClientSubmitter<T>.ControlPlaneService
-  nameWithType.vb: BaseClientSubmitter(Of T).ControlPlaneService
-- uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.ControlPlaneService*
-  name: ControlPlaneService
-  href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_ControlPlaneService_
-  commentId: Overload:ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.ControlPlaneService
-  isSpec: "True"
-  fullName: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter<T>.ControlPlaneService
-  fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter(Of T).ControlPlaneService
-  nameWithType: BaseClientSubmitter<T>.ControlPlaneService
-  nameWithType.vb: BaseClientSubmitter(Of T).ControlPlaneService
 - uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.GetResult(System.String,System.Threading.CancellationToken)
   name: GetResult(String, CancellationToken)
   href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_GetResult_System_String_System_Threading_CancellationToken_
@@ -286,6 +327,23 @@ references:
   fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter(Of T).Logger
   nameWithType: BaseClientSubmitter<T>.Logger
   nameWithType.vb: BaseClientSubmitter(Of T).Logger
+- uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.ResultService
+  name: ResultService
+  href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_ResultService
+  commentId: P:ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.ResultService
+  fullName: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter<T>.ResultService
+  fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter(Of T).ResultService
+  nameWithType: BaseClientSubmitter<T>.ResultService
+  nameWithType.vb: BaseClientSubmitter(Of T).ResultService
+- uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.ResultService*
+  name: ResultService
+  href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_ResultService_
+  commentId: Overload:ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.ResultService
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter<T>.ResultService
+  fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter(Of T).ResultService
+  nameWithType: BaseClientSubmitter<T>.ResultService
+  nameWithType.vb: BaseClientSubmitter(Of T).ResultService
 - uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.SessionId
   name: SessionId
   href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_SessionId
@@ -330,6 +388,23 @@ references:
   fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter(Of T).SubmitTasksWithDependencies
   nameWithType: BaseClientSubmitter<T>.SubmitTasksWithDependencies
   nameWithType.vb: BaseClientSubmitter(Of T).SubmitTasksWithDependencies
+- uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.SubmitterService
+  name: SubmitterService
+  href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_SubmitterService
+  commentId: P:ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.SubmitterService
+  fullName: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter<T>.SubmitterService
+  fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter(Of T).SubmitterService
+  nameWithType: BaseClientSubmitter<T>.SubmitterService
+  nameWithType.vb: BaseClientSubmitter(Of T).SubmitterService
+- uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.SubmitterService*
+  name: SubmitterService
+  href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_SubmitterService_
+  commentId: Overload:ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.SubmitterService
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter<T>.SubmitterService
+  fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter(Of T).SubmitterService
+  nameWithType: BaseClientSubmitter<T>.SubmitterService
+  nameWithType.vb: BaseClientSubmitter(Of T).SubmitterService
 - uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.TaskOptions
   name: TaskOptions
   href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_TaskOptions
@@ -347,6 +422,23 @@ references:
   fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter(Of T).TaskOptions
   nameWithType: BaseClientSubmitter<T>.TaskOptions
   nameWithType.vb: BaseClientSubmitter(Of T).TaskOptions
+- uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.TaskService
+  name: TaskService
+  href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_TaskService
+  commentId: P:ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.TaskService
+  fullName: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter<T>.TaskService
+  fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter(Of T).TaskService
+  nameWithType: BaseClientSubmitter<T>.TaskService
+  nameWithType.vb: BaseClientSubmitter(Of T).TaskService
+- uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.TaskService*
+  name: TaskService
+  href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_TaskService_
+  commentId: Overload:ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.TaskService
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter<T>.TaskService
+  fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter(Of T).TaskService
+  nameWithType: BaseClientSubmitter<T>.TaskService
+  nameWithType.vb: BaseClientSubmitter(Of T).TaskService
 - uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.TryGetResult(System.String,System.Boolean,System.Threading.CancellationToken)
   name: TryGetResult(String, Boolean, CancellationToken)
   href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_TryGetResult_System_String_System_Boolean_System_Threading_CancellationToken_
@@ -750,12 +842,12 @@ references:
   commentId: T:ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService
   fullName: ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService
   nameWithType: AdminMonitoringService
-- uid: ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.#ctor(ILoggerFactory,Api.gRPC.V1.Submitter.Submitter.SubmitterClient)
-  name: AdminMonitoringService(ILoggerFactory, Api.gRPC.V1.Submitter.Submitter.SubmitterClient)
-  href: api/ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.html#ArmoniK_DevelopmentKit_Client_Services_Admin_AdminMonitoringService__ctor_ILoggerFactory_Api_gRPC_V1_Submitter_Submitter_SubmitterClient_
-  commentId: M:ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.#ctor(ILoggerFactory,Api.gRPC.V1.Submitter.Submitter.SubmitterClient)
-  fullName: ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.AdminMonitoringService(ILoggerFactory, Api.gRPC.V1.Submitter.Submitter.SubmitterClient)
-  nameWithType: AdminMonitoringService.AdminMonitoringService(ILoggerFactory, Api.gRPC.V1.Submitter.Submitter.SubmitterClient)
+- uid: ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.#ctor(ILoggerFactory,ChannelBase)
+  name: AdminMonitoringService(ILoggerFactory, ChannelBase)
+  href: api/ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.html#ArmoniK_DevelopmentKit_Client_Services_Admin_AdminMonitoringService__ctor_ILoggerFactory_ChannelBase_
+  commentId: M:ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.#ctor(ILoggerFactory,ChannelBase)
+  fullName: ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.AdminMonitoringService(ILoggerFactory, ChannelBase)
+  nameWithType: AdminMonitoringService.AdminMonitoringService(ILoggerFactory, ChannelBase)
 - uid: ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.#ctor*
   name: AdminMonitoringService
   href: api/ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.html#ArmoniK_DevelopmentKit_Client_Services_Admin_AdminMonitoringService__ctor_
@@ -1395,18 +1487,12 @@ references:
   commentId: T:ArmoniK.DevelopmentKit.Client.Services.SessionService
   fullName: ArmoniK.DevelopmentKit.Client.Services.SessionService
   nameWithType: SessionService
-- uid: ArmoniK.DevelopmentKit.Client.Services.SessionService.#ctor(ILoggerFactory,Api.gRPC.V1.Submitter.Submitter.SubmitterClient,Session,TaskOptions)
-  name: SessionService(ILoggerFactory, Api.gRPC.V1.Submitter.Submitter.SubmitterClient, Session, TaskOptions)
-  href: api/ArmoniK.DevelopmentKit.Client.Services.SessionService.html#ArmoniK_DevelopmentKit_Client_Services_SessionService__ctor_ILoggerFactory_Api_gRPC_V1_Submitter_Submitter_SubmitterClient_Session_TaskOptions_
-  commentId: M:ArmoniK.DevelopmentKit.Client.Services.SessionService.#ctor(ILoggerFactory,Api.gRPC.V1.Submitter.Submitter.SubmitterClient,Session,TaskOptions)
-  fullName: ArmoniK.DevelopmentKit.Client.Services.SessionService.SessionService(ILoggerFactory, Api.gRPC.V1.Submitter.Submitter.SubmitterClient, Session, TaskOptions)
-  nameWithType: SessionService.SessionService(ILoggerFactory, Api.gRPC.V1.Submitter.Submitter.SubmitterClient, Session, TaskOptions)
-- uid: ArmoniK.DevelopmentKit.Client.Services.SessionService.#ctor(ILoggerFactory,Api.gRPC.V1.Submitter.Submitter.SubmitterClient,TaskOptions)
-  name: SessionService(ILoggerFactory, Api.gRPC.V1.Submitter.Submitter.SubmitterClient, TaskOptions)
-  href: api/ArmoniK.DevelopmentKit.Client.Services.SessionService.html#ArmoniK_DevelopmentKit_Client_Services_SessionService__ctor_ILoggerFactory_Api_gRPC_V1_Submitter_Submitter_SubmitterClient_TaskOptions_
-  commentId: M:ArmoniK.DevelopmentKit.Client.Services.SessionService.#ctor(ILoggerFactory,Api.gRPC.V1.Submitter.Submitter.SubmitterClient,TaskOptions)
-  fullName: ArmoniK.DevelopmentKit.Client.Services.SessionService.SessionService(ILoggerFactory, Api.gRPC.V1.Submitter.Submitter.SubmitterClient, TaskOptions)
-  nameWithType: SessionService.SessionService(ILoggerFactory, Api.gRPC.V1.Submitter.Submitter.SubmitterClient, TaskOptions)
+- uid: ArmoniK.DevelopmentKit.Client.Services.SessionService.#ctor(ILoggerFactory,ChannelBase,TaskOptions,Session)
+  name: SessionService(ILoggerFactory, ChannelBase, TaskOptions, Session)
+  href: api/ArmoniK.DevelopmentKit.Client.Services.SessionService.html#ArmoniK_DevelopmentKit_Client_Services_SessionService__ctor_ILoggerFactory_ChannelBase_TaskOptions_Session_
+  commentId: M:ArmoniK.DevelopmentKit.Client.Services.SessionService.#ctor(ILoggerFactory,ChannelBase,TaskOptions,Session)
+  fullName: ArmoniK.DevelopmentKit.Client.Services.SessionService.SessionService(ILoggerFactory, ChannelBase, TaskOptions, Session)
+  nameWithType: SessionService.SessionService(ILoggerFactory, ChannelBase, TaskOptions, Session)
 - uid: ArmoniK.DevelopmentKit.Client.Services.SessionService.#ctor*
   name: SessionService
   href: api/ArmoniK.DevelopmentKit.Client.Services.SessionService.html#ArmoniK_DevelopmentKit_Client_Services_SessionService__ctor_
@@ -3592,18 +3678,12 @@ references:
   commentId: T:ArmoniK.DevelopmentKit.GridServer.Client.SessionService
   fullName: ArmoniK.DevelopmentKit.GridServer.Client.SessionService
   nameWithType: SessionService
-- uid: ArmoniK.DevelopmentKit.GridServer.Client.SessionService.#ctor(ILoggerFactory,Submitter.SubmitterClient,Session,TaskOptions)
-  name: SessionService(ILoggerFactory, Submitter.SubmitterClient, Session, TaskOptions)
-  href: api/ArmoniK.DevelopmentKit.GridServer.Client.SessionService.html#ArmoniK_DevelopmentKit_GridServer_Client_SessionService__ctor_ILoggerFactory_Submitter_SubmitterClient_Session_TaskOptions_
-  commentId: M:ArmoniK.DevelopmentKit.GridServer.Client.SessionService.#ctor(ILoggerFactory,Submitter.SubmitterClient,Session,TaskOptions)
-  fullName: ArmoniK.DevelopmentKit.GridServer.Client.SessionService.SessionService(ILoggerFactory, Submitter.SubmitterClient, Session, TaskOptions)
-  nameWithType: SessionService.SessionService(ILoggerFactory, Submitter.SubmitterClient, Session, TaskOptions)
-- uid: ArmoniK.DevelopmentKit.GridServer.Client.SessionService.#ctor(ILoggerFactory,Submitter.SubmitterClient,TaskOptions)
-  name: SessionService(ILoggerFactory, Submitter.SubmitterClient, TaskOptions)
-  href: api/ArmoniK.DevelopmentKit.GridServer.Client.SessionService.html#ArmoniK_DevelopmentKit_GridServer_Client_SessionService__ctor_ILoggerFactory_Submitter_SubmitterClient_TaskOptions_
-  commentId: M:ArmoniK.DevelopmentKit.GridServer.Client.SessionService.#ctor(ILoggerFactory,Submitter.SubmitterClient,TaskOptions)
-  fullName: ArmoniK.DevelopmentKit.GridServer.Client.SessionService.SessionService(ILoggerFactory, Submitter.SubmitterClient, TaskOptions)
-  nameWithType: SessionService.SessionService(ILoggerFactory, Submitter.SubmitterClient, TaskOptions)
+- uid: ArmoniK.DevelopmentKit.GridServer.Client.SessionService.#ctor(ILoggerFactory,ChannelBase,TaskOptions,Session)
+  name: SessionService(ILoggerFactory, ChannelBase, TaskOptions, Session)
+  href: api/ArmoniK.DevelopmentKit.GridServer.Client.SessionService.html#ArmoniK_DevelopmentKit_GridServer_Client_SessionService__ctor_ILoggerFactory_ChannelBase_TaskOptions_Session_
+  commentId: M:ArmoniK.DevelopmentKit.GridServer.Client.SessionService.#ctor(ILoggerFactory,ChannelBase,TaskOptions,Session)
+  fullName: ArmoniK.DevelopmentKit.GridServer.Client.SessionService.SessionService(ILoggerFactory, ChannelBase, TaskOptions, Session)
+  nameWithType: SessionService.SessionService(ILoggerFactory, ChannelBase, TaskOptions, Session)
 - uid: ArmoniK.DevelopmentKit.GridServer.Client.SessionService.#ctor*
   name: SessionService
   href: api/ArmoniK.DevelopmentKit.GridServer.Client.SessionService.html#ArmoniK_DevelopmentKit_GridServer_Client_SessionService__ctor_
@@ -4783,18 +4863,12 @@ references:
   commentId: T:ArmoniK.DevelopmentKit.SymphonyApi.Client.api.SessionService
   fullName: ArmoniK.DevelopmentKit.SymphonyApi.Client.api.SessionService
   nameWithType: SessionService
-- uid: ArmoniK.DevelopmentKit.SymphonyApi.Client.api.SessionService.#ctor(ILoggerFactory,Submitter.SubmitterClient,Session,TaskOptions)
-  name: SessionService(ILoggerFactory, Submitter.SubmitterClient, Session, TaskOptions)
-  href: api/ArmoniK.DevelopmentKit.SymphonyApi.Client.api.SessionService.html#ArmoniK_DevelopmentKit_SymphonyApi_Client_api_SessionService__ctor_ILoggerFactory_Submitter_SubmitterClient_Session_TaskOptions_
-  commentId: M:ArmoniK.DevelopmentKit.SymphonyApi.Client.api.SessionService.#ctor(ILoggerFactory,Submitter.SubmitterClient,Session,TaskOptions)
-  fullName: ArmoniK.DevelopmentKit.SymphonyApi.Client.api.SessionService.SessionService(ILoggerFactory, Submitter.SubmitterClient, Session, TaskOptions)
-  nameWithType: SessionService.SessionService(ILoggerFactory, Submitter.SubmitterClient, Session, TaskOptions)
-- uid: ArmoniK.DevelopmentKit.SymphonyApi.Client.api.SessionService.#ctor(ILoggerFactory,Submitter.SubmitterClient,TaskOptions)
-  name: SessionService(ILoggerFactory, Submitter.SubmitterClient, TaskOptions)
-  href: api/ArmoniK.DevelopmentKit.SymphonyApi.Client.api.SessionService.html#ArmoniK_DevelopmentKit_SymphonyApi_Client_api_SessionService__ctor_ILoggerFactory_Submitter_SubmitterClient_TaskOptions_
-  commentId: M:ArmoniK.DevelopmentKit.SymphonyApi.Client.api.SessionService.#ctor(ILoggerFactory,Submitter.SubmitterClient,TaskOptions)
-  fullName: ArmoniK.DevelopmentKit.SymphonyApi.Client.api.SessionService.SessionService(ILoggerFactory, Submitter.SubmitterClient, TaskOptions)
-  nameWithType: SessionService.SessionService(ILoggerFactory, Submitter.SubmitterClient, TaskOptions)
+- uid: ArmoniK.DevelopmentKit.SymphonyApi.Client.api.SessionService.#ctor(ILoggerFactory,ChannelBase,TaskOptions,Session)
+  name: SessionService(ILoggerFactory, ChannelBase, TaskOptions, Session)
+  href: api/ArmoniK.DevelopmentKit.SymphonyApi.Client.api.SessionService.html#ArmoniK_DevelopmentKit_SymphonyApi_Client_api_SessionService__ctor_ILoggerFactory_ChannelBase_TaskOptions_Session_
+  commentId: M:ArmoniK.DevelopmentKit.SymphonyApi.Client.api.SessionService.#ctor(ILoggerFactory,ChannelBase,TaskOptions,Session)
+  fullName: ArmoniK.DevelopmentKit.SymphonyApi.Client.api.SessionService.SessionService(ILoggerFactory, ChannelBase, TaskOptions, Session)
+  nameWithType: SessionService.SessionService(ILoggerFactory, ChannelBase, TaskOptions, Session)
 - uid: ArmoniK.DevelopmentKit.SymphonyApi.Client.api.SessionService.#ctor*
   name: SessionService
   href: api/ArmoniK.DevelopmentKit.SymphonyApi.Client.api.SessionService.html#ArmoniK_DevelopmentKit_SymphonyApi_Client_api_SessionService__ctor_

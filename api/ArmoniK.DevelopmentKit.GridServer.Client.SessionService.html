@@ -95,7 +95,13 @@ be called by client or by the worker.</p>
       <a class="xref" href="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_Logger">BaseClientSubmitter&lt;SessionService&gt;.Logger</a>
     </div>
     <div>
-      <a class="xref" href="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_ControlPlaneService">BaseClientSubmitter&lt;SessionService&gt;.ControlPlaneService</a>
+      <a class="xref" href="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_SubmitterService">BaseClientSubmitter&lt;SessionService&gt;.SubmitterService</a>
+    </div>
+    <div>
+      <a class="xref" href="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_ResultService">BaseClientSubmitter&lt;SessionService&gt;.ResultService</a>
+    </div>
+    <div>
+      <a class="xref" href="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_TaskService">BaseClientSubmitter&lt;SessionService&gt;.TaskService</a>
     </div>
     <div>
       <a class="xref" href="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_GetTaskStatus_System_String_">BaseClientSubmitter&lt;SessionService&gt;.GetTaskStatus(String)</a>
@@ -165,69 +171,20 @@ be called by client or by the worker.</p>
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/main/apiSpec/new?filename=ArmoniK_DevelopmentKit_GridServer_Client_SessionService__ctor_ILoggerFactory_Submitter_SubmitterClient_Session_TaskOptions_.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.GridServer.Client.SessionService.%23ctor(ILoggerFactory%2CSubmitter.SubmitterClient%2CSession%2CTaskOptions)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/main/apiSpec/new?filename=ArmoniK_DevelopmentKit_GridServer_Client_SessionService__ctor_ILoggerFactory_ChannelBase_TaskOptions_Session_.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.GridServer.Client.SessionService.%23ctor(ILoggerFactory%2CChannelBase%2CTaskOptions%2CSession)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/DataSynapseApi/ArmoniK.DevelopmentKit.GridServer.Client/SessionService.cs/#L81">View Source</a>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/DataSynapseApi/ArmoniK.DevelopmentKit.GridServer.Client/SessionService.cs/#L53">View Source</a>
   </span>
   <a id="ArmoniK_DevelopmentKit_GridServer_Client_SessionService__ctor_" data-uid="ArmoniK.DevelopmentKit.GridServer.Client.SessionService.#ctor*"></a>
-  <h4 id="ArmoniK_DevelopmentKit_GridServer_Client_SessionService__ctor_ILoggerFactory_Submitter_SubmitterClient_Session_TaskOptions_" data-uid="ArmoniK.DevelopmentKit.GridServer.Client.SessionService.#ctor(ILoggerFactory,Submitter.SubmitterClient,Session,TaskOptions)">SessionService(ILoggerFactory, Submitter.SubmitterClient, Session, TaskOptions)</h4>
-  <div class="markdown level1 summary"><p>Create SessionService with a previous opened session</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public SessionService(ILoggerFactory loggerFactory, Submitter.SubmitterClient controlPlaneService, Session sessionId, TaskOptions clientOptions)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">ILoggerFactory</span></td>
-        <td><span class="parametername">loggerFactory</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><span class="xref">Submitter.SubmitterClient</span></td>
-        <td><span class="parametername">controlPlaneService</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><span class="xref">Session</span></td>
-        <td><span class="parametername">sessionId</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><span class="xref">TaskOptions</span></td>
-        <td><span class="parametername">clientOptions</span></td>
-        <td><p>Client options passed during the CreateSession</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/main/apiSpec/new?filename=ArmoniK_DevelopmentKit_GridServer_Client_SessionService__ctor_ILoggerFactory_Submitter_SubmitterClient_TaskOptions_.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.GridServer.Client.SessionService.%23ctor(ILoggerFactory%2CSubmitter.SubmitterClient%2CTaskOptions)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/DataSynapseApi/ArmoniK.DevelopmentKit.GridServer.Client/SessionService.cs/#L51">View Source</a>
-  </span>
-  <a id="ArmoniK_DevelopmentKit_GridServer_Client_SessionService__ctor_" data-uid="ArmoniK.DevelopmentKit.GridServer.Client.SessionService.#ctor*"></a>
-  <h4 id="ArmoniK_DevelopmentKit_GridServer_Client_SessionService__ctor_ILoggerFactory_Submitter_SubmitterClient_TaskOptions_" data-uid="ArmoniK.DevelopmentKit.GridServer.Client.SessionService.#ctor(ILoggerFactory,Submitter.SubmitterClient,TaskOptions)">SessionService(ILoggerFactory, Submitter.SubmitterClient, TaskOptions)</h4>
+  <h4 id="ArmoniK_DevelopmentKit_GridServer_Client_SessionService__ctor_ILoggerFactory_ChannelBase_TaskOptions_Session_" data-uid="ArmoniK.DevelopmentKit.GridServer.Client.SessionService.#ctor(ILoggerFactory,ChannelBase,TaskOptions,Session)">SessionService(ILoggerFactory, ChannelBase, TaskOptions, Session)</h4>
   <div class="markdown level1 summary"><p>Ctor to instantiate a new SessionService
 This is an object to send task or get Results from a session</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public SessionService(ILoggerFactory loggerFactory, Submitter.SubmitterClient controlPlaneService, TaskOptions taskOptions = null)</code></pre>
+    <pre><code class="lang-csharp hljs">public SessionService(ILoggerFactory loggerFactory, ChannelBase grpcChannel, TaskOptions taskOptions = null, Session sessionId = null)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -245,13 +202,18 @@ This is an object to send task or get Results from a session</p>
         <td></td>
       </tr>
       <tr>
-        <td><span class="xref">Submitter.SubmitterClient</span></td>
-        <td><span class="parametername">controlPlaneService</span></td>
+        <td><span class="xref">ChannelBase</span></td>
+        <td><span class="parametername">grpcChannel</span></td>
         <td></td>
       </tr>
       <tr>
         <td><span class="xref">TaskOptions</span></td>
         <td><span class="parametername">taskOptions</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">Session</span></td>
+        <td><span class="parametername">sessionId</span></td>
         <td></td>
       </tr>
     </tbody>
@@ -263,7 +225,7 @@ This is an object to send task or get Results from a session</p>
     <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/main/apiSpec/new?filename=ArmoniK_DevelopmentKit_GridServer_Client_SessionService_InitializeDefaultTaskOptions.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.GridServer.Client.SessionService.InitializeDefaultTaskOptions%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/DataSynapseApi/ArmoniK.DevelopmentKit.GridServer.Client/SessionService.cs/#L112">View Source</a>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/DataSynapseApi/ArmoniK.DevelopmentKit.GridServer.Client/SessionService.cs/#L88">View Source</a>
   </span>
   <a id="ArmoniK_DevelopmentKit_GridServer_Client_SessionService_InitializeDefaultTaskOptions_" data-uid="ArmoniK.DevelopmentKit.GridServer.Client.SessionService.InitializeDefaultTaskOptions*"></a>
   <h4 id="ArmoniK_DevelopmentKit_GridServer_Client_SessionService_InitializeDefaultTaskOptions" data-uid="ArmoniK.DevelopmentKit.GridServer.Client.SessionService.InitializeDefaultTaskOptions">InitializeDefaultTaskOptions()</h4>
@@ -298,7 +260,7 @@ Priority = 1</p>
     <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/main/apiSpec/new?filename=ArmoniK_DevelopmentKit_GridServer_Client_SessionService_OpenSession_Session_.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.GridServer.Client.SessionService.OpenSession(Session)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/DataSynapseApi/ArmoniK.DevelopmentKit.GridServer.Client/SessionService.cs/#L151">View Source</a>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/DataSynapseApi/ArmoniK.DevelopmentKit.GridServer.Client/SessionService.cs/#L127">View Source</a>
   </span>
   <a id="ArmoniK_DevelopmentKit_GridServer_Client_SessionService_OpenSession_" data-uid="ArmoniK.DevelopmentKit.GridServer.Client.SessionService.OpenSession*"></a>
   <h4 id="ArmoniK_DevelopmentKit_GridServer_Client_SessionService_OpenSession_Session_" data-uid="ArmoniK.DevelopmentKit.GridServer.Client.SessionService.OpenSession(Session)">OpenSession(Session)</h4>
@@ -332,7 +294,7 @@ Priority = 1</p>
     <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/main/apiSpec/new?filename=ArmoniK_DevelopmentKit_GridServer_Client_SessionService_SubmitTask_System_Byte___.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.GridServer.Client.SessionService.SubmitTask(System.Byte%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/DataSynapseApi/ArmoniK.DevelopmentKit.GridServer.Client/SessionService.cs/#L179">View Source</a>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/DataSynapseApi/ArmoniK.DevelopmentKit.GridServer.Client/SessionService.cs/#L155">View Source</a>
   </span>
   <a id="ArmoniK_DevelopmentKit_GridServer_Client_SessionService_SubmitTask_" data-uid="ArmoniK.DevelopmentKit.GridServer.Client.SessionService.SubmitTask*"></a>
   <h4 id="ArmoniK_DevelopmentKit_GridServer_Client_SessionService_SubmitTask_System_Byte___" data-uid="ArmoniK.DevelopmentKit.GridServer.Client.SessionService.SubmitTask(System.Byte[])">SubmitTask(Byte[])</h4>
@@ -381,13 +343,13 @@ Priority = 1</p>
     <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/main/apiSpec/new?filename=ArmoniK_DevelopmentKit_GridServer_Client_SessionService_SubmitTasks_System_Collections_Generic_IEnumerable_System_Byte____.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.GridServer.Client.SessionService.SubmitTasks(System.Collections.Generic.IEnumerable%7BSystem.Byte%5B%5D%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/DataSynapseApi/ArmoniK.DevelopmentKit.GridServer.Client/SessionService.cs/#L169">View Source</a>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/DataSynapseApi/ArmoniK.DevelopmentKit.GridServer.Client/SessionService.cs/#L145">View Source</a>
   </span>
   <a id="ArmoniK_DevelopmentKit_GridServer_Client_SessionService_SubmitTasks_" data-uid="ArmoniK.DevelopmentKit.GridServer.Client.SessionService.SubmitTasks*"></a>
   <h4 id="ArmoniK_DevelopmentKit_GridServer_Client_SessionService_SubmitTasks_System_Collections_Generic_IEnumerable_System_Byte____" data-uid="ArmoniK.DevelopmentKit.GridServer.Client.SessionService.SubmitTasks(System.Collections.Generic.IEnumerable{System.Byte[]})">SubmitTasks(IEnumerable&lt;Byte[]&gt;)</h4>
   <div class="markdown level1 summary"><p>User method to submit task from the client
 Need a client Service. In case of ServiceContainer
-controlPlaneService can be null until the OpenSession is called</p>
+submitterService can be null until the OpenSession is called</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -432,7 +394,7 @@ controlPlaneService can be null until the OpenSession is called</p>
     <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/main/apiSpec/new?filename=ArmoniK_DevelopmentKit_GridServer_Client_SessionService_SubmitTaskWithDependencies_System_Byte___System_Collections_Generic_IList_System_String__.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.GridServer.Client.SessionService.SubmitTaskWithDependencies(System.Byte%5B%5D%2CSystem.Collections.Generic.IList%7BSystem.String%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/DataSynapseApi/ArmoniK.DevelopmentKit.GridServer.Client/SessionService.cs/#L197">View Source</a>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/DataSynapseApi/ArmoniK.DevelopmentKit.GridServer.Client/SessionService.cs/#L173">View Source</a>
   </span>
   <a id="ArmoniK_DevelopmentKit_GridServer_Client_SessionService_SubmitTaskWithDependencies_" data-uid="ArmoniK.DevelopmentKit.GridServer.Client.SessionService.SubmitTaskWithDependencies*"></a>
   <h4 id="ArmoniK_DevelopmentKit_GridServer_Client_SessionService_SubmitTaskWithDependencies_System_Byte___System_Collections_Generic_IList_System_String__" data-uid="ArmoniK.DevelopmentKit.GridServer.Client.SessionService.SubmitTaskWithDependencies(System.Byte[],System.Collections.Generic.IList{System.String})">SubmitTaskWithDependencies(Byte[], IList&lt;String&gt;)</h4>
@@ -489,7 +451,7 @@ to start until all dependencies are completed successfully</p>
     <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/main/apiSpec/new?filename=ArmoniK_DevelopmentKit_GridServer_Client_SessionService_ToString.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.GridServer.Client.SessionService.ToString%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/DataSynapseApi/ArmoniK.DevelopmentKit.GridServer.Client/SessionService.cs/#L102">View Source</a>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/DataSynapseApi/ArmoniK.DevelopmentKit.GridServer.Client/SessionService.cs/#L78">View Source</a>
   </span>
   <a id="ArmoniK_DevelopmentKit_GridServer_Client_SessionService_ToString_" data-uid="ArmoniK.DevelopmentKit.GridServer.Client.SessionService.ToString*"></a>
   <h4 id="ArmoniK_DevelopmentKit_GridServer_Client_SessionService_ToString" data-uid="ArmoniK.DevelopmentKit.GridServer.Client.SessionService.ToString">ToString()</h4>
@@ -529,7 +491,7 @@ to start until all dependencies are completed successfully</p>
                     <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/main/apiSpec/new?filename=ArmoniK_DevelopmentKit_GridServer_Client_SessionService.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.GridServer.Client.SessionService%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/DataSynapseApi/ArmoniK.DevelopmentKit.GridServer.Client/SessionService.cs/#L44" class="contribution-link">View Source</a>
+                    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/DataSynapseApi/ArmoniK.DevelopmentKit.GridServer.Client/SessionService.cs/#L46" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>

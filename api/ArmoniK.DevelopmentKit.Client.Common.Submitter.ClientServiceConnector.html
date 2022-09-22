@@ -128,7 +128,7 @@ like address,port, insecure connection, TLS, and mTLS</p>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Api.gRPC.V1.Submitter.Submitter.SubmitterClient ControlPlaneConnection(string endPoint, bool sslValidation = true, ILoggerFactory loggerFactory = null)</code></pre>
+    <pre><code class="lang-csharp hljs">public static ChannelBase ControlPlaneConnection(string endPoint, bool sslValidation = true, ILoggerFactory loggerFactory = null)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -170,7 +170,7 @@ like address,port, insecure connection, TLS, and mTLS</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">Api.gRPC.V1.Submitter.Submitter.SubmitterClient</span></td>
+        <td><span class="xref">ChannelBase</span></td>
         <td></td>
       </tr>
     </tbody>
@@ -189,7 +189,7 @@ like address,port, insecure connection, TLS, and mTLS</p>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Api.gRPC.V1.Submitter.Submitter.SubmitterClient ControlPlaneConnection(string endPoint, string clientCertFilename, string clientKeyFilename, bool sslValidation = true, ILoggerFactory loggerFactory = null)</code></pre>
+    <pre><code class="lang-csharp hljs">public static ChannelBase ControlPlaneConnection(string endPoint, string clientCertFilename, string clientKeyFilename, bool sslValidation = true, ILoggerFactory loggerFactory = null)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -242,7 +242,7 @@ like address,port, insecure connection, TLS, and mTLS</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">Api.gRPC.V1.Submitter.Submitter.SubmitterClient</span></td>
+        <td><span class="xref">ChannelBase</span></td>
         <td></td>
       </tr>
     </tbody>
@@ -261,7 +261,7 @@ like address,port, insecure connection, TLS, and mTLS</p>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Api.gRPC.V1.Submitter.Submitter.SubmitterClient ControlPlaneConnection(string endPoint, Tuple&lt;string, string&gt; clientPem = null, bool sslValidation = true, ILoggerFactory loggerFactory = null)</code></pre>
+    <pre><code class="lang-csharp hljs">public static ChannelBase ControlPlaneConnection(string endPoint, Tuple&lt;string, string&gt; clientPem = null, bool sslValidation = true, ILoggerFactory loggerFactory = null)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -308,7 +308,7 @@ like address,port, insecure connection, TLS, and mTLS</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">Api.gRPC.V1.Submitter.Submitter.SubmitterClient</span></td>
+        <td><span class="xref">ChannelBase</span></td>
         <td></td>
       </tr>
     </tbody>
