@@ -114,7 +114,7 @@ public class SimpleUnifiedApiAdminTestClient : ClientBaseTest<SimpleUnifiedAPITe
 
     using var cs = ServiceFactory.CreateService(props,
                                                 LoggerFactory,
-                                                TimeSpan.FromMinutes(10));
+                                                TimeSpan.FromSeconds(10));
 
     using var csa = ServiceFactory.GetServiceAdmin(props,
                                                    LoggerFactory);

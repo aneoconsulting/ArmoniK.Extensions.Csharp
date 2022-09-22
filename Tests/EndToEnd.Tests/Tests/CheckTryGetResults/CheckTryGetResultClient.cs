@@ -131,7 +131,7 @@ public class CheckTryGetResultsClient : ClientBaseTest<CheckTryGetResultsClient>
 
 
     var payloads = Enumerable.Repeat(0,
-                                     500)
+                                     100)
                              .Select(_ => clientPayload.Serialize());
     var taskIds = sessionService.SubmitTasks(payloads);
 

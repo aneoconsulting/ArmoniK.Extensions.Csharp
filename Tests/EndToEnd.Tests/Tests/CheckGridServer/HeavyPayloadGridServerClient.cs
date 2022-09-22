@@ -36,6 +36,7 @@ using SessionService = ArmoniK.DevelopmentKit.SymphonyApi.Client.api.SessionServ
 
 namespace ArmoniK.EndToEndTests.Tests.CheckGridServerHeavy;
 
+[Disabled]
 public class HeavyPayloadGridServerClient : ClientBaseTest<HeavyPayloadGridServerClient>, IServiceInvocationHandler
 {
   public HeavyPayloadGridServerClient(IConfiguration configuration,
