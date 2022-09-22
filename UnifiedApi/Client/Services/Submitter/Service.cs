@@ -91,10 +91,10 @@ public class Service : AbstractClientService
 
     ProtoSerializer = new ProtoSerializer();
 
-    CancellationTokenSource = new CancellationTokenSource();
+    CancellationResultTaskSource = new CancellationTokenSource();
 
     HandlerResponse = Task.Run(ResultTask,
-                               CancellationTokenSource.Token);
+                               CancellationResultTaskSource.Token);
 
     Logger = LoggerFactory.CreateLogger<Service>();
     Logger.BeginPropertyScope(("SessionId", SessionService.SessionId),
@@ -112,7 +112,7 @@ public class Service : AbstractClientService
 
   private SessionServiceFactory SessionServiceFactory { get; set; }
 
-  private CancellationTokenSource CancellationTokenSource { get; }
+  private CancellationTokenSource CancellationResultTaskSource { get; }
 
   /// <summary>
   ///   The handler to send the response
@@ -286,7 +286,7 @@ public class Service : AbstractClientService
 
         foreach (var resultStatusData in resultStatusCollection.IdsReady)
         {
-          if (CancellationTokenSource.IsCancellationRequested)
+          if (CancellationResultTaskSource.IsCancellationRequested)
           {
             Logger.LogWarning("Cancellation triggered before processing all results");
             return;
@@ -305,7 +305,7 @@ public class Service : AbstractClientService
           }
           catch (Exception e)
           {
-            if (CancellationTokenSource.IsCancellationRequested)
+            if (CancellationResultTaskSource.IsCancellationRequested)
             {
               Logger.LogError(e,
                               "Cancellation triggered before processing all results");
@@ -350,8 +350,13 @@ public class Service : AbstractClientService
 
   private void ResultTask()
   {
-    while (!CancellationTokenSource.Token.IsCancellationRequested)
+    while (!(CancellationResultTaskSource.Token.IsCancellationRequested && ResultHandlerDictionary.IsEmpty))
     {
+      if (CancellationResultTaskSource.Token.IsCancellationRequested && !ResultHandlerDictionary.IsEmpty)
+      {
+        Logger.LogWarning("ResultHandler task cancellation requested. Waiting for {nbResult} results before cancellation", ResultHandlerDictionary.Count);
+      }
+
       if (!ResultHandlerDictionary.IsEmpty)
       {
         ProxyTryGetResults(ResultHandlerDictionary.Keys.ToList(),
@@ -578,7 +583,7 @@ public class Service : AbstractClientService
   /// <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
   public override void Dispose()
   {
-    CancellationTokenSource.Cancel();
+    CancellationResultTaskSource.Cancel();
     HandlerResponse?.Wait();
     HandlerResponse?.Dispose();
 
