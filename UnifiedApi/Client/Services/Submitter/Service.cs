@@ -354,7 +354,8 @@ public class Service : AbstractClientService
     {
       if (CancellationResultTaskSource.Token.IsCancellationRequested && !ResultHandlerDictionary.IsEmpty)
       {
-        Logger.LogWarning("ResultHandler task cancellation requested. Waiting for {nbResult} results before cancellation", ResultHandlerDictionary.Count);
+        Logger.LogWarning("ResultHandler task cancellation requested. Waiting for {nbResult} results before cancellation",
+                          ResultHandlerDictionary.Count);
       }
 
       if (!ResultHandlerDictionary.IsEmpty)
