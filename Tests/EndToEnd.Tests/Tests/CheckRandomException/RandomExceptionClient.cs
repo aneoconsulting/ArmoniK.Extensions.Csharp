@@ -152,13 +152,12 @@ public class RandomExceptionClient : ClientBaseTest<RandomExceptionClient>, ISer
                     3.0,
                   }.ToArray();
 
-    for (var taskId = 0; taskId < 100; taskId++)
+    for (var taskId = 0; taskId < 10; taskId++)
     {
       sessionService.Submit("ComputeBasicArrayCube",
                             ParamsHelper(numbers,
                                          0.3),
                             this);
-      Thread.Sleep(10);
     }
   }
 }

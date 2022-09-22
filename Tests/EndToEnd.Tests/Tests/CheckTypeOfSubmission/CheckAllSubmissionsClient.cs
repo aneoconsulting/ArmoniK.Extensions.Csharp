@@ -101,22 +101,6 @@ public class CheckAllSubmissionsClient : ClientBaseTest<CheckAllSubmissionsClien
                      resultService,
                      5000,
                      0,
-                     SubmissionType.Sequential,
-                     GetResultType.TryGetResult);
-    }
-    catch (Exception e)
-    {
-      Log.LogError(e,
-                   "Submission Error 5000 Jobs with 0 subtask");
-      throw;
-    }
-
-    try
-    {
-      SubmissionTask(sessionService,
-                     resultService,
-                     5000,
-                     0,
                      SubmissionType.Batch,
                      GetResultType.TryGetResult);
     }
@@ -126,65 +110,6 @@ public class CheckAllSubmissionsClient : ClientBaseTest<CheckAllSubmissionsClien
                    "Submission Error 1 Jobs with 5000 subtasks");
       throw;
     }
-
-    //try
-    //{
-    //  SubmissionTask(sessionService,
-    //                 1000,
-    //                 0,
-    //                 SubmissionType.Batch,
-    //                 GetResultType.TryGetResult);
-    //}
-    //catch (Exception e)
-    //{
-    //  Log.LogError(e,
-    //               "Submission Error 1000 Jobs with 0 subtask");
-    //}
-
-    //try
-    //{
-    //  SubmissionTask(sessionService,
-    //                 1000,
-    //                 1,
-    //                 SubmissionType.Batch,
-    //                 GetResultType.TryGetResult);
-    //}
-    //catch (Exception e)
-    //{
-    //  Log.LogError(e,
-    //               "Submission Error 1000 Jobs with 1 subtask");
-    //}
-
-
-    try
-    {
-      SubmissionTask(sessionService,
-                     resultService,
-                     10000,
-                     0,
-                     SubmissionType.Batch,
-                     GetResultType.TryGetResult);
-    }
-    catch (Exception e)
-    {
-      Log.LogError(e,
-                   "Submission Error 10000 Jobs with 0 subtask");
-      throw;
-    }
-
-    //try
-    //{
-    //  SubmissionTask(sessionService,
-    //                 100000,
-    //                 0,
-    //                 SubmissionType.Batch,
-    //                 GetResultType.TryGetResult);
-    //}
-    //catch (Exception e)
-    //{
-    //  Log.LogError(e,
-    //               "Submission Error 10 Jobs with 1 subtask");
-    //}
   }
 
   private void SubmissionTask(SessionService sessionService,

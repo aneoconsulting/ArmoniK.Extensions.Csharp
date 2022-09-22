@@ -143,7 +143,7 @@ public class CheckRandomExceptionSymClient : ClientBaseTest<CheckRandomException
 
 
     var payloads = Enumerable.Repeat(0,
-                                     1000)
+                                     100)
                              .Select(_ => clientPayload.Serialize());
     var taskIds = sessionService.SubmitTasks(payloads);
 

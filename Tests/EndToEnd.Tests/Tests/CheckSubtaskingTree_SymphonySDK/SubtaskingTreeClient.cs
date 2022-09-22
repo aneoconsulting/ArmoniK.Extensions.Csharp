@@ -59,7 +59,7 @@ public class SubtaskingTreeClient : ClientBaseTest<SubtaskingTreeClient>
 
     Log.LogInformation("Running End to End test to compute Sum of numbers in a subtasking tree way");
     ExecuteTreeSubtasking(sessionService,
-                          1024);
+                          256);
   }
 
   /// <summary>
