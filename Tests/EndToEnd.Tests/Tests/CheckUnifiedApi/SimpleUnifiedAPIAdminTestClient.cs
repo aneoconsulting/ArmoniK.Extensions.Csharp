@@ -21,6 +21,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+
 using ArmoniK.Api.gRPC.V1;
 using ArmoniK.DevelopmentKit.Client.Exceptions;
 using ArmoniK.DevelopmentKit.Client.Factory;
@@ -33,10 +39,6 @@ using ArmoniK.EndToEndTests.Common;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
 
 namespace ArmoniK.EndToEndTests.Tests.CheckUnifiedApi;
 

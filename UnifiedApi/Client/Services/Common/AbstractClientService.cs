@@ -1,7 +1,7 @@
-﻿using Microsoft.Extensions.Logging;
-
-using System;
+﻿using System;
 using System.Collections.Concurrent;
+
+using Microsoft.Extensions.Logging;
 
 namespace ArmoniK.DevelopmentKit.Client.Services.Common;
 
