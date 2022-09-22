@@ -727,12 +727,12 @@ references:
   commentId: T:ArmoniK.DevelopmentKit.Client.Factory.ServiceFactory
   fullName: ArmoniK.DevelopmentKit.Client.Factory.ServiceFactory
   nameWithType: ServiceFactory
-- uid: ArmoniK.DevelopmentKit.Client.Factory.ServiceFactory.CreateService(ArmoniK.DevelopmentKit.Client.Services.Properties)
-  name: CreateService(Properties)
-  href: api/ArmoniK.DevelopmentKit.Client.Factory.ServiceFactory.html#ArmoniK_DevelopmentKit_Client_Factory_ServiceFactory_CreateService_ArmoniK_DevelopmentKit_Client_Services_Properties_
-  commentId: M:ArmoniK.DevelopmentKit.Client.Factory.ServiceFactory.CreateService(ArmoniK.DevelopmentKit.Client.Services.Properties)
-  fullName: ArmoniK.DevelopmentKit.Client.Factory.ServiceFactory.CreateService(ArmoniK.DevelopmentKit.Client.Services.Properties)
-  nameWithType: ServiceFactory.CreateService(Properties)
+- uid: ArmoniK.DevelopmentKit.Client.Factory.ServiceFactory.CreateService(ArmoniK.DevelopmentKit.Client.Services.Properties,ILoggerFactory)
+  name: CreateService(Properties, ILoggerFactory)
+  href: api/ArmoniK.DevelopmentKit.Client.Factory.ServiceFactory.html#ArmoniK_DevelopmentKit_Client_Factory_ServiceFactory_CreateService_ArmoniK_DevelopmentKit_Client_Services_Properties_ILoggerFactory_
+  commentId: M:ArmoniK.DevelopmentKit.Client.Factory.ServiceFactory.CreateService(ArmoniK.DevelopmentKit.Client.Services.Properties,ILoggerFactory)
+  fullName: ArmoniK.DevelopmentKit.Client.Factory.ServiceFactory.CreateService(ArmoniK.DevelopmentKit.Client.Services.Properties, ILoggerFactory)
+  nameWithType: ServiceFactory.CreateService(Properties, ILoggerFactory)
 - uid: ArmoniK.DevelopmentKit.Client.Factory.ServiceFactory.CreateService*
   name: CreateService
   href: api/ArmoniK.DevelopmentKit.Client.Factory.ServiceFactory.html#ArmoniK_DevelopmentKit_Client_Factory_ServiceFactory_CreateService_
@@ -740,12 +740,12 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.Client.Factory.ServiceFactory.CreateService
   nameWithType: ServiceFactory.CreateService
-- uid: ArmoniK.DevelopmentKit.Client.Factory.ServiceFactory.GetServiceAdmin(ArmoniK.DevelopmentKit.Client.Services.Properties)
-  name: GetServiceAdmin(Properties)
-  href: api/ArmoniK.DevelopmentKit.Client.Factory.ServiceFactory.html#ArmoniK_DevelopmentKit_Client_Factory_ServiceFactory_GetServiceAdmin_ArmoniK_DevelopmentKit_Client_Services_Properties_
-  commentId: M:ArmoniK.DevelopmentKit.Client.Factory.ServiceFactory.GetServiceAdmin(ArmoniK.DevelopmentKit.Client.Services.Properties)
-  fullName: ArmoniK.DevelopmentKit.Client.Factory.ServiceFactory.GetServiceAdmin(ArmoniK.DevelopmentKit.Client.Services.Properties)
-  nameWithType: ServiceFactory.GetServiceAdmin(Properties)
+- uid: ArmoniK.DevelopmentKit.Client.Factory.ServiceFactory.GetServiceAdmin(ArmoniK.DevelopmentKit.Client.Services.Properties,ILoggerFactory)
+  name: GetServiceAdmin(Properties, ILoggerFactory)
+  href: api/ArmoniK.DevelopmentKit.Client.Factory.ServiceFactory.html#ArmoniK_DevelopmentKit_Client_Factory_ServiceFactory_GetServiceAdmin_ArmoniK_DevelopmentKit_Client_Services_Properties_ILoggerFactory_
+  commentId: M:ArmoniK.DevelopmentKit.Client.Factory.ServiceFactory.GetServiceAdmin(ArmoniK.DevelopmentKit.Client.Services.Properties,ILoggerFactory)
+  fullName: ArmoniK.DevelopmentKit.Client.Factory.ServiceFactory.GetServiceAdmin(ArmoniK.DevelopmentKit.Client.Services.Properties, ILoggerFactory)
+  nameWithType: ServiceFactory.GetServiceAdmin(Properties, ILoggerFactory)
 - uid: ArmoniK.DevelopmentKit.Client.Factory.ServiceFactory.GetServiceAdmin*
   name: GetServiceAdmin
   href: api/ArmoniK.DevelopmentKit.Client.Factory.ServiceFactory.html#ArmoniK_DevelopmentKit_Client_Factory_ServiceFactory_GetServiceAdmin_
@@ -1146,12 +1146,12 @@ references:
   commentId: T:ArmoniK.DevelopmentKit.Client.Services.Admin.ServiceAdmin
   fullName: ArmoniK.DevelopmentKit.Client.Services.Admin.ServiceAdmin
   nameWithType: ServiceAdmin
-- uid: ArmoniK.DevelopmentKit.Client.Services.Admin.ServiceAdmin.#ctor(ArmoniK.DevelopmentKit.Client.Services.Properties)
-  name: ServiceAdmin(Properties)
-  href: api/ArmoniK.DevelopmentKit.Client.Services.Admin.ServiceAdmin.html#ArmoniK_DevelopmentKit_Client_Services_Admin_ServiceAdmin__ctor_ArmoniK_DevelopmentKit_Client_Services_Properties_
-  commentId: M:ArmoniK.DevelopmentKit.Client.Services.Admin.ServiceAdmin.#ctor(ArmoniK.DevelopmentKit.Client.Services.Properties)
-  fullName: ArmoniK.DevelopmentKit.Client.Services.Admin.ServiceAdmin.ServiceAdmin(ArmoniK.DevelopmentKit.Client.Services.Properties)
-  nameWithType: ServiceAdmin.ServiceAdmin(Properties)
+- uid: ArmoniK.DevelopmentKit.Client.Services.Admin.ServiceAdmin.#ctor(ArmoniK.DevelopmentKit.Client.Services.Properties,ILoggerFactory)
+  name: ServiceAdmin(Properties, ILoggerFactory)
+  href: api/ArmoniK.DevelopmentKit.Client.Services.Admin.ServiceAdmin.html#ArmoniK_DevelopmentKit_Client_Services_Admin_ServiceAdmin__ctor_ArmoniK_DevelopmentKit_Client_Services_Properties_ILoggerFactory_
+  commentId: M:ArmoniK.DevelopmentKit.Client.Services.Admin.ServiceAdmin.#ctor(ArmoniK.DevelopmentKit.Client.Services.Properties,ILoggerFactory)
+  fullName: ArmoniK.DevelopmentKit.Client.Services.Admin.ServiceAdmin.ServiceAdmin(ArmoniK.DevelopmentKit.Client.Services.Properties, ILoggerFactory)
+  nameWithType: ServiceAdmin.ServiceAdmin(Properties, ILoggerFactory)
 - uid: ArmoniK.DevelopmentKit.Client.Services.Admin.ServiceAdmin.#ctor*
   name: ServiceAdmin
   href: api/ArmoniK.DevelopmentKit.Client.Services.Admin.ServiceAdmin.html#ArmoniK_DevelopmentKit_Client_Services_Admin_ServiceAdmin__ctor_
@@ -1197,12 +1197,12 @@ references:
   commentId: T:ArmoniK.DevelopmentKit.Client.Services.Common.AbstractClientService
   fullName: ArmoniK.DevelopmentKit.Client.Services.Common.AbstractClientService
   nameWithType: AbstractClientService
-- uid: ArmoniK.DevelopmentKit.Client.Services.Common.AbstractClientService.#ctor(ArmoniK.DevelopmentKit.Client.Services.Properties)
-  name: AbstractClientService(Properties)
-  href: api/ArmoniK.DevelopmentKit.Client.Services.Common.AbstractClientService.html#ArmoniK_DevelopmentKit_Client_Services_Common_AbstractClientService__ctor_ArmoniK_DevelopmentKit_Client_Services_Properties_
-  commentId: M:ArmoniK.DevelopmentKit.Client.Services.Common.AbstractClientService.#ctor(ArmoniK.DevelopmentKit.Client.Services.Properties)
-  fullName: ArmoniK.DevelopmentKit.Client.Services.Common.AbstractClientService.AbstractClientService(ArmoniK.DevelopmentKit.Client.Services.Properties)
-  nameWithType: AbstractClientService.AbstractClientService(Properties)
+- uid: ArmoniK.DevelopmentKit.Client.Services.Common.AbstractClientService.#ctor(ArmoniK.DevelopmentKit.Client.Services.Properties,ILoggerFactory)
+  name: AbstractClientService(Properties, ILoggerFactory)
+  href: api/ArmoniK.DevelopmentKit.Client.Services.Common.AbstractClientService.html#ArmoniK_DevelopmentKit_Client_Services_Common_AbstractClientService__ctor_ArmoniK_DevelopmentKit_Client_Services_Properties_ILoggerFactory_
+  commentId: M:ArmoniK.DevelopmentKit.Client.Services.Common.AbstractClientService.#ctor(ArmoniK.DevelopmentKit.Client.Services.Properties,ILoggerFactory)
+  fullName: ArmoniK.DevelopmentKit.Client.Services.Common.AbstractClientService.AbstractClientService(ArmoniK.DevelopmentKit.Client.Services.Properties, ILoggerFactory)
+  nameWithType: AbstractClientService.AbstractClientService(Properties, ILoggerFactory)
 - uid: ArmoniK.DevelopmentKit.Client.Services.Common.AbstractClientService.#ctor*
   name: AbstractClientService
   href: api/ArmoniK.DevelopmentKit.Client.Services.Common.AbstractClientService.html#ArmoniK_DevelopmentKit_Client_Services_Common_AbstractClientService__ctor_
@@ -1210,19 +1210,6 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.Client.Services.Common.AbstractClientService.AbstractClientService
   nameWithType: AbstractClientService.AbstractClientService
-- uid: ArmoniK.DevelopmentKit.Client.Services.Common.AbstractClientService.CreateLogFactory(ArmoniK.DevelopmentKit.Client.Services.Properties)
-  name: CreateLogFactory(Properties)
-  href: api/ArmoniK.DevelopmentKit.Client.Services.Common.AbstractClientService.html#ArmoniK_DevelopmentKit_Client_Services_Common_AbstractClientService_CreateLogFactory_ArmoniK_DevelopmentKit_Client_Services_Properties_
-  commentId: M:ArmoniK.DevelopmentKit.Client.Services.Common.AbstractClientService.CreateLogFactory(ArmoniK.DevelopmentKit.Client.Services.Properties)
-  fullName: ArmoniK.DevelopmentKit.Client.Services.Common.AbstractClientService.CreateLogFactory(ArmoniK.DevelopmentKit.Client.Services.Properties)
-  nameWithType: AbstractClientService.CreateLogFactory(Properties)
-- uid: ArmoniK.DevelopmentKit.Client.Services.Common.AbstractClientService.CreateLogFactory*
-  name: CreateLogFactory
-  href: api/ArmoniK.DevelopmentKit.Client.Services.Common.AbstractClientService.html#ArmoniK_DevelopmentKit_Client_Services_Common_AbstractClientService_CreateLogFactory_
-  commentId: Overload:ArmoniK.DevelopmentKit.Client.Services.Common.AbstractClientService.CreateLogFactory
-  isSpec: "True"
-  fullName: ArmoniK.DevelopmentKit.Client.Services.Common.AbstractClientService.CreateLogFactory
-  nameWithType: AbstractClientService.CreateLogFactory
 - uid: ArmoniK.DevelopmentKit.Client.Services.Common.AbstractClientService.Dispose
   name: Dispose()
   href: api/ArmoniK.DevelopmentKit.Client.Services.Common.AbstractClientService.html#ArmoniK_DevelopmentKit_Client_Services_Common_AbstractClientService_Dispose
@@ -1599,12 +1586,12 @@ references:
   commentId: T:ArmoniK.DevelopmentKit.Client.Services.Submitter.Service
   fullName: ArmoniK.DevelopmentKit.Client.Services.Submitter.Service
   nameWithType: Service
-- uid: ArmoniK.DevelopmentKit.Client.Services.Submitter.Service.#ctor(ArmoniK.DevelopmentKit.Client.Services.Properties)
-  name: Service(Properties)
-  href: api/ArmoniK.DevelopmentKit.Client.Services.Submitter.Service.html#ArmoniK_DevelopmentKit_Client_Services_Submitter_Service__ctor_ArmoniK_DevelopmentKit_Client_Services_Properties_
-  commentId: M:ArmoniK.DevelopmentKit.Client.Services.Submitter.Service.#ctor(ArmoniK.DevelopmentKit.Client.Services.Properties)
-  fullName: ArmoniK.DevelopmentKit.Client.Services.Submitter.Service.Service(ArmoniK.DevelopmentKit.Client.Services.Properties)
-  nameWithType: Service.Service(Properties)
+- uid: ArmoniK.DevelopmentKit.Client.Services.Submitter.Service.#ctor(ArmoniK.DevelopmentKit.Client.Services.Properties,ILoggerFactory)
+  name: Service(Properties, ILoggerFactory)
+  href: api/ArmoniK.DevelopmentKit.Client.Services.Submitter.Service.html#ArmoniK_DevelopmentKit_Client_Services_Submitter_Service__ctor_ArmoniK_DevelopmentKit_Client_Services_Properties_ILoggerFactory_
+  commentId: M:ArmoniK.DevelopmentKit.Client.Services.Submitter.Service.#ctor(ArmoniK.DevelopmentKit.Client.Services.Properties,ILoggerFactory)
+  fullName: ArmoniK.DevelopmentKit.Client.Services.Submitter.Service.Service(ArmoniK.DevelopmentKit.Client.Services.Properties, ILoggerFactory)
+  nameWithType: Service.Service(Properties, ILoggerFactory)
 - uid: ArmoniK.DevelopmentKit.Client.Services.Submitter.Service.#ctor*
   name: Service
   href: api/ArmoniK.DevelopmentKit.Client.Services.Submitter.Service.html#ArmoniK_DevelopmentKit_Client_Services_Submitter_Service__ctor_
