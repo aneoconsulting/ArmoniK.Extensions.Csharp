@@ -45,7 +45,7 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.api;
 [MarkDownDoc]
 public class SessionPollingService
 {
-  private readonly Dictionary<string, string> tasksResultsMap_;
+  private readonly Dictionary<string, string> taskId2OutputId_;
 
   /// <summary>
   ///   Ctor to instantiate a new SessionService
@@ -69,7 +69,7 @@ public class SessionPollingService
 
     Logger.LogDebug($"Session Created {SessionId}");
 
-    tasksResultsMap_ = new Dictionary<string, string>();
+    taskId2OutputId_ = new Dictionary<string, string>();
   }
 
   /// <summary>
@@ -165,7 +165,7 @@ public class SessionPollingService
       case CreateTaskReply.ResponseOneofCase.CreationStatusList:
         foreach (var creationStatus in createTaskReply.CreationStatusList.CreationStatuses)
         {
-          tasksResultsMap_.Add(creationStatus.TaskInfo.TaskId,
+          taskId2OutputId_.Add(creationStatus.TaskInfo.TaskId,
                                creationStatus.TaskInfo.ExpectedOutputKeys.Single());
         }
 
@@ -212,7 +212,7 @@ public class SessionPollingService
       {
         foreach (var dependency in dependencies)
         {
-          if (!tasksResultsMap_.TryGetValue(dependency,
+          if (!taskId2OutputId_.TryGetValue(dependency,
                                             out resultId))
           {
             throw new WorkerApiException($"Dependency {dependency} has no corresponding result id.");
@@ -240,7 +240,7 @@ public class SessionPollingService
       case CreateTaskReply.ResponseOneofCase.CreationStatusList:
         foreach (var creationStatus in createTaskReply.CreationStatusList.CreationStatuses)
         {
-          tasksResultsMap_.Add(creationStatus.TaskInfo.TaskId,
+          taskId2OutputId_.Add(creationStatus.TaskInfo.TaskId,
                                creationStatus.TaskInfo.ExpectedOutputKeys.Single());
         }
 
