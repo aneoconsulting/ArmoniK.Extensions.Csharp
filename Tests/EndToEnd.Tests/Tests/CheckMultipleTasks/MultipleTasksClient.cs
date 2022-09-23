@@ -105,7 +105,7 @@ public class CheckMultipleTasksClient : ClientBaseTest<CheckMultipleTasksClient>
                           100,
                         };
     long       sumTimeElapsed = 0;
-    const long maxDuration    = 10 * 60 * 1000; // 10 min
+    const long maxDuration    = 5 * 60 * 1000; // 5 min
 
     Log.LogInformation($"Running tests with {string.Join("; ", listOfNbTasks)} nbTasks in {maxDuration / 1000} secs");
     var cancellationToken     = new CancellationTokenSource();

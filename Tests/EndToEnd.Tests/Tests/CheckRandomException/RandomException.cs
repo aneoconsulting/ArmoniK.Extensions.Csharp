@@ -61,7 +61,7 @@ public class SimpleServiceContainer
                                         double   percentageOfFailure = 0.15)
   {
     var randNum = rd.NextDouble();
-    if (randNum < percentageOfFailure / 100)
+    if (randNum < percentageOfFailure)
     {
       throw new GridServerException("An expected failure in this random call");
     }

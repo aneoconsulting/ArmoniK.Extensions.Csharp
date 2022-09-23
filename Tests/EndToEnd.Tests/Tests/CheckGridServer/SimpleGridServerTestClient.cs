@@ -70,18 +70,18 @@ public class SimpleGridServerTestClient : ClientBaseTest<SimpleGridServerTestCli
     switch (response)
     {
       case null:
-        Log.LogInformation("Task finished but nothing returned in Result");
+        Log.LogDebug("Task finished but nothing returned in Result");
         break;
       case double value:
-        Log.LogInformation($"Task finished with result {value}");
+        Log.LogDebug($"Task finished with result {value}");
         break;
       case double[] doubles:
-        Log.LogInformation("Result is " + string.Join(", ",
-                                                      doubles));
+        Log.LogDebug("Result is " + string.Join(", ",
+                                                doubles));
         break;
       case byte[] values:
-        Log.LogInformation("Result is " + string.Join(", ",
-                                                      values.ConvertToArray()));
+        Log.LogDebug("Result is " + string.Join(", ",
+                                                values.ConvertToArray()));
         break;
     }
   }
