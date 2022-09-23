@@ -9486,6 +9486,105 @@ references:
   isSpec: "True"
   fullName: ArmoniK.EndToEndTests.Tests.CheckUnifiedApi.SimpleUnifiedAPITestClient.HandleResponse
   nameWithType: SimpleUnifiedAPITestClient.HandleResponse
+- uid: ArmoniK.EndToEndTests.Tests.LargePayloadSubmit
+  name: ArmoniK.EndToEndTests.Tests.LargePayloadSubmit
+  href: api/ArmoniK.EndToEndTests.Tests.LargePayloadSubmit.html
+  commentId: N:ArmoniK.EndToEndTests.Tests.LargePayloadSubmit
+  fullName: ArmoniK.EndToEndTests.Tests.LargePayloadSubmit
+  nameWithType: ArmoniK.EndToEndTests.Tests.LargePayloadSubmit
+- uid: ArmoniK.EndToEndTests.Tests.LargePayloadSubmit.LargePayloadSubmit
+  name: LargePayloadSubmit
+  href: api/ArmoniK.EndToEndTests.Tests.LargePayloadSubmit.LargePayloadSubmit.html
+  commentId: T:ArmoniK.EndToEndTests.Tests.LargePayloadSubmit.LargePayloadSubmit
+  fullName: ArmoniK.EndToEndTests.Tests.LargePayloadSubmit.LargePayloadSubmit
+  nameWithType: LargePayloadSubmit
+- uid: ArmoniK.EndToEndTests.Tests.LargePayloadSubmit.LargePayloadSubmit.ComputeReduceCube(System.Double[],System.Int32)
+  name: ComputeReduceCube(Double[], Int32)
+  href: api/ArmoniK.EndToEndTests.Tests.LargePayloadSubmit.LargePayloadSubmit.html#ArmoniK_EndToEndTests_Tests_LargePayloadSubmit_LargePayloadSubmit_ComputeReduceCube_System_Double___System_Int32_
+  commentId: M:ArmoniK.EndToEndTests.Tests.LargePayloadSubmit.LargePayloadSubmit.ComputeReduceCube(System.Double[],System.Int32)
+  name.vb: ComputeReduceCube(Double(), Int32)
+  fullName: ArmoniK.EndToEndTests.Tests.LargePayloadSubmit.LargePayloadSubmit.ComputeReduceCube(System.Double[], System.Int32)
+  fullName.vb: ArmoniK.EndToEndTests.Tests.LargePayloadSubmit.LargePayloadSubmit.ComputeReduceCube(System.Double(), System.Int32)
+  nameWithType: LargePayloadSubmit.ComputeReduceCube(Double[], Int32)
+  nameWithType.vb: LargePayloadSubmit.ComputeReduceCube(Double(), Int32)
+- uid: ArmoniK.EndToEndTests.Tests.LargePayloadSubmit.LargePayloadSubmit.ComputeReduceCube*
+  name: ComputeReduceCube
+  href: api/ArmoniK.EndToEndTests.Tests.LargePayloadSubmit.LargePayloadSubmit.html#ArmoniK_EndToEndTests_Tests_LargePayloadSubmit_LargePayloadSubmit_ComputeReduceCube_
+  commentId: Overload:ArmoniK.EndToEndTests.Tests.LargePayloadSubmit.LargePayloadSubmit.ComputeReduceCube
+  isSpec: "True"
+  fullName: ArmoniK.EndToEndTests.Tests.LargePayloadSubmit.LargePayloadSubmit.ComputeReduceCube
+  nameWithType: LargePayloadSubmit.ComputeReduceCube
+- uid: ArmoniK.EndToEndTests.Tests.LargePayloadSubmit.LargePayloadSubmitClient
+  name: LargePayloadSubmitClient
+  href: api/ArmoniK.EndToEndTests.Tests.LargePayloadSubmit.LargePayloadSubmitClient.html
+  commentId: T:ArmoniK.EndToEndTests.Tests.LargePayloadSubmit.LargePayloadSubmitClient
+  fullName: ArmoniK.EndToEndTests.Tests.LargePayloadSubmit.LargePayloadSubmitClient
+  nameWithType: LargePayloadSubmitClient
+- uid: ArmoniK.EndToEndTests.Tests.LargePayloadSubmit.LargePayloadSubmitClient.#ctor(IConfiguration,ILoggerFactory)
+  name: LargePayloadSubmitClient(IConfiguration, ILoggerFactory)
+  href: api/ArmoniK.EndToEndTests.Tests.LargePayloadSubmit.LargePayloadSubmitClient.html#ArmoniK_EndToEndTests_Tests_LargePayloadSubmit_LargePayloadSubmitClient__ctor_IConfiguration_ILoggerFactory_
+  commentId: M:ArmoniK.EndToEndTests.Tests.LargePayloadSubmit.LargePayloadSubmitClient.#ctor(IConfiguration,ILoggerFactory)
+  fullName: ArmoniK.EndToEndTests.Tests.LargePayloadSubmit.LargePayloadSubmitClient.LargePayloadSubmitClient(IConfiguration, ILoggerFactory)
+  nameWithType: LargePayloadSubmitClient.LargePayloadSubmitClient(IConfiguration, ILoggerFactory)
+- uid: ArmoniK.EndToEndTests.Tests.LargePayloadSubmit.LargePayloadSubmitClient.#ctor*
+  name: LargePayloadSubmitClient
+  href: api/ArmoniK.EndToEndTests.Tests.LargePayloadSubmit.LargePayloadSubmitClient.html#ArmoniK_EndToEndTests_Tests_LargePayloadSubmit_LargePayloadSubmitClient__ctor_
+  commentId: Overload:ArmoniK.EndToEndTests.Tests.LargePayloadSubmit.LargePayloadSubmitClient.#ctor
+  isSpec: "True"
+  fullName: ArmoniK.EndToEndTests.Tests.LargePayloadSubmit.LargePayloadSubmitClient.LargePayloadSubmitClient
+  nameWithType: LargePayloadSubmitClient.LargePayloadSubmitClient
+- uid: ArmoniK.EndToEndTests.Tests.LargePayloadSubmit.LargePayloadSubmitClient.Dispose
+  name: Dispose()
+  href: api/ArmoniK.EndToEndTests.Tests.LargePayloadSubmit.LargePayloadSubmitClient.html#ArmoniK_EndToEndTests_Tests_LargePayloadSubmit_LargePayloadSubmitClient_Dispose
+  commentId: M:ArmoniK.EndToEndTests.Tests.LargePayloadSubmit.LargePayloadSubmitClient.Dispose
+  fullName: ArmoniK.EndToEndTests.Tests.LargePayloadSubmit.LargePayloadSubmitClient.Dispose()
+  nameWithType: LargePayloadSubmitClient.Dispose()
+- uid: ArmoniK.EndToEndTests.Tests.LargePayloadSubmit.LargePayloadSubmitClient.Dispose*
+  name: Dispose
+  href: api/ArmoniK.EndToEndTests.Tests.LargePayloadSubmit.LargePayloadSubmitClient.html#ArmoniK_EndToEndTests_Tests_LargePayloadSubmit_LargePayloadSubmitClient_Dispose_
+  commentId: Overload:ArmoniK.EndToEndTests.Tests.LargePayloadSubmit.LargePayloadSubmitClient.Dispose
+  isSpec: "True"
+  fullName: ArmoniK.EndToEndTests.Tests.LargePayloadSubmit.LargePayloadSubmitClient.Dispose
+  nameWithType: LargePayloadSubmitClient.Dispose
+- uid: ArmoniK.EndToEndTests.Tests.LargePayloadSubmit.LargePayloadSubmitClient.EntryPoint
+  name: EntryPoint()
+  href: api/ArmoniK.EndToEndTests.Tests.LargePayloadSubmit.LargePayloadSubmitClient.html#ArmoniK_EndToEndTests_Tests_LargePayloadSubmit_LargePayloadSubmitClient_EntryPoint
+  commentId: M:ArmoniK.EndToEndTests.Tests.LargePayloadSubmit.LargePayloadSubmitClient.EntryPoint
+  fullName: ArmoniK.EndToEndTests.Tests.LargePayloadSubmit.LargePayloadSubmitClient.EntryPoint()
+  nameWithType: LargePayloadSubmitClient.EntryPoint()
+- uid: ArmoniK.EndToEndTests.Tests.LargePayloadSubmit.LargePayloadSubmitClient.EntryPoint*
+  name: EntryPoint
+  href: api/ArmoniK.EndToEndTests.Tests.LargePayloadSubmit.LargePayloadSubmitClient.html#ArmoniK_EndToEndTests_Tests_LargePayloadSubmit_LargePayloadSubmitClient_EntryPoint_
+  commentId: Overload:ArmoniK.EndToEndTests.Tests.LargePayloadSubmit.LargePayloadSubmitClient.EntryPoint
+  isSpec: "True"
+  fullName: ArmoniK.EndToEndTests.Tests.LargePayloadSubmit.LargePayloadSubmitClient.EntryPoint
+  nameWithType: LargePayloadSubmitClient.EntryPoint
+- uid: ArmoniK.EndToEndTests.Tests.LargePayloadSubmit.LargePayloadSubmitClient.HandleError(ArmoniK.DevelopmentKit.Client.Exceptions.ServiceInvocationException,System.String)
+  name: HandleError(ServiceInvocationException, String)
+  href: api/ArmoniK.EndToEndTests.Tests.LargePayloadSubmit.LargePayloadSubmitClient.html#ArmoniK_EndToEndTests_Tests_LargePayloadSubmit_LargePayloadSubmitClient_HandleError_ArmoniK_DevelopmentKit_Client_Exceptions_ServiceInvocationException_System_String_
+  commentId: M:ArmoniK.EndToEndTests.Tests.LargePayloadSubmit.LargePayloadSubmitClient.HandleError(ArmoniK.DevelopmentKit.Client.Exceptions.ServiceInvocationException,System.String)
+  fullName: ArmoniK.EndToEndTests.Tests.LargePayloadSubmit.LargePayloadSubmitClient.HandleError(ArmoniK.DevelopmentKit.Client.Exceptions.ServiceInvocationException, System.String)
+  nameWithType: LargePayloadSubmitClient.HandleError(ServiceInvocationException, String)
+- uid: ArmoniK.EndToEndTests.Tests.LargePayloadSubmit.LargePayloadSubmitClient.HandleError*
+  name: HandleError
+  href: api/ArmoniK.EndToEndTests.Tests.LargePayloadSubmit.LargePayloadSubmitClient.html#ArmoniK_EndToEndTests_Tests_LargePayloadSubmit_LargePayloadSubmitClient_HandleError_
+  commentId: Overload:ArmoniK.EndToEndTests.Tests.LargePayloadSubmit.LargePayloadSubmitClient.HandleError
+  isSpec: "True"
+  fullName: ArmoniK.EndToEndTests.Tests.LargePayloadSubmit.LargePayloadSubmitClient.HandleError
+  nameWithType: LargePayloadSubmitClient.HandleError
+- uid: ArmoniK.EndToEndTests.Tests.LargePayloadSubmit.LargePayloadSubmitClient.HandleResponse(System.Object,System.String)
+  name: HandleResponse(Object, String)
+  href: api/ArmoniK.EndToEndTests.Tests.LargePayloadSubmit.LargePayloadSubmitClient.html#ArmoniK_EndToEndTests_Tests_LargePayloadSubmit_LargePayloadSubmitClient_HandleResponse_System_Object_System_String_
+  commentId: M:ArmoniK.EndToEndTests.Tests.LargePayloadSubmit.LargePayloadSubmitClient.HandleResponse(System.Object,System.String)
+  fullName: ArmoniK.EndToEndTests.Tests.LargePayloadSubmit.LargePayloadSubmitClient.HandleResponse(System.Object, System.String)
+  nameWithType: LargePayloadSubmitClient.HandleResponse(Object, String)
+- uid: ArmoniK.EndToEndTests.Tests.LargePayloadSubmit.LargePayloadSubmitClient.HandleResponse*
+  name: HandleResponse
+  href: api/ArmoniK.EndToEndTests.Tests.LargePayloadSubmit.LargePayloadSubmitClient.html#ArmoniK_EndToEndTests_Tests_LargePayloadSubmit_LargePayloadSubmitClient_HandleResponse_
+  commentId: Overload:ArmoniK.EndToEndTests.Tests.LargePayloadSubmit.LargePayloadSubmitClient.HandleResponse
+  isSpec: "True"
+  fullName: ArmoniK.EndToEndTests.Tests.LargePayloadSubmit.LargePayloadSubmitClient.HandleResponse
+  nameWithType: LargePayloadSubmitClient.HandleResponse
 - uid: ArmoniK.EndToEndTests.Tests.SimpleComputeNSubtasking
   name: ArmoniK.EndToEndTests.Tests.SimpleComputeNSubtasking
   href: api/ArmoniK.EndToEndTests.Tests.SimpleComputeNSubtasking.html
