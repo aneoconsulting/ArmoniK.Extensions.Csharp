@@ -1,4 +1,4 @@
-﻿// This file is part of the ArmoniK project
+// This file is part of the ArmoniK project
 // 
 // Copyright (C) ANEO, 2021-2022.
 //   W. Kirschenmann   <wkirschenmann@aneo.fr>
@@ -23,10 +23,9 @@
 
 using ArmoniK.DevelopmentKit.Common;
 
-using Microsoft.Extensions.Logging;
+using JetBrains.Annotations;
 
-using Serilog;
-using Serilog.Extensions.Logging;
+using Microsoft.Extensions.Logging;
 
 namespace ArmoniK.DevelopmentKit.GridServer.Client;
 
@@ -64,17 +63,12 @@ public class ServiceFactory
   ///   This is the Service type reflection for method
   /// </param>
   /// <param name="props">Properties for the service containing IConfiguration and TaskOptions</param>
+  /// <param name="loggerFactory">Logger factory to produce logs</param>
   /// <returns>returns the new instantiated service</returns>
-  public Service CreateService(string     serviceType,
-                               Properties props)
-  {
-    var factory = new LoggerFactory(new[]
-                                    {
-                                      new SerilogLoggerProvider(new LoggerConfiguration().ReadFrom.Configuration(props.Configuration)
-                                                                                         .CreateLogger()),
-                                    });
-    return new Service(serviceType,
-                       factory,
-                       props);
-  }
+  public Service CreateService(string                     serviceType,
+                               Properties                 props,
+                               [CanBeNull] ILoggerFactory loggerFactory = null)
+    => new(serviceType,
+           props,
+           loggerFactory);
 }

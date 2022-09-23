@@ -97,8 +97,8 @@ public class ArmonikSymphonyClient
   {
     ControlPlaneConnection();
 
-    return new SessionService(LoggerFactory,
-                              GrpcChannel,
+    return new SessionService(GrpcChannel,
+                              LoggerFactory,
                               taskOptions);
   }
 
@@ -113,8 +113,8 @@ public class ArmonikSymphonyClient
   {
     ControlPlaneConnection();
 
-    return new SessionService(LoggerFactory,
-                              GrpcChannel,
+    return new SessionService(GrpcChannel,
+                              LoggerFactory,
                               clientOptions ?? SessionService.InitializeDefaultTaskOptions(),
                               sessionId);
   }

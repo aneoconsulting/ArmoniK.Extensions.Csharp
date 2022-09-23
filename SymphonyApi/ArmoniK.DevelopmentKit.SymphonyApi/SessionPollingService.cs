@@ -25,6 +25,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+using ArmoniK.Api.Common.Utils;
 using ArmoniK.Api.gRPC.V1;
 using ArmoniK.Api.gRPC.V1.Agent;
 using ArmoniK.Api.Worker.Worker;

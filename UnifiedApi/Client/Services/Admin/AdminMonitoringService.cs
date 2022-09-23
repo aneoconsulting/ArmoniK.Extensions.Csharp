@@ -7,6 +7,8 @@ using ArmoniK.Api.gRPC.V1.Submitter;
 
 using Grpc.Core;
 
+using JetBrains.Annotations;
+
 using Microsoft.Extensions.Logging;
 
 namespace ArmoniK.DevelopmentKit.Client.Services.Admin;
@@ -19,18 +21,16 @@ public class AdminMonitoringService
   /// <summary>
   ///   The constructor to instantiate this service
   /// </summary>
-  /// <param name="loggerFactory">The factory logger to create logger</param>
   /// <param name="channel">The entry point to the control plane</param>
-  public AdminMonitoringService(ILoggerFactory loggerFactory,
-                                ChannelBase    channel)
+  /// <param name="loggerFactory">The factory logger to create logger</param>
+  public AdminMonitoringService(ChannelBase                channel,
+                                [CanBeNull] ILoggerFactory loggerFactory = null)
   {
-    LoggerFactory       = loggerFactory;
-    Logger              = LoggerFactory.CreateLogger<AdminMonitoringService>();
+    Logger              = loggerFactory?.CreateLogger<AdminMonitoringService>();
     ControlPlaneService = new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel);
   }
 
-  private ILoggerFactory LoggerFactory { get; }
-
+  [CanBeNull]
   private ILogger Logger { get; }
 
   /// <summary>
@@ -46,7 +46,7 @@ public class AdminMonitoringService
   {
     var configuration = ControlPlaneService.GetServiceConfiguration(new Empty());
 
-    Logger.LogInformation($"This configuration will be update in the nex version [ {configuration} ]");
+    Logger?.LogInformation($"This configuration will be update in the nex version [ {configuration} ]");
   }
 
   /// <summary>
