@@ -34,6 +34,7 @@ using ArmoniK.DevelopmentKit.Client.Services;
 using ArmoniK.DevelopmentKit.Client.Services.Submitter;
 using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.EndToEndTests.Common;
+using ArmoniK.EndToEndTests.Tests.CheckUnifiedApi;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -41,14 +42,14 @@ using Microsoft.Extensions.Logging;
 namespace ArmoniK.EndToEndTests.Tests.LargePayloadSubmit;
 
 /// <summary>
-/// The client submission class
+///   The client submission class
 /// </summary>
 public class LargePayloadSubmitClient : ClientBaseTest<LargePayloadSubmitClient>, IServiceInvocationHandler, IDisposable
 {
   private int nbResults_;
 
   /// <summary>
-  /// The ctor
+  ///   The ctor
   /// </summary>
   /// <param name="configuration"></param>
   /// <param name="loggerFactory"></param>
@@ -56,6 +57,11 @@ public class LargePayloadSubmitClient : ClientBaseTest<LargePayloadSubmitClient>
                                   ILoggerFactory loggerFactory)
     : base(configuration,
            loggerFactory)
+  {
+  }
+
+  /// <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
+  public void Dispose()
   {
   }
 
@@ -90,14 +96,14 @@ public class LargePayloadSubmitClient : ClientBaseTest<LargePayloadSubmitClient>
         break;
       case byte[] values:
         Log.LogInformation("Result is " + string.Join(", ",
-                                                      CheckUnifiedApi.SelectExtensions.ConvertToArray(values)));
+                                                      SelectExtensions.ConvertToArray(values)));
         break;
     }
   }
 
 
   /// <summary>
-  /// Main ethod called by tests engine
+  ///   Main ethod called by tests engine
   /// </summary>
   [EntryPoint]
   public override void EntryPoint()
@@ -122,8 +128,8 @@ public class LargePayloadSubmitClient : ClientBaseTest<LargePayloadSubmitClient>
 
     using var cts = new CancellationTokenSource();
     ComputeVector(cs,
-                  nbTasks: 1000,
-                  nbElement: 64000,
+                  1000,
+                  64000,
                   cts); // 1000 tasks x 500 KB of payload
   }
 
@@ -177,7 +183,7 @@ public class LargePayloadSubmitClient : ClientBaseTest<LargePayloadSubmitClient>
                                    nbElement)
                             .Select(x => (double)x)
                             .ToArray();
-    Log.LogInformation($"===  Running from {nbTasks} tasks with payload by task {(nbElement * 8) / 1024} Ko Total : {(nbTasks * nbElement / 128)} Ko...   ===");
+    Log.LogInformation($"===  Running from {nbTasks} tasks with payload by task {nbElement * 8 / 1024} Ko Total : {nbTasks * nbElement / 128} Ko...   ===");
 
     PeriodicInfo(() =>
                  {
@@ -204,10 +210,5 @@ public class LargePayloadSubmitClient : ClientBaseTest<LargePayloadSubmitClient>
 
     Log.LogInformation($"{nbTasks} tasks executed in : {sw.ElapsedMilliseconds / 1000} secs with Total bytes {nbTasks * nbElement / 128} Ko");
     cancellationTokenSource.Cancel();
-  }
-
-  /// <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
-  public void Dispose()
-  {
   }
 }

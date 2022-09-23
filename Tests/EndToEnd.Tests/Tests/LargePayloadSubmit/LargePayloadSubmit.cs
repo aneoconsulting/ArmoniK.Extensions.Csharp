@@ -22,7 +22,6 @@
 // limitations under the License.
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 
@@ -33,17 +32,18 @@ using JetBrains.Annotations;
 namespace ArmoniK.EndToEndTests.Tests.LargePayloadSubmit;
 
 /// <summary>
-/// The service to register in the worker
+///   The service to register in the worker
 /// </summary>
 public class LargePayloadSubmit : BaseService<LargePayloadSubmit>
 {
   /// <summary>
-  /// Client method to compute data in the worker
+  ///   Client method to compute data in the worker
   /// </summary>
   /// <param name="inputs"></param>
   /// <param name="workloadTime"></param>
   /// <returns></returns>
-  public static double ComputeReduceCube([NotNull] double[] inputs, int workloadTime)
+  public static double ComputeReduceCube([NotNull] double[] inputs,
+                                         int                workloadTime)
   {
     if (inputs == null)
     {
