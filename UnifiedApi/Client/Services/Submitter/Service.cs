@@ -311,9 +311,12 @@ public class Service : AbstractClientService
 
         foreach (var resTuple in resultStatusCollection.IdsResultError)
         {
-          // todo : replace by error from task when reusing tasks ids
+          var outputInfo = SessionService.GetTaskOutputInfo(resTuple.TaskId);
+
           errorHandler(resTuple.TaskId,
-                       resTuple.Status.ToString());
+                       outputInfo.TypeCase == Output.TypeOneofCase.Error
+                         ? outputInfo.Error.Details
+                         : "Result is in status : " + resTuple.Status + ", look for task in error in logs.");
         }
 
         missing.ExceptWith(resultStatusCollection.IdsResultError.Select(x => x.TaskId));
