@@ -27,6 +27,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
+using ArmoniK.Api.Common.Utils;
 using ArmoniK.Api.gRPC.V1;
 using ArmoniK.DevelopmentKit.Client.Exceptions;
 using ArmoniK.DevelopmentKit.Client.Factory;
@@ -83,8 +84,8 @@ public class Service : AbstractClientService
   /// </summary>
   /// <param name="properties">The properties containing TaskOptions and information to communicate with Control plane and </param>
   /// <param name="loggerFactory"></param>
-  public Service(Properties     properties,
-                 ILoggerFactory loggerFactory)
+  public Service(Properties                 properties,
+                 [CanBeNull] ILoggerFactory loggerFactory = null)
     : base(properties,
            loggerFactory)
   {
@@ -99,9 +100,9 @@ public class Service : AbstractClientService
     HandlerResponse = Task.Run(ResultTask,
                                CancellationResultTaskSource.Token);
 
-    Logger = LoggerFactory.CreateLogger<Service>();
-    Logger.BeginPropertyScope(("SessionId", SessionService.SessionId),
-                              ("Class", "Service"));
+    Logger = LoggerFactory?.CreateLogger<Service>();
+    Logger?.BeginPropertyScope(("SessionId", SessionService.SessionId),
+                               ("Class", "Service"));
   }
 
   /// <summary>
@@ -109,6 +110,7 @@ public class Service : AbstractClientService
   /// </summary>
   private SessionService SessionService { get; set; }
 
+  [CanBeNull]
   private ILogger Logger { get; }
 
   private ProtoSerializer ProtoSerializer { get; }
@@ -279,7 +281,7 @@ public class Service : AbstractClientService
                           30000,
                         };
     var       idx = 0;
-    using var _   = Logger.BeginPropertyScope(("Function", "ActiveGetResults"));
+    using var _   = Logger?.BeginPropertyScope(("Function", "ActiveGetResults"));
 
     while (missing.Count != 0)
     {
@@ -327,8 +329,8 @@ public class Service : AbstractClientService
                   ? waitInSeconds.Count - 1
                   : idx                 + 1;
 
-          Logger.LogDebug("No Results are ready. Wait for {timeWait} seconds before new retry",
-                          waitInSeconds[idx] / 1000);
+          Logger?.LogDebug("No Results are ready. Wait for {timeWait} seconds before new retry",
+                           waitInSeconds[idx] / 1000);
         }
         else
         {
@@ -439,9 +441,9 @@ public class Service : AbstractClientService
 
     if (!ResultHandlerDictionary.IsEmpty)
     {
-      Logger.LogWarning("Results not processed : [{resultsNotProcessed}]",
-                        string.Join(", ",
-                                    ResultHandlerDictionary.Keys));
+      Logger?.LogWarning("Results not processed : [{resultsNotProcessed}]",
+                         string.Join(", ",
+                                     ResultHandlerDictionary.Keys));
     }
   }
 

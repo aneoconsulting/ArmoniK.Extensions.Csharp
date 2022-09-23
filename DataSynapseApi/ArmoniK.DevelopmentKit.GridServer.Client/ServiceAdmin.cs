@@ -43,8 +43,8 @@ public class ServiceAdmin : IDisposable
                       ILoggerFactory loggerFactory,
                       Properties     properties)
   {
-    ClientService = new ArmonikDataSynapseClientService(loggerFactory,
-                                                        properties);
+    ClientService = new ArmonikDataSynapseClientService(properties,
+                                                        loggerFactory);
     throw new NotImplementedException("Service Admin need to move into Poling agent");
   }
 

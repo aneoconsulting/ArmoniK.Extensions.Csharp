@@ -1,4 +1,4 @@
-﻿// This file is part of the ArmoniK project
+// This file is part of the ArmoniK project
 // 
 // Copyright (C) ANEO, 2021-2022.
 //   W. Kirschenmann   <wkirschenmann@aneo.fr>
@@ -26,6 +26,8 @@ using ArmoniK.DevelopmentKit.Client.Services.Admin;
 using ArmoniK.DevelopmentKit.Client.Services.Submitter;
 using ArmoniK.DevelopmentKit.Common;
 
+using JetBrains.Annotations;
+
 using Microsoft.Extensions.Logging;
 
 namespace ArmoniK.DevelopmentKit.Client.Factory;
@@ -40,10 +42,10 @@ public class ServiceFactory
   ///   The method to create new Service
   /// </summary>
   /// <param name="props">Properties for the service containing IConfiguration and TaskOptions</param>
-  /// <param name="loggerFactory"></param>
+  /// <param name="loggerFactory">Logger factory to create loggers for service</param>
   /// <returns>returns the new instantiated service</returns>
-  public static Service CreateService(Properties     props,
-                                      ILoggerFactory loggerFactory)
+  public static Service CreateService(Properties                 props,
+                                      [CanBeNull] ILoggerFactory loggerFactory = null)
     => new(props,
            loggerFactory);
 
@@ -51,9 +53,10 @@ public class ServiceFactory
   ///   Method to get the ServiceAdmin
   /// </summary>
   /// <param name="props"></param>
+  /// <param name="loggerFactory">Logger factory to create loggers for service</param>
   /// <returns></returns>
-  public static ServiceAdmin GetServiceAdmin(Properties     props,
-                                             ILoggerFactory loggerFactory)
+  public static ServiceAdmin GetServiceAdmin(Properties                 props,
+                                             [CanBeNull] ILoggerFactory loggerFactory = null)
     => new(props,
            loggerFactory);
 }

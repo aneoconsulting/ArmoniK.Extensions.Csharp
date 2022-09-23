@@ -32,6 +32,8 @@ using Google.Protobuf.WellKnownTypes;
 
 using Grpc.Core;
 
+using JetBrains.Annotations;
+
 using Microsoft.Extensions.Logging;
 
 namespace ArmoniK.DevelopmentKit.Client.Factory;
@@ -51,14 +53,16 @@ public class SessionServiceFactory
   ///   The ctor with IConfiguration and optional TaskOptions
   /// </summary>
   /// <param name="loggerFactory">The factory to create the logger for clientService</param>
-  public SessionServiceFactory(ILoggerFactory loggerFactory)
+  public SessionServiceFactory([CanBeNull] ILoggerFactory loggerFactory = null)
   {
     LoggerFactory = loggerFactory;
-    Logger        = loggerFactory.CreateLogger<SessionServiceFactory>();
+    Logger        = loggerFactory?.CreateLogger<SessionServiceFactory>();
   }
 
-  private ILogger<SessionServiceFactory> Logger      { get; }
-  private ChannelBase                    GrpcChannel { get; set; }
+  [CanBeNull]
+  private ILogger<SessionServiceFactory> Logger { get; }
+
+  private ChannelBase GrpcChannel { get; set; }
 
 
   private ILoggerFactory LoggerFactory { get; }
@@ -72,10 +76,10 @@ public class SessionServiceFactory
   {
     ControlPlaneConnection(properties);
 
-    Logger.LogDebug("Creating Session... ");
+    Logger?.LogDebug("Creating Session... ");
 
-    return new SessionService(LoggerFactory,
-                              GrpcChannel,
+    return new SessionService(GrpcChannel,
+                              LoggerFactory,
                               properties.TaskOptions);
   }
 
@@ -106,8 +110,8 @@ public class SessionServiceFactory
   {
     ControlPlaneConnection(properties);
 
-    return new SessionService(LoggerFactory,
-                              GrpcChannel,
+    return new SessionService(GrpcChannel,
+                              LoggerFactory,
                               clientOptions,
                               new Session
                               {
@@ -150,7 +154,7 @@ public class SessionServiceFactory
   {
     ControlPlaneConnection(properties);
 
-    return new AdminMonitoringService(LoggerFactory,
-                                      GrpcChannel);
+    return new AdminMonitoringService(GrpcChannel,
+                                      LoggerFactory);
   }
 }

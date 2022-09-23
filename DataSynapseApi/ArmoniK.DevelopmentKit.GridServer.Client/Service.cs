@@ -1,4 +1,4 @@
-﻿// This file is part of the ArmoniK project
+// This file is part of the ArmoniK project
 // 
 // Copyright (C) ANEO, 2021-2022.
 //   W. Kirschenmann   <wkirschenmann@aneo.fr>
@@ -27,6 +27,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
+using ArmoniK.Api.Common.Utils;
 using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.Common.Exceptions;
 
@@ -50,19 +51,19 @@ public class Service : IDisposable
   ///   and create the session to ArmoniK
   /// </summary>
   /// <param name="serviceType">The service type (NOT YET USED)</param>
-  /// <param name="loggerFactory">The logger factory to instantiate Logger with the current class type</param>
   /// <param name="properties">The properties containing TaskOptions and information to communicate with Control plane and </param>
-  public Service(string         serviceType,
-                 ILoggerFactory loggerFactory,
-                 Properties     properties)
+  /// <param name="loggerFactory">The logger factory to instantiate Logger with the current class type</param>
+  public Service(string                     serviceType,
+                 Properties                 properties,
+                 [CanBeNull] ILoggerFactory loggerFactory = null)
   {
-    ClientService = new ArmonikDataSynapseClientService(loggerFactory,
-                                                        properties);
+    ClientService = new ArmonikDataSynapseClientService(properties,
+                                                        loggerFactory);
     SessionService = ClientService.CreateSession(properties.TaskOptions);
 
     ProtoSerializer = new ProtoSerializer();
 
-    Logger = loggerFactory.CreateLogger<Service>();
+    Logger = loggerFactory?.CreateLogger<Service>();
   }
 
   /// <summary>
@@ -76,6 +77,7 @@ public class Service : IDisposable
 
   private ProtoSerializer ProtoSerializer { get; }
 
+  [CanBeNull]
   private ILogger Logger { get; }
 
   public Task HandlerResponse { get; set; }
@@ -304,8 +306,8 @@ public class Service : IDisposable
                         };
     var idx = 0;
 
-    Logger.BeginPropertyScope(("SessionId", SessionId),
-                              ("Function", "ActiveGetResults"));
+    Logger?.BeginPropertyScope(("SessionId", SessionId),
+                               ("Function", "ActiveGetResults"));
 
     while (missing.Count != 0)
     {
@@ -325,8 +327,8 @@ public class Service : IDisposable
         idx = idx >= waitInSeconds.Count - 1
                 ? waitInSeconds.Count - 1
                 : idx                 + 1;
-        Logger.LogInformation("Result not ready. Wait for {timeWait} sec before new retry",
-                              waitInSeconds[idx] / 1000);
+        Logger?.LogInformation("Result not ready. Wait for {timeWait} sec before new retry",
+                               waitInSeconds[idx] / 1000);
       }
       else
       {

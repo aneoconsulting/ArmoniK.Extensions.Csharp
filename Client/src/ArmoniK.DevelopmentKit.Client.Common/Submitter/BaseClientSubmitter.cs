@@ -29,6 +29,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
+using ArmoniK.Api.Common.Utils;
 using ArmoniK.Api.gRPC.V1;
 using ArmoniK.Api.gRPC.V1.Results;
 using ArmoniK.Api.gRPC.V1.Submitter;
@@ -61,12 +62,12 @@ public class BaseClientSubmitter<T>
   /// <summary>
   ///   Base Object for all Client submitter
   /// </summary>
-  /// <param name="loggerFactory">the logger factory to pass for root object</param>
   /// <param name="channelBase">Channel used to create grpc clients</param>
-  public BaseClientSubmitter(ILoggerFactory loggerFactory,
-                             ChannelBase    channelBase)
+  /// <param name="loggerFactory">the logger factory to pass for root object</param>
+  public BaseClientSubmitter(ChannelBase                channelBase,
+                             [CanBeNull] ILoggerFactory loggerFactory = null)
   {
-    Logger           = loggerFactory.CreateLogger<T>();
+    Logger           = loggerFactory?.CreateLogger<T>();
     TaskService      = new Tasks.TasksClient(channelBase);
     ResultService    = new Results.ResultsClient(channelBase);
     SubmitterService = new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channelBase);
@@ -95,6 +96,7 @@ public class BaseClientSubmitter<T>
   ///   The logger to call the generate log in Seq
   /// </summary>
 
+  [CanBeNull]
   protected ILogger<T> Logger { get; set; }
 
   /// <summary>
@@ -178,7 +180,7 @@ public class BaseClientSubmitter<T>
   public IEnumerable<string> SubmitTasksWithDependencies(IEnumerable<Tuple<string, byte[], IList<string>>> payloadsWithDependencies,
                                                          int                                               maxRetries = 5)
   {
-    using var _ = Logger.LogFunction();
+    using var _ = Logger?.LogFunction();
 
     using var lockGuard = mutex_.LockGuard();
 
@@ -288,19 +290,19 @@ public class BaseClientSubmitter<T>
                {
                  InnerException: RpcException,
                } ex:
-            Logger.LogWarning(ex.InnerException,
-                              "Failure to submit");
+            Logger?.LogWarning(ex.InnerException,
+                               "Failure to submit");
             break;
           case AggregateException
                {
                  InnerException: IOException,
                } ex:
-            Logger.LogWarning(ex.InnerException,
-                              "IOException : Failure to submit, Retrying");
+            Logger?.LogWarning(ex.InnerException,
+                               "IOException : Failure to submit, Retrying");
             break;
           case IOException ex:
-            Logger.LogWarning(ex,
-                              "IOException Failure to submit");
+            Logger?.LogWarning(ex,
+                               "IOException Failure to submit");
             break;
           default:
             throw;
@@ -321,7 +323,7 @@ public class BaseClientSubmitter<T>
   public void WaitForTaskCompletion(string taskId,
                                     int    retry = 5)
   {
-    using var _ = Logger.LogFunction(taskId);
+    using var _ = Logger?.LogFunction(taskId);
 
     WaitForTasksCompletion(new[]
                            {
@@ -338,14 +340,14 @@ public class BaseClientSubmitter<T>
   [UsedImplicitly]
   public void WaitForTasksCompletion(IEnumerable<string> taskIds)
   {
-    using var _ = Logger.LogFunction();
+    using var _ = Logger?.LogFunction();
     Retry.WhileException(5,
                          200,
                          retry =>
                          {
-                           Logger.LogDebug("Try {try} for {funcName}",
-                                           retry,
-                                           nameof(SubmitterService.WaitForCompletion));
+                           Logger?.LogDebug("Try {try} for {funcName}",
+                                            retry,
+                                            nameof(SubmitterService.WaitForCompletion));
 
                            var __ = mutex_.LockedExecute(() => SubmitterService.WaitForCompletion(new WaitRequest
                                                                                                   {
@@ -393,9 +395,9 @@ public class BaseClientSubmitter<T>
                                         200,
                                         retry =>
                                         {
-                                          Logger.LogDebug("Try {try} for {funcName}",
-                                                          retry,
-                                                          nameof(SubmitterService.GetResultStatus));
+                                          Logger?.LogDebug("Try {try} for {funcName}",
+                                                           retry,
+                                                           nameof(SubmitterService.GetResultStatus));
                                           var resultStatusReply = mutex_.LockedExecute(() => SubmitterService.GetResultStatus(new GetResultStatusRequest
                                                                                                                               {
                                                                                                                                 ResultIds =
@@ -463,7 +465,7 @@ public class BaseClientSubmitter<T>
   public byte[] GetResult(string            taskId,
                           CancellationToken cancellationToken = default)
   {
-    using var _ = Logger.LogFunction(taskId);
+    using var _ = Logger?.LogFunction(taskId);
 
     var resultId = TaskService.GetResultIds(new GetResultIdsRequest
                                             {
@@ -485,9 +487,9 @@ public class BaseClientSubmitter<T>
                          200,
                          retry =>
                          {
-                           Logger.LogDebug("Try {try} for {funcName}",
-                                           retry,
-                                           nameof(SubmitterService.WaitForAvailability));
+                           Logger?.LogDebug("Try {try} for {funcName}",
+                                            retry,
+                                            nameof(SubmitterService.WaitForAvailability));
                            var availabilityReply = mutex_.LockedExecute(() => SubmitterService.WaitForAvailability(resultRequest,
                                                                                                                    cancellationToken: cancellationToken));
 
@@ -622,7 +624,7 @@ public class BaseClientSubmitter<T>
                              bool              checkOutput       = true,
                              CancellationToken cancellationToken = default)
   {
-    using var _ = Logger.LogFunction(taskId);
+    using var _ = Logger?.LogFunction(taskId);
     var resultId = TaskService.GetResultIds(new GetResultIdsRequest
                                             {
                                               TaskId =
@@ -643,9 +645,9 @@ public class BaseClientSubmitter<T>
                                            200,
                                            retry =>
                                            {
-                                             Logger.LogDebug("Try {try} for {funcName}",
-                                                             retry,
-                                                             "SubmitterService.TryGetResultAsync");
+                                             Logger?.LogDebug("Try {try} for {funcName}",
+                                                              retry,
+                                                              "SubmitterService.TryGetResultAsync");
                                              try
                                              {
                                                var response = TryGetResultAsync(resultRequest,
@@ -682,8 +684,8 @@ public class BaseClientSubmitter<T>
                                                         StatusCode: StatusCode.Aborted or StatusCode.Cancelled,
                                                       }:
 
-                                                   Logger.LogError(rpcException,
-                                                                   rpcException.Message);
+                                                   Logger?.LogError(rpcException,
+                                                                    rpcException.Message);
                                                    return null;
                                                  default:
                                                    throw;
@@ -732,7 +734,7 @@ public class BaseClientSubmitter<T>
 
         msg += $"1st result id where the task which should create it is in error : {taskIdInError}";
 
-        Logger.LogError(msg);
+        Logger?.LogError(msg);
 
         throw new ClientResultsException(msg,
                                          (resultStatus.IdsError ?? Enumerable.Empty<string>()).Concat(resultStatus.IdsResultError.Select(x => x.TaskId)));

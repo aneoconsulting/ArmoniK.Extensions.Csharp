@@ -29,6 +29,8 @@ using Google.Protobuf.WellKnownTypes;
 
 using Grpc.Core;
 
+using JetBrains.Annotations;
+
 using Microsoft.Extensions.Logging;
 
 namespace ArmoniK.DevelopmentKit.GridServer.Client;
@@ -49,20 +51,22 @@ public class ArmonikDataSynapseClientService
   /// <summary>
   ///   The ctor with IConfiguration and optional TaskOptions
   /// </summary>
-  /// <param name="loggerFactory">The factory to create the logger for clientService</param>
   /// <param name="properties">Properties containing TaskOption and connection string to the control plane</param>
-  public ArmonikDataSynapseClientService(ILoggerFactory loggerFactory,
-                                         Properties     properties)
+  /// <param name="loggerFactory">The factory to create the logger for clientService</param>
+  public ArmonikDataSynapseClientService(Properties                 properties,
+                                         [CanBeNull] ILoggerFactory loggerFactory = null)
   {
     properties_   = properties;
     LoggerFactory = loggerFactory;
-    Logger        = loggerFactory.CreateLogger<ArmonikDataSynapseClientService>();
+    Logger        = loggerFactory?.CreateLogger<ArmonikDataSynapseClientService>();
 
     TaskOptions = properties_.TaskOptions;
   }
 
-  private ILogger<ArmonikDataSynapseClientService> Logger      { get; }
-  private ChannelBase                              GrpcChannel { get; set; }
+  [CanBeNull]
+  private ILogger<ArmonikDataSynapseClientService> Logger { get; }
+
+  private ChannelBase GrpcChannel { get; set; }
 
 
   /// <summary>
@@ -86,10 +90,10 @@ public class ArmonikDataSynapseClientService
 
     ControlPlaneConnection();
 
-    Logger.LogDebug("Creating Session... ");
+    Logger?.LogDebug("Creating Session... ");
 
-    return new SessionService(LoggerFactory,
-                              GrpcChannel,
+    return new SessionService(GrpcChannel,
+                              LoggerFactory,
                               TaskOptions);
   }
 
@@ -118,8 +122,8 @@ public class ArmonikDataSynapseClientService
   {
     ControlPlaneConnection();
 
-    return new SessionService(LoggerFactory,
-                              GrpcChannel,
+    return new SessionService(GrpcChannel,
+                              LoggerFactory,
                               clientOptions ?? SessionService.InitializeDefaultTaskOptions(),
                               new Session
                               {

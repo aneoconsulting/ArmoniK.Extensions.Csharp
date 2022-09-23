@@ -11,6 +11,8 @@ using System;
 using System.IO;
 using System.Net.Http;
 
+using JetBrains.Annotations;
+
 using Microsoft.Extensions.Logging;
 
 namespace ArmoniK.DevelopmentKit.Client.Common.Submitter;
@@ -46,13 +48,13 @@ public class ClientServiceConnector
   /// <param name="sslValidation">Check if the ssl must have a strong validation</param>
   /// <param name="loggerFactory">Optional logger factory</param>
   /// <returns></returns>
-  public static ChannelBase ControlPlaneConnection(string         endPoint,
-                                                   string         clientCertFilename,
-                                                   string         clientKeyFilename,
-                                                   bool           sslValidation = true,
-                                                   ILoggerFactory loggerFactory = null)
+  public static ChannelBase ControlPlaneConnection(string                     endPoint,
+                                                   string                     clientCertFilename,
+                                                   string                     clientKeyFilename,
+                                                   bool                       sslValidation = true,
+                                                   [CanBeNull] ILoggerFactory loggerFactory = null)
   {
-    var logger = loggerFactory!.CreateLogger<ClientServiceConnector>();
+    var logger = loggerFactory?.CreateLogger<ClientServiceConnector>();
     if ((!string.IsNullOrEmpty(clientCertFilename) && string.IsNullOrEmpty(clientKeyFilename)) ||
         (string.IsNullOrEmpty(clientCertFilename)  && !string.IsNullOrEmpty(clientKeyFilename)))
     {
@@ -72,19 +74,19 @@ public class ClientServiceConnector
       }
       catch (Exception e)
       {
-        logger!.LogError("Fail to read certificate file",
+        logger?.LogError("Fail to read certificate file",
                          e);
         throw;
       }
     }
 
     var uri = new Uri(endPoint);
-    logger.LogInformation($"Connecting to armoniK  : {uri} port : {uri.Port}");
-    logger.LogInformation($"HTTPS Activated: {uri.Scheme == Uri.UriSchemeHttps}");
+    logger?.LogInformation($"Connecting to armoniK  : {uri} port : {uri.Port}");
+    logger?.LogInformation($"HTTPS Activated: {uri.Scheme == Uri.UriSchemeHttps}");
 
     if (!string.IsNullOrEmpty(clientCertFilename))
     {
-      logger.LogInformation("mTLS Activated: properties_.ClientCertFilePem");
+      logger?.LogInformation("mTLS Activated: properties_.ClientCertFilePem");
     }
 
 
@@ -102,13 +104,12 @@ public class ClientServiceConnector
   /// <param name="sslValidation">Check if the ssl must have a strong validation</param>
   /// <param name="loggerFactory">Optional logger factory</param>
   /// <returns></returns>
-  public static ChannelBase ControlPlaneConnection(string                endPoint,
-                                                   Tuple<string, string> clientPem     = null,
-                                                   bool                  sslValidation = true,
-                                                   ILoggerFactory        loggerFactory = null)
+  public static ChannelBase ControlPlaneConnection(string                     endPoint,
+                                                   Tuple<string, string>      clientPem     = null,
+                                                   bool                       sslValidation = true,
+                                                   [CanBeNull] ILoggerFactory loggerFactory = null)
   {
-    var logger = loggerFactory!.CreateLogger<ClientServiceConnector>();
-    var uri    = new Uri(endPoint);
+    var uri = new Uri(endPoint);
 
     var credentials = uri.Scheme == Uri.UriSchemeHttps
                         ? new SslCredentials()

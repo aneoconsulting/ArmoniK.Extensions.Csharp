@@ -26,6 +26,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 
+using ArmoniK.Api.Common.Utils;
 using ArmoniK.Api.gRPC.V1;
 using ArmoniK.Api.gRPC.V1.Submitter;
 using ArmoniK.DevelopmentKit.Client.Common.Submitter;
@@ -34,6 +35,8 @@ using ArmoniK.DevelopmentKit.Common;
 using Google.Protobuf.WellKnownTypes;
 
 using Grpc.Core;
+
+using JetBrains.Annotations;
 
 using Microsoft.Extensions.Logging;
 
@@ -50,12 +53,12 @@ public class SessionService : BaseClientSubmitter<SessionService>
   ///   Ctor to instantiate a new SessionService
   ///   This is an object to send task or get Results from a session
   /// </summary>
-  public SessionService(ILoggerFactory loggerFactory,
-                        ChannelBase    grpcChannel,
-                        TaskOptions    taskOptions = null,
-                        Session        sessionId   = null)
-    : base(loggerFactory,
-           grpcChannel)
+  public SessionService(ChannelBase                grpcChannel,
+                        [CanBeNull] ILoggerFactory loggerFactory = null,
+                        [CanBeNull] TaskOptions    taskOptions   = null,
+                        [CanBeNull] Session        sessionId     = null)
+    : base(grpcChannel,
+           loggerFactory)
   {
     TaskOptions = InitializeDefaultTaskOptions();
     if (taskOptions != null)
@@ -63,14 +66,14 @@ public class SessionService : BaseClientSubmitter<SessionService>
       TaskOptions.MergeFrom(taskOptions);
     }
 
-    Logger.LogDebug("Creating Session... ");
+    Logger?.LogDebug("Creating Session... ");
 
     SessionId = sessionId ?? CreateSession(new List<string>
                                            {
                                              TaskOptions.PartitionId,
                                            });
 
-    Logger.LogDebug($"Session Created {SessionId}");
+    Logger?.LogDebug($"Session Created {SessionId}");
   }
 
   /// <summary>Returns a string that represents the current object.</summary>
@@ -103,7 +106,7 @@ public class SessionService : BaseClientSubmitter<SessionService>
 
   private Session CreateSession(IEnumerable<string> partitionIds)
   {
-    using var _ = Logger.LogFunction();
+    using var _ = Logger?.LogFunction();
     var createSessionRequest = new CreateSessionRequest
                                {
                                  DefaultTaskOption = TaskOptions,
@@ -128,7 +131,7 @@ public class SessionService : BaseClientSubmitter<SessionService>
   {
     if (SessionId == null)
     {
-      Logger.LogDebug($"Open Session {session.Id}");
+      Logger?.LogDebug($"Open Session {session.Id}");
     }
 
     SessionId = session;

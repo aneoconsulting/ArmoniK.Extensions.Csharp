@@ -28,6 +28,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using ArmoniK.Api.Common.Channel.Utils;
+using ArmoniK.Api.Common.Utils;
 using ArmoniK.Api.gRPC.V1;
 using ArmoniK.Api.Worker.Worker;
 using ArmoniK.DevelopmentKit.Common;
