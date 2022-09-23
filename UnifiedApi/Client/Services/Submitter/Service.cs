@@ -328,8 +328,9 @@ public class Service : AbstractClientService
           idx = idx >= waitInSeconds.Count - 1
                   ? waitInSeconds.Count - 1
                   : idx                 + 1;
-          Logger?.LogInformation("No Results are ready. Wait for {timeWait} seconds before new retry",
-                                 waitInSeconds[idx] / 1000);
+
+          Logger?.LogDebug("No Results are ready. Wait for {timeWait} seconds before new retry",
+                           waitInSeconds[idx] / 1000);
         }
         else
         {
