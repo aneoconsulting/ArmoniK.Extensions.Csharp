@@ -316,7 +316,7 @@ public class Service : AbstractClientService
           errorHandler(resTuple.TaskId,
                        outputInfo.TypeCase == Output.TypeOneofCase.Error
                          ? outputInfo.Error.Details
-                         : resTuple.Status.ToString());
+                         : "Result is in status : " + resTuple.Status + ", look for task in error in logs.");
         }
 
         missing.ExceptWith(resultStatusCollection.IdsResultError.Select(x => x.TaskId));
