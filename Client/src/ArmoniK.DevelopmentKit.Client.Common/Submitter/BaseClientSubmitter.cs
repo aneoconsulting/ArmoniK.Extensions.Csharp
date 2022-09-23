@@ -379,14 +379,7 @@ public class BaseClientSubmitter<T>
   public ResultStatusCollection GetResultStatus(IEnumerable<string> taskIds,
                                                 CancellationToken   cancellationToken = default)
   {
-    var mapTaskResults = TaskService.GetResultIds(new GetResultIdsRequest
-                                                  {
-                                                    TaskId =
-                                                    {
-                                                      taskIds,
-                                                    },
-                                                  })
-                                    .TaskResults;
+    var mapTaskResults = GetResultIds(taskIds);
 
     var result2TaskDic = mapTaskResults.ToDictionary(result => result.ResultIds.Single(),
                                                      result => result.TaskId);
@@ -456,6 +449,16 @@ public class BaseClientSubmitter<T>
     return resultStatusList;
   }
 
+  private ICollection<GetResultIdsResponse.Types.MapTaskResult> GetResultIds(IEnumerable<string> taskIds)
+    => mutex_.LockedExecute(() => TaskService.GetResultIds(new GetResultIdsRequest
+                                                           {
+                                                             TaskId =
+                                                             {
+                                                               taskIds,
+                                                             },
+                                                           })
+                                             .TaskResults);
+
   /// <summary>
   ///   Try to find the result of One task. If there no result, the function return byte[0]
   /// </summary>
@@ -467,15 +470,12 @@ public class BaseClientSubmitter<T>
   {
     using var _ = Logger?.LogFunction(taskId);
 
-    var resultId = TaskService.GetResultIds(new GetResultIdsRequest
-                                            {
-                                              TaskId =
-                                              {
-                                                taskId,
-                                              },
-                                            })
-                              .TaskResults.Single()
-                              .ResultIds.Single();
+    var resultId = GetResultIds(new[]
+                                {
+                                  taskId,
+                                })
+                   .Single()
+                   .ResultIds.Single();
 
     var resultRequest = new ResultRequest
                         {
@@ -625,15 +625,12 @@ public class BaseClientSubmitter<T>
                              CancellationToken cancellationToken = default)
   {
     using var _ = Logger?.LogFunction(taskId);
-    var resultId = TaskService.GetResultIds(new GetResultIdsRequest
-                                            {
-                                              TaskId =
-                                              {
-                                                taskId,
-                                              },
-                                            })
-                              .TaskResults.Single()
-                              .ResultIds.Single();
+    var resultId = GetResultIds(new[]
+                                {
+                                  taskId,
+                                })
+                   .Single()
+                   .ResultIds.Single();
 
     var resultRequest = new ResultRequest
                         {
