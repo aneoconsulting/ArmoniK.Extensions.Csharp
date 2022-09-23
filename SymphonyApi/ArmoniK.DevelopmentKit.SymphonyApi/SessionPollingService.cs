@@ -46,7 +46,10 @@ namespace ArmoniK.DevelopmentKit.SymphonyApi.api;
 [MarkDownDoc]
 public class SessionPollingService
 {
-  private readonly Dictionary<string, string> taskId2OutputId_;
+  /// <summary>
+  ///   Map between ids of task and their results id after task submission
+  /// </summary>
+  public readonly Dictionary<string, string> TaskId2OutputId;
 
   /// <summary>
   ///   Ctor to instantiate a new SessionService
@@ -70,7 +73,7 @@ public class SessionPollingService
 
     Logger.LogDebug($"Session Created {SessionId}");
 
-    taskId2OutputId_ = new Dictionary<string, string>();
+    TaskId2OutputId = new Dictionary<string, string>();
   }
 
   /// <summary>
@@ -166,8 +169,8 @@ public class SessionPollingService
       case CreateTaskReply.ResponseOneofCase.CreationStatusList:
         foreach (var creationStatus in createTaskReply.CreationStatusList.CreationStatuses)
         {
-          taskId2OutputId_.Add(creationStatus.TaskInfo.TaskId,
-                               creationStatus.TaskInfo.ExpectedOutputKeys.Single());
+          TaskId2OutputId.Add(creationStatus.TaskInfo.TaskId,
+                              creationStatus.TaskInfo.ExpectedOutputKeys.Single());
         }
 
         return createTaskReply.CreationStatusList.CreationStatuses.Select(status => status.TaskInfo.TaskId);
@@ -213,8 +216,8 @@ public class SessionPollingService
       {
         foreach (var dependency in dependencies)
         {
-          if (!taskId2OutputId_.TryGetValue(dependency,
-                                            out resultId))
+          if (!TaskId2OutputId.TryGetValue(dependency,
+                                           out resultId))
           {
             throw new WorkerApiException($"Dependency {dependency} has no corresponding result id.");
           }
@@ -241,8 +244,8 @@ public class SessionPollingService
       case CreateTaskReply.ResponseOneofCase.CreationStatusList:
         foreach (var creationStatus in createTaskReply.CreationStatusList.CreationStatuses)
         {
-          taskId2OutputId_.Add(creationStatus.TaskInfo.TaskId,
-                               creationStatus.TaskInfo.ExpectedOutputKeys.Single());
+          TaskId2OutputId.Add(creationStatus.TaskInfo.TaskId,
+                              creationStatus.TaskInfo.ExpectedOutputKeys.Single());
         }
 
         return createTaskReply.CreationStatusList.CreationStatuses.Select(status => status.TaskInfo.TaskId);
