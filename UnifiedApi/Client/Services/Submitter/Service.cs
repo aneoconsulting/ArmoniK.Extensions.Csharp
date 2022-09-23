@@ -289,12 +289,6 @@ public class Service : AbstractClientService
 
         foreach (var resultStatusData in resultStatusCollection.IdsReady)
         {
-          if (CancellationResultTaskSource.IsCancellationRequested)
-          {
-            Logger.LogWarning("Cancellation triggered before processing all results");
-            return;
-          }
-
           try
           {
             responseHandler(resultStatusData.TaskId,
@@ -308,13 +302,6 @@ public class Service : AbstractClientService
           }
           catch (Exception e)
           {
-            if (CancellationResultTaskSource.IsCancellationRequested)
-            {
-              Logger.LogError(e,
-                              "Cancellation triggered before processing all results");
-              return;
-            }
-
             errorHandler(resultStatusData.TaskId,
                          e.Message + e.StackTrace);
           }
