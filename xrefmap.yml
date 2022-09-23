@@ -4521,6 +4521,19 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.TaskId
   nameWithType: ServiceContainerBase.TaskId
+- uid: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.TaskId2OutputId
+  name: TaskId2OutputId
+  href: api/ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.html#ArmoniK_DevelopmentKit_SymphonyApi_api_ServiceContainerBase_TaskId2OutputId
+  commentId: P:ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.TaskId2OutputId
+  fullName: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.TaskId2OutputId
+  nameWithType: ServiceContainerBase.TaskId2OutputId
+- uid: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.TaskId2OutputId*
+  name: TaskId2OutputId
+  href: api/ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.html#ArmoniK_DevelopmentKit_SymphonyApi_api_ServiceContainerBase_TaskId2OutputId_
+  commentId: Overload:ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.TaskId2OutputId
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.TaskId2OutputId
+  nameWithType: ServiceContainerBase.TaskId2OutputId
 - uid: ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.TaskOptions
   name: TaskOptions
   href: api/ArmoniK.DevelopmentKit.SymphonyApi.api.ServiceContainerBase.html#ArmoniK_DevelopmentKit_SymphonyApi_api_ServiceContainerBase_TaskOptions
@@ -4717,6 +4730,12 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.TaskHandler
   nameWithType: SessionPollingService.TaskHandler
+- uid: ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.TaskId2OutputId
+  name: TaskId2OutputId
+  href: api/ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.html#ArmoniK_DevelopmentKit_SymphonyApi_api_SessionPollingService_TaskId2OutputId
+  commentId: F:ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.TaskId2OutputId
+  fullName: ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.TaskId2OutputId
+  nameWithType: SessionPollingService.TaskId2OutputId
 - uid: ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.TaskOptions
   name: TaskOptions
   href: api/ArmoniK.DevelopmentKit.SymphonyApi.api.SessionPollingService.html#ArmoniK_DevelopmentKit_SymphonyApi_api_SessionPollingService_TaskOptions
@@ -5824,6 +5843,23 @@ references:
   fullName.vb: ArmoniK.DevelopmentKit.Worker.Grid.BaseService(Of T).TaskId
   nameWithType: BaseService<T>.TaskId
   nameWithType.vb: BaseService(Of T).TaskId
+- uid: ArmoniK.DevelopmentKit.Worker.Grid.BaseService`1.TaskId2OutputId
+  name: TaskId2OutputId
+  href: api/ArmoniK.DevelopmentKit.Worker.Grid.BaseService-1.html#ArmoniK_DevelopmentKit_Worker_Grid_BaseService_1_TaskId2OutputId
+  commentId: P:ArmoniK.DevelopmentKit.Worker.Grid.BaseService`1.TaskId2OutputId
+  fullName: ArmoniK.DevelopmentKit.Worker.Grid.BaseService<T>.TaskId2OutputId
+  fullName.vb: ArmoniK.DevelopmentKit.Worker.Grid.BaseService(Of T).TaskId2OutputId
+  nameWithType: BaseService<T>.TaskId2OutputId
+  nameWithType.vb: BaseService(Of T).TaskId2OutputId
+- uid: ArmoniK.DevelopmentKit.Worker.Grid.BaseService`1.TaskId2OutputId*
+  name: TaskId2OutputId
+  href: api/ArmoniK.DevelopmentKit.Worker.Grid.BaseService-1.html#ArmoniK_DevelopmentKit_Worker_Grid_BaseService_1_TaskId2OutputId_
+  commentId: Overload:ArmoniK.DevelopmentKit.Worker.Grid.BaseService`1.TaskId2OutputId
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Worker.Grid.BaseService<T>.TaskId2OutputId
+  fullName.vb: ArmoniK.DevelopmentKit.Worker.Grid.BaseService(Of T).TaskId2OutputId
+  nameWithType: BaseService<T>.TaskId2OutputId
+  nameWithType.vb: BaseService(Of T).TaskId2OutputId
 - uid: ArmoniK.DevelopmentKit.Worker.Grid.BaseService`1.TaskOptions
   name: TaskOptions
   href: api/ArmoniK.DevelopmentKit.Worker.Grid.BaseService-1.html#ArmoniK_DevelopmentKit_Worker_Grid_BaseService_1_TaskOptions
@@ -6143,6 +6179,12 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.Worker.Grid.SessionPollingService.TaskHandler
   nameWithType: SessionPollingService.TaskHandler
+- uid: ArmoniK.DevelopmentKit.Worker.Grid.SessionPollingService.TaskId2OutputId
+  name: TaskId2OutputId
+  href: api/ArmoniK.DevelopmentKit.Worker.Grid.SessionPollingService.html#ArmoniK_DevelopmentKit_Worker_Grid_SessionPollingService_TaskId2OutputId
+  commentId: F:ArmoniK.DevelopmentKit.Worker.Grid.SessionPollingService.TaskId2OutputId
+  fullName: ArmoniK.DevelopmentKit.Worker.Grid.SessionPollingService.TaskId2OutputId
+  nameWithType: SessionPollingService.TaskId2OutputId
 - uid: ArmoniK.DevelopmentKit.Worker.Grid.SessionPollingService.TaskOptions
   name: TaskOptions
   href: api/ArmoniK.DevelopmentKit.Worker.Grid.SessionPollingService.html#ArmoniK_DevelopmentKit_Worker_Grid_SessionPollingService_TaskOptions
