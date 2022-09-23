@@ -188,14 +188,14 @@ references:
   fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter(Of T)
   nameWithType: BaseClientSubmitter<T>
   nameWithType.vb: BaseClientSubmitter(Of T)
-- uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.#ctor(ILoggerFactory,ChannelBase)
-  name: BaseClientSubmitter(ILoggerFactory, ChannelBase)
-  href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1__ctor_ILoggerFactory_ChannelBase_
-  commentId: M:ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.#ctor(ILoggerFactory,ChannelBase)
-  fullName: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter<T>.BaseClientSubmitter(ILoggerFactory, ChannelBase)
-  fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter(Of T).BaseClientSubmitter(ILoggerFactory, ChannelBase)
-  nameWithType: BaseClientSubmitter<T>.BaseClientSubmitter(ILoggerFactory, ChannelBase)
-  nameWithType.vb: BaseClientSubmitter(Of T).BaseClientSubmitter(ILoggerFactory, ChannelBase)
+- uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.#ctor(ChannelBase,ILoggerFactory)
+  name: BaseClientSubmitter(ChannelBase, ILoggerFactory)
+  href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1__ctor_ChannelBase_ILoggerFactory_
+  commentId: M:ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.#ctor(ChannelBase,ILoggerFactory)
+  fullName: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter<T>.BaseClientSubmitter(ChannelBase, ILoggerFactory)
+  fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter(Of T).BaseClientSubmitter(ChannelBase, ILoggerFactory)
+  nameWithType: BaseClientSubmitter<T>.BaseClientSubmitter(ChannelBase, ILoggerFactory)
+  nameWithType.vb: BaseClientSubmitter(Of T).BaseClientSubmitter(ChannelBase, ILoggerFactory)
 - uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.#ctor*
   name: BaseClientSubmitter
   href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1__ctor_
@@ -842,12 +842,12 @@ references:
   commentId: T:ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService
   fullName: ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService
   nameWithType: AdminMonitoringService
-- uid: ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.#ctor(ILoggerFactory,ChannelBase)
-  name: AdminMonitoringService(ILoggerFactory, ChannelBase)
-  href: api/ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.html#ArmoniK_DevelopmentKit_Client_Services_Admin_AdminMonitoringService__ctor_ILoggerFactory_ChannelBase_
-  commentId: M:ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.#ctor(ILoggerFactory,ChannelBase)
-  fullName: ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.AdminMonitoringService(ILoggerFactory, ChannelBase)
-  nameWithType: AdminMonitoringService.AdminMonitoringService(ILoggerFactory, ChannelBase)
+- uid: ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.#ctor(ChannelBase,ILoggerFactory)
+  name: AdminMonitoringService(ChannelBase, ILoggerFactory)
+  href: api/ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.html#ArmoniK_DevelopmentKit_Client_Services_Admin_AdminMonitoringService__ctor_ChannelBase_ILoggerFactory_
+  commentId: M:ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.#ctor(ChannelBase,ILoggerFactory)
+  fullName: ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.AdminMonitoringService(ChannelBase, ILoggerFactory)
+  nameWithType: AdminMonitoringService.AdminMonitoringService(ChannelBase, ILoggerFactory)
 - uid: ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.#ctor*
   name: AdminMonitoringService
   href: api/ArmoniK.DevelopmentKit.Client.Services.Admin.AdminMonitoringService.html#ArmoniK_DevelopmentKit_Client_Services_Admin_AdminMonitoringService__ctor_
@@ -1474,12 +1474,12 @@ references:
   commentId: T:ArmoniK.DevelopmentKit.Client.Services.SessionService
   fullName: ArmoniK.DevelopmentKit.Client.Services.SessionService
   nameWithType: SessionService
-- uid: ArmoniK.DevelopmentKit.Client.Services.SessionService.#ctor(ILoggerFactory,ChannelBase,TaskOptions,Session)
-  name: SessionService(ILoggerFactory, ChannelBase, TaskOptions, Session)
-  href: api/ArmoniK.DevelopmentKit.Client.Services.SessionService.html#ArmoniK_DevelopmentKit_Client_Services_SessionService__ctor_ILoggerFactory_ChannelBase_TaskOptions_Session_
-  commentId: M:ArmoniK.DevelopmentKit.Client.Services.SessionService.#ctor(ILoggerFactory,ChannelBase,TaskOptions,Session)
-  fullName: ArmoniK.DevelopmentKit.Client.Services.SessionService.SessionService(ILoggerFactory, ChannelBase, TaskOptions, Session)
-  nameWithType: SessionService.SessionService(ILoggerFactory, ChannelBase, TaskOptions, Session)
+- uid: ArmoniK.DevelopmentKit.Client.Services.SessionService.#ctor(ChannelBase,ILoggerFactory,TaskOptions,Session)
+  name: SessionService(ChannelBase, ILoggerFactory, TaskOptions, Session)
+  href: api/ArmoniK.DevelopmentKit.Client.Services.SessionService.html#ArmoniK_DevelopmentKit_Client_Services_SessionService__ctor_ChannelBase_ILoggerFactory_TaskOptions_Session_
+  commentId: M:ArmoniK.DevelopmentKit.Client.Services.SessionService.#ctor(ChannelBase,ILoggerFactory,TaskOptions,Session)
+  fullName: ArmoniK.DevelopmentKit.Client.Services.SessionService.SessionService(ChannelBase, ILoggerFactory, TaskOptions, Session)
+  nameWithType: SessionService.SessionService(ChannelBase, ILoggerFactory, TaskOptions, Session)
 - uid: ArmoniK.DevelopmentKit.Client.Services.SessionService.#ctor*
   name: SessionService
   href: api/ArmoniK.DevelopmentKit.Client.Services.SessionService.html#ArmoniK_DevelopmentKit_Client_Services_SessionService__ctor_
@@ -2277,57 +2277,6 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.Common.IFileAdaptater.DownloadFile
   nameWithType: IFileAdaptater.DownloadFile
-- uid: ArmoniK.DevelopmentKit.Common.LoggerExt
-  name: LoggerExt
-  href: api/ArmoniK.DevelopmentKit.Common.LoggerExt.html
-  commentId: T:ArmoniK.DevelopmentKit.Common.LoggerExt
-  fullName: ArmoniK.DevelopmentKit.Common.LoggerExt
-  nameWithType: LoggerExt
-- uid: ArmoniK.DevelopmentKit.Common.LoggerExt.BeginNamedScope(ILogger,System.String,System.ValueTuple{System.String,System.Object}[])
-  name: BeginNamedScope(ILogger, String, (String, Object)[])
-  href: api/ArmoniK.DevelopmentKit.Common.LoggerExt.html#ArmoniK_DevelopmentKit_Common_LoggerExt_BeginNamedScope_ILogger_System_String_System_ValueTuple_System_String_System_Object____
-  commentId: M:ArmoniK.DevelopmentKit.Common.LoggerExt.BeginNamedScope(ILogger,System.String,System.ValueTuple{System.String,System.Object}[])
-  name.vb: BeginNamedScope(ILogger, String, (String, Object)(Of String, Object)())
-  fullName: ArmoniK.DevelopmentKit.Common.LoggerExt.BeginNamedScope(ILogger, System.String, System.ValueTuple<System.String, System.Object>[])
-  fullName.vb: ArmoniK.DevelopmentKit.Common.LoggerExt.BeginNamedScope(ILogger, System.String, System.ValueTuple(Of System.String, System.Object)())
-  nameWithType: LoggerExt.BeginNamedScope(ILogger, String, (String, Object)[])
-  nameWithType.vb: LoggerExt.BeginNamedScope(ILogger, String, (String, Object)(Of String, Object)())
-- uid: ArmoniK.DevelopmentKit.Common.LoggerExt.BeginNamedScope*
-  name: BeginNamedScope
-  href: api/ArmoniK.DevelopmentKit.Common.LoggerExt.html#ArmoniK_DevelopmentKit_Common_LoggerExt_BeginNamedScope_
-  commentId: Overload:ArmoniK.DevelopmentKit.Common.LoggerExt.BeginNamedScope
-  isSpec: "True"
-  fullName: ArmoniK.DevelopmentKit.Common.LoggerExt.BeginNamedScope
-  nameWithType: LoggerExt.BeginNamedScope
-- uid: ArmoniK.DevelopmentKit.Common.LoggerExt.BeginPropertyScope(ILogger,System.ValueTuple{System.String,System.Object}[])
-  name: BeginPropertyScope(ILogger, (String, Object)[])
-  href: api/ArmoniK.DevelopmentKit.Common.LoggerExt.html#ArmoniK_DevelopmentKit_Common_LoggerExt_BeginPropertyScope_ILogger_System_ValueTuple_System_String_System_Object____
-  commentId: M:ArmoniK.DevelopmentKit.Common.LoggerExt.BeginPropertyScope(ILogger,System.ValueTuple{System.String,System.Object}[])
-  name.vb: BeginPropertyScope(ILogger, (String, Object)(Of String, Object)())
-  fullName: ArmoniK.DevelopmentKit.Common.LoggerExt.BeginPropertyScope(ILogger, System.ValueTuple<System.String, System.Object>[])
-  fullName.vb: ArmoniK.DevelopmentKit.Common.LoggerExt.BeginPropertyScope(ILogger, System.ValueTuple(Of System.String, System.Object)())
-  nameWithType: LoggerExt.BeginPropertyScope(ILogger, (String, Object)[])
-  nameWithType.vb: LoggerExt.BeginPropertyScope(ILogger, (String, Object)(Of String, Object)())
-- uid: ArmoniK.DevelopmentKit.Common.LoggerExt.BeginPropertyScope*
-  name: BeginPropertyScope
-  href: api/ArmoniK.DevelopmentKit.Common.LoggerExt.html#ArmoniK_DevelopmentKit_Common_LoggerExt_BeginPropertyScope_
-  commentId: Overload:ArmoniK.DevelopmentKit.Common.LoggerExt.BeginPropertyScope
-  isSpec: "True"
-  fullName: ArmoniK.DevelopmentKit.Common.LoggerExt.BeginPropertyScope
-  nameWithType: LoggerExt.BeginPropertyScope
-- uid: ArmoniK.DevelopmentKit.Common.LoggerExt.LogFunction(ILogger,System.String,LogLevel,System.String,System.String,System.Int32)
-  name: LogFunction(ILogger, String, LogLevel, String, String, Int32)
-  href: api/ArmoniK.DevelopmentKit.Common.LoggerExt.html#ArmoniK_DevelopmentKit_Common_LoggerExt_LogFunction_ILogger_System_String_LogLevel_System_String_System_String_System_Int32_
-  commentId: M:ArmoniK.DevelopmentKit.Common.LoggerExt.LogFunction(ILogger,System.String,LogLevel,System.String,System.String,System.Int32)
-  fullName: ArmoniK.DevelopmentKit.Common.LoggerExt.LogFunction(ILogger, System.String, LogLevel, System.String, System.String, System.Int32)
-  nameWithType: LoggerExt.LogFunction(ILogger, String, LogLevel, String, String, Int32)
-- uid: ArmoniK.DevelopmentKit.Common.LoggerExt.LogFunction*
-  name: LogFunction
-  href: api/ArmoniK.DevelopmentKit.Common.LoggerExt.html#ArmoniK_DevelopmentKit_Common_LoggerExt_LogFunction_
-  commentId: Overload:ArmoniK.DevelopmentKit.Common.LoggerExt.LogFunction
-  isSpec: "True"
-  fullName: ArmoniK.DevelopmentKit.Common.LoggerExt.LogFunction
-  nameWithType: LoggerExt.LogFunction
 - uid: ArmoniK.DevelopmentKit.Common.MarkDownDocAttribute
   name: MarkDownDocAttribute
   href: api/ArmoniK.DevelopmentKit.Common.MarkDownDocAttribute.html
@@ -2828,12 +2777,12 @@ references:
   commentId: T:ArmoniK.DevelopmentKit.GridServer.Client.ArmonikDataSynapseClientService
   fullName: ArmoniK.DevelopmentKit.GridServer.Client.ArmonikDataSynapseClientService
   nameWithType: ArmonikDataSynapseClientService
-- uid: ArmoniK.DevelopmentKit.GridServer.Client.ArmonikDataSynapseClientService.#ctor(ILoggerFactory,ArmoniK.DevelopmentKit.GridServer.Client.Properties)
-  name: ArmonikDataSynapseClientService(ILoggerFactory, Properties)
-  href: api/ArmoniK.DevelopmentKit.GridServer.Client.ArmonikDataSynapseClientService.html#ArmoniK_DevelopmentKit_GridServer_Client_ArmonikDataSynapseClientService__ctor_ILoggerFactory_ArmoniK_DevelopmentKit_GridServer_Client_Properties_
-  commentId: M:ArmoniK.DevelopmentKit.GridServer.Client.ArmonikDataSynapseClientService.#ctor(ILoggerFactory,ArmoniK.DevelopmentKit.GridServer.Client.Properties)
-  fullName: ArmoniK.DevelopmentKit.GridServer.Client.ArmonikDataSynapseClientService.ArmonikDataSynapseClientService(ILoggerFactory, ArmoniK.DevelopmentKit.GridServer.Client.Properties)
-  nameWithType: ArmonikDataSynapseClientService.ArmonikDataSynapseClientService(ILoggerFactory, Properties)
+- uid: ArmoniK.DevelopmentKit.GridServer.Client.ArmonikDataSynapseClientService.#ctor(ArmoniK.DevelopmentKit.GridServer.Client.Properties,ILoggerFactory)
+  name: ArmonikDataSynapseClientService(Properties, ILoggerFactory)
+  href: api/ArmoniK.DevelopmentKit.GridServer.Client.ArmonikDataSynapseClientService.html#ArmoniK_DevelopmentKit_GridServer_Client_ArmonikDataSynapseClientService__ctor_ArmoniK_DevelopmentKit_GridServer_Client_Properties_ILoggerFactory_
+  commentId: M:ArmoniK.DevelopmentKit.GridServer.Client.ArmonikDataSynapseClientService.#ctor(ArmoniK.DevelopmentKit.GridServer.Client.Properties,ILoggerFactory)
+  fullName: ArmoniK.DevelopmentKit.GridServer.Client.ArmonikDataSynapseClientService.ArmonikDataSynapseClientService(ArmoniK.DevelopmentKit.GridServer.Client.Properties, ILoggerFactory)
+  nameWithType: ArmonikDataSynapseClientService.ArmonikDataSynapseClientService(Properties, ILoggerFactory)
 - uid: ArmoniK.DevelopmentKit.GridServer.Client.ArmonikDataSynapseClientService.#ctor*
   name: ArmonikDataSynapseClientService
   href: api/ArmoniK.DevelopmentKit.GridServer.Client.ArmonikDataSynapseClientService.html#ArmoniK_DevelopmentKit_GridServer_Client_ArmonikDataSynapseClientService__ctor_
@@ -3155,12 +3104,12 @@ references:
   commentId: T:ArmoniK.DevelopmentKit.GridServer.Client.Service
   fullName: ArmoniK.DevelopmentKit.GridServer.Client.Service
   nameWithType: Service
-- uid: ArmoniK.DevelopmentKit.GridServer.Client.Service.#ctor(System.String,ILoggerFactory,ArmoniK.DevelopmentKit.GridServer.Client.Properties)
-  name: Service(String, ILoggerFactory, Properties)
-  href: api/ArmoniK.DevelopmentKit.GridServer.Client.Service.html#ArmoniK_DevelopmentKit_GridServer_Client_Service__ctor_System_String_ILoggerFactory_ArmoniK_DevelopmentKit_GridServer_Client_Properties_
-  commentId: M:ArmoniK.DevelopmentKit.GridServer.Client.Service.#ctor(System.String,ILoggerFactory,ArmoniK.DevelopmentKit.GridServer.Client.Properties)
-  fullName: ArmoniK.DevelopmentKit.GridServer.Client.Service.Service(System.String, ILoggerFactory, ArmoniK.DevelopmentKit.GridServer.Client.Properties)
-  nameWithType: Service.Service(String, ILoggerFactory, Properties)
+- uid: ArmoniK.DevelopmentKit.GridServer.Client.Service.#ctor(System.String,ArmoniK.DevelopmentKit.GridServer.Client.Properties,ILoggerFactory)
+  name: Service(String, Properties, ILoggerFactory)
+  href: api/ArmoniK.DevelopmentKit.GridServer.Client.Service.html#ArmoniK_DevelopmentKit_GridServer_Client_Service__ctor_System_String_ArmoniK_DevelopmentKit_GridServer_Client_Properties_ILoggerFactory_
+  commentId: M:ArmoniK.DevelopmentKit.GridServer.Client.Service.#ctor(System.String,ArmoniK.DevelopmentKit.GridServer.Client.Properties,ILoggerFactory)
+  fullName: ArmoniK.DevelopmentKit.GridServer.Client.Service.Service(System.String, ArmoniK.DevelopmentKit.GridServer.Client.Properties, ILoggerFactory)
+  nameWithType: Service.Service(String, Properties, ILoggerFactory)
 - uid: ArmoniK.DevelopmentKit.GridServer.Client.Service.#ctor*
   name: Service
   href: api/ArmoniK.DevelopmentKit.GridServer.Client.Service.html#ArmoniK_DevelopmentKit_GridServer_Client_Service__ctor_
@@ -3583,12 +3532,12 @@ references:
   commentId: T:ArmoniK.DevelopmentKit.GridServer.Client.ServiceFactory
   fullName: ArmoniK.DevelopmentKit.GridServer.Client.ServiceFactory
   nameWithType: ServiceFactory
-- uid: ArmoniK.DevelopmentKit.GridServer.Client.ServiceFactory.CreateService(System.String,ArmoniK.DevelopmentKit.GridServer.Client.Properties)
-  name: CreateService(String, Properties)
-  href: api/ArmoniK.DevelopmentKit.GridServer.Client.ServiceFactory.html#ArmoniK_DevelopmentKit_GridServer_Client_ServiceFactory_CreateService_System_String_ArmoniK_DevelopmentKit_GridServer_Client_Properties_
-  commentId: M:ArmoniK.DevelopmentKit.GridServer.Client.ServiceFactory.CreateService(System.String,ArmoniK.DevelopmentKit.GridServer.Client.Properties)
-  fullName: ArmoniK.DevelopmentKit.GridServer.Client.ServiceFactory.CreateService(System.String, ArmoniK.DevelopmentKit.GridServer.Client.Properties)
-  nameWithType: ServiceFactory.CreateService(String, Properties)
+- uid: ArmoniK.DevelopmentKit.GridServer.Client.ServiceFactory.CreateService(System.String,ArmoniK.DevelopmentKit.GridServer.Client.Properties,ILoggerFactory)
+  name: CreateService(String, Properties, ILoggerFactory)
+  href: api/ArmoniK.DevelopmentKit.GridServer.Client.ServiceFactory.html#ArmoniK_DevelopmentKit_GridServer_Client_ServiceFactory_CreateService_System_String_ArmoniK_DevelopmentKit_GridServer_Client_Properties_ILoggerFactory_
+  commentId: M:ArmoniK.DevelopmentKit.GridServer.Client.ServiceFactory.CreateService(System.String,ArmoniK.DevelopmentKit.GridServer.Client.Properties,ILoggerFactory)
+  fullName: ArmoniK.DevelopmentKit.GridServer.Client.ServiceFactory.CreateService(System.String, ArmoniK.DevelopmentKit.GridServer.Client.Properties, ILoggerFactory)
+  nameWithType: ServiceFactory.CreateService(String, Properties, ILoggerFactory)
 - uid: ArmoniK.DevelopmentKit.GridServer.Client.ServiceFactory.CreateService*
   name: CreateService
   href: api/ArmoniK.DevelopmentKit.GridServer.Client.ServiceFactory.html#ArmoniK_DevelopmentKit_GridServer_Client_ServiceFactory_CreateService_
@@ -3665,12 +3614,12 @@ references:
   commentId: T:ArmoniK.DevelopmentKit.GridServer.Client.SessionService
   fullName: ArmoniK.DevelopmentKit.GridServer.Client.SessionService
   nameWithType: SessionService
-- uid: ArmoniK.DevelopmentKit.GridServer.Client.SessionService.#ctor(ILoggerFactory,ChannelBase,TaskOptions,Session)
-  name: SessionService(ILoggerFactory, ChannelBase, TaskOptions, Session)
-  href: api/ArmoniK.DevelopmentKit.GridServer.Client.SessionService.html#ArmoniK_DevelopmentKit_GridServer_Client_SessionService__ctor_ILoggerFactory_ChannelBase_TaskOptions_Session_
-  commentId: M:ArmoniK.DevelopmentKit.GridServer.Client.SessionService.#ctor(ILoggerFactory,ChannelBase,TaskOptions,Session)
-  fullName: ArmoniK.DevelopmentKit.GridServer.Client.SessionService.SessionService(ILoggerFactory, ChannelBase, TaskOptions, Session)
-  nameWithType: SessionService.SessionService(ILoggerFactory, ChannelBase, TaskOptions, Session)
+- uid: ArmoniK.DevelopmentKit.GridServer.Client.SessionService.#ctor(ChannelBase,ILoggerFactory,TaskOptions,Session)
+  name: SessionService(ChannelBase, ILoggerFactory, TaskOptions, Session)
+  href: api/ArmoniK.DevelopmentKit.GridServer.Client.SessionService.html#ArmoniK_DevelopmentKit_GridServer_Client_SessionService__ctor_ChannelBase_ILoggerFactory_TaskOptions_Session_
+  commentId: M:ArmoniK.DevelopmentKit.GridServer.Client.SessionService.#ctor(ChannelBase,ILoggerFactory,TaskOptions,Session)
+  fullName: ArmoniK.DevelopmentKit.GridServer.Client.SessionService.SessionService(ChannelBase, ILoggerFactory, TaskOptions, Session)
+  nameWithType: SessionService.SessionService(ChannelBase, ILoggerFactory, TaskOptions, Session)
 - uid: ArmoniK.DevelopmentKit.GridServer.Client.SessionService.#ctor*
   name: SessionService
   href: api/ArmoniK.DevelopmentKit.GridServer.Client.SessionService.html#ArmoniK_DevelopmentKit_GridServer_Client_SessionService__ctor_
@@ -4850,12 +4799,12 @@ references:
   commentId: T:ArmoniK.DevelopmentKit.SymphonyApi.Client.api.SessionService
   fullName: ArmoniK.DevelopmentKit.SymphonyApi.Client.api.SessionService
   nameWithType: SessionService
-- uid: ArmoniK.DevelopmentKit.SymphonyApi.Client.api.SessionService.#ctor(ILoggerFactory,ChannelBase,TaskOptions,Session)
-  name: SessionService(ILoggerFactory, ChannelBase, TaskOptions, Session)
-  href: api/ArmoniK.DevelopmentKit.SymphonyApi.Client.api.SessionService.html#ArmoniK_DevelopmentKit_SymphonyApi_Client_api_SessionService__ctor_ILoggerFactory_ChannelBase_TaskOptions_Session_
-  commentId: M:ArmoniK.DevelopmentKit.SymphonyApi.Client.api.SessionService.#ctor(ILoggerFactory,ChannelBase,TaskOptions,Session)
-  fullName: ArmoniK.DevelopmentKit.SymphonyApi.Client.api.SessionService.SessionService(ILoggerFactory, ChannelBase, TaskOptions, Session)
-  nameWithType: SessionService.SessionService(ILoggerFactory, ChannelBase, TaskOptions, Session)
+- uid: ArmoniK.DevelopmentKit.SymphonyApi.Client.api.SessionService.#ctor(ChannelBase,ILoggerFactory,TaskOptions,Session)
+  name: SessionService(ChannelBase, ILoggerFactory, TaskOptions, Session)
+  href: api/ArmoniK.DevelopmentKit.SymphonyApi.Client.api.SessionService.html#ArmoniK_DevelopmentKit_SymphonyApi_Client_api_SessionService__ctor_ChannelBase_ILoggerFactory_TaskOptions_Session_
+  commentId: M:ArmoniK.DevelopmentKit.SymphonyApi.Client.api.SessionService.#ctor(ChannelBase,ILoggerFactory,TaskOptions,Session)
+  fullName: ArmoniK.DevelopmentKit.SymphonyApi.Client.api.SessionService.SessionService(ChannelBase, ILoggerFactory, TaskOptions, Session)
+  nameWithType: SessionService.SessionService(ChannelBase, ILoggerFactory, TaskOptions, Session)
 - uid: ArmoniK.DevelopmentKit.SymphonyApi.Client.api.SessionService.#ctor*
   name: SessionService
   href: api/ArmoniK.DevelopmentKit.SymphonyApi.Client.api.SessionService.html#ArmoniK_DevelopmentKit_SymphonyApi_Client_api_SessionService__ctor_
