@@ -61,6 +61,12 @@ public abstract class ServiceContainerBase
   /// </summary>
   internal SessionPollingService SessionService { get; set; }
 
+  /// <summary>
+  ///   Map between ids of task and their results id after task submission
+  /// </summary>
+  public Dictionary<string, string> TaskId2OutputId
+    => SessionService.TaskId2OutputId;
+
   //internal ITaskHandler TaskHandler { get; set; }
 
   /// <summary>
