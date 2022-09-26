@@ -229,7 +229,7 @@ public class Service : AbstractClientService
         var output = SessionService.GetTaskOutputInfo(taskId);
         details = output.TypeCase == Output.TypeOneofCase.Error
                     ? output.Error.Details
-                    : "";
+                    : e.Message + e.StackTrace;
       }
 
       throw new ServiceInvocationException(e is AggregateException
@@ -265,9 +265,9 @@ public class Service : AbstractClientService
                    handler)
       .Single();
 
-  private void ProxyTryGetResults(IEnumerable<string>    taskIds,
-                                  Action<string, byte[]> responseHandler,
-                                  Action<string, string> errorHandler)
+  private void ProxyTryGetResults(IEnumerable<string>                taskIds,
+                                  Action<string, byte[]>             responseHandler,
+                                  Action<string, TaskStatus, string> errorHandler)
   {
     var missing  = taskIds.ToHashSet();
     var holdPrev = missing.Count;
@@ -305,20 +305,35 @@ public class Service : AbstractClientService
           catch (Exception e)
           {
             errorHandler(resultStatusData.TaskId,
+                         TaskStatus.Error,
                          e.Message + e.StackTrace);
           }
         }
 
         missing.ExceptWith(resultStatusCollection.IdsReady.Select(x => x.TaskId));
 
-        foreach (var resTuple in resultStatusCollection.IdsResultError)
+        foreach (var resultStatusData in resultStatusCollection.IdsResultError)
         {
-          var outputInfo = SessionService.GetTaskOutputInfo(resTuple.TaskId);
+          var details    = "";
+          var outputInfo = SessionService.GetTaskOutputInfo(resultStatusData.TaskId);
+          var taskStatus = SessionService.GetTaskStatus(resultStatusData.TaskId);
 
-          errorHandler(resTuple.TaskId,
-                       outputInfo.TypeCase == Output.TypeOneofCase.Error
-                         ? outputInfo.Error.Details
-                         : "Result is in status : " + resTuple.Status + ", look for task in error in logs.");
+          switch (taskStatus)
+          {
+            case TaskStatus.Canceling:
+            case TaskStatus.Canceled:
+              details = $"Task {resultStatusData.TaskId} was canceled";
+              break;
+            default:
+              details = outputInfo.TypeCase == Output.TypeOneofCase.Error
+                          ? outputInfo.Error.Details
+                          : "Result is in status : " + resultStatusData.Status + ", look for task in error in logs.";
+              break;
+          }
+
+          errorHandler(resultStatusData.TaskId,
+                       taskStatus,
+                       details);
         }
 
         missing.ExceptWith(resultStatusCollection.IdsResultError.Select(x => x.TaskId));
@@ -363,21 +378,7 @@ public class Service : AbstractClientService
                              }
                              catch (Exception e)
                              {
-                               var status = SessionService.GetTaskStatus(taskId);
-
-                               var details = "";
-
-                               if (status != TaskStatus.Completed)
-                               {
-                                 var output = SessionService.GetTaskOutputInfo(taskId);
-                                 details = output.TypeCase == Output.TypeOneofCase.Error
-                                             ? output.Error.Details
-                                             : "";
-                               }
-
-                               var statusCode = StatusCodesLookUp.Keys.Contains(status)
-                                                  ? StatusCodesLookUp[status]
-                                                  : ArmonikStatusCode.Unknown;
+                               const ArmonikStatusCode statusCode = ArmonikStatusCode.Unknown;
 
                                ServiceInvocationException ex;
 
@@ -386,29 +387,17 @@ public class Service : AbstractClientService
                                if (ae is not null && ae.InnerExceptions.Count > 1)
                                {
                                  ex = new ServiceInvocationException(ae,
-                                                                     statusCode)
-                                      {
-                                        OutputDetails = details,
-                                      };
+                                                                     statusCode);
+                               }
+                               else if (ae is not null)
+                               {
+                                 ex = new ServiceInvocationException(ae.InnerException,
+                                                                     statusCode);
                                }
                                else
                                {
-                                 if (ae is not null)
-                                 {
-                                   ex = new ServiceInvocationException(ae.InnerException,
-                                                                       statusCode)
-                                        {
-                                          OutputDetails = details,
-                                        };
-                                 }
-                                 else
-                                 {
-                                   ex = new ServiceInvocationException(e,
-                                                                       statusCode)
-                                        {
-                                          OutputDetails = details,
-                                        };
-                                 }
+                                 ex = new ServiceInvocationException(e,
+                                                                     statusCode);
                                }
 
                                ResultHandlerDictionary[taskId]
@@ -422,11 +411,16 @@ public class Service : AbstractClientService
                              }
                            },
                            (taskId,
+                            taskStatus,
                             ex) =>
                            {
+                             var statusCode = StatusCodesLookUp.Keys.Contains(taskStatus)
+                                                ? StatusCodesLookUp[taskStatus]
+                                                : ArmonikStatusCode.Unknown;
+
                              ResultHandlerDictionary[taskId]
                                .HandleError(new ServiceInvocationException(ex,
-                                                                           ArmonikStatusCode.ResultError),
+                                                                           statusCode),
                                             taskId);
 
                              ResultHandlerDictionary.TryRemove(taskId,
