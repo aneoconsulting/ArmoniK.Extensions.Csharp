@@ -314,8 +314,8 @@ public class Service : AbstractClientService
 
         foreach (var resultStatusData in resultStatusCollection.IdsResultError)
         {
-          var details    = "";
-          var outputInfo = SessionService.GetTaskOutputInfo(resultStatusData.TaskId);
+          var details = "";
+
           var taskStatus = SessionService.GetTaskStatus(resultStatusData.TaskId);
 
           switch (taskStatus)
@@ -325,6 +325,7 @@ public class Service : AbstractClientService
               details = $"Task {resultStatusData.TaskId} was canceled";
               break;
             default:
+              var outputInfo = SessionService.GetTaskOutputInfo(resultStatusData.TaskId);
               details = outputInfo.TypeCase == Output.TypeOneofCase.Error
                           ? outputInfo.Error.Details
                           : "Result is in status : " + resultStatusData.Status + ", look for task in error in logs.";
