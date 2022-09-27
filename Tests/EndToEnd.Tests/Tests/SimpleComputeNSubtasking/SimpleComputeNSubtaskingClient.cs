@@ -23,7 +23,7 @@
 
 using System.Collections.Generic;
 
-using ArmoniK.DevelopmentKit.SymphonyApi.Client;
+using ArmoniK.DevelopmentKit.Client.Symphony;
 using ArmoniK.EndToEndTests.Common;
 
 using Microsoft.Extensions.Configuration;

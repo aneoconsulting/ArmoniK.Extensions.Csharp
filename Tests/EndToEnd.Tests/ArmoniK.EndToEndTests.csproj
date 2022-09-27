@@ -23,12 +23,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\DataSynapseApi\ArmoniK.DevelopmentKit.GridServer.Client\ArmoniK.DevelopmentKit.GridServer.Client.csproj" />
-    <ProjectReference Include="..\..\DataSynapseApi\ArmoniK.DevelopmentKit.GridServer\ArmoniK.DevelopmentKit.GridServer.csproj" />
-    <ProjectReference Include="..\..\SymphonyApi\ArmoniK.DevelopmentKit.SymphonyApi.Client\ArmoniK.DevelopmentKit.SymphonyApi.Client.csproj" />
-    <ProjectReference Include="..\..\SymphonyApi\ArmoniK.DevelopmentKit.SymphonyApi\ArmoniK.DevelopmentKit.SymphonyApi.csproj" />
-    <ProjectReference Include="..\..\UnifiedApi\Client\ArmoniK.DevelopmentKit.Client.csproj" />
-    <ProjectReference Include="..\..\UnifiedApi\Worker\ArmoniK.DevelopmentKit.Worker.csproj" />
+    <ProjectReference Include="..\..\Client\src\GridServer\ArmoniK.DevelopmentKit.Client.GridServer.csproj" />
+    <ProjectReference Include="..\..\Client\src\Symphony\ArmoniK.DevelopmentKit.Client.Symphony.csproj" />
+    <ProjectReference Include="..\..\Client\src\Unified\ArmoniK.DevelopmentKit.Client.Unified.csproj" />
+    <ProjectReference Include="..\..\Worker\src\GridServer\ArmoniK.DevelopmentKit.Worker.GridServer.csproj" />
+    <ProjectReference Include="..\..\Worker\src\Symphony\ArmoniK.DevelopmentKit.Worker.Symphony.csproj" />
+    <ProjectReference Include="..\..\Worker\src\Unified\ArmoniK.DevelopmentKit.Worker.Unified.csproj" />
   </ItemGroup>
 
   <ItemGroup>

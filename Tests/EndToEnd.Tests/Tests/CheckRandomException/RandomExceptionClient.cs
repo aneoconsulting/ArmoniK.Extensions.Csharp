@@ -24,14 +24,14 @@
 using System.Collections.Generic;
 
 using ArmoniK.Api.gRPC.V1;
+using ArmoniK.DevelopmentKit.Client.GridServer;
 using ArmoniK.DevelopmentKit.Common;
-using ArmoniK.DevelopmentKit.GridServer.Client;
 using ArmoniK.EndToEndTests.Common;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-using SessionService = ArmoniK.DevelopmentKit.SymphonyApi.Client.api.SessionService;
+using SessionService = ArmoniK.DevelopmentKit.Client.Symphony.SessionService;
 
 namespace ArmoniK.EndToEndTests.Tests.CheckRandomException;
 

@@ -27,8 +27,7 @@ using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 
-using ArmoniK.DevelopmentKit.SymphonyApi.Client;
-using ArmoniK.DevelopmentKit.SymphonyApi.Client.api;
+using ArmoniK.DevelopmentKit.Client.Symphony;
 using ArmoniK.EndToEndTests.Common;
 
 using Microsoft.Extensions.Configuration;

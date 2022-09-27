@@ -22,8 +22,7 @@
 // limitations under the License.
 
 using ArmoniK.DevelopmentKit.Common.Exceptions;
-using ArmoniK.DevelopmentKit.SymphonyApi;
-using ArmoniK.DevelopmentKit.SymphonyApi.api;
+using ArmoniK.DevelopmentKit.Worker.Symphony;
 using ArmoniK.EndToEndTests.Common;
 
 using Microsoft.Extensions.Logging;
