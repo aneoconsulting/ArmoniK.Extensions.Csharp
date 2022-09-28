@@ -435,17 +435,22 @@ public class Service : AbstractClientService
                               taskStatus,
                               ex) =>
                              {
-                               var statusCode = StatusCodesLookUp.Keys.Contains(taskStatus)
-                                                  ? StatusCodesLookUp[taskStatus]
-                                                  : ArmonikStatusCode.Unknown;
+                               try
+                               {
+                                 var statusCode = StatusCodesLookUp.Keys.Contains(taskStatus)
+                                                    ? StatusCodesLookUp[taskStatus]
+                                                    : ArmonikStatusCode.Unknown;
 
-                               ResultHandlerDictionary[taskId]
-                                 .HandleError(new ServiceInvocationException(ex,
-                                                                             statusCode),
-                                              taskId);
-
-                               ResultHandlerDictionary.TryRemove(taskId,
-                                                                 out _);
+                                 ResultHandlerDictionary[taskId]
+                                   .HandleError(new ServiceInvocationException(ex,
+                                                                               statusCode),
+                                                taskId);
+                               }
+                               finally
+                               {
+                                 ResultHandlerDictionary.TryRemove(taskId,
+                                                                   out _);
+                               }
                              });
         }
         else
