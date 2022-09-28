@@ -304,6 +304,9 @@ public class Service : AbstractClientService
           }
           catch (Exception e)
           {
+            Logger.LogWarning("resultHandler for {taskId} threw an error: {e}",
+                              resultStatusData.TaskId,
+                              e);
             try
             {
               errorHandler(resultStatusData.TaskId,
@@ -390,6 +393,7 @@ public class Service : AbstractClientService
                              (taskId,
                               byteResult) =>
                              {
+                               Logger?.LogTrace("responseHandler for {taskId}", taskId);
                                try
                                {
                                  var result = ProtoSerializer.DeSerializeMessageObjectArray(byteResult);
@@ -435,6 +439,9 @@ public class Service : AbstractClientService
                               taskStatus,
                               ex) =>
                              {
+                               Logger?.LogTrace("errorHandler for {taskId}: {taskStatus}",
+                                                taskId,
+                                                taskStatus);
                                try
                                {
                                  var statusCode = StatusCodesLookUp.Keys.Contains(taskStatus)
