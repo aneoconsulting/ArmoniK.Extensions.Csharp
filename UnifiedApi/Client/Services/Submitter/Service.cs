@@ -293,6 +293,8 @@ public class Service : AbstractClientService
         {
           try
           {
+            Logger?.LogTrace("responseHandler for {taskId}",
+                             resultStatusData.TaskId);
             responseHandler(resultStatusData.TaskId,
                             SessionService.TryGetResultAsync(new ResultRequest
                                                              {
@@ -304,9 +306,9 @@ public class Service : AbstractClientService
           }
           catch (Exception e)
           {
-            Logger.LogWarning("resultHandler for {taskId} threw an error: {e}",
-                              resultStatusData.TaskId,
-                              e);
+            Logger?.LogWarning(e,
+                              "resultHandler for {taskId} threw an error",
+                              resultStatusData.TaskId);
             try
             {
               errorHandler(resultStatusData.TaskId,
@@ -315,8 +317,8 @@ public class Service : AbstractClientService
             }
             catch (Exception e2)
             {
-              Logger.LogError("An error occured while handling another error.\n{e2}\n{e}",
-                              e2,
+              Logger?.LogError(e2,
+                              "An error occured while handling another error: {details}",
                               e);
             }
           }
@@ -344,16 +346,21 @@ public class Service : AbstractClientService
               break;
           }
 
+          Logger?.LogDebug("errorHandler for {taskId}, {taskStatus}: {details}",
+                           resultStatusData.TaskId,
+                           taskStatus,
+                           details);
           try
           {
             errorHandler(resultStatusData.TaskId,
                          taskStatus,
                          details);
           }
-          catch (Exception e2)
+          catch (Exception e)
           {
-            Logger.LogError("An error occured while handling a Task error.\n{e2}\n{e}",
-                            e2,
+            Logger?.LogError(e,
+                            "An error occured while handling a Task error {status}: {details}",
+                            taskStatus,
                             details);
           }
         }
@@ -393,7 +400,6 @@ public class Service : AbstractClientService
                              (taskId,
                               byteResult) =>
                              {
-                               Logger?.LogTrace("responseHandler for {taskId}", taskId);
                                try
                                {
                                  var result = ProtoSerializer.DeSerializeMessageObjectArray(byteResult);
@@ -439,9 +445,6 @@ public class Service : AbstractClientService
                               taskStatus,
                               ex) =>
                              {
-                               Logger?.LogTrace("errorHandler for {taskId}: {taskStatus}",
-                                                taskId,
-                                                taskStatus);
                                try
                                {
                                  var statusCode = StatusCodesLookUp.Keys.Contains(taskStatus)
