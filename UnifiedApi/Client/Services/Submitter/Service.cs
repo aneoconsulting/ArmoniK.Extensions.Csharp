@@ -285,7 +285,8 @@ public class Service : AbstractClientService
 
     while (missing.Count != 0)
     {
-      foreach (var bucket in missing.Batch(500))
+      foreach (var bucket in missing.ToList()
+                                    .Batch(500))
       {
         var resultStatusCollection = SessionService.GetResultStatus(bucket);
 
@@ -307,8 +308,8 @@ public class Service : AbstractClientService
           catch (Exception e)
           {
             Logger?.LogWarning(e,
-                              "resultHandler for {taskId} threw an error",
-                              resultStatusData.TaskId);
+                               "resultHandler for {taskId} threw an error",
+                               resultStatusData.TaskId);
             try
             {
               errorHandler(resultStatusData.TaskId,
@@ -318,8 +319,8 @@ public class Service : AbstractClientService
             catch (Exception e2)
             {
               Logger?.LogError(e2,
-                              "An error occured while handling another error: {details}",
-                              e);
+                               "An error occured while handling another error: {details}",
+                               e);
             }
           }
         }
@@ -359,9 +360,9 @@ public class Service : AbstractClientService
           catch (Exception e)
           {
             Logger?.LogError(e,
-                            "An error occured while handling a Task error {status}: {details}",
-                            taskStatus,
-                            details);
+                             "An error occured while handling a Task error {status}: {details}",
+                             taskStatus,
+                             details);
           }
         }
 
