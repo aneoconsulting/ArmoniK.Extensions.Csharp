@@ -35,6 +35,8 @@ using ArmoniK.DevelopmentKit.Client.Services.Common;
 using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.Common.Exceptions;
 
+using Google.Protobuf.WellKnownTypes;
+
 using JetBrains.Annotations;
 
 using Microsoft.Extensions.Logging;
@@ -280,8 +282,7 @@ public class Service : AbstractClientService
                           20000,
                           30000,
                         };
-    var       idx = 0;
-    using var _   = Logger?.BeginPropertyScope(("Function", "ActiveGetResults"));
+    var idx = 0;
 
     while (missing.Count != 0)
     {
@@ -294,7 +295,7 @@ public class Service : AbstractClientService
         {
           try
           {
-            Logger?.LogTrace("responseHandler for {taskId}",
+            Logger?.LogTrace("Response handler for {taskId}",
                              resultStatusData.TaskId);
             responseHandler(resultStatusData.TaskId,
                             SessionService.TryGetResultAsync(new ResultRequest
@@ -308,7 +309,7 @@ public class Service : AbstractClientService
           catch (Exception e)
           {
             Logger?.LogWarning(e,
-                               "resultHandler for {taskId} threw an error",
+                               "Response handler for {taskId} threw an error",
                                resultStatusData.TaskId);
             try
             {
@@ -326,6 +327,7 @@ public class Service : AbstractClientService
         }
 
         missing.ExceptWith(resultStatusCollection.IdsReady.Select(x => x.TaskId));
+        var x = Duration.FromTimeSpan(TimeSpan.FromMinutes(5));
 
         foreach (var resultStatusData in resultStatusCollection.IdsResultError)
         {
@@ -347,7 +349,7 @@ public class Service : AbstractClientService
               break;
           }
 
-          Logger?.LogDebug("errorHandler for {taskId}, {taskStatus}: {details}",
+          Logger?.LogDebug("Error handler for {taskId}, {taskStatus}: {details}",
                            resultStatusData.TaskId,
                            taskStatus,
                            details);
