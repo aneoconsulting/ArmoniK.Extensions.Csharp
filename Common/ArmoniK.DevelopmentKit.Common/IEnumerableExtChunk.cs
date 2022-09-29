@@ -24,9 +24,9 @@
 
 
 using System.Collections.Generic;
-
 #if NET6_0_OR_GREATER
 using System.Linq;
+
 #else
 using System;
 using System.Diagnostics;
@@ -105,7 +105,7 @@ public static class EnumerableExt
 
         // Store the first item.
         array[0] = e.Current;
-        i        = 1;
+        i = 1;
 
         if (size != array.Length)
         {
@@ -147,15 +147,15 @@ public static class EnumerableExt
   }
 #else
   /// <summary>
-  /// Uniforming the Chunk method missing in under .Net Core version and delete conflict call to Chunk
-  /// https://github.com/dotnet/runtime/blob/main/src/libraries/System.Linq/src/System/Linq/Chunk.cs
+  ///   Uniforming the Chunk method missing in under .Net Core version and delete conflict call to Chunk
+  ///   https://github.com/dotnet/runtime/blob/main/src/libraries/System.Linq/src/System/Linq/Chunk.cs
   /// </summary>
   /// <param name="source"></param>
   /// <param name="size"></param>
   /// <typeparam name="TSource"></typeparam>
   /// <returns></returns>
   public static IEnumerable<TSource[]> Chunks<TSource>(this IEnumerable<TSource> source,
-                                                      int                       size)
+                                                       int                       size)
     => source.Chunk(size);
 #endif // not NET6.0 or greater
 }
