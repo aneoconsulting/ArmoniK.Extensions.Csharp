@@ -1,5 +1,5 @@
 // This file is part of the ArmoniK project
-// 
+//
 // Copyright (C) ANEO, 2021-2022.
 //   W. Kirschenmann   <wkirschenmann@aneo.fr>
 //   J. Gurhem         <jgurhem@aneo.fr>
@@ -8,13 +8,13 @@
 //   F. Lemaitre       <flemaitre@aneo.fr>
 //   S. Djebbar        <sdjebbar@aneo.fr>
 //   J. Fonseca        <jfonseca@aneo.fr>
-// 
+//
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
-// 
+//
 //     http://www.apache.org/licenses/LICENSE-2.0
-// 
+//
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -34,6 +34,8 @@ using ArmoniK.DevelopmentKit.Client.Factory;
 using ArmoniK.DevelopmentKit.Client.Services.Common;
 using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.Common.Exceptions;
+
+using Google.Protobuf.WellKnownTypes;
 
 using JetBrains.Annotations;
 
@@ -280,12 +282,12 @@ public class Service : AbstractClientService
                           20000,
                           30000,
                         };
-    var       idx = 0;
-    using var _   = Logger?.BeginPropertyScope(("Function", "ActiveGetResults"));
+    var idx = 0;
 
     while (missing.Count != 0)
     {
-      foreach (var bucket in missing.Batch(500))
+      foreach (var bucket in missing.ToList()
+                                    .Batch(500))
       {
         var resultStatusCollection = SessionService.GetResultStatus(bucket);
 
@@ -293,6 +295,8 @@ public class Service : AbstractClientService
         {
           try
           {
+            Logger?.LogTrace("Response handler for {taskId}",
+                             resultStatusData.TaskId);
             responseHandler(resultStatusData.TaskId,
                             SessionService.TryGetResultAsync(new ResultRequest
                                                              {
@@ -304,13 +308,26 @@ public class Service : AbstractClientService
           }
           catch (Exception e)
           {
-            errorHandler(resultStatusData.TaskId,
-                         TaskStatus.Error,
-                         e.Message + e.StackTrace);
+            Logger?.LogWarning(e,
+                               "Response handler for {taskId} threw an error",
+                               resultStatusData.TaskId);
+            try
+            {
+              errorHandler(resultStatusData.TaskId,
+                           TaskStatus.Error,
+                           e.Message + e.StackTrace);
+            }
+            catch (Exception e2)
+            {
+              Logger?.LogError(e2,
+                               "An error occured while handling another error: {details}",
+                               e);
+            }
           }
         }
 
         missing.ExceptWith(resultStatusCollection.IdsReady.Select(x => x.TaskId));
+        var x = Duration.FromTimeSpan(TimeSpan.FromMinutes(5));
 
         foreach (var resultStatusData in resultStatusCollection.IdsResultError)
         {
@@ -332,9 +349,23 @@ public class Service : AbstractClientService
               break;
           }
 
-          errorHandler(resultStatusData.TaskId,
-                       taskStatus,
-                       details);
+          Logger?.LogDebug("Error handler for {taskId}, {taskStatus}: {details}",
+                           resultStatusData.TaskId,
+                           taskStatus,
+                           details);
+          try
+          {
+            errorHandler(resultStatusData.TaskId,
+                         taskStatus,
+                         details);
+          }
+          catch (Exception e)
+          {
+            Logger?.LogError(e,
+                             "An error occured while handling a Task error {status}: {details}",
+                             taskStatus,
+                             details);
+          }
         }
 
         missing.ExceptWith(resultStatusCollection.IdsResultError.Select(x => x.TaskId));
@@ -364,73 +395,86 @@ public class Service : AbstractClientService
   {
     while (!(CancellationResultTaskSource.Token.IsCancellationRequested && ResultHandlerDictionary.IsEmpty))
     {
-      if (!ResultHandlerDictionary.IsEmpty)
+      try
       {
-        ProxyTryGetResults(ResultHandlerDictionary.Keys.ToList(),
-                           (taskId,
-                            byteResult) =>
-                           {
-                             try
+        if (!ResultHandlerDictionary.IsEmpty)
+        {
+          ProxyTryGetResults(ResultHandlerDictionary.Keys.ToList(),
+                             (taskId,
+                              byteResult) =>
                              {
-                               var result = ProtoSerializer.DeSerializeMessageObjectArray(byteResult);
-                               ResultHandlerDictionary[taskId]
-                                 .HandleResponse(result?[0],
-                                                 taskId);
-                             }
-                             catch (Exception e)
+                               try
+                               {
+                                 var result = ProtoSerializer.DeSerializeMessageObjectArray(byteResult);
+                                 ResultHandlerDictionary[taskId]
+                                   .HandleResponse(result?[0],
+                                                   taskId);
+                               }
+                               catch (Exception e)
+                               {
+                                 const ArmonikStatusCode statusCode = ArmonikStatusCode.Unknown;
+
+                                 ServiceInvocationException ex;
+
+                                 var ae = e as AggregateException;
+
+                                 if (ae is not null && ae.InnerExceptions.Count > 1)
+                                 {
+                                   ex = new ServiceInvocationException(ae,
+                                                                       statusCode);
+                                 }
+                                 else if (ae is not null)
+                                 {
+                                   ex = new ServiceInvocationException(ae.InnerException,
+                                                                       statusCode);
+                                 }
+                                 else
+                                 {
+                                   ex = new ServiceInvocationException(e,
+                                                                       statusCode);
+                                 }
+
+                                 ResultHandlerDictionary[taskId]
+                                   .HandleError(ex,
+                                                taskId);
+                               }
+                               finally
+                               {
+                                 ResultHandlerDictionary.TryRemove(taskId,
+                                                                   out _);
+                               }
+                             },
+                             (taskId,
+                              taskStatus,
+                              ex) =>
                              {
-                               const ArmonikStatusCode statusCode = ArmonikStatusCode.Unknown;
-
-                               ServiceInvocationException ex;
-
-                               var ae = e as AggregateException;
-
-                               if (ae is not null && ae.InnerExceptions.Count > 1)
+                               try
                                {
-                                 ex = new ServiceInvocationException(ae,
-                                                                     statusCode);
+                                 var statusCode = StatusCodesLookUp.Keys.Contains(taskStatus)
+                                                    ? StatusCodesLookUp[taskStatus]
+                                                    : ArmonikStatusCode.Unknown;
+
+                                 ResultHandlerDictionary[taskId]
+                                   .HandleError(new ServiceInvocationException(ex,
+                                                                               statusCode),
+                                                taskId);
                                }
-                               else if (ae is not null)
+                               finally
                                {
-                                 ex = new ServiceInvocationException(ae.InnerException,
-                                                                     statusCode);
+                                 ResultHandlerDictionary.TryRemove(taskId,
+                                                                   out _);
                                }
-                               else
-                               {
-                                 ex = new ServiceInvocationException(e,
-                                                                     statusCode);
-                               }
-
-                               ResultHandlerDictionary[taskId]
-                                 .HandleError(ex,
-                                              taskId);
-                             }
-                             finally
-                             {
-                               ResultHandlerDictionary.TryRemove(taskId,
-                                                                 out _);
-                             }
-                           },
-                           (taskId,
-                            taskStatus,
-                            ex) =>
-                           {
-                             var statusCode = StatusCodesLookUp.Keys.Contains(taskStatus)
-                                                ? StatusCodesLookUp[taskStatus]
-                                                : ArmonikStatusCode.Unknown;
-
-                             ResultHandlerDictionary[taskId]
-                               .HandleError(new ServiceInvocationException(ex,
-                                                                           statusCode),
-                                            taskId);
-
-                             ResultHandlerDictionary.TryRemove(taskId,
-                                                               out _);
-                           });
+                             });
+        }
+        else
+        {
+          Thread.Sleep(100);
+        }
       }
-      else
+      catch (Exception e)
       {
-        Thread.Sleep(100);
+        Logger?.LogError("An error occured while fetching results: {e}",
+                         e);
       }
     }
 
