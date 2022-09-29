@@ -161,13 +161,22 @@ public class BaseClientSubmitter<T>
   ///   to start until all dependencies are completed successfully
   /// </summary>
   /// <param name="payloadsWithDependencies">A list of Tuple(taskId, Payload) in dependence of those created tasks</param>
+  /// <param name="nbChunk">The number of chunk to split the payloadsWithDependencies </param>
+  /// <param name="maxRetries">The number of retry before fail to submit task</param>
   /// <returns>return a list of taskIds of the created tasks </returns>
   [UsedImplicitly]
-  public IEnumerable<string> SubmitTasksWithDependencies(IEnumerable<Tuple<byte[], IList<string>>> payloadsWithDependencies)
-    => SubmitTasksWithDependencies(payloadsWithDependencies.Select(payload => Tuple.Create(Guid.NewGuid()
-                                                                                               .ToString(),
-                                                                                           payload.Item1,
-                                                                                           payload.Item2)));
+  public IEnumerable<string> SubmitTasksWithDependencies(IEnumerable<Tuple<byte[], IList<string>>> payloadsWithDependencies,
+                                                         int                                       nbChunk    = 5000,
+                                                         int                                       maxRetries = 5)
+    => payloadsWithDependencies.Chunks(nbChunk)
+                               .SelectMany(chunk =>
+                                           {
+                                             return ChunkSubmitTasksWithDependencies(chunk.Select(payload => Tuple.Create(Guid.NewGuid()
+                                                                                                                              .ToString(),
+                                                                                                                          payload.Item1,
+                                                                                                                          payload.Item2)),
+                                                                                     maxRetries);
+                                           });
 
   /// <summary>
   ///   The method to submit several tasks with dependencies tasks. This task will wait for
@@ -177,8 +186,8 @@ public class BaseClientSubmitter<T>
   /// <param name="maxRetries">Set the number of retries Default Value 5</param>
   /// <returns>return the ids of the created tasks</returns>
   [PublicAPI]
-  public IEnumerable<string> SubmitTasksWithDependencies(IEnumerable<Tuple<string, byte[], IList<string>>> payloadsWithDependencies,
-                                                         int                                               maxRetries = 5)
+  private IEnumerable<string> ChunkSubmitTasksWithDependencies(IEnumerable<Tuple<string, byte[], IList<string>>> payloadsWithDependencies,
+                                                               int                                               maxRetries)
   {
     using var _ = Logger?.LogFunction();
 
@@ -186,6 +195,8 @@ public class BaseClientSubmitter<T>
 
     var serviceConfiguration = SubmitterService.GetServiceConfigurationAsync(new Empty())
                                                .ResponseAsync.Result;
+
+    var payloads = payloadsWithDependencies as Tuple<string, byte[], IList<string>>[] ?? payloadsWithDependencies.ToArray();
 
     for (var nbRetry = 0; nbRetry < maxRetries; nbRetry++)
     {
@@ -204,7 +215,7 @@ public class BaseClientSubmitter<T>
                                 .Wait();
 
 
-        foreach (var (resultId, payload, dependencies) in payloadsWithDependencies)
+        foreach (var (resultId, payload, dependencies) in payloads)
         {
           asyncClientStreamingCall.RequestStream.WriteAsync(new CreateLargeTaskRequest
                                                             {
