@@ -23,14 +23,13 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-using System.Collections.Generic;
 #if NET6_0_OR_GREATER
 using System.Linq;
-
 #else
 using System;
 using System.Diagnostics;
 #endif
+using System.Collections.Generic;
 
 namespace ArmoniK.DevelopmentKit.Common;
 
@@ -69,7 +68,7 @@ public static class EnumerableExt
   ///   <paramref name="size" /> is below 1.
   /// </exception>
   public static IEnumerable<TSource[]> Chunks<TSource>(this IEnumerable<TSource> source,
-                                                      int                       size)
+                                                       int                       size)
   {
     if (source == null)
     {
@@ -105,7 +104,7 @@ public static class EnumerableExt
 
         // Store the first item.
         array[0] = e.Current;
-        i = 1;
+        i        = 1;
 
         if (size != array.Length)
         {
