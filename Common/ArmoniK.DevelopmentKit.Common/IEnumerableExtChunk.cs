@@ -23,13 +23,9 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-#if NET6_0_OR_GREATER
-using System.Linq;
-#else
 using System;
-using System.Diagnostics;
-#endif
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace ArmoniK.DevelopmentKit.Common;
 
@@ -40,7 +36,6 @@ namespace ArmoniK.DevelopmentKit.Common;
 /// </summary>
 public static class EnumerableExt
 {
-#if !NET6_0_OR_GREATER
   /// <summary>
   ///   Split the elements of a sequence into chunks of size at most <paramref name="size" />.
   /// </summary>
@@ -67,8 +62,8 @@ public static class EnumerableExt
   /// <exception cref="ArgumentOutOfRangeException">
   ///   <paramref name="size" /> is below 1.
   /// </exception>
-  public static IEnumerable<TSource[]> Chunks<TSource>(this IEnumerable<TSource> source,
-                                                       int                       size)
+  public static IEnumerable<TSource[]> ToChunk<TSource>(this IEnumerable<TSource> source,
+                                                        int                       size)
   {
     if (source == null)
     {
@@ -144,17 +139,4 @@ public static class EnumerableExt
       } while (i >= size && e.MoveNext());
     }
   }
-#else
-  /// <summary>
-  ///   Uniforming the Chunk method missing in under .Net Core version and delete conflict call to Chunk
-  ///   https://github.com/dotnet/runtime/blob/main/src/libraries/System.Linq/src/System/Linq/Chunk.cs
-  /// </summary>
-  /// <param name="source"></param>
-  /// <param name="size"></param>
-  /// <typeparam name="TSource"></typeparam>
-  /// <returns></returns>
-  public static IEnumerable<TSource[]> Chunks<TSource>(this IEnumerable<TSource> source,
-                                                       int                       size)
-    => source.Chunk(size);
-#endif // not NET6.0 or greater
 }

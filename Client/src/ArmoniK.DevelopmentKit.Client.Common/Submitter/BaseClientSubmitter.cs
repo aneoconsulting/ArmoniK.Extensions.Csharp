@@ -99,6 +99,12 @@ public class BaseClientSubmitter<T>
   [CanBeNull]
   protected ILogger<T> Logger { get; set; }
 
+
+  /// <summary>
+  ///   The number of chunk to split the payloadsWithDependencies
+  /// </summary>
+  public int ChunkSize { get; set; } = 5000;
+
   /// <summary>
   ///   The submitter and receiver Service to submit, wait and get the result
   /// </summary>
@@ -161,14 +167,12 @@ public class BaseClientSubmitter<T>
   ///   to start until all dependencies are completed successfully
   /// </summary>
   /// <param name="payloadsWithDependencies">A list of Tuple(taskId, Payload) in dependence of those created tasks</param>
-  /// <param name="nbChunk">The number of chunk to split the payloadsWithDependencies </param>
   /// <param name="maxRetries">The number of retry before fail to submit task</param>
   /// <returns>return a list of taskIds of the created tasks </returns>
   [UsedImplicitly]
   public IEnumerable<string> SubmitTasksWithDependencies(IEnumerable<Tuple<byte[], IList<string>>> payloadsWithDependencies,
-                                                         int                                       nbChunk    = 5000,
                                                          int                                       maxRetries = 5)
-    => payloadsWithDependencies.Chunks(nbChunk)
+    => payloadsWithDependencies.ToChunk(ChunkSize)
                                .SelectMany(chunk =>
                                            {
                                              return ChunkSubmitTasksWithDependencies(chunk.Select(payload => Tuple.Create(Guid.NewGuid()
@@ -177,6 +181,7 @@ public class BaseClientSubmitter<T>
                                                                                                                           payload.Item2)),
                                                                                      maxRetries);
                                            });
+
 
   /// <summary>
   ///   The method to submit several tasks with dependencies tasks. This task will wait for

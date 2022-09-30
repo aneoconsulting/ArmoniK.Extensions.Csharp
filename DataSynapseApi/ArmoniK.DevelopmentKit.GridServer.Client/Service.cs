@@ -311,7 +311,7 @@ public class Service : IDisposable
 
     while (missing.Count != 0)
     {
-      foreach (var bucket in missing.Batch(10000))
+      foreach (var bucket in missing.ToChunk(10000))
       {
         var partialResults = SessionService.TryGetResults(bucket);
 

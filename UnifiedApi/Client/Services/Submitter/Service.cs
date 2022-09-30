@@ -287,7 +287,7 @@ public class Service : AbstractClientService
     while (missing.Count != 0)
     {
       foreach (var bucket in missing.ToList()
-                                    .Batch(500))
+                                    .ToChunk(500))
       {
         var resultStatusCollection = SessionService.GetResultStatus(bucket);
 
