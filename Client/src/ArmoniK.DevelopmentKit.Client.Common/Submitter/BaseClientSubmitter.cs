@@ -201,7 +201,7 @@ public class BaseClientSubmitter<T>
     var serviceConfiguration = SubmitterService.GetServiceConfigurationAsync(new Empty())
                                                .ResponseAsync.Result;
 
-    var payloads = payloadsWithDependencies as Tuple<string, byte[], IList<string>>[] ?? payloadsWithDependencies.ToArray();
+    var payloads = payloadsWithDependencies as ICollection<Tuple<string, byte[], IList<string>>> ?? payloadsWithDependencies.ToList();
 
     for (var nbRetry = 0; nbRetry < maxRetries; nbRetry++)
     {
