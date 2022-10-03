@@ -62,7 +62,7 @@ public class BaseClientSubmitter<T>
   /// </summary>
   /// <param name="channelBase">Channel used to create grpc clients</param>
   /// <param name="loggerFactory">the logger factory to pass for root object</param>
-  /// <param name="chunkSubmitSize">The number to to chunk the list of tasks in bucket of tasks</param>
+  /// <param name="chunkSubmitSize">The size of chunk to split the list of tasks</param>
   public BaseClientSubmitter(ChannelBase                channelBase,
                              [CanBeNull] ILoggerFactory loggerFactory   = null,
                              int                        chunkSubmitSize = 500)
@@ -71,7 +71,7 @@ public class BaseClientSubmitter<T>
     TaskService      = new Tasks.TasksClient(channelBase);
     ResultService    = new Results.ResultsClient(channelBase);
     SubmitterService = new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channelBase);
-    ChunkSubmitSize  = chunkSubmitSize;
+    chunkSubmitSize_  = chunkSubmitSize;
   }
 
   /// <summary>
@@ -104,7 +104,7 @@ public class BaseClientSubmitter<T>
   /// <summary>
   ///   The number of chunk to split the payloadsWithDependencies
   /// </summary>
-  private int ChunkSubmitSize { get; set; }
+  private int chunkSubmitSize_;
 
   /// <summary>
   ///   The submitter and receiver Service to submit, wait and get the result
@@ -173,7 +173,7 @@ public class BaseClientSubmitter<T>
   [PublicAPI]
   public IEnumerable<string> SubmitTasksWithDependencies(IEnumerable<Tuple<byte[], IList<string>>> payloadsWithDependencies,
                                                          int                                       maxRetries = 5)
-    => payloadsWithDependencies.ToChunk(ChunkSubmitSize)
+    => payloadsWithDependencies.ToChunk(chunkSubmitSize_)
                                .SelectMany(chunk =>
                                            {
                                              return ChunkSubmitTasksWithDependencies(chunk.Select(subPayloadWithDependencies => Tuple.Create(Guid.NewGuid()
