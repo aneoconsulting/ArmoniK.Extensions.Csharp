@@ -291,7 +291,8 @@ public class Service : IDisposable
        .Single()
        .Item2;
 
-  private IEnumerable<Tuple<string, byte[]>> ActiveGetResults(IEnumerable<string> taskIds, int chunkResultSize = 500)
+  private IEnumerable<Tuple<string, byte[]>> ActiveGetResults(IEnumerable<string> taskIds,
+                                                              int                 chunkResultSize = 500)
   {
     var missing  = taskIds.ToHashSet();
     var results  = new List<Tuple<string, byte[]>>();

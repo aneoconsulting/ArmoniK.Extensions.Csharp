@@ -204,8 +204,6 @@ public class BaseClientSubmitter<T>
     var serviceConfiguration = SubmitterService.GetServiceConfigurationAsync(new Empty())
                                                .ResponseAsync.Result;
 
-    var payloads = payloadsWithDependencies as ICollection<Tuple<string, byte[], IList<string>>> ?? payloadsWithDependencies.ToList();
-
     for (var nbRetry = 0; nbRetry < maxRetries; nbRetry++)
     {
       try
@@ -222,8 +220,12 @@ public class BaseClientSubmitter<T>
                                                           })
                                 .Wait();
 
-
-        foreach (var (resultId, payload, dependencies) in payloads)
+        //
+        // Here the payloadsWithDependencies can have multiple enumeration
+        // It will happen only during a retry to submit tasks
+        // Loosing a little bit of perf in case of retry is not a big deal : in the usual case, it should not happen.
+        //
+        foreach (var (resultId, payload, dependencies) in payloadsWithDependencies)
         {
           asyncClientStreamingCall.RequestStream.WriteAsync(new CreateLargeTaskRequest
                                                             {
