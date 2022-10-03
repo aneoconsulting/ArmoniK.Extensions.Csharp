@@ -188,14 +188,14 @@ references:
   fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter(Of T)
   nameWithType: BaseClientSubmitter<T>
   nameWithType.vb: BaseClientSubmitter(Of T)
-- uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.#ctor(ChannelBase,ILoggerFactory)
-  name: BaseClientSubmitter(ChannelBase, ILoggerFactory)
-  href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1__ctor_ChannelBase_ILoggerFactory_
-  commentId: M:ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.#ctor(ChannelBase,ILoggerFactory)
-  fullName: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter<T>.BaseClientSubmitter(ChannelBase, ILoggerFactory)
-  fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter(Of T).BaseClientSubmitter(ChannelBase, ILoggerFactory)
-  nameWithType: BaseClientSubmitter<T>.BaseClientSubmitter(ChannelBase, ILoggerFactory)
-  nameWithType.vb: BaseClientSubmitter(Of T).BaseClientSubmitter(ChannelBase, ILoggerFactory)
+- uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.#ctor(ChannelBase,ILoggerFactory,System.Int32)
+  name: BaseClientSubmitter(ChannelBase, ILoggerFactory, Int32)
+  href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1__ctor_ChannelBase_ILoggerFactory_System_Int32_
+  commentId: M:ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.#ctor(ChannelBase,ILoggerFactory,System.Int32)
+  fullName: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter<T>.BaseClientSubmitter(ChannelBase, ILoggerFactory, System.Int32)
+  fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter(Of T).BaseClientSubmitter(ChannelBase, ILoggerFactory, System.Int32)
+  nameWithType: BaseClientSubmitter<T>.BaseClientSubmitter(ChannelBase, ILoggerFactory, Int32)
+  nameWithType.vb: BaseClientSubmitter(Of T).BaseClientSubmitter(ChannelBase, ILoggerFactory, Int32)
 - uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.#ctor*
   name: BaseClientSubmitter
   href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1__ctor_
@@ -361,24 +361,15 @@ references:
   fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter(Of T).SessionId
   nameWithType: BaseClientSubmitter<T>.SessionId
   nameWithType.vb: BaseClientSubmitter(Of T).SessionId
-- uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.SubmitTasksWithDependencies(System.Collections.Generic.IEnumerable{System.Tuple{System.Byte[],System.Collections.Generic.IList{System.String}}})
-  name: SubmitTasksWithDependencies(IEnumerable<Tuple<Byte[], IList<String>>>)
-  href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_SubmitTasksWithDependencies_System_Collections_Generic_IEnumerable_System_Tuple_System_Byte___System_Collections_Generic_IList_System_String____
-  commentId: M:ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.SubmitTasksWithDependencies(System.Collections.Generic.IEnumerable{System.Tuple{System.Byte[],System.Collections.Generic.IList{System.String}}})
-  name.vb: SubmitTasksWithDependencies(IEnumerable(Of Tuple(Of Byte(), IList(Of String))))
-  fullName: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter<T>.SubmitTasksWithDependencies(System.Collections.Generic.IEnumerable<System.Tuple<System.Byte[], System.Collections.Generic.IList<System.String>>>)
-  fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter(Of T).SubmitTasksWithDependencies(System.Collections.Generic.IEnumerable(Of System.Tuple(Of System.Byte(), System.Collections.Generic.IList(Of System.String))))
-  nameWithType: BaseClientSubmitter<T>.SubmitTasksWithDependencies(IEnumerable<Tuple<Byte[], IList<String>>>)
-  nameWithType.vb: BaseClientSubmitter(Of T).SubmitTasksWithDependencies(IEnumerable(Of Tuple(Of Byte(), IList(Of String))))
-- uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.SubmitTasksWithDependencies(System.Collections.Generic.IEnumerable{System.Tuple{System.String,System.Byte[],System.Collections.Generic.IList{System.String}}},System.Int32)
-  name: SubmitTasksWithDependencies(IEnumerable<Tuple<String, Byte[], IList<String>>>, Int32)
-  href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_SubmitTasksWithDependencies_System_Collections_Generic_IEnumerable_System_Tuple_System_String_System_Byte___System_Collections_Generic_IList_System_String____System_Int32_
-  commentId: M:ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.SubmitTasksWithDependencies(System.Collections.Generic.IEnumerable{System.Tuple{System.String,System.Byte[],System.Collections.Generic.IList{System.String}}},System.Int32)
-  name.vb: SubmitTasksWithDependencies(IEnumerable(Of Tuple(Of String, Byte(), IList(Of String))), Int32)
-  fullName: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter<T>.SubmitTasksWithDependencies(System.Collections.Generic.IEnumerable<System.Tuple<System.String, System.Byte[], System.Collections.Generic.IList<System.String>>>, System.Int32)
-  fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter(Of T).SubmitTasksWithDependencies(System.Collections.Generic.IEnumerable(Of System.Tuple(Of System.String, System.Byte(), System.Collections.Generic.IList(Of System.String))), System.Int32)
-  nameWithType: BaseClientSubmitter<T>.SubmitTasksWithDependencies(IEnumerable<Tuple<String, Byte[], IList<String>>>, Int32)
-  nameWithType.vb: BaseClientSubmitter(Of T).SubmitTasksWithDependencies(IEnumerable(Of Tuple(Of String, Byte(), IList(Of String))), Int32)
+- uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.SubmitTasksWithDependencies(System.Collections.Generic.IEnumerable{System.Tuple{System.Byte[],System.Collections.Generic.IList{System.String}}},System.Int32)
+  name: SubmitTasksWithDependencies(IEnumerable<Tuple<Byte[], IList<String>>>, Int32)
+  href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_SubmitTasksWithDependencies_System_Collections_Generic_IEnumerable_System_Tuple_System_Byte___System_Collections_Generic_IList_System_String____System_Int32_
+  commentId: M:ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.SubmitTasksWithDependencies(System.Collections.Generic.IEnumerable{System.Tuple{System.Byte[],System.Collections.Generic.IList{System.String}}},System.Int32)
+  name.vb: SubmitTasksWithDependencies(IEnumerable(Of Tuple(Of Byte(), IList(Of String))), Int32)
+  fullName: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter<T>.SubmitTasksWithDependencies(System.Collections.Generic.IEnumerable<System.Tuple<System.Byte[], System.Collections.Generic.IList<System.String>>>, System.Int32)
+  fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter(Of T).SubmitTasksWithDependencies(System.Collections.Generic.IEnumerable(Of System.Tuple(Of System.Byte(), System.Collections.Generic.IList(Of System.String))), System.Int32)
+  nameWithType: BaseClientSubmitter<T>.SubmitTasksWithDependencies(IEnumerable<Tuple<Byte[], IList<String>>>, Int32)
+  nameWithType.vb: BaseClientSubmitter(Of T).SubmitTasksWithDependencies(IEnumerable(Of Tuple(Of Byte(), IList(Of String))), Int32)
 - uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.SubmitTasksWithDependencies*
   name: SubmitTasksWithDependencies
   href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_SubmitTasksWithDependencies_
@@ -2229,22 +2220,22 @@ references:
   commentId: T:ArmoniK.DevelopmentKit.Common.IEnumerableExt
   fullName: ArmoniK.DevelopmentKit.Common.IEnumerableExt
   nameWithType: IEnumerableExt
-- uid: ArmoniK.DevelopmentKit.Common.IEnumerableExt.Batch*
-  name: Batch
-  href: api/ArmoniK.DevelopmentKit.Common.IEnumerableExt.html#ArmoniK_DevelopmentKit_Common_IEnumerableExt_Batch_
-  commentId: Overload:ArmoniK.DevelopmentKit.Common.IEnumerableExt.Batch
+- uid: ArmoniK.DevelopmentKit.Common.IEnumerableExt.ToChunk*
+  name: ToChunk
+  href: api/ArmoniK.DevelopmentKit.Common.IEnumerableExt.html#ArmoniK_DevelopmentKit_Common_IEnumerableExt_ToChunk_
+  commentId: Overload:ArmoniK.DevelopmentKit.Common.IEnumerableExt.ToChunk
   isSpec: "True"
-  fullName: ArmoniK.DevelopmentKit.Common.IEnumerableExt.Batch
-  nameWithType: IEnumerableExt.Batch
-- uid: ArmoniK.DevelopmentKit.Common.IEnumerableExt.Batch``1(System.Collections.Generic.IEnumerable{``0},System.Int32)
-  name: Batch<T>(IEnumerable<T>, Int32)
-  href: api/ArmoniK.DevelopmentKit.Common.IEnumerableExt.html#ArmoniK_DevelopmentKit_Common_IEnumerableExt_Batch__1_System_Collections_Generic_IEnumerable___0__System_Int32_
-  commentId: M:ArmoniK.DevelopmentKit.Common.IEnumerableExt.Batch``1(System.Collections.Generic.IEnumerable{``0},System.Int32)
-  name.vb: Batch(Of T)(IEnumerable(Of T), Int32)
-  fullName: ArmoniK.DevelopmentKit.Common.IEnumerableExt.Batch<T>(System.Collections.Generic.IEnumerable<T>, System.Int32)
-  fullName.vb: ArmoniK.DevelopmentKit.Common.IEnumerableExt.Batch(Of T)(System.Collections.Generic.IEnumerable(Of T), System.Int32)
-  nameWithType: IEnumerableExt.Batch<T>(IEnumerable<T>, Int32)
-  nameWithType.vb: IEnumerableExt.Batch(Of T)(IEnumerable(Of T), Int32)
+  fullName: ArmoniK.DevelopmentKit.Common.IEnumerableExt.ToChunk
+  nameWithType: IEnumerableExt.ToChunk
+- uid: ArmoniK.DevelopmentKit.Common.IEnumerableExt.ToChunk``1(System.Collections.Generic.IEnumerable{``0},System.Int32)
+  name: ToChunk<TSource>(IEnumerable<TSource>, Int32)
+  href: api/ArmoniK.DevelopmentKit.Common.IEnumerableExt.html#ArmoniK_DevelopmentKit_Common_IEnumerableExt_ToChunk__1_System_Collections_Generic_IEnumerable___0__System_Int32_
+  commentId: M:ArmoniK.DevelopmentKit.Common.IEnumerableExt.ToChunk``1(System.Collections.Generic.IEnumerable{``0},System.Int32)
+  name.vb: ToChunk(Of TSource)(IEnumerable(Of TSource), Int32)
+  fullName: ArmoniK.DevelopmentKit.Common.IEnumerableExt.ToChunk<TSource>(System.Collections.Generic.IEnumerable<TSource>, System.Int32)
+  fullName.vb: ArmoniK.DevelopmentKit.Common.IEnumerableExt.ToChunk(Of TSource)(System.Collections.Generic.IEnumerable(Of TSource), System.Int32)
+  nameWithType: IEnumerableExt.ToChunk<TSource>(IEnumerable<TSource>, Int32)
+  nameWithType.vb: IEnumerableExt.ToChunk(Of TSource)(IEnumerable(Of TSource), Int32)
 - uid: ArmoniK.DevelopmentKit.Common.IFileAdaptater
   name: IFileAdaptater
   href: api/ArmoniK.DevelopmentKit.Common.IFileAdaptater.html

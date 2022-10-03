@@ -73,7 +73,10 @@
   
   <h1 id="ArmoniK_DevelopmentKit_Common_IEnumerableExt" data-uid="ArmoniK.DevelopmentKit.Common.IEnumerableExt" class="text-break">Class IEnumerableExt
   </h1>
-  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 summary"><p>Add Chunk Method for dotnet version which doesn't have the Method
+Chunk split the IEnumerable in several IEnumerable
+Original source code : <a href="https://github.com/dotnet/runtime/blob/main/src/libraries/System.Linq/src/System/Linq/Chunk.cs">https://github.com/dotnet/runtime/blob/main/src/libraries/System.Linq/src/System/Linq/Chunk.cs</a></p>
+</div>
   <div class="markdown level0 conceptual"></div>
   <div class="inheritance">
     <h5>Inheritance</h5>
@@ -114,18 +117,19 @@
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/main/apiSpec/new?filename=ArmoniK_DevelopmentKit_Common_IEnumerableExt_Batch__1_System_Collections_Generic_IEnumerable___0__System_Int32_.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Common.IEnumerableExt.Batch%60%601(System.Collections.Generic.IEnumerable%7B%60%600%7D%2CSystem.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/main/apiSpec/new?filename=ArmoniK_DevelopmentKit_Common_IEnumerableExt_ToChunk__1_System_Collections_Generic_IEnumerable___0__System_Int32_.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Common.IEnumerableExt.ToChunk%60%601(System.Collections.Generic.IEnumerable%7B%60%600%7D%2CSystem.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Common/ArmoniK.DevelopmentKit.Common/IEnumerableExt.cs/#L18">View Source</a>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Common/ArmoniK.DevelopmentKit.Common/IEnumerableExt.cs/#L65">View Source</a>
   </span>
-  <a id="ArmoniK_DevelopmentKit_Common_IEnumerableExt_Batch_" data-uid="ArmoniK.DevelopmentKit.Common.IEnumerableExt.Batch*"></a>
-  <h4 id="ArmoniK_DevelopmentKit_Common_IEnumerableExt_Batch__1_System_Collections_Generic_IEnumerable___0__System_Int32_" data-uid="ArmoniK.DevelopmentKit.Common.IEnumerableExt.Batch``1(System.Collections.Generic.IEnumerable{``0},System.Int32)">Batch&lt;T&gt;(IEnumerable&lt;T&gt;, Int32)</h4>
-  <div class="markdown level1 summary"></div>
+  <a id="ArmoniK_DevelopmentKit_Common_IEnumerableExt_ToChunk_" data-uid="ArmoniK.DevelopmentKit.Common.IEnumerableExt.ToChunk*"></a>
+  <h4 id="ArmoniK_DevelopmentKit_Common_IEnumerableExt_ToChunk__1_System_Collections_Generic_IEnumerable___0__System_Int32_" data-uid="ArmoniK.DevelopmentKit.Common.IEnumerableExt.ToChunk``1(System.Collections.Generic.IEnumerable{``0},System.Int32)">ToChunk&lt;TSource&gt;(IEnumerable&lt;TSource&gt;, Int32)</h4>
+  <div class="markdown level1 summary"><p>Split the elements of a sequence into chunks of size at most <code data-dev-comment-type="paramref" class="paramref">size</code>.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static IEnumerable&lt;T[]&gt; Batch&lt;T&gt;(this IEnumerable&lt;T&gt; source, int size)</code></pre>
+    <pre><code class="lang-csharp hljs">public static IEnumerable&lt;TSource[]&gt; ToChunk&lt;TSource&gt;(this IEnumerable&lt;TSource&gt; source, int size)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -138,14 +142,16 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Collections.Generic.IEnumerable</span>&lt;T&gt;</td>
+        <td><span class="xref">System.Collections.Generic.IEnumerable</span>&lt;TSource&gt;</td>
         <td><span class="parametername">source</span></td>
-        <td></td>
+        <td><p>An <span class="xref">System.Collections.Generic.IEnumerable&lt;T&gt;</span> whose elements to chunk.</p>
+</td>
       </tr>
       <tr>
         <td><span class="xref">System.Int32</span></td>
         <td><span class="parametername">size</span></td>
-        <td></td>
+        <td><p>Maximum size of each chunk.</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -159,8 +165,10 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Collections.Generic.IEnumerable</span>&lt;T[]&gt;</td>
-        <td></td>
+        <td><span class="xref">System.Collections.Generic.IEnumerable</span>&lt;TSource[]&gt;</td>
+        <td><p>An <span class="xref">System.Collections.Generic.IEnumerable&lt;T&gt;</span> that contains the elements the input sequence split into chunks of size
+<code data-dev-comment-type="paramref" class="paramref">size</code>.</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -174,11 +182,16 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="parametername">T</span></td>
-        <td></td>
+        <td><span class="parametername">TSource</span></td>
+        <td><p>The type of the elements of source.</p>
+</td>
       </tr>
     </tbody>
   </table>
+  <h5 id="ArmoniK_DevelopmentKit_Common_IEnumerableExt_ToChunk__1_System_Collections_Generic_IEnumerable___0__System_Int32__remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>Every chunk except the last will be of size <code data-dev-comment-type="paramref" class="paramref">size</code>.
+The last chunk will contain the remaining elements and may be of a smaller size.</p>
+</div>
   <h5 class="exceptions">Exceptions</h5>
   <table class="table table-bordered table-striped table-condensed">
     <thead>
@@ -190,11 +203,13 @@
     <tbody>
       <tr>
         <td><span class="xref">System.ArgumentNullException</span></td>
-        <td></td>
+        <td><p><code data-dev-comment-type="paramref" class="paramref">source</code> is null.</p>
+</td>
       </tr>
       <tr>
         <td><span class="xref">System.ArgumentOutOfRangeException</span></td>
-        <td></td>
+        <td><p><code data-dev-comment-type="paramref" class="paramref">size</code> is below 1.</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -209,7 +224,7 @@
                     <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/main/apiSpec/new?filename=ArmoniK_DevelopmentKit_Common_IEnumerableExt.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Common.IEnumerableExt%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Common/ArmoniK.DevelopmentKit.Common/IEnumerableExt.cs/#L8" class="contribution-link">View Source</a>
+                    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Common/ArmoniK.DevelopmentKit.Common/IEnumerableExt.cs/#L37" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>
