@@ -57,20 +57,21 @@ namespace ArmoniK.DevelopmentKit.Client.Common.Submitter;
 [PublicAPI]
 public class BaseClientSubmitter<T>
 {
-  private const int BatchSize = 1000;
-
   /// <summary>
   ///   Base Object for all Client submitter
   /// </summary>
   /// <param name="channelBase">Channel used to create grpc clients</param>
   /// <param name="loggerFactory">the logger factory to pass for root object</param>
+  /// <param name="chunkSubmitSize">The number to to chunk the list of tasks in bucket of tasks</param>
   public BaseClientSubmitter(ChannelBase                channelBase,
-                             [CanBeNull] ILoggerFactory loggerFactory = null)
+                             [CanBeNull] ILoggerFactory loggerFactory   = null,
+                             int                        chunkSubmitSize = 500)
   {
     Logger           = loggerFactory?.CreateLogger<T>();
     TaskService      = new Tasks.TasksClient(channelBase);
     ResultService    = new Results.ResultsClient(channelBase);
     SubmitterService = new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channelBase);
+    ChunkSubmitSize  = chunkSubmitSize;
   }
 
   /// <summary>
@@ -103,7 +104,7 @@ public class BaseClientSubmitter<T>
   /// <summary>
   ///   The number of chunk to split the payloadsWithDependencies
   /// </summary>
-  public int ChunkSize { get; set; } = 5000;
+  private int ChunkSubmitSize { get; set; }
 
   /// <summary>
   ///   The submitter and receiver Service to submit, wait and get the result
@@ -169,16 +170,18 @@ public class BaseClientSubmitter<T>
   /// <param name="payloadsWithDependencies">A list of Tuple(taskId, Payload) in dependence of those created tasks</param>
   /// <param name="maxRetries">The number of retry before fail to submit task</param>
   /// <returns>return a list of taskIds of the created tasks </returns>
-  [UsedImplicitly]
+  [PublicAPI]
   public IEnumerable<string> SubmitTasksWithDependencies(IEnumerable<Tuple<byte[], IList<string>>> payloadsWithDependencies,
                                                          int                                       maxRetries = 5)
-    => payloadsWithDependencies.ToChunk(ChunkSize)
+    => payloadsWithDependencies.ToChunk(ChunkSubmitSize)
                                .SelectMany(chunk =>
                                            {
-                                             return ChunkSubmitTasksWithDependencies(chunk.Select(payload => Tuple.Create(Guid.NewGuid()
-                                                                                                                              .ToString(),
-                                                                                                                          payload.Item1,
-                                                                                                                          payload.Item2)),
+                                             return ChunkSubmitTasksWithDependencies(chunk.Select(subPayloadWithDependencies => Tuple.Create(Guid.NewGuid()
+                                                                                                                                                 .ToString(),
+                                                                                                                                             subPayloadWithDependencies
+                                                                                                                                               .Item1,
+                                                                                                                                             subPayloadWithDependencies
+                                                                                                                                               .Item2)),
                                                                                      maxRetries);
                                            });
 
@@ -353,7 +356,7 @@ public class BaseClientSubmitter<T>
   /// <param name="taskIds">
   ///   List of taskIds
   /// </param>
-  [UsedImplicitly]
+  [PublicAPI]
   public void WaitForTasksCompletion(IEnumerable<string> taskIds)
   {
     using var _ = Logger?.LogFunction();
@@ -635,7 +638,7 @@ public class BaseClientSubmitter<T>
   /// <param name="checkOutput"></param>
   /// <param name="cancellationToken">The optional cancellationToken</param>
   /// <returns>Returns the result or byte[0] if there no result or null if task is not yet ready</returns>
-  [UsedImplicitly]
+  [PublicAPI]
   public byte[] TryGetResult(string            taskId,
                              bool              checkOutput       = true,
                              CancellationToken cancellationToken = default)
