@@ -34,7 +34,7 @@ namespace ArmoniK.DevelopmentKit.Common;
 ///   Chunk split the IEnumerable in several IEnumerable
 ///   Original source code : https://github.com/dotnet/runtime/blob/main/src/libraries/System.Linq/src/System/Linq/Chunk.cs
 /// </summary>
-public static class EnumerableExt
+public static class IEnumerableExt
 {
   /// <summary>
   ///   Split the elements of a sequence into chunks of size at most <paramref name="size" />.
