@@ -71,7 +71,7 @@ public class BaseClientSubmitter<T>
     TaskService      = new Tasks.TasksClient(channelBase);
     ResultService    = new Results.ResultsClient(channelBase);
     SubmitterService = new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channelBase);
-    chunkSubmitSize_  = chunkSubmitSize;
+    chunkSubmitSize_ = chunkSubmitSize;
   }
 
   /// <summary>
@@ -93,18 +93,18 @@ public class BaseClientSubmitter<T>
 
 #pragma warning restore CS1591
 
+
+  /// <summary>
+  ///   The number of chunk to split the payloadsWithDependencies
+  /// </summary>
+  private int chunkSubmitSize_;
+
   /// <summary>
   ///   The logger to call the generate log in Seq
   /// </summary>
 
   [CanBeNull]
   protected ILogger<T> Logger { get; set; }
-
-
-  /// <summary>
-  ///   The number of chunk to split the payloadsWithDependencies
-  /// </summary>
-  private int chunkSubmitSize_;
 
   /// <summary>
   ///   The submitter and receiver Service to submit, wait and get the result
