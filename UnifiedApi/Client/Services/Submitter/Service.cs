@@ -22,13 +22,16 @@
 // limitations under the License.
 
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Threading.Tasks.Dataflow;
 
 using ArmoniK.Api.Common.Utils;
 using ArmoniK.Api.gRPC.V1;
+using ArmoniK.DevelopmentKit.Client.Common.Submitter;
 using ArmoniK.DevelopmentKit.Client.Exceptions;
 using ArmoniK.DevelopmentKit.Client.Factory;
 using ArmoniK.DevelopmentKit.Client.Services.Common;
@@ -101,11 +104,29 @@ public class Service : AbstractClientService
 
     HandlerResponse = Task.Run(ResultTask,
                                CancellationResultTaskSource.Token);
+    BufferSubmit = new BatchUntilInactiveBlock<BlockRequest>(50,
+                                                             TimeSpan.FromSeconds(5));
+    BufferSubmit.ExecuteAsync(blockRequests =>
+                         {
+                           var enumerable = blockRequests.ToList();
+                           Logger.LogInformation($"Submitting buffer of {enumerable.Count} task...");
+                           var taskIds = SubmitTasks(enumerable.Select(x => x.Payload),
+                                                     enumerable.First() //only first handler is useful
+                                                               .Handler);
+                           foreach (var taskId in taskIds)
+                           {
+                             queue_.Enqueue(taskId);
+                           }
+                         });
 
     Logger = LoggerFactory?.CreateLogger<Service>();
     Logger?.BeginPropertyScope(("SessionId", SessionService.SessionId),
                                ("Class", "Service"));
   }
+
+  private BatchUntilInactiveBlock<BlockRequest> BufferSubmit { get; set; }
+
+  private ConcurrentQueue<string> queue_ = new();
 
   /// <summary>
   ///   Property Get the SessionId
@@ -555,10 +576,94 @@ public class Service : AbstractClientService
 
     return SubmitTasks(new[]
                        {
-                         payload,
+                         payload
                        },
                        handler)
       .Single();
+  }
+
+  /// <summary>
+  ///   The method submit with One serialized argument that will be already serialized for byte[] MethodName(byte[]
+  ///   argument).
+  /// </summary>
+  /// <param name="methodName">The name of the method inside the service</param>
+  /// <param name="argument">One serialized argument that will already serialize for MethodName.</param>
+  /// <param name="handler">The handler callBack implemented as IServiceInvocationHandler to get response or result or error</param>
+  /// <param name="token">The cancellation token</param>
+  /// <returns>Return the taskId string</returns>
+  public async Task<string> SubmitAsync(string                    methodName,
+                                        Object[]                    argument,
+                                        IServiceInvocationHandler handler,
+                                        CancellationToken         token = default)
+  {
+    ArmonikPayload payload = new()
+                             {
+                               ArmonikRequestType  = ArmonikRequestType.Execute,
+                               MethodName          = methodName,
+                               ClientPayload       = ProtoSerializer.SerializeMessageObjectArray(argument),
+                               SerializedArguments = false,
+                             };
+
+    await BufferSubmit.SendAsync(new BlockRequest()
+                      {
+                        Payload = payload,
+                        Handler = handler,
+                      }, token).ConfigureAwait(false);
+
+    var dequeueSuccessful = queue_.TryDequeue(out var workItem);
+    if (dequeueSuccessful)
+    {
+      return workItem;
+    }
+
+    return await TaskProcessor(token)
+             .ConfigureAwait(false);
+  }
+
+  private async Task<string?> TaskProcessor(CancellationToken token)
+  {
+    do
+    {
+      var dequeueSuccessful = queue_.TryDequeue(out var workItem);
+      if (dequeueSuccessful)
+      {
+        return workItem;
+      }
+
+      await Task.Delay(200,
+                       token);
+    } while (!token.IsCancellationRequested);
+
+    return null;
+  }
+
+  /// <summary>
+  ///   The method submit with One serialized argument that will be already serialized for byte[] MethodName(byte[]
+  ///   argument).
+  /// </summary>
+  /// <param name="methodName">The name of the method inside the service</param>
+  /// <param name="argument">One serialized argument that will already serialize for MethodName.</param>
+  /// <param name="handler">The handler callBack implemented as IServiceInvocationHandler to get response or result or error</param>
+  /// <returns>Return the taskId string</returns>
+  public async Task<string> SubmitAsync(string                    methodName,
+                                        byte[]                    argument,
+                                        IServiceInvocationHandler handler,
+                                        CancellationToken         token = default)
+  {
+    ArmonikPayload payload = new()
+                             {
+                               ArmonikRequestType  = ArmonikRequestType.Execute,
+                               MethodName          = methodName,
+                               ClientPayload       = argument,
+                               SerializedArguments = true,
+                             };
+    BufferSubmit.Post(new BlockRequest()
+                      {
+                        Payload = payload,
+                        Handler = handler,
+                      });
+
+    return await TaskProcessor(token).ConfigureAwait(false);
   }
 
   /// <summary>
