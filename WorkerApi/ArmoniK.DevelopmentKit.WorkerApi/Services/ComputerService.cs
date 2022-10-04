@@ -159,7 +159,7 @@ public class ComputerService : WorkerStreamWrapper
                {
                  Error = new Output.Types.Error
                          {
-                           Details = ex.Message,
+                           Details = ex.Message + Environment.NewLine + ex.StackTrace,
                          },
                };
     }
