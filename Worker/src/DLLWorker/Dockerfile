@@ -18,7 +18,7 @@ WORKDIR /src
 COPY ["Worker/src/DLLWorker/ArmoniK.DevelopmentKit.Worker.DLLWorker.csproj", "Worker/src/DLLWorker/"]
 COPY ["Common/src/Common/ArmoniK.DevelopmentKit.Common.csproj", "Common/src/Common/"]
 COPY ["Client/src/Common/ArmoniK.DevelopmentKit.Client.Common.csproj", "Client/src/Common/"]
-COPY ["Worker/src/Common/ArmoniK.DevelopmentKit.WorkerApi.Common.csproj", "Worker/src/Common/"]
+COPY ["Worker/src/Common/ArmoniK.DevelopmentKit.Worker.Common.csproj", "Worker/src/Common/"]
 RUN dotnet restore "Worker/src/DLLWorker/ArmoniK.DevelopmentKit.Worker.DLLWorker.csproj"
 COPY . .
 RUN find \( -iname obj -o -iname bin \) -exec rm -rf {} +

@@ -186,7 +186,7 @@ jobs:
 
     - name: build
       run: |
-        docker build -t dockerhubaneo/armonik_worker_dll:$VERSION -f WorkerApi/ArmoniK.DevelopmentKit.WorkerApi/Dockerfile .
+        docker build -t dockerhubaneo/armonik_worker_dll:$VERSION -f Worker/src/DLLWorker/Dockerfile .
 
     - name: push
       run: |
