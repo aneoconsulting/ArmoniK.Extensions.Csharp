@@ -155,8 +155,13 @@ public class ComputerService : WorkerStreamWrapper
       Logger.LogError(ex,
                       "WorkerAPIException failure while executing task");
 
-      throw new RpcException(new Status(StatusCode.Aborted,
-                                        ex.Message + Environment.NewLine + ex.StackTrace));
+      return new Output
+             {
+               Error = new Output.Types.Error
+                       {
+                         Details = ex.Message + Environment.NewLine + ex.StackTrace,
+                       },
+             };
     }
 
     catch (Exception ex)
