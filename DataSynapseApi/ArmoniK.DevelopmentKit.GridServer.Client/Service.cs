@@ -291,7 +291,8 @@ public class Service : IDisposable
        .Single()
        .Item2;
 
-  private IEnumerable<Tuple<string, byte[]>> ActiveGetResults(IEnumerable<string> taskIds)
+  private IEnumerable<Tuple<string, byte[]>> ActiveGetResults(IEnumerable<string> taskIds,
+                                                              int                 chunkResultSize = 500)
   {
     var missing  = taskIds.ToHashSet();
     var results  = new List<Tuple<string, byte[]>>();
@@ -311,7 +312,7 @@ public class Service : IDisposable
 
     while (missing.Count != 0)
     {
-      foreach (var bucket in missing.ToChunk(10000))
+      foreach (var bucket in missing.ToChunk(chunkResultSize))
       {
         var partialResults = SessionService.TryGetResults(bucket);
 

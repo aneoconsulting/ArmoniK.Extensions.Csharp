@@ -290,7 +290,8 @@ public class Service : AbstractClientService
 
   private void ProxyTryGetResults(IEnumerable<string>                taskIds,
                                   Action<string, byte[]>             responseHandler,
-                                  Action<string, TaskStatus, string> errorHandler)
+                                  Action<string, TaskStatus, string> errorHandler,
+                                  int                                chunkResultSize = 500)
   {
     var missing  = taskIds.ToHashSet();
     var holdPrev = missing.Count;
@@ -308,7 +309,7 @@ public class Service : AbstractClientService
     while (missing.Count != 0)
     {
       foreach (var bucket in missing.ToList()
-                                    .ToChunk(500))
+                                    .ToChunk(chunkResultSize))
       {
         var resultStatusCollection = SessionService.GetResultStatus(bucket);
 

@@ -57,20 +57,21 @@ namespace ArmoniK.DevelopmentKit.Client.Common.Submitter;
 [PublicAPI]
 public class BaseClientSubmitter<T>
 {
-  private const int BatchSize = 1000;
-
   /// <summary>
   ///   Base Object for all Client submitter
   /// </summary>
   /// <param name="channelBase">Channel used to create grpc clients</param>
   /// <param name="loggerFactory">the logger factory to pass for root object</param>
+  /// <param name="chunkSubmitSize">The size of chunk to split the list of tasks</param>
   public BaseClientSubmitter(ChannelBase                channelBase,
-                             [CanBeNull] ILoggerFactory loggerFactory = null)
+                             [CanBeNull] ILoggerFactory loggerFactory   = null,
+                             int                        chunkSubmitSize = 500)
   {
     Logger           = loggerFactory?.CreateLogger<T>();
     TaskService      = new Tasks.TasksClient(channelBase);
     ResultService    = new Results.ResultsClient(channelBase);
     SubmitterService = new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channelBase);
+    chunkSubmitSize_ = chunkSubmitSize;
   }
 
   /// <summary>
@@ -92,18 +93,18 @@ public class BaseClientSubmitter<T>
 
 #pragma warning restore CS1591
 
+
+  /// <summary>
+  ///   The number of chunk to split the payloadsWithDependencies
+  /// </summary>
+  private int chunkSubmitSize_;
+
   /// <summary>
   ///   The logger to call the generate log in Seq
   /// </summary>
 
   [CanBeNull]
   protected ILogger<T> Logger { get; set; }
-
-
-  /// <summary>
-  ///   The number of chunk to split the payloadsWithDependencies
-  /// </summary>
-  public int ChunkSize { get; set; } = 5000;
 
   /// <summary>
   ///   The submitter and receiver Service to submit, wait and get the result
@@ -169,16 +170,18 @@ public class BaseClientSubmitter<T>
   /// <param name="payloadsWithDependencies">A list of Tuple(taskId, Payload) in dependence of those created tasks</param>
   /// <param name="maxRetries">The number of retry before fail to submit task</param>
   /// <returns>return a list of taskIds of the created tasks </returns>
-  [UsedImplicitly]
+  [PublicAPI]
   public IEnumerable<string> SubmitTasksWithDependencies(IEnumerable<Tuple<byte[], IList<string>>> payloadsWithDependencies,
                                                          int                                       maxRetries = 5)
-    => payloadsWithDependencies.ToChunk(ChunkSize)
+    => payloadsWithDependencies.ToChunk(chunkSubmitSize_)
                                .SelectMany(chunk =>
                                            {
-                                             return ChunkSubmitTasksWithDependencies(chunk.Select(payload => Tuple.Create(Guid.NewGuid()
-                                                                                                                              .ToString(),
-                                                                                                                          payload.Item1,
-                                                                                                                          payload.Item2)),
+                                             return ChunkSubmitTasksWithDependencies(chunk.Select(subPayloadWithDependencies => Tuple.Create(Guid.NewGuid()
+                                                                                                                                                 .ToString(),
+                                                                                                                                             subPayloadWithDependencies
+                                                                                                                                               .Item1,
+                                                                                                                                             subPayloadWithDependencies
+                                                                                                                                               .Item2)),
                                                                                      maxRetries);
                                            });
 
@@ -201,8 +204,6 @@ public class BaseClientSubmitter<T>
     var serviceConfiguration = SubmitterService.GetServiceConfigurationAsync(new Empty())
                                                .ResponseAsync.Result;
 
-    var payloads = payloadsWithDependencies as Tuple<string, byte[], IList<string>>[] ?? payloadsWithDependencies.ToArray();
-
     for (var nbRetry = 0; nbRetry < maxRetries; nbRetry++)
     {
       try
@@ -219,8 +220,12 @@ public class BaseClientSubmitter<T>
                                                           })
                                 .Wait();
 
-
-        foreach (var (resultId, payload, dependencies) in payloads)
+        //
+        // Here the payloadsWithDependencies can have multiple enumeration
+        // It will happen only during a retry to submit tasks
+        // Loosing a little bit of perf in case of retry is not a big deal : in the usual case, it should not happen.
+        //
+        foreach (var (resultId, payload, dependencies) in payloadsWithDependencies)
         {
           asyncClientStreamingCall.RequestStream.WriteAsync(new CreateLargeTaskRequest
                                                             {
@@ -353,7 +358,7 @@ public class BaseClientSubmitter<T>
   /// <param name="taskIds">
   ///   List of taskIds
   /// </param>
-  [UsedImplicitly]
+  [PublicAPI]
   public void WaitForTasksCompletion(IEnumerable<string> taskIds)
   {
     using var _ = Logger?.LogFunction();
@@ -635,7 +640,7 @@ public class BaseClientSubmitter<T>
   /// <param name="checkOutput"></param>
   /// <param name="cancellationToken">The optional cancellationToken</param>
   /// <returns>Returns the result or byte[0] if there no result or null if task is not yet ready</returns>
-  [UsedImplicitly]
+  [PublicAPI]
   public byte[] TryGetResult(string            taskId,
                              bool              checkOutput       = true,
                              CancellationToken cancellationToken = default)
