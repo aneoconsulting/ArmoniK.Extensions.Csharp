@@ -247,8 +247,6 @@ public abstract class ServiceContainerBase
                         TaskOptions    clientOptions)
   {
     Configuration = configuration;
-    TaskOptions.MergeFrom(clientOptions);
-    //Append or overwrite TaskOptions with one coming from client
 
     var logger = new LoggerConfiguration().ReadFrom.Configuration(Configuration)
                                           .WriteTo.Console(new CompactJsonFormatter())
@@ -270,7 +268,7 @@ public abstract class ServiceContainerBase
     SessionId = sessionId;
 
     //Append or overwrite TaskOptions with one coming from client
-    TaskOptions.MergeFrom(requestTaskOptions);
+    TaskOptions = requestTaskOptions;
   }
 
   /// <summary>

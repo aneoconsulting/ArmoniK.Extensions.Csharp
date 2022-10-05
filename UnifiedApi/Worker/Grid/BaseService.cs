@@ -250,9 +250,6 @@ public abstract class BaseService<T>
   {
     Configuration = configuration;
 
-    //Append or overwrite Dictionary Options in TaskOptions with one coming from client
-    TaskOptions.MergeFrom(clientOptions);
-
     var logger = new LoggerConfiguration().ReadFrom.Configuration(Configuration)
                                           .WriteTo.Console(new CompactJsonFormatter())
                                           .Enrich.FromLogContext()
@@ -273,7 +270,7 @@ public abstract class BaseService<T>
     SessionId = sessionId;
 
     //Append or overwrite Dictionary Options in TaskOptions with one coming from client
-    TaskOptions.MergeFrom(requestTaskOptions);
+    TaskOptions = requestTaskOptions;
   }
 
   /// <summary>

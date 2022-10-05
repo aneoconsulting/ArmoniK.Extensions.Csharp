@@ -61,8 +61,7 @@ public class SessionPollingService
     Logger        = loggerFactory.CreateLogger<SessionPollingService>();
     LoggerFactory = loggerFactory;
     TaskHandler   = taskHandler;
-    TaskOptions   = InitializeDefaultTaskOptions();
-    TaskOptions.MergeFrom(taskHandler.TaskOptions);
+    TaskOptions   = taskHandler.TaskOptions;
 
     Logger.LogDebug("Creating Session... ");
 
