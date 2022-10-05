@@ -60,11 +60,7 @@ public class SessionService : BaseClientSubmitter<SessionService>
     : base(grpcChannel,
            loggerFactory)
   {
-    TaskOptions = InitializeDefaultTaskOptions();
-    if (taskOptions != null)
-    {
-      TaskOptions.MergeFrom(taskOptions);
-    }
+    TaskOptions = taskOptions ?? InitializeDefaultTaskOptions();
 
     Logger?.LogDebug("Creating Session... ");
 

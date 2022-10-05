@@ -8,11 +8,11 @@
   </PropertyGroup>
 
  <ItemGroup>
-    <PackageReference Include="ArmoniK.Api.Worker" Version="3.0.3" />
-    <PackageReference Include="AWSSDK.S3" Version="3.7.9.47" />
+    <PackageReference Include="ArmoniK.Api.Worker" Version="3.0.4" />
+    <PackageReference Include="AWSSDK.S3" Version="3.7.9.65" />
     <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.17.0" />
-    <PackageReference Include="Grpc.Tools" Version="2.48.1">
+    <PackageReference Include="Grpc.Tools" Version="2.49.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
