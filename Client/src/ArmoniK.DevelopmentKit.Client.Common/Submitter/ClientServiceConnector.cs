@@ -2,17 +2,16 @@ using System;
 using System.IO;
 using System.Net.Http;
 
+using Grpc.Core;
+
 using JetBrains.Annotations;
 
 using Microsoft.Extensions.Logging;
 #if NET5_0_OR_GREATER
 using Grpc.Net.Client;
-using Grpc.Core;
 
 using System.Runtime.InteropServices;
 using System.Security.Cryptography.X509Certificates;
-#else
-using Grpc.Core;
 #endif
 
 namespace ArmoniK.DevelopmentKit.Client.Common.Submitter;
@@ -146,7 +145,7 @@ public class ClientServiceConnector
                            Credentials = uri.Scheme == Uri.UriSchemeHttps
                                            ? new SslCredentials()
                                            : ChannelCredentials.Insecure,
-                           HttpHandler   = httpClientHandler,
+                           HttpHandler = httpClientHandler,
                            LoggerFactory = loggerFactory,
                          };
 

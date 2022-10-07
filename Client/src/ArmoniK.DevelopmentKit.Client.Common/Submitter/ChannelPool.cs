@@ -55,14 +55,14 @@ public sealed class ChannelPool
   {
     channelFactory_ = channelFactory;
     pool_           = new ConcurrentQueue<ChannelBase>();
-    logger_         = loggerFactory.CreateLogger<ChannelPool>();
+    logger_         = loggerFactory?.CreateLogger<ChannelPool>();
   }
 
   /// <summary>
   ///   Get a channel from the pool. If the pool is empty, create a new channel
   /// </summary>
   /// <returns>A ChannelBase used by nobody else</returns>
-  public ChannelBase AcquireChannel()
+  private ChannelBase AcquireChannel()
   {
     if (pool_.TryDequeue(out var channel))
     {
@@ -72,8 +72,8 @@ public sealed class ChannelPool
     }
 
     channel = channelFactory_();
-    logger_.LogInformation("Created and acquired new channel {channel} from pool",
-                           channel);
+    logger_?.LogInformation("Created and acquired new channel {channel} from pool",
+                            channel);
     return channel;
   }
 
@@ -81,10 +81,10 @@ public sealed class ChannelPool
   ///   Release a ChannelBase to the pool that could be reused later by someone else
   /// </summary>
   /// <param name="channel">Channel to release</param>
-  public void ReleaseChannel(ChannelBase channel)
+  private void ReleaseChannel(ChannelBase channel)
   {
-    logger_.LogDebug("Released channel {channel} to pool",
-                     channel);
+    logger_?.LogDebug("Released channel {channel} to pool",
+                      channel);
     pool_.Enqueue(channel);
   }
 
@@ -117,20 +117,37 @@ public sealed class ChannelPool
     f(channel.Channel);
   }
 
+  /// <summary>
+  ///   Helper class that acquires a channel from a pool when constructed, and releases it when disposed
+  /// </summary>
   public sealed class ChannelGuard : IDisposable
   {
-    public readonly  ChannelBase Channel;
+    /// <summary>
+    ///   Channel that is used by nobody else
+    /// </summary>
+    public readonly ChannelBase Channel;
+
     private readonly ChannelPool pool_;
 
+    /// <summary>
+    ///   Acquire a channel that will be released when disposed
+    /// </summary>
+    /// <param name="channelPool"></param>
     public ChannelGuard(ChannelPool channelPool)
     {
       pool_   = channelPool;
       Channel = channelPool.AcquireChannel();
     }
 
+    /// <inheritdoc />
     public void Dispose()
       => pool_.ReleaseChannel(Channel);
 
+    /// <summary>
+    ///   Implicit convert a ChannelGuard into a ChannelBase
+    /// </summary>
+    /// <param name="guard">ChannelGuard</param>
+    /// <returns>ChannelBase</returns>
     public static implicit operator ChannelBase(ChannelGuard guard)
       => guard.Channel;
   }

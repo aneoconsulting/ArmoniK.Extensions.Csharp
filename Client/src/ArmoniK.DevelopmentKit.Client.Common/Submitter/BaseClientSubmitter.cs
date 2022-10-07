@@ -89,6 +89,9 @@ public class BaseClientSubmitter<T>
 
 #pragma warning restore CS1591
 
+  /// <summary>
+  ///   The channel pool to use for creating clients
+  /// </summary>
   protected ChannelPool channelPool_;
 
 
