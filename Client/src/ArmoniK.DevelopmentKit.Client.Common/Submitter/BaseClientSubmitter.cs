@@ -300,7 +300,7 @@ public class BaseClientSubmitter<T>
       }
       catch (Exception e)
       {
-        if (nbRetry >= maxRetries)
+        if (nbRetry >= maxRetries - 1)
         {
           throw;
         }
