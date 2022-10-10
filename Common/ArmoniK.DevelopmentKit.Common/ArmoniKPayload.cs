@@ -1,4 +1,4 @@
-﻿// This file is part of the ArmoniK project
+// This file is part of the ArmoniK project
 // 
 // Copyright (C) ANEO, 2021-2022.
 //   W. Kirschenmann   <wkirschenmann@aneo.fr>
@@ -46,6 +46,9 @@ public class ArmonikPayload
 
   [ProtoMember(4)]
   public bool SerializedArguments { get; set; }
+
+  public int RequestSize
+    => ClientPayload.Length + MethodName.Length + sizeof(ArmonikRequestType);
 
 
   public byte[] Serialize()

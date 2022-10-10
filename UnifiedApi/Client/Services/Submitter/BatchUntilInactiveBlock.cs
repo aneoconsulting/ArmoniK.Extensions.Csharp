@@ -28,132 +28,214 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
 
-namespace ArmoniK.DevelopmentKit.Client.Common.Submitter;
+namespace ArmoniK.DevelopmentKit.Client.Services.Submitter;
 
 /// <summary>
-///   Provides a dataflow block that batches inputs into arrays.
+///   Provides a dataFlow block that batches inputs into arrays.
 ///   A batch is produced when the number of currently queued items becomes equal
 ///   to BatchSize, or when a Timeout period has elapsed after receiving the last item.
 /// </summary>
 public class BatchUntilInactiveBlock<T> : IPropagatorBlock<T, T[]>, IReceivableSourceBlock<T[]>
 {
-  private readonly BatchBlock<T>            _source;
-  private readonly TransformBlock<T[], T[]> _timeoutTransformBlock;
-  private readonly Timer                    _timer;
+  private readonly BatchBlock<T>            source_;
+  private readonly TransformBlock<T[], T[]> timeoutTransformBlock_;
+  private readonly Timer                    timer_;
 
-  public BatchUntilInactiveBlock(int                          batchSize,
+  /// <summary>
+  ///   The buffer construct base on the number of request in the buffer
+  ///   Be aware that buffer should be T sized for network B/W
+  /// </summary>
+  /// <param name="bufferRequestsSize"></param>
+  /// <param name="timeout">Time out before the next submit call</param>
+  /// <param name="dataFlowBlockOptions">
+  ///   Options to configure message.
+  ///   (https://learn.microsoft.com/fr-fr/dotnet/api/system.threading.tasks.dataflow.groupingdataflowblockoptions?view=net-6.0)
+  /// </param>
+  public BatchUntilInactiveBlock(int                          bufferRequestsSize,
                                  TimeSpan                     timeout,
                                  GroupingDataflowBlockOptions dataFlowBlockOptions)
   {
-    _source = new BatchBlock<T>(batchSize,
+    source_ = new BatchBlock<T>(bufferRequestsSize,
                                 dataFlowBlockOptions);
-    _timer = new Timer(_ =>
+    timer_ = new Timer(_ =>
                        {
-                         _source.TriggerBatch();
+                         source_.TriggerBatch();
                        },
                        null,
                        timeout,
                        System.Threading.Timeout.InfiniteTimeSpan);
 
-    _timeoutTransformBlock = new TransformBlock<T[], T[]>(value =>
+    timeoutTransformBlock_ = new TransformBlock<T[], T[]>(value =>
                                                           {
-                                                            _timer.Change(timeout,
+                                                            timer_.Change(timeout,
                                                                           System.Threading.Timeout.InfiniteTimeSpan);
 
                                                             return value;
                                                           });
 
-    _source.LinkTo(_timeoutTransformBlock);
+    source_.LinkTo(timeoutTransformBlock_);
 
     Timeout = timeout;
   }
 
-  public BatchUntilInactiveBlock(int      batchSize,
+  /// <summary>
+  ///   The buffer construct base on the number of request in the buffer
+  ///   Be aware that buffer should be T sized for network B/W
+  /// </summary>
+  /// <param name="bufferRequestsSize">The capacity buffer to retain request before sending</param>
+  /// <param name="timeout">Time out before the next submit call</param>
+  public BatchUntilInactiveBlock(int      bufferRequestsSize,
                                  TimeSpan timeout)
-    : this(batchSize,
+    : this(bufferRequestsSize,
            timeout,
-           new GroupingDataflowBlockOptions()
-           {
-           })
+           new GroupingDataflowBlockOptions())
   {
   }
 
+  /// <summary>
+  ///   Simple Getter to return size of batch in the pipeline
+  /// </summary>
   public int BatchSize
-    => _source.BatchSize;
+    => source_.BatchSize;
 
+  /// <summary>
+  ///   Return the TimeSpan timer set in the constructor
+  /// </summary>
   public TimeSpan Timeout { get; }
 
-  public int OutputCount
-    => _source.OutputCount;
-
-  public long TotalBufferMemoryBytes { get; private set; }
-
+  /// <summary>
+  ///   Task to check the completion
+  /// </summary>
   public Task Completion
-    => _source.Completion;
+    => source_.Completion;
 
+  /// <summary>
+  ///   Signal that the pipeline should be closed
+  /// </summary>
   public void Complete()
-    => _source.Complete();
+    => source_.Complete();
 
+  /// <summary>
+  ///   Return the exception produce in a Transform block or ActionBlock
+  /// </summary>
+  /// <param name="exception"></param>
   public void Fault(Exception exception)
-    => ((IDataflowBlock)_source).Fault(exception);
+    => ((IDataflowBlock)source_).Fault(exception);
 
+  /// <summary>
+  ///   Link block TransformBLock or ActionBlock
+  /// </summary>
+  /// <param name="target">the Block to link to</param>
+  /// <param name="linkOptions">
+  ///   Specific option to configure max message and propagation completion
+  ///   https://learn.microsoft.com/fr-fr/dotnet/api/system.threading.tasks.dataflow.dataflowlinkoptions?view=net-6.0
+  /// </param>
+  /// <returns></returns>
   public IDisposable LinkTo(ITargetBlock<T[]>   target,
                             DataflowLinkOptions linkOptions)
-    => _timeoutTransformBlock.LinkTo(target,
+    => timeoutTransformBlock_.LinkTo(target,
                                      linkOptions);
 
+  /// <summary>
+  ///   To signal to the propagator object that a message is coming.
+  ///   Check if the pipeline is opened and the message is accepted
+  /// </summary>
+  /// <param name="messageHeader"></param>
+  /// <param name="messageValue"></param>
+  /// <param name="source"></param>
+  /// <param name="consumeToAccept"></param>
+  /// <returns></returns>
   public DataflowMessageStatus OfferMessage(DataflowMessageHeader messageHeader,
                                             T                     messageValue,
                                             ISourceBlock<T>       source,
                                             bool                  consumeToAccept)
   {
-    var offerResult = ((ITargetBlock<T>)_source).OfferMessage(messageHeader,
+    var offerResult = ((ITargetBlock<T>)source_).OfferMessage(messageHeader,
                                                               messageValue,
                                                               source,
                                                               consumeToAccept);
 
     if (offerResult == DataflowMessageStatus.Accepted)
     {
-      _timer.Change(Timeout,
+      timer_.Change(Timeout,
                     System.Threading.Timeout.InfiniteTimeSpan);
     }
 
     return offerResult;
   }
 
+  /// <summary>
+  ///   Called by a linked ITargetBlock TInput  to accept and consume a
+  ///   DataFlowMessageHeader previously offered by this ISourceBlockTOutput .
+  /// </summary>
+  /// <param name="messageHeader"></param>
+  /// <param name="target"></param>
+  /// <param name="messageConsumed"></param>
+  /// <returns></returns>
   public T[]? ConsumeMessage(DataflowMessageHeader messageHeader,
                              ITargetBlock<T[]?>    target,
                              out bool              messageConsumed)
-    => ((ISourceBlock<T[]?>)_source).ConsumeMessage(messageHeader,
+    => ((ISourceBlock<T[]?>)source_).ConsumeMessage(messageHeader,
                                                     target,
                                                     out messageConsumed);
 
+  /// <summary>
+  ///   Called by a linked ITargetBlock TInput  to reserve a previously offered
+  ///   DataFlowMessageHeader by this ISourceBlockTOutput .
+  /// </summary>
+  /// <param name="messageHeader"></param>
+  /// <param name="target"></param>
+  /// <returns></returns>
   public bool ReserveMessage(DataflowMessageHeader messageHeader,
                              ITargetBlock<T[]>     target)
-    => ((ISourceBlock<T[]>)_source).ReserveMessage(messageHeader,
+    => ((ISourceBlock<T[]>)source_).ReserveMessage(messageHeader,
                                                    target);
 
+  /// <summary>
+  ///   Called by a linked ITargetBlock  TInput  to release a previously reserved DataflowMessageHeader by this
+  ///   ISourceBlock;.
+  /// </summary>
+  /// <param name="messageHeader"></param>
+  /// <param name="target"></param>
   public void ReleaseReservation(DataflowMessageHeader messageHeader,
                                  ITargetBlock<T[]>     target)
-    => ((ISourceBlock<T[]>)_source).ReleaseReservation(messageHeader,
+    => ((ISourceBlock<T[]>)source_).ReleaseReservation(messageHeader,
                                                        target);
 
+  /// <summary>
+  ///   Attempts to synchronously receive an available output item from the IReceivableSourceBlock TOutput
+  /// </summary>
+  /// <param name="filter"></param>
+  /// <param name="item"></param>
+  /// <returns></returns>
   public bool TryReceive(Predicate<T[]>? filter,
                          out T[]         item)
-    => _source.TryReceive(filter,
+    => source_.TryReceive(filter,
                           out item);
 
+  /// <summary>
+  ///   Attempts to synchronously receive all available items from the IReceivableSourceBlock TOutput
+  /// </summary>
+  /// <param name="items"></param>
+  /// <returns></returns>
   public bool TryReceiveAll(out IList<T[]> items)
-    => _source.TryReceiveAll(out items);
+    => source_.TryReceiveAll(out items);
 
+  /// <summary>
+  ///   Trigger the batch even if it doesn't criteria to submit
+  /// </summary>
   public void TriggerBatch()
-    => _source.TriggerBatch();
+    => source_.TriggerBatch();
 
+  /// <summary>
+  ///   Create an ActionBlock with a delegated function to execute
+  ///   at the end of pipeline
+  /// </summary>
+  /// <param name="action">the method to call</param>
   public void ExecuteAsync(Action<IEnumerable<T>> action)
-    => _timeoutTransformBlock.LinkTo(new ActionBlock<T[]>(action),
+    => timeoutTransformBlock_.LinkTo(new ActionBlock<T[]>(action),
                                      new DataflowLinkOptions
                                      {
                                        PropagateCompletion = true,
-                                       
                                      });
 }

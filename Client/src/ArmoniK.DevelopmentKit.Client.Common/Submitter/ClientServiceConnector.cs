@@ -1,21 +1,43 @@
-#if NET5_0_OR_GREATER
-using Grpc.Net.Client;
-using Grpc.Core;
-
-using System.Runtime.InteropServices;
-using System.Security.Cryptography.X509Certificates;
-#else
-using Grpc.Core;
-#endif
 using System;
 using System.IO;
+using System.Net;
 using System.Net.Http;
+using System.Runtime.InteropServices;
+using System.Security.Authentication;
+using System.Security.Cryptography.X509Certificates;
+using System.Threading;
+using System.Threading.Tasks;
+
+using ArmoniK.DevelopmentKit.Client.Common.Submitter.Tools;
 
 using JetBrains.Annotations;
 
 using Microsoft.Extensions.Logging;
+#if NET5_0_OR_GREATER
+using Grpc.Net.Client;
+using Grpc.Core;
+
+using System.Security.Cryptography.X509Certificates;
+using System.Net.Security;
+
+#else
+using Grpc.Core;
+using Grpc.Net.Client;
+#endif
+
 
 namespace ArmoniK.DevelopmentKit.Client.Common.Submitter;
+
+public class Http2CustomHandler : WinHttpHandler
+{
+  protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request,
+                                                         CancellationToken  cancellationToken)
+  {
+    request.Version = new Version("2.0");
+    return base.SendAsync(request,
+                          cancellationToken);
+  }
+}
 
 /// <summary>
 ///   ClientServiceConnector is the class to connection to the control plane with different
@@ -74,8 +96,8 @@ public class ClientServiceConnector
       }
       catch (Exception e)
       {
-        logger?.LogError("Fail to read certificate file",
-                         e);
+        logger?.LogError(e,
+                         "Fail to read certificate file");
         throw;
       }
     }
@@ -97,12 +119,11 @@ public class ClientServiceConnector
   }
 
   /// <summary>
-  ///   Open Connection with the control plane with mTLS authentication
   /// </summary>
   /// <param name="endPoint"></param>
-  /// <param name="clientPem">The pair certificate + key data in a pem format</param>
-  /// <param name="sslValidation">Check if the ssl must have a strong validation</param>
-  /// <param name="loggerFactory">Optional logger factory</param>
+  /// <param name="clientPem"></param>
+  /// <param name="sslValidation"></param>
+  /// <param name="loggerFactory"></param>
   /// <returns></returns>
   public static ChannelBase ControlPlaneConnection(string                     endPoint,
                                                    Tuple<string, string>      clientPem     = null,
@@ -111,61 +132,98 @@ public class ClientServiceConnector
   {
     var uri = new Uri(endPoint);
 
-    var credentials = uri.Scheme == Uri.UriSchemeHttps
-                        ? new SslCredentials()
-                        : ChannelCredentials.Insecure;
-    var httpClientHandler = new HttpClientHandler();
+#if NET5_0_OR_GREATER
+    var httpClientHandler = new SocketsHttpHandler
+                            {
+                              PooledConnectionIdleTimeout    = Timeout.InfiniteTimeSpan,
+                              KeepAlivePingDelay             = TimeSpan.FromSeconds(60),
+                              KeepAlivePingTimeout           = TimeSpan.FromSeconds(30),
+                              EnableMultipleHttp2Connections = true,
+                            };
+
     if (!sslValidation)
     {
-      httpClientHandler.ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
+      //To activate unSecured certificate
+      //https://dev.to/tswiftma/switching-from-httpclienthandler-to-socketshttphandler-17h3
+      httpClientHandler.SslOptions = new SslClientAuthenticationOptions
+                                     {
+                                       // Leave certs unvalidated for debugging
+                                       RemoteCertificateValidationCallback = delegate
+                                                                             {
+                                                                               return true;
+                                                                             },
+                                       ClientCertificates = new X509CertificateCollection(),
+                                     };
+      AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport",
+                           true);
+    }
+    
+    if (clientPem != null)
+    {
+      var cert = CertUtils.GetClientCertFromPem(clientPem.Item1,
+                                                clientPem.Item2);
+
+      httpClientHandler.SslOptions.ClientCertificates = new X509CertificateCollection
+                                                        {
+                                                          cert,
+                                                        };
+    }
+#else
+    //Since netstandard2.0 doesn't have SocketHttpHandler for performance.
+    //HttpClientHandler will be used instead
+    
+    if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+    {
+      throw new InvalidOperationException($"What configuration we missed ? : {RuntimeInformation.OSDescription} : {RuntimeInformation.FrameworkDescription}");
+    }
+
+
+    var innerHttpClientHandler = new Http2CustomHandler();
+   
+
+    if (!sslValidation)
+    {
+      innerHttpClientHandler.ServerCertificateValidationCallback += (httpRequestMessage,
+                                                               cert,
+                                                               cetChain,
+                                                               policyErrors) =>
+                                                              {
+                                                                return true;
+                                                              };
+
       AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport",
                            true);
     }
 
-#if NET5_0_OR_GREATER
+
+
+
     if (clientPem != null)
     {
-      var cert = X509Certificate2.CreateFromPem(clientPem.Item1,
+      var cert = CertUtils.GetClientCertFromPem(clientPem.Item1,
                                                 clientPem.Item2);
+      var tmpCert = new X509Certificate2(cert.Export(X509ContentType.Pfx));
+      cert.Dispose();
+      innerHttpClientHandler.ClientCertificates.Add(tmpCert);
+      innerHttpClientHandler.ClientCertificateOption = ClientCertificateOption.Manual;
+      System.Net.ServicePointManager.SecurityProtocol |= SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
+      innerHttpClientHandler.SslProtocols = SslProtocols.Tls12         | SslProtocols.Tls11         | SslProtocols.Tls;
 
-      // Resolve issue with Windows on pem bug with windows
-      // https://github.com/dotnet/runtime/issues/23749#issuecomment-388231655
-
-      if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-      {
-        var originalCert = cert;
-        cert = new X509Certificate2(cert.Export(X509ContentType.Pkcs12));
-        originalCert.Dispose();
-      }
-
-      httpClientHandler.ClientCertificates.Add(cert);
     }
+
+    var httpClientHandler = innerHttpClientHandler;
+
+#endif
 
     var channelOptions = new GrpcChannelOptions
                          {
                            Credentials = uri.Scheme == Uri.UriSchemeHttps
                                            ? new SslCredentials()
                                            : ChannelCredentials.Insecure,
-                           HttpHandler = httpClientHandler,
+                           HttpHandler   = httpClientHandler,
                            LoggerFactory = loggerFactory,
                          };
-
-    var channel = GrpcChannel.ForAddress(endPoint,
-                                         channelOptions);
-
-#else
-    Environment.SetEnvironmentVariable("GRPC_DNS_RESOLVER",
-                                       "native");
-    if (clientPem != null)
-    {
-      credentials = new SslCredentials(clientPem.Item1,
-                                       new KeyCertificatePair(clientPem.Item1,
-                                                              clientPem.Item2));
-    }
-
-    var channel = new Channel($"{uri.Host}:{uri.Port}",
-                              credentials);
-#endif
-    return channel;
+    return GrpcChannel.ForAddress(endPoint,
+                                  channelOptions);
   }
 }

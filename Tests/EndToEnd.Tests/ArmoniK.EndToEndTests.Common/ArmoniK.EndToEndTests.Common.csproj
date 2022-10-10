@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;net6.0</TargetFrameworks>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <Version>1.0.0-700</Version>
+
+    <AppendRuntimeIdentifierToOutputPath>true</AppendRuntimeIdentifierToOutputPath>
+    <AppendTargetFrameworkToOutputPath>true</AppendTargetFrameworkToOutputPath>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\DataSynapseApi\ArmoniK.DevelopmentKit.GridServer.Client\ArmoniK.DevelopmentKit.GridServer.Client.csproj" />
+    <ProjectReference Include="..\..\..\SymphonyApi\ArmoniK.DevelopmentKit.SymphonyApi.Client\ArmoniK.DevelopmentKit.SymphonyApi.Client.csproj" />
+    <ProjectReference Include="..\..\..\UnifiedApi\Client\ArmoniK.DevelopmentKit.Client.csproj" />
+  </ItemGroup>
+
+</Project>

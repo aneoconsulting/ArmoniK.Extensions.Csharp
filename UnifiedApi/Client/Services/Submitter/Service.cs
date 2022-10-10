@@ -22,21 +22,21 @@
 // limitations under the License.
 
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using System.Threading.Channels;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
 
 using ArmoniK.Api.Common.Utils;
 using ArmoniK.Api.gRPC.V1;
-using ArmoniK.DevelopmentKit.Client.Common.Submitter;
 using ArmoniK.DevelopmentKit.Client.Exceptions;
 using ArmoniK.DevelopmentKit.Client.Factory;
 using ArmoniK.DevelopmentKit.Client.Services.Common;
 using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.Common.Exceptions;
+using ArmoniK.DevelopmentKit.Common.Ext;
 
 using Google.Protobuf.WellKnownTypes;
 
@@ -83,17 +83,43 @@ public class Service : AbstractClientService
                                                                                          }.ToDictionary(k => k.Item1,
                                                                                                         v => v.Item2);
 
+  private readonly int bufferRequestSize_;
+
+  private readonly Channel<string> queue_;
+
+  private readonly List<int> timeWait_ = new()
+                                         {
+                                           10,
+                                           100,
+                                           200,
+                                           1000,
+                                           10000,
+                                           30000,
+                                         };
+
   /// <summary>
   ///   The default constructor to open connection with the control plane
   ///   and create the session to ArmoniK
   /// </summary>
   /// <param name="properties">The properties containing TaskOptions and information to communicate with Control plane and </param>
   /// <param name="loggerFactory"></param>
+  /// <param name="bufferRequestSize">The capacity buffer to retain request before sending</param>
+  /// <param name="timeOut">Time out before the next submit call Default 1</param>
   public Service(Properties                 properties,
-                 [CanBeNull] ILoggerFactory loggerFactory = null)
+                 [CanBeNull] ILoggerFactory loggerFactory     = null,
+                 int                        bufferRequestSize = 500,
+                 [CanBeNull] TimeSpan?      timeOut           = null)
     : base(properties,
            loggerFactory)
   {
+    var timeOutSending = timeOut ?? TimeSpan.FromSeconds(1);
+
+    bufferRequestSize_ = bufferRequestSize;
+
+    queue_ = Channel.CreateUnbounded<string>(new UnboundedChannelOptions
+                                             {
+                                             });
+
     SessionServiceFactory = new SessionServiceFactory(LoggerFactory);
 
     SessionService = SessionServiceFactory.CreateSession(properties);
@@ -101,32 +127,38 @@ public class Service : AbstractClientService
     ProtoSerializer = new ProtoSerializer();
 
     CancellationResultTaskSource = new CancellationTokenSource();
+    CancellationQueueTaskSource = new CancellationTokenSource();
 
     HandlerResponse = Task.Run(ResultTask,
                                CancellationResultTaskSource.Token);
-    BufferSubmit = new BatchUntilInactiveBlock<BlockRequest>(50,
-                                                             TimeSpan.FromSeconds(5));
-    BufferSubmit.ExecuteAsync(blockRequests =>
-                         {
-                           var enumerable = blockRequests.ToList();
-                           Logger.LogInformation($"Submitting buffer of {enumerable.Count} task...");
-                           var taskIds = SubmitTasks(enumerable.Select(x => x.Payload),
-                                                     enumerable.First() //only first handler is useful
-                                                               .Handler);
-                           foreach (var taskId in taskIds)
-                           {
-                             queue_.Enqueue(taskId);
-                           }
-                         });
-
     Logger = LoggerFactory?.CreateLogger<Service>();
     Logger?.BeginPropertyScope(("SessionId", SessionService.SessionId),
                                ("Class", "Service"));
+
+    BufferSubmit = new BatchUntilInactiveBlock<BlockRequest>(bufferRequestSize_,
+                                                             timeOutSending);
+
+
+    BufferSubmit.ExecuteAsync(async blockRequests =>
+                              {
+                                var enumerable = blockRequests.ToList();
+                                Logger?.LogDebug("Submitting buffer of {count} task...",
+                                                 enumerable.Count);
+                                var taskIds = SubmitTasks(enumerable.Select(x => x.Payload),
+                                                          enumerable.First() //only first handler is useful
+                                                                    .Handler);
+                                foreach (var taskId in taskIds)
+                                {
+                                  await queue_.Writer.WriteAsync(taskId,
+                                                                 CancellationQueueTaskSource.Token).ConfigureAwait(true);
+                                }
+                              });
   }
 
-  private BatchUntilInactiveBlock<BlockRequest> BufferSubmit { get; set; }
+  private CancellationTokenSource CancellationQueueTaskSource { get; set; }
 
-  private ConcurrentQueue<string> queue_ = new();
+
+  private BatchUntilInactiveBlock<BlockRequest> BufferSubmit { get; }
 
   /// <summary>
   ///   Property Get the SessionId
@@ -342,7 +374,7 @@ public class Service : AbstractClientService
             catch (Exception e2)
             {
               Logger?.LogError(e2,
-                               "An error occured while handling another error: {details}",
+                               "An error occurred while handling another error: {details}",
                                e);
             }
           }
@@ -384,7 +416,7 @@ public class Service : AbstractClientService
           catch (Exception e)
           {
             Logger?.LogError(e,
-                             "An error occured while handling a Task error {status}: {details}",
+                             "An error occurred while handling a Task error {status}: {details}",
                              taskStatus,
                              details);
           }
@@ -577,7 +609,7 @@ public class Service : AbstractClientService
 
     return SubmitTasks(new[]
                        {
-                         payload
+                         payload,
                        },
                        handler)
       .Single();
@@ -593,7 +625,7 @@ public class Service : AbstractClientService
   /// <param name="token">The cancellation token</param>
   /// <returns>Return the taskId string</returns>
   public async Task<string> SubmitAsync(string                    methodName,
-                                        Object[]                    argument,
+                                        object[]                  argument,
                                         IServiceInvocationHandler handler,
                                         CancellationToken         token = default)
   {
@@ -605,37 +637,17 @@ public class Service : AbstractClientService
                                SerializedArguments = false,
                              };
 
-    await BufferSubmit.SendAsync(new BlockRequest()
+    BufferSubmit.Post(new BlockRequest
                       {
                         Payload = payload,
                         Handler = handler,
-                      }, token).ConfigureAwait(false);
+                      });
 
-    var dequeueSuccessful = queue_.TryDequeue(out var workItem);
-    if (dequeueSuccessful)
-    {
-      return workItem;
-    }
+    await queue_.Reader.WaitToReadAsync(CancellationQueueTaskSource.Token);
 
-    return await TaskProcessor(token)
-             .ConfigureAwait(false);
-  }
+    queue_.Reader.TryRead(out var value);
 
-  private async Task<string?> TaskProcessor(CancellationToken token)
-  {
-    do
-    {
-      var dequeueSuccessful = queue_.TryDequeue(out var workItem);
-      if (dequeueSuccessful)
-      {
-        return workItem;
-      }
-
-      await Task.Delay(200,
-                       token);
-    } while (!token.IsCancellationRequested);
-
-    return null;
+    return value;
   }
 
   /// <summary>
@@ -645,6 +657,7 @@ public class Service : AbstractClientService
   /// <param name="methodName">The name of the method inside the service</param>
   /// <param name="argument">One serialized argument that will already serialize for MethodName.</param>
   /// <param name="handler">The handler callBack implemented as IServiceInvocationHandler to get response or result or error</param>
+  /// <param name="token">The cancellation token to set to cancel the async task</param>
   /// <returns>Return the taskId string</returns>
   public async Task<string> SubmitAsync(string                    methodName,
                                         byte[]                    argument,
@@ -658,13 +671,16 @@ public class Service : AbstractClientService
                                ClientPayload       = argument,
                                SerializedArguments = true,
                              };
-    BufferSubmit.Post(new BlockRequest()
-                      {
-                        Payload = payload,
-                        Handler = handler,
-                      });
+    await BufferSubmit.SendAsync(new BlockRequest
+                                 {
+                                   Payload = payload,
+                                   Handler = handler,
+                                 },
+                                 token)
+                      .ConfigureAwait(false);
 
-    return await TaskProcessor(token).ConfigureAwait(false);
+    return await queue_.Reader.ReadAsync(token)
+                       .ConfigureAwait(true);
   }
 
   /// <summary>

@@ -21,6 +21,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System;
+
 using ArmoniK.DevelopmentKit.Client.Services;
 using ArmoniK.DevelopmentKit.Client.Services.Admin;
 using ArmoniK.DevelopmentKit.Client.Services.Submitter;
@@ -43,11 +45,17 @@ public class ServiceFactory
   /// </summary>
   /// <param name="props">Properties for the service containing IConfiguration and TaskOptions</param>
   /// <param name="loggerFactory">Logger factory to create loggers for service</param>
+  /// <param name="bufferRequestSize"></param>
+  /// <param name="timeOut"></param>
   /// <returns>returns the new instantiated service</returns>
   public static Service CreateService(Properties                 props,
-                                      [CanBeNull] ILoggerFactory loggerFactory = null)
+                                      [CanBeNull] ILoggerFactory loggerFactory     = null,
+                                      int                        bufferRequestSize = 500,
+                                      [CanBeNull] TimeSpan?      timeOut           = null)
     => new(props,
-           loggerFactory);
+           loggerFactory,
+           bufferRequestSize,
+           timeOut);
 
   /// <summary>
   ///   Method to get the ServiceAdmin

@@ -1,0 +1,52 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFrameworks>net6.0</TargetFrameworks>
+
+    <Version>1.0.0-700</Version>
+
+    <AppendRuntimeIdentifierToOutputPath>true</AppendRuntimeIdentifierToOutputPath>
+    <AppendTargetFrameworkToOutputPath>true</AppendTargetFrameworkToOutputPath>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <OutputPath>bin/$(Configuration)/</OutputPath>
+    <PublishDir>../publish/$(MSBuildProjectName)/$(Version)/</PublishDir>
+    <PublishUrl>../publish/$(MSBuildProjectName)/$(Version)/</PublishUrl>
+    <IsPackable>false</IsPackable>
+    <OutputType>Library</OutputType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <RuntimeHostConfigurationOption Include="System.Globalization.Invariant" Value="true" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Properties\PublishProfiles\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Common\ArmoniK.DevelopmentKit.Common\ArmoniK.DevelopmentKit.Common.csproj" />
+    <ProjectReference
+      Include="..\..\..\DataSynapseApi\ArmoniK.DevelopmentKit.GridServer\ArmoniK.DevelopmentKit.GridServer.csproj" />
+    <ProjectReference
+      Include="..\..\..\SymphonyApi\ArmoniK.DevelopmentKit.SymphonyApi\ArmoniK.DevelopmentKit.SymphonyApi.csproj" />
+    <ProjectReference Include="..\..\..\UnifiedApi\Worker\ArmoniK.DevelopmentKit.Worker.csproj" />
+    <ProjectReference Include="..\ArmoniK.EndToEndTests.Common\ArmoniK.EndToEndTests.Common.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+
+  <Target Name="CreateDirectories" AfterTargets="AfterPublish">
+    <MakeDir Directories="../packages/" />
+  </Target>
+
+  <Target Name="ZipOutputPath" AfterTargets="CreateDirectories">
+    <ZipDirectory SourceDirectory="../publish/" DestinationFile="../packages/$(MSBuildProjectName)-v$(Version).zip"
+                  Overwrite="true" />
+  </Target>
+
+</Project>
