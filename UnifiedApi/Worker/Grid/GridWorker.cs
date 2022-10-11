@@ -165,10 +165,6 @@ public class GridWorker : IGridWorker
     {
       throw new WorkerApiException(e);
     }
-    catch (TargetInvocationException e)
-    {
-      throw new WorkerApiException(e.InnerException);
-    }
     catch (TargetParameterCountException e)
     {
       throw new WorkerApiException(e);
@@ -181,10 +177,11 @@ public class GridWorker : IGridWorker
     {
       throw new WorkerApiException(e);
     }
-    catch (Exception e)
+    catch (NotSupportedException e)
     {
       throw new WorkerApiException(e);
     }
+    //Do not catch TargetInvocationException to allow for retry
 
 
     return new byte[]
