@@ -98,7 +98,7 @@ public class SimpleServiceContainer
                    .ToArray();
   }
 
-  public double[] RandomTaskError(double percentageOfFailure = 0.25)
+  public double[] RandomTaskError(double percentageOfFailure = 25)
   {
     var randNum = rd.NextDouble();
     if (randNum < percentageOfFailure / 100)
