@@ -34,7 +34,6 @@ using Microsoft.Extensions.Logging;
 
 namespace ArmoniK.EndToEndTests.Tests.CheckSubtaskingTree_SymphonySDK;
 
-[Disabled]
 public class SubtaskingTreeClient : ClientBaseTest<SubtaskingTreeClient>
 {
   public SubtaskingTreeClient(IConfiguration configuration,
@@ -44,7 +43,6 @@ public class SubtaskingTreeClient : ClientBaseTest<SubtaskingTreeClient>
   {
   }
 
-  [EntryPoint]
   public override void EntryPoint()
   {
     var client = new ArmonikSymphonyClient(Configuration,
