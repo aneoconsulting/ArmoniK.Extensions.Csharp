@@ -59,11 +59,7 @@ public class SessionService : BaseClientSubmitter<SessionService>
     : base(channel,
            loggerFactory)
   {
-    TaskOptions = InitializeDefaultTaskOptions();
-    if (taskOptions != null)
-    {
-      TaskOptions.MergeFrom(taskOptions);
-    }
+    TaskOptions = taskOptions ?? InitializeDefaultTaskOptions();
 
     Logger?.LogDebug("Creating Session... ");
 

@@ -70,24 +70,28 @@ public class AppsLoader : IAppsLoader
 
     UserAssemblyLoadContext = new AddonsAssemblyLoadContext(localPathToAssembly);
 
-    assembly_ = UserAssemblyLoadContext.LoadFromAssemblyPath(localPathToAssembly);
-
-    if (assembly_ == null)
+    try
     {
-      logger_.LogError($"Cannot load assembly from path [${localPathToAssembly}]");
-      throw new WorkerApiException($"Cannot load assembly from path [${localPathToAssembly}]");
+      assembly_ = UserAssemblyLoadContext.LoadFromAssemblyPath(localPathToAssembly);
+    }
+    catch (Exception ex)
+    {
+      logger_.LogError($"Cannot load assembly from path [${localPathToAssembly}] "             + ex.Message + Environment.NewLine + ex.StackTrace);
+      throw new WorkerApiException($"Cannot load assembly from path [${localPathToAssembly}] " + ex.Message + Environment.NewLine + ex.StackTrace);
     }
 
     PathToAssembly = localPathToAssembly;
 
     var localPathToAssemblyGridWorker = $"{Path.GetDirectoryName(localPathToAssembly)}/{ArmoniKDevelopmentKitServerApi}.dll";
 
-    assemblyGridWorker_ = UserAssemblyLoadContext.LoadFromAssemblyPath(localPathToAssemblyGridWorker);
-
-    if (assemblyGridWorker_ == null)
+    try
     {
-      logger_.LogError($"Cannot load assembly from path [${localPathToAssemblyGridWorker}]");
-      throw new WorkerApiException($"Cannot load assembly from path [${localPathToAssemblyGridWorker}]");
+      assemblyGridWorker_ = UserAssemblyLoadContext.LoadFromAssemblyPath(localPathToAssemblyGridWorker);
+    }
+    catch (Exception ex)
+    {
+      logger_.LogError($"Cannot load assembly from path [${localPathToAssemblyGridWorker}] "             + ex.Message + Environment.NewLine + ex.StackTrace);
+      throw new WorkerApiException($"Cannot load assembly from path [${localPathToAssemblyGridWorker}] " + ex.Message + Environment.NewLine + ex.StackTrace);
     }
 
     var location = Path.GetDirectoryName(localPathToAssembly);

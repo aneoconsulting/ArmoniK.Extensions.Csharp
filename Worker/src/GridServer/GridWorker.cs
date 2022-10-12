@@ -173,6 +173,8 @@ public class GridWorker : IGridWorker
                                                                  });
       }
     }
+    // Catch all exceptions from MethodBase.Invoke except TargetInvocationException (triggered by an exception in the invoked code)
+    // which we want to catch higher to allow for task retry
     catch (TargetException e)
     {
       throw new WorkerApiException(e);
@@ -180,10 +182,6 @@ public class GridWorker : IGridWorker
     catch (ArgumentException e)
     {
       throw new WorkerApiException(e);
-    }
-    catch (TargetInvocationException e)
-    {
-      throw new WorkerApiException(e.InnerException);
     }
     catch (TargetParameterCountException e)
     {
@@ -197,11 +195,14 @@ public class GridWorker : IGridWorker
     {
       throw new WorkerApiException(e);
     }
-    catch (Exception e)
+    catch (NotSupportedException e)
     {
       throw new WorkerApiException(e);
     }
-
+    catch (TargetInvocationException e)
+    {
+      throw e.InnerException ?? e;
+    }
 
     return new byte[]
            {
