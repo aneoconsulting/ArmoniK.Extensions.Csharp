@@ -202,8 +202,7 @@ public class GridWorker : IGridWorker
     }
     catch (TargetInvocationException e)
     {
-      throw e.InnerException ?? new Exception("Unknown exception in worker code",
-                                              e);
+      throw e.InnerException ?? e;
     }
 
     return new byte[]
