@@ -21,8 +21,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using ArmoniK.DevelopmentKit.SymphonyApi;
-using ArmoniK.DevelopmentKit.SymphonyApi.api;
+using ArmoniK.DevelopmentKit.Worker.Symphony;
 using ArmoniK.EndToEndTests.Common;
 
 namespace ArmoniK.EndToEndTests.Tests.CheckOptions;

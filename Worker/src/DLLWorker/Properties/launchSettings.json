@@ -1,6 +1,6 @@
 {
   "profiles": {
-    "ArmoniK.DevelopmentKit.SymphonyApi": {
+    "ArmoniK.DevelopmentKit.Worker.Symphony": {
       "commandName": "Project",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"

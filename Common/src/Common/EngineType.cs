@@ -73,15 +73,15 @@ public class EngineTypes
   private readonly Dictionary<EngineType, string> engineTypes_ = new()
                                                                  {
                                                                    {
-                                                                     EngineType.Symphony, "ArmoniK.DevelopmentKit.SymphonyApi"
+                                                                     EngineType.Symphony, "ArmoniK.DevelopmentKit.Worker.Symphony"
                                                                    },
 
                                                                    {
-                                                                     EngineType.DataSynapse, "ArmoniK.DevelopmentKit.GridServer"
+                                                                     EngineType.DataSynapse, "ArmoniK.DevelopmentKit.Worker.GridServer"
                                                                    },
 
                                                                    {
-                                                                     EngineType.Unified, "ArmoniK.DevelopmentKit.Worker"
+                                                                     EngineType.Unified, "ArmoniK.DevelopmentKit.Worker.Unified"
                                                                    },
                                                                  };
 
