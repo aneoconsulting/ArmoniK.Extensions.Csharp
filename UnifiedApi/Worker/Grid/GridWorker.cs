@@ -99,6 +99,12 @@ public class GridWorker : IGridWorker
 
     ServiceClass = appsLoader.GetServiceContainerInstance<object>(GridAppNamespace,
                                                                   GridServiceName);
+
+    if (ServiceClass is ITaskSubmitterWorkerServiceConfiguration serviceContext)
+    {
+      serviceContext.Configure(configuration,
+                               clientOptions);
+    }
   }
 
   public void InitializeSessionWorker(Session     session,
@@ -139,6 +145,21 @@ public class GridWorker : IGridWorker
                                  .GetMethod(methodName,
                                             arguments.Select(x => x.GetType())
                                                      .ToArray());
+
+    if (ServiceClass is ITaskSubmitterWorkerServiceConfiguration serviceContext)
+    {
+      var taskContext = new TaskContext
+                        {
+                          TaskId              = taskHandler.TaskId,
+                          TaskInput           = taskHandler.Payload,
+                          SessionId           = taskHandler.SessionId,
+                          DependenciesTaskIds = taskHandler.DataDependencies.Select(t => t.Key),
+                          DataDependencies    = taskHandler.DataDependencies,
+                        };
+      serviceContext.TaskContext = taskContext;
+      serviceContext.ConfigureSessionService(taskHandler);
+    }
+
     if (methodInfo == null)
     {
       throw new
@@ -188,10 +209,7 @@ public class GridWorker : IGridWorker
       throw e.InnerException ?? e;
     }
 
-
-    return new byte[]
-           {
-           };
+    return null;
   }
 
   public void SessionFinalize()
