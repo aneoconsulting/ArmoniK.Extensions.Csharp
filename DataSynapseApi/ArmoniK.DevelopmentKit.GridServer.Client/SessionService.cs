@@ -50,15 +50,22 @@ namespace ArmoniK.DevelopmentKit.GridServer.Client;
 public class SessionService : BaseClientSubmitter<SessionService>
 {
   /// <summary>
-  ///   Ctor to instantiate a new SessionService
+  ///   Initializes a new SessionService
   ///   This is an object to send task or get Results from a session
   /// </summary>
+  /// <param name="grpcChannel">Channel used to create grpc clients</param>
+  /// <param name="loggerFactory">the logger factory to pass for root object</param>
+  /// <param name="chunkSubmitSize">The size of chunk to split the list of tasks</param>
+  /// <param name="taskOptions">Tasks configuration</param>
+  /// <param name="sessionId">SessionId previously opened</param>
   public SessionService(ChannelBase                grpcChannel,
-                        [CanBeNull] ILoggerFactory loggerFactory = null,
-                        [CanBeNull] TaskOptions    taskOptions   = null,
-                        [CanBeNull] Session        sessionId     = null)
+                        [CanBeNull] ILoggerFactory loggerFactory   = null,
+                        [CanBeNull] TaskOptions    taskOptions     = null,
+                        [CanBeNull] Session        sessionId       = null,
+                        int                        chunkSubmitSize = 100)
     : base(grpcChannel,
-           loggerFactory)
+           loggerFactory,
+           chunkSubmitSize)
   {
     TaskOptions = taskOptions ?? InitializeDefaultTaskOptions();
 

@@ -80,8 +80,10 @@ public class ArmonikDataSynapseClientService
   ///   Create the session to submit task
   /// </summary>
   /// <param name="taskOptions">Optional parameter to set TaskOptions during the Session creation</param>
+  /// <param name="chunkSubmitSize">The size of chunk to split the list of tasks</param>
   /// <returns></returns>
-  public SessionService CreateSession(TaskOptions taskOptions = null)
+  public SessionService CreateSession(TaskOptions taskOptions     = null,
+                                      int         chunkSubmitSize = 100)
   {
     if (taskOptions != null)
     {
@@ -94,7 +96,8 @@ public class ArmonikDataSynapseClientService
 
     return new SessionService(GrpcChannel,
                               LoggerFactory,
-                              TaskOptions);
+                              TaskOptions,
+                              chunkSubmitSize: chunkSubmitSize);
   }
 
   private void ControlPlaneConnection()
@@ -116,9 +119,11 @@ public class ArmonikDataSynapseClientService
   ///   Set connection to an already opened Session
   /// </summary>
   /// <param name="sessionId">SessionId previously opened</param>
-  /// <param name="clientOptions"></param>
+  /// <param name="clientOptions">Configuration for tasks</param>
+  /// <param name="chunkSubmitSize">The size of chunk to split the list of tasks</param>
   public SessionService OpenSession(string      sessionId,
-                                    TaskOptions clientOptions = null)
+                                    TaskOptions clientOptions   = null,
+                                    int         chunkSubmitSize = 100)
   {
     ControlPlaneConnection();
 
@@ -128,7 +133,8 @@ public class ArmonikDataSynapseClientService
                               new Session
                               {
                                 Id = sessionId,
-                              });
+                              },
+                              chunkSubmitSize);
   }
 
   /// <summary>
