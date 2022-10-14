@@ -52,12 +52,19 @@ public class SessionService : BaseClientSubmitter<SessionService>
   ///   Ctor to instantiate a new SessionService
   ///   This is an object to send task or get Results from a session
   /// </summary>
+  /// <param name="channel">Channel used to create grpc clients</param>
+  /// <param name="loggerFactory">the logger factory to pass for root object</param>
+  /// <param name="chunkSubmitSize">The size of chunk to split the list of tasks</param>
+  /// <param name="taskOptions">Tasks configuration</param>
+  /// <param name="session">SessionId previously opened</param>
   public SessionService(ChannelBase                channel,
-                        [CanBeNull] ILoggerFactory loggerFactory = null,
-                        [CanBeNull] TaskOptions    taskOptions   = null,
-                        [CanBeNull] Session        session       = null)
+                        [CanBeNull] ILoggerFactory loggerFactory   = null,
+                        [CanBeNull] TaskOptions    taskOptions     = null,
+                        [CanBeNull] Session        session         = null,
+                        int                        chunkSubmitSize = 100)
     : base(channel,
-           loggerFactory)
+           loggerFactory,
+           chunkSubmitSize)
   {
     TaskOptions = taskOptions ?? InitializeDefaultTaskOptions();
 
