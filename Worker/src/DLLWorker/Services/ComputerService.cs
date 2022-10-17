@@ -43,14 +43,14 @@ namespace ArmoniK.DevelopmentKit.Worker.DLLWorker.Services;
 
 public class ComputerService : WorkerStreamWrapper
 {
-  public ComputerService(IConfiguration configuration,
-                         GrpcChannelProvider provider,
+  public ComputerService(IConfiguration        configuration,
+                         GrpcChannelProvider   provider,
                          ServiceRequestContext serviceRequestContext)
     : base(serviceRequestContext.LoggerFactory,
            provider)
   {
-    Configuration = configuration;
-    Logger = serviceRequestContext.LoggerFactory.CreateLogger<ComputerService>();
+    Configuration         = configuration;
+    Logger                = serviceRequestContext.LoggerFactory.CreateLogger<ComputerService>();
     ServiceRequestContext = serviceRequestContext;
     Logger.LogInformation("Starting worker...OK");
   }
@@ -75,13 +75,13 @@ public class ComputerService : WorkerStreamWrapper
     try
     {
       var sessionIdCaller = new Session
-      {
-        Id = taskHandler.SessionId,
-      };
+                            {
+                              Id = taskHandler.SessionId,
+                            };
       var taskId = new TaskId
-      {
-        Task = taskHandler.TaskId,
-      };
+                   {
+                     Task = taskHandler.TaskId,
+                   };
       Logger.BeginPropertyScope(("TaskId", taskId.Task),
                                 ("SessionId", sessionIdCaller));
 
@@ -98,7 +98,7 @@ public class ComputerService : WorkerStreamWrapper
         throw new WorkerApiException($"Error in TaskOptions : One of Keys is missing [{string.Join(";", missingKeys.Select(el => $"{el.Item1} => {el.Item2}"))}]");
       }
 
-      var fileName = $"{taskHandler.TaskOptions.ApplicationName}-v{taskHandler.TaskOptions.ApplicationVersion}.zip";
+      var fileName          = $"{taskHandler.TaskOptions.ApplicationName}-v{taskHandler.TaskOptions.ApplicationVersion}.zip";
       var localDirectoryZip = $"{Configuration[AppsOptions.GridDataVolumesKey]}";
 
       var engineTypeName = string.IsNullOrEmpty(taskHandler.TaskOptions.EngineType)
@@ -131,7 +131,7 @@ public class ComputerService : WorkerStreamWrapper
       ServiceRequestContext.SessionId = sessionIdCaller;
 
       Logger.LogInformation("Executing task");
-      var sw = Stopwatch.StartNew();
+      var sw     = Stopwatch.StartNew();
       var result = serviceWorker.Execute(taskHandler);
 
       if (result != null)
@@ -146,9 +146,9 @@ public class ComputerService : WorkerStreamWrapper
 
 
       output = new Output
-      {
-        Ok = new Empty(),
-      };
+               {
+                 Ok = new Empty(),
+               };
     }
     catch (WorkerApiException ex)
     {
@@ -178,7 +178,7 @@ public class ComputerService : WorkerStreamWrapper
 
   private static string ExtractException(Exception e)
   {
-    var level = 1;
+    var level   = 1;
     var current = e;
     List<Exception> exList = new()
                              {

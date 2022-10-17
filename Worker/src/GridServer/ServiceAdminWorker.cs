@@ -39,7 +39,7 @@ public class ServiceAdminWorker
 {
   public ServiceAdminWorker(IConfiguration configuration,
                             ILoggerFactory loggerFactory,
-                            TaskOptions taskOptions)
+                            TaskOptions    taskOptions)
   {
     ClientService = new ArmonikDataSynapsePollingService(configuration,
                                                          loggerFactory,
@@ -47,7 +47,7 @@ public class ServiceAdminWorker
     throw new NotImplementedException("Service Admin Worker need to move into Poling agent");
   }
 
-  public Session SessionId { get; set; }
+  public Session                  SessionId     { get; set; }
   public Dictionary<string, Task> TaskWarehouse { get; set; }
 
   public ArmonikDataSynapsePollingService ClientService { get; set; }
@@ -57,9 +57,9 @@ public class ServiceAdminWorker
   public byte[] UploadResources(string path)
   {
     ArmonikPayload payload = new()
-    {
-      ArmonikRequestType = ArmonikRequestType.Upload,
-    };
+                             {
+                               ArmonikRequestType = ArmonikRequestType.Upload,
+                             };
     var taskId = ClientService.SubmitTask(payload.Serialize());
 
     throw new NotImplementedException("Service Admin Worker need to move into Poling agent");

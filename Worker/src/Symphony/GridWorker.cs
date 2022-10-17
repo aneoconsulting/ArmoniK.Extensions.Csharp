@@ -40,8 +40,8 @@ namespace ArmoniK.DevelopmentKit.Worker.Symphony;
 public class GridWorker : IGridWorker
 {
   private ServiceContainerBase serviceContainerBase_;
-  private ServiceContext serviceContext_;
-  private SessionContext sessionContext_;
+  private ServiceContext       serviceContext_;
+  private SessionContext       sessionContext_;
 
   public GridWorker()
   {
@@ -76,20 +76,20 @@ public class GridWorker : IGridWorker
   public TaskId TaskId { get; set; }
 
   public void Configure(IConfiguration configuration,
-                        TaskOptions clientOptions,
-                        IAppsLoader appsLoader)
+                        TaskOptions    clientOptions,
+                        IAppsLoader    appsLoader)
   {
-    GridAppName = clientOptions.ApplicationName;
-    GridAppVersion = clientOptions.ApplicationVersion;
+    GridAppName      = clientOptions.ApplicationName;
+    GridAppVersion   = clientOptions.ApplicationVersion;
     GridAppNamespace = clientOptions.ApplicationNamespace;
 
     serviceContext_ = new ServiceContext
-    {
-      ApplicationName = GridAppName,
-      ServiceName = $"{GridAppName}-{GridAppVersion}-Service",
-      ClientLibVersion = GridAppVersion,
-      AppNamespace = GridAppNamespace,
-    };
+                      {
+                        ApplicationName  = GridAppName,
+                        ServiceName      = $"{GridAppName}-{GridAppVersion}-Service",
+                        ClientLibVersion = GridAppVersion,
+                        AppNamespace     = GridAppNamespace,
+                      };
 
 
     Logger.LogInformation("Loading ServiceContainer from Application package :  " + $"\n\tappName   :   {GridAppName}" + $"\n\tversion   :   {GridAppVersion}" +
@@ -105,7 +105,7 @@ public class GridWorker : IGridWorker
     OnCreateService();
   }
 
-  public void InitializeSessionWorker(Session sessionId,
+  public void InitializeSessionWorker(Session     sessionId,
                                       TaskOptions requestTaskOptions)
   {
     Logger.BeginPropertyScope(("SessionId", sessionId));
@@ -136,9 +136,9 @@ public class GridWorker : IGridWorker
   public byte[] Execute(ITaskHandler taskHandler)
   {
     TaskId = new TaskId
-    {
-      Task = taskHandler.TaskId,
-    };
+             {
+               Task = taskHandler.TaskId,
+             };
 
     Logger.BeginPropertyScope(("TaskId", TaskId));
 
@@ -146,14 +146,14 @@ public class GridWorker : IGridWorker
     serviceContainerBase_.Logger.BeginPropertyScope(("TaskId", TaskId.Task));
 
     var taskContext = new TaskContext
-    {
-      TaskId = TaskId.Task,
-      TaskInput = taskHandler.Payload,
-      SessionId = taskHandler.SessionId,
-      DependenciesTaskIds = taskHandler.DataDependencies.Select(t => t.Key),
-      DataDependencies = taskHandler.DataDependencies,
-      TaskOptions = taskHandler.TaskOptions,
-    };
+                      {
+                        TaskId              = TaskId.Task,
+                        TaskInput           = taskHandler.Payload,
+                        SessionId           = taskHandler.SessionId,
+                        DependenciesTaskIds = taskHandler.DataDependencies.Select(t => t.Key),
+                        DataDependencies    = taskHandler.DataDependencies,
+                        TaskOptions         = taskHandler.TaskOptions,
+                      };
 
     serviceContainerBase_.ConfigureSessionService(taskHandler);
     serviceContainerBase_.TaskId = TaskId;
@@ -192,10 +192,10 @@ public class GridWorker : IGridWorker
   public void OnSessionEnter(Session session)
   {
     sessionContext_ = new SessionContext
-    {
-      ClientLibVersion = GridAppVersion,
-      SessionId = session.Id,
-    };
+                      {
+                        ClientLibVersion = GridAppVersion,
+                        SessionId        = session.Id,
+                      };
     SessionId = session;
 
     if (serviceContainerBase_.SessionId == null || string.IsNullOrEmpty(serviceContainerBase_.SessionId.Id))
@@ -213,7 +213,7 @@ public class GridWorker : IGridWorker
     if (sessionContext_ != null)
     {
       serviceContainerBase_.OnSessionLeave(sessionContext_);
-      SessionId = null;
+      SessionId       = null;
       sessionContext_ = null;
     }
   }
@@ -226,7 +226,7 @@ public class GridWorker : IGridWorker
     {
       serviceContainerBase_.OnDestroyService(serviceContext_);
       serviceContext_ = null;
-      SessionId = null;
+      SessionId       = null;
     }
   }
 }

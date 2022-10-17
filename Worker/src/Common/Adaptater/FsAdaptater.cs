@@ -34,7 +34,7 @@ public class FsAdaptater : IFileAdaptater
   public FsAdaptater(string sourceDirPath,
                      string localZipDir = "/tmp/packages/zip")
   {
-    SourceDirPath = sourceDirPath;
+    SourceDirPath      = sourceDirPath;
     DestinationDirPath = localZipDir;
 
     if (!Directory.Exists(DestinationDirPath))

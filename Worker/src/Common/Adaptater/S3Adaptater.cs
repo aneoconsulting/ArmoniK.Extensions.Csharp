@@ -42,13 +42,13 @@ public class S3Adaptater : IFileAdaptater
                      string localZipDir = "/tmp/packages/zip")
   {
     var config = new AmazonS3Config
-    {
-      ServiceURL = endPointRegion,
-    };
+                 {
+                   ServiceURL = endPointRegion,
+                 };
 
-    BucketName = bucketName;
+    BucketName   = bucketName;
     RemoteS3Path = remoteS3Path;
-    LocalZipDir = localZipDir;
+    LocalZipDir  = localZipDir;
 
     Client = string.IsNullOrEmpty(awsAccessKeyId)
                ? new AmazonS3Client(config)
@@ -102,10 +102,10 @@ public class S3Adaptater : IFileAdaptater
     var ms = new MemoryStream();
 
     var r = await Client.GetObjectAsync(new GetObjectRequest
-    {
-      BucketName = BucketName,
-      Key = fileName,
-    });
+                                        {
+                                          BucketName = BucketName,
+                                          Key        = fileName,
+                                        });
     var stream2 = new BufferedStream(r.ResponseStream);
 
     var file = new FileStream(Path.Combine(LocalZipDir,
@@ -115,7 +115,7 @@ public class S3Adaptater : IFileAdaptater
     try
     {
       var buffer = new byte[0x2000];
-      var count = 0;
+      var count  = 0;
       while ((count = stream2.Read(buffer,
                                    0,
                                    buffer.Length)) > 0)

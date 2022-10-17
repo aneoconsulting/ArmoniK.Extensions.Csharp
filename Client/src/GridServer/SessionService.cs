@@ -53,10 +53,10 @@ public class SessionService : BaseClientSubmitter<SessionService>
   ///   Ctor to instantiate a new SessionService
   ///   This is an object to send task or get Results from a session
   /// </summary>
-  public SessionService(ChannelBase grpcChannel,
+  public SessionService(ChannelBase                grpcChannel,
                         [CanBeNull] ILoggerFactory loggerFactory = null,
-                        [CanBeNull] TaskOptions taskOptions = null,
-                        [CanBeNull] Session sessionId = null)
+                        [CanBeNull] TaskOptions    taskOptions   = null,
+                        [CanBeNull] Session        sessionId     = null)
     : base(grpcChannel,
            loggerFactory)
   {
@@ -86,37 +86,37 @@ public class SessionService : BaseClientSubmitter<SessionService>
   /// <returns>Default taskOptions</returns>
   public static TaskOptions InitializeDefaultTaskOptions()
     => new()
-    {
-      MaxDuration = new Duration
-      {
-        Seconds = 40,
-      },
-      MaxRetries = 2,
-      Priority = 1,
-      EngineType = EngineType.DataSynapse.ToString(),
-      ApplicationName = "ArmoniK.DevelopmentKit.Worker.GridServer",
-      ApplicationVersion = "1.X.X",
-      ApplicationNamespace = "ArmoniK.DevelopmentKit.Worker.GridServer",
-      ApplicationService = "FallBackServerAdder",
-    };
+       {
+         MaxDuration = new Duration
+                       {
+                         Seconds = 40,
+                       },
+         MaxRetries           = 2,
+         Priority             = 1,
+         EngineType           = EngineType.DataSynapse.ToString(),
+         ApplicationName      = "ArmoniK.DevelopmentKit.Worker.GridServer",
+         ApplicationVersion   = "1.X.X",
+         ApplicationNamespace = "ArmoniK.DevelopmentKit.Worker.GridServer",
+         ApplicationService   = "FallBackServerAdder",
+       };
 
   private Session CreateSession(IEnumerable<string> partitionIds)
   {
     using var _ = Logger?.LogFunction();
     var createSessionRequest = new CreateSessionRequest
-    {
-      DefaultTaskOption = TaskOptions,
-      PartitionIds =
+                               {
+                                 DefaultTaskOption = TaskOptions,
+                                 PartitionIds =
                                  {
                                    partitionIds,
                                  },
-    };
+                               };
     var session = SubmitterService.CreateSession(createSessionRequest);
 
     return new Session
-    {
-      Id = session.SessionId,
-    };
+           {
+             Id = session.SessionId,
+           };
   }
 
   /// <summary>
@@ -169,7 +169,7 @@ public class SessionService : BaseClientSubmitter<SessionService>
   /// <param name="payload">The payload to submit</param>
   /// <param name="dependencies">A list of task Id in dependence of this created task</param>
   /// <returns>return the taskId of the created task </returns>
-  public string SubmitTaskWithDependencies(byte[] payload,
+  public string SubmitTaskWithDependencies(byte[]        payload,
                                            IList<string> dependencies)
     => SubmitTasksWithDependencies(new[]
                                    {

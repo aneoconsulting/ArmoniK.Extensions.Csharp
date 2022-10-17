@@ -32,6 +32,6 @@ public static class ServiceCollectionExt
 {
   [PublicAPI]
   public static IServiceCollection AddConfiguration(this IServiceCollection serviceCollection,
-                                                    IConfiguration configuration)
+                                                    IConfiguration          configuration)
     => serviceCollection;
 }

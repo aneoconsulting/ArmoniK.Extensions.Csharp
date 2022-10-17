@@ -35,7 +35,7 @@ public class GridServerException : Exception
   {
   }
 
-  public GridServerException(string message,
+  public GridServerException(string    message,
                              Exception e)
     : base(message,
            e)

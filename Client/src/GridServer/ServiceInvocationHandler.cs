@@ -40,7 +40,7 @@ public interface IServiceInvocationHandler
   /// <param name="e">The exception sent to the client from the control plane</param>
   /// <param name="taskId">The task identifier which has invoke the error callBack</param>
   void HandleError(ServiceInvocationException e,
-                   string taskId);
+                   string                     taskId);
 
   /// <summary>
   ///   The callBack method which has to be implemented to retrieve response from the server

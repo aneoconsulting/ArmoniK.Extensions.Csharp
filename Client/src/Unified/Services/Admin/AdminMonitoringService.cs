@@ -23,10 +23,10 @@ public class AdminMonitoringService
   /// </summary>
   /// <param name="channel">The entry point to the control plane</param>
   /// <param name="loggerFactory">The factory logger to create logger</param>
-  public AdminMonitoringService(ChannelBase channel,
+  public AdminMonitoringService(ChannelBase                channel,
                                 [CanBeNull] ILoggerFactory loggerFactory = null)
   {
-    Logger = loggerFactory?.CreateLogger<AdminMonitoringService>();
+    Logger              = loggerFactory?.CreateLogger<AdminMonitoringService>();
     ControlPlaneService = new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel);
   }
 
@@ -56,9 +56,9 @@ public class AdminMonitoringService
   /// <param name="sessionId">the sessionId of the session to cancel</param>
   public void CancelSession(string sessionId)
     => ControlPlaneService.CancelSession(new Session
-    {
-      Id = sessionId,
-    });
+                                         {
+                                           Id = sessionId,
+                                         });
 
   /// <summary>
   ///   Return the filtered list of task of a session
@@ -75,40 +75,40 @@ public class AdminMonitoringService
   /// <returns>The list of filtered task </returns>
   public IEnumerable<string> ListAllTasksBySession(string sessionId)
     => ControlPlaneService.ListTasks(new TaskFilter
-    {
-      Session = new TaskFilter.Types.IdsRequest
-      {
-        Ids =
+                                     {
+                                       Session = new TaskFilter.Types.IdsRequest
+                                                 {
+                                                   Ids =
                                                    {
                                                      sessionId,
                                                    },
-      },
-    })
+                                                 },
+                                     })
                           .TaskIds;
 
   /// <summary>
   ///   Return the list of task of a session filtered by status
   /// </summary>
   /// <returns>The list of filtered task </returns>
-  public IEnumerable<string> ListTasksBySession(string sessionId,
+  public IEnumerable<string> ListTasksBySession(string              sessionId,
                                                 params TaskStatus[] taskStatus)
     => ControlPlaneService.ListTasks(new TaskFilter
-    {
-      Session = new TaskFilter.Types.IdsRequest
-      {
-        Ids =
+                                     {
+                                       Session = new TaskFilter.Types.IdsRequest
+                                                 {
+                                                   Ids =
                                                    {
                                                      sessionId,
                                                    },
-      },
-      Included = new TaskFilter.Types.StatusesRequest
-      {
-        Statuses =
+                                                 },
+                                       Included = new TaskFilter.Types.StatusesRequest
+                                                  {
+                                                    Statuses =
                                                     {
                                                       taskStatus,
                                                     },
-      },
-    })
+                                                  },
+                                     })
                           .TaskIds;
 
   /// <summary>
@@ -119,25 +119,25 @@ public class AdminMonitoringService
   [Obsolete]
   public IEnumerable<string> ListRunningTasks(string sessionId)
     => ControlPlaneService.ListTasks(new TaskFilter
-    {
-      Session = new TaskFilter.Types.IdsRequest
-      {
-        Ids =
+                                     {
+                                       Session = new TaskFilter.Types.IdsRequest
+                                                 {
+                                                   Ids =
                                                    {
                                                      sessionId,
                                                    },
-      },
-      Included = new TaskFilter.Types.StatusesRequest
-      {
-        Statuses =
+                                                 },
+                                       Included = new TaskFilter.Types.StatusesRequest
+                                                  {
+                                                    Statuses =
                                                     {
                                                       TaskStatus.Creating,
                                                       TaskStatus.Dispatched,
                                                       TaskStatus.Processing,
                                                       TaskStatus.Submitted,
                                                     },
-      },
-    })
+                                                  },
+                                     })
                           .TaskIds;
 
   /// <summary>
@@ -148,23 +148,23 @@ public class AdminMonitoringService
   [Obsolete]
   public IEnumerable<string> ListErrorTasks(string sessionId)
     => ControlPlaneService.ListTasks(new TaskFilter
-    {
-      Session = new TaskFilter.Types.IdsRequest
-      {
-        Ids =
+                                     {
+                                       Session = new TaskFilter.Types.IdsRequest
+                                                 {
+                                                   Ids =
                                                    {
                                                      sessionId,
                                                    },
-      },
-      Included = new TaskFilter.Types.StatusesRequest
-      {
-        Statuses =
+                                                 },
+                                       Included = new TaskFilter.Types.StatusesRequest
+                                                  {
+                                                    Statuses =
                                                     {
                                                       TaskStatus.Error,
                                                       TaskStatus.Timeout,
                                                     },
-      },
-    })
+                                                  },
+                                     })
                           .TaskIds;
 
   /// <summary>
@@ -175,23 +175,23 @@ public class AdminMonitoringService
   [Obsolete]
   public IEnumerable<string> ListCanceledTasks(string sessionId)
     => ControlPlaneService.ListTasks(new TaskFilter
-    {
-      Session = new TaskFilter.Types.IdsRequest
-      {
-        Ids =
+                                     {
+                                       Session = new TaskFilter.Types.IdsRequest
+                                                 {
+                                                   Ids =
                                                    {
                                                      sessionId,
                                                    },
-      },
-      Included = new TaskFilter.Types.StatusesRequest
-      {
-        Statuses =
+                                                 },
+                                       Included = new TaskFilter.Types.StatusesRequest
+                                                  {
+                                                    Statuses =
                                                     {
                                                       TaskStatus.Canceled,
                                                       TaskStatus.Canceling,
                                                     },
-      },
-    })
+                                                  },
+                                     })
                           .TaskIds;
 
   /// <summary>
@@ -217,15 +217,15 @@ public class AdminMonitoringService
   /// <returns>returns a list of session filtered</returns>
   public IEnumerable<string> ListRunningSessions()
     => ControlPlaneService.ListSessions(new SessionFilter
-    {
-      Included = new SessionFilter.Types.StatusesRequest
-      {
-        Statuses =
+                                        {
+                                          Included = new SessionFilter.Types.StatusesRequest
+                                                     {
+                                                       Statuses =
                                                        {
                                                          SessionStatus.Running,
                                                        },
-      },
-    })
+                                                     },
+                                        })
                           .SessionIds;
 
   /// <summary>
@@ -234,15 +234,15 @@ public class AdminMonitoringService
   /// <returns>returns a list of session filtered</returns>
   public IEnumerable<string> ListCanceledSessions()
     => ControlPlaneService.ListSessions(new SessionFilter
-    {
-      Included = new SessionFilter.Types.StatusesRequest
-      {
-        Statuses =
+                                        {
+                                          Included = new SessionFilter.Types.StatusesRequest
+                                                     {
+                                                       Statuses =
                                                        {
                                                          SessionStatus.Canceled,
                                                        },
-      },
-    })
+                                                     },
+                                        })
                           .SessionIds;
 
   /// <summary>
@@ -260,15 +260,15 @@ public class AdminMonitoringService
   /// <returns>return the number of task</returns>
   public int CountAllTasksBySession(string sessionId)
     => ControlPlaneService.CountTasks(new TaskFilter
-    {
-      Session = new TaskFilter.Types.IdsRequest
-      {
-        Ids =
+                                      {
+                                        Session = new TaskFilter.Types.IdsRequest
+                                                  {
+                                                    Ids =
                                                     {
                                                       sessionId,
                                                     },
-      },
-    })
+                                                  },
+                                      })
                           .Values.Count;
 
 
@@ -278,25 +278,25 @@ public class AdminMonitoringService
   /// <returns>return the number of task</returns>
   public int CountRunningTasksBySession(string sessionId)
     => ControlPlaneService.CountTasks(new TaskFilter
-    {
-      Session = new TaskFilter.Types.IdsRequest
-      {
-        Ids =
+                                      {
+                                        Session = new TaskFilter.Types.IdsRequest
+                                                  {
+                                                    Ids =
                                                     {
                                                       sessionId,
                                                     },
-      },
-      Included = new TaskFilter.Types.StatusesRequest
-      {
-        Statuses =
+                                                  },
+                                        Included = new TaskFilter.Types.StatusesRequest
+                                                   {
+                                                     Statuses =
                                                      {
                                                        TaskStatus.Creating,
                                                        TaskStatus.Dispatched,
                                                        TaskStatus.Processing,
                                                        TaskStatus.Submitted,
                                                      },
-      },
-    })
+                                                   },
+                                      })
                           .Values.Count;
 
   /// <summary>
@@ -305,23 +305,23 @@ public class AdminMonitoringService
   /// <returns>return the number of task</returns>
   public int CountErrorTasksBySession(string sessionId)
     => ControlPlaneService.CountTasks(new TaskFilter
-    {
-      Session = new TaskFilter.Types.IdsRequest
-      {
-        Ids =
+                                      {
+                                        Session = new TaskFilter.Types.IdsRequest
+                                                  {
+                                                    Ids =
                                                     {
                                                       sessionId,
                                                     },
-      },
-      Included = new TaskFilter.Types.StatusesRequest
-      {
-        Statuses =
+                                                  },
+                                        Included = new TaskFilter.Types.StatusesRequest
+                                                   {
+                                                     Statuses =
                                                      {
                                                        TaskStatus.Error,
                                                        TaskStatus.Timeout,
                                                      },
-      },
-    })
+                                                   },
+                                      })
                           .Values.Count;
 
   /// <summary>
@@ -330,25 +330,25 @@ public class AdminMonitoringService
   /// <param name="sessionId">the id of the session</param>
   /// <param name="taskStatus">a variadic list of taskStatus </param>
   /// <returns>return the number of task</returns>
-  public int CountTaskBySession(string sessionId,
+  public int CountTaskBySession(string              sessionId,
                                 params TaskStatus[] taskStatus)
     => ControlPlaneService.CountTasks(new TaskFilter
-    {
-      Session = new TaskFilter.Types.IdsRequest
-      {
-        Ids =
+                                      {
+                                        Session = new TaskFilter.Types.IdsRequest
+                                                  {
+                                                    Ids =
                                                     {
                                                       sessionId,
                                                     },
-      },
-      Included = new TaskFilter.Types.StatusesRequest
-      {
-        Statuses =
+                                                  },
+                                        Included = new TaskFilter.Types.StatusesRequest
+                                                   {
+                                                     Statuses =
                                                      {
                                                        taskStatus,
                                                      },
-      },
-    })
+                                                   },
+                                      })
                           .Values.Count;
 
   /// <summary>
@@ -358,23 +358,23 @@ public class AdminMonitoringService
   [Obsolete]
   public int CountCancelTasksBySession(string sessionId)
     => ControlPlaneService.CountTasks(new TaskFilter
-    {
-      Session = new TaskFilter.Types.IdsRequest
-      {
-        Ids =
+                                      {
+                                        Session = new TaskFilter.Types.IdsRequest
+                                                  {
+                                                    Ids =
                                                     {
                                                       sessionId,
                                                     },
-      },
-      Included = new TaskFilter.Types.StatusesRequest
-      {
-        Statuses =
+                                                  },
+                                        Included = new TaskFilter.Types.StatusesRequest
+                                                   {
+                                                     Statuses =
                                                      {
                                                        TaskStatus.Canceling,
                                                        TaskStatus.Canceled,
                                                      },
-      },
-    })
+                                                   },
+                                      })
                           .Values.Count;
 
   /// <summary>
@@ -384,22 +384,22 @@ public class AdminMonitoringService
   [Obsolete]
   public int CountCompletedTasksBySession(string sessionId)
     => ControlPlaneService.CountTasks(new TaskFilter
-    {
-      Session = new TaskFilter.Types.IdsRequest
-      {
-        Ids =
+                                      {
+                                        Session = new TaskFilter.Types.IdsRequest
+                                                  {
+                                                    Ids =
                                                     {
                                                       sessionId,
                                                     },
-      },
-      Included = new TaskFilter.Types.StatusesRequest
-      {
-        Statuses =
+                                                  },
+                                        Included = new TaskFilter.Types.StatusesRequest
+                                                   {
+                                                     Statuses =
                                                      {
                                                        TaskStatus.Completed,
                                                      },
-      },
-    })
+                                                   },
+                                      })
                           .Values.Count;
 
   /// <summary>
@@ -408,15 +408,15 @@ public class AdminMonitoringService
   /// <param name="taskIds">the taskIds list to cancel</param>
   public void CancelTasksBySession(IEnumerable<string> taskIds)
     => ControlPlaneService.CancelTasks(new TaskFilter
-    {
-      Task = new TaskFilter.Types.IdsRequest
-      {
-        Ids =
+                                       {
+                                         Task = new TaskFilter.Types.IdsRequest
+                                                {
+                                                  Ids =
                                                   {
                                                     taskIds,
                                                   },
-      },
-    });
+                                                },
+                                       });
 
   /// <summary>
   ///   The method to get status of a list of tasks
@@ -425,12 +425,12 @@ public class AdminMonitoringService
   /// <returns>returns a list of pair TaskId/TaskStatus</returns>
   public IEnumerable<Tuple<string, TaskStatus>> GetTaskStatus(IEnumerable<string> taskIds)
     => ControlPlaneService.GetTaskStatus(new GetTaskStatusRequest
-    {
-      TaskIds =
+                                         {
+                                           TaskIds =
                                            {
                                              taskIds,
                                            },
-    })
+                                         })
                           .IdStatuses.Select(idsStatus => Tuple.Create(idsStatus.TaskId,
                                                                        idsStatus.Status));
 

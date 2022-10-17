@@ -45,14 +45,14 @@ public class Properties
   ///   The default configuration to submit task in a Session
   /// </summary>
   public static TaskOptions DefaultTaskOptions = new()
-  {
-    MaxDuration = new Duration
-    {
-      Seconds = 300000,
-    },
-    MaxRetries = 3,
-    Priority = 1,
-  };
+                                                 {
+                                                   MaxDuration = new Duration
+                                                                 {
+                                                                   Seconds = 300000,
+                                                                 },
+                                                   MaxRetries = 3,
+                                                   Priority   = 1,
+                                                 };
 
 
   /// <summary>
@@ -67,13 +67,13 @@ public class Properties
   /// <param name="caCertPem">The Server certificate file to validate mTLS</param>
   /// <param name="sslValidation">Disable the ssl strong validation of ssl certificate (default : enable => true)</param>
   public Properties(TaskOptions options,
-                    string connectionAddress,
-                    int connectionPort = 0,
-                    string protocol = null,
-                    string clientCertPem = null,
-                    string clientKeyPem = null,
-                    string caCertPem = null,
-                    bool sslValidation = true)
+                    string      connectionAddress,
+                    int         connectionPort = 0,
+                    string      protocol       = null,
+                    string      clientCertPem  = null,
+                    string      clientKeyPem   = null,
+                    string      caCertPem      = null,
+                    bool        sslValidation  = true)
     : this(new ConfigurationBuilder().AddEnvironmentVariables()
                                      .Build(),
            options,
@@ -101,16 +101,16 @@ public class Properties
   /// <param name="sslValidation">Disable the ssl strong validation of ssl certificate (default : enable => true)</param>
   /// <exception cref="ArgumentException"></exception>
   public Properties(IConfiguration configuration,
-                    TaskOptions options,
-                    string connectionAddress = null,
-                    int connectionPort = 0,
-                    string protocol = null,
-                    string clientCertFilePem = null,
-                    string clientKeyFilePem = null,
-                    string caCertPem = null,
-                    bool sslValidation = true)
+                    TaskOptions    options,
+                    string         connectionAddress = null,
+                    int            connectionPort    = 0,
+                    string         protocol          = null,
+                    string         clientCertFilePem = null,
+                    string         clientKeyFilePem  = null,
+                    string         caCertPem         = null,
+                    bool           sslValidation     = true)
   {
-    TaskOptions = options;
+    TaskOptions   = options;
     Configuration = configuration;
 
     var sectionGrpc = configuration.GetSection(SectionGrpc)
@@ -212,11 +212,11 @@ public class Properties
   /// </summary>
   private static string SectionGrpc { get; } = "Grpc";
 
-  private static string SectionEndPoint { get; } = "EndPoint";
+  private static string SectionEndPoint      { get; } = "EndPoint";
   private static string SectionSSlValidation { get; } = "SSLValidation";
-  private static string SectionCaCert { get; } = "CaCert";
-  private static string SectionClientCert { get; } = "ClientCert";
-  private static string SectionClientKey { get; } = "ClientKey";
+  private static string SectionCaCert        { get; } = "CaCert";
+  private static string SectionClientCert    { get; } = "ClientCert";
+  private static string SectionClientKey     { get; } = "ClientKey";
 
   /// <summary>
   ///   The key to select mTls in configuration
@@ -268,7 +268,7 @@ public class Properties
         Protocol = uri.Scheme;
 
         ConnectionAddress = uri.Host;
-        ConnectionPort = uri.Port;
+        ConnectionPort    = uri.Port;
       }
       catch (FormatException e)
       {

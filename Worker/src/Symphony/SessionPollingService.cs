@@ -56,9 +56,9 @@ public class SessionPollingService
   ///   This is an object to send task or get Results from a session
   /// </summary>
   public SessionPollingService(ILoggerFactory loggerFactory,
-                               ITaskHandler taskHandler)
+                               ITaskHandler   taskHandler)
   {
-    Logger = loggerFactory.CreateLogger<SessionPollingService>();
+    Logger        = loggerFactory.CreateLogger<SessionPollingService>();
     LoggerFactory = loggerFactory;
     TaskHandler   = taskHandler;
     TaskOptions   = taskHandler.TaskOptions;
@@ -66,9 +66,9 @@ public class SessionPollingService
     Logger.LogDebug("Creating Session... ");
 
     SessionId = new Session
-    {
-      Id = TaskHandler.SessionId,
-    };
+                {
+                  Id = TaskHandler.SessionId,
+                };
 
     Logger.LogDebug($"Session Created {SessionId}");
 
@@ -112,18 +112,18 @@ public class SessionPollingService
   private static TaskOptions InitializeDefaultTaskOptions()
   {
     TaskOptions taskOptions = new()
-    {
-      MaxDuration = new Duration
-      {
-        Seconds = 300,
-      },
-      MaxRetries = 3,
-      Priority = 1,
-      EngineType = EngineType.Symphony.ToString(),
-      ApplicationName = "ArmoniK.Samples.SymphonyPackage",
-      ApplicationVersion = "1.0.0",
-      ApplicationNamespace = "ArmoniK.Samples.Symphony.Packages",
-    };
+                              {
+                                MaxDuration = new Duration
+                                              {
+                                                Seconds = 300,
+                                              },
+                                MaxRetries           = 3,
+                                Priority             = 1,
+                                EngineType           = EngineType.Symphony.ToString(),
+                                ApplicationName      = "ArmoniK.Samples.SymphonyPackage",
+                                ApplicationVersion   = "1.0.0",
+                                ApplicationNamespace = "ArmoniK.Samples.Symphony.Packages",
+                              };
 
     return taskOptions;
   }
@@ -147,14 +147,14 @@ public class SessionPollingService
                                          Logger.LogDebug("Create task {task}",
                                                          resultId);
                                          return new TaskRequest
-                                         {
-                                           Payload = ByteString.CopyFrom(bytes),
+                                                {
+                                                  Payload = ByteString.CopyFrom(bytes),
 
-                                           ExpectedOutputKeys =
+                                                  ExpectedOutputKeys =
                                                   {
                                                     resultId,
                                                   },
-                                         };
+                                                };
                                        });
 
     var createTaskReply = TaskHandler.CreateTasksAsync(taskRequests,
@@ -188,10 +188,10 @@ public class SessionPollingService
   /// <param name="resultForParent"></param>
   /// <returns>return a list of taskIds of the created tasks </returns>
   public IEnumerable<string> SubmitTasksWithDependencies(IEnumerable<Tuple<byte[], IList<string>>> payloadsWithDependencies,
-                                                         bool resultForParent = false)
+                                                         bool                                      resultForParent = false)
   {
-    using var _ = Logger.LogFunction();
-    var taskRequests = new List<TaskRequest>();
+    using var _            = Logger.LogFunction();
+    var       taskRequests = new List<TaskRequest>();
 
     foreach (var (payload, dependencies) in payloadsWithDependencies)
     {
@@ -200,9 +200,9 @@ public class SessionPollingService
       Logger.LogDebug("Create task {task}",
                       resultId);
       var taskRequest = new TaskRequest
-      {
-        Payload = ByteString.CopyFrom(payload),
-      };
+                        {
+                          Payload = ByteString.CopyFrom(payload),
+                        };
 
       taskRequest.ExpectedOutputKeys.AddRange(resultForParent
                                                 ? TaskHandler.ExpectedResults
@@ -292,7 +292,7 @@ public static class SessionServiceExt
   ///   The user payload to execute.
   /// </param>
   public static string SubmitTask(this SessionPollingService client,
-                                  byte[] payload)
+                                  byte[]                     payload)
     => client.SubmitTasks(new[]
                           {
                             payload,
@@ -308,8 +308,8 @@ public static class SessionServiceExt
   /// <param name="dependencies">A list of task Id in dependence of this created task</param>
   /// <returns>return the taskId of the created task </returns>
   public static string SubmitTaskWithDependencies(this SessionPollingService client,
-                                                  byte[] payload,
-                                                  IList<string> dependencies)
+                                                  byte[]                     payload,
+                                                  IList<string>              dependencies)
     => client.SubmitTasksWithDependencies(new[]
                                           {
                                             Tuple.Create(payload,

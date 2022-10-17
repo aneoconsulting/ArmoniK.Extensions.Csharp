@@ -43,7 +43,7 @@ namespace ArmoniK.DevelopmentKit.Client.Symphony;
 [MarkDownDoc]
 public class ArmonikSymphonyClient
 {
-  private readonly IConfigurationSection controlPlanSection_;
+  private readonly IConfigurationSection          controlPlanSection_;
   private readonly ILogger<ArmonikSymphonyClient> Logger;
 
 
@@ -61,7 +61,7 @@ public class ArmonikSymphonyClient
                             ? configuration.GetSection(SectionGrpc)
                             : null;
     LoggerFactory = loggerFactory;
-    Logger = loggerFactory.CreateLogger<ArmonikSymphonyClient>();
+    Logger        = loggerFactory.CreateLogger<ArmonikSymphonyClient>();
   }
 
   private ILoggerFactory LoggerFactory { get; }
@@ -78,9 +78,9 @@ public class ArmonikSymphonyClient
   /// </summary>
   public string SectionMTLS { get; set; } = "mTLS";
 
-  private static string SectionSSlValidation { get; } = "SSLValidation";
+  private static string SectionSSlValidation  { get; } = "SSLValidation";
   private static string SectionClientCertFile { get; } = "ClientCert";
-  private static string SectionClientKeyFile { get; } = "ClientKey";
+  private static string SectionClientKeyFile  { get; } = "ClientKey";
 
   private ChannelBase GrpcChannel { get; set; }
 
@@ -107,7 +107,7 @@ public class ArmonikSymphonyClient
   /// <param name="sessionId">The sessionId string which will opened</param>
   /// <param name="clientOptions">the customer taskOptions send to the server by the client</param>
   /// <returns>Returns the SessionService to submit, wait or get result</returns>
-  public SessionService OpenSession(Session sessionId,
+  public SessionService OpenSession(Session     sessionId,
                                     TaskOptions clientOptions = null)
   {
     ControlPlaneConnection();
@@ -127,8 +127,8 @@ public class ArmonikSymphonyClient
 
 
     string clientCertFilename = null;
-    string clientKeyFilename = null;
-    var sslValidation = true;
+    string clientKeyFilename  = null;
+    var    sslValidation      = true;
 
     if (controlPlanSection_!.GetSection(SectionMTLS)
                             .Exists() && controlPlanSection_[SectionMTLS]

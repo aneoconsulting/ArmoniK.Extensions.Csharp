@@ -41,14 +41,14 @@ public class ServiceAdmin : IDisposable
 
   public ServiceAdmin(IConfiguration configuration,
                       ILoggerFactory loggerFactory,
-                      Properties properties)
+                      Properties     properties)
   {
     ClientService = new ArmonikDataSynapseClientService(properties,
                                                         loggerFactory);
     throw new NotImplementedException("Service Admin need to move into Poling agent");
   }
 
-  public Session SessionId { get; set; }
+  public Session                  SessionId     { get; set; }
   public Dictionary<string, Task> TaskWarehouse { get; set; }
 
   public ArmonikDataSynapseClientService ClientService { get; set; }
@@ -97,7 +97,7 @@ public class ServiceAdmin : IDisposable
 
   public static ServiceAdmin CreateInstance(IConfiguration configuration,
                                             ILoggerFactory loggerFactory,
-                                            Properties properties)
+                                            Properties     properties)
   {
     serviceAdmin_ ??= new ServiceAdmin(configuration,
                                        loggerFactory,

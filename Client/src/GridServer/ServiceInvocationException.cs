@@ -47,7 +47,7 @@ public class ServiceInvocationException : Exception
            e)
     => message_ = $"{message_} with InnerException {e.GetType()} message : {e.Message}";
 
-  public ServiceInvocationException(string message,
+  public ServiceInvocationException(string            message,
                                     ArgumentException e)
     : base(message,
            e)

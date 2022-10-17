@@ -56,7 +56,7 @@ public class SessionServiceFactory
   public SessionServiceFactory([CanBeNull] ILoggerFactory loggerFactory = null)
   {
     LoggerFactory = loggerFactory;
-    Logger = loggerFactory?.CreateLogger<SessionServiceFactory>();
+    Logger        = loggerFactory?.CreateLogger<SessionServiceFactory>();
   }
 
   [CanBeNull]
@@ -104,8 +104,8 @@ public class SessionServiceFactory
   /// <param name="properties">The properties setting for the session</param>
   /// <param name="sessionId">SessionId previously opened</param>
   /// <param name="clientOptions"></param>
-  public SessionService OpenSession(Properties properties,
-                                    string sessionId,
+  public SessionService OpenSession(Properties  properties,
+                                    string      sessionId,
                                     TaskOptions clientOptions = null)
   {
     ControlPlaneConnection(properties);
@@ -128,19 +128,19 @@ public class SessionServiceFactory
   public static TaskOptions InitDefaultSessionOptions()
   {
     TaskOptions taskOptions = new()
-    {
-      MaxDuration = new Duration
-      {
-        Seconds = 40,
-      },
-      MaxRetries = 2,
-      Priority = 1,
-      EngineType = EngineType.DataSynapse.ToString(),
-      ApplicationName = "ArmoniK.DevelopmentKit.Worker.GridServer",
-      ApplicationVersion = "1.X.X",
-      ApplicationNamespace = "ArmoniK.DevelopmentKit.Worker.GridServer",
-      ApplicationService = "FallBackServerAdder",
-    };
+                              {
+                                MaxDuration = new Duration
+                                              {
+                                                Seconds = 40,
+                                              },
+                                MaxRetries           = 2,
+                                Priority             = 1,
+                                EngineType           = EngineType.DataSynapse.ToString(),
+                                ApplicationName      = "ArmoniK.DevelopmentKit.Worker.GridServer",
+                                ApplicationVersion   = "1.X.X",
+                                ApplicationNamespace = "ArmoniK.DevelopmentKit.Worker.GridServer",
+                                ApplicationService   = "FallBackServerAdder",
+                              };
 
     return taskOptions;
   }

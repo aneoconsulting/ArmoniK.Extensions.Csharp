@@ -17,7 +17,7 @@ public abstract class AbstractClientService : IDisposable
   /// </summary>
   /// <param name="properties"></param>
   /// <param name="loggerFactory"></param>
-  public AbstractClientService(Properties properties,
+  public AbstractClientService(Properties                 properties,
                                [CanBeNull] ILoggerFactory loggerFactory = null)
   {
     LoggerFactory = loggerFactory;

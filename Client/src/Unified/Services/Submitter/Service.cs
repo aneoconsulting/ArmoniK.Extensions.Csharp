@@ -86,7 +86,7 @@ public class Service : AbstractClientService
   /// </summary>
   /// <param name="properties">The properties containing TaskOptions and information to communicate with Control plane and </param>
   /// <param name="loggerFactory"></param>
-  public Service(Properties properties,
+  public Service(Properties                 properties,
                  [CanBeNull] ILoggerFactory loggerFactory = null)
     : base(properties,
            loggerFactory)
@@ -142,8 +142,8 @@ public class Service : AbstractClientService
   /// <returns>Returns an object as result of the method call</returns>
   /// <exception cref="WorkerApiException"></exception>
   [CanBeNull]
-  public ServiceResult LocalExecute(object service,
-                                    string methodName,
+  public ServiceResult LocalExecute(object   service,
+                                    string   methodName,
                                     object[] arguments)
   {
     var methodInfo = service.GetType()
@@ -158,11 +158,11 @@ public class Service : AbstractClientService
                                    arguments);
 
     return new ServiceResult
-    {
-      TaskId = Guid.NewGuid()
+           {
+             TaskId = Guid.NewGuid()
                           .ToString(),
-      Result = result,
-    };
+             Result = result,
+           };
   }
 
   /// <summary>
@@ -172,25 +172,25 @@ public class Service : AbstractClientService
   /// <param name="methodName">The string name of the method</param>
   /// <param name="arguments">the array of object to pass as arguments for the method</param>
   /// <returns>Returns a tuple with the taskId string and an object as result of the method call</returns>
-  public ServiceResult Execute(string methodName,
+  public ServiceResult Execute(string   methodName,
                                object[] arguments)
   {
     ArmonikPayload dataSynapsePayload = new()
-    {
-      ArmonikRequestType = ArmonikRequestType.Execute,
-      MethodName = methodName,
-      ClientPayload = ProtoSerializer.SerializeMessageObjectArray(arguments),
-    };
+                                        {
+                                          ArmonikRequestType = ArmonikRequestType.Execute,
+                                          MethodName         = methodName,
+                                          ClientPayload      = ProtoSerializer.SerializeMessageObjectArray(arguments),
+                                        };
 
     var taskId = SessionService.SubmitTask(dataSynapsePayload.Serialize());
 
     var result = ProtoSerializer.DeSerializeMessageObjectArray(SessionService.GetResult(taskId));
 
     return new ServiceResult
-    {
-      TaskId = taskId,
-      Result = result?[0],
-    };
+           {
+             TaskId = taskId,
+             Result = result?[0],
+           };
   }
 
   /// <summary>
@@ -204,14 +204,14 @@ public class Service : AbstractClientService
                                byte[] dataArg)
   {
     ArmonikPayload dataSynapsePayload = new()
-    {
-      ArmonikRequestType = ArmonikRequestType.Execute,
-      MethodName = methodName,
-      ClientPayload = dataArg,
-      SerializedArguments = true,
-    };
+                                        {
+                                          ArmonikRequestType  = ArmonikRequestType.Execute,
+                                          MethodName          = methodName,
+                                          ClientPayload       = dataArg,
+                                          SerializedArguments = true,
+                                        };
 
-    var taskId = "not-TaskId";
+    var      taskId = "not-TaskId";
     object[] result;
 
     try
@@ -240,16 +240,16 @@ public class Service : AbstractClientService
                                            StatusCodesLookUp.Keys.Contains(status)
                                              ? StatusCodesLookUp[status]
                                              : ArmonikStatusCode.Unknown)
-      {
-        OutputDetails = details,
-      };
+            {
+              OutputDetails = details,
+            };
     }
 
     return new ServiceResult
-    {
-      TaskId = taskId,
-      Result = result?[0],
-    };
+           {
+             TaskId = taskId,
+             Result = result?[0],
+           };
   }
 
   /// <summary>
@@ -258,7 +258,7 @@ public class Service : AbstractClientService
   /// <param name="payload">Th armonikPayload to pass with Function name and serialized arguments</param>
   /// <param name="handler">The handler callBack for Error and response</param>
   /// <returns>Return the taskId</returns>
-  public string SubmitTask(ArmonikPayload payload,
+  public string SubmitTask(ArmonikPayload            payload,
                            IServiceInvocationHandler handler)
     => SubmitTasks(new[]
                    {
@@ -272,7 +272,7 @@ public class Service : AbstractClientService
                                   Action<string, TaskStatus, string> errorHandler,
                                   int                                chunkResultSize = 500)
   {
-    var missing = taskIds.ToHashSet();
+    var missing  = taskIds.ToHashSet();
     var holdPrev = missing.Count;
     var waitInSeconds = new List<int>
                         {
@@ -300,10 +300,10 @@ public class Service : AbstractClientService
                              resultStatusData.TaskId);
             responseHandler(resultStatusData.TaskId,
                             SessionService.TryGetResultAsync(new ResultRequest
-                            {
-                              ResultId = resultStatusData.ResultId,
-                              Session = SessionId,
-                            },
+                                                             {
+                                                               ResultId = resultStatusData.ResultId,
+                                                               Session  = SessionId,
+                                                             },
                                                              CancellationToken.None)
                                           .Result);
           }
@@ -375,7 +375,7 @@ public class Service : AbstractClientService
         {
           idx = idx >= waitInSeconds.Count - 1
                   ? waitInSeconds.Count - 1
-                  : idx + 1;
+                  : idx                 + 1;
 
           Logger?.LogDebug("No Results are ready. Wait for {timeWait} seconds before new retry",
                            waitInSeconds[idx] / 1000);
@@ -495,9 +495,9 @@ public class Service : AbstractClientService
   /// <param name="handler">The handler callBack for Error and response</param>
   /// <returns>Return the taskId</returns>
   public IEnumerable<string> SubmitTasks(IEnumerable<ArmonikPayload> payloads,
-                                         IServiceInvocationHandler handler)
+                                         IServiceInvocationHandler   handler)
   {
-    var taskIds = SessionService.SubmitTasks(payloads.Select(p => p.Serialize()));
+    var taskIds       = SessionService.SubmitTasks(payloads.Select(p => p.Serialize()));
     var submitTaskIds = taskIds as string[] ?? taskIds.ToArray();
 
     foreach (var taskId in submitTaskIds)
@@ -515,16 +515,16 @@ public class Service : AbstractClientService
   /// <param name="arguments">A list of object that can be passed in parameters of the function</param>
   /// <param name="handler">The handler callBack implemented as IServiceInvocationHandler to get response or result or error</param>
   /// <returns>Return the taskId string</returns>
-  public string Submit(string methodName,
-                       object[] arguments,
+  public string Submit(string                    methodName,
+                       object[]                  arguments,
                        IServiceInvocationHandler handler)
   {
     ArmonikPayload payload = new()
-    {
-      ArmonikRequestType = ArmonikRequestType.Execute,
-      MethodName = methodName,
-      ClientPayload = ProtoSerializer.SerializeMessageObjectArray(arguments),
-    };
+                             {
+                               ArmonikRequestType = ArmonikRequestType.Execute,
+                               MethodName         = methodName,
+                               ClientPayload      = ProtoSerializer.SerializeMessageObjectArray(arguments),
+                             };
 
     return SubmitTasks(new[]
                        {
@@ -542,17 +542,17 @@ public class Service : AbstractClientService
   /// <param name="argument">One serialized argument that will already serialize for MethodName.</param>
   /// <param name="handler">The handler callBack implemented as IServiceInvocationHandler to get response or result or error</param>
   /// <returns>Return the taskId string</returns>
-  public string Submit(string methodName,
-                       byte[] argument,
+  public string Submit(string                    methodName,
+                       byte[]                    argument,
                        IServiceInvocationHandler handler)
   {
     ArmonikPayload payload = new()
-    {
-      ArmonikRequestType = ArmonikRequestType.Execute,
-      MethodName = methodName,
-      ClientPayload = argument,
-      SerializedArguments = true,
-    };
+                             {
+                               ArmonikRequestType  = ArmonikRequestType.Execute,
+                               MethodName          = methodName,
+                               ClientPayload       = argument,
+                               SerializedArguments = true,
+                             };
 
     return SubmitTasks(new[]
                        {
@@ -570,17 +570,17 @@ public class Service : AbstractClientService
   /// <param name="arguments">A list of parameters that can be passed in parameters of the each call of function</param>
   /// <param name="handler">The handler callBack implemented as IServiceInvocationHandler to get response or result or error</param>
   /// <returns>Return the list of created taskIds</returns>
-  public IEnumerable<string> Submit(string methodName,
-                                    IEnumerable<object[]> arguments,
+  public IEnumerable<string> Submit(string                    methodName,
+                                    IEnumerable<object[]>     arguments,
                                     IServiceInvocationHandler handler)
   {
     var armonikPayloads = arguments.Select(args => new ArmonikPayload
-    {
-      ArmonikRequestType = ArmonikRequestType.Execute,
-      MethodName = methodName,
-      ClientPayload = ProtoSerializer.SerializeMessageObjectArray(args),
-      SerializedArguments = false,
-    });
+                                                   {
+                                                     ArmonikRequestType  = ArmonikRequestType.Execute,
+                                                     MethodName          = methodName,
+                                                     ClientPayload       = ProtoSerializer.SerializeMessageObjectArray(args),
+                                                     SerializedArguments = false,
+                                                   });
 
 
     return SubmitTasks(armonikPayloads,
@@ -595,17 +595,17 @@ public class Service : AbstractClientService
   /// <param name="arguments">List of serialized arguments that will already serialize for MethodName.</param>
   /// <param name="handler">The handler callBack implemented as IServiceInvocationHandler to get response or result or error</param>
   /// <returns>Return the taskId string</returns>
-  public IEnumerable<string> Submit(string methodName,
-                                    IEnumerable<byte[]> arguments,
+  public IEnumerable<string> Submit(string                    methodName,
+                                    IEnumerable<byte[]>       arguments,
                                     IServiceInvocationHandler handler)
   {
     var armonikPayloads = arguments.Select(args => new ArmonikPayload
-    {
-      ArmonikRequestType = ArmonikRequestType.Execute,
-      MethodName = methodName,
-      ClientPayload = args,
-      SerializedArguments = true,
-    });
+                                                   {
+                                                     ArmonikRequestType  = ArmonikRequestType.Execute,
+                                                     MethodName          = methodName,
+                                                     ClientPayload       = args,
+                                                     SerializedArguments = true,
+                                                   });
 
     return SubmitTasks(armonikPayloads,
                        handler);
@@ -618,7 +618,7 @@ public class Service : AbstractClientService
     HandlerResponse?.Wait();
     HandlerResponse?.Dispose();
 
-    SessionService = null;
+    SessionService        = null;
     SessionServiceFactory = null;
   }
 

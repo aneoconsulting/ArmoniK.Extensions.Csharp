@@ -46,7 +46,7 @@ public class GridServerException : Exception
   /// </summary>
   /// <param name="message">The string message in the new exception</param>
   /// <param name="e">the inner exception</param>
-  public GridServerException(string message,
+  public GridServerException(string    message,
                              Exception e)
     : base(message,
            e)

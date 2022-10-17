@@ -46,7 +46,7 @@ namespace ArmoniK.DevelopmentKit.Worker.GridServer;
 [MarkDownDoc]
 public class ArmonikDataSynapsePollingService
 {
-  private readonly IConfigurationSection controlPlanAddress_;
+  private readonly  IConfigurationSection                     controlPlanAddress_;
   internal readonly ILogger<ArmonikDataSynapsePollingService> Logger;
 
   /// <summary>
@@ -57,7 +57,7 @@ public class ArmonikDataSynapsePollingService
   /// <param name="taskOptions">TaskOptions for any Session</param>
   public ArmonikDataSynapsePollingService(IConfiguration configuration,
                                           ILoggerFactory loggerFactory,
-                                          TaskOptions taskOptions = null)
+                                          TaskOptions    taskOptions = null)
   {
     controlPlanAddress_ = configuration.GetSection(SectionControlPlan);
 
@@ -89,19 +89,19 @@ public class ArmonikDataSynapsePollingService
   /// <returns>Return the default taskOptions</returns>
   public static TaskOptions InitializeDefaultTaskOptions()
     => new()
-    {
-      MaxDuration = new Duration
-      {
-        Seconds = 40,
-      },
-      MaxRetries = 2,
-      Priority = 1,
-      EngineType = EngineType.DataSynapse.ToString(),
-      ApplicationName = "ArmoniK.DevelopmentKit.Worker.GridServer",
-      ApplicationVersion = "1.0.0",
-      ApplicationNamespace = "ArmoniK.DevelopmentKit.Worker.GridServer",
-      ApplicationService = "FallBackServerAdder",
-    };
+       {
+         MaxDuration = new Duration
+                       {
+                         Seconds = 40,
+                       },
+         MaxRetries           = 2,
+         Priority             = 1,
+         EngineType           = EngineType.DataSynapse.ToString(),
+         ApplicationName      = "ArmoniK.DevelopmentKit.Worker.GridServer",
+         ApplicationVersion   = "1.0.0",
+         ApplicationNamespace = "ArmoniK.DevelopmentKit.Worker.GridServer",
+         ApplicationService   = "FallBackServerAdder",
+       };
 
 
   /// <summary>
@@ -122,7 +122,7 @@ public class ArmonikDataSynapsePollingService
   /// <param name="session">The session Id where the task will be attached</param>
   /// <param name="payloadWithDependencies">A list of Tuple(taskId, Payload) in dependence of those created tasks</param>
   /// <returns>return a list of taskIds of the created tasks </returns>
-  public IEnumerable<string> SubmitTasksWithDependencies(string session,
+  public IEnumerable<string> SubmitTasksWithDependencies(string                                    session,
                                                          IEnumerable<Tuple<byte[], IList<string>>> payloadWithDependencies)
     => throw new NotImplementedException("Polling agent service is not implemented for GridServer");
 
@@ -163,7 +163,7 @@ public static class ArmonikDataSynapsePollingServiceExt
   ///   The user payload to execute.
   /// </param>
   public static string SubmitTask(this ArmonikDataSynapsePollingService client,
-                                  byte[] payload)
+                                  byte[]                                payload)
     => client.SubmitTasks(new[]
                           {
                             payload,
@@ -179,8 +179,8 @@ public static class ArmonikDataSynapsePollingServiceExt
   /// <param name="dependencies">A list of task Id in dependence of this created task</param>
   /// <returns>return the taskId of the created task </returns>
   public static string SubmitTaskWithDependencies(this ArmonikDataSynapsePollingService client,
-                                                  byte[] payload,
-                                                  IList<string> dependencies)
+                                                  byte[]                                payload,
+                                                  IList<string>                         dependencies)
     => throw new NotImplementedException("Polling agent service is not implemented for GridServer");
 
   /// <summary>
@@ -190,6 +190,6 @@ public static class ArmonikDataSynapsePollingServiceExt
   /// <param name="taskId">The task Id trying to get result</param>
   /// <returns>Returns the result or byte[0] if there no result</returns>
   public static byte[] GetResult(this ArmonikDataSynapsePollingService client,
-                                 string taskId)
+                                 string                                taskId)
     => throw new NotImplementedException("Polling agent service is not implemented for GridServer");
 }

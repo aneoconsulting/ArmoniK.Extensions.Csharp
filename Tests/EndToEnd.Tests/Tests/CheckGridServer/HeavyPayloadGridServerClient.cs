@@ -53,7 +53,7 @@ public class HeavyPayloadGridServerClient : ClientBaseTest<HeavyPayloadGridServe
   /// <param name="e">The exception sent to the client from the control plane</param>
   /// <param name="taskId">The task identifier which has invoke the error callBack</param>
   public void HandleError(ServiceInvocationException e,
-                          string taskId)
+                          string                     taskId)
   {
     Log.LogError($"Error from {taskId} : " + e.Message,
                  e);
@@ -131,7 +131,7 @@ public class HeavyPayloadGridServerClient : ClientBaseTest<HeavyPayloadGridServe
   /// <param name="taskId">The task which is waiting for</param>
   /// <returns></returns>
   private static byte[] WaitForTaskResult(SessionService sessionService,
-                                          string taskId)
+                                          string         taskId)
   {
     var taskResult = sessionService.GetResult(taskId);
 
@@ -163,8 +163,8 @@ public class HeavyPayloadGridServerClient : ClientBaseTest<HeavyPayloadGridServe
 public static class EnumerableExt
 {
   public static T[] SubArray<T>(this T[] array,
-                                int offset,
-                                int length)
+                                int      offset,
+                                int      length)
   {
     if (array.Length < length)
     {

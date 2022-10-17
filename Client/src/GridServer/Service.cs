@@ -53,8 +53,8 @@ public class Service : IDisposable
   /// <param name="serviceType">The service type (NOT YET USED)</param>
   /// <param name="properties">The properties containing TaskOptions and information to communicate with Control plane and </param>
   /// <param name="loggerFactory">The logger factory to instantiate Logger with the current class type</param>
-  public Service(string serviceType,
-                 Properties properties,
+  public Service(string                     serviceType,
+                 Properties                 properties,
                  [CanBeNull] ILoggerFactory loggerFactory = null)
   {
     ClientService = new ArmonikDataSynapseClientService(properties,
@@ -98,7 +98,7 @@ public class Service : IDisposable
     }
 
     SessionService = null;
-    ClientService = null;
+    ClientService  = null;
     HandlerResponse?.Dispose();
   }
 
@@ -112,8 +112,8 @@ public class Service : IDisposable
   /// <returns>Returns an object as result of the method call</returns>
   /// <exception cref="WorkerApiException"></exception>
   [CanBeNull]
-  public ServiceResult LocalExecute(object service,
-                                    string methodName,
+  public ServiceResult LocalExecute(object   service,
+                                    string   methodName,
                                     object[] arguments)
   {
     var methodInfo = service.GetType()
@@ -128,11 +128,11 @@ public class Service : IDisposable
                                    arguments);
 
     return new ServiceResult
-    {
-      TaskId = Guid.NewGuid()
+           {
+             TaskId = Guid.NewGuid()
                           .ToString(),
-      Result = result,
-    };
+             Result = result,
+           };
   }
 
   /// <summary>
@@ -142,25 +142,25 @@ public class Service : IDisposable
   /// <param name="methodName">The string name of the method</param>
   /// <param name="arguments">the array of object to pass as arguments for the method</param>
   /// <returns>Returns a tuple with the taskId string and an object as result of the method call</returns>
-  public ServiceResult Execute(string methodName,
+  public ServiceResult Execute(string   methodName,
                                object[] arguments)
   {
     ArmonikPayload dataSynapsePayload = new()
-    {
-      ArmonikRequestType = ArmonikRequestType.Execute,
-      MethodName = methodName,
-      ClientPayload = ProtoSerializer.SerializeMessageObjectArray(arguments),
-    };
+                                        {
+                                          ArmonikRequestType = ArmonikRequestType.Execute,
+                                          MethodName         = methodName,
+                                          ClientPayload      = ProtoSerializer.SerializeMessageObjectArray(arguments),
+                                        };
 
     var taskId = SessionService.SubmitTask(dataSynapsePayload.Serialize());
 
     var result = ProtoSerializer.DeSerializeMessageObjectArray(SessionService.GetResult(taskId));
 
     return new ServiceResult
-    {
-      TaskId = taskId,
-      Result = result?[0],
-    };
+           {
+             TaskId = taskId,
+             Result = result?[0],
+           };
   }
 
   /// <summary>
@@ -174,22 +174,22 @@ public class Service : IDisposable
                                byte[] dataArg)
   {
     ArmonikPayload dataSynapsePayload = new()
-    {
-      ArmonikRequestType = ArmonikRequestType.Execute,
-      MethodName = methodName,
-      ClientPayload = dataArg,
-      SerializedArguments = true,
-    };
+                                        {
+                                          ArmonikRequestType  = ArmonikRequestType.Execute,
+                                          MethodName          = methodName,
+                                          ClientPayload       = dataArg,
+                                          SerializedArguments = true,
+                                        };
 
     var taskId = SessionService.SubmitTask(dataSynapsePayload.Serialize());
 
     var result = ProtoSerializer.DeSerializeMessageObjectArray(SessionService.GetResult(taskId));
 
     return new ServiceResult
-    {
-      TaskId = taskId,
-      Result = result?[0],
-    };
+           {
+             TaskId = taskId,
+             Result = result?[0],
+           };
   }
 
   /// <summary>
@@ -198,7 +198,7 @@ public class Service : IDisposable
   /// <param name="dataSynapsePayload">Th armonikPayload to pass with Function name and serialized arguments</param>
   /// <param name="handler">The handler callBack for Error and response</param>
   /// <returns>Return the taskId</returns>
-  public string Submit(ArmonikPayload dataSynapsePayload,
+  public string Submit(ArmonikPayload            dataSynapsePayload,
                        IServiceInvocationHandler handler)
   {
     var taskId = SessionService.SubmitTask(dataSynapsePayload.Serialize());
@@ -208,7 +208,7 @@ public class Service : IDisposable
                                  try
                                  {
                                    var byteResults = ActiveGetResult(taskId);
-                                   var result = ProtoSerializer.DeSerializeMessageObjectArray(byteResults);
+                                   var result      = ProtoSerializer.DeSerializeMessageObjectArray(byteResults);
 
 
                                    handler.HandleResponse(result?[0],
@@ -247,16 +247,16 @@ public class Service : IDisposable
   /// <param name="arguments">A list of object that can be passed in parameters of the function</param>
   /// <param name="handler">The handler callBack implemented as IServiceInvocationHandler to get response or result or error</param>
   /// <returns>Return the taskId string</returns>
-  public string Submit(string methodName,
-                       object[] arguments,
+  public string Submit(string                    methodName,
+                       object[]                  arguments,
                        IServiceInvocationHandler handler)
   {
     ArmonikPayload dataSynapsePayload = new()
-    {
-      ArmonikRequestType = ArmonikRequestType.Execute,
-      MethodName = methodName,
-      ClientPayload = ProtoSerializer.SerializeMessageObjectArray(arguments),
-    };
+                                        {
+                                          ArmonikRequestType = ArmonikRequestType.Execute,
+                                          MethodName         = methodName,
+                                          ClientPayload      = ProtoSerializer.SerializeMessageObjectArray(arguments),
+                                        };
 
     return Submit(dataSynapsePayload,
                   handler);
@@ -270,17 +270,17 @@ public class Service : IDisposable
   /// <param name="argument">One serialized argument that will already serialize for MethodName.</param>
   /// <param name="handler">The handler callBack implemented as IServiceInvocationHandler to get response or result or error</param>
   /// <returns>Return the taskId string</returns>
-  public string Submit(string methodName,
-                       byte[] argument,
+  public string Submit(string                    methodName,
+                       byte[]                    argument,
                        IServiceInvocationHandler handler)
   {
     ArmonikPayload dataSynapsePayload = new()
-    {
-      ArmonikRequestType = ArmonikRequestType.Execute,
-      MethodName = methodName,
-      ClientPayload = argument,
-      SerializedArguments = true,
-    };
+                                        {
+                                          ArmonikRequestType  = ArmonikRequestType.Execute,
+                                          MethodName          = methodName,
+                                          ClientPayload       = argument,
+                                          SerializedArguments = true,
+                                        };
 
     return Submit(dataSynapsePayload,
                   handler);
@@ -294,8 +294,8 @@ public class Service : IDisposable
   private IEnumerable<Tuple<string, byte[]>> ActiveGetResults(IEnumerable<string> taskIds,
                                                               int                 chunkResultSize = 500)
   {
-    var missing = taskIds.ToHashSet();
-    var results = new List<Tuple<string, byte[]>>();
+    var missing  = taskIds.ToHashSet();
+    var results  = new List<Tuple<string, byte[]>>();
     var holdPrev = 0;
     var waitInSeconds = new List<int>
                         {
@@ -327,13 +327,13 @@ public class Service : IDisposable
       {
         idx = idx >= waitInSeconds.Count - 1
                 ? waitInSeconds.Count - 1
-                : idx + 1;
+                : idx                 + 1;
         Logger?.LogInformation("Result not ready. Wait for {timeWait} sec before new retry",
                                waitInSeconds[idx] / 1000);
       }
       else
       {
-        idx = 0;
+        idx      = 0;
         holdPrev = results.Count;
       }
 

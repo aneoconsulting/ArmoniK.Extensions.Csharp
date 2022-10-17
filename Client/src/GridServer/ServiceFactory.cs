@@ -65,8 +65,8 @@ public class ServiceFactory
   /// <param name="props">Properties for the service containing IConfiguration and TaskOptions</param>
   /// <param name="loggerFactory">Logger factory to produce logs</param>
   /// <returns>returns the new instantiated service</returns>
-  public Service CreateService(string serviceType,
-                               Properties props,
+  public Service CreateService(string                     serviceType,
+                               Properties                 props,
                                [CanBeNull] ILoggerFactory loggerFactory = null)
     => new(serviceType,
            props,

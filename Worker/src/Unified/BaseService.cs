@@ -152,7 +152,7 @@ public abstract class BaseService<T>
   ///   Holds all information on the state of the task such as the task ID and the payload.
   /// </param>
   public byte[] OnInvoke(SessionContext sessionContext,
-                         TaskContext taskContext)
+                         TaskContext    taskContext)
     => throw new NotImplementedException("BaseService call OnInvoke won't be implemented");
 
 
@@ -197,7 +197,7 @@ public abstract class BaseService<T>
   /// <param name="resultForParent">Up result to parent task</param>
   /// <returns>return a list of taskIds of the created tasks </returns>
   public IEnumerable<string> SubmitTasksWithDependencies(IEnumerable<Tuple<byte[], IList<string>>> payloadWithDependencies,
-                                                         bool resultForParent = false)
+                                                         bool                                      resultForParent = false)
     => SessionService.SubmitTasksWithDependencies(payloadWithDependencies,
                                                   resultForParent);
 
@@ -246,7 +246,7 @@ public abstract class BaseService<T>
   /// <param name="configuration">The appSettings.json configuration prepared during the deployment</param>
   /// <param name="clientOptions">All data coming from Client within TaskOptions </param>
   public void Configure(IConfiguration configuration,
-                        TaskOptions clientOptions)
+                        TaskOptions    clientOptions)
   {
     Configuration = configuration;
 
@@ -255,7 +255,7 @@ public abstract class BaseService<T>
                                           .Enrich.FromLogContext()
                                           .CreateLogger();
     LoggerFactory = Microsoft.Extensions.Logging.LoggerFactory.Create(loggingBuilder => loggingBuilder.AddSerilog(logger));
-    Logger = LoggerFactory.CreateLogger<T>();
+    Logger        = LoggerFactory.CreateLogger<T>();
     Logger.LogInformation("Configuring ServiceContainerBase");
   }
 
@@ -264,7 +264,7 @@ public abstract class BaseService<T>
   /// </summary>
   /// <param name="sessionId"></param>
   /// <param name="requestTaskOptions"></param>
-  public void ConfigureSession(Session sessionId,
+  public void ConfigureSession(Session     sessionId,
                                TaskOptions requestTaskOptions)
   {
     SessionId = sessionId;
@@ -295,7 +295,7 @@ public static class BaseServiceExt
   ///   The user payload to execute. Generally used for subtasking.
   /// </param>
   public static string SubmitTask<T>(this BaseService<T> serviceContainerBase,
-                                     byte[] payload)
+                                     byte[]              payload)
     => serviceContainerBase.SessionService.SubmitTasks(new[]
                                                        {
                                                          payload,
@@ -312,9 +312,9 @@ public static class BaseServiceExt
   /// <param name="resultForParent"></param>
   /// <returns>return the taskId of the created task </returns>
   public static string SubmitTaskWithDependencies<T>(this BaseService<T> serviceContainerBase,
-                                                     byte[] payload,
-                                                     IList<string> dependencies,
-                                                     bool resultForParent = false)
+                                                     byte[]              payload,
+                                                     IList<string>       dependencies,
+                                                     bool                resultForParent = false)
     => serviceContainerBase.SubmitTasksWithDependencies(new[]
                                                         {
                                                           Tuple.Create(payload,
@@ -324,8 +324,8 @@ public static class BaseServiceExt
                            .Single();
 
 
-  private static void SubmitDelegateTaskWithDependencies<T>(this BaseService<T> serviceContainerBase,
-                                                            IEnumerable<string> taskIds,
+  private static void SubmitDelegateTaskWithDependencies<T>(this BaseService<T>                           serviceContainerBase,
+                                                            IEnumerable<string>                           taskIds,
                                                             Func<IEnumerable<Tuple<string, byte[]>>, int> func)
     => throw new NotImplementedException();
 }

@@ -51,7 +51,7 @@ public class GridWorker : IGridWorker
   {
     Configuration = configuration;
     LoggerFactory = factory;
-    Logger = factory.CreateLogger<GridWorker>();
+    Logger        = factory.CreateLogger<GridWorker>();
   }
 
   private ILogger<GridWorker> Logger { get; }
@@ -75,31 +75,31 @@ public class GridWorker : IGridWorker
   public IConfiguration Configurations { get; set; }
 
   public void Configure(IConfiguration configuration,
-                        TaskOptions clientOptions,
-                        IAppsLoader appsLoader)
+                        TaskOptions    clientOptions,
+                        IAppsLoader    appsLoader)
   {
     Configurations = configuration;
-    TaskOptions = clientOptions.Clone();
+    TaskOptions    = clientOptions.Clone();
 
 
-    GridAppName = clientOptions.ApplicationName;
-    GridAppVersion = clientOptions.ApplicationVersion;
+    GridAppName      = clientOptions.ApplicationName;
+    GridAppVersion   = clientOptions.ApplicationVersion;
     GridAppNamespace = clientOptions.ApplicationNamespace;
-    GridServiceName = clientOptions.ApplicationService;
+    GridServiceName  = clientOptions.ApplicationService;
 
     serviceContext_ = new ServiceContext
-    {
-      ApplicationName = GridAppName,
-      ServiceName = GridServiceName,
-      ClientLibVersion = GridAppVersion,
-      AppNamespace = GridAppNamespace,
-    };
+                      {
+                        ApplicationName  = GridAppName,
+                        ServiceName      = GridServiceName,
+                        ClientLibVersion = GridAppVersion,
+                        AppNamespace     = GridAppNamespace,
+                      };
 
     ServiceClass = appsLoader.GetServiceContainerInstance<object>(GridAppNamespace,
                                                                   GridServiceName);
   }
 
-  public void InitializeSessionWorker(Session session,
+  public void InitializeSessionWorker(Session     session,
                                       TaskOptions requestTaskOptions)
   {
     if (session == null)

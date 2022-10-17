@@ -105,11 +105,11 @@ public class ZipArchiver
 
   public static string GetLocalPathToAssembly(string pathToZip)
   {
-    var assemblyInfo = ExtractNameAndVersion(pathToZip);
-    var info = assemblyInfo as string[] ?? assemblyInfo.ToArray();
-    var assemblyName = info.ElementAt(0);
+    var assemblyInfo    = ExtractNameAndVersion(pathToZip);
+    var info            = assemblyInfo as string[] ?? assemblyInfo.ToArray();
+    var assemblyName    = info.ElementAt(0);
     var assemblyVersion = info.ElementAt(1);
-    var basePath = $"{RootAppPath}/{assemblyName}/{assemblyVersion}";
+    var basePath        = $"{RootAppPath}/{assemblyName}/{assemblyVersion}";
 
     return $"{basePath}/{assemblyName}.dll";
   }
@@ -122,15 +122,15 @@ public class ZipArchiver
   /// <returns></returns>
   /// <exception cref="WorkerApiException"></exception>
   public static bool ArchiveAlreadyExtracted(IFileAdaptater fileAdaptater,
-                                             string fileName,
-                                             int waitForArchiver = 300)
+                                             string         fileName,
+                                             int            waitForArchiver = 300)
   {
     var assemblyInfo = ExtractNameAndVersion(Path.Combine(fileAdaptater.DestinationDirPath,
                                                           fileName));
-    var info = assemblyInfo as string[] ?? assemblyInfo.ToArray();
-    var assemblyName = info.ElementAt(0);
+    var info            = assemblyInfo as string[] ?? assemblyInfo.ToArray();
+    var assemblyName    = info.ElementAt(0);
     var assemblyVersion = info.ElementAt(1);
-    var basePath = $"{RootAppPath}/{assemblyName}/{assemblyVersion}";
+    var basePath        = $"{RootAppPath}/{assemblyName}/{assemblyVersion}";
 
     //Download File
     if (!File.Exists(Path.Combine(fileAdaptater.DestinationDirPath,
@@ -156,7 +156,7 @@ public class ZipArchiver
       throw new FileNotFoundException($"Cannot find Service. Assembly name {basePath}/{assemblyName}.dll");
     }
 
-    var retry = 0;
+    var retry       = 0;
     var loopingWait = 2; // 2 secs
 
     if (waitForArchiver == 0)
@@ -188,20 +188,20 @@ public class ZipArchiver
   /// <param name="fileName"></param>
   /// <returns>return string containing the path to the client assembly (.dll) </returns>
   public static string UnzipArchive(IFileAdaptater fileAdaptater,
-                                    string fileName)
+                                    string         fileName)
   {
     if (!IsZipFile(fileName))
     {
       throw new WorkerApiException("Cannot yet extract or manage raw data other than zip archive");
     }
 
-    var assemblyInfo = ExtractNameAndVersion(fileName);
-    var info = assemblyInfo as string[] ?? assemblyInfo.ToArray();
+    var assemblyInfo    = ExtractNameAndVersion(fileName);
+    var info            = assemblyInfo as string[] ?? assemblyInfo.ToArray();
     var assemblyVersion = info.ElementAt(1);
-    var assemblyName = info.ElementAt(0);
+    var assemblyName    = info.ElementAt(0);
 
 
-    var pathToAssembly = $"{RootAppPath}/{assemblyName}/{assemblyVersion}/{assemblyName}.dll";
+    var pathToAssembly    = $"{RootAppPath}/{assemblyName}/{assemblyVersion}/{assemblyName}.dll";
     var pathToAssemblyDir = $"{RootAppPath}/{assemblyName}/{assemblyVersion}";
 
     if (ArchiveAlreadyExtracted(fileAdaptater,
@@ -227,10 +227,10 @@ public class ZipArchiver
       var lockfileForExtractionString = "Lockfile for extraction";
 
       var unicodeEncoding = new UnicodeEncoding();
-      var textLength = unicodeEncoding.GetByteCount(lockfileForExtractionString);
+      var textLength      = unicodeEncoding.GetByteCount(lockfileForExtractionString);
 
       if (fileStream.Length == 0)
-      //Try to lock file to protect extraction
+        //Try to lock file to protect extraction
       {
         fileStream.Write(new UnicodeEncoding().GetBytes(lockfileForExtractionString),
                          0,

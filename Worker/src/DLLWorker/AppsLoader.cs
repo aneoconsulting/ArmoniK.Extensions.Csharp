@@ -37,17 +37,17 @@ namespace ArmoniK.DevelopmentKit.Worker.DLLWorker;
 
 public class AppsLoader : IAppsLoader
 {
-  private readonly Assembly assemblyGridWorker_;
+  private readonly Assembly   assemblyGridWorker_;
   private readonly EngineType engineType_;
 
   private readonly ILogger<AppsLoader> logger_;
-  private Assembly assembly_;
+  private          Assembly            assembly_;
 
   public AppsLoader(IConfiguration configuration,
                     ILoggerFactory loggerFactory,
-                    string engineTypeAssemblyName,
+                    string         engineTypeAssemblyName,
                     IFileAdaptater fileAdaptater,
-                    string fileName)
+                    string         fileName)
   {
     engineType_ = EngineTypeHelper.ToEnum(engineTypeAssemblyName);
 
@@ -108,7 +108,7 @@ public class AppsLoader : IAppsLoader
     var currentDomain = AppDomain.CurrentDomain;
     currentDomain.AssemblyResolve += LoadFromSameFolder;
 
-    Assembly LoadFromSameFolder(object sender,
+    Assembly LoadFromSameFolder(object           sender,
                                 ResolveEventArgs args)
     {
       var folderPath = Path.GetDirectoryName(PathToAssembly);
@@ -175,7 +175,7 @@ public class AppsLoader : IAppsLoader
   {
     assembly_ = null;
     if (UserAssemblyLoadContext != null)
-    // Unload the context.
+      // Unload the context.
     {
       UserAssemblyLoadContext.Unload();
     }
@@ -218,8 +218,8 @@ public class AppsLoader : IAppsLoader
     throw new NullReferenceException($"Cannot find ServiceContainer named : {ArmoniKDevelopmentKitServerApi}.GridWorker in dll [{PathToAssemblyGridWorker}]");
   }
 
-  public T GetServiceContainerInstance<T>(string appNamespace,
-                                          string serviceContainerClassName,
+  public T GetServiceContainerInstance<T>(string          appNamespace,
+                                          string          serviceContainerClassName,
                                           params object[] args)
   {
     using (UserAssemblyLoadContext.EnterContextualReflection())

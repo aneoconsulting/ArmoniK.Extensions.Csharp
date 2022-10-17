@@ -57,7 +57,7 @@ public class ArmonikServiceWorker : IDisposable
   public ArmonikServiceWorker()
     => Initialized = false;
 
-  public AppsLoader AppsLoader { get; set; }
+  public AppsLoader  AppsLoader { get; set; }
   public IGridWorker GridWorker { get; set; }
 
   public bool Initialized { get; set; }
@@ -84,7 +84,7 @@ public class ArmonikServiceWorker : IDisposable
   }
 
   public void Configure(IConfiguration configuration,
-                        TaskOptions requestTaskOptions)
+                        TaskOptions    requestTaskOptions)
   {
     if (Initialized)
     {
@@ -101,7 +101,7 @@ public class ArmonikServiceWorker : IDisposable
     Initialized = true;
   }
 
-  public void InitializeSessionWorker(Session sessionId,
+  public void InitializeSessionWorker(Session     sessionId,
                                       TaskOptions taskHandlerTaskOptions)
   {
     using (AppsLoader.UserAssemblyLoadContext.EnterContextualReflection())
@@ -124,13 +124,13 @@ public class ServiceRequestContext
 {
   public ServiceRequestContext(ILoggerFactory loggerFactory)
   {
-    LoggerFactory = loggerFactory;
+    LoggerFactory  = loggerFactory;
     ServicesMapper = new Dictionary<string, ArmonikServiceWorker>();
   }
 
   public Session SessionId { get; set; }
 
-  public ILoggerFactory LoggerFactory { get; set; }
+  public  ILoggerFactory                            LoggerFactory  { get; set; }
   private IDictionary<string, ArmonikServiceWorker> ServicesMapper { get; }
 
   public bool IsNewSessionId(Session sessionId)
@@ -156,18 +156,18 @@ public class ServiceRequestContext
     }
 
     var currentSessionId = new Session
-    {
-      Id = sessionId,
-    };
+                           {
+                             Id = sessionId,
+                           };
 
     return IsNewSessionId(currentSessionId);
   }
 
   public ServiceId CreateOrGetArmonikService(IConfiguration configuration,
-                                             string engineTypeName,
+                                             string         engineTypeName,
                                              IFileAdaptater fileAdaptater,
-                                             string fileName,
-                                             TaskOptions requestTaskOptions)
+                                             string         fileName,
+                                             TaskOptions    requestTaskOptions)
   {
     if (string.IsNullOrEmpty(requestTaskOptions.ApplicationNamespace))
     {
@@ -191,11 +191,11 @@ public class ServiceRequestContext
                                     fileName);
 
     var armonikServiceWorker = new ArmonikServiceWorker
-    {
-      AppsLoader = appsLoader,
-      GridWorker = appsLoader.GetGridWorkerInstance(configuration,
+                               {
+                                 AppsLoader = appsLoader,
+                                 GridWorker = appsLoader.GetGridWorkerInstance(configuration,
                                                                                LoggerFactory),
-    };
+                               };
 
     ServicesMapper[serviceId.Key] = armonikServiceWorker;
 
@@ -219,7 +219,7 @@ public class ServiceRequestContext
            namespaceService);
 
   public static IFileAdaptater CreateOrGetFileAdaptater(IConfiguration configuration,
-                                                        string localDirectoryZip)
+                                                        string         localDirectoryZip)
   {
     var sectionStorage = configuration.GetSection("FileStorageType");
     if (sectionStorage.Exists() && configuration["FileStorageType"] == "FS")
@@ -227,7 +227,7 @@ public class ServiceRequestContext
       return new FsAdaptater(localDirectoryZip);
     }
 
-    if (sectionStorage.Exists() && configuration["FileStorageType"] == "S3" || !sectionStorage.Exists())
+    if ((sectionStorage.Exists() && configuration["FileStorageType"] == "S3") || !sectionStorage.Exists())
     {
       return new S3Adaptater(configuration.GetSection("S3Storage")["ServiceURL"],
                              configuration.GetSection("S3Storage")["BucketName"],
