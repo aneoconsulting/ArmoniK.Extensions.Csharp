@@ -6330,6 +6330,357 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.Worker.Grid.TaskContext.TaskInput
   nameWithType: TaskContext.TaskInput
+- uid: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService
+  name: TaskSubmitterWorkerService
+  href: api/ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.html
+  commentId: T:ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService
+  fullName: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService
+  nameWithType: TaskSubmitterWorkerService
+- uid: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.#ctor
+  name: TaskSubmitterWorkerService()
+  href: api/ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.html#ArmoniK_DevelopmentKit_Worker_Grid_TaskSubmitterWorkerService__ctor
+  commentId: M:ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.#ctor
+  fullName: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.TaskSubmitterWorkerService()
+  nameWithType: TaskSubmitterWorkerService.TaskSubmitterWorkerService()
+- uid: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.#ctor(ILoggerFactory)
+  name: TaskSubmitterWorkerService(ILoggerFactory)
+  href: api/ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.html#ArmoniK_DevelopmentKit_Worker_Grid_TaskSubmitterWorkerService__ctor_ILoggerFactory_
+  commentId: M:ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.#ctor(ILoggerFactory)
+  fullName: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.TaskSubmitterWorkerService(ILoggerFactory)
+  nameWithType: TaskSubmitterWorkerService.TaskSubmitterWorkerService(ILoggerFactory)
+- uid: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.#ctor*
+  name: TaskSubmitterWorkerService
+  href: api/ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.html#ArmoniK_DevelopmentKit_Worker_Grid_TaskSubmitterWorkerService__ctor_
+  commentId: Overload:ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.#ctor
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.TaskSubmitterWorkerService
+  nameWithType: TaskSubmitterWorkerService.TaskSubmitterWorkerService
+- uid: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.Configuration
+  name: Configuration
+  href: api/ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.html#ArmoniK_DevelopmentKit_Worker_Grid_TaskSubmitterWorkerService_Configuration
+  commentId: P:ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.Configuration
+  fullName: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.Configuration
+  nameWithType: TaskSubmitterWorkerService.Configuration
+- uid: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.Configuration*
+  name: Configuration
+  href: api/ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.html#ArmoniK_DevelopmentKit_Worker_Grid_TaskSubmitterWorkerService_Configuration_
+  commentId: Overload:ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.Configuration
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.Configuration
+  nameWithType: TaskSubmitterWorkerService.Configuration
+- uid: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.Configure(IConfiguration,TaskOptions)
+  name: Configure(IConfiguration, TaskOptions)
+  href: api/ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.html#ArmoniK_DevelopmentKit_Worker_Grid_TaskSubmitterWorkerService_Configure_IConfiguration_TaskOptions_
+  commentId: M:ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.Configure(IConfiguration,TaskOptions)
+  fullName: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.Configure(IConfiguration, TaskOptions)
+  nameWithType: TaskSubmitterWorkerService.Configure(IConfiguration, TaskOptions)
+- uid: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.Configure*
+  name: Configure
+  href: api/ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.html#ArmoniK_DevelopmentKit_Worker_Grid_TaskSubmitterWorkerService_Configure_
+  commentId: Overload:ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.Configure
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.Configure
+  nameWithType: TaskSubmitterWorkerService.Configure
+- uid: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.ConfigureSession(Session,TaskOptions)
+  name: ConfigureSession(Session, TaskOptions)
+  href: api/ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.html#ArmoniK_DevelopmentKit_Worker_Grid_TaskSubmitterWorkerService_ConfigureSession_Session_TaskOptions_
+  commentId: M:ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.ConfigureSession(Session,TaskOptions)
+  fullName: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.ConfigureSession(Session, TaskOptions)
+  nameWithType: TaskSubmitterWorkerService.ConfigureSession(Session, TaskOptions)
+- uid: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.ConfigureSession*
+  name: ConfigureSession
+  href: api/ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.html#ArmoniK_DevelopmentKit_Worker_Grid_TaskSubmitterWorkerService_ConfigureSession_
+  commentId: Overload:ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.ConfigureSession
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.ConfigureSession
+  nameWithType: TaskSubmitterWorkerService.ConfigureSession
+- uid: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.ConfigureSessionService(ITaskHandler)
+  name: ConfigureSessionService(ITaskHandler)
+  href: api/ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.html#ArmoniK_DevelopmentKit_Worker_Grid_TaskSubmitterWorkerService_ConfigureSessionService_ITaskHandler_
+  commentId: M:ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.ConfigureSessionService(ITaskHandler)
+  fullName: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.ConfigureSessionService(ITaskHandler)
+  nameWithType: TaskSubmitterWorkerService.ConfigureSessionService(ITaskHandler)
+- uid: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.ConfigureSessionService*
+  name: ConfigureSessionService
+  href: api/ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.html#ArmoniK_DevelopmentKit_Worker_Grid_TaskSubmitterWorkerService_ConfigureSessionService_
+  commentId: Overload:ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.ConfigureSessionService
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.ConfigureSessionService
+  nameWithType: TaskSubmitterWorkerService.ConfigureSessionService
+- uid: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.GetDependenciesResult(System.String)
+  name: GetDependenciesResult(String)
+  href: api/ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.html#ArmoniK_DevelopmentKit_Worker_Grid_TaskSubmitterWorkerService_GetDependenciesResult_System_String_
+  commentId: M:ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.GetDependenciesResult(System.String)
+  fullName: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.GetDependenciesResult(System.String)
+  nameWithType: TaskSubmitterWorkerService.GetDependenciesResult(String)
+- uid: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.GetDependenciesResult*
+  name: GetDependenciesResult
+  href: api/ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.html#ArmoniK_DevelopmentKit_Worker_Grid_TaskSubmitterWorkerService_GetDependenciesResult_
+  commentId: Overload:ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.GetDependenciesResult
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.GetDependenciesResult
+  nameWithType: TaskSubmitterWorkerService.GetDependenciesResult
+- uid: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.Logger
+  name: Logger
+  href: api/ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.html#ArmoniK_DevelopmentKit_Worker_Grid_TaskSubmitterWorkerService_Logger
+  commentId: P:ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.Logger
+  fullName: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.Logger
+  nameWithType: TaskSubmitterWorkerService.Logger
+- uid: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.Logger*
+  name: Logger
+  href: api/ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.html#ArmoniK_DevelopmentKit_Worker_Grid_TaskSubmitterWorkerService_Logger_
+  commentId: Overload:ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.Logger
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.Logger
+  nameWithType: TaskSubmitterWorkerService.Logger
+- uid: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.LoggerFactory
+  name: LoggerFactory
+  href: api/ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.html#ArmoniK_DevelopmentKit_Worker_Grid_TaskSubmitterWorkerService_LoggerFactory
+  commentId: P:ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.LoggerFactory
+  fullName: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.LoggerFactory
+  nameWithType: TaskSubmitterWorkerService.LoggerFactory
+- uid: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.LoggerFactory*
+  name: LoggerFactory
+  href: api/ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.html#ArmoniK_DevelopmentKit_Worker_Grid_TaskSubmitterWorkerService_LoggerFactory_
+  commentId: Overload:ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.LoggerFactory
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.LoggerFactory
+  nameWithType: TaskSubmitterWorkerService.LoggerFactory
+- uid: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.OnCreateService(ArmoniK.DevelopmentKit.Worker.Grid.ServiceContext)
+  name: OnCreateService(ServiceContext)
+  href: api/ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.html#ArmoniK_DevelopmentKit_Worker_Grid_TaskSubmitterWorkerService_OnCreateService_ArmoniK_DevelopmentKit_Worker_Grid_ServiceContext_
+  commentId: M:ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.OnCreateService(ArmoniK.DevelopmentKit.Worker.Grid.ServiceContext)
+  fullName: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.OnCreateService(ArmoniK.DevelopmentKit.Worker.Grid.ServiceContext)
+  nameWithType: TaskSubmitterWorkerService.OnCreateService(ServiceContext)
+- uid: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.OnCreateService*
+  name: OnCreateService
+  href: api/ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.html#ArmoniK_DevelopmentKit_Worker_Grid_TaskSubmitterWorkerService_OnCreateService_
+  commentId: Overload:ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.OnCreateService
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.OnCreateService
+  nameWithType: TaskSubmitterWorkerService.OnCreateService
+- uid: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.OnDestroyService(ArmoniK.DevelopmentKit.Worker.Grid.ServiceContext)
+  name: OnDestroyService(ServiceContext)
+  href: api/ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.html#ArmoniK_DevelopmentKit_Worker_Grid_TaskSubmitterWorkerService_OnDestroyService_ArmoniK_DevelopmentKit_Worker_Grid_ServiceContext_
+  commentId: M:ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.OnDestroyService(ArmoniK.DevelopmentKit.Worker.Grid.ServiceContext)
+  fullName: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.OnDestroyService(ArmoniK.DevelopmentKit.Worker.Grid.ServiceContext)
+  nameWithType: TaskSubmitterWorkerService.OnDestroyService(ServiceContext)
+- uid: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.OnDestroyService*
+  name: OnDestroyService
+  href: api/ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.html#ArmoniK_DevelopmentKit_Worker_Grid_TaskSubmitterWorkerService_OnDestroyService_
+  commentId: Overload:ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.OnDestroyService
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.OnDestroyService
+  nameWithType: TaskSubmitterWorkerService.OnDestroyService
+- uid: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.OnSessionEnter(ArmoniK.DevelopmentKit.Worker.Grid.SessionContext)
+  name: OnSessionEnter(SessionContext)
+  href: api/ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.html#ArmoniK_DevelopmentKit_Worker_Grid_TaskSubmitterWorkerService_OnSessionEnter_ArmoniK_DevelopmentKit_Worker_Grid_SessionContext_
+  commentId: M:ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.OnSessionEnter(ArmoniK.DevelopmentKit.Worker.Grid.SessionContext)
+  fullName: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.OnSessionEnter(ArmoniK.DevelopmentKit.Worker.Grid.SessionContext)
+  nameWithType: TaskSubmitterWorkerService.OnSessionEnter(SessionContext)
+- uid: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.OnSessionEnter*
+  name: OnSessionEnter
+  href: api/ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.html#ArmoniK_DevelopmentKit_Worker_Grid_TaskSubmitterWorkerService_OnSessionEnter_
+  commentId: Overload:ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.OnSessionEnter
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.OnSessionEnter
+  nameWithType: TaskSubmitterWorkerService.OnSessionEnter
+- uid: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.OnSessionLeave(ArmoniK.DevelopmentKit.Worker.Grid.SessionContext)
+  name: OnSessionLeave(SessionContext)
+  href: api/ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.html#ArmoniK_DevelopmentKit_Worker_Grid_TaskSubmitterWorkerService_OnSessionLeave_ArmoniK_DevelopmentKit_Worker_Grid_SessionContext_
+  commentId: M:ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.OnSessionLeave(ArmoniK.DevelopmentKit.Worker.Grid.SessionContext)
+  fullName: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.OnSessionLeave(ArmoniK.DevelopmentKit.Worker.Grid.SessionContext)
+  nameWithType: TaskSubmitterWorkerService.OnSessionLeave(SessionContext)
+- uid: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.OnSessionLeave*
+  name: OnSessionLeave
+  href: api/ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.html#ArmoniK_DevelopmentKit_Worker_Grid_TaskSubmitterWorkerService_OnSessionLeave_
+  commentId: Overload:ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.OnSessionLeave
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.OnSessionLeave
+  nameWithType: TaskSubmitterWorkerService.OnSessionLeave
+- uid: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.SessionId
+  name: SessionId
+  href: api/ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.html#ArmoniK_DevelopmentKit_Worker_Grid_TaskSubmitterWorkerService_SessionId
+  commentId: P:ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.SessionId
+  fullName: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.SessionId
+  nameWithType: TaskSubmitterWorkerService.SessionId
+- uid: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.SessionId*
+  name: SessionId
+  href: api/ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.html#ArmoniK_DevelopmentKit_Worker_Grid_TaskSubmitterWorkerService_SessionId_
+  commentId: Overload:ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.SessionId
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.SessionId
+  nameWithType: TaskSubmitterWorkerService.SessionId
+- uid: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.SubmitTask(System.Byte[])
+  name: SubmitTask(Byte[])
+  href: api/ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.html#ArmoniK_DevelopmentKit_Worker_Grid_TaskSubmitterWorkerService_SubmitTask_System_Byte___
+  commentId: M:ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.SubmitTask(System.Byte[])
+  name.vb: SubmitTask(Byte())
+  fullName: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.SubmitTask(System.Byte[])
+  fullName.vb: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.SubmitTask(System.Byte())
+  nameWithType: TaskSubmitterWorkerService.SubmitTask(Byte[])
+  nameWithType.vb: TaskSubmitterWorkerService.SubmitTask(Byte())
+- uid: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.SubmitTask(System.String,System.Object[])
+  name: SubmitTask(String, Object[])
+  href: api/ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.html#ArmoniK_DevelopmentKit_Worker_Grid_TaskSubmitterWorkerService_SubmitTask_System_String_System_Object___
+  commentId: M:ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.SubmitTask(System.String,System.Object[])
+  name.vb: SubmitTask(String, Object())
+  fullName: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.SubmitTask(System.String, System.Object[])
+  fullName.vb: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.SubmitTask(System.String, System.Object())
+  nameWithType: TaskSubmitterWorkerService.SubmitTask(String, Object[])
+  nameWithType.vb: TaskSubmitterWorkerService.SubmitTask(String, Object())
+- uid: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.SubmitTask*
+  name: SubmitTask
+  href: api/ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.html#ArmoniK_DevelopmentKit_Worker_Grid_TaskSubmitterWorkerService_SubmitTask_
+  commentId: Overload:ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.SubmitTask
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.SubmitTask
+  nameWithType: TaskSubmitterWorkerService.SubmitTask
+- uid: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.SubmitTasks(IEnumerable{System.Byte[]})
+  name: SubmitTasks(IEnumerable<Byte[]>)
+  href: api/ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.html#ArmoniK_DevelopmentKit_Worker_Grid_TaskSubmitterWorkerService_SubmitTasks_IEnumerable_System_Byte____
+  commentId: M:ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.SubmitTasks(IEnumerable{System.Byte[]})
+  name.vb: SubmitTasks(IEnumerable(Of Byte()))
+  fullName: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.SubmitTasks(IEnumerable<System.Byte[]>)
+  fullName.vb: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.SubmitTasks(IEnumerable(Of System.Byte()))
+  nameWithType: TaskSubmitterWorkerService.SubmitTasks(IEnumerable<Byte[]>)
+  nameWithType.vb: TaskSubmitterWorkerService.SubmitTasks(IEnumerable(Of Byte()))
+- uid: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.SubmitTasks*
+  name: SubmitTasks
+  href: api/ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.html#ArmoniK_DevelopmentKit_Worker_Grid_TaskSubmitterWorkerService_SubmitTasks_
+  commentId: Overload:ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.SubmitTasks
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.SubmitTasks
+  nameWithType: TaskSubmitterWorkerService.SubmitTasks
+- uid: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.SubmitTasksWithDependencies(IEnumerable{Tuple{System.Byte[],IList{System.String}}},System.Boolean)
+  name: SubmitTasksWithDependencies(IEnumerable<Tuple<Byte[], IList<String>>>, Boolean)
+  href: api/ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.html#ArmoniK_DevelopmentKit_Worker_Grid_TaskSubmitterWorkerService_SubmitTasksWithDependencies_IEnumerable_Tuple_System_Byte___IList_System_String____System_Boolean_
+  commentId: M:ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.SubmitTasksWithDependencies(IEnumerable{Tuple{System.Byte[],IList{System.String}}},System.Boolean)
+  name.vb: SubmitTasksWithDependencies(IEnumerable(Of Tuple(Of Byte(), IList(Of String))), Boolean)
+  fullName: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.SubmitTasksWithDependencies(IEnumerable<Tuple<System.Byte[], IList<System.String>>>, System.Boolean)
+  fullName.vb: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.SubmitTasksWithDependencies(IEnumerable(Of Tuple(Of System.Byte(), IList(Of System.String))), System.Boolean)
+  nameWithType: TaskSubmitterWorkerService.SubmitTasksWithDependencies(IEnumerable<Tuple<Byte[], IList<String>>>, Boolean)
+  nameWithType.vb: TaskSubmitterWorkerService.SubmitTasksWithDependencies(IEnumerable(Of Tuple(Of Byte(), IList(Of String))), Boolean)
+- uid: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.SubmitTasksWithDependencies*
+  name: SubmitTasksWithDependencies
+  href: api/ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.html#ArmoniK_DevelopmentKit_Worker_Grid_TaskSubmitterWorkerService_SubmitTasksWithDependencies_
+  commentId: Overload:ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.SubmitTasksWithDependencies
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.SubmitTasksWithDependencies
+  nameWithType: TaskSubmitterWorkerService.SubmitTasksWithDependencies
+- uid: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.SubmitTaskWithDependencie(System.Byte[],IList{System.String},System.Boolean)
+  name: SubmitTaskWithDependencie(Byte[], IList<String>, Boolean)
+  href: api/ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.html#ArmoniK_DevelopmentKit_Worker_Grid_TaskSubmitterWorkerService_SubmitTaskWithDependencie_System_Byte___IList_System_String__System_Boolean_
+  commentId: M:ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.SubmitTaskWithDependencie(System.Byte[],IList{System.String},System.Boolean)
+  name.vb: SubmitTaskWithDependencie(Byte(), IList(Of String), Boolean)
+  fullName: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.SubmitTaskWithDependencie(System.Byte[], IList<System.String>, System.Boolean)
+  fullName.vb: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.SubmitTaskWithDependencie(System.Byte(), IList(Of System.String), System.Boolean)
+  nameWithType: TaskSubmitterWorkerService.SubmitTaskWithDependencie(Byte[], IList<String>, Boolean)
+  nameWithType.vb: TaskSubmitterWorkerService.SubmitTaskWithDependencie(Byte(), IList(Of String), Boolean)
+- uid: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.SubmitTaskWithDependencie*
+  name: SubmitTaskWithDependencie
+  href: api/ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.html#ArmoniK_DevelopmentKit_Worker_Grid_TaskSubmitterWorkerService_SubmitTaskWithDependencie_
+  commentId: Overload:ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.SubmitTaskWithDependencie
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.SubmitTaskWithDependencie
+  nameWithType: TaskSubmitterWorkerService.SubmitTaskWithDependencie
+- uid: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.SubmitTaskWithDependencies(System.String,System.Object[],IList{System.String},System.Boolean)
+  name: SubmitTaskWithDependencies(String, Object[], IList<String>, Boolean)
+  href: api/ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.html#ArmoniK_DevelopmentKit_Worker_Grid_TaskSubmitterWorkerService_SubmitTaskWithDependencies_System_String_System_Object___IList_System_String__System_Boolean_
+  commentId: M:ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.SubmitTaskWithDependencies(System.String,System.Object[],IList{System.String},System.Boolean)
+  name.vb: SubmitTaskWithDependencies(String, Object(), IList(Of String), Boolean)
+  fullName: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.SubmitTaskWithDependencies(System.String, System.Object[], IList<System.String>, System.Boolean)
+  fullName.vb: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.SubmitTaskWithDependencies(System.String, System.Object(), IList(Of System.String), System.Boolean)
+  nameWithType: TaskSubmitterWorkerService.SubmitTaskWithDependencies(String, Object[], IList<String>, Boolean)
+  nameWithType.vb: TaskSubmitterWorkerService.SubmitTaskWithDependencies(String, Object(), IList(Of String), Boolean)
+- uid: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.SubmitTaskWithDependencies*
+  name: SubmitTaskWithDependencies
+  href: api/ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.html#ArmoniK_DevelopmentKit_Worker_Grid_TaskSubmitterWorkerService_SubmitTaskWithDependencies_
+  commentId: Overload:ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.SubmitTaskWithDependencies
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.SubmitTaskWithDependencies
+  nameWithType: TaskSubmitterWorkerService.SubmitTaskWithDependencies
+- uid: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.TaskContext
+  name: TaskContext
+  href: api/ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.html#ArmoniK_DevelopmentKit_Worker_Grid_TaskSubmitterWorkerService_TaskContext
+  commentId: P:ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.TaskContext
+  fullName: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.TaskContext
+  nameWithType: TaskSubmitterWorkerService.TaskContext
+- uid: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.TaskContext*
+  name: TaskContext
+  href: api/ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.html#ArmoniK_DevelopmentKit_Worker_Grid_TaskSubmitterWorkerService_TaskContext_
+  commentId: Overload:ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.TaskContext
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.TaskContext
+  nameWithType: TaskSubmitterWorkerService.TaskContext
+- uid: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.TaskId2OutputId
+  name: TaskId2OutputId
+  href: api/ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.html#ArmoniK_DevelopmentKit_Worker_Grid_TaskSubmitterWorkerService_TaskId2OutputId
+  commentId: P:ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.TaskId2OutputId
+  fullName: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.TaskId2OutputId
+  nameWithType: TaskSubmitterWorkerService.TaskId2OutputId
+- uid: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.TaskId2OutputId*
+  name: TaskId2OutputId
+  href: api/ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.html#ArmoniK_DevelopmentKit_Worker_Grid_TaskSubmitterWorkerService_TaskId2OutputId_
+  commentId: Overload:ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.TaskId2OutputId
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.TaskId2OutputId
+  nameWithType: TaskSubmitterWorkerService.TaskId2OutputId
+- uid: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.TaskOptions
+  name: TaskOptions
+  href: api/ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.html#ArmoniK_DevelopmentKit_Worker_Grid_TaskSubmitterWorkerService_TaskOptions
+  commentId: P:ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.TaskOptions
+  fullName: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.TaskOptions
+  nameWithType: TaskSubmitterWorkerService.TaskOptions
+- uid: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.TaskOptions*
+  name: TaskOptions
+  href: api/ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.html#ArmoniK_DevelopmentKit_Worker_Grid_TaskSubmitterWorkerService_TaskOptions_
+  commentId: Overload:ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.TaskOptions
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.TaskOptions
+  nameWithType: TaskSubmitterWorkerService.TaskOptions
+- uid: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.WaitForSubTasksCompletion(System.String)
+  name: WaitForSubTasksCompletion(String)
+  href: api/ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.html#ArmoniK_DevelopmentKit_Worker_Grid_TaskSubmitterWorkerService_WaitForSubTasksCompletion_System_String_
+  commentId: M:ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.WaitForSubTasksCompletion(System.String)
+  fullName: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.WaitForSubTasksCompletion(System.String)
+  nameWithType: TaskSubmitterWorkerService.WaitForSubTasksCompletion(String)
+- uid: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.WaitForSubTasksCompletion*
+  name: WaitForSubTasksCompletion
+  href: api/ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.html#ArmoniK_DevelopmentKit_Worker_Grid_TaskSubmitterWorkerService_WaitForSubTasksCompletion_
+  commentId: Overload:ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.WaitForSubTasksCompletion
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.WaitForSubTasksCompletion
+  nameWithType: TaskSubmitterWorkerService.WaitForSubTasksCompletion
+- uid: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.WaitForTaskCompletion(System.String)
+  name: WaitForTaskCompletion(String)
+  href: api/ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.html#ArmoniK_DevelopmentKit_Worker_Grid_TaskSubmitterWorkerService_WaitForTaskCompletion_System_String_
+  commentId: M:ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.WaitForTaskCompletion(System.String)
+  fullName: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.WaitForTaskCompletion(System.String)
+  nameWithType: TaskSubmitterWorkerService.WaitForTaskCompletion(String)
+- uid: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.WaitForTaskCompletion*
+  name: WaitForTaskCompletion
+  href: api/ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.html#ArmoniK_DevelopmentKit_Worker_Grid_TaskSubmitterWorkerService_WaitForTaskCompletion_
+  commentId: Overload:ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.WaitForTaskCompletion
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.WaitForTaskCompletion
+  nameWithType: TaskSubmitterWorkerService.WaitForTaskCompletion
+- uid: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.WaitForTasksCompletion(IEnumerable{System.String})
+  name: WaitForTasksCompletion(IEnumerable<String>)
+  href: api/ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.html#ArmoniK_DevelopmentKit_Worker_Grid_TaskSubmitterWorkerService_WaitForTasksCompletion_IEnumerable_System_String__
+  commentId: M:ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.WaitForTasksCompletion(IEnumerable{System.String})
+  name.vb: WaitForTasksCompletion(IEnumerable(Of String))
+  fullName: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.WaitForTasksCompletion(IEnumerable<System.String>)
+  fullName.vb: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.WaitForTasksCompletion(IEnumerable(Of System.String))
+  nameWithType: TaskSubmitterWorkerService.WaitForTasksCompletion(IEnumerable<String>)
+  nameWithType.vb: TaskSubmitterWorkerService.WaitForTasksCompletion(IEnumerable(Of String))
+- uid: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.WaitForTasksCompletion*
+  name: WaitForTasksCompletion
+  href: api/ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.html#ArmoniK_DevelopmentKit_Worker_Grid_TaskSubmitterWorkerService_WaitForTasksCompletion_
+  commentId: Overload:ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.WaitForTasksCompletion
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.WaitForTasksCompletion
+  nameWithType: TaskSubmitterWorkerService.WaitForTasksCompletion
 - uid: ArmoniK.DevelopmentKit.Worker.GridWorker
   name: GridWorker
   href: api/ArmoniK.DevelopmentKit.Worker.GridWorker.html
@@ -9069,6 +9420,121 @@ references:
   isSpec: "True"
   fullName: ArmoniK.EndToEndTests.Tests.CheckSubtaskingTree_SymphonySDK.SubtaskingTreeClient.EntryPoint
   nameWithType: SubtaskingTreeClient.EntryPoint
+- uid: ArmoniK.EndToEndTests.Tests.CheckSubtaskingTreeUnifiedApi
+  name: ArmoniK.EndToEndTests.Tests.CheckSubtaskingTreeUnifiedApi
+  href: api/ArmoniK.EndToEndTests.Tests.CheckSubtaskingTreeUnifiedApi.html
+  commentId: N:ArmoniK.EndToEndTests.Tests.CheckSubtaskingTreeUnifiedApi
+  fullName: ArmoniK.EndToEndTests.Tests.CheckSubtaskingTreeUnifiedApi
+  nameWithType: ArmoniK.EndToEndTests.Tests.CheckSubtaskingTreeUnifiedApi
+- uid: ArmoniK.EndToEndTests.Tests.CheckSubtaskingTreeUnifiedApi.SubtaskingTreeUnifiedApiClient
+  name: SubtaskingTreeUnifiedApiClient
+  href: api/ArmoniK.EndToEndTests.Tests.CheckSubtaskingTreeUnifiedApi.SubtaskingTreeUnifiedApiClient.html
+  commentId: T:ArmoniK.EndToEndTests.Tests.CheckSubtaskingTreeUnifiedApi.SubtaskingTreeUnifiedApiClient
+  fullName: ArmoniK.EndToEndTests.Tests.CheckSubtaskingTreeUnifiedApi.SubtaskingTreeUnifiedApiClient
+  nameWithType: SubtaskingTreeUnifiedApiClient
+- uid: ArmoniK.EndToEndTests.Tests.CheckSubtaskingTreeUnifiedApi.SubtaskingTreeUnifiedApiClient.#ctor(IConfiguration,ILoggerFactory)
+  name: SubtaskingTreeUnifiedApiClient(IConfiguration, ILoggerFactory)
+  href: api/ArmoniK.EndToEndTests.Tests.CheckSubtaskingTreeUnifiedApi.SubtaskingTreeUnifiedApiClient.html#ArmoniK_EndToEndTests_Tests_CheckSubtaskingTreeUnifiedApi_SubtaskingTreeUnifiedApiClient__ctor_IConfiguration_ILoggerFactory_
+  commentId: M:ArmoniK.EndToEndTests.Tests.CheckSubtaskingTreeUnifiedApi.SubtaskingTreeUnifiedApiClient.#ctor(IConfiguration,ILoggerFactory)
+  fullName: ArmoniK.EndToEndTests.Tests.CheckSubtaskingTreeUnifiedApi.SubtaskingTreeUnifiedApiClient.SubtaskingTreeUnifiedApiClient(IConfiguration, ILoggerFactory)
+  nameWithType: SubtaskingTreeUnifiedApiClient.SubtaskingTreeUnifiedApiClient(IConfiguration, ILoggerFactory)
+- uid: ArmoniK.EndToEndTests.Tests.CheckSubtaskingTreeUnifiedApi.SubtaskingTreeUnifiedApiClient.#ctor*
+  name: SubtaskingTreeUnifiedApiClient
+  href: api/ArmoniK.EndToEndTests.Tests.CheckSubtaskingTreeUnifiedApi.SubtaskingTreeUnifiedApiClient.html#ArmoniK_EndToEndTests_Tests_CheckSubtaskingTreeUnifiedApi_SubtaskingTreeUnifiedApiClient__ctor_
+  commentId: Overload:ArmoniK.EndToEndTests.Tests.CheckSubtaskingTreeUnifiedApi.SubtaskingTreeUnifiedApiClient.#ctor
+  isSpec: "True"
+  fullName: ArmoniK.EndToEndTests.Tests.CheckSubtaskingTreeUnifiedApi.SubtaskingTreeUnifiedApiClient.SubtaskingTreeUnifiedApiClient
+  nameWithType: SubtaskingTreeUnifiedApiClient.SubtaskingTreeUnifiedApiClient
+- uid: ArmoniK.EndToEndTests.Tests.CheckSubtaskingTreeUnifiedApi.SubtaskingTreeUnifiedApiClient.EntryPoint
+  name: EntryPoint()
+  href: api/ArmoniK.EndToEndTests.Tests.CheckSubtaskingTreeUnifiedApi.SubtaskingTreeUnifiedApiClient.html#ArmoniK_EndToEndTests_Tests_CheckSubtaskingTreeUnifiedApi_SubtaskingTreeUnifiedApiClient_EntryPoint
+  commentId: M:ArmoniK.EndToEndTests.Tests.CheckSubtaskingTreeUnifiedApi.SubtaskingTreeUnifiedApiClient.EntryPoint
+  fullName: ArmoniK.EndToEndTests.Tests.CheckSubtaskingTreeUnifiedApi.SubtaskingTreeUnifiedApiClient.EntryPoint()
+  nameWithType: SubtaskingTreeUnifiedApiClient.EntryPoint()
+- uid: ArmoniK.EndToEndTests.Tests.CheckSubtaskingTreeUnifiedApi.SubtaskingTreeUnifiedApiClient.EntryPoint*
+  name: EntryPoint
+  href: api/ArmoniK.EndToEndTests.Tests.CheckSubtaskingTreeUnifiedApi.SubtaskingTreeUnifiedApiClient.html#ArmoniK_EndToEndTests_Tests_CheckSubtaskingTreeUnifiedApi_SubtaskingTreeUnifiedApiClient_EntryPoint_
+  commentId: Overload:ArmoniK.EndToEndTests.Tests.CheckSubtaskingTreeUnifiedApi.SubtaskingTreeUnifiedApiClient.EntryPoint
+  isSpec: "True"
+  fullName: ArmoniK.EndToEndTests.Tests.CheckSubtaskingTreeUnifiedApi.SubtaskingTreeUnifiedApiClient.EntryPoint
+  nameWithType: SubtaskingTreeUnifiedApiClient.EntryPoint
+- uid: ArmoniK.EndToEndTests.Tests.CheckSubtaskingTreeUnifiedApi.SubtaskingTreeUnifiedApiClient.HandleError(ArmoniK.DevelopmentKit.Client.Exceptions.ServiceInvocationException,System.String)
+  name: HandleError(ServiceInvocationException, String)
+  href: api/ArmoniK.EndToEndTests.Tests.CheckSubtaskingTreeUnifiedApi.SubtaskingTreeUnifiedApiClient.html#ArmoniK_EndToEndTests_Tests_CheckSubtaskingTreeUnifiedApi_SubtaskingTreeUnifiedApiClient_HandleError_ArmoniK_DevelopmentKit_Client_Exceptions_ServiceInvocationException_System_String_
+  commentId: M:ArmoniK.EndToEndTests.Tests.CheckSubtaskingTreeUnifiedApi.SubtaskingTreeUnifiedApiClient.HandleError(ArmoniK.DevelopmentKit.Client.Exceptions.ServiceInvocationException,System.String)
+  fullName: ArmoniK.EndToEndTests.Tests.CheckSubtaskingTreeUnifiedApi.SubtaskingTreeUnifiedApiClient.HandleError(ArmoniK.DevelopmentKit.Client.Exceptions.ServiceInvocationException, System.String)
+  nameWithType: SubtaskingTreeUnifiedApiClient.HandleError(ServiceInvocationException, String)
+- uid: ArmoniK.EndToEndTests.Tests.CheckSubtaskingTreeUnifiedApi.SubtaskingTreeUnifiedApiClient.HandleError*
+  name: HandleError
+  href: api/ArmoniK.EndToEndTests.Tests.CheckSubtaskingTreeUnifiedApi.SubtaskingTreeUnifiedApiClient.html#ArmoniK_EndToEndTests_Tests_CheckSubtaskingTreeUnifiedApi_SubtaskingTreeUnifiedApiClient_HandleError_
+  commentId: Overload:ArmoniK.EndToEndTests.Tests.CheckSubtaskingTreeUnifiedApi.SubtaskingTreeUnifiedApiClient.HandleError
+  isSpec: "True"
+  fullName: ArmoniK.EndToEndTests.Tests.CheckSubtaskingTreeUnifiedApi.SubtaskingTreeUnifiedApiClient.HandleError
+  nameWithType: SubtaskingTreeUnifiedApiClient.HandleError
+- uid: ArmoniK.EndToEndTests.Tests.CheckSubtaskingTreeUnifiedApi.SubtaskingTreeUnifiedApiClient.HandleResponse(System.Object,System.String)
+  name: HandleResponse(Object, String)
+  href: api/ArmoniK.EndToEndTests.Tests.CheckSubtaskingTreeUnifiedApi.SubtaskingTreeUnifiedApiClient.html#ArmoniK_EndToEndTests_Tests_CheckSubtaskingTreeUnifiedApi_SubtaskingTreeUnifiedApiClient_HandleResponse_System_Object_System_String_
+  commentId: M:ArmoniK.EndToEndTests.Tests.CheckSubtaskingTreeUnifiedApi.SubtaskingTreeUnifiedApiClient.HandleResponse(System.Object,System.String)
+  fullName: ArmoniK.EndToEndTests.Tests.CheckSubtaskingTreeUnifiedApi.SubtaskingTreeUnifiedApiClient.HandleResponse(System.Object, System.String)
+  nameWithType: SubtaskingTreeUnifiedApiClient.HandleResponse(Object, String)
+- uid: ArmoniK.EndToEndTests.Tests.CheckSubtaskingTreeUnifiedApi.SubtaskingTreeUnifiedApiClient.HandleResponse*
+  name: HandleResponse
+  href: api/ArmoniK.EndToEndTests.Tests.CheckSubtaskingTreeUnifiedApi.SubtaskingTreeUnifiedApiClient.html#ArmoniK_EndToEndTests_Tests_CheckSubtaskingTreeUnifiedApi_SubtaskingTreeUnifiedApiClient_HandleResponse_
+  commentId: Overload:ArmoniK.EndToEndTests.Tests.CheckSubtaskingTreeUnifiedApi.SubtaskingTreeUnifiedApiClient.HandleResponse
+  isSpec: "True"
+  fullName: ArmoniK.EndToEndTests.Tests.CheckSubtaskingTreeUnifiedApi.SubtaskingTreeUnifiedApiClient.HandleResponse
+  nameWithType: SubtaskingTreeUnifiedApiClient.HandleResponse
+- uid: ArmoniK.EndToEndTests.Tests.CheckSubtaskingTreeUnifiedApi.SubtaskingTreeUnifiedApiWorker
+  name: SubtaskingTreeUnifiedApiWorker
+  href: api/ArmoniK.EndToEndTests.Tests.CheckSubtaskingTreeUnifiedApi.SubtaskingTreeUnifiedApiWorker.html
+  commentId: T:ArmoniK.EndToEndTests.Tests.CheckSubtaskingTreeUnifiedApi.SubtaskingTreeUnifiedApiWorker
+  fullName: ArmoniK.EndToEndTests.Tests.CheckSubtaskingTreeUnifiedApi.SubtaskingTreeUnifiedApiWorker
+  nameWithType: SubtaskingTreeUnifiedApiWorker
+- uid: ArmoniK.EndToEndTests.Tests.CheckSubtaskingTreeUnifiedApi.SubtaskingTreeUnifiedApiWorker.AggregateValues(System.Byte[])
+  name: AggregateValues(Byte[])
+  href: api/ArmoniK.EndToEndTests.Tests.CheckSubtaskingTreeUnifiedApi.SubtaskingTreeUnifiedApiWorker.html#ArmoniK_EndToEndTests_Tests_CheckSubtaskingTreeUnifiedApi_SubtaskingTreeUnifiedApiWorker_AggregateValues_System_Byte___
+  commentId: M:ArmoniK.EndToEndTests.Tests.CheckSubtaskingTreeUnifiedApi.SubtaskingTreeUnifiedApiWorker.AggregateValues(System.Byte[])
+  name.vb: AggregateValues(Byte())
+  fullName: ArmoniK.EndToEndTests.Tests.CheckSubtaskingTreeUnifiedApi.SubtaskingTreeUnifiedApiWorker.AggregateValues(System.Byte[])
+  fullName.vb: ArmoniK.EndToEndTests.Tests.CheckSubtaskingTreeUnifiedApi.SubtaskingTreeUnifiedApiWorker.AggregateValues(System.Byte())
+  nameWithType: SubtaskingTreeUnifiedApiWorker.AggregateValues(Byte[])
+  nameWithType.vb: SubtaskingTreeUnifiedApiWorker.AggregateValues(Byte())
+- uid: ArmoniK.EndToEndTests.Tests.CheckSubtaskingTreeUnifiedApi.SubtaskingTreeUnifiedApiWorker.AggregateValues*
+  name: AggregateValues
+  href: api/ArmoniK.EndToEndTests.Tests.CheckSubtaskingTreeUnifiedApi.SubtaskingTreeUnifiedApiWorker.html#ArmoniK_EndToEndTests_Tests_CheckSubtaskingTreeUnifiedApi_SubtaskingTreeUnifiedApiWorker_AggregateValues_
+  commentId: Overload:ArmoniK.EndToEndTests.Tests.CheckSubtaskingTreeUnifiedApi.SubtaskingTreeUnifiedApiWorker.AggregateValues
+  isSpec: "True"
+  fullName: ArmoniK.EndToEndTests.Tests.CheckSubtaskingTreeUnifiedApi.SubtaskingTreeUnifiedApiWorker.AggregateValues
+  nameWithType: SubtaskingTreeUnifiedApiWorker.AggregateValues
+- uid: ArmoniK.EndToEndTests.Tests.CheckSubtaskingTreeUnifiedApi.SubtaskingTreeUnifiedApiWorker.CheckPayload(ArmoniK.EndToEndTests.Common.ClientPayload)
+  name: CheckPayload(ClientPayload)
+  href: api/ArmoniK.EndToEndTests.Tests.CheckSubtaskingTreeUnifiedApi.SubtaskingTreeUnifiedApiWorker.html#ArmoniK_EndToEndTests_Tests_CheckSubtaskingTreeUnifiedApi_SubtaskingTreeUnifiedApiWorker_CheckPayload_ArmoniK_EndToEndTests_Common_ClientPayload_
+  commentId: M:ArmoniK.EndToEndTests.Tests.CheckSubtaskingTreeUnifiedApi.SubtaskingTreeUnifiedApiWorker.CheckPayload(ArmoniK.EndToEndTests.Common.ClientPayload)
+  fullName: ArmoniK.EndToEndTests.Tests.CheckSubtaskingTreeUnifiedApi.SubtaskingTreeUnifiedApiWorker.CheckPayload(ArmoniK.EndToEndTests.Common.ClientPayload)
+  nameWithType: SubtaskingTreeUnifiedApiWorker.CheckPayload(ClientPayload)
+- uid: ArmoniK.EndToEndTests.Tests.CheckSubtaskingTreeUnifiedApi.SubtaskingTreeUnifiedApiWorker.CheckPayload*
+  name: CheckPayload
+  href: api/ArmoniK.EndToEndTests.Tests.CheckSubtaskingTreeUnifiedApi.SubtaskingTreeUnifiedApiWorker.html#ArmoniK_EndToEndTests_Tests_CheckSubtaskingTreeUnifiedApi_SubtaskingTreeUnifiedApiWorker_CheckPayload_
+  commentId: Overload:ArmoniK.EndToEndTests.Tests.CheckSubtaskingTreeUnifiedApi.SubtaskingTreeUnifiedApiWorker.CheckPayload
+  isSpec: "True"
+  fullName: ArmoniK.EndToEndTests.Tests.CheckSubtaskingTreeUnifiedApi.SubtaskingTreeUnifiedApiWorker.CheckPayload
+  nameWithType: SubtaskingTreeUnifiedApiWorker.CheckPayload
+- uid: ArmoniK.EndToEndTests.Tests.CheckSubtaskingTreeUnifiedApi.SubtaskingTreeUnifiedApiWorker.ComputeSubTaskingTreeSum(System.Byte[])
+  name: ComputeSubTaskingTreeSum(Byte[])
+  href: api/ArmoniK.EndToEndTests.Tests.CheckSubtaskingTreeUnifiedApi.SubtaskingTreeUnifiedApiWorker.html#ArmoniK_EndToEndTests_Tests_CheckSubtaskingTreeUnifiedApi_SubtaskingTreeUnifiedApiWorker_ComputeSubTaskingTreeSum_System_Byte___
+  commentId: M:ArmoniK.EndToEndTests.Tests.CheckSubtaskingTreeUnifiedApi.SubtaskingTreeUnifiedApiWorker.ComputeSubTaskingTreeSum(System.Byte[])
+  name.vb: ComputeSubTaskingTreeSum(Byte())
+  fullName: ArmoniK.EndToEndTests.Tests.CheckSubtaskingTreeUnifiedApi.SubtaskingTreeUnifiedApiWorker.ComputeSubTaskingTreeSum(System.Byte[])
+  fullName.vb: ArmoniK.EndToEndTests.Tests.CheckSubtaskingTreeUnifiedApi.SubtaskingTreeUnifiedApiWorker.ComputeSubTaskingTreeSum(System.Byte())
+  nameWithType: SubtaskingTreeUnifiedApiWorker.ComputeSubTaskingTreeSum(Byte[])
+  nameWithType.vb: SubtaskingTreeUnifiedApiWorker.ComputeSubTaskingTreeSum(Byte())
+- uid: ArmoniK.EndToEndTests.Tests.CheckSubtaskingTreeUnifiedApi.SubtaskingTreeUnifiedApiWorker.ComputeSubTaskingTreeSum*
+  name: ComputeSubTaskingTreeSum
+  href: api/ArmoniK.EndToEndTests.Tests.CheckSubtaskingTreeUnifiedApi.SubtaskingTreeUnifiedApiWorker.html#ArmoniK_EndToEndTests_Tests_CheckSubtaskingTreeUnifiedApi_SubtaskingTreeUnifiedApiWorker_ComputeSubTaskingTreeSum_
+  commentId: Overload:ArmoniK.EndToEndTests.Tests.CheckSubtaskingTreeUnifiedApi.SubtaskingTreeUnifiedApiWorker.ComputeSubTaskingTreeSum
+  isSpec: "True"
+  fullName: ArmoniK.EndToEndTests.Tests.CheckSubtaskingTreeUnifiedApi.SubtaskingTreeUnifiedApiWorker.ComputeSubTaskingTreeSum
+  nameWithType: SubtaskingTreeUnifiedApiWorker.ComputeSubTaskingTreeSum
 - uid: ArmoniK.EndToEndTests.Tests.CheckTryGetResults
   name: ArmoniK.EndToEndTests.Tests.CheckTryGetResults
   href: api/ArmoniK.EndToEndTests.Tests.CheckTryGetResults.html

@@ -1157,11 +1157,23 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ArmoniK.DevelopmentKit.Worker.Grid.TaskSubmitterWorkerService.html",
+          "hash": "WVDgMt7XeOz/OUsYOqXcYTyjW32qFu8QGirETMxyYME="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/ArmoniK.DevelopmentKit.Worker.Grid.yml",
       "output": {
         ".html": {
           "relative_path": "api/ArmoniK.DevelopmentKit.Worker.Grid.html",
-          "hash": "DLrMGmsx6uxIJtVHBK+uJF+t7dPwxs7V7BYKTkspXfQ="
+          "hash": "2JIR06QISc35ScDK1UFmjuA548Xbslz98DqawpxHtpw="
         }
       },
       "is_incremental": false,
@@ -1173,7 +1185,7 @@
       "output": {
         ".html": {
           "relative_path": "api/ArmoniK.DevelopmentKit.Worker.GridWorker.html",
-          "hash": "GDvjKVr0EnIHtRXXdIvFowmMAcmZlN644G1HlyLNsMM="
+          "hash": "25fWp6yEyKlD6nLoWRN256klaGT3HuhJMXpM++SYoVk="
         }
       },
       "is_incremental": false,
@@ -1413,7 +1425,7 @@
       "output": {
         ".html": {
           "relative_path": "api/ArmoniK.EndToEndTests.Common.ClientBaseTest-1.html",
-          "hash": "oLIN/Tf8y9kjL6go6UyXpEIOjPw/Na+K1H+IWUtZnKk="
+          "hash": "fVOGHHe9UBTjfmp/XEnMDd/qxS3fQXIcTZ9BrphbGZw="
         }
       },
       "is_incremental": false,
@@ -1817,6 +1829,42 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/ArmoniK.EndToEndTests.Tests.CheckSubtaskingTreeUnifiedApi.SubtaskingTreeUnifiedApiClient.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ArmoniK.EndToEndTests.Tests.CheckSubtaskingTreeUnifiedApi.SubtaskingTreeUnifiedApiClient.html",
+          "hash": "lJoP1lpyKlA1uMrNg0sZJEH0rZSjIsW8G+h1sjAaIhY="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ArmoniK.EndToEndTests.Tests.CheckSubtaskingTreeUnifiedApi.SubtaskingTreeUnifiedApiWorker.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ArmoniK.EndToEndTests.Tests.CheckSubtaskingTreeUnifiedApi.SubtaskingTreeUnifiedApiWorker.html",
+          "hash": "hxaSJSOllxiK0PX8JC3aEZgUBhJohW/P7E/xYZ7MOJI="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ArmoniK.EndToEndTests.Tests.CheckSubtaskingTreeUnifiedApi.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ArmoniK.EndToEndTests.Tests.CheckSubtaskingTreeUnifiedApi.html",
+          "hash": "FKRpsLuM6Ipx50hvA9IYKp7n9AW/Mofu/qpfu+IgIKs="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/ArmoniK.EndToEndTests.Tests.CheckSubtaskingTree_SymphonySDK.ServiceContainer.yml",
       "output": {
         ".html": {
@@ -1833,7 +1881,7 @@
       "output": {
         ".html": {
           "relative_path": "api/ArmoniK.EndToEndTests.Tests.CheckSubtaskingTree_SymphonySDK.SubtaskingTreeClient.html",
-          "hash": "IgDCsyrmshh4rGu9GAdG2TJTRFJMAKgnd6WPnqJDLUw="
+          "hash": "27xAIZrAs0aVYCyiYB99l4XgZOluf/gvyMn94rpRLCE="
         }
       },
       "is_incremental": false,
@@ -2145,7 +2193,7 @@
       "output": {
         ".html": {
           "relative_path": "api/toc.html",
-          "hash": "UvONNnXCBWLpnQJMERVKkas0/KkJAYKTmVeET8yDiIw="
+          "hash": "JmX8mT9GYmZ3PlpEQ9OeErM3eFEBF6D4CG3kO2UzNT0="
         }
       },
       "is_incremental": false,
@@ -2220,7 +2268,7 @@
         "ManagedReferenceDocumentProcessor": {
           "can_incremental": false,
           "incrementalPhase": "build",
-          "total_file_count": 177,
+          "total_file_count": 181,
           "skipped_file_count": 0
         },
         "TocDocumentProcessor": {
