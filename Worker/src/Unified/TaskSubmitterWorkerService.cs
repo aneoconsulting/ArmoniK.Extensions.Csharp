@@ -28,7 +28,7 @@ using System.Linq;
 using ArmoniK.Api.gRPC.V1;
 using ArmoniK.Api.Worker.Worker;
 using ArmoniK.DevelopmentKit.Common;
-using ArmoniK.DevelopmentKit.WorkerApi.Common;
+using ArmoniK.DevelopmentKit.Worker.Common;
 
 using JetBrains.Annotations;
 
@@ -40,7 +40,7 @@ using Serilog.Formatting.Compact;
 
 using ILogger = Microsoft.Extensions.Logging.ILogger;
 
-namespace ArmoniK.DevelopmentKit.Worker.Grid;
+namespace ArmoniK.DevelopmentKit.Worker.Unified;
 
 /// <summary>
 ///   This is an abstract class that have to be implemented

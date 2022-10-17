@@ -27,7 +27,7 @@ using ArmoniK.Api.Worker.Worker;
 
 using Microsoft.Extensions.Configuration;
 
-namespace ArmoniK.DevelopmentKit.Worker.Grid;
+namespace ArmoniK.DevelopmentKit.Worker.Unified;
 
 internal interface ITaskSubmitterWorkerServiceConfiguration
 {
