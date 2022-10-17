@@ -125,8 +125,7 @@ public class ClientServiceConnector
 #if NET5_0_OR_GREATER
     if (clientPem != null)
     {
-      var cert
- = X509Certificate2.CreateFromPem(clientPem.Item1,
+      var cert = X509Certificate2.CreateFromPem(clientPem.Item1,
                                                 clientPem.Item2);
 
       // Resolve issue with Windows on pem bug with windows
@@ -134,31 +133,24 @@ public class ClientServiceConnector
 
       if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
       {
-        var originalCert
- = cert;
-        cert
- = new X509Certificate2(cert.Export(X509ContentType.Pkcs12));
+        var originalCert = cert;
+        cert = new X509Certificate2(cert.Export(X509ContentType.Pkcs12));
         originalCert.Dispose();
       }
 
       httpClientHandler.ClientCertificates.Add(cert);
     }
 
-    var channelOptions
- = new GrpcChannelOptions
+    var channelOptions = new GrpcChannelOptions
                          {
-                           Credentials
- = uri.Scheme == Uri.UriSchemeHttps
+                           Credentials = uri.Scheme == Uri.UriSchemeHttps
                                            ? new SslCredentials()
                                            : ChannelCredentials.Insecure,
-                           HttpHandler
- = httpClientHandler,
-                           LoggerFactory
- = loggerFactory,
+                           HttpHandler = httpClientHandler,
+                           LoggerFactory = loggerFactory,
                          };
 
-    var channel
- = GrpcChannel.ForAddress(endPoint,
+    var channel = GrpcChannel.ForAddress(endPoint,
                                          channelOptions);
 
 #else
