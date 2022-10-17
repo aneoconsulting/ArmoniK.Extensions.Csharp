@@ -27,7 +27,7 @@ using ArmoniK.DevelopmentKit.Common;
 
 #pragma warning disable CS1591
 
-namespace ArmoniK.DevelopmentKit.Worker.Unified.Grid;
+namespace ArmoniK.DevelopmentKit.Worker.Unified;
 
 /// <summary>
 ///   Provides the context for the task that is bound to the given service invocation

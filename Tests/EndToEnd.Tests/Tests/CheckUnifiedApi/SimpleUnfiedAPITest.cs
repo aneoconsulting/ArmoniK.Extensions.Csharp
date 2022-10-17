@@ -26,7 +26,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using ArmoniK.DevelopmentKit.Client.GridServer;
-using ArmoniK.DevelopmentKit.Worker.Unified.Grid;
+using ArmoniK.DevelopmentKit.Worker.Unified;
 
 namespace ArmoniK.EndToEndTests.Tests.CheckUnifiedApi;
 

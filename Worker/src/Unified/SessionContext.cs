@@ -23,16 +23,31 @@
 
 using ArmoniK.DevelopmentKit.Common;
 
-#pragma warning disable CS1591
-namespace ArmoniK.DevelopmentKit.Worker.Unified.Grid;
+namespace ArmoniK.DevelopmentKit.Worker.Unified;
 
 /// <summary>
+///   Container for the information associated with a particular Session.
+///   Such information may be required during the servicing of a task from a Session.
 /// </summary>
 [MarkDownDoc]
-public class ServiceContext
+public class SessionContext
 {
-  public string ApplicationName { get; set; }
-  public string ServiceName { get; set; }
+  /// <summary>
+  /// </summary>
+  public int TimeRemoteDebug;
+
+  /// <summary>
+  /// </summary>
+  public bool IsDebugMode
+    => TimeRemoteDebug > 0;
+
+  /// <summary>
+  /// </summary>
+  /// <value></value>
+  public string SessionId { get; set; }
+
+  /// <summary>
+  /// </summary>
+  /// <value></value>
   public string ClientLibVersion { get; set; }
-  public string AppNamespace { get; set; }
 }

@@ -39,7 +39,7 @@ using Microsoft.Extensions.Logging;
 
 // ReSharper disable once CheckNamespace
 
-namespace ArmoniK.DevelopmentKit.Worker.Unified.Grid;
+namespace ArmoniK.DevelopmentKit.Worker.Unified;
 
 [XmlDocIgnore]
 public class GridWorker : IGridWorker

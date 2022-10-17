@@ -38,7 +38,7 @@ using Microsoft.Extensions.Logging;
 using Serilog;
 using Serilog.Formatting.Compact;
 
-namespace ArmoniK.DevelopmentKit.Worker.Unified.Grid;
+namespace ArmoniK.DevelopmentKit.Worker.Unified;
 
 /// <summary>
 ///   The Class ServiceContainerBase (Old name was IServiceContainer) is an abstract class

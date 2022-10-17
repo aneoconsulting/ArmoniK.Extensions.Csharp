@@ -37,7 +37,7 @@ using Google.Protobuf.WellKnownTypes;
 
 using Microsoft.Extensions.Logging;
 
-namespace ArmoniK.DevelopmentKit.Worker.Unified.Grid;
+namespace ArmoniK.DevelopmentKit.Worker.Unified;
 
 /// <summary>
 ///   The class SessionService will be create each time the function CreateSession or OpenSession will
