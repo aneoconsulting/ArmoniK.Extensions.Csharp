@@ -43,7 +43,7 @@ public sealed class ChannelPool
   [CanBeNull]
   private readonly ILogger<ChannelPool> logger_;
 
-  private readonly ConcurrentQueue<ChannelBase> pool_;
+  private readonly ConcurrentBag<ChannelBase> pool_;
 
   /// <summary>
   ///   Constructs a new channelPool
@@ -54,7 +54,7 @@ public sealed class ChannelPool
                      [CanBeNull] ILoggerFactory loggerFactory = null)
   {
     channelFactory_ = channelFactory;
-    pool_           = new ConcurrentQueue<ChannelBase>();
+    pool_           = new ConcurrentBag<ChannelBase>();
     logger_         = loggerFactory?.CreateLogger<ChannelPool>();
   }
 
@@ -64,7 +64,7 @@ public sealed class ChannelPool
   /// <returns>A ChannelBase used by nobody else</returns>
   private ChannelBase AcquireChannel()
   {
-    if (pool_.TryDequeue(out var channel))
+    if (pool_.TryTake(out var channel))
     {
       logger_?.LogDebug("Acquired already existing channel {channel} from pool",
                         channel);
@@ -85,7 +85,7 @@ public sealed class ChannelPool
   {
     logger_?.LogDebug("Released channel {channel} to pool",
                       channel);
-    pool_.Enqueue(channel);
+    pool_.Add(channel);
   }
 
   /// <summary>
