@@ -59,7 +59,7 @@ public class SubtaskingTreeUnifiedApiWorker : TaskSubmitterWorkerService
 
   private static IEnumerable<T[]> SplitList<T>(List<T> listToSplit,
                                                int     nbSplit = 2)
-    => listToSplit.Chunk((int)Math.Ceiling(listToSplit.Count / (decimal)nbSplit));
+    => listToSplit.Chunk((int)Math.Ceiling(listToSplit.Count / (float)nbSplit));
 
   public byte[] ComputeSubTaskingTreeSum(byte[] clientPayload)
   {
