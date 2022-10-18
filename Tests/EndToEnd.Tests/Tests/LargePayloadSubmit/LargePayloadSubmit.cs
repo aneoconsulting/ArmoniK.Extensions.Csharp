@@ -25,7 +25,7 @@ using System;
 using System.Linq;
 using System.Threading;
 
-using ArmoniK.DevelopmentKit.Worker.Grid;
+using ArmoniK.DevelopmentKit.Worker.Unified;
 
 using JetBrains.Annotations;
 

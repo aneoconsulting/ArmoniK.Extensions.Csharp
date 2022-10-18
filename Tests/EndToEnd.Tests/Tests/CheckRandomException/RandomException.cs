@@ -25,7 +25,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-using ArmoniK.DevelopmentKit.GridServer;
+using ArmoniK.DevelopmentKit.Worker.GridServer;
 
 namespace ArmoniK.EndToEndTests.Tests.CheckRandomException;
 

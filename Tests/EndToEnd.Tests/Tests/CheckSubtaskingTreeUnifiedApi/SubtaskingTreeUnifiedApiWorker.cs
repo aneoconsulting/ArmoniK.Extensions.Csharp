@@ -27,7 +27,7 @@ using System.Linq;
 
 using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.Common.Exceptions;
-using ArmoniK.DevelopmentKit.Worker.Grid;
+using ArmoniK.DevelopmentKit.Worker.Unified;
 using ArmoniK.EndToEndTests.Common;
 
 using Microsoft.Extensions.Logging;
