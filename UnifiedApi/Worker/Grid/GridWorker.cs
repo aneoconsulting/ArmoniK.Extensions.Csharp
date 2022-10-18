@@ -99,6 +99,12 @@ public class GridWorker : IGridWorker
 
     ServiceClass = appsLoader.GetServiceContainerInstance<object>(GridAppNamespace,
                                                                   GridServiceName);
+
+    if (ServiceClass is ITaskSubmitterWorkerServiceConfiguration serviceContext)
+    {
+      serviceContext.Configure(configuration,
+                               clientOptions);
+    }
   }
 
   public void InitializeSessionWorker(Session     session,
@@ -139,6 +145,21 @@ public class GridWorker : IGridWorker
                                  .GetMethod(methodName,
                                             arguments.Select(x => x.GetType())
                                                      .ToArray());
+
+    if (ServiceClass is ITaskSubmitterWorkerServiceConfiguration serviceContext)
+    {
+      var taskContext = new TaskContext
+                        {
+                          TaskId              = taskHandler.TaskId,
+                          TaskInput           = taskHandler.Payload,
+                          SessionId           = taskHandler.SessionId,
+                          DependenciesTaskIds = taskHandler.DataDependencies.Select(t => t.Key),
+                          DataDependencies    = taskHandler.DataDependencies,
+                        };
+      serviceContext.TaskContext = taskContext;
+      serviceContext.ConfigureSessionService(taskHandler);
+    }
+
     if (methodInfo == null)
     {
       throw new
@@ -157,6 +178,8 @@ public class GridWorker : IGridWorker
                                                                  });
       }
     }
+    // Catch all exceptions from MethodBase.Invoke except TargetInvocationException (triggered by an exception in the invoked code)
+    // which we want to catch higher to allow for task retry
     catch (TargetException e)
     {
       throw new WorkerApiException(e);
@@ -164,10 +187,6 @@ public class GridWorker : IGridWorker
     catch (ArgumentException e)
     {
       throw new WorkerApiException(e);
-    }
-    catch (TargetInvocationException e)
-    {
-      throw new WorkerApiException(e.InnerException);
     }
     catch (TargetParameterCountException e)
     {
@@ -181,15 +200,16 @@ public class GridWorker : IGridWorker
     {
       throw new WorkerApiException(e);
     }
-    catch (Exception e)
+    catch (NotSupportedException e)
     {
       throw new WorkerApiException(e);
     }
+    catch (TargetInvocationException e)
+    {
+      throw e.InnerException ?? e;
+    }
 
-
-    return new byte[]
-           {
-           };
+    return null;
   }
 
   public void SessionFinalize()

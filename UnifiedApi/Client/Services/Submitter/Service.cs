@@ -290,7 +290,7 @@ public class Service : AbstractClientService
 
         var fetched = 0;
 
-        foreach (var chunk in ResultHandlerDictionary.Keys.Batch(500))
+        foreach (var chunk in ResultHandlerDictionary.Keys.ToChunk(500))
         {
           var resultStatusCollection = SessionService.GetResultStatus(chunk);
 

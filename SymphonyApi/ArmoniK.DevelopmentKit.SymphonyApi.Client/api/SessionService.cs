@@ -1,5 +1,5 @@
 // This file is part of the ArmoniK project
-// 
+//
 // Copyright (C) ANEO, 2021-2022.
 //   W. Kirschenmann   <wkirschenmann@aneo.fr>
 //   J. Gurhem         <jgurhem@aneo.fr>
@@ -8,13 +8,13 @@
 //   F. Lemaitre       <flemaitre@aneo.fr>
 //   S. Djebbar        <sdjebbar@aneo.fr>
 //   J. Fonseca        <jfonseca@aneo.fr>
-// 
+//
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
-// 
+//
 //     http://www.apache.org/licenses/LICENSE-2.0
-// 
+//
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -33,8 +33,6 @@ using ArmoniK.DevelopmentKit.Common;
 
 using Google.Protobuf.WellKnownTypes;
 
-using Grpc.Core;
-
 using JetBrains.Annotations;
 
 using Microsoft.Extensions.Logging;
@@ -52,18 +50,14 @@ public class SessionService : BaseClientSubmitter<SessionService>
   ///   Ctor to instantiate a new SessionService
   ///   This is an object to send task or get Results from a session
   /// </summary>
-  public SessionService(ChannelBase                channel,
+  public SessionService(ChannelPool                channelPool,
                         [CanBeNull] ILoggerFactory loggerFactory = null,
                         [CanBeNull] TaskOptions    taskOptions   = null,
                         [CanBeNull] Session        session       = null)
-    : base(channel,
+    : base(channelPool,
            loggerFactory)
   {
-    TaskOptions = InitializeDefaultTaskOptions();
-    if (taskOptions != null)
-    {
-      TaskOptions.MergeFrom(taskOptions);
-    }
+    TaskOptions = taskOptions ?? InitializeDefaultTaskOptions();
 
     Logger?.LogDebug("Creating Session... ");
 
@@ -110,7 +104,7 @@ public class SessionService : BaseClientSubmitter<SessionService>
                                    partitionIds,
                                  },
                                };
-    var session = SubmitterService.CreateSession(createSessionRequest);
+    var session = channelPool_.WithChannel(channel => new Submitter.SubmitterClient(channel).CreateSession(createSessionRequest));
 
     return new Session
            {

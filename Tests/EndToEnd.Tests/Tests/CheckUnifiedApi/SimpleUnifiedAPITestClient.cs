@@ -152,7 +152,10 @@ public class SimpleUnifiedAPITestClient : ClientBaseTest<SimpleUnifiedAPITestCli
   }
 
   private static void OverrideTaskOptions(TaskOptions taskOptions)
-    => taskOptions.EngineType = EngineType.Unified.ToString();
+  {
+    taskOptions.EngineType = EngineType.Unified.ToString();
+    taskOptions.MaxRetries = 1;
+  }
 
 
   private static object[] ParamsHelper(params object[] elements)
@@ -240,7 +243,7 @@ public class SimpleUnifiedAPITestClient : ClientBaseTest<SimpleUnifiedAPITestCli
     var tasksRandom = sessionService.Submit("RandomTaskError",
                                             Enumerable.Range(1,
                                                              wantedCount)
-                                                      .Select(_ => ParamsHelper(90)),
+                                                      .Select(_ => ParamsHelper(25)),
                                             handler);
     if (tasksRandom.Count() is var countRandom && countRandom != wantedCount)
     {

@@ -212,6 +212,7 @@ jobs:
           ingress: 'None'
 
       - name: Run EndToEnd.Tests
+        timeout-minutes: 15
         run: |
          cd Tests
          mkdir -p ${HOME}/data

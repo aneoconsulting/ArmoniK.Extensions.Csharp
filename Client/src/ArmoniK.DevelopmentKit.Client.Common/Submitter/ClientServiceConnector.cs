@@ -1,19 +1,18 @@
-#if NET5_0_OR_GREATER
-using Grpc.Net.Client;
-using Grpc.Core;
-
-using System.Runtime.InteropServices;
-using System.Security.Cryptography.X509Certificates;
-#else
-using Grpc.Core;
-#endif
 using System;
 using System.IO;
 using System.Net.Http;
 
+using Grpc.Core;
+
 using JetBrains.Annotations;
 
 using Microsoft.Extensions.Logging;
+#if NET5_0_OR_GREATER
+using Grpc.Net.Client;
+
+using System.Runtime.InteropServices;
+using System.Security.Cryptography.X509Certificates;
+#endif
 
 namespace ArmoniK.DevelopmentKit.Client.Common.Submitter;
 
@@ -30,9 +29,9 @@ public class ClientServiceConnector
   /// <param name="sslValidation">Optional : Check if the ssl must have a strong validation (default true)</param>
   /// <param name="loggerFactory">Optional : the logger factory to create the logger</param>
   /// <returns></returns>
-  public static ChannelBase ControlPlaneConnection(string         endPoint,
-                                                   bool           sslValidation = true,
-                                                   ILoggerFactory loggerFactory = null)
+  private static ChannelBase ControlPlaneConnection(string         endPoint,
+                                                    bool           sslValidation = true,
+                                                    ILoggerFactory loggerFactory = null)
     => ControlPlaneConnection(endPoint,
                               "",
                               "",
@@ -42,17 +41,17 @@ public class ClientServiceConnector
   /// <summary>
   ///   Open Connection with the control plane with mTLS authentication
   /// </summary>
-  /// <param name="endPoint"></param>
+  /// <param name="endPoint">The address and port of control plane</param>
   /// <param name="clientCertFilename">The certificate filename in a pem format</param>
   /// <param name="clientKeyFilename">The client key filename in a pem format</param>
   /// <param name="sslValidation">Check if the ssl must have a strong validation</param>
   /// <param name="loggerFactory">Optional logger factory</param>
   /// <returns></returns>
-  public static ChannelBase ControlPlaneConnection(string                     endPoint,
-                                                   string                     clientCertFilename,
-                                                   string                     clientKeyFilename,
-                                                   bool                       sslValidation = true,
-                                                   [CanBeNull] ILoggerFactory loggerFactory = null)
+  private static ChannelBase ControlPlaneConnection(string                     endPoint,
+                                                    string                     clientCertFilename,
+                                                    string                     clientKeyFilename,
+                                                    bool                       sslValidation = true,
+                                                    [CanBeNull] ILoggerFactory loggerFactory = null)
   {
     var logger = loggerFactory?.CreateLogger<ClientServiceConnector>();
     if ((!string.IsNullOrEmpty(clientCertFilename) && string.IsNullOrEmpty(clientKeyFilename)) ||
@@ -99,15 +98,15 @@ public class ClientServiceConnector
   /// <summary>
   ///   Open Connection with the control plane with mTLS authentication
   /// </summary>
-  /// <param name="endPoint"></param>
+  /// <param name="endPoint">The address and port of control plane</param>
   /// <param name="clientPem">The pair certificate + key data in a pem format</param>
   /// <param name="sslValidation">Check if the ssl must have a strong validation</param>
   /// <param name="loggerFactory">Optional logger factory</param>
   /// <returns></returns>
-  public static ChannelBase ControlPlaneConnection(string                     endPoint,
-                                                   Tuple<string, string>      clientPem     = null,
-                                                   bool                       sslValidation = true,
-                                                   [CanBeNull] ILoggerFactory loggerFactory = null)
+  private static ChannelBase ControlPlaneConnection(string                     endPoint,
+                                                    Tuple<string, string>      clientPem     = null,
+                                                    bool                       sslValidation = true,
+                                                    [CanBeNull] ILoggerFactory loggerFactory = null)
   {
     var uri = new Uri(endPoint);
 
@@ -168,4 +167,59 @@ public class ClientServiceConnector
 #endif
     return channel;
   }
+
+  /// <summary>
+  ///   Create a connection pool to the control plane with or without SSL and no mTLS
+  /// </summary>
+  /// <param name="endPoint">The address and port of control plane</param>
+  /// <param name="sslValidation">Optional : Check if the ssl must have a strong validation (default true)</param>
+  /// <param name="loggerFactory">Optional : the logger factory to create the logger</param>
+  /// <returns></returns>
+  public static ChannelPool ControlPlaneConnectionPool(string         endPoint,
+                                                       bool           sslValidation = true,
+                                                       ILoggerFactory loggerFactory = null)
+    => new(() => ControlPlaneConnection(endPoint,
+                                        sslValidation,
+                                        loggerFactory),
+           loggerFactory);
+
+
+  /// <summary>
+  ///   Create a connection pool to the control plane with mTLS authentication
+  /// </summary>
+  /// <param name="endPoint">The address and port of control plane</param>
+  /// <param name="clientCertFilename">The certificate filename in a pem format</param>
+  /// <param name="clientKeyFilename">The client key filename in a pem format</param>
+  /// <param name="sslValidation">Check if the ssl must have a strong validation</param>
+  /// <param name="loggerFactory">Optional logger factory</param>
+  /// <returns></returns>
+  public static ChannelPool ControlPlaneConnectionPool(string                     endPoint,
+                                                       string                     clientCertFilename,
+                                                       string                     clientKeyFilename,
+                                                       bool                       sslValidation = true,
+                                                       [CanBeNull] ILoggerFactory loggerFactory = null)
+    => new(() => ControlPlaneConnection(endPoint,
+                                        clientCertFilename,
+                                        clientKeyFilename,
+                                        sslValidation,
+                                        loggerFactory),
+           loggerFactory);
+
+  /// <summary>
+  ///   Create a connection pool to the control plane with mTLS authentication
+  /// </summary>
+  /// <param name="endPoint">The address and port of control plane</param>
+  /// <param name="clientPem">The pair certificate + key data in a pem format</param>
+  /// <param name="sslValidation">Check if the ssl must have a strong validation</param>
+  /// <param name="loggerFactory">Optional logger factory</param>
+  /// <returns>The connection pool</returns>
+  public static ChannelPool ControlPlaneConnectionPool(string                     endPoint,
+                                                       Tuple<string, string>      clientPem     = null,
+                                                       bool                       sslValidation = true,
+                                                       [CanBeNull] ILoggerFactory loggerFactory = null)
+    => new(() => ControlPlaneConnection(endPoint,
+                                        clientPem,
+                                        sslValidation,
+                                        loggerFactory),
+           loggerFactory);
 }
