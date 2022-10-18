@@ -36,6 +36,8 @@ CPHOST=$(kubectl get svc ingress -n armonik -o jsonpath="{.status.loadBalancer.i
 export CPIP=${CPHOST:-$CPIP}
 export CPPort=$(kubectl get svc ingress -n armonik -o custom-columns="PORT:.spec.ports[1].port" --no-headers=true)
 export Grpc__Endpoint=http://$CPIP:$CPPort
+echo "Load Balancer : ${Grpc__Endpoint}"
+
 export Grpc__SSLValidation="false"
 export Grpc__CaCert=""
 export Grpc__ClientCert=""

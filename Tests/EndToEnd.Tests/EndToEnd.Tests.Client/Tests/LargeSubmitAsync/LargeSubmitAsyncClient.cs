@@ -133,7 +133,7 @@ public class LargeSubmitAsyncClient : ClientBaseTest<LargeSubmitAsyncClient>, IS
                                5001);
 
     CompareSubmitPerfs(props,
-                       17000,
+                       1000,
                        64000,
                        100,
                        TimeSpan.FromSeconds(10));
