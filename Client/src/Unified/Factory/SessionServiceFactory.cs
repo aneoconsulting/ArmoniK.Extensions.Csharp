@@ -1,5 +1,5 @@
 // This file is part of the ArmoniK project
-// 
+//
 // Copyright (C) ANEO, 2021-2022.
 //   W. Kirschenmann   <wkirschenmann@aneo.fr>
 //   J. Gurhem         <jgurhem@aneo.fr>
@@ -8,13 +8,13 @@
 //   F. Lemaitre       <flemaitre@aneo.fr>
 //   S. Djebbar        <sdjebbar@aneo.fr>
 //   J. Fonseca        <jfonseca@aneo.fr>
-// 
+//
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
-// 
+//
 //     http://www.apache.org/licenses/LICENSE-2.0
-// 
+//
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -29,8 +29,6 @@ using ArmoniK.DevelopmentKit.Client.Unified.Services.Admin;
 using ArmoniK.DevelopmentKit.Common;
 
 using Google.Protobuf.WellKnownTypes;
-
-using Grpc.Core;
 
 using JetBrains.Annotations;
 
@@ -62,7 +60,7 @@ public class SessionServiceFactory
   [CanBeNull]
   private ILogger<SessionServiceFactory> Logger { get; }
 
-  private ChannelBase GrpcChannel { get; set; }
+  private ChannelPool GrpcPool { get; set; }
 
 
   private ILoggerFactory LoggerFactory { get; }
@@ -78,24 +76,24 @@ public class SessionServiceFactory
 
     Logger?.LogDebug("Creating Session... ");
 
-    return new SessionService(GrpcChannel,
+    return new SessionService(GrpcPool,
                               LoggerFactory,
                               properties.TaskOptions);
   }
 
   private void ControlPlaneConnection(Properties properties)
   {
-    if (GrpcChannel != null)
+    if (GrpcPool != null)
     {
       return;
     }
 
 
-    GrpcChannel = ClientServiceConnector.ControlPlaneConnection(properties.ConnectionString,
-                                                                properties.ClientCertFilePem,
-                                                                properties.ClientKeyFilePem,
-                                                                properties.ConfSSLValidation,
-                                                                LoggerFactory);
+    GrpcPool = ClientServiceConnector.ControlPlaneConnectionPool(properties.ConnectionString,
+                                                                 properties.ClientCertFilePem,
+                                                                 properties.ClientKeyFilePem,
+                                                                 properties.ConfSSLValidation,
+                                                                 LoggerFactory);
   }
 
   /// <summary>
@@ -110,7 +108,7 @@ public class SessionServiceFactory
   {
     ControlPlaneConnection(properties);
 
-    return new SessionService(GrpcChannel,
+    return new SessionService(GrpcPool,
                               LoggerFactory,
                               clientOptions,
                               new Session
@@ -154,7 +152,7 @@ public class SessionServiceFactory
   {
     ControlPlaneConnection(properties);
 
-    return new AdminMonitoringService(GrpcChannel,
+    return new AdminMonitoringService(GrpcPool,
                                       LoggerFactory);
   }
 }
