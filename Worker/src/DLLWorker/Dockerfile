@@ -26,7 +26,7 @@ WORKDIR "/src/Worker/src/DLLWorker"
 RUN dotnet build "ArmoniK.DevelopmentKit.Worker.DLLWorker.csproj" -c Debug -f net6.0 -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "ArmoniK.DevelopmentKit.Worker.DLLWorker.csproj" -c Deubug -f net6.0 -o /app/publish -r linux-x64 --self-contained true
+RUN dotnet publish "ArmoniK.DevelopmentKit.Worker.DLLWorker.csproj" -c Debug -f net6.0 -o /app/publish -r linux-x64 --self-contained true
 
 FROM base AS final
 WORKDIR /app
