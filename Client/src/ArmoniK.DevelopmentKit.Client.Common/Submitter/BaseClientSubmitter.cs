@@ -67,11 +67,8 @@ public class BaseClientSubmitter<T>
                              [CanBeNull] ILoggerFactory loggerFactory   = null,
                              int                        chunkSubmitSize = 500)
   {
-    channelPool_ = channelPool;
-    Logger       = loggerFactory?.CreateLogger<T>();
-    //TaskService      = new Tasks.TasksClient(channel);
-    //ResultService    = new Results.ResultsClient(channel);
-    //SubmitterService = new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel);
+    channelPool_     = channelPool;
+    Logger           = loggerFactory?.CreateLogger<T>();
     chunkSubmitSize_ = chunkSubmitSize;
   }
 
