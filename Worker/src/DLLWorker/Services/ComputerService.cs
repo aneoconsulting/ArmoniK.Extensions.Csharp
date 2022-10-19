@@ -109,15 +109,12 @@ public class ComputerService : WorkerStreamWrapper
                                                                          localDirectoryZip);
 
 
-      var serviceId = ServiceRequestContext.CreateOrGetArmonikService(Configuration,
-                                                                      engineTypeName,
-                                                                      fileAdaptater,
-                                                                      fileName,
-                                                                      taskHandler.TaskOptions);
-
-      var serviceWorker = ServiceRequestContext.GetService(serviceId);
-
-
+      var serviceWorker = ServiceRequestContext.CreateOrGetArmonikService(Configuration,
+                                                                          engineTypeName,
+                                                                          fileAdaptater,
+                                                                          fileName,
+                                                                          taskHandler.TaskOptions);
+      
       if (ServiceRequestContext.IsNewSessionId(sessionIdCaller))
       {
         ServiceRequestContext.SessionId = sessionIdCaller;

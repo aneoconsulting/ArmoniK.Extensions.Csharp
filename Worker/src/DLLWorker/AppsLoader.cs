@@ -167,8 +167,8 @@ public class AppsLoader : IAppsLoader
       }
     }
 
-    Dispose();
-    throw new NullReferenceException($"Cannot find ServiceContainer named : {appNamespace}.{serviceContainerClassName} in dll [{PathToAssembly}]");
+    //Dispose();
+    throw new WorkerApiException($"Cannot find ServiceContainer named : {appNamespace}.{serviceContainerClassName} in dll [{PathToAssembly}]");
   }
 
   public void Dispose()

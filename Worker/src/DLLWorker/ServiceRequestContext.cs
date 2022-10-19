@@ -163,16 +163,18 @@ public class ServiceRequestContext
     return IsNewSessionId(currentSessionId);
   }
 
-  public ServiceId CreateOrGetArmonikService(IConfiguration configuration,
-                                             string         engineTypeName,
-                                             IFileAdaptater fileAdaptater,
-                                             string         fileName,
-                                             TaskOptions    requestTaskOptions)
+  public ArmonikServiceWorker CreateOrGetArmonikService(IConfiguration configuration,
+                                                        string         engineTypeName,
+                                                        IFileAdaptater fileAdaptater,
+                                                        string         fileName,
+                                                        TaskOptions    requestTaskOptions)
   {
     if (string.IsNullOrEmpty(requestTaskOptions.ApplicationNamespace))
     {
       throw new WorkerApiException("Cannot find namespace service in TaskOptions. Please set the namespace");
     }
+
+    ArmonikServiceWorker armonikServiceWorker;
 
     var serviceId = GenerateServiceId(engineTypeName,
                                       Path.Combine(fileAdaptater.DestinationDirPath,
@@ -181,7 +183,12 @@ public class ServiceRequestContext
 
     if (ServicesMapper.ContainsKey(serviceId.Key))
     {
-      return serviceId;
+      armonikServiceWorker = ServicesMapper[serviceId.Key];
+
+      armonikServiceWorker.Configure(configuration,
+                                     requestTaskOptions);
+
+      return armonikServiceWorker;
     }
 
     var appsLoader = new AppsLoader(configuration,
@@ -190,26 +197,19 @@ public class ServiceRequestContext
                                     fileAdaptater,
                                     fileName);
 
-    var armonikServiceWorker = new ArmonikServiceWorker
-                               {
-                                 AppsLoader = appsLoader,
-                                 GridWorker = appsLoader.GetGridWorkerInstance(configuration,
-                                                                               LoggerFactory),
-                               };
+    armonikServiceWorker = new ArmonikServiceWorker
+                           {
+                             AppsLoader = appsLoader,
+                             GridWorker = appsLoader.GetGridWorkerInstance(configuration,
+                                                                           LoggerFactory),
+                           };
 
     ServicesMapper[serviceId.Key] = armonikServiceWorker;
 
-    if (!armonikServiceWorker.Initialized)
-    {
-      armonikServiceWorker.Configure(configuration,
-                                     requestTaskOptions);
-    }
-
-    return serviceId;
+    armonikServiceWorker.Configure(configuration,
+                                   requestTaskOptions);
+    return armonikServiceWorker;
   }
-
-  public ArmonikServiceWorker GetService(ServiceId serviceId)
-    => ServicesMapper[serviceId.Key];
 
   public static ServiceId GenerateServiceId(string engineTypeName,
                                             string uniqueKey,
