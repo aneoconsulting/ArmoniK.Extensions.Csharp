@@ -63,7 +63,7 @@ public class Program
                                                                                            .CreateLogger()),
                                       },
                                       new LoggerFilterOptions().AddFilter("Grpc",
-                                                                          LogLevel.Trace));
+                                                                          LogLevel.Error));
 
 
     Logger = LoggerFactory.CreateLogger<Program>();
@@ -203,12 +203,7 @@ public class Program
 
     return retrieveClientTests;
   }
-
-
-  /// <summary>
-  /// </summary>
-  /// <param name="type"></param>
-  /// <returns></returns>
+  
   public static MethodInfo[] GetMethods(Type type)
     => type.GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.InvokeMethod)
            .Where(x => !x.IsSpecialName                                                          && !x.GetCustomAttributes<ObsoleteAttribute>()

@@ -2,7 +2,7 @@
   "profiles": {
     "ArmoniK.Samples.EndToEndTests": {
       "commandName": "Project",
-      "commandLineArgs": "LargePayloadSubmitClient",
+      "commandLineArgs": "",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
