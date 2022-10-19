@@ -203,7 +203,7 @@ public class Program
 
     return retrieveClientTests;
   }
-  
+
   public static MethodInfo[] GetMethods(Type type)
     => type.GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.InvokeMethod)
            .Where(x => !x.IsSpecialName                                                          && !x.GetCustomAttributes<ObsoleteAttribute>()
