@@ -26,9 +26,6 @@ using System.Linq;
 using ArmoniK.DevelopmentKit.Client.Symphony;
 using ArmoniK.EndToEndTests.Common;
 
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
-
 namespace ArmoniK.EndToEndTests.Client.Tests.CheckSessionUniqCallback;
 
 [Disabled]

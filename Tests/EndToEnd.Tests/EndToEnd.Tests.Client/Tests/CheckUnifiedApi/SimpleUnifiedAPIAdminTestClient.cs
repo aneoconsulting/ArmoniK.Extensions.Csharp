@@ -27,17 +27,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 
-using ArmoniK.Api.gRPC.V1;
 using ArmoniK.DevelopmentKit.Client.Unified.Exceptions;
 using ArmoniK.DevelopmentKit.Client.Unified.Factory;
 using ArmoniK.DevelopmentKit.Client.Unified.Services;
 using ArmoniK.DevelopmentKit.Client.Unified.Services.Admin;
 using ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter;
-using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.EndToEndTests.Common;
-
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 
 namespace ArmoniK.EndToEndTests.Client.Tests.CheckUnifiedApi;
 
@@ -104,8 +99,6 @@ public class SimpleUnifiedApiAdminTestClient : ClientBaseTest<SimpleUnifiedAPITe
     var taskOptions = InitializeTaskOptions();
     OverrideTaskOptions(taskOptions);
 
-    taskOptions.ApplicationService = "SimpleService";
-
     var props = new Properties(taskOptions,
                                Configuration.GetSection("Grpc")["EndPoint"],
                                5001);
@@ -127,7 +120,10 @@ public class SimpleUnifiedApiAdminTestClient : ClientBaseTest<SimpleUnifiedAPITe
   }
 
   private static void OverrideTaskOptions(TaskOptions taskOptions)
-    => taskOptions.EngineType = EngineType.Unified.ToString();
+  {
+    taskOptions.EngineType         = EngineType.Unified.ToString();
+    taskOptions.ApplicationService = "CheckUnifiedApiWorker";
+  }
 
 
   private static object[] ParamsHelper(params object[] elements)

@@ -25,15 +25,7 @@ using System.Diagnostics;
 using System.Reflection;
 using System.Text.RegularExpressions;
 
-using ArmoniK.Api.gRPC.V1;
 using ArmoniK.DevelopmentKit.Common;
-
-using Google.Protobuf.WellKnownTypes;
-
-using JetBrains.Annotations;
-
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 
 namespace ArmoniK.EndToEndTests.Common;
 

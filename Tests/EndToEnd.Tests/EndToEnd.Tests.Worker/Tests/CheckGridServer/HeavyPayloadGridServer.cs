@@ -24,8 +24,6 @@
 using System.Linq;
 using System.Threading;
 
-using ArmoniK.DevelopmentKit.Common.Ext;
-
 namespace ArmoniK.EndToEndTests.Worker.Tests.CheckGridServer;
 
 public class CheckGridServerWorker

@@ -30,11 +30,6 @@ using System.Threading.Tasks;
 using ArmoniK.DevelopmentKit.Client.Symphony;
 using ArmoniK.EndToEndTests.Common;
 
-using JetBrains.Annotations;
-
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
-
 namespace ArmoniK.EndToEndTests.Client.Tests.CheckTryGetResults;
 
 [UsedImplicitly]

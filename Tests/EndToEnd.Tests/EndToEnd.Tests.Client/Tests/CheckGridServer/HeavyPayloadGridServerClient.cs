@@ -24,17 +24,11 @@
 using System;
 using System.Linq;
 
-using ArmoniK.Api.gRPC.V1;
 using ArmoniK.DevelopmentKit.Client.Unified.Exceptions;
 using ArmoniK.DevelopmentKit.Client.Unified.Factory;
 using ArmoniK.DevelopmentKit.Client.Unified.Services;
 using ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter;
-using ArmoniK.DevelopmentKit.Common;
-using ArmoniK.DevelopmentKit.Common.Ext;
 using ArmoniK.EndToEndTests.Common;
-
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 
 namespace ArmoniK.EndToEndTests.Client.Tests.CheckGridServer;
 

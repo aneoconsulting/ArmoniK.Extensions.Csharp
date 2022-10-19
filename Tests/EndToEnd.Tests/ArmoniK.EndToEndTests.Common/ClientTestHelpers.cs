@@ -21,12 +21,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using ArmoniK.Api.gRPC.V1;
-
-using Google.Protobuf.WellKnownTypes;
-
-using Microsoft.Extensions.Configuration;
-
 namespace ArmoniK.EndToEndTests.Common;
 
 public class ClientTestHelpers

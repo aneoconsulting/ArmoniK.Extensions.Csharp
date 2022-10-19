@@ -27,8 +27,6 @@ using System.Threading;
 
 using ArmoniK.DevelopmentKit.Worker.Unified;
 
-using JetBrains.Annotations;
-
 namespace ArmoniK.EndToEndTests.Worker.Tests.LargePayloadSubmit;
 
 /// <summary>

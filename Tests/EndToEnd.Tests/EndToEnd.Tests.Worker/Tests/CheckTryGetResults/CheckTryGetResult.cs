@@ -21,7 +21,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using ArmoniK.DevelopmentKit.Common.Exceptions;
 using ArmoniK.DevelopmentKit.Worker.Symphony;
 using ArmoniK.EndToEndTests.Common;
 
@@ -29,7 +28,8 @@ using Microsoft.Extensions.Logging;
 
 namespace ArmoniK.EndToEndTests.Worker.Tests.CheckTryGetResults;
 
-public class CheckTryGetResultsWorker : ServiceContainerBase
+[PublicAPI]
+public class ServiceContainer : ServiceContainerBase
 {
   public override void OnCreateService(ServiceContext serviceContext)
   {

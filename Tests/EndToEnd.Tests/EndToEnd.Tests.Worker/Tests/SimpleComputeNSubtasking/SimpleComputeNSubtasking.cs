@@ -23,7 +23,6 @@
 
 using System.Linq;
 
-using ArmoniK.DevelopmentKit.Common.Exceptions;
 using ArmoniK.DevelopmentKit.Worker.Symphony;
 using ArmoniK.EndToEndTests.Common;
 
@@ -31,7 +30,8 @@ using Microsoft.Extensions.Logging;
 
 namespace ArmoniK.EndToEndTests.Worker.Tests.SimpleComputeNSubtasking;
 
-public class SimpleComputeNSubtaskingWorker : ServiceContainerBase
+[PublicAPI]
+public class ServiceContainer : ServiceContainerBase
 {
   public override void OnCreateService(ServiceContext serviceContext)
   {

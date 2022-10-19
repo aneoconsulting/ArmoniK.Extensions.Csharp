@@ -31,7 +31,8 @@ using Microsoft.Extensions.Logging;
 
 namespace ArmoniK.EndToEndTests.Worker.Tests.CheckTypeOfSubmission;
 
-public class CheckTypeOfSubmissionWorker : ServiceContainerBase
+[PublicAPI]
+public class ServiceContainer : ServiceContainerBase
 {
   public override void OnCreateService(ServiceContext serviceContext)
   {

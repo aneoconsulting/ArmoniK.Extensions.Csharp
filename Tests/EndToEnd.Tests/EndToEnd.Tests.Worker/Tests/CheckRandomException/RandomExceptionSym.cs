@@ -27,8 +27,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 
-using ArmoniK.Api.Common.Utils;
-using ArmoniK.DevelopmentKit.Common.Exceptions;
 using ArmoniK.DevelopmentKit.Worker.Symphony;
 using ArmoniK.EndToEndTests.Common;
 
@@ -36,6 +34,7 @@ using Microsoft.Extensions.Logging;
 
 namespace ArmoniK.EndToEndTests.Worker.Tests.CheckRandomException;
 
+[PublicAPI]
 public class ServiceContainer : ServiceContainerBase
 {
   private readonly Random rd = new();

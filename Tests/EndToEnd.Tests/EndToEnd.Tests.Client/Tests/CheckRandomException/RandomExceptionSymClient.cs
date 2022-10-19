@@ -28,13 +28,7 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using ArmoniK.DevelopmentKit.Client.Symphony;
-using ArmoniK.DevelopmentKit.Common.Exceptions;
 using ArmoniK.EndToEndTests.Common;
-
-using JetBrains.Annotations;
-
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 
 namespace ArmoniK.EndToEndTests.Client.Tests.CheckRandomException;
 

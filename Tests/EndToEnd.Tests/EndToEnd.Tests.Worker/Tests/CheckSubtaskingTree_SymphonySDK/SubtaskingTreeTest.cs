@@ -25,7 +25,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-using ArmoniK.DevelopmentKit.Common.Exceptions;
 using ArmoniK.DevelopmentKit.Worker.Symphony;
 using ArmoniK.EndToEndTests.Common;
 
@@ -33,7 +32,8 @@ using Microsoft.Extensions.Logging;
 
 namespace ArmoniK.EndToEndTests.Worker.Tests.CheckSubtaskingTree_SymphonySDK;
 
-public class CheckSubtaskingTree_SymphonySDKWorker : ServiceContainerBase
+[PublicAPI]
+public class ServiceContainer : ServiceContainerBase
 {
   public override void OnCreateService(ServiceContext serviceContext)
   {

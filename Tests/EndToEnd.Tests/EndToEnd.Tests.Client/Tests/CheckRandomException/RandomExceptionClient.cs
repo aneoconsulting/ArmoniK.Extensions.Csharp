@@ -23,13 +23,8 @@
 
 using System.Collections.Generic;
 
-using ArmoniK.Api.gRPC.V1;
 using ArmoniK.DevelopmentKit.Client.GridServer;
-using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.EndToEndTests.Common;
-
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 
 namespace ArmoniK.EndToEndTests.Client.Tests.CheckRandomException;
 

@@ -28,11 +28,11 @@ using ArmoniK.DevelopmentKit.Worker.GridServer;
 
 namespace ArmoniK.EndToEndTests.Worker.Tests.CheckRandomException;
 
-public class SimpleServiceContainerWorker
+public class RandomExceptionWorker
 {
   private readonly Random rd = new();
 
-  public SimpleServiceContainerWorker()
+  public RandomExceptionWorker()
   {
     var rand_num = rd.NextDouble();
   }

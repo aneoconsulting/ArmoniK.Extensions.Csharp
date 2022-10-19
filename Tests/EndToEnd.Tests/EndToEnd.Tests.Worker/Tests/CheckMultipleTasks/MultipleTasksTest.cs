@@ -26,7 +26,8 @@ using ArmoniK.EndToEndTests.Common;
 
 namespace ArmoniK.EndToEndTests.Worker.Tests.CheckMultipleTasks;
 
-public class CheckMultipleTasksWorker : ServiceContainerBase
+[PublicAPI]
+public class ServiceContainer : ServiceContainerBase
 {
   public override void OnCreateService(ServiceContext serviceContext)
   {

@@ -24,12 +24,9 @@
 using System;
 using System.Linq;
 
-using ArmoniK.DevelopmentKit.Common.Exceptions;
-using ArmoniK.DevelopmentKit.Common.Ext;
-
 namespace ArmoniK.EndToEndTests.Worker.Tests.CheckGridServer;
 
-public class SimpleGridServerWorker
+public class SimpleGridServerTestWorker
 {
   private readonly Random rd = new();
 
