@@ -25,7 +25,7 @@ using System;
 using System.Linq;
 
 using ArmoniK.DevelopmentKit.Common.Exceptions;
-using ArmoniK.DevelopmentKit.Common.Ext;
+using ArmoniK.DevelopmentKit.Common.Extensions;
 using ArmoniK.DevelopmentKit.Worker.Unified;
 
 namespace ArmoniK.EndToEndTests.Worker.Tests.CheckUnifiedApi;

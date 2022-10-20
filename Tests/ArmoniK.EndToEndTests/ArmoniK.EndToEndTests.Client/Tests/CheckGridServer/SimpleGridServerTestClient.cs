@@ -28,7 +28,7 @@ using System.Linq;
 using ArmoniK.Api.gRPC.V1;
 using ArmoniK.DevelopmentKit.Client.GridServer;
 using ArmoniK.DevelopmentKit.Common;
-using ArmoniK.DevelopmentKit.Common.Ext;
+using ArmoniK.DevelopmentKit.Common.Extensions;
 using ArmoniK.EndToEndTests.Common;
 
 using Microsoft.Extensions.Configuration;

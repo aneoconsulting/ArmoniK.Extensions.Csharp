@@ -28,7 +28,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
-namespace ArmoniK.DevelopmentKit.Common.Ext;
+namespace ArmoniK.DevelopmentKit.Common.Extensions;
 
 /// <summary>
 ///   Add Chunk Method for dotnet version which doesn't have the Method
