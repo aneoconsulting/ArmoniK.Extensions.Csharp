@@ -24,7 +24,7 @@
 
 using System;
 
-namespace ArmoniK.DevelopmentKit.Common.Ext;
+namespace ArmoniK.DevelopmentKit.Common.Extensions;
 
 /// <summary>
 /// </summary>

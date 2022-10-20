@@ -29,7 +29,7 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using ArmoniK.DevelopmentKit.Client.Symphony;
-using ArmoniK.DevelopmentKit.Common.Ext;
+using ArmoniK.DevelopmentKit.Common.Extensions;
 using ArmoniK.EndToEndTests.Common;
 
 using Microsoft.Extensions.Configuration;

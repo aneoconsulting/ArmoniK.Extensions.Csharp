@@ -31,7 +31,7 @@ using ArmoniK.DevelopmentKit.Client.Unified.Factory;
 using ArmoniK.DevelopmentKit.Client.Unified.Services;
 using ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter;
 using ArmoniK.DevelopmentKit.Common;
-using ArmoniK.DevelopmentKit.Common.Ext;
+using ArmoniK.DevelopmentKit.Common.Extensions;
 using ArmoniK.EndToEndTests.Common;
 
 using Microsoft.Extensions.Configuration;

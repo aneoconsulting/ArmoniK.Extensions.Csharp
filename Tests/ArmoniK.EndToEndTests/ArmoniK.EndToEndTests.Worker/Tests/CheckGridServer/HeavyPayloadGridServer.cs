@@ -24,7 +24,7 @@
 using System.Linq;
 using System.Threading;
 
-using ArmoniK.DevelopmentKit.Common.Ext;
+using ArmoniK.DevelopmentKit.Common.Extensions;
 
 namespace ArmoniK.EndToEndTests.Worker.Tests.CheckGridServer;
 
