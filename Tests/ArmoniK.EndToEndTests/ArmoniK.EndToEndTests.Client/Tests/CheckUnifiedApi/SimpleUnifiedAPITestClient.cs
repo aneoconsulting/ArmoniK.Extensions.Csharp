@@ -244,7 +244,7 @@ public class SimpleUnifiedAPITestClient : ClientBaseTest<SimpleUnifiedAPITestCli
     var tasksRandom = sessionService.Submit("RandomTaskError",
                                             Enumerable.Range(1,
                                                              wantedCount)
-                                                      .Select(_ => ParamsHelper(90)),
+                                                      .Select(_ => ParamsHelper(25)),
                                             handler);
     if (tasksRandom.Count() is var countRandom && countRandom != wantedCount)
     {

@@ -73,10 +73,7 @@ public class Program
     Logger.LogInformation($"ClientCert : {Configuration.GetSection("Grpc")["ClientCert"]}");
     Logger.LogInformation($"ClientKey  : {Configuration.GetSection("Grpc")["ClientKey"]}");
 
-    var clientsContainers = args is
-                            {
-                              Length: > 0,
-                            }
+    var clientsContainers = args.Length > 0
                               ? RetrieveSpecificTests(args)
                               : RetrieveClientTests();
 
