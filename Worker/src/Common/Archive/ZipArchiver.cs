@@ -1,4 +1,4 @@
-﻿// This file is part of the ArmoniK project
+// This file is part of the ArmoniK project
 // 
 // Copyright (C) ANEO, 2021-2022.
 //   W. Kirschenmann   <wkirschenmann@aneo.fr>
@@ -33,11 +33,12 @@ using System.Threading;
 using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.Common.Exceptions;
 
-namespace ArmoniK.DevelopmentKit.Worker.Common;
+namespace ArmoniK.DevelopmentKit.Worker.Common.Archive;
 
-public class ZipArchiver
+public class ZipArchiver : IArchiver
 {
-  private static readonly string RootAppPath = "/tmp/packages";
+  private static ZipArchiver _instance   = new();
+  private const  string      RootAppPath = "/tmp/packages";
 
   /// <summary>
   /// </summary>
@@ -105,25 +106,21 @@ public class ZipArchiver
 
   public static string GetLocalPathToAssembly(string pathToZip)
   {
-    var assemblyInfo    = ExtractNameAndVersion(pathToZip);
-    var info            = assemblyInfo as string[] ?? assemblyInfo.ToArray();
-    var assemblyName    = info.ElementAt(0);
+    var assemblyInfo = ExtractNameAndVersion(pathToZip);
+    var info = assemblyInfo as string[] ?? assemblyInfo.ToArray();
+    var assemblyName = info.ElementAt(0);
     var assemblyVersion = info.ElementAt(1);
-    var basePath        = $"{RootAppPath}/{assemblyName}/{assemblyVersion}";
+    var basePath = $"{RootAppPath}/{assemblyName}/{assemblyVersion}";
 
     return $"{basePath}/{assemblyName}.dll";
   }
 
-  /// <summary>
-  /// </summary>
-  /// <param name="fileAdapter"></param>
-  /// <param name="fileName"></param>
-  /// <param name="waitForArchiver"></param>
-  /// <returns></returns>
-  /// <exception cref="WorkerApiException"></exception>
-  public static bool ArchiveAlreadyExtracted(IFileAdapter fileAdapter,
-                                             string         fileName,
-                                             int            waitForArchiver = 300)
+  /// <inheritdoc cref="IArchiver"/>
+  /// <exception cref="FileNotFoundException">Thrown if the dll and the lockfile don't exist</exception>
+  /// <exception cref="WorkerApiException">Thrown when it has waited too long for the lock file to be liberated</exception>
+  bool IArchiver.ArchiveAlreadyExtracted(IFileAdapter fileAdapter,
+                                         string       fileName,
+                                         int          waitForArchiver)
   {
     var assemblyInfo = ExtractNameAndVersion(Path.Combine(fileAdapter.DestinationDirPath,
                                                           fileName));
@@ -157,7 +154,7 @@ public class ZipArchiver
     }
 
     var retry       = 0;
-    var loopingWait = 2; // 2 secs
+    const int loopingWait = 2; // 2 secs
 
     if (waitForArchiver == 0)
     {
@@ -170,7 +167,7 @@ public class ZipArchiver
       retry++;
       if (retry > waitForArchiver >> 2)
       {
-        throw new WorkerApiException($"Wait for unlock unzip was timeout after {waitForArchiver * 2} seconds");
+        throw new WorkerApiException($"Wait for unlock unzip was timeout after {waitForArchiver * loopingWait} seconds");
       }
     }
 
@@ -178,34 +175,42 @@ public class ZipArchiver
   }
 
   /// <summary>
-  ///   Unzip Archive if the temporary folder doesn't contain the
-  ///   folder convention path should exist in /tmp/packages/{AppName}/{AppVersion/AppName.dll
   /// </summary>
-  /// <param name="fileAdapter">
-  ///   The path to the zip file
-  ///   Pattern for zip file has to be {AppName}-v{AppVersion}.zip
-  /// </param>
+  /// <param name="fileAdapter"></param>
   /// <param name="fileName"></param>
-  /// <returns>return string containing the path to the client assembly (.dll) </returns>
-  public static string UnzipArchive(IFileAdapter fileAdapter,
-                                    string         fileName)
+  /// <param name="waitForArchiver"></param>
+  /// <returns></returns>
+  /// <exception cref="WorkerApiException"></exception>
+  public static bool ArchiveAlreadyExtracted(IFileAdapter fileAdapter,
+                                             string fileName,
+                                             int waitForArchiver = 300)
   {
-    if (!IsZipFile(fileName))
+    return ((IArchiver)_instance).ArchiveAlreadyExtracted(fileAdapter,
+                                                          fileName,
+                                                          waitForArchiver);
+  }
+
+  /// <inheritdoc cref="IArchiver"/>
+  /// <exception cref="WorkerApiException">Thrown if the file isn't a zip archive or if the lock file isn't lockable when the archive is being extracted by another process</exception>
+  string IArchiver.ExtractArchive(IFileAdapter fileAdapter,
+                                  string       filename)
+  {
+    if (!IsZipFile(filename))
     {
       throw new WorkerApiException("Cannot yet extract or manage raw data other than zip archive");
     }
 
-    var assemblyInfo    = ExtractNameAndVersion(fileName);
-    var info            = assemblyInfo as string[] ?? assemblyInfo.ToArray();
+    var assemblyInfo = ExtractNameAndVersion(filename);
+    var info = assemblyInfo as string[] ?? assemblyInfo.ToArray();
     var assemblyVersion = info.ElementAt(1);
-    var assemblyName    = info.ElementAt(0);
+    var assemblyName = info.ElementAt(0);
 
 
-    var pathToAssembly    = $"{RootAppPath}/{assemblyName}/{assemblyVersion}/{assemblyName}.dll";
+    var pathToAssembly = $"{RootAppPath}/{assemblyName}/{assemblyVersion}/{assemblyName}.dll";
     var pathToAssemblyDir = $"{RootAppPath}/{assemblyName}/{assemblyVersion}";
 
     if (ArchiveAlreadyExtracted(fileAdapter,
-                                fileName,
+                                filename,
                                 20))
     {
       return pathToAssembly;
@@ -227,10 +232,10 @@ public class ZipArchiver
       var lockfileForExtractionString = "Lockfile for extraction";
 
       var unicodeEncoding = new UnicodeEncoding();
-      var textLength      = unicodeEncoding.GetByteCount(lockfileForExtractionString);
+      var textLength = unicodeEncoding.GetByteCount(lockfileForExtractionString);
 
       if (fileStream.Length == 0)
-        //Try to lock file to protect extraction
+      //Try to lock file to protect extraction
       {
         fileStream.Write(new UnicodeEncoding().GetBytes(lockfileForExtractionString),
                          0,
@@ -255,7 +260,7 @@ public class ZipArchiver
       try
       {
         ZipFile.ExtractToDirectory(Path.Combine(fileAdapter.DestinationDirPath,
-                                                fileName),
+                                                filename),
                                    RootAppPath);
       }
       catch (Exception e)
@@ -279,5 +284,22 @@ public class ZipArchiver
     }
 
     return pathToAssembly;
+  }
+
+  /// <summary>
+  ///   Unzip Archive if the temporary folder doesn't contain the
+  ///   folder convention path should exist in /tmp/packages/{AppName}/{AppVersion/AppName.dll
+  /// </summary>
+  /// <param name="fileAdapter">
+  ///   The path to the zip file
+  ///   Pattern for zip file has to be {AppName}-v{AppVersion}.zip
+  /// </param>
+  /// <param name="fileName"></param>
+  /// <returns>return string containing the path to the client assembly (.dll) </returns>
+  public static string ExtractArchive(IFileAdapter fileAdapter,
+                                    string fileName)
+  {
+    return ((IArchiver)_instance).ExtractArchive(fileAdapter,
+                                                 fileName);
   }
 }
