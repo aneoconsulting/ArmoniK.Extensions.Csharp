@@ -107,7 +107,10 @@ public class HeavyPayloadGridServerClient : ClientBaseTest<HeavyPayloadGridServe
                                Configuration.GetSection("Grpc")["EndPoint"],
                                5001);
 
-    using var cs = ServiceFactory.GetInstance().CreateService("NotUsed", props, LoggerFactory);
+    using var cs = ServiceFactory.GetInstance()
+                                 .CreateService("NotUsed",
+                                                props,
+                                                LoggerFactory);
 
 
     Log.LogInformation($"New session created : {cs.SessionId}");
