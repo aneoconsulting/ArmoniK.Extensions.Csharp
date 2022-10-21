@@ -116,16 +116,16 @@ public class ZipArchiver
 
   /// <summary>
   /// </summary>
-  /// <param name="fileAdaptater"></param>
+  /// <param name="fileAdapter"></param>
   /// <param name="fileName"></param>
   /// <param name="waitForArchiver"></param>
   /// <returns></returns>
   /// <exception cref="WorkerApiException"></exception>
-  public static bool ArchiveAlreadyExtracted(IFileAdaptater fileAdaptater,
+  public static bool ArchiveAlreadyExtracted(IFileAdapter fileAdapter,
                                              string         fileName,
                                              int            waitForArchiver = 300)
   {
-    var assemblyInfo = ExtractNameAndVersion(Path.Combine(fileAdaptater.DestinationDirPath,
+    var assemblyInfo = ExtractNameAndVersion(Path.Combine(fileAdapter.DestinationDirPath,
                                                           fileName));
     var info            = assemblyInfo as string[] ?? assemblyInfo.ToArray();
     var assemblyName    = info.ElementAt(0);
@@ -133,10 +133,10 @@ public class ZipArchiver
     var basePath        = $"{RootAppPath}/{assemblyName}/{assemblyVersion}";
 
     //Download File
-    if (!File.Exists(Path.Combine(fileAdaptater.DestinationDirPath,
+    if (!File.Exists(Path.Combine(fileAdapter.DestinationDirPath,
                                   fileName)))
     {
-      fileAdaptater.DownloadFile(fileName);
+      fileAdapter.DownloadFile(fileName);
     }
 
 
@@ -181,13 +181,13 @@ public class ZipArchiver
   ///   Unzip Archive if the temporary folder doesn't contain the
   ///   folder convention path should exist in /tmp/packages/{AppName}/{AppVersion/AppName.dll
   /// </summary>
-  /// <param name="fileAdaptater">
+  /// <param name="fileAdapter">
   ///   The path to the zip file
   ///   Pattern for zip file has to be {AppName}-v{AppVersion}.zip
   /// </param>
   /// <param name="fileName"></param>
   /// <returns>return string containing the path to the client assembly (.dll) </returns>
-  public static string UnzipArchive(IFileAdaptater fileAdaptater,
+  public static string UnzipArchive(IFileAdapter fileAdapter,
                                     string         fileName)
   {
     if (!IsZipFile(fileName))
@@ -204,7 +204,7 @@ public class ZipArchiver
     var pathToAssembly    = $"{RootAppPath}/{assemblyName}/{assemblyVersion}/{assemblyName}.dll";
     var pathToAssemblyDir = $"{RootAppPath}/{assemblyName}/{assemblyVersion}";
 
-    if (ArchiveAlreadyExtracted(fileAdaptater,
+    if (ArchiveAlreadyExtracted(fileAdapter,
                                 fileName,
                                 20))
     {
@@ -254,7 +254,7 @@ public class ZipArchiver
 
       try
       {
-        ZipFile.ExtractToDirectory(Path.Combine(fileAdaptater.DestinationDirPath,
+        ZipFile.ExtractToDirectory(Path.Combine(fileAdapter.DestinationDirPath,
                                                 fileName),
                                    RootAppPath);
       }

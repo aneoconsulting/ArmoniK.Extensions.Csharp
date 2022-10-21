@@ -46,26 +46,26 @@ public class AppsLoader : IAppsLoader
   public AppsLoader(IConfiguration configuration,
                     ILoggerFactory loggerFactory,
                     string         engineTypeAssemblyName,
-                    IFileAdaptater fileAdaptater,
+                    IFileAdapter fileAdapter,
                     string         fileName)
   {
     engineType_ = EngineTypeHelper.ToEnum(engineTypeAssemblyName);
 
-    FileAdaptater = fileAdaptater;
+    FileAdapter = fileAdapter;
 
     ArmoniKDevelopmentKitServerApi = new EngineTypes()[engineType_];
 
     logger_ = loggerFactory.CreateLogger<AppsLoader>();
 
-    if (!ZipArchiver.ArchiveAlreadyExtracted(fileAdaptater,
+    if (!ZipArchiver.ArchiveAlreadyExtracted(fileAdapter,
                                              fileName))
     {
-      ZipArchiver.UnzipArchive(fileAdaptater,
+      ZipArchiver.UnzipArchive(fileAdapter,
                                fileName);
     }
 
 
-    var localPathToAssembly = ZipArchiver.GetLocalPathToAssembly(Path.Combine(fileAdaptater.DestinationDirPath,
+    var localPathToAssembly = ZipArchiver.GetLocalPathToAssembly(Path.Combine(fileAdapter.DestinationDirPath,
                                                                               fileName));
 
     UserAssemblyLoadContext = new AddonsAssemblyLoadContext(localPathToAssembly);
@@ -145,7 +145,7 @@ public class AppsLoader : IAppsLoader
 
   public IConfiguration Configuration { get; }
 
-  public IFileAdaptater FileAdaptater { get; set; }
+  public IFileAdapter FileAdapter { get; set; }
 
   public string PathToAssembly { get; set; }
 
@@ -251,6 +251,6 @@ public class AppsLoader : IAppsLoader
                                       "pathToZipFile is a null argument");
     }
 
-    return engineType == null || engineType_ != EngineTypeHelper.ToEnum(engineType) || FileAdaptater == null || !pathToZipFile.Equals(FileAdaptater);
+    return engineType == null || engineType_ != EngineTypeHelper.ToEnum(engineType) || FileAdapter == null || !pathToZipFile.Equals(FileAdapter);
   }
 }

@@ -30,7 +30,7 @@ using ArmoniK.Api.Worker.Worker;
 using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.Common.Exceptions;
 using ArmoniK.DevelopmentKit.Worker.Common;
-using ArmoniK.DevelopmentKit.Worker.Common.Adaptater;
+using ArmoniK.DevelopmentKit.Worker.Common.Adapter;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -165,7 +165,7 @@ public class ServiceRequestContext
 
   public ArmonikServiceWorker CreateOrGetArmonikService(IConfiguration configuration,
                                                         string         engineTypeName,
-                                                        IFileAdaptater fileAdaptater,
+                                                        IFileAdapter fileAdapter,
                                                         string         fileName,
                                                         TaskOptions    requestTaskOptions)
   {
@@ -177,7 +177,7 @@ public class ServiceRequestContext
     ArmonikServiceWorker armonikServiceWorker;
 
     var serviceId = GenerateServiceId(engineTypeName,
-                                      Path.Combine(fileAdaptater.DestinationDirPath,
+                                      Path.Combine(fileAdapter.DestinationDirPath,
                                                    fileName),
                                       requestTaskOptions.ApplicationNamespace);
 
@@ -194,7 +194,7 @@ public class ServiceRequestContext
     var appsLoader = new AppsLoader(configuration,
                                     LoggerFactory,
                                     engineTypeName,
-                                    fileAdaptater,
+                                    fileAdapter,
                                     fileName);
 
     armonikServiceWorker = new ArmonikServiceWorker
@@ -218,18 +218,18 @@ public class ServiceRequestContext
            uniqueKey,
            namespaceService);
 
-  public static IFileAdaptater CreateOrGetFileAdaptater(IConfiguration configuration,
+  public static IFileAdapter CreateOrGetFileAdapter(IConfiguration configuration,
                                                         string         localDirectoryZip)
   {
     var sectionStorage = configuration.GetSection("FileStorageType");
     if (sectionStorage.Exists() && configuration["FileStorageType"] == "FS")
     {
-      return new FsAdaptater(localDirectoryZip);
+      return new FsAdapter(localDirectoryZip);
     }
 
     if ((sectionStorage.Exists() && configuration["FileStorageType"] == "S3") || !sectionStorage.Exists())
     {
-      return new S3Adaptater(configuration.GetSection("S3Storage")["ServiceURL"],
+      return new S3Adapter(configuration.GetSection("S3Storage")["ServiceURL"],
                              configuration.GetSection("S3Storage")["BucketName"],
                              configuration.GetSection("S3Storage")["AccessKeyId"],
                              configuration.GetSection("S3Storage")["SecretAccessKey"],

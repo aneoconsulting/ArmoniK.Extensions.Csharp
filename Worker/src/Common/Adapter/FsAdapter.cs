@@ -1,4 +1,4 @@
-﻿// This file is part of the ArmoniK project
+// This file is part of the ArmoniK project
 // 
 // Copyright (C) ANEO, 2021-2022.
 //   W. Kirschenmann   <wkirschenmann@aneo.fr>
@@ -27,11 +27,11 @@ using System.IO;
 using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.Common.Exceptions;
 
-namespace ArmoniK.DevelopmentKit.Worker.Common.Adaptater;
+namespace ArmoniK.DevelopmentKit.Worker.Common.Adapter;
 
-public class FsAdaptater : IFileAdaptater
+public class FsAdapter : IFileAdapter
 {
-  public FsAdaptater(string sourceDirPath,
+  public FsAdapter(string sourceDirPath,
                      string localZipDir = "/tmp/packages/zip")
   {
     SourceDirPath      = sourceDirPath;
