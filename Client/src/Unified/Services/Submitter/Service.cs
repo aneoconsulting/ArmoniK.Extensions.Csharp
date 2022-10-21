@@ -252,21 +252,6 @@ public class Service : AbstractClientService
            };
   }
 
-  /// <summary>
-  ///   The function submit where all information are already ready to send with class ArmonikPayload
-  /// </summary>
-  /// <param name="payload">Th armonikPayload to pass with Function name and serialized arguments</param>
-  /// <param name="handler">The handler callBack for Error and response</param>
-  /// <returns>Return the taskId</returns>
-  public string SubmitTask(ArmonikPayload            payload,
-                           IServiceInvocationHandler handler)
-    => SubmitTasks(new[]
-                   {
-                     payload,
-                   },
-                   handler)
-      .Single();
-
   private void ProxyTryGetResults(IEnumerable<string>                taskIds,
                                   Action<string, byte[]>             responseHandler,
                                   Action<string, TaskStatus, string> errorHandler,
@@ -494,7 +479,7 @@ public class Service : AbstractClientService
   /// <param name="payloads">Th armonikPayload to pass with Function name and serialized arguments</param>
   /// <param name="handler">The handler callBack for Error and response</param>
   /// <returns>Return the taskId</returns>
-  public IEnumerable<string> SubmitTasks(IEnumerable<ArmonikPayload> payloads,
+  private IEnumerable<string> SubmitTasks(IEnumerable<ArmonikPayload> payloads,
                                          IServiceInvocationHandler   handler)
   {
     var taskIds       = SessionService.SubmitTasks(payloads.Select(p => p.Serialize()));
