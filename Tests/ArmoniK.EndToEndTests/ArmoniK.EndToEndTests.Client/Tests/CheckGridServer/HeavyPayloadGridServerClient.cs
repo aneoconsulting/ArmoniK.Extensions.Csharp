@@ -103,14 +103,9 @@ public class HeavyPayloadGridServerClient : ClientBaseTest<HeavyPayloadGridServe
     var taskOptions = InitializeTaskOptions();
     OverrideTaskOptions(taskOptions);
 
-    //var props = new Properties(Configuration,
-    //                           taskOptions);
     var props = new Properties(taskOptions,
                                Configuration.GetSection("Grpc")["EndPoint"],
                                5001);
-
-    //var resourceId = ServiceAdmin.CreateInstance(Configuration, LoggerFactory,props).UploadResource("filePath");
-
 
     using var cs = ServiceFactory.GetInstance().CreateService("NotUsed", props, LoggerFactory);
 

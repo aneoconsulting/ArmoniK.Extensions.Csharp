@@ -33,7 +33,6 @@ using Microsoft.Extensions.Logging;
 
 namespace ArmoniK.EndToEndTests.Client.Tests.CheckSubtaskingTree_SymphonySDK;
 
-[Disabled]
 public class SubtaskingTreeClient : ClientBaseTest<SubtaskingTreeClient>
 {
   public SubtaskingTreeClient(IConfiguration configuration,

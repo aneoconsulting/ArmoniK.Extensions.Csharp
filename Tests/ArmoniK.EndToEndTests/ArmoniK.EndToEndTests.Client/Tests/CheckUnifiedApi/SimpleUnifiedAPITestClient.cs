@@ -130,9 +130,6 @@ public class SimpleUnifiedAPITestClient : ClientBaseTest<SimpleUnifiedAPITestCli
     var taskOptions = InitializeTaskOptions();
     OverrideTaskOptions(taskOptions);
 
-    taskOptions.MaxDuration.Seconds = 1800;
-    taskOptions.MaxRetries          = 2;
-
     var props = new Properties(taskOptions,
                                Configuration.GetSection("Grpc")["EndPoint"],
                                5001);
@@ -156,6 +153,9 @@ public class SimpleUnifiedAPITestClient : ClientBaseTest<SimpleUnifiedAPITestCli
   {
     taskOptions.EngineType         = EngineType.Unified.ToString();
     taskOptions.ApplicationService = "CheckUnifiedApiWorker";
+
+    taskOptions.MaxDuration.Seconds = 1800;
+    taskOptions.MaxRetries          = 2;
   }
 
 

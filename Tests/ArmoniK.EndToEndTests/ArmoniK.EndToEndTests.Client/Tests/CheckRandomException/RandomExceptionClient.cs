@@ -88,14 +88,9 @@ public class RandomExceptionClient : ClientBaseTest<RandomExceptionClient>, ISer
     var taskOptions = InitializeTaskOptions();
     OverrideTaskOptions(taskOptions);
 
-    //var props = new Properties(Configuration,
-    //                           taskOptions);
     var props = new Properties(taskOptions,
                                Configuration.GetSection("Grpc")["EndPoint"],
                                5001);
-
-    //var resourceId = ServiceAdmin.CreateInstance(Configuration, LoggerFactory,props).UploadResource("filePath");
-
 
     using var cs = ServiceFactory.GetInstance()
                                  .CreateService(taskOptions.ApplicationName,
