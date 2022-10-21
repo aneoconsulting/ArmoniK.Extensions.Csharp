@@ -165,7 +165,7 @@ public class ServiceRequestContext
 
   public ArmonikServiceWorker CreateOrGetArmonikService(IConfiguration configuration,
                                                         string         engineTypeName,
-                                                        IFileAdapter fileAdapter,
+                                                        IFileAdapter   fileAdapter,
                                                         string         fileName,
                                                         TaskOptions    requestTaskOptions)
   {
@@ -219,7 +219,7 @@ public class ServiceRequestContext
            namespaceService);
 
   public static IFileAdapter CreateOrGetFileAdapter(IConfiguration configuration,
-                                                        string         localDirectoryZip)
+                                                    string         localDirectoryZip)
   {
     var sectionStorage = configuration.GetSection("FileStorageType");
     if (sectionStorage.Exists() && configuration["FileStorageType"] == "FS")
@@ -230,10 +230,10 @@ public class ServiceRequestContext
     if ((sectionStorage.Exists() && configuration["FileStorageType"] == "S3") || !sectionStorage.Exists())
     {
       return new S3Adapter(configuration.GetSection("S3Storage")["ServiceURL"],
-                             configuration.GetSection("S3Storage")["BucketName"],
-                             configuration.GetSection("S3Storage")["AccessKeyId"],
-                             configuration.GetSection("S3Storage")["SecretAccessKey"],
-                             "");
+                           configuration.GetSection("S3Storage")["BucketName"],
+                           configuration.GetSection("S3Storage")["AccessKeyId"],
+                           configuration.GetSection("S3Storage")["SecretAccessKey"],
+                           "");
     }
 
     throw new WorkerApiException("Cannot find the FileStorageType in the IConfiguration. Please make sure you have properly set the field [FileStorageType]");

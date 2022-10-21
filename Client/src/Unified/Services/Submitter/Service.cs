@@ -480,7 +480,7 @@ public class Service : AbstractClientService
   /// <param name="handler">The handler callBack for Error and response</param>
   /// <returns>Return the taskId</returns>
   private IEnumerable<string> SubmitTasks(IEnumerable<ArmonikPayload> payloads,
-                                         IServiceInvocationHandler   handler)
+                                          IServiceInvocationHandler   handler)
   {
     var taskIds       = SessionService.SubmitTasks(payloads.Select(p => p.Serialize()));
     var submitTaskIds = taskIds as string[] ?? taskIds.ToArray();

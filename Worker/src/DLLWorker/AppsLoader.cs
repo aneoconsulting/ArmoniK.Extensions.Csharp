@@ -29,6 +29,7 @@ using System.Runtime.Loader;
 using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.Common.Exceptions;
 using ArmoniK.DevelopmentKit.Worker.Common;
+using ArmoniK.DevelopmentKit.Worker.Common.Archive;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -46,7 +47,7 @@ public class AppsLoader : IAppsLoader
   public AppsLoader(IConfiguration configuration,
                     ILoggerFactory loggerFactory,
                     string         engineTypeAssemblyName,
-                    IFileAdapter fileAdapter,
+                    IFileAdapter   fileAdapter,
                     string         fileName)
   {
     engineType_ = EngineTypeHelper.ToEnum(engineTypeAssemblyName);
@@ -60,8 +61,8 @@ public class AppsLoader : IAppsLoader
     if (!ZipArchiver.ArchiveAlreadyExtracted(fileAdapter,
                                              fileName))
     {
-      ZipArchiver.UnzipArchive(fileAdapter,
-                               fileName);
+      ZipArchiver.ExtractArchive(fileAdapter,
+                                 fileName);
     }
 
 

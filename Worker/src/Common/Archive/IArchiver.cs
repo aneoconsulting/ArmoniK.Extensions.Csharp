@@ -26,22 +26,21 @@ using ArmoniK.DevelopmentKit.Common;
 namespace ArmoniK.DevelopmentKit.Worker.Common.Archive;
 
 /// <summary>
-/// Interface for archive extraction
+///   Interface for archive extraction
 /// </summary>
 internal interface IArchiver
 {
-
   /// <summary>
-  /// Extracts an archive file
+  ///   Extracts an archive file
   /// </summary>
   /// <param name="fileAdapter">File adapter to fetch the file</param>
   /// <param name="filename">File name</param>
   /// <returns>Path to assembly file</returns>
   internal string ExtractArchive(IFileAdapter fileAdapter,
-                        string       filename);
+                                 string       filename);
 
   /// <summary>
-  /// Checks if the archive has already been extracted
+  ///   Checks if the archive has already been extracted
   /// </summary>
   /// <param name="fileAdapter">File adapter to fetch the file</param>
   /// <param name="fileName">File name</param>

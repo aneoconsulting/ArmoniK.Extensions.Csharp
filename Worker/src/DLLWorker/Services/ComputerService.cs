@@ -106,7 +106,7 @@ public class ComputerService : WorkerStreamWrapper
                              : taskHandler.TaskOptions.EngineType;
 
       var fileAdapter = ServiceRequestContext.CreateOrGetFileAdapter(Configuration,
-                                                                         localDirectoryZip);
+                                                                     localDirectoryZip);
 
 
       var serviceWorker = ServiceRequestContext.CreateOrGetArmonikService(Configuration,

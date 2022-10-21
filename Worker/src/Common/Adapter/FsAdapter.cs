@@ -32,7 +32,7 @@ namespace ArmoniK.DevelopmentKit.Worker.Common.Adapter;
 public class FsAdapter : IFileAdapter
 {
   public FsAdapter(string sourceDirPath,
-                     string localZipDir = "/tmp/packages/zip")
+                   string localZipDir = "/tmp/packages/zip")
   {
     SourceDirPath      = sourceDirPath;
     DestinationDirPath = localZipDir;
