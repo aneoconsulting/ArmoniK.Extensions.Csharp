@@ -55,8 +55,8 @@ public abstract class BaseService<T>
   /// </summary>
   public BaseService()
   {
-    Configuration = GridWorkerExt.GetDefaultConfiguration();
-    Logger = GridWorkerExt.GetDefaultLoggerFactory(Configuration)
+    Configuration = WorkerHelpers.GetDefaultConfiguration();
+    Logger = WorkerHelpers.GetDefaultLoggerFactory(Configuration)
                           .CreateLogger<T>();
   }
 

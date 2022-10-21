@@ -57,8 +57,8 @@ public abstract class TaskSubmitterWorkerService : ITaskSubmitterWorkerServiceCo
   /// </summary>
   public TaskSubmitterWorkerService()
   {
-    Configuration = GridWorkerExt.GetDefaultConfiguration();
-    Logger = GridWorkerExt.GetDefaultLoggerFactory(Configuration)
+    Configuration = WorkerHelpers.GetDefaultConfiguration();
+    Logger = WorkerHelpers.GetDefaultLoggerFactory(Configuration)
                           .CreateLogger(GetType()
                                           .Name);
   }
