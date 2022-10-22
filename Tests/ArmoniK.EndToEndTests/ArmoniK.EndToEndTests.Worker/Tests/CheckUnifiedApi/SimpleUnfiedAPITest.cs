@@ -24,9 +24,9 @@
 using System;
 using System.Linq;
 
-using ArmoniK.DevelopmentKit.Common.Exceptions;
 using ArmoniK.DevelopmentKit.Common.Extensions;
 using ArmoniK.DevelopmentKit.Worker.Unified;
+using ArmoniK.DevelopmentKit.Worker.Unified.Exceptions;
 
 namespace ArmoniK.EndToEndTests.Worker.Tests.CheckUnifiedApi;
 
@@ -80,12 +80,12 @@ public class CheckUnifiedApiWorker : BaseService<CheckUnifiedApiWorker>
                    .ToArray();
   }
 
-  public double[] RandomTaskError(double percentageOfFailure = 0.25)
+  public double[] RandomTaskError(double percentageOfFailure = 25)
   {
     var randNum = rd.NextDouble();
     if (randNum < percentageOfFailure / 100)
     {
-      throw new WorkerApiException("An expected failure in this random call");
+      throw new GridServerException("An expected failure in this random call");
     }
 
     return new[]
