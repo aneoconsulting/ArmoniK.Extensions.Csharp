@@ -2,6 +2,8 @@ using System;
 using System.IO;
 using System.Net.Http;
 using System.Security.Cryptography.X509Certificates;
+using System.Threading;
+using System.Threading.Tasks;
 
 using ArmoniK.DevelopmentKit.Client.Common.Submitter.Tools;
 
@@ -11,10 +13,8 @@ using Grpc.Net.Client;
 using JetBrains.Annotations;
 
 using Microsoft.Extensions.Logging;
-
 #if NET5_0_OR_GREATER
-using System.Net.Security;
-using System.Threading;
+
 #else
 using System.Runtime.InteropServices;
 using System.Security.Authentication;
@@ -22,6 +22,17 @@ using System.Net;
 #endif
 
 namespace ArmoniK.DevelopmentKit.Client.Common.Submitter;
+
+public class Http2CustomHandler : WinHttpHandler
+{
+  protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request,
+                                                         CancellationToken  cancellationToken)
+  {
+    request.Version = new Version("2.0");
+    return base.SendAsync(request,
+                          cancellationToken);
+  }
+}
 
 /// <summary>
 ///   ClientServiceConnector is the class to connection to the control plane with different
@@ -118,27 +129,27 @@ public class ClientServiceConnector
     var uri = new Uri(endPoint);
 
 #if NET5_0_OR_GREATER
-    var httpClientHandler = new SocketsHttpHandler
+    var httpClientHandler = new HttpClientHandler()
                             {
-                              PooledConnectionIdleTimeout    = Timeout.InfiniteTimeSpan,
-                              KeepAlivePingDelay             = TimeSpan.FromSeconds(60),
-                              KeepAlivePingTimeout           = TimeSpan.FromSeconds(30),
-                              EnableMultipleHttp2Connections = true,
+                              //PooledConnectionIdleTimeout    = Timeout.InfiniteTimeSpan,
+                              //KeepAlivePingDelay             = TimeSpan.FromSeconds(60),
+                              ////KeepAlivePingTimeout           = TimeSpan.FromSeconds(30),
+                              //EnableMultipleHttp2Connections = false,
                             };
 
     if (!sslValidation)
     {
       //To activate unSecured certificate
       //https://dev.to/tswiftma/switching-from-httpclienthandler-to-socketshttphandler-17h3
-      httpClientHandler.SslOptions = new SslClientAuthenticationOptions
-                                     {
-                                       // Leave certs unvalidated for debugging
-                                       RemoteCertificateValidationCallback = delegate
-                                                                             {
-                                                                               return true;
-                                                                             },
-                                       ClientCertificates = new X509CertificateCollection(),
-                                     };
+      //httpClientHandler.SslOptions = new SslClientAuthenticationOptions
+      //                               {
+      //                                 // Leave certs unvalidated for debugging
+      //                                 RemoteCertificateValidationCallback = delegate
+      //                                                                       {
+      //                                                                         return true;
+      //                                                                       },
+      //                                 ClientCertificates = new X509CertificateCollection(),
+      //                               };
       AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport",
                            true);
     }
@@ -148,10 +159,10 @@ public class ClientServiceConnector
       var cert = CertUtils.GetClientCertFromPem(clientPem.Item1,
                                                 clientPem.Item2);
 
-      httpClientHandler.SslOptions.ClientCertificates = new X509CertificateCollection
-                                                        {
-                                                          cert,
-                                                        };
+      //httpClientHandler.SslOptions.ClientCertificates = new X509CertificateCollection
+      //                                                  {
+      //                                                    cert,
+      //                                                  };
     }
 #else
     //Since netstandard2.0 doesn't have SocketHttpHandler for performance.
@@ -163,18 +174,18 @@ public class ClientServiceConnector
     }
 
 
-    var innerHttpClientHandler = new WinHttpHandler();
+    var innerHttpClientHandler = new HttpClientHandler();
 
 
     if (!sslValidation)
     {
-      innerHttpClientHandler.ServerCertificateValidationCallback += (httpRequestMessage,
-                                                                     cert,
-                                                                     cetChain,
-                                                                     policyErrors) =>
-                                                                    {
-                                                                      return true;
-                                                                    };
+      //innerHttpClientHandler.ServerCertificateValidationCallback += (httpRequestMessage,
+      //                                                               cert,
+      //                                                               cetChain,
+      //                                                               policyErrors) =>
+      //                                                              {
+      //                                                                return true;
+      //                                                              };
 
       AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport",
                            true);
@@ -188,7 +199,7 @@ public class ClientServiceConnector
       var tmpCert = new X509Certificate2(cert.Export(X509ContentType.Pfx));
       cert.Dispose();
       innerHttpClientHandler.ClientCertificates.Add(tmpCert);
-      innerHttpClientHandler.ClientCertificateOption = ClientCertificateOption.Manual;
+      //innerHttpClientHandler.ClientCertificateOption = ClientCertificateOption.Manual;
       ServicePointManager.SecurityProtocol |= SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
       innerHttpClientHandler.SslProtocols = SslProtocols.Tls12         | SslProtocols.Tls11         | SslProtocols.Tls;
     }
