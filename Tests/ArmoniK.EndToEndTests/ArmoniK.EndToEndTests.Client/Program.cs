@@ -61,9 +61,7 @@ public class Program
                                       {
                                         new SerilogLoggerProvider(new LoggerConfiguration().ReadFrom.Configuration(Configuration)
                                                                                            .CreateLogger()),
-                                      },
-                                      new LoggerFilterOptions().AddFilter("Grpc",
-                                                                          LogLevel.Error));
+                                      });
 
 
     Logger = LoggerFactory.CreateLogger<Program>();

@@ -21,9 +21,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System;
+
 using ArmoniK.Api.gRPC.V1;
 using ArmoniK.DevelopmentKit.Client.Common.Submitter;
 using ArmoniK.DevelopmentKit.Common;
+
+using JetBrains.Annotations;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -41,7 +45,9 @@ namespace ArmoniK.DevelopmentKit.Client.Symphony;
 [MarkDownDoc]
 public class ArmonikSymphonyClient
 {
-  private readonly IConfigurationSection          controlPlanSection_;
+  [CanBeNull]
+  private readonly IConfigurationSection controlPlanSection_;
+
   private readonly ILogger<ArmonikSymphonyClient> Logger;
 
 
@@ -57,7 +63,7 @@ public class ArmonikSymphonyClient
     controlPlanSection_ = configuration.GetSection(SectionGrpc)
                                        .Exists()
                             ? configuration.GetSection(SectionGrpc)
-                            : null;
+                            : throw new NullReferenceException("Cannot find Grpc configuration. Missing properties or AppSettings.json ?");
     LoggerFactory = loggerFactory;
     Logger        = loggerFactory.CreateLogger<ArmonikSymphonyClient>();
   }
@@ -128,30 +134,33 @@ public class ArmonikSymphonyClient
     string clientKeyFilename  = null;
     var    sslValidation      = true;
 
-    if (controlPlanSection_!.GetSection(SectionMTLS)
-                            .Exists() && controlPlanSection_[SectionMTLS]
-          .ToLower() == "true")
-    {
-      if (controlPlanSection_!.GetSection(SectionClientCertFile)
-                              .Exists())
+   
+      if (controlPlanSection_.GetSection(SectionMTLS)
+                             .Exists() && controlPlanSection_[SectionMTLS]
+            .ToLower() == "true")
       {
-        clientCertFilename = controlPlanSection_[SectionClientCertFile];
+        if (controlPlanSection_!.GetSection(SectionClientCertFile)
+                                .Exists())
+        {
+          clientCertFilename = controlPlanSection_[SectionClientCertFile];
+        }
+
+        if (controlPlanSection_!.GetSection(SectionClientKeyFile)
+                                .Exists())
+        {
+          clientKeyFilename = controlPlanSection_[SectionClientKeyFile];
+        }
       }
 
-      if (controlPlanSection_!.GetSection(SectionClientKeyFile)
-                              .Exists())
+      if (controlPlanSection_!.GetSection(SectionSSlValidation)
+                              .Exists() && controlPlanSection_![SectionSSlValidation] == "disable")
       {
-        clientKeyFilename = controlPlanSection_[SectionClientKeyFile];
+        sslValidation = false;
       }
-    }
+    
 
-    if (controlPlanSection_!.GetSection(SectionSSlValidation)
-                            .Exists() && controlPlanSection_![SectionSSlValidation] == "disable")
-    {
-      sslValidation = false;
-    }
 
-    GrpcPool = ClientServiceConnector.ControlPlaneConnectionPool(controlPlanSection_[SectionEndPoint],
+    GrpcPool = ClientServiceConnector.ControlPlaneConnectionPool(controlPlanSection_![SectionEndPoint],
                                                                  clientCertFilename,
                                                                  clientKeyFilename,
                                                                  sslValidation,
