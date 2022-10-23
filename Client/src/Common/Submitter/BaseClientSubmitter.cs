@@ -194,7 +194,7 @@ public class BaseClientSubmitter<T>
     using var _ = Logger?.LogFunction();
 
     using var channel          = channelPool_.GetChannel();
-     var       submitterService = new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel);
+    var       submitterService = new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel);
 
     var serviceConfiguration = submitterService.GetServiceConfigurationAsync(new Empty())
                                                .ResponseAsync.Result;

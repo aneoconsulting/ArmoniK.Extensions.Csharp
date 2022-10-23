@@ -134,30 +134,29 @@ public class ArmonikSymphonyClient
     string clientKeyFilename  = null;
     var    sslValidation      = true;
 
-   
-      if (controlPlanSection_.GetSection(SectionMTLS)
-                             .Exists() && controlPlanSection_[SectionMTLS]
-            .ToLower() == "true")
-      {
-        if (controlPlanSection_!.GetSection(SectionClientCertFile)
-                                .Exists())
-        {
-          clientCertFilename = controlPlanSection_[SectionClientCertFile];
-        }
 
-        if (controlPlanSection_!.GetSection(SectionClientKeyFile)
-                                .Exists())
-        {
-          clientKeyFilename = controlPlanSection_[SectionClientKeyFile];
-        }
+    if (controlPlanSection_.GetSection(SectionMTLS)
+                           .Exists() && controlPlanSection_[SectionMTLS]
+          .ToLower() == "true")
+    {
+      if (controlPlanSection_!.GetSection(SectionClientCertFile)
+                              .Exists())
+      {
+        clientCertFilename = controlPlanSection_[SectionClientCertFile];
       }
 
-      if (controlPlanSection_!.GetSection(SectionSSlValidation)
-                              .Exists() && controlPlanSection_![SectionSSlValidation] == "disable")
+      if (controlPlanSection_!.GetSection(SectionClientKeyFile)
+                              .Exists())
       {
-        sslValidation = false;
+        clientKeyFilename = controlPlanSection_[SectionClientKeyFile];
       }
-    
+    }
+
+    if (controlPlanSection_!.GetSection(SectionSSlValidation)
+                            .Exists() && controlPlanSection_![SectionSSlValidation] == "disable")
+    {
+      sslValidation = false;
+    }
 
 
     GrpcPool = ClientServiceConnector.ControlPlaneConnectionPool(controlPlanSection_![SectionEndPoint],

@@ -22,11 +22,10 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #if NET5_0_OR_GREATER
 using System.Runtime.InteropServices;
-using System.Text;
 #else
+using System;
 using System.IO;
 using System.Text;
 
@@ -36,7 +35,6 @@ using Org.BouncyCastle.Pkcs;
 using Org.BouncyCastle.Security;
 using Org.BouncyCastle.X509;
 #endif
-using System;
 using System.Security.Cryptography.X509Certificates;
 
 using ArmoniK.DevelopmentKit.Common.Exceptions;
@@ -55,39 +53,39 @@ public static class CertUtils
                                              string clientKeyData)
   {
 #if NET5_0_OR_GREATER
-      string keyData = null;
-      string certData = null;
+    string keyData = null;
+    string certData = null;
 
-      if (!string.IsNullOrWhiteSpace(clientKeyData))
-      {
-        keyData = clientKeyData;
-      }
+    if (!string.IsNullOrWhiteSpace(clientKeyData))
+    {
+      keyData = clientKeyData;
+    }
 
-      if (keyData == null)
-      {
-        throw new ClientApiException("clientKeyData is null or empty");
-      }
+    if (keyData == null)
+    {
+      throw new ClientApiException("clientKeyData is null or empty");
+    }
 
-      if (!string.IsNullOrWhiteSpace(clientPemData))
-      {
-        certData = clientPemData;
-      }
-      else
-      {
-        throw new ClientApiException("clientPemData is null or empty");
-      }
+    if (!string.IsNullOrWhiteSpace(clientPemData))
+    {
+      certData = clientPemData;
+    }
+    else
+    {
+      throw new ClientApiException("clientPemData is null or empty");
+    }
 
 
-      var cert = X509Certificate2.CreateFromPem(certData,
-                                                keyData);
+    var cert = X509Certificate2.CreateFromPem(certData,
+                                              keyData);
 
-      // see https://github.com/dotnet/runtime/issues/45680
-      if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-      {
-        cert = new X509Certificate2(cert.Export(X509ContentType.Pkcs12));
-      }
+    // see https://github.com/dotnet/runtime/issues/45680
+    if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+    {
+      cert = new X509Certificate2(cert.Export(X509ContentType.Pkcs12));
+    }
 
-      return cert;
+    return cert;
 #else
     byte[] certData;
 
@@ -137,7 +135,8 @@ public static class CertUtils
                Array.Empty<char>(),
                new SecureRandom());
 
-    return new X509Certificate2(pkcs.ToArray(), String.Empty,
+    return new X509Certificate2(pkcs.ToArray(),
+                                string.Empty,
                                 (X509KeyStorageFlags)36);
 #endif
   }

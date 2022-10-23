@@ -131,13 +131,13 @@ public class ClientServiceConnector
     var uri = new Uri(endPoint);
 
 #if NET5_0_OR_GREATER
-    var httpClientHandler = new SocketsHttpHandler()
+    var httpClientHandler = new SocketsHttpHandler
                             {
                               PooledConnectionIdleTimeout    = Timeout.InfiniteTimeSpan,
                               KeepAlivePingDelay             = TimeSpan.FromSeconds(60),
                               KeepAlivePingTimeout           = TimeSpan.FromSeconds(30),
                               EnableMultipleHttp2Connections = true,
-                              MaxConnectionsPerServer = 100,
+                              MaxConnectionsPerServer        = 100,
                             };
 
     if (!sslValidation)
@@ -145,14 +145,14 @@ public class ClientServiceConnector
       //To activate unSecured certificate
       //https://dev.to/tswiftma/switching-from-httpclienthandler-to-socketshttphandler-17h3
       httpClientHandler.SslOptions = new SslClientAuthenticationOptions
-      {
-        // Leave certs unvalidated for debugging
-        RemoteCertificateValidationCallback = delegate
-                                              {
-                                                return true;
-                                              },
-        ClientCertificates = new X509CertificateCollection(),
-      };
+                                     {
+                                       // Leave certs unvalidated for debugging
+                                       RemoteCertificateValidationCallback = delegate
+                                                                             {
+                                                                               return true;
+                                                                             },
+                                       ClientCertificates = new X509CertificateCollection(),
+                                     };
       AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport",
                            true);
     }
