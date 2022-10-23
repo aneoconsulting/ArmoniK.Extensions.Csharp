@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Net.Http;
+using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 using System.Threading.Tasks;
@@ -13,6 +14,7 @@ using Grpc.Net.Client;
 using JetBrains.Annotations;
 
 using Microsoft.Extensions.Logging;
+
 #if NET5_0_OR_GREATER
 
 #else
@@ -129,27 +131,28 @@ public class ClientServiceConnector
     var uri = new Uri(endPoint);
 
 #if NET5_0_OR_GREATER
-    var httpClientHandler = new HttpClientHandler()
+    var httpClientHandler = new SocketsHttpHandler()
                             {
-                              //PooledConnectionIdleTimeout    = Timeout.InfiniteTimeSpan,
-                              //KeepAlivePingDelay             = TimeSpan.FromSeconds(60),
-                              ////KeepAlivePingTimeout           = TimeSpan.FromSeconds(30),
-                              //EnableMultipleHttp2Connections = false,
+                              PooledConnectionIdleTimeout    = Timeout.InfiniteTimeSpan,
+                              KeepAlivePingDelay             = TimeSpan.FromSeconds(60),
+                              KeepAlivePingTimeout           = TimeSpan.FromSeconds(30),
+                              EnableMultipleHttp2Connections = true,
+                              MaxConnectionsPerServer = 100,
                             };
 
     if (!sslValidation)
     {
       //To activate unSecured certificate
       //https://dev.to/tswiftma/switching-from-httpclienthandler-to-socketshttphandler-17h3
-      //httpClientHandler.SslOptions = new SslClientAuthenticationOptions
-      //                               {
-      //                                 // Leave certs unvalidated for debugging
-      //                                 RemoteCertificateValidationCallback = delegate
-      //                                                                       {
-      //                                                                         return true;
-      //                                                                       },
-      //                                 ClientCertificates = new X509CertificateCollection(),
-      //                               };
+      httpClientHandler.SslOptions = new SslClientAuthenticationOptions
+      {
+        // Leave certs unvalidated for debugging
+        RemoteCertificateValidationCallback = delegate
+                                              {
+                                                return true;
+                                              },
+        ClientCertificates = new X509CertificateCollection(),
+      };
       AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport",
                            true);
     }
@@ -159,10 +162,10 @@ public class ClientServiceConnector
       var cert = CertUtils.GetClientCertFromPem(clientPem.Item1,
                                                 clientPem.Item2);
 
-      //httpClientHandler.SslOptions.ClientCertificates = new X509CertificateCollection
-      //                                                  {
-      //                                                    cert,
-      //                                                  };
+      httpClientHandler.SslOptions.ClientCertificates = new X509CertificateCollection
+                                                        {
+                                                          cert,
+                                                        };
     }
 #else
     //Since netstandard2.0 doesn't have SocketHttpHandler for performance.
@@ -174,18 +177,18 @@ public class ClientServiceConnector
     }
 
 
-    var innerHttpClientHandler = new HttpClientHandler();
+    var innerHttpClientHandler = new WinHttpHandler();
 
 
     if (!sslValidation)
     {
-      //innerHttpClientHandler.ServerCertificateValidationCallback += (httpRequestMessage,
-      //                                                               cert,
-      //                                                               cetChain,
-      //                                                               policyErrors) =>
-      //                                                              {
-      //                                                                return true;
-      //                                                              };
+      innerHttpClientHandler.ServerCertificateValidationCallback += (httpRequestMessage,
+                                                                     cert,
+                                                                     cetChain,
+                                                                     policyErrors) =>
+                                                                    {
+                                                                      return true;
+                                                                    };
 
       AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport",
                            true);
@@ -199,7 +202,7 @@ public class ClientServiceConnector
       var tmpCert = new X509Certificate2(cert.Export(X509ContentType.Pfx));
       cert.Dispose();
       innerHttpClientHandler.ClientCertificates.Add(tmpCert);
-      //innerHttpClientHandler.ClientCertificateOption = ClientCertificateOption.Manual;
+      innerHttpClientHandler.ClientCertificateOption = ClientCertificateOption.Manual;
       ServicePointManager.SecurityProtocol |= SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
       innerHttpClientHandler.SslProtocols = SslProtocols.Tls12         | SslProtocols.Tls11         | SslProtocols.Tls;
     }
