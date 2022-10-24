@@ -119,7 +119,7 @@ public class CheckAllSubmissionsClient : ClientBaseTest<CheckAllSubmissionsClien
                               SubmissionType submissionType,
                               GetResultType  getResultType)
   {
-    Log.LogInformation($"==  Running {nbJob} Tasks with {nbSubTasks} subTasks " + $" {submissionType.GetName()} submit, Result method {getResultType.GetName()} =====");
+    Log.LogInformation($"==  Running {nbJob} Tasks with {nbSubTasks} subTasks {submissionType.GetName()} submit, Result method {getResultType.GetName()} =====");
     var numbers = new List<int>
                   {
                     1,

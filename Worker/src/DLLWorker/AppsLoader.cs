@@ -58,13 +58,15 @@ public class AppsLoader : IAppsLoader
 
     logger_ = loggerFactory.CreateLogger<AppsLoader>();
 
-    if (!ZipArchiver.ArchiveAlreadyExtracted(fileAdapter,
-                                             fileName))
+    var archiver = new ZipArchiver();
+
+    if (!archiver.ArchiveAlreadyExtracted(fileAdapter,
+                                          fileName))
     {
-      ZipArchiver.DownloadArchive(fileAdapter,
-                                  fileName);
-      ZipArchiver.ExtractArchive(fileAdapter,
-                                 fileName);
+      archiver.DownloadArchive(fileAdapter,
+                               fileName);
+      archiver.ExtractArchive(fileAdapter,
+                              fileName);
     }
 
 

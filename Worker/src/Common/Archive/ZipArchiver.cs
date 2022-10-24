@@ -37,15 +37,14 @@ namespace ArmoniK.DevelopmentKit.Worker.Common.Archive;
 
 public class ZipArchiver : IArchiver
 {
-  private const           string      RootAppPath = "/tmp/packages";
-  private static readonly ZipArchiver Instance    = new();
+  private const string RootAppPath = "/tmp/packages";
 
   /// <inheritdoc cref="IArchiver" />
   /// <exception cref="FileNotFoundException">Thrown if the dll and the lockfile don't exist</exception>
   /// <exception cref="WorkerApiException">Thrown when it has waited too long for the lock file to be liberated</exception>
-  bool IArchiver.ArchiveAlreadyExtracted(IFileAdapter fileAdapter,
-                                         string       fileName,
-                                         int          waitForArchiver)
+  public bool ArchiveAlreadyExtracted(IFileAdapter fileAdapter,
+                                      string       fileName,
+                                      int          waitForArchiver = 300)
   {
     var assemblyInfo = ExtractNameAndVersion(Path.Combine(fileAdapter.DestinationDirPath,
                                                           fileName));
@@ -96,8 +95,8 @@ public class ZipArchiver : IArchiver
   ///   Thrown if the file isn't a zip archive or if the lock file isn't lockable when the
   ///   archive is being extracted by another process
   /// </exception>
-  string IArchiver.ExtractArchive(IFileAdapter fileAdapter,
-                                  string       filename)
+  public string ExtractArchive(IFileAdapter fileAdapter,
+                               string       filename)
   {
     if (!IsZipFile(filename))
     {
@@ -191,9 +190,9 @@ public class ZipArchiver : IArchiver
   }
 
   /// <inheritdoc />
-  string IArchiver.DownloadArchive(IFileAdapter fileAdapter,
-                                   string       fileName,
-                                   bool         skipIfExists)
+  public string DownloadArchive(IFileAdapter fileAdapter,
+                                string       fileName,
+                                bool         skipIfExists = true)
   {
     if (!skipIfExists || !File.Exists(Path.Combine(fileAdapter.DestinationDirPath,
                                                    fileName)))
@@ -225,8 +224,6 @@ public class ZipArchiver : IArchiver
   public static IEnumerable<string> ExtractNameAndVersion(string assemblyNameFilePath)
   {
     string filePathNoExt;
-    string appName;
-    string versionName;
 
     try
     {
@@ -237,31 +234,16 @@ public class ZipArchiver : IArchiver
       throw new WorkerApiException(e);
     }
 
-    // Instantiate the regular expression object.
-    var pat = @"(.*)-v(.+)";
+    var groups = Regex.Split(filePathNoExt,
+                             "-v",
+                             RegexOptions.IgnoreCase);
 
-    var r = new Regex(pat,
-                      RegexOptions.IgnoreCase);
-
-    var m = r.Match(filePathNoExt);
-
-    if (m.Success)
+    if (groups.Length == 2)
     {
-      appName = m.Groups[1]
-                 .Value;
-      versionName = m.Groups[2]
-                     .Value;
-    }
-    else
-    {
-      throw new WorkerApiException("File name format doesn't match");
+      return groups;
     }
 
-    return new[]
-           {
-             appName,
-             versionName,
-           };
+    throw new WorkerApiException($"File name format doesn't match. {(groups.Length > 2 ? "Too many versions." : "No version specified.")}");
   }
 
   public static string GetLocalPathToAssembly(string pathToZip)
@@ -274,47 +256,4 @@ public class ZipArchiver : IArchiver
 
     return $"{basePath}/{assemblyName}.dll";
   }
-
-  /// <summary>
-  /// </summary>
-  /// <param name="fileAdapter"></param>
-  /// <param name="fileName"></param>
-  /// <param name="waitForArchiver"></param>
-  /// <returns></returns>
-  /// <exception cref="WorkerApiException"></exception>
-  public static bool ArchiveAlreadyExtracted(IFileAdapter fileAdapter,
-                                             string       fileName,
-                                             int          waitForArchiver = 300)
-    => ((IArchiver)Instance).ArchiveAlreadyExtracted(fileAdapter,
-                                                     fileName,
-                                                     waitForArchiver);
-
-  /// <summary>
-  ///   Unzip Archive if the temporary folder doesn't contain the
-  ///   folder convention path should exist in /tmp/packages/{AppName}/{AppVersion/AppName.dll
-  /// </summary>
-  /// <param name="fileAdapter">
-  ///   The path to the zip file
-  ///   Pattern for zip file has to be {AppName}-v{AppVersion}.zip
-  /// </param>
-  /// <param name="fileName"></param>
-  /// <returns>return string containing the path to the client assembly (.dll) </returns>
-  public static string ExtractArchive(IFileAdapter fileAdapter,
-                                      string       fileName)
-    => ((IArchiver)Instance).ExtractArchive(fileAdapter,
-                                            fileName);
-
-  /// <summary>
-  ///   Downloads the archive
-  /// </summary>
-  /// <param name="fileAdapter">File Adapter</param>
-  /// <param name="fileName">File Name</param>
-  /// <param name="skipIfExists">If true, doesn't download the archive if it exists already</param>
-  /// <returns></returns>
-  public static string DownloadArchive(IFileAdapter fileAdapter,
-                                       string       fileName,
-                                       bool         skipIfExists = true)
-    => ((IArchiver)Instance).DownloadArchive(fileAdapter,
-                                             fileName,
-                                             skipIfExists);
 }

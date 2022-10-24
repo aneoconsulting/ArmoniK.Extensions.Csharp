@@ -28,7 +28,7 @@ namespace ArmoniK.DevelopmentKit.Worker.Common.Archive;
 /// <summary>
 ///   Interface for archive extraction
 /// </summary>
-internal interface IArchiver
+public interface IArchiver
 {
   /// <summary>
   ///   Extracts an archive file
@@ -36,8 +36,8 @@ internal interface IArchiver
   /// <param name="fileAdapter">File adapter to fetch the file</param>
   /// <param name="filename">File name</param>
   /// <returns>Path to assembly file</returns>
-  internal string ExtractArchive(IFileAdapter fileAdapter,
-                                 string       filename);
+  public string ExtractArchive(IFileAdapter fileAdapter,
+                               string       filename);
 
   /// <summary>
   ///   Checks if the archive has already been extracted
@@ -46,9 +46,9 @@ internal interface IArchiver
   /// <param name="fileName">File name</param>
   /// <param name="waitForArchiver">Number of 2 seconds intervals to wait for the lock file to be </param>
   /// <returns>True if the archive has already been extracted, false otherwise</returns>
-  internal bool ArchiveAlreadyExtracted(IFileAdapter fileAdapter,
-                                        string       fileName,
-                                        int          waitForArchiver);
+  public bool ArchiveAlreadyExtracted(IFileAdapter fileAdapter,
+                                      string       fileName,
+                                      int          waitForArchiver);
 
   /// <summary>
   ///   Download the archive from the fileAdapter
@@ -57,7 +57,7 @@ internal interface IArchiver
   /// <param name="filename">File name</param>
   /// <param name="skipIfExists">If set to true, doesn't download if the file already exists</param>
   /// <returns>Path to the download archive</returns>
-  internal string DownloadArchive(IFileAdapter fileAdapter,
-                                  string       filename,
-                                  bool         skipIfExists = true);
+  public string DownloadArchive(IFileAdapter fileAdapter,
+                                string       filename,
+                                bool         skipIfExists);
 }
