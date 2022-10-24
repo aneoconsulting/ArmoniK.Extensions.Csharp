@@ -490,7 +490,7 @@ public class Service : AbstractClientService
                                MethodName         = methodName,
                                ClientPayload      = ProtoSerializer.SerializeMessageObjectArray(arguments),
                              };
-    var taskId        = SessionService.SubmitTask(payload.Serialize());
+    var taskId = SessionService.SubmitTask(payload.Serialize());
     ResultHandlerDictionary[taskId] = handler;
     return taskId;
   }

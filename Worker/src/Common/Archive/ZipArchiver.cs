@@ -38,7 +38,7 @@ namespace ArmoniK.DevelopmentKit.Worker.Common.Archive;
 public class ZipArchiver : IArchiver
 {
   private const           string      RootAppPath = "/tmp/packages";
-  private static readonly ZipArchiver Instance   = new();
+  private static readonly ZipArchiver Instance    = new();
 
   /// <inheritdoc cref="IArchiver" />
   /// <exception cref="FileNotFoundException">Thrown if the dll and the lockfile don't exist</exception>
@@ -190,13 +190,14 @@ public class ZipArchiver : IArchiver
     return pathToAssembly;
   }
 
-  /// <inheritdoc/>
+  /// <inheritdoc />
   string IArchiver.DownloadArchive(IFileAdapter fileAdapter,
-                                            string       fileName,
-                                            bool         skipIfExists)
+                                   string       fileName,
+                                   bool         skipIfExists)
   {
     if (!skipIfExists || !File.Exists(Path.Combine(fileAdapter.DestinationDirPath,
-                                  fileName))) {
+                                                   fileName)))
+    {
       return fileAdapter.DownloadFile(fileName);
     }
 
@@ -285,8 +286,8 @@ public class ZipArchiver : IArchiver
                                              string       fileName,
                                              int          waitForArchiver = 300)
     => ((IArchiver)Instance).ArchiveAlreadyExtracted(fileAdapter,
-                                                      fileName,
-                                                      waitForArchiver);
+                                                     fileName,
+                                                     waitForArchiver);
 
   /// <summary>
   ///   Unzip Archive if the temporary folder doesn't contain the
@@ -301,10 +302,10 @@ public class ZipArchiver : IArchiver
   public static string ExtractArchive(IFileAdapter fileAdapter,
                                       string       fileName)
     => ((IArchiver)Instance).ExtractArchive(fileAdapter,
-                                             fileName);
+                                            fileName);
 
   /// <summary>
-  /// Downloads the archive
+  ///   Downloads the archive
   /// </summary>
   /// <param name="fileAdapter">File Adapter</param>
   /// <param name="fileName">File Name</param>
