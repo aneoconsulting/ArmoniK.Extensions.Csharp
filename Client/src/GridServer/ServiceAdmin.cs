@@ -1,4 +1,4 @@
-﻿// This file is part of the ArmoniK project
+// This file is part of the ArmoniK project
 // 
 // Copyright (C) ANEO, 2021-2022.
 //   W. Kirschenmann   <wkirschenmann@aneo.fr>
@@ -26,6 +26,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 
 using ArmoniK.Api.gRPC.V1;
+using ArmoniK.DevelopmentKit.Client.Common;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;

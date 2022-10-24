@@ -28,9 +28,9 @@ using System.Diagnostics;
 using System.Linq;
 
 using ArmoniK.Api.gRPC.V1;
-using ArmoniK.DevelopmentKit.Client.Unified.Exceptions;
+using ArmoniK.DevelopmentKit.Client.Common;
+using ArmoniK.DevelopmentKit.Client.Common.Exceptions;
 using ArmoniK.DevelopmentKit.Client.Unified.Factory;
-using ArmoniK.DevelopmentKit.Client.Unified.Services;
 using ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter;
 using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.EndToEndTests.Common;

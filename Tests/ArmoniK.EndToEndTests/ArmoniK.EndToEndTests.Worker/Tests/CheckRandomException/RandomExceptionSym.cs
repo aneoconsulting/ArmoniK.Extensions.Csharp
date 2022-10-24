@@ -82,12 +82,12 @@ public class ServiceContainer : ServiceContainerBase
 
   private double ExpM1(double x)
   {
-    var percentageOfFailure = 60.0;
+    var percentageOfFailure = 5.0;
 
     var randNum = rd.NextDouble();
     if (randNum < percentageOfFailure / 100)
     {
-      throw new WorkerApiException("An expected failure in this random call");
+      throw new MyCustomWorkerException("An expected failure in this random call");
     }
 
     return ((((((((((((((15.0 + x) * x + 210.0) * x + 2730.0) * x + 32760.0) * x + 360360.0) * x + 3603600.0) * x + 32432400.0) * x + 259459200.0) * x + 1816214400.0) *
@@ -160,5 +160,13 @@ public class ServiceContainer : ServiceContainerBase
   public override void OnDestroyService(ServiceContext serviceContext)
   {
     //END USER PLEASE FIXME
+  }
+}
+
+public class MyCustomWorkerException : Exception
+{
+  public MyCustomWorkerException(string message)
+    : base(message)
+  {
   }
 }

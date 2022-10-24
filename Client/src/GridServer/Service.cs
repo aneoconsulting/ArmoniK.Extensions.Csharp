@@ -28,6 +28,9 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using ArmoniK.Api.Common.Utils;
+using ArmoniK.DevelopmentKit.Client.Common;
+using ArmoniK.DevelopmentKit.Client.Common.Exceptions;
+using ArmoniK.DevelopmentKit.Client.Common.Submitter;
 using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.Common.Exceptions;
 using ArmoniK.DevelopmentKit.Common.Extensions;
@@ -45,7 +48,7 @@ namespace ArmoniK.DevelopmentKit.Client.GridServer;
 ///   Grid.
 /// </summary>
 [MarkDownDoc]
-public class Service : IDisposable
+public class Service : ISubmitterService, IDisposable
 {
   /// <summary>
   ///   The default constructor to open connection with the control plane
@@ -83,9 +86,6 @@ public class Service : IDisposable
 
   public Task HandlerResponse { get; set; }
 
-  public string SessionId
-    => SessionService?.SessionId.Id;
-
   /// <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
   public void Dispose()
   {
@@ -101,6 +101,49 @@ public class Service : IDisposable
     SessionService = null;
     ClientService  = null;
     HandlerResponse?.Dispose();
+  }
+
+  public string SessionId
+    => SessionService?.SessionId.Id;
+
+
+  /// <inheritdoc />
+  public string Submit(string                    methodName,
+                       object[]                  arguments,
+                       IServiceInvocationHandler handler)
+  {
+    ArmonikPayload dataSynapsePayload = new()
+                                        {
+                                          ArmonikRequestType = ArmonikRequestType.Execute,
+                                          MethodName         = methodName,
+                                          ClientPayload      = ProtoSerializer.SerializeMessageObjectArray(arguments),
+                                        };
+
+    return Submit(dataSynapsePayload,
+                  handler);
+  }
+
+  /// <inheritdoc />
+  public IEnumerable<string> Submit(string                    methodName,
+                                    IEnumerable<object[]>     arguments,
+                                    IServiceInvocationHandler handler)
+  {
+    var dataSynapsePayloads = arguments.Select(args => new ArmonikPayload
+                                                       {
+                                                         ArmonikRequestType  = ArmonikRequestType.Execute,
+                                                         MethodName          = methodName,
+                                                         ClientPayload       = ProtoSerializer.SerializeMessageObjectArray(args),
+                                                         SerializedArguments = false,
+                                                       });
+    var taskIds = new List<string>();
+    foreach (var dataSynapsePayload in dataSynapsePayloads)
+    {
+      var taskId = Submit(dataSynapsePayload,
+                          handler);
+      taskIds.Add(taskId);
+    }
+
+    return taskIds;
   }
 
   /// <summary>
@@ -196,7 +239,7 @@ public class Service : IDisposable
   /// <summary>
   ///   The function submit where all information are already ready to send with class ArmonikPayload
   /// </summary>
-  /// <param name="dataSynapsePayload">Th armonikPayload to pass with Function name and serialized arguments</param>
+  /// <param name="dataSynapsePayload">The armonikPayload to pass with Function name and serialized arguments</param>
   /// <param name="handler">The handler callBack for Error and response</param>
   /// <returns>Return the taskId</returns>
   public string Submit(ArmonikPayload            dataSynapsePayload,
@@ -238,29 +281,6 @@ public class Service : IDisposable
     TaskWarehouse[taskId] = HandlerResponse;
 
     return taskId;
-  }
-
-
-  /// <summary>
-  ///   The method submit will execute task asynchronously on the server
-  /// </summary>
-  /// <param name="methodName">The name of the method inside the service</param>
-  /// <param name="arguments">A list of object that can be passed in parameters of the function</param>
-  /// <param name="handler">The handler callBack implemented as IServiceInvocationHandler to get response or result or error</param>
-  /// <returns>Return the taskId string</returns>
-  public string Submit(string                    methodName,
-                       object[]                  arguments,
-                       IServiceInvocationHandler handler)
-  {
-    ArmonikPayload dataSynapsePayload = new()
-                                        {
-                                          ArmonikRequestType = ArmonikRequestType.Execute,
-                                          MethodName         = methodName,
-                                          ClientPayload      = ProtoSerializer.SerializeMessageObjectArray(arguments),
-                                        };
-
-    return Submit(dataSynapsePayload,
-                  handler);
   }
 
   /// <summary>
