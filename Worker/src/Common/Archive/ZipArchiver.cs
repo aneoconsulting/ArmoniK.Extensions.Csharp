@@ -38,7 +38,7 @@ namespace ArmoniK.DevelopmentKit.Worker.Common.Archive;
 public class ZipArchiver : IArchiver
 {
   private const           string      RootAppPath = "/tmp/packages";
-  private static readonly ZipArchiver _instance   = new();
+  private static readonly ZipArchiver Instance   = new();
 
   /// <inheritdoc cref="IArchiver" />
   /// <exception cref="FileNotFoundException">Thrown if the dll and the lockfile don't exist</exception>
@@ -53,14 +53,6 @@ public class ZipArchiver : IArchiver
     var assemblyName    = info.ElementAt(0);
     var assemblyVersion = info.ElementAt(1);
     var basePath        = $"{RootAppPath}/{assemblyName}/{assemblyVersion}";
-
-    //Download File
-    if (!File.Exists(Path.Combine(fileAdapter.DestinationDirPath,
-                                  fileName)))
-    {
-      fileAdapter.DownloadFile(fileName);
-    }
-
 
     if (!Directory.Exists($"{RootAppPath}/{assemblyName}/{assemblyVersion}"))
     {
@@ -198,6 +190,20 @@ public class ZipArchiver : IArchiver
     return pathToAssembly;
   }
 
+  /// <inheritdoc/>
+  string IArchiver.DownloadArchive(IFileAdapter fileAdapter,
+                                            string       fileName,
+                                            bool         skipIfExists)
+  {
+    if (!skipIfExists || !File.Exists(Path.Combine(fileAdapter.DestinationDirPath,
+                                  fileName))) {
+      return fileAdapter.DownloadFile(fileName);
+    }
+
+    return Path.Combine(fileAdapter.DestinationDirPath,
+                        fileName);
+  }
+
   /// <summary>
   /// </summary>
   /// <param name="assemblyNameFilePath"></param>
@@ -207,12 +213,7 @@ public class ZipArchiver : IArchiver
     //ATm ONLY Check the extensions 
 
     var extension = Path.GetExtension(assemblyNameFilePath);
-    if (extension?.ToLower() == ".zip")
-    {
-      return true;
-    }
-
-    return false;
+    return extension?.ToLower() == ".zip";
   }
 
   /// <summary>
@@ -283,7 +284,7 @@ public class ZipArchiver : IArchiver
   public static bool ArchiveAlreadyExtracted(IFileAdapter fileAdapter,
                                              string       fileName,
                                              int          waitForArchiver = 300)
-    => ((IArchiver)_instance).ArchiveAlreadyExtracted(fileAdapter,
+    => ((IArchiver)Instance).ArchiveAlreadyExtracted(fileAdapter,
                                                       fileName,
                                                       waitForArchiver);
 
@@ -299,6 +300,20 @@ public class ZipArchiver : IArchiver
   /// <returns>return string containing the path to the client assembly (.dll) </returns>
   public static string ExtractArchive(IFileAdapter fileAdapter,
                                       string       fileName)
-    => ((IArchiver)_instance).ExtractArchive(fileAdapter,
+    => ((IArchiver)Instance).ExtractArchive(fileAdapter,
                                              fileName);
+
+  /// <summary>
+  /// Downloads the archive
+  /// </summary>
+  /// <param name="fileAdapter">File Adapter</param>
+  /// <param name="fileName">File Name</param>
+  /// <param name="skipIfExists">If true, doesn't download the archive if it exists already</param>
+  /// <returns></returns>
+  public static string DownloadArchive(IFileAdapter fileAdapter,
+                                       string       fileName,
+                                       bool         skipIfExists = true)
+    => ((IArchiver)Instance).DownloadArchive(fileAdapter,
+                                             fileName,
+                                             skipIfExists);
 }

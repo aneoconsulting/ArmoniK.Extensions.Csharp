@@ -61,6 +61,8 @@ public class AppsLoader : IAppsLoader
     if (!ZipArchiver.ArchiveAlreadyExtracted(fileAdapter,
                                              fileName))
     {
+      ZipArchiver.DownloadArchive(fileAdapter,
+                                  fileName);
       ZipArchiver.ExtractArchive(fileAdapter,
                                  fileName);
     }

@@ -473,27 +473,6 @@ public class Service : AbstractClientService
     }
   }
 
-
-  /// <summary>
-  ///   The function submit where all information are already ready to send with class ArmonikPayload
-  /// </summary>
-  /// <param name="payloads">Th armonikPayload to pass with Function name and serialized arguments</param>
-  /// <param name="handler">The handler callBack for Error and response</param>
-  /// <returns>Return the taskId</returns>
-  private IEnumerable<string> SubmitTasks(IEnumerable<ArmonikPayload> payloads,
-                                          IServiceInvocationHandler   handler)
-  {
-    var taskIds       = SessionService.SubmitTasks(payloads.Select(p => p.Serialize()));
-    var submitTaskIds = taskIds as string[] ?? taskIds.ToArray();
-
-    foreach (var taskId in submitTaskIds)
-    {
-      ResultHandlerDictionary[taskId] = handler;
-    }
-
-    return submitTaskIds;
-  }
-
   /// <summary>
   ///   The method submit will execute task asynchronously on the server
   /// </summary>
@@ -511,13 +490,9 @@ public class Service : AbstractClientService
                                MethodName         = methodName,
                                ClientPayload      = ProtoSerializer.SerializeMessageObjectArray(arguments),
                              };
-
-    return SubmitTasks(new[]
-                       {
-                         payload,
-                       },
-                       handler)
-      .Single();
+    var taskId        = SessionService.SubmitTask(payload.Serialize());
+    ResultHandlerDictionary[taskId] = handler;
+    return taskId;
   }
 
   /// <summary>
@@ -540,12 +515,9 @@ public class Service : AbstractClientService
                                SerializedArguments = true,
                              };
 
-    return SubmitTasks(new[]
-                       {
-                         payload,
-                       },
-                       handler)
-      .Single();
+    var taskId = SessionService.SubmitTask(payload.Serialize());
+    ResultHandlerDictionary[taskId] = handler;
+    return taskId;
   }
 
   /// <summary>
@@ -568,9 +540,13 @@ public class Service : AbstractClientService
                                                      SerializedArguments = false,
                                                    });
 
+    var taskIds = SessionService.SubmitTasks(armonikPayloads.Select(p => p.Serialize()));
+    foreach (var taskid in taskIds)
+    {
+      ResultHandlerDictionary[taskid] = handler;
+    }
 
-    return SubmitTasks(armonikPayloads,
-                       handler);
+    return taskIds;
   }
 
   /// <summary>
@@ -593,8 +569,13 @@ public class Service : AbstractClientService
                                                      SerializedArguments = true,
                                                    });
 
-    return SubmitTasks(armonikPayloads,
-                       handler);
+    var taskIds = SessionService.SubmitTasks(armonikPayloads.Select(p => p.Serialize()));
+    foreach (var taskid in taskIds)
+    {
+      ResultHandlerDictionary[taskid] = handler;
+    }
+
+    return taskIds;
   }
 
   /// <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>

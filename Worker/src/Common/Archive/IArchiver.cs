@@ -49,4 +49,13 @@ internal interface IArchiver
   internal bool ArchiveAlreadyExtracted(IFileAdapter fileAdapter,
                                         string       fileName,
                                         int          waitForArchiver);
+
+    /// <summary>
+    /// Download the archive from the fileAdapter
+    /// </summary>
+    /// <param name="fileAdapter">File adapter to fetch the file</param>
+    /// <param name="filename">File name</param>
+    /// <param name="skipIfExists">If set to true, doesn't download if the file already exists</param>
+    /// <returns>Path to the download archive</returns>
+  internal string DownloadArchive(IFileAdapter fileAdapter, string filename, bool skipIfExists = true);
 }
