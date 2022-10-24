@@ -120,7 +120,7 @@ public class CheckAllSubmissionsClient : ClientBaseTest<CheckAllSubmissionsClien
                               GetResultType  getResultType)
   {
     Log.LogInformation($"==  Running {nbJob} Tasks with {nbSubTasks} subTasks " +
-                       $" {EnumExt.GetName(submissionType)} submit, Result method {EnumExt.GetName(getResultType)} =====");
+                       $" {submissionType.GetName()} submit, Result method {getResultType.GetName()} =====");
     var numbers = new List<int>
                   {
                     1,
