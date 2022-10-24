@@ -4,12 +4,12 @@ set -e
 export MODE="All"
 export SERVER_NFS_IP=""
 export STORAGE_TYPE="HostPath"
-configuration=Debug
+configuration=Release
 FRAMEWORK=net6.0
 OUTPUT_JSON="nofile"
 TO_BUCKET=false
-PACKAGE_NAME="ArmoniK.EndToEndTests-v1.0.0-700.zip"
-RELATIVE_PROJECT="./EndToEnd.Tests"
+PACKAGE_NAME="ArmoniK.EndToEndTests.Worker-v1.0.0-700.zip"
+RELATIVE_PROJECT="ArmoniK.EndToEndTests"
 RELATIVE_CLIENT=""
 DEFAULT=FALSE
 args=""
@@ -28,13 +28,16 @@ pushd $(dirname $0) >/dev/null 2>&1
 BASEDIR=$(pwd -P)
 popd >/dev/null 2>&1
 
-TestDir=${BASEDIR}/$RELATIVE_PROJECT
+TestDir=${BASEDIR}/$RELATIVE_PROJECT/$RELATIVE_PROJECT
 
-cd ${TestDir}
 kubectl get svc -n armonik -o wide
-export CPIP=$(kubectl get svc ingress -n armonik -o custom-columns="IP:.spec.clusterIP" --no-headers=true)
+CPIP=$(kubectl get svc ingress -n armonik -o jsonpath="{.status.loadBalancer.ingress[0]."ip"}")
+CPHOST=$(kubectl get svc ingress -n armonik -o jsonpath="{.status.loadBalancer.ingress[0]."hostname"}")
+export CPIP=${CPHOST:-$CPIP}
 export CPPort=$(kubectl get svc ingress -n armonik -o custom-columns="PORT:.spec.ports[1].port" --no-headers=true)
 export Grpc__Endpoint=http://$CPIP:$CPPort
+echo "Load Balancer : ${Grpc__Endpoint}"
+
 export Grpc__SSLValidation="false"
 export Grpc__CaCert=""
 export Grpc__ClientCert=""
@@ -89,7 +92,12 @@ function createZipFolderIfNeeded()
 }
 
 function build() {
-  cd ${TestDir}/
+  cd ${TestDir}.Worker/
+  echo rm -rf ${nuget_cache}/armonik.*
+  rm -rf $(dotnet nuget locals global-packages --list | awk '{ print $2 }')/armonik.*
+  find \( -iname obj -o -iname bin \) -exec rm -rf {} + || true
+  dotnet publish --self-contained -c ${configuration} -r linux-x64 -f ${FRAMEWORK} .
+  cd ${TestDir}.Client/
   echo rm -rf ${nuget_cache}/armonik.*
   rm -rf $(dotnet nuget locals global-packages --list | awk '{ print $2 }')/armonik.*
   find \( -iname obj -o -iname bin \) -exec rm -rf {} + || true
@@ -97,9 +105,9 @@ function build() {
 }
 
 function deploy() {
-  cd ${TestDir}
+  cd ${TestDir}.Worker
   if [[ ${TO_BUCKET} == true ]]; then
-    export S3_BUCKET=$(aws s3api list-buckets --output json | jq -r '.Buckets[0].Name')
+    export S3_BUCKET=$(aws s3api list-buckets --output json | jq -r '.Buckets[].Name' | grep "s3fs")
     echo "Copy of S3 Bucket ${TO_BUCKET}"
     aws s3 cp "../packages/${PACKAGE_NAME}" "s3://$S3_BUCKET"
   else
@@ -109,8 +117,8 @@ function deploy() {
 }
 
 function execute() {
-  echo "cd ${TestDir}/${RELATIVE_CLIENT}/"
-  cd "${TestDir}/${RELATIVE_CLIENT}/"
+  echo "cd ${TestDir}.Client/"
+  cd "${TestDir}.Client/"
   echo dotnet run --self-contained -r linux-x64 -f ${FRAMEWORK} -c ${configuration} $@
   dotnet run --self-contained -r linux-x64 -f ${FRAMEWORK} -c ${configuration} $@
 }

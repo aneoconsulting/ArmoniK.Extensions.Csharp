@@ -1,0 +1,47 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+    <TargetFrameworks>net472;net6.0</TargetFrameworks>
+		
+		<Version>1.0.0-700</Version>
+	
+		<AppendRuntimeIdentifierToOutputPath>true</AppendRuntimeIdentifierToOutputPath>
+		<AppendTargetFrameworkToOutputPath>true</AppendTargetFrameworkToOutputPath>
+		<RuntimeIdentifier>win-x64</RuntimeIdentifier>
+		<OutputPath>bin/$(Configuration)/</OutputPath>
+		<PublishDir>../publish/$(MSBuildProjectName)/$(Version)/</PublishDir>
+		<PublishUrl>../publish/$(MSBuildProjectName)/$(Version)/</PublishUrl>
+		<IsPackable>false</IsPackable>
+		<OutputType>Exe</OutputType>
+	</PropertyGroup>
+
+  <ItemGroup>
+    <RuntimeHostConfigurationOption Include="System.Globalization.Invariant" Value="true" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Properties\PublishProfiles\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Serilog" Version="2.12.0" />
+    <PackageReference Include="Serilog.Extensions.Logging" Version="3.1.0" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="4.1.0" />
+    <PackageReference Include="Serilog.Settings.Configuration" Version="3.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Client\src\GridServer\ArmoniK.DevelopmentKit.Client.GridServer.csproj" />
+    <ProjectReference Include="..\..\..\Client\src\Symphony\ArmoniK.DevelopmentKit.Client.Symphony.csproj" />
+    <ProjectReference Include="..\..\..\Client\src\Unified\ArmoniK.DevelopmentKit.Client.Unified.csproj" />
+    <ProjectReference Include="..\ArmoniK.EndToEndTests.Common\ArmoniK.EndToEndTests.Common.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+
+</Project>
