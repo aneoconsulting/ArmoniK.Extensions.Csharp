@@ -243,7 +243,7 @@ public class ZipArchiver : IArchiver
       return groups;
     }
 
-    throw new WorkerApiException($"File name format doesn't match. {(groups.Length > 2 ? "Too many versions." : "No version specified.")}");
+    throw new WorkerApiException($"File name \"{filePathNoExt}\" format doesn't match: {(groups.Length > 2 ? "too many versions." : "no version specified.")}");
   }
 
   public static string GetLocalPathToAssembly(string pathToZip)
