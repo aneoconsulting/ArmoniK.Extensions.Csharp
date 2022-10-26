@@ -177,13 +177,14 @@ public class Service : AbstractClientService, ISubmitterService
                                                      SerializedArguments = false,
                                                    });
 
-    var taskIds = SessionService.SubmitTasks(armonikPayloads.Select(p => p.Serialize()));
-    foreach (var taskid in taskIds)
+    var taskIds   = SessionService.SubmitTasks(armonikPayloads.Select(p => p.Serialize()));
+    var submitted = taskIds as string[] ?? taskIds.ToArray();
+    foreach (var taskid in submitted)
     {
       ResultHandlerDictionary[taskid] = handler;
     }
 
-    return taskIds;
+    return submitted;
   }
 
   /// <summary>
@@ -571,13 +572,14 @@ public class Service : AbstractClientService, ISubmitterService
                                                      SerializedArguments = true,
                                                    });
 
-    var taskIds = SessionService.SubmitTasks(armonikPayloads.Select(p => p.Serialize()));
-    foreach (var taskid in taskIds)
+    var taskIds   = SessionService.SubmitTasks(armonikPayloads.Select(p => p.Serialize()));
+    var submitted = taskIds as string[] ?? taskIds.ToArray();
+    foreach (var taskid in submitted)
     {
       ResultHandlerDictionary[taskid] = handler;
     }
 
-    return taskIds;
+    return submitted;
   }
 
   /// <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
