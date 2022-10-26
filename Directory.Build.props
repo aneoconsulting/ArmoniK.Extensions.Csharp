@@ -5,12 +5,14 @@
   https://stackoverflow.com/questions/45575280/msbuild-nuget-restoreoutputpath-how-to-make-it-work
   https://stackoverflow.com/questions/60647277/visual-studio-change-nugets-output-directory-for-temporary-files
   -->
-  <PropertyGroup Condition='$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))'>
+  <PropertyGroup
+    Condition='$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))'>
     <OSBuilder>linux-x64</OSBuilder>
     <OSExcludeBuilder>win-x64</OSExcludeBuilder>
   </PropertyGroup>
 
-  <PropertyGroup Condition='$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Windows)))'>
+  <PropertyGroup
+    Condition='$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Windows)))'>
     <OSBuilder>win-x64</OSBuilder>
     <OSExcludeBuilder>linux-x64</OSExcludeBuilder>
   </PropertyGroup>
