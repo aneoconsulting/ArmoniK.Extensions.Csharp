@@ -26,7 +26,7 @@ namespace ArmoniK.DevelopmentKit.Common;
 /// <summary>
 ///   The interface to download file
 /// </summary>
-public interface IFileAdaptater
+public interface IFileAdapter
 {
   /// <summary>
   ///   Get The directory where the file will be downloaded

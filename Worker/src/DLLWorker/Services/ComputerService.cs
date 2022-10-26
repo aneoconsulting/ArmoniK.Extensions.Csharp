@@ -105,13 +105,13 @@ public class ComputerService : WorkerStreamWrapper
                              ? EngineType.Symphony.ToString()
                              : taskHandler.TaskOptions.EngineType;
 
-      var fileAdaptater = ServiceRequestContext.CreateOrGetFileAdaptater(Configuration,
-                                                                         localDirectoryZip);
+      var fileAdapter = ServiceRequestContext.CreateOrGetFileAdapter(Configuration,
+                                                                     localDirectoryZip);
 
 
       var serviceWorker = ServiceRequestContext.CreateOrGetArmonikService(Configuration,
                                                                           engineTypeName,
-                                                                          fileAdaptater,
+                                                                          fileAdapter,
                                                                           fileName,
                                                                           taskHandler.TaskOptions);
 

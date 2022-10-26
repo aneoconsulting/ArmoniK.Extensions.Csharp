@@ -135,7 +135,13 @@ public class Service : AbstractClientService, ISubmitterService
   public string SessionId
     => SessionService?.SessionId.Id;
 
-  /// <inheritdoc />
+  /// <summary>
+  ///   The method submit will execute task asynchronously on the server
+  /// </summary>
+  /// <param name="methodName">The name of the method inside the service</param>
+  /// <param name="arguments">A list of object that can be passed in parameters of the function</param>
+  /// <param name="handler">The handler callBack implemented as IServiceInvocationHandler to get response or result or error</param>
+  /// <returns>Return the taskId string</returns>
   public string Submit(string                    methodName,
                        object[]                  arguments,
                        IServiceInvocationHandler handler)
@@ -146,16 +152,19 @@ public class Service : AbstractClientService, ISubmitterService
                                MethodName         = methodName,
                                ClientPayload      = ProtoSerializer.SerializeMessageObjectArray(arguments),
                              };
-
-    return SubmitTasks(new[]
-                       {
-                         payload,
-                       },
-                       handler)
-      .Single();
+    var taskId = SessionService.SubmitTask(payload.Serialize());
+    ResultHandlerDictionary[taskId] = handler;
+    return taskId;
   }
 
-  /// <inheritdoc />
+  /// <summary>
+  ///   The method submit list of task with Enumerable list of arguments that will be serialized to each call of byte[]
+  ///   MethodName(byte[] argument)
+  /// </summary>
+  /// <param name="methodName">The name of the method inside the service</param>
+  /// <param name="arguments">A list of parameters that can be passed in parameters of the each call of function</param>
+  /// <param name="handler">The handler callBack implemented as IServiceInvocationHandler to get response or result or error</param>
+  /// <returns>Return the list of created taskIds</returns>
   public IEnumerable<string> Submit(string                    methodName,
                                     IEnumerable<object[]>     arguments,
                                     IServiceInvocationHandler handler)
@@ -168,9 +177,14 @@ public class Service : AbstractClientService, ISubmitterService
                                                      SerializedArguments = false,
                                                    });
 
+    var taskIds   = SessionService.SubmitTasks(armonikPayloads.Select(p => p.Serialize()));
+    var submitted = taskIds as string[] ?? taskIds.ToArray();
+    foreach (var taskid in submitted)
+    {
+      ResultHandlerDictionary[taskid] = handler;
+    }
 
-    return SubmitTasks(armonikPayloads,
-                       handler);
+    return submitted;
   }
 
   /// <summary>
@@ -292,21 +306,6 @@ public class Service : AbstractClientService, ISubmitterService
              Result = result?[0],
            };
   }
-
-  /// <summary>
-  ///   The function submit where all information are already ready to send with class ArmonikPayload
-  /// </summary>
-  /// <param name="payload">Th armonikPayload to pass with Function name and serialized arguments</param>
-  /// <param name="handler">The handler callBack for Error and response</param>
-  /// <returns>Return the taskId</returns>
-  public string SubmitTask(ArmonikPayload            payload,
-                           IServiceInvocationHandler handler)
-    => SubmitTasks(new[]
-                   {
-                     payload,
-                   },
-                   handler)
-      .Single();
 
   private void ProxyTryGetResults(IEnumerable<string>                taskIds,
                                   Action<string, byte[]>             responseHandler,
@@ -528,27 +527,6 @@ public class Service : AbstractClientService, ISubmitterService
     }
   }
 
-
-  /// <summary>
-  ///   The function submit where all information are already ready to send with class ArmonikPayload
-  /// </summary>
-  /// <param name="payloads">Th armonikPayload to pass with Function name and serialized arguments</param>
-  /// <param name="handler">The handler callBack for Error and response</param>
-  /// <returns>Return the taskId</returns>
-  public IEnumerable<string> SubmitTasks(IEnumerable<ArmonikPayload> payloads,
-                                         IServiceInvocationHandler   handler)
-  {
-    var taskIds       = SessionService.SubmitTasks(payloads.Select(p => p.Serialize()));
-    var submitTaskIds = taskIds as string[] ?? taskIds.ToArray();
-
-    foreach (var taskId in submitTaskIds)
-    {
-      ResultHandlerDictionary[taskId] = handler;
-    }
-
-    return submitTaskIds;
-  }
-
   /// <summary>
   ///   The method submit with One serialized argument that will be already serialized for byte[] MethodName(byte[]
   ///   argument).
@@ -569,12 +547,9 @@ public class Service : AbstractClientService, ISubmitterService
                                SerializedArguments = true,
                              };
 
-    return SubmitTasks(new[]
-                       {
-                         payload,
-                       },
-                       handler)
-      .Single();
+    var taskId = SessionService.SubmitTask(payload.Serialize());
+    ResultHandlerDictionary[taskId] = handler;
+    return taskId;
   }
 
   /// <summary>
@@ -597,8 +572,14 @@ public class Service : AbstractClientService, ISubmitterService
                                                      SerializedArguments = true,
                                                    });
 
-    return SubmitTasks(armonikPayloads,
-                       handler);
+    var taskIds   = SessionService.SubmitTasks(armonikPayloads.Select(p => p.Serialize()));
+    var submitted = taskIds as string[] ?? taskIds.ToArray();
+    foreach (var taskid in submitted)
+    {
+      ResultHandlerDictionary[taskid] = handler;
+    }
+
+    return submitted;
   }
 
   /// <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>

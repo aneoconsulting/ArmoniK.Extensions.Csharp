@@ -1,4 +1,4 @@
-﻿// This file is part of the ArmoniK project
+// This file is part of the ArmoniK project
 // 
 // Copyright (C) ANEO, 2021-2022.
 //   W. Kirschenmann   <wkirschenmann@aneo.fr>
@@ -30,16 +30,16 @@ using Amazon.S3.Model;
 
 using ArmoniK.DevelopmentKit.Common;
 
-namespace ArmoniK.DevelopmentKit.Worker.Common.Adaptater;
+namespace ArmoniK.DevelopmentKit.Worker.Common.Adapter;
 
-public class S3Adaptater : IFileAdaptater
+public class S3Adapter : IFileAdapter
 {
-  public S3Adaptater(string endPointRegion,
-                     string bucketName,
-                     string awsAccessKeyId,
-                     string awsSecretAccessKey,
-                     string remoteS3Path,
-                     string localZipDir = "/tmp/packages/zip")
+  public S3Adapter(string endPointRegion,
+                   string bucketName,
+                   string awsAccessKeyId,
+                   string awsSecretAccessKey,
+                   string remoteS3Path,
+                   string localZipDir = "/tmp/packages/zip")
   {
     var config = new AmazonS3Config
                  {

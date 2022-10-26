@@ -28,16 +28,15 @@ namespace ArmoniK.DevelopmentKit.Common.Extensions;
 
 /// <summary>
 /// </summary>
-public abstract class EnumExt
+public static class EnumExt
 {
   /// <summary>
   ///   Returns name of type in a string format
   ///   Method is here to align .NetStandard 2.0 and .Net Core 6.0
   /// </summary>
   /// <param name="value">the enum object instance to convert in string</param>
-  /// <typeparam name="T">the Enum type to request</typeparam>
   /// <returns>the type in a string format</returns>
-  public static string GetName<T>(T value)
-    => Enum.GetName(typeof(T),
+  public static string GetName(this Enum value)
+    => Enum.GetName(value.GetType(),
                     value);
 }

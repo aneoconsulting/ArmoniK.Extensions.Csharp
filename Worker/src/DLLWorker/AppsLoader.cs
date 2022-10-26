@@ -29,6 +29,7 @@ using System.Runtime.Loader;
 using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.Common.Exceptions;
 using ArmoniK.DevelopmentKit.Worker.Common;
+using ArmoniK.DevelopmentKit.Worker.Common.Archive;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -46,26 +47,30 @@ public class AppsLoader : IAppsLoader
   public AppsLoader(IConfiguration configuration,
                     ILoggerFactory loggerFactory,
                     string         engineTypeAssemblyName,
-                    IFileAdaptater fileAdaptater,
+                    IFileAdapter   fileAdapter,
                     string         fileName)
   {
     engineType_ = EngineTypeHelper.ToEnum(engineTypeAssemblyName);
 
-    FileAdaptater = fileAdaptater;
+    FileAdapter = fileAdapter;
 
     ArmoniKDevelopmentKitServerApi = new EngineTypes()[engineType_];
 
     logger_ = loggerFactory.CreateLogger<AppsLoader>();
 
-    if (!ZipArchiver.ArchiveAlreadyExtracted(fileAdaptater,
-                                             fileName))
+    var archiver = new ZipArchiver();
+
+    if (!archiver.ArchiveAlreadyExtracted(fileAdapter,
+                                          fileName))
     {
-      ZipArchiver.UnzipArchive(fileAdaptater,
+      archiver.DownloadArchive(fileAdapter,
                                fileName);
+      archiver.ExtractArchive(fileAdapter,
+                              fileName);
     }
 
 
-    var localPathToAssembly = ZipArchiver.GetLocalPathToAssembly(Path.Combine(fileAdaptater.DestinationDirPath,
+    var localPathToAssembly = ZipArchiver.GetLocalPathToAssembly(Path.Combine(fileAdapter.DestinationDirPath,
                                                                               fileName));
 
     UserAssemblyLoadContext = new AddonsAssemblyLoadContext(localPathToAssembly);
@@ -145,7 +150,7 @@ public class AppsLoader : IAppsLoader
 
   public IConfiguration Configuration { get; }
 
-  public IFileAdaptater FileAdaptater { get; set; }
+  public IFileAdapter FileAdapter { get; set; }
 
   public string PathToAssembly { get; set; }
 
@@ -251,6 +256,6 @@ public class AppsLoader : IAppsLoader
                                       "pathToZipFile is a null argument");
     }
 
-    return engineType == null || engineType_ != EngineTypeHelper.ToEnum(engineType) || FileAdaptater == null || !pathToZipFile.Equals(FileAdaptater);
+    return engineType == null || engineType_ != EngineTypeHelper.ToEnum(engineType) || FileAdapter == null || !pathToZipFile.Equals(FileAdapter);
   }
 }

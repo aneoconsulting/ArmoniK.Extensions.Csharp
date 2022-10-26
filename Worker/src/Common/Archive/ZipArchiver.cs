@@ -1,4 +1,4 @@
-﻿// This file is part of the ArmoniK project
+// This file is part of the ArmoniK project
 // 
 // Copyright (C) ANEO, 2021-2022.
 //   W. Kirschenmann   <wkirschenmann@aneo.fr>
@@ -33,112 +33,25 @@ using System.Threading;
 using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.Common.Exceptions;
 
-namespace ArmoniK.DevelopmentKit.Worker.Common;
+namespace ArmoniK.DevelopmentKit.Worker.Common.Archive;
 
-public class ZipArchiver
+public class ZipArchiver : IArchiver
 {
-  private static readonly string RootAppPath = "/tmp/packages";
+  private const string RootAppPath = "/tmp/packages";
 
-  /// <summary>
-  /// </summary>
-  /// <param name="assemblyNameFilePath"></param>
-  /// <returns></returns>
-  public static bool IsZipFile(string assemblyNameFilePath)
+  /// <inheritdoc cref="IArchiver" />
+  /// <exception cref="FileNotFoundException">Thrown if the dll and the lockfile don't exist</exception>
+  /// <exception cref="WorkerApiException">Thrown when it has waited too long for the lock file to be liberated</exception>
+  public bool ArchiveAlreadyExtracted(IFileAdapter fileAdapter,
+                                      string       fileName,
+                                      int          waitForArchiver = 300)
   {
-    //ATm ONLY Check the extensions 
-
-    var extension = Path.GetExtension(assemblyNameFilePath);
-    if (extension?.ToLower() == ".zip")
-    {
-      return true;
-    }
-
-    return false;
-  }
-
-  /// <summary>
-  /// </summary>
-  /// <param name="assemblyNameFilePath"></param>
-  /// <returns></returns>
-  /// <exception cref="WorkerApiException"></exception>
-  public static IEnumerable<string> ExtractNameAndVersion(string assemblyNameFilePath)
-  {
-    string filePathNoExt;
-    string appName;
-    string versionName;
-
-    try
-    {
-      filePathNoExt = Path.GetFileNameWithoutExtension(assemblyNameFilePath);
-    }
-    catch (ArgumentException e)
-    {
-      throw new WorkerApiException(e);
-    }
-
-    // Instantiate the regular expression object.
-    var pat = @"(.*)-v(.+)";
-
-    var r = new Regex(pat,
-                      RegexOptions.IgnoreCase);
-
-    var m = r.Match(filePathNoExt);
-
-    if (m.Success)
-    {
-      appName = m.Groups[1]
-                 .Value;
-      versionName = m.Groups[2]
-                     .Value;
-    }
-    else
-    {
-      throw new WorkerApiException("File name format doesn't match");
-    }
-
-    return new[]
-           {
-             appName,
-             versionName,
-           };
-  }
-
-  public static string GetLocalPathToAssembly(string pathToZip)
-  {
-    var assemblyInfo    = ExtractNameAndVersion(pathToZip);
-    var info            = assemblyInfo as string[] ?? assemblyInfo.ToArray();
-    var assemblyName    = info.ElementAt(0);
-    var assemblyVersion = info.ElementAt(1);
-    var basePath        = $"{RootAppPath}/{assemblyName}/{assemblyVersion}";
-
-    return $"{basePath}/{assemblyName}.dll";
-  }
-
-  /// <summary>
-  /// </summary>
-  /// <param name="fileAdaptater"></param>
-  /// <param name="fileName"></param>
-  /// <param name="waitForArchiver"></param>
-  /// <returns></returns>
-  /// <exception cref="WorkerApiException"></exception>
-  public static bool ArchiveAlreadyExtracted(IFileAdaptater fileAdaptater,
-                                             string         fileName,
-                                             int            waitForArchiver = 300)
-  {
-    var assemblyInfo = ExtractNameAndVersion(Path.Combine(fileAdaptater.DestinationDirPath,
+    var assemblyInfo = ExtractNameAndVersion(Path.Combine(fileAdapter.DestinationDirPath,
                                                           fileName));
     var info            = assemblyInfo as string[] ?? assemblyInfo.ToArray();
     var assemblyName    = info.ElementAt(0);
     var assemblyVersion = info.ElementAt(1);
     var basePath        = $"{RootAppPath}/{assemblyName}/{assemblyVersion}";
-
-    //Download File
-    if (!File.Exists(Path.Combine(fileAdaptater.DestinationDirPath,
-                                  fileName)))
-    {
-      fileAdaptater.DownloadFile(fileName);
-    }
-
 
     if (!Directory.Exists($"{RootAppPath}/{assemblyName}/{assemblyVersion}"))
     {
@@ -156,8 +69,8 @@ public class ZipArchiver
       throw new FileNotFoundException($"Cannot find Service. Assembly name {basePath}/{assemblyName}.dll");
     }
 
-    var retry       = 0;
-    var loopingWait = 2; // 2 secs
+    var       retry       = 0;
+    const int loopingWait = 2; // 2 secs
 
     if (waitForArchiver == 0)
     {
@@ -170,32 +83,27 @@ public class ZipArchiver
       retry++;
       if (retry > waitForArchiver >> 2)
       {
-        throw new WorkerApiException($"Wait for unlock unzip was timeout after {waitForArchiver * 2} seconds");
+        throw new WorkerApiException($"Wait for unlock unzip was timeout after {waitForArchiver * loopingWait} seconds");
       }
     }
 
     return false;
   }
 
-  /// <summary>
-  ///   Unzip Archive if the temporary folder doesn't contain the
-  ///   folder convention path should exist in /tmp/packages/{AppName}/{AppVersion/AppName.dll
-  /// </summary>
-  /// <param name="fileAdaptater">
-  ///   The path to the zip file
-  ///   Pattern for zip file has to be {AppName}-v{AppVersion}.zip
-  /// </param>
-  /// <param name="fileName"></param>
-  /// <returns>return string containing the path to the client assembly (.dll) </returns>
-  public static string UnzipArchive(IFileAdaptater fileAdaptater,
-                                    string         fileName)
+  /// <inheritdoc cref="IArchiver" />
+  /// <exception cref="WorkerApiException">
+  ///   Thrown if the file isn't a zip archive or if the lock file isn't lockable when the
+  ///   archive is being extracted by another process
+  /// </exception>
+  public string ExtractArchive(IFileAdapter fileAdapter,
+                               string       filename)
   {
-    if (!IsZipFile(fileName))
+    if (!IsZipFile(filename))
     {
       throw new WorkerApiException("Cannot yet extract or manage raw data other than zip archive");
     }
 
-    var assemblyInfo    = ExtractNameAndVersion(fileName);
+    var assemblyInfo    = ExtractNameAndVersion(filename);
     var info            = assemblyInfo as string[] ?? assemblyInfo.ToArray();
     var assemblyVersion = info.ElementAt(1);
     var assemblyName    = info.ElementAt(0);
@@ -204,8 +112,8 @@ public class ZipArchiver
     var pathToAssembly    = $"{RootAppPath}/{assemblyName}/{assemblyVersion}/{assemblyName}.dll";
     var pathToAssemblyDir = $"{RootAppPath}/{assemblyName}/{assemblyVersion}";
 
-    if (ArchiveAlreadyExtracted(fileAdaptater,
-                                fileName,
+    if (ArchiveAlreadyExtracted(fileAdapter,
+                                filename,
                                 20))
     {
       return pathToAssembly;
@@ -254,8 +162,8 @@ public class ZipArchiver
 
       try
       {
-        ZipFile.ExtractToDirectory(Path.Combine(fileAdaptater.DestinationDirPath,
-                                                fileName),
+        ZipFile.ExtractToDirectory(Path.Combine(fileAdapter.DestinationDirPath,
+                                                filename),
                                    RootAppPath);
       }
       catch (Exception e)
@@ -279,5 +187,73 @@ public class ZipArchiver
     }
 
     return pathToAssembly;
+  }
+
+  /// <inheritdoc />
+  public string DownloadArchive(IFileAdapter fileAdapter,
+                                string       fileName,
+                                bool         skipIfExists = true)
+  {
+    if (!skipIfExists || !File.Exists(Path.Combine(fileAdapter.DestinationDirPath,
+                                                   fileName)))
+    {
+      return fileAdapter.DownloadFile(fileName);
+    }
+
+    return Path.Combine(fileAdapter.DestinationDirPath,
+                        fileName);
+  }
+
+  /// <summary>
+  /// </summary>
+  /// <param name="assemblyNameFilePath"></param>
+  /// <returns></returns>
+  public static bool IsZipFile(string assemblyNameFilePath)
+  {
+    //ATm ONLY Check the extensions 
+
+    var extension = Path.GetExtension(assemblyNameFilePath);
+    return extension?.ToLower() == ".zip";
+  }
+
+  /// <summary>
+  /// </summary>
+  /// <param name="assemblyNameFilePath"></param>
+  /// <returns></returns>
+  /// <exception cref="WorkerApiException"></exception>
+  public static IEnumerable<string> ExtractNameAndVersion(string assemblyNameFilePath)
+  {
+    string filePathNoExt;
+
+    try
+    {
+      filePathNoExt = Path.GetFileNameWithoutExtension(assemblyNameFilePath);
+    }
+    catch (ArgumentException e)
+    {
+      throw new WorkerApiException(e);
+    }
+
+    var groups = Regex.Split(filePathNoExt,
+                             "-v",
+                             RegexOptions.IgnoreCase);
+
+    if (groups.Length == 2)
+    {
+      return groups;
+    }
+
+    throw new WorkerApiException($"File name \"{filePathNoExt}\" format doesn't match: {(groups.Length > 2 ? "too many versions." : "no version specified.")}");
+  }
+
+  public static string GetLocalPathToAssembly(string pathToZip)
+  {
+    var assemblyInfo    = ExtractNameAndVersion(pathToZip);
+    var info            = assemblyInfo as string[] ?? assemblyInfo.ToArray();
+    var assemblyName    = info.ElementAt(0);
+    var assemblyVersion = info.ElementAt(1);
+    var basePath        = $"{RootAppPath}/{assemblyName}/{assemblyVersion}";
+
+    return $"{basePath}/{assemblyName}.dll";
   }
 }

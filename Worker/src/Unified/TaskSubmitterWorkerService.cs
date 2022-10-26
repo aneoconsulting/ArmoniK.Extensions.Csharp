@@ -57,8 +57,8 @@ public abstract class TaskSubmitterWorkerService : ITaskSubmitterWorkerServiceCo
   /// </summary>
   public TaskSubmitterWorkerService()
   {
-    Configuration = GridWorkerExt.GetDefaultConfiguration();
-    Logger = GridWorkerExt.GetDefaultLoggerFactory(Configuration)
+    Configuration = WorkerHelpers.GetDefaultConfiguration();
+    Logger = WorkerHelpers.GetDefaultLoggerFactory(Configuration)
                           .CreateLogger(GetType()
                                           .Name);
   }
@@ -143,52 +143,6 @@ public abstract class TaskSubmitterWorkerService : ITaskSubmitterWorkerServiceCo
   public void ConfigureSessionService(ITaskHandler taskHandler)
     => SessionService = new SessionPollingService(LoggerFactory,
                                                   taskHandler);
-
-  /// <summary>
-  ///   The middleware triggers the invocation of this handler just after a Service Instance is started.
-  ///   The application developer must put any service initialization into this handler.
-  ///   Default implementation does nothing.
-  /// </summary>
-  /// <param name="serviceContext">
-  ///   Holds all information on the state of the service at the start of the execution.
-  /// </param>
-  public void OnCreateService(ServiceContext serviceContext)
-  {
-  }
-
-
-  /// <summary>
-  ///   This handler is executed once after the callback OnCreateService and before the OnInvoke
-  /// </summary>
-  /// <param name="sessionContext">
-  ///   Holds all information on the state of the session at the start of the execution.
-  /// </param>
-  public void OnSessionEnter(SessionContext sessionContext)
-  {
-  }
-
-  /// <summary>
-  ///   The middleware triggers the invocation of this handler to unbind the Service Instance from its owning Session.
-  ///   This handler should do any cleanup for any resources that were used in the onSessionEnter() method.
-  /// </summary>
-  /// <param name="sessionContext">
-  ///   Holds all information on the state of the session at the start of the execution such as session ID.
-  /// </param>
-  public void OnSessionLeave(SessionContext sessionContext)
-  {
-  }
-
-
-  /// <summary>
-  ///   The middleware triggers the invocation of this handler just before a Service Instance is destroyed.
-  ///   This handler should do any cleanup for any resources that were used in the onCreateService() method.
-  /// </summary>
-  /// <param name="serviceContext">
-  ///   Holds all information on the state of the service at the start of the execution.
-  /// </param>
-  public void OnDestroyService(ServiceContext serviceContext)
-  {
-  }
 
   /// <summary>
   ///   User method to submit task from the service
@@ -302,36 +256,6 @@ public abstract class TaskSubmitterWorkerService : ITaskSubmitterWorkerServiceCo
                                                       },
                                                       resultForParent)
                          .Single();
-  }
-
-  /// <summary>
-  ///   User method to wait for only the parent task from the client
-  /// </summary>
-  /// <param name="taskId">
-  ///   The task id of the task to wait for
-  /// </param>
-  [Obsolete]
-  public void WaitForTaskCompletion(string taskId)
-  {
-  }
-
-  /// <summary>
-  /// </summary>
-  /// <param name="taskIds">List of tasks to wait for</param>
-  [Obsolete]
-  public void WaitForTasksCompletion(IEnumerable<string> taskIds)
-  {
-  }
-
-  /// <summary>
-  ///   User method to wait for SubTasks from the client
-  /// </summary>
-  /// <param name="taskId">
-  ///   The task id of the Subtask
-  /// </param>
-  [Obsolete]
-  public void WaitForSubTasksCompletion(string taskId)
-  {
   }
 
   /// <summary>
