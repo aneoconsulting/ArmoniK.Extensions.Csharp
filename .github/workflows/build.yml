@@ -223,6 +223,25 @@ jobs:
          cd Tests
          mkdir -p ${HOME}/data
          bash -x ./endToEndTests.sh
+         cd -
+      
+      - name: Run tests
+        run: |
+         kubectl get svc -n armonik -o wide
+         export CPIP=$(kubectl get svc ingress -n armonik -o jsonpath="{.status.loadBalancer.ingress[0]."ip"}")
+         export CPHOST=$(kubectl get svc ingress -n armonik -o jsonpath="{.status.loadBalancer.ingress[0]."hostname"}")
+         export CPIP=${CPHOST:-$CPIP}
+         export CPPort=$(kubectl get svc ingress -n armonik -o custom-columns="PORT:.spec.ports[1].port" --no-headers=true)
+         export Grpc__Endpoint=http://$CPIP:$CPPort
+         dotnet test --runtime linux-x64 -f net6.0 --logger "trx;LogFileName=test-results.trx"
+         
+      - name: Test Report
+        uses: dorny/test-reporter@v1
+        if: success() || failure()
+        with:
+          name: IntegrationTests
+          path: ./Tests/ArmoniK.EndToEndTests/ArmoniK.EndToEndTests.Client/TestResults/test-results.trx
+          reporter: dotnet-trx
 
   release-packages:
     runs-on: ubuntu-latest

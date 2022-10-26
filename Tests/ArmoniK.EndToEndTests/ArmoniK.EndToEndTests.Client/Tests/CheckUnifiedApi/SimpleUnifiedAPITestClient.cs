@@ -26,9 +26,9 @@ using System.Collections.Generic;
 using System.Linq;
 
 using ArmoniK.Api.gRPC.V1;
-using ArmoniK.DevelopmentKit.Client.Unified.Exceptions;
+using ArmoniK.DevelopmentKit.Client.Common;
+using ArmoniK.DevelopmentKit.Client.Common.Exceptions;
 using ArmoniK.DevelopmentKit.Client.Unified.Factory;
-using ArmoniK.DevelopmentKit.Client.Unified.Services;
 using ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter;
 using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.Common.Extensions;
@@ -73,9 +73,9 @@ public class IgnoreErrorHandler : IServiceInvocationHandler
   }
 }
 
-public class SimpleUnifiedAPITestClient : ClientBaseTest<SimpleUnifiedAPITestClient>, IServiceInvocationHandler
+public class SimpleUnifiedApiTestClient : ClientBaseTest<SimpleUnifiedApiTestClient>, IServiceInvocationHandler
 {
-  public SimpleUnifiedAPITestClient(IConfiguration configuration,
+  public SimpleUnifiedApiTestClient(IConfiguration configuration,
                                     ILoggerFactory loggerFactory)
     : base(configuration,
            loggerFactory)

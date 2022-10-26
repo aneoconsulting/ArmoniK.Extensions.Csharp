@@ -71,6 +71,7 @@ public class CheckRandomExceptionSymClient : ClientBaseTest<CheckRandomException
   ///   Simple function to wait and get the result from subTasking and result delegation
   ///   to all subTasks
   /// </summary>
+  /// <param name="numSession">The session number. Used for logs output</param>
   /// <param name="sessionService">The sessionService API to connect to the Control plane Service</param>
   /// <param name="taskIds">The tasks which are waiting for</param>
   /// <returns></returns>

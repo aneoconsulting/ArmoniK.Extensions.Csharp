@@ -1,4 +1,4 @@
-﻿// This file is part of the ArmoniK project
+// This file is part of the ArmoniK project
 // 
 // Copyright (C) ANEO, 2021-2022.
 //   W. Kirschenmann   <wkirschenmann@aneo.fr>
@@ -23,10 +23,10 @@
 
 //TODO : remove pragma
 
-using ArmoniK.DevelopmentKit.Client.Unified.Exceptions;
+using ArmoniK.DevelopmentKit.Client.Common.Exceptions;
 using ArmoniK.DevelopmentKit.Common;
 
-namespace ArmoniK.DevelopmentKit.Client.Unified.Services;
+namespace ArmoniK.DevelopmentKit.Client.Common;
 
 /// <summary>
 ///   The interface from which the handler must inherit to be considered as a handler of service

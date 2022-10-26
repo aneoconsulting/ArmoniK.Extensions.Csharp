@@ -1,4 +1,4 @@
-﻿namespace ArmoniK.DevelopmentKit.Client.Unified.Exceptions;
+namespace ArmoniK.DevelopmentKit.Client.Common.Exceptions;
 
 /// <summary>
 ///   List of status for task and result in Armonik

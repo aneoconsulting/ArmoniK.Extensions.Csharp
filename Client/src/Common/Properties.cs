@@ -1,4 +1,4 @@
-﻿// This file is part of the ArmoniK project
+// This file is part of the ArmoniK project
 // 
 // Copyright (C) ANEO, 2021-2022.
 //   W. Kirschenmann   <wkirschenmann@aneo.fr>
@@ -30,7 +30,7 @@ using Google.Protobuf.WellKnownTypes;
 
 using Microsoft.Extensions.Configuration;
 
-namespace ArmoniK.DevelopmentKit.Client.GridServer;
+namespace ArmoniK.DevelopmentKit.Client.Common;
 
 /// <summary>
 ///   The properties class to set all configuration of the service
