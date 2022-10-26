@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Concurrent;
 
+using ArmoniK.DevelopmentKit.Client.Common;
+
 using JetBrains.Annotations;
 
 using Microsoft.Extensions.Logging;

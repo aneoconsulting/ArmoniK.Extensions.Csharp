@@ -29,7 +29,9 @@ using System.Threading.Tasks;
 
 using ArmoniK.Api.Common.Utils;
 using ArmoniK.Api.gRPC.V1;
-using ArmoniK.DevelopmentKit.Client.Unified.Exceptions;
+using ArmoniK.DevelopmentKit.Client.Common;
+using ArmoniK.DevelopmentKit.Client.Common.Exceptions;
+using ArmoniK.DevelopmentKit.Client.Common.Submitter;
 using ArmoniK.DevelopmentKit.Client.Unified.Factory;
 using ArmoniK.DevelopmentKit.Client.Unified.Services.Common;
 using ArmoniK.DevelopmentKit.Common;
@@ -51,7 +53,7 @@ namespace ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter;
 ///   Grid.
 /// </summary>
 [MarkDownDoc]
-public class Service : AbstractClientService
+public class Service : AbstractClientService, ISubmitterService
 {
   // *** you need some mechanism to map types to fields
   private static readonly IDictionary<TaskStatus, ArmonikStatusCode> StatusCodesLookUp = new List<Tuple<TaskStatus, ArmonikStatusCode>>
@@ -132,6 +134,44 @@ public class Service : AbstractClientService
   /// </summary>
   public string SessionId
     => SessionService?.SessionId.Id;
+
+  /// <inheritdoc />
+  public string Submit(string                    methodName,
+                       object[]                  arguments,
+                       IServiceInvocationHandler handler)
+  {
+    ArmonikPayload payload = new()
+                             {
+                               ArmonikRequestType = ArmonikRequestType.Execute,
+                               MethodName         = methodName,
+                               ClientPayload      = ProtoSerializer.SerializeMessageObjectArray(arguments),
+                             };
+
+    return SubmitTasks(new[]
+                       {
+                         payload,
+                       },
+                       handler)
+      .Single();
+  }
+
+  /// <inheritdoc />
+  public IEnumerable<string> Submit(string                    methodName,
+                                    IEnumerable<object[]>     arguments,
+                                    IServiceInvocationHandler handler)
+  {
+    var armonikPayloads = arguments.Select(args => new ArmonikPayload
+                                                   {
+                                                     ArmonikRequestType  = ArmonikRequestType.Execute,
+                                                     MethodName          = methodName,
+                                                     ClientPayload       = ProtoSerializer.SerializeMessageObjectArray(args),
+                                                     SerializedArguments = false,
+                                                   });
+
+
+    return SubmitTasks(armonikPayloads,
+                       handler);
+  }
 
   /// <summary>
   ///   This function execute code locally with the same configuration as Armonik Grid execution
@@ -510,32 +550,6 @@ public class Service : AbstractClientService
   }
 
   /// <summary>
-  ///   The method submit will execute task asynchronously on the server
-  /// </summary>
-  /// <param name="methodName">The name of the method inside the service</param>
-  /// <param name="arguments">A list of object that can be passed in parameters of the function</param>
-  /// <param name="handler">The handler callBack implemented as IServiceInvocationHandler to get response or result or error</param>
-  /// <returns>Return the taskId string</returns>
-  public string Submit(string                    methodName,
-                       object[]                  arguments,
-                       IServiceInvocationHandler handler)
-  {
-    ArmonikPayload payload = new()
-                             {
-                               ArmonikRequestType = ArmonikRequestType.Execute,
-                               MethodName         = methodName,
-                               ClientPayload      = ProtoSerializer.SerializeMessageObjectArray(arguments),
-                             };
-
-    return SubmitTasks(new[]
-                       {
-                         payload,
-                       },
-                       handler)
-      .Single();
-  }
-
-  /// <summary>
   ///   The method submit with One serialized argument that will be already serialized for byte[] MethodName(byte[]
   ///   argument).
   /// </summary>
@@ -561,31 +575,6 @@ public class Service : AbstractClientService
                        },
                        handler)
       .Single();
-  }
-
-  /// <summary>
-  ///   The method submit list of task with Enumerable list of arguments that will be serialized to each call of byte[]
-  ///   MethodName(byte[] argument)
-  /// </summary>
-  /// <param name="methodName">The name of the method inside the service</param>
-  /// <param name="arguments">A list of parameters that can be passed in parameters of the each call of function</param>
-  /// <param name="handler">The handler callBack implemented as IServiceInvocationHandler to get response or result or error</param>
-  /// <returns>Return the list of created taskIds</returns>
-  public IEnumerable<string> Submit(string                    methodName,
-                                    IEnumerable<object[]>     arguments,
-                                    IServiceInvocationHandler handler)
-  {
-    var armonikPayloads = arguments.Select(args => new ArmonikPayload
-                                                   {
-                                                     ArmonikRequestType  = ArmonikRequestType.Execute,
-                                                     MethodName          = methodName,
-                                                     ClientPayload       = ProtoSerializer.SerializeMessageObjectArray(args),
-                                                     SerializedArguments = false,
-                                                   });
-
-
-    return SubmitTasks(armonikPayloads,
-                       handler);
   }
 
   /// <summary>

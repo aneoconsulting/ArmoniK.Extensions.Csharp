@@ -21,6 +21,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.Linq;
+
 using ArmoniK.DevelopmentKit.Common.Exceptions;
 using ArmoniK.DevelopmentKit.Worker.Symphony;
 using ArmoniK.EndToEndTests.Common;
@@ -69,6 +71,15 @@ public class ServiceContainer : ServiceContainerBase
                {
                  Type   = ClientPayload.TaskType.Result,
                  Result = (int)result,
+               }.Serialize();
+      }
+      case ClientPayload.TaskType.ComputeCube:
+      {
+        var result = clientPayload.Numbers.Sum(x => x * x * x);
+        return new ClientPayload
+               {
+                 Type   = ClientPayload.TaskType.Result,
+                 Result = result,
                }.Serialize();
       }
       default:

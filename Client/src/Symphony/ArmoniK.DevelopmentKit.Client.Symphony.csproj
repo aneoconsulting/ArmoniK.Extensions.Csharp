@@ -18,6 +18,10 @@
     <ProjectReference Include="../Common/ArmoniK.DevelopmentKit.Client.Common.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Submitter\" />
+  </ItemGroup>
+
   <Target Name="DeleteLocalCache" BeforeTargets="Pack">
     <RemoveDir Directories="$(NugetPackageRoot)/$(PackageId.ToLower())/" />
   </Target>

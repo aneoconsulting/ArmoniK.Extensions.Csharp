@@ -28,9 +28,9 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using ArmoniK.Api.gRPC.V1;
-using ArmoniK.DevelopmentKit.Client.Unified.Exceptions;
+using ArmoniK.DevelopmentKit.Client.Common;
+using ArmoniK.DevelopmentKit.Client.Common.Exceptions;
 using ArmoniK.DevelopmentKit.Client.Unified.Factory;
-using ArmoniK.DevelopmentKit.Client.Unified.Services;
 using ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter;
 using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.Common.Extensions;
@@ -201,7 +201,7 @@ public class LargePayloadSubmitClient : ClientBaseTest<LargePayloadSubmitClient>
     {
       Log.LogDebug($"{indexTask}/{nbTasks} Task Time avg to submit {indexTask / (sw.ElapsedMilliseconds / 1000.0):0.00} Task/s");
 
-      sessionService.Submit("ComputeReduceCube",
+      sessionService.Submit("ComputeSum",
                             ParamsHelper(numbers,
                                          workloadTimeInMs),
                             this);

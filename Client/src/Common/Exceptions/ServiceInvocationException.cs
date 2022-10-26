@@ -1,4 +1,4 @@
-﻿// This file is part of the ArmoniK project
+// This file is part of the ArmoniK project
 // 
 // Copyright (C) ANEO, 2021-2022.
 //   W. Kirschenmann   <wkirschenmann@aneo.fr>
@@ -25,7 +25,7 @@ using System;
 
 using ArmoniK.DevelopmentKit.Common;
 
-namespace ArmoniK.DevelopmentKit.Client.Unified.Exceptions;
+namespace ArmoniK.DevelopmentKit.Client.Common.Exceptions;
 
 /// <summary>
 ///   The service invocation exception. This class wil contain all error information of task or result
@@ -46,6 +46,15 @@ public class ServiceInvocationException : Exception
     message_   = message;
     StatusCode = statusCode;
   }
+
+  /// <summary>
+  ///   The default constructor
+  /// </summary>
+  /// <param name="e">The previous exception</param>
+  public ServiceInvocationException(Exception e)
+    : base(e.Message,
+           e)
+    => message_ = $"{message_} with InnerException {e.GetType()} message : {e.Message}";
 
   /// <summary>
   ///   The overriden constructor to accept inner Exception as parameters

@@ -12,7 +12,8 @@
     <PackageReference Include="Grpc.Core" Version="2.46.5" />
     <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="6.0.0" />
     <PackageReference Include="System.Net.Http" Version="4.3.4" />
-  </ItemGroup>
+   <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="6.0.1" />
+ </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="../../../Common/src/Common/ArmoniK.DevelopmentKit.Common.csproj" />

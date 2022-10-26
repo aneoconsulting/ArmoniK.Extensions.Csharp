@@ -87,13 +87,13 @@ public class CheckOptionsClient : ClientBaseTest<CheckOptionsClient>
                     2,
                     3,
                   };
-    var clientPaylaod = new ClientPayload
+    var clientPayload = new ClientPayload
                         {
                           IsRootTask = true,
                           Numbers    = numbers,
                           Type       = ClientPayload.TaskType.ComputeSquare,
                         };
-    var serialized = clientPaylaod.Serialize();
+    var serialized = clientPayload.Serialize();
     var payloads   = new List<byte[]>();
     for (var i = 0; i < 100; i++)
     {

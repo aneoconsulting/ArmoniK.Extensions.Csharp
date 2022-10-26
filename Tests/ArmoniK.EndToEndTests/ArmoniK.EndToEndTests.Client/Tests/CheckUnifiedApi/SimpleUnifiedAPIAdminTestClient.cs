@@ -28,9 +28,9 @@ using System.Linq;
 using System.Threading;
 
 using ArmoniK.Api.gRPC.V1;
-using ArmoniK.DevelopmentKit.Client.Unified.Exceptions;
+using ArmoniK.DevelopmentKit.Client.Common;
+using ArmoniK.DevelopmentKit.Client.Common.Exceptions;
 using ArmoniK.DevelopmentKit.Client.Unified.Factory;
-using ArmoniK.DevelopmentKit.Client.Unified.Services;
 using ArmoniK.DevelopmentKit.Client.Unified.Services.Admin;
 using ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter;
 using ArmoniK.DevelopmentKit.Common;
@@ -41,7 +41,7 @@ using Microsoft.Extensions.Logging;
 
 namespace ArmoniK.EndToEndTests.Client.Tests.CheckUnifiedApi;
 
-public class SimpleUnifiedApiAdminTestClient : ClientBaseTest<SimpleUnifiedAPITestClient>, IServiceInvocationHandler
+public class SimpleUnifiedApiAdminTestClient : ClientBaseTest<SimpleUnifiedApiTestClient>, IServiceInvocationHandler
 {
   private ILoggerFactory loggerFactory_;
 
@@ -157,7 +157,7 @@ public class SimpleUnifiedApiAdminTestClient : ClientBaseTest<SimpleUnifiedAPITe
     var tasks = sessionService.Submit("ComputeBasicArrayCube",
                                       Enumerable.Range(1,
                                                        wantedCount)
-                                                .Select(n => ParamsHelper(numbers)),
+                                                .Select(_ => ParamsHelper(numbers)),
                                       this);
     if (tasks.Count() is var count && count != wantedCount)
     {
