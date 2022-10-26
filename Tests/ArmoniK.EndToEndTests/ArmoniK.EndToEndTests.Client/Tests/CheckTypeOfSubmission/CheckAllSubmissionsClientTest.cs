@@ -98,7 +98,7 @@ public class CheckAllSubmissionsClientTest
                              GetResultType  getResultType)
   {
     symphonyTestHelper_.Log.LogInformation($"==  Running {nbJob} Tasks with {nbSubTasks} subTasks " +
-                                           $" {EnumExt.GetName(submissionType)} submit, Result method {EnumExt.GetName(getResultType)} =====");
+                                           $" {submissionType.GetName()} submit, Result method {getResultType.GetName()} =====");
 
 
     //Start Submission tasks

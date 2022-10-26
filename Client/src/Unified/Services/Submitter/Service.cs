@@ -135,7 +135,13 @@ public class Service : AbstractClientService, ISubmitterService
   public string SessionId
     => SessionService?.SessionId.Id;
 
-  /// <inheritdoc />
+  /// <summary>
+  ///   The method submit will execute task asynchronously on the server
+  /// </summary>
+  /// <param name="methodName">The name of the method inside the service</param>
+  /// <param name="arguments">A list of object that can be passed in parameters of the function</param>
+  /// <param name="handler">The handler callBack implemented as IServiceInvocationHandler to get response or result or error</param>
+  /// <returns>Return the taskId string</returns>
   public string Submit(string                    methodName,
                        object[]                  arguments,
                        IServiceInvocationHandler handler)
@@ -146,16 +152,19 @@ public class Service : AbstractClientService, ISubmitterService
                                MethodName         = methodName,
                                ClientPayload      = ProtoSerializer.SerializeMessageObjectArray(arguments),
                              };
-
-    return SubmitTasks(new[]
-                       {
-                         payload,
-                       },
-                       handler)
-      .Single();
+    var taskId = SessionService.SubmitTask(payload.Serialize());
+    ResultHandlerDictionary[taskId] = handler;
+    return taskId;
   }
 
-  /// <inheritdoc />
+  /// <summary>
+  ///   The method submit list of task with Enumerable list of arguments that will be serialized to each call of byte[]
+  ///   MethodName(byte[] argument)
+  /// </summary>
+  /// <param name="methodName">The name of the method inside the service</param>
+  /// <param name="arguments">A list of parameters that can be passed in parameters of the each call of function</param>
+  /// <param name="handler">The handler callBack implemented as IServiceInvocationHandler to get response or result or error</param>
+  /// <returns>Return the list of created taskIds</returns>
   public IEnumerable<string> Submit(string                    methodName,
                                     IEnumerable<object[]>     arguments,
                                     IServiceInvocationHandler handler)
@@ -168,9 +177,13 @@ public class Service : AbstractClientService, ISubmitterService
                                                      SerializedArguments = false,
                                                    });
 
+    var taskIds = SessionService.SubmitTasks(armonikPayloads.Select(p => p.Serialize()));
+    foreach (var taskid in taskIds)
+    {
+      ResultHandlerDictionary[taskid] = handler;
+    }
 
-    return SubmitTasks(armonikPayloads,
-                       handler);
+    return taskIds;
   }
 
   /// <summary>
@@ -514,28 +527,6 @@ public class Service : AbstractClientService, ISubmitterService
   }
 
   /// <summary>
-  ///   The method submit will execute task asynchronously on the server
-  /// </summary>
-  /// <param name="methodName">The name of the method inside the service</param>
-  /// <param name="arguments">A list of object that can be passed in parameters of the function</param>
-  /// <param name="handler">The handler callBack implemented as IServiceInvocationHandler to get response or result or error</param>
-  /// <returns>Return the taskId string</returns>
-  public string Submit(string                    methodName,
-                       object[]                  arguments,
-                       IServiceInvocationHandler handler)
-  {
-    ArmonikPayload payload = new()
-                             {
-                               ArmonikRequestType = ArmonikRequestType.Execute,
-                               MethodName         = methodName,
-                               ClientPayload      = ProtoSerializer.SerializeMessageObjectArray(arguments),
-                             };
-    var taskId = SessionService.SubmitTask(payload.Serialize());
-    ResultHandlerDictionary[taskId] = handler;
-    return taskId;
-  }
-
-  /// <summary>
   ///   The method submit with One serialized argument that will be already serialized for byte[] MethodName(byte[]
   ///   argument).
   /// </summary>
@@ -558,35 +549,6 @@ public class Service : AbstractClientService, ISubmitterService
     var taskId = SessionService.SubmitTask(payload.Serialize());
     ResultHandlerDictionary[taskId] = handler;
     return taskId;
-  }
-
-  /// <summary>
-  ///   The method submit list of task with Enumerable list of arguments that will be serialized to each call of byte[]
-  ///   MethodName(byte[] argument)
-  /// </summary>
-  /// <param name="methodName">The name of the method inside the service</param>
-  /// <param name="arguments">A list of parameters that can be passed in parameters of the each call of function</param>
-  /// <param name="handler">The handler callBack implemented as IServiceInvocationHandler to get response or result or error</param>
-  /// <returns>Return the list of created taskIds</returns>
-  public IEnumerable<string> Submit(string                    methodName,
-                                    IEnumerable<object[]>     arguments,
-                                    IServiceInvocationHandler handler)
-  {
-    var armonikPayloads = arguments.Select(args => new ArmonikPayload
-                                                   {
-                                                     ArmonikRequestType  = ArmonikRequestType.Execute,
-                                                     MethodName          = methodName,
-                                                     ClientPayload       = ProtoSerializer.SerializeMessageObjectArray(args),
-                                                     SerializedArguments = false,
-                                                   });
-
-    var taskIds = SessionService.SubmitTasks(armonikPayloads.Select(p => p.Serialize()));
-    foreach (var taskid in taskIds)
-    {
-      ResultHandlerDictionary[taskid] = handler;
-    }
-
-    return taskIds;
   }
 
   /// <summary>
