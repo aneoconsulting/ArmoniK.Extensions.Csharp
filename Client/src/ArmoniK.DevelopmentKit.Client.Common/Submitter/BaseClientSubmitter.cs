@@ -602,6 +602,8 @@ public class BaseClientSubmitter<T>
             {
               chunks.Add(reply.Result.Data.Memory);
               len += reply.Result.Data.Memory.Length;
+              // In case we receive a chunk after the data complete message (corrupt stream)
+              isPayloadComplete = false;
             }
             else
             {
@@ -626,7 +628,7 @@ public class BaseClientSubmitter<T>
 
       if (!isPayloadComplete)
       {
-        throw new Exception($"Payload is incomplete for result {resultRequest.ResultId}");
+        throw new ClientResultsException($"Result data is incomplete for id {resultRequest.ResultId}");
       }
     }
 
