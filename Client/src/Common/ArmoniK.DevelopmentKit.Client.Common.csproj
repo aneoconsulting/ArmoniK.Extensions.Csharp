@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net6.0</TargetFrameworks>
@@ -8,7 +8,7 @@
   </PropertyGroup>
 
  <ItemGroup>
-    <PackageReference Include="ArmoniK.Api.Client" Version="3.0.4" />
+    <PackageReference Include="ArmoniK.Api.Client" Version="3.2.0-altaskdatagraphtest.8.8e57ae8" />
     <PackageReference Include="Grpc.Net.Client" Version="2.49.0" />
     <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="6.0.0" />
     <PackageReference Include="Portable.BouncyCastle" Version="1.9.0" />

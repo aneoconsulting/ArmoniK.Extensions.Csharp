@@ -183,8 +183,8 @@ public class AdminMonitoringService
                                                                                                                                {
                                                                                                                                  Statuses =
                                                                                                                                  {
-                                                                                                                                   TaskStatus.Canceled,
-                                                                                                                                   TaskStatus.Canceling,
+                                                                                                                                   TaskStatus.Cancelled,
+                                                                                                                                   TaskStatus.Cancelling,
                                                                                                                                  },
                                                                                                                                },
                                                                                                                   })
@@ -235,7 +235,7 @@ public class AdminMonitoringService
                                                                                                                                   {
                                                                                                                                     Statuses =
                                                                                                                                     {
-                                                                                                                                      SessionStatus.Canceled,
+                                                                                                                                      SessionStatus.Cancelled,
                                                                                                                                     },
                                                                                                                                   },
                                                                                                                      })
@@ -366,8 +366,8 @@ public class AdminMonitoringService
                                                                                                                                 {
                                                                                                                                   Statuses =
                                                                                                                                   {
-                                                                                                                                    TaskStatus.Canceling,
-                                                                                                                                    TaskStatus.Canceled,
+                                                                                                                                    TaskStatus.Cancelling,
+                                                                                                                                    TaskStatus.Cancelled,
                                                                                                                                   },
                                                                                                                                 },
                                                                                                                    })

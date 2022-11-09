@@ -29,7 +29,7 @@ public class SubtaskingTreeUnifiedApiClientTest
   {
   }
 
-  [TestCase(1,
+  [TestCase(2,
             2)]
   [TestCase(32,
             2)]
@@ -53,11 +53,12 @@ public class SubtaskingTreeUnifiedApiClientTest
     var taskId = unifiedTestHelper_.Service.Submit("ComputeSubTaskingTreeSum",
                                                    UnitTestHelperBase.ParamsHelper(payload.Serialize()),
                                                    unifiedTestHelper_);
-
-
     var expectedResult = numbers.Sum();
 
     var taskResult = unifiedTestHelper_.WaitForResultcompletion(taskId);
+
+    var allTaskDatas = (unifiedTestHelper_.Service as DevelopmentKit.Client.Unified.Services.Submitter.Service).GetAllTaskDataOfTheSession();
+
     Assert.IsNotNull(taskResult);
     Assert.IsInstanceOf(typeof(byte[]),
                         taskResult);

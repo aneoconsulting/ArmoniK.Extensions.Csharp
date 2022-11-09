@@ -29,6 +29,7 @@ using System.Threading.Tasks;
 
 using ArmoniK.Api.Common.Utils;
 using ArmoniK.Api.gRPC.V1;
+using ArmoniK.Api.gRPC.V1.Tasks;
 using ArmoniK.DevelopmentKit.Client.Common;
 using ArmoniK.DevelopmentKit.Client.Common.Exceptions;
 using ArmoniK.DevelopmentKit.Client.Common.Submitter;
@@ -62,9 +63,9 @@ public class Service : AbstractClientService, ISubmitterService
                                                                                                         ArmonikStatusCode.ResultNotReady),
                                                                                            Tuple.Create(TaskStatus.Timeout,
                                                                                                         ArmonikStatusCode.TaskTimeout),
-                                                                                           Tuple.Create(TaskStatus.Canceled,
+                                                                                           Tuple.Create(TaskStatus.Cancelled,
                                                                                                         ArmonikStatusCode.TaskCanceled),
-                                                                                           Tuple.Create(TaskStatus.Canceling,
+                                                                                           Tuple.Create(TaskStatus.Cancelling,
                                                                                                         ArmonikStatusCode.TaskCanceled),
                                                                                            Tuple.Create(TaskStatus.Error,
                                                                                                         ArmonikStatusCode.TaskFailed),
@@ -379,8 +380,8 @@ public class Service : AbstractClientService, ISubmitterService
 
           switch (taskStatus)
           {
-            case TaskStatus.Canceling:
-            case TaskStatus.Canceled:
+            case TaskStatus.Cancelling:
+            case TaskStatus.Cancelled:
               details = $"Task {resultStatusData.TaskId} was canceled";
               break;
             default:
@@ -545,7 +546,6 @@ public class Service : AbstractClientService, ISubmitterService
     {
       ResultHandlerDictionary[taskId] = handler;
     }
-
     return submitTaskIds;
   }
 
@@ -599,6 +599,18 @@ public class Service : AbstractClientService, ISubmitterService
 
     return SubmitTasks(armonikPayloads,
                        handler);
+  }
+
+  /// <summary>
+  ///   The function submit where all information are already ready to send with class ArmonikPayload
+  /// </summary>
+  /// <param name="payloads">Th armonikPayload to pass with Function name and serialized arguments</param>
+  /// <param name="handler">The handler callBack for Error and response</param>
+  /// <returns>Return the taskId</returns>
+  public IEnumerable<TaskRaw> GetAllTaskDataOfTheSession()
+  {
+    var taskDataResponse = SessionService.GetAllTaskDataOfTheSession();
+    return taskDataResponse.TaskData.ToList();
   }
 
   /// <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
