@@ -28,6 +28,7 @@ using System.Linq;
 using ArmoniK.Api.Common.Utils;
 using ArmoniK.Api.gRPC.V1;
 using ArmoniK.Api.gRPC.V1.Submitter;
+using ArmoniK.DevelopmentKit.Client.Common.Factory;
 using ArmoniK.DevelopmentKit.Client.Common.Submitter;
 using ArmoniK.DevelopmentKit.Common;
 
@@ -55,6 +56,7 @@ public class SessionService : BaseClientSubmitter<SessionService>
                         [CanBeNull] TaskOptions    taskOptions   = null,
                         [CanBeNull] Session        session       = null)
     : base(channelPool,
+           new ClientFactory(),
            loggerFactory)
   {
     TaskOptions = taskOptions ?? InitializeDefaultTaskOptions();

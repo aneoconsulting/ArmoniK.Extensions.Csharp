@@ -34,6 +34,7 @@ using ArmoniK.Api.gRPC.V1;
 using ArmoniK.Api.gRPC.V1.Results;
 using ArmoniK.Api.gRPC.V1.Submitter;
 using ArmoniK.Api.gRPC.V1.Tasks;
+using ArmoniK.DevelopmentKit.Client.Common.Factory;
 using ArmoniK.DevelopmentKit.Client.Common.Status;
 using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.Common.Exceptions;
@@ -62,15 +63,18 @@ public class BaseClientSubmitter<T>
   ///   Base Object for all Client submitter
   /// </summary>
   /// <param name="channelPool">Channel used to create grpc clients</param>
+  /// <param name="clientFactory">The factory to instanci ate </param>
   /// <param name="loggerFactory">the logger factory to pass for root object</param>
   /// <param name="chunkSubmitSize">The size of chunk to split the list of tasks</param>
   public BaseClientSubmitter(ChannelPool                channelPool,
+                             IClientFactory             clientFactory,
                              [CanBeNull] ILoggerFactory loggerFactory   = null,
                              int                        chunkSubmitSize = 500)
   {
     channelPool_     = channelPool;
     Logger           = loggerFactory?.CreateLogger<T>();
     chunkSubmitSize_ = chunkSubmitSize;
+    clientFactory_   = clientFactory;
   }
 
   /// <summary>
@@ -86,6 +90,8 @@ public class BaseClientSubmitter<T>
 
 
 #pragma warning restore CS1591
+
+  private readonly IClientFactory clientFactory_;
 
   /// <summary>
   ///   The channel pool to use for creating clients
@@ -114,6 +120,33 @@ public class BaseClientSubmitter<T>
   ///   Service for interacting with results
   /// </summary>
   protected Tasks.TasksClient TaskService { get; set; }
+
+
+  /// <summary>
+  ///   Create the session
+  /// </summary>
+  /// <param name="partitionIds">the list of partition where the session will submit its tasks</param>
+  /// <returns></returns>
+  public virtual Session CreateSession(IEnumerable<string> partitionIds)
+  {
+    using var _ = Logger?.LogFunction();
+    var createSessionRequest = new CreateSessionRequest
+                               {
+                                 DefaultTaskOption = TaskOptions,
+                                 PartitionIds =
+                                 {
+                                   partitionIds,
+                                 },
+                               };
+
+    var session = channelPool_.WithChannel(channel => clientFactory_.NewSubmitterClient(channel)
+                                                                    .CreateSession(createSessionRequest));
+
+    return new Session
+           {
+             Id = session.SessionId,
+           };
+  }
 
   /// <summary>
   ///   Returns the status of the task
@@ -150,11 +183,12 @@ public class BaseClientSubmitter<T>
   /// <param name="taskId"></param>
   /// <returns></returns>
   public Output GetTaskOutputInfo(string taskId)
-    => channelPool_.WithChannel(channel => new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel).TryGetTaskOutput(new TaskOutputRequest
-                                                                                                                         {
-                                                                                                                           TaskId  = taskId,
-                                                                                                                           Session = SessionId.Id,
-                                                                                                                         }));
+    => channelPool_.WithChannel(channel => clientFactory_.NewSubmitterClient(channel)
+                                                         .TryGetTaskOutput(new TaskOutputRequest
+                                                                           {
+                                                                             TaskId  = taskId,
+                                                                             Session = SessionId.Id,
+                                                                           }));
 
 
   /// <summary>
@@ -194,7 +228,7 @@ public class BaseClientSubmitter<T>
     using var _ = Logger?.LogFunction();
 
     using var channel          = channelPool_.GetChannel();
-    var       submitterService = new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel);
+    var       submitterService = clientFactory_.NewSubmitterClient(channel);
 
     var serviceConfiguration = submitterService.GetServiceConfigurationAsync(new Empty())
                                                .ResponseAsync.Result;
@@ -359,7 +393,7 @@ public class BaseClientSubmitter<T>
     using var _ = Logger?.LogFunction();
 
     using var channel          = channelPool_.GetChannel();
-    var       submitterService = new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel);
+    var       submitterService = clientFactory_.NewSubmitterClient(channel);
 
     Retry.WhileException(5,
                          200,
@@ -405,7 +439,7 @@ public class BaseClientSubmitter<T>
                                                      result => result.TaskId);
 
     using var channel          = channelPool_.GetChannel();
-    var       submitterService = new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel);
+    var       submitterService = clientFactory_.NewSubmitterClient(channel);
 
     var idStatus = Retry.WhileException(5,
                                         200,
@@ -507,7 +541,7 @@ public class BaseClientSubmitter<T>
                         };
 
     using var channel          = channelPool_.GetChannel();
-    var       submitterService = new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel);
+    var       submitterService = clientFactory_.NewSubmitterClient(channel);
 
     Retry.WhileException(5,
                          200,
@@ -588,7 +622,7 @@ public class BaseClientSubmitter<T>
     int                        len;
 
     using var channel          = channelPool_.GetChannel();
-    var       submitterService = new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel);
+    var       submitterService = clientFactory_.NewSubmitterClient(channel);
 
     {
       var streamingCall = submitterService.TryGetResultStream(resultRequest,

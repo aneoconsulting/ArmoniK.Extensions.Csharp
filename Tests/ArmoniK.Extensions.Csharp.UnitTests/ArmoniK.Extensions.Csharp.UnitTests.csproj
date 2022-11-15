@@ -1,0 +1,53 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net472;net6.0</TargetFrameworks>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0" />
+    <PackageReference Include="NUnit" Version="3.13.3" />
+    <PackageReference Include="NUnit3TestAdapter" Version="4.2.1" />
+    <PackageReference Include="NUnit.Analyzers" Version="3.3.0" />
+    <PackageReference Include="Moq" Version="4.18.2" />
+    <PackageReference Include="coverlet.collector" Version="3.1.2">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ArmoniK.Api.Client" Version="3.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Serilog" Version="2.12.0" />
+    <PackageReference Include="Serilog.Extensions.Logging" Version="3.1.0" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="4.1.0" />
+    <PackageReference Include="Serilog.Settings.Configuration" Version="3.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Client\src\Common\ArmoniK.DevelopmentKit.Client.Common.csproj" />
+    <ProjectReference Include="..\..\Client\src\GridServer\ArmoniK.DevelopmentKit.Client.GridServer.csproj" />
+    <ProjectReference Include="..\..\Client\src\Symphony\ArmoniK.DevelopmentKit.Client.Symphony.csproj" />
+    <ProjectReference Include="..\..\Client\src\Unified\ArmoniK.DevelopmentKit.Client.Unified.csproj" />
+    <ProjectReference Include="..\..\Common\src\Common\ArmoniK.DevelopmentKit.Common.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Client\Unified\SessionServiceFactoryTests\" />
+    <Folder Include="Client\Unified\SessionServiceTests\" />
+    <Folder Include="Client\GridServer\SessionServiceFactoryTests\" />
+    <Folder Include="Client\GridServer\SessionServiceTests\" />
+    <Folder Include="Client\Symphony\" />
+    <Folder Include="Client\Symphony\SessionServiceFactoryTests\" />
+    <Folder Include="Client\Symphony\SessionServiceTests\" />
+    <Folder Include="Client\Common\ConnectionTests\" />
+  </ItemGroup>
+
+</Project>
