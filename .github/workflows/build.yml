@@ -217,12 +217,12 @@ jobs:
           worker-tag: ${{ needs.versionning.outputs.version }}
           ingress: 'None'
 
-      - name: Run EndToEnd.Tests
+      - name: Build and deploy worker package
         timeout-minutes: 15
         run: |
          cd Tests
          mkdir -p ${HOME}/data
-         bash -x ./endToEndTests.sh
+         bash -x ./endToEndTests.sh --build --deploy
          cd -
       
       - name: Run tests
