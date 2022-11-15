@@ -22,7 +22,6 @@
 // limitations under the License.
 
 using System;
-using System.Collections.Generic;
 using System.IO;
 
 using ArmoniK.Api.gRPC.V1;
@@ -31,6 +30,8 @@ using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.Common.Exceptions;
 using ArmoniK.DevelopmentKit.WorkerApi.Common;
 using ArmoniK.DevelopmentKit.WorkerApi.Common.Adaptater;
+
+using JetBrains.Annotations;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -56,6 +57,8 @@ public class ArmonikServiceWorker : IDisposable
 {
   public ArmonikServiceWorker()
     => Initialized = false;
+
+  public ServiceId ServiceId { get; set; }
 
   public AppsLoader  AppsLoader { get; set; }
   public IGridWorker GridWorker { get; set; }
@@ -122,16 +125,21 @@ public class ArmonikServiceWorker : IDisposable
 
 public class ServiceRequestContext
 {
+  [CanBeNull]
+  private ArmonikServiceWorker currentService_;
+
+  private readonly ILogger<ServiceRequestContext> logger_;
+
   public ServiceRequestContext(ILoggerFactory loggerFactory)
   {
-    LoggerFactory  = loggerFactory;
-    ServicesMapper = new Dictionary<string, ArmonikServiceWorker>();
+    LoggerFactory   = loggerFactory;
+    currentService_ = null;
+    logger_         = loggerFactory.CreateLogger<ServiceRequestContext>();
   }
 
   public Session SessionId { get; set; }
 
-  public  ILoggerFactory                            LoggerFactory  { get; set; }
-  private IDictionary<string, ArmonikServiceWorker> ServicesMapper { get; }
+  public ILoggerFactory LoggerFactory { get; set; }
 
   public bool IsNewSessionId(Session sessionId)
   {
@@ -163,11 +171,11 @@ public class ServiceRequestContext
     return IsNewSessionId(currentSessionId);
   }
 
-  public ServiceId CreateOrGetArmonikService(IConfiguration configuration,
-                                             string         engineTypeName,
-                                             IFileAdaptater fileAdaptater,
-                                             string         fileName,
-                                             TaskOptions    requestTaskOptions)
+  public ArmonikServiceWorker CreateOrGetArmonikService(IConfiguration configuration,
+                                                        string         engineTypeName,
+                                                        IFileAdaptater fileAdaptater,
+                                                        string         fileName,
+                                                        TaskOptions    requestTaskOptions)
   {
     if (string.IsNullOrEmpty(requestTaskOptions.ApplicationNamespace))
     {
@@ -179,10 +187,14 @@ public class ServiceRequestContext
                                                    fileName),
                                       requestTaskOptions.ApplicationNamespace);
 
-    if (ServicesMapper.ContainsKey(serviceId.Key))
+    if (currentService_?.ServiceId == serviceId)
     {
-      return serviceId;
+      return currentService_;
     }
+
+    logger_.LogInformation($"Worker needs to load new context, from {currentService_?.ServiceId} to {serviceId}");
+
+    currentService_?.Dispose();
 
     var appsLoader = new AppsLoader(configuration,
                                     LoggerFactory,
@@ -197,7 +209,7 @@ public class ServiceRequestContext
                                                                                LoggerFactory),
                                };
 
-    ServicesMapper[serviceId.Key] = armonikServiceWorker;
+    currentService_ = armonikServiceWorker;
 
     if (!armonikServiceWorker.Initialized)
     {
@@ -205,11 +217,11 @@ public class ServiceRequestContext
                                      requestTaskOptions);
     }
 
-    return serviceId;
+    return armonikServiceWorker;
   }
 
-  public ArmonikServiceWorker GetService(ServiceId serviceId)
-    => ServicesMapper[serviceId.Key];
+  public ArmonikServiceWorker GetService()
+    => currentService_;
 
   public static ServiceId GenerateServiceId(string engineTypeName,
                                             string uniqueKey,
