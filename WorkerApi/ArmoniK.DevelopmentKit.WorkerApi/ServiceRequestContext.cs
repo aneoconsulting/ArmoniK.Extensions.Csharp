@@ -38,19 +38,59 @@ using Microsoft.Extensions.Logging;
 
 namespace ArmoniK.DevelopmentKit.WorkerApi;
 
-public class ServiceId
+public class ServiceId : IEquatable<ServiceId>
 {
   public ServiceId(string engineTypeName,
                    string pathToZipFile,
                    string namespaceService)
     => Key = $"{engineTypeName}#{pathToZipFile}#{namespaceService}".ToLower();
 
-  public string Key { get; set; }
+  public string Key { get; }
+
+  /// <inheritdoc />
+  public bool Equals(ServiceId other)
+  {
+    if (other is null)
+    {
+      return false;
+    }
+
+    if (ReferenceEquals(this,
+                        other))
+    {
+      return true;
+    }
+
+    return Key == other.Key;
+  }
 
   /// <summary>Returns a string that represents the current object.</summary>
   /// <returns>A string that represents the current object.</returns>
   public override string ToString()
     => Key;
+
+  /// <inheritdoc />
+  public override bool Equals(object obj)
+  {
+    if (obj is null)
+    {
+      return false;
+    }
+
+    if (ReferenceEquals(this,
+                        obj))
+    {
+      return true;
+    }
+
+    return obj.GetType() == GetType() && Equals((ServiceId)obj);
+  }
+
+  /// <inheritdoc />
+  public override int GetHashCode()
+    => Key != null
+         ? Key.GetHashCode()
+         : 0;
 }
 
 public class ArmonikServiceWorker : IDisposable
@@ -125,10 +165,10 @@ public class ArmonikServiceWorker : IDisposable
 
 public class ServiceRequestContext
 {
+  private readonly ILogger<ServiceRequestContext> logger_;
+
   [CanBeNull]
   private ArmonikServiceWorker currentService_;
-
-  private readonly ILogger<ServiceRequestContext> logger_;
 
   public ServiceRequestContext(ILoggerFactory loggerFactory)
   {
