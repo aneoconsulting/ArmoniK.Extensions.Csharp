@@ -85,7 +85,7 @@ public class ServiceContainer : ServiceContainerBase
     var randNum = rd.NextDouble();
     if (randNum < percentageOfFailure / 100)
     {
-      throw new ApplicationException("An expected failure in this random call");
+      throw new WorkerApiException("An expected failure in this random call");
     }
 
     return ((((((((((((((15.0 + x) * x + 210.0) * x + 2730.0) * x + 32760.0) * x + 360360.0) * x + 3603600.0) * x + 32432400.0) * x + 259459200.0) * x + 1816214400.0) *

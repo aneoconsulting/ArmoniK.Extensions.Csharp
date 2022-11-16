@@ -25,7 +25,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-using ArmoniK.DevelopmentKit.GridServer;
+using ArmoniK.DevelopmentKit.Common.Exceptions;
 
 namespace ArmoniK.EndToEndTests.Tests.CheckGridServer;
 
@@ -103,7 +103,7 @@ public class SimpleServiceContainer
     var randNum = rd.NextDouble();
     if (randNum < percentageOfFailure / 100)
     {
-      throw new GridServerException("An expected failure in this random call");
+      throw new WorkerApiException("An expected failure in this random call");
     }
 
     return new[]
