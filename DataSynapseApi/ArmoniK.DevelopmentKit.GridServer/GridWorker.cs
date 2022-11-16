@@ -220,7 +220,7 @@ public class GridWorker : IGridWorker
   public void Dispose()
   {
     SessionFinalize();
-    ServiceAdminWorker.Dispose();
+    ServiceAdminWorker?.Dispose();
   }
 
   private byte[] RequestTypeBalancer(ArmonikPayload dataSynapsePayload)

@@ -91,6 +91,27 @@ public class ServiceId : IEquatable<ServiceId>
     => Key != null
          ? Key.GetHashCode()
          : 0;
+
+
+  /// <summary>
+  ///   Checks if both ServiceIds are equal
+  /// </summary>
+  /// <param name="a">ServiceId a</param>
+  /// <param name="b">ServiceId b</param>
+  /// <returns>Same as a.Equals(b)</returns>
+  public static bool operator ==(ServiceId a,
+                                 ServiceId b)
+    => a?.Equals(b) ?? false;
+
+  /// <summary>
+  ///   Checks if both ServiceIds are different
+  /// </summary>
+  /// <param name="a">ServiceId a</param>
+  /// <param name="b">ServiceId b</param>
+  /// <returns>Same as !a.Equals(b)</returns>
+  public static bool operator !=(ServiceId a,
+                                 ServiceId b)
+    => !(a == b);
 }
 
 public class ArmonikServiceWorker : IDisposable
@@ -115,7 +136,8 @@ public class ArmonikServiceWorker : IDisposable
 
     GridWorker = null;
     AppsLoader.Dispose();
-    AppsLoader = null;
+    AppsLoader  = null;
+    Initialized = false;
   }
 
   public void CloseSession()
@@ -232,9 +254,10 @@ public class ServiceRequestContext
       return currentService_;
     }
 
-    logger_.LogInformation($"Worker needs to load new context, from {currentService_?.ServiceId} to {serviceId}");
+    logger_.LogInformation($"Worker needs to load new context, from {currentService_?.ServiceId?.ToString() ?? "null"} to {serviceId}");
 
     currentService_?.Dispose();
+    currentService_ = null;
 
     var appsLoader = new AppsLoader(configuration,
                                     LoggerFactory,
@@ -247,6 +270,7 @@ public class ServiceRequestContext
                                  AppsLoader = appsLoader,
                                  GridWorker = appsLoader.GetGridWorkerInstance(configuration,
                                                                                LoggerFactory),
+                                 ServiceId = serviceId,
                                };
 
     currentService_ = armonikServiceWorker;
@@ -259,9 +283,6 @@ public class ServiceRequestContext
 
     return armonikServiceWorker;
   }
-
-  public ArmonikServiceWorker GetService()
-    => currentService_;
 
   public static ServiceId GenerateServiceId(string engineTypeName,
                                             string uniqueKey,

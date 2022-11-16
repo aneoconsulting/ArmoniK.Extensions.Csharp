@@ -208,7 +208,7 @@ public class LargePayloadSubmitClient : ClientBaseTest<LargePayloadSubmitClient>
                             this);
     }
 
-    Log.LogInformation($"{nbTasks} tasks executed in : {sw.ElapsedMilliseconds / 1000} secs with Total bytes {nbTasks * nbElement / 128} Ko");
+    Log.LogInformation($"{nbTasks} tasks submitted in : {sw.ElapsedMilliseconds / 1000} secs with Total bytes {nbTasks * nbElement / 128} Ko");
     cancellationTokenSource.Cancel();
   }
 }
