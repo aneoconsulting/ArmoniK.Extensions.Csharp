@@ -22,7 +22,6 @@
 // limitations under the License.
 
 using System;
-using System.Collections.Generic;
 using System.IO;
 
 using ArmoniK.Api.gRPC.V1;
@@ -32,30 +31,95 @@ using ArmoniK.DevelopmentKit.Common.Exceptions;
 using ArmoniK.DevelopmentKit.WorkerApi.Common;
 using ArmoniK.DevelopmentKit.WorkerApi.Common.Adaptater;
 
+using JetBrains.Annotations;
+
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
 namespace ArmoniK.DevelopmentKit.WorkerApi;
 
-public class ServiceId
+public class ServiceId : IEquatable<ServiceId>
 {
   public ServiceId(string engineTypeName,
                    string pathToZipFile,
                    string namespaceService)
     => Key = $"{engineTypeName}#{pathToZipFile}#{namespaceService}".ToLower();
 
-  public string Key { get; set; }
+  public string Key { get; }
+
+  /// <inheritdoc />
+  public bool Equals(ServiceId other)
+  {
+    if (other is null)
+    {
+      return false;
+    }
+
+    if (ReferenceEquals(this,
+                        other))
+    {
+      return true;
+    }
+
+    return Key == other.Key;
+  }
 
   /// <summary>Returns a string that represents the current object.</summary>
   /// <returns>A string that represents the current object.</returns>
   public override string ToString()
     => Key;
+
+  /// <inheritdoc />
+  public override bool Equals(object obj)
+  {
+    if (obj is null)
+    {
+      return false;
+    }
+
+    if (ReferenceEquals(this,
+                        obj))
+    {
+      return true;
+    }
+
+    return obj.GetType() == GetType() && Equals((ServiceId)obj);
+  }
+
+  /// <inheritdoc />
+  public override int GetHashCode()
+    => Key != null
+         ? Key.GetHashCode()
+         : 0;
+
+
+  /// <summary>
+  ///   Checks if both ServiceIds are equal
+  /// </summary>
+  /// <param name="a">ServiceId a</param>
+  /// <param name="b">ServiceId b</param>
+  /// <returns>Same as a.Equals(b)</returns>
+  public static bool operator ==(ServiceId a,
+                                 ServiceId b)
+    => a?.Equals(b) ?? false;
+
+  /// <summary>
+  ///   Checks if both ServiceIds are different
+  /// </summary>
+  /// <param name="a">ServiceId a</param>
+  /// <param name="b">ServiceId b</param>
+  /// <returns>Same as !a.Equals(b)</returns>
+  public static bool operator !=(ServiceId a,
+                                 ServiceId b)
+    => !(a == b);
 }
 
 public class ArmonikServiceWorker : IDisposable
 {
   public ArmonikServiceWorker()
     => Initialized = false;
+
+  public ServiceId ServiceId { get; set; }
 
   public AppsLoader  AppsLoader { get; set; }
   public IGridWorker GridWorker { get; set; }
@@ -72,7 +136,8 @@ public class ArmonikServiceWorker : IDisposable
 
     GridWorker = null;
     AppsLoader.Dispose();
-    AppsLoader = null;
+    AppsLoader  = null;
+    Initialized = false;
   }
 
   public void CloseSession()
@@ -122,16 +187,21 @@ public class ArmonikServiceWorker : IDisposable
 
 public class ServiceRequestContext
 {
+  private readonly ILogger<ServiceRequestContext> logger_;
+
+  [CanBeNull]
+  private ArmonikServiceWorker currentService_;
+
   public ServiceRequestContext(ILoggerFactory loggerFactory)
   {
-    LoggerFactory  = loggerFactory;
-    ServicesMapper = new Dictionary<string, ArmonikServiceWorker>();
+    LoggerFactory   = loggerFactory;
+    currentService_ = null;
+    logger_         = loggerFactory.CreateLogger<ServiceRequestContext>();
   }
 
   public Session SessionId { get; set; }
 
-  public  ILoggerFactory                            LoggerFactory  { get; set; }
-  private IDictionary<string, ArmonikServiceWorker> ServicesMapper { get; }
+  public ILoggerFactory LoggerFactory { get; set; }
 
   public bool IsNewSessionId(Session sessionId)
   {
@@ -163,11 +233,11 @@ public class ServiceRequestContext
     return IsNewSessionId(currentSessionId);
   }
 
-  public ServiceId CreateOrGetArmonikService(IConfiguration configuration,
-                                             string         engineTypeName,
-                                             IFileAdaptater fileAdaptater,
-                                             string         fileName,
-                                             TaskOptions    requestTaskOptions)
+  public ArmonikServiceWorker CreateOrGetArmonikService(IConfiguration configuration,
+                                                        string         engineTypeName,
+                                                        IFileAdaptater fileAdaptater,
+                                                        string         fileName,
+                                                        TaskOptions    requestTaskOptions)
   {
     if (string.IsNullOrEmpty(requestTaskOptions.ApplicationNamespace))
     {
@@ -179,10 +249,15 @@ public class ServiceRequestContext
                                                    fileName),
                                       requestTaskOptions.ApplicationNamespace);
 
-    if (ServicesMapper.ContainsKey(serviceId.Key))
+    if (currentService_?.ServiceId == serviceId)
     {
-      return serviceId;
+      return currentService_;
     }
+
+    logger_.LogInformation($"Worker needs to load new context, from {currentService_?.ServiceId?.ToString() ?? "null"} to {serviceId}");
+
+    currentService_?.Dispose();
+    currentService_ = null;
 
     var appsLoader = new AppsLoader(configuration,
                                     LoggerFactory,
@@ -195,9 +270,10 @@ public class ServiceRequestContext
                                  AppsLoader = appsLoader,
                                  GridWorker = appsLoader.GetGridWorkerInstance(configuration,
                                                                                LoggerFactory),
+                                 ServiceId = serviceId,
                                };
 
-    ServicesMapper[serviceId.Key] = armonikServiceWorker;
+    currentService_ = armonikServiceWorker;
 
     if (!armonikServiceWorker.Initialized)
     {
@@ -205,11 +281,8 @@ public class ServiceRequestContext
                                      requestTaskOptions);
     }
 
-    return serviceId;
+    return armonikServiceWorker;
   }
-
-  public ArmonikServiceWorker GetService(ServiceId serviceId)
-    => ServicesMapper[serviceId.Key];
 
   public static ServiceId GenerateServiceId(string engineTypeName,
                                             string uniqueKey,
