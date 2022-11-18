@@ -24,8 +24,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading;
+using System.Threading.Channels;
 using System.Threading.Tasks;
+using System.Threading.Tasks.Dataflow;
 
 using ArmoniK.Api.Common.Utils;
 using ArmoniK.Api.gRPC.V1;
@@ -40,10 +43,13 @@ using ArmoniK.DevelopmentKit.Common.Extensions;
 
 using Google.Protobuf.WellKnownTypes;
 
+using Grpc.Core;
+
 using JetBrains.Annotations;
 
 using Microsoft.Extensions.Logging;
 
+using Channel = System.Threading.Channels.Channel;
 using TaskStatus = ArmoniK.Api.gRPC.V1.TaskStatus;
 
 namespace ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter;
@@ -83,17 +89,33 @@ public class Service : AbstractClientService, ISubmitterService
                                                                                          }.ToDictionary(k => k.Item1,
                                                                                                         v => v.Item2);
 
+  private readonly int bufferRequestSize_;
+
+  private readonly Channel<string> queue_;
+
   /// <summary>
   ///   The default constructor to open connection with the control plane
   ///   and create the session to ArmoniK
   /// </summary>
   /// <param name="properties">The properties containing TaskOptions and information to communicate with Control plane and </param>
   /// <param name="loggerFactory"></param>
+  /// <param name="bufferRequestSize">The capacity buffer to retain request before sending</param>
+  /// <param name="timeOut">Time out before the next submit call Default 1</param>
   public Service(Properties                 properties,
-                 [CanBeNull] ILoggerFactory loggerFactory = null)
+                 [CanBeNull] ILoggerFactory loggerFactory     = null,
+                 int                        bufferRequestSize = 500,
+                 [CanBeNull] TimeSpan?      timeOut           = null)
     : base(properties,
            loggerFactory)
   {
+    var timeOutSending = timeOut ?? TimeSpan.FromSeconds(1);
+
+    bufferRequestSize_ = bufferRequestSize;
+
+    queue_ = Channel.CreateUnbounded<string>(new UnboundedChannelOptions
+                                             {
+                                             });
+
     SessionServiceFactory = new SessionServiceFactory(LoggerFactory);
 
     SessionService = SessionServiceFactory.CreateSession(properties);
@@ -101,6 +123,7 @@ public class Service : AbstractClientService, ISubmitterService
     ProtoSerializer = new ProtoSerializer();
 
     CancellationResultTaskSource = new CancellationTokenSource();
+    CancellationQueueTaskSource  = new CancellationTokenSource();
 
     HandlerResponse = Task.Run(ResultTask,
                                CancellationResultTaskSource.Token);
@@ -108,7 +131,34 @@ public class Service : AbstractClientService, ISubmitterService
     Logger = LoggerFactory?.CreateLogger<Service>();
     Logger?.BeginPropertyScope(("SessionId", SessionService.SessionId),
                                ("Class", "Service"));
+
+    BufferSubmit = new BatchUntilInactiveBlock<BlockRequest>(bufferRequestSize_,
+                                                             timeOutSending);
+
+
+    BufferSubmit.ExecuteAsync(async blockRequests =>
+                              {
+                                var enumerable = blockRequests.ToList();
+                                Logger?.LogInformation("Submitting buffer of {count} task...",
+                                                       enumerable.Count);
+                                var taskIds   = SessionService.SubmitTasks(enumerable.Select(x => x.Payload.Serialize()));
+                                var submitted = taskIds as string[] ?? taskIds.ToArray();
+
+                                foreach (var taskId in submitted)
+                                {
+                                  ResultHandlerDictionary[taskId] = enumerable.First()
+                                                                              .Handler;
+                                  await queue_.Writer.WriteAsync(taskId,
+                                                                 CancellationQueueTaskSource.Token)
+                                              .ConfigureAwait(true);
+                                }
+                              });
   }
+
+  private CancellationTokenSource CancellationQueueTaskSource { get; set; }
+
+
+  private BatchUntilInactiveBlock<BlockRequest> BufferSubmit { get; }
 
   /// <summary>
   ///   Property Get the SessionId
@@ -550,6 +600,75 @@ public class Service : AbstractClientService, ISubmitterService
     var taskId = SessionService.SubmitTask(payload.Serialize());
     ResultHandlerDictionary[taskId] = handler;
     return taskId;
+  }
+
+  /// <summary>
+  ///   The method submit with One serialized argument that will be already serialized for byte[] MethodName(byte[]
+  ///   argument).
+  /// </summary>
+  /// <param name="methodName">The name of the method inside the service</param>
+  /// <param name="argument">One serialized argument that will already serialize for MethodName.</param>
+  /// <param name="handler">The handler callBack implemented as IServiceInvocationHandler to get response or result or error</param>
+  /// <param name="token">The cancellation token</param>
+  /// <returns>Return the taskId string</returns>
+  public async Task<string> SubmitAsync(string                    methodName,
+                                        object[]                  argument,
+                                        IServiceInvocationHandler handler,
+                                        CancellationToken         token = default)
+  {
+    ArmonikPayload payload = new()
+                             {
+                               ArmonikRequestType  = ArmonikRequestType.Execute,
+                               MethodName          = methodName,
+                               ClientPayload       = ProtoSerializer.SerializeMessageObjectArray(argument),
+                               SerializedArguments = false,
+                             };
+
+    await BufferSubmit.SendAsync(new BlockRequest
+                                 {
+                                   Payload = payload,
+                                   Handler = handler,
+                                 },
+                                 token);
+
+    await queue_.Reader.WaitToReadAsync(CancellationQueueTaskSource.Token);
+
+    queue_.Reader.TryRead(out var value);
+
+    return value;
+  }
+
+  /// <summary>
+  ///   The method submit with One serialized argument that will be already serialized for byte[] MethodName(byte[]
+  ///   argument).
+  /// </summary>
+  /// <param name="methodName">The name of the method inside the service</param>
+  /// <param name="argument">One serialized argument that will already serialize for MethodName.</param>
+  /// <param name="handler">The handler callBack implemented as IServiceInvocationHandler to get response or result or error</param>
+  /// <param name="token">The cancellation token to set to cancel the async task</param>
+  /// <returns>Return the taskId string</returns>
+  public async Task<string> SubmitAsync(string                    methodName,
+                                        byte[]                    argument,
+                                        IServiceInvocationHandler handler,
+                                        CancellationToken         token = default)
+  {
+    ArmonikPayload payload = new()
+                             {
+                               ArmonikRequestType  = ArmonikRequestType.Execute,
+                               MethodName          = methodName,
+                               ClientPayload       = argument,
+                               SerializedArguments = true,
+                             };
+    await BufferSubmit.SendAsync(new BlockRequest
+                                 {
+                                   Payload = payload,
+                                   Handler = handler,
+                                 },
+                                 token)
+                      .ConfigureAwait(false);
+
+    return await queue_.Reader.ReadAsync(token)
+                       .ConfigureAwait(true);
   }
 
   /// <summary>
