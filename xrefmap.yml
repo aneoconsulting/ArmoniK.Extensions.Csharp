@@ -7185,6 +7185,19 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.WorkerApi.ArmonikServiceWorker.InitializeSessionWorker
   nameWithType: ArmonikServiceWorker.InitializeSessionWorker
+- uid: ArmoniK.DevelopmentKit.WorkerApi.ArmonikServiceWorker.ServiceId
+  name: ServiceId
+  href: api/ArmoniK.DevelopmentKit.WorkerApi.ArmonikServiceWorker.html#ArmoniK_DevelopmentKit_WorkerApi_ArmonikServiceWorker_ServiceId
+  commentId: P:ArmoniK.DevelopmentKit.WorkerApi.ArmonikServiceWorker.ServiceId
+  fullName: ArmoniK.DevelopmentKit.WorkerApi.ArmonikServiceWorker.ServiceId
+  nameWithType: ArmonikServiceWorker.ServiceId
+- uid: ArmoniK.DevelopmentKit.WorkerApi.ArmonikServiceWorker.ServiceId*
+  name: ServiceId
+  href: api/ArmoniK.DevelopmentKit.WorkerApi.ArmonikServiceWorker.html#ArmoniK_DevelopmentKit_WorkerApi_ArmonikServiceWorker_ServiceId_
+  commentId: Overload:ArmoniK.DevelopmentKit.WorkerApi.ArmonikServiceWorker.ServiceId
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.WorkerApi.ArmonikServiceWorker.ServiceId
+  nameWithType: ArmonikServiceWorker.ServiceId
 - uid: ArmoniK.DevelopmentKit.WorkerApi.Common
   name: ArmoniK.DevelopmentKit.WorkerApi.Common
   href: api/ArmoniK.DevelopmentKit.WorkerApi.Common.html
@@ -7566,6 +7579,38 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.WorkerApi.ServiceId.ServiceId
   nameWithType: ServiceId.ServiceId
+- uid: ArmoniK.DevelopmentKit.WorkerApi.ServiceId.Equals(ArmoniK.DevelopmentKit.WorkerApi.ServiceId)
+  name: Equals(ServiceId)
+  href: api/ArmoniK.DevelopmentKit.WorkerApi.ServiceId.html#ArmoniK_DevelopmentKit_WorkerApi_ServiceId_Equals_ArmoniK_DevelopmentKit_WorkerApi_ServiceId_
+  commentId: M:ArmoniK.DevelopmentKit.WorkerApi.ServiceId.Equals(ArmoniK.DevelopmentKit.WorkerApi.ServiceId)
+  fullName: ArmoniK.DevelopmentKit.WorkerApi.ServiceId.Equals(ArmoniK.DevelopmentKit.WorkerApi.ServiceId)
+  nameWithType: ServiceId.Equals(ServiceId)
+- uid: ArmoniK.DevelopmentKit.WorkerApi.ServiceId.Equals(System.Object)
+  name: Equals(Object)
+  href: api/ArmoniK.DevelopmentKit.WorkerApi.ServiceId.html#ArmoniK_DevelopmentKit_WorkerApi_ServiceId_Equals_System_Object_
+  commentId: M:ArmoniK.DevelopmentKit.WorkerApi.ServiceId.Equals(System.Object)
+  fullName: ArmoniK.DevelopmentKit.WorkerApi.ServiceId.Equals(System.Object)
+  nameWithType: ServiceId.Equals(Object)
+- uid: ArmoniK.DevelopmentKit.WorkerApi.ServiceId.Equals*
+  name: Equals
+  href: api/ArmoniK.DevelopmentKit.WorkerApi.ServiceId.html#ArmoniK_DevelopmentKit_WorkerApi_ServiceId_Equals_
+  commentId: Overload:ArmoniK.DevelopmentKit.WorkerApi.ServiceId.Equals
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.WorkerApi.ServiceId.Equals
+  nameWithType: ServiceId.Equals
+- uid: ArmoniK.DevelopmentKit.WorkerApi.ServiceId.GetHashCode
+  name: GetHashCode()
+  href: api/ArmoniK.DevelopmentKit.WorkerApi.ServiceId.html#ArmoniK_DevelopmentKit_WorkerApi_ServiceId_GetHashCode
+  commentId: M:ArmoniK.DevelopmentKit.WorkerApi.ServiceId.GetHashCode
+  fullName: ArmoniK.DevelopmentKit.WorkerApi.ServiceId.GetHashCode()
+  nameWithType: ServiceId.GetHashCode()
+- uid: ArmoniK.DevelopmentKit.WorkerApi.ServiceId.GetHashCode*
+  name: GetHashCode
+  href: api/ArmoniK.DevelopmentKit.WorkerApi.ServiceId.html#ArmoniK_DevelopmentKit_WorkerApi_ServiceId_GetHashCode_
+  commentId: Overload:ArmoniK.DevelopmentKit.WorkerApi.ServiceId.GetHashCode
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.WorkerApi.ServiceId.GetHashCode
+  nameWithType: ServiceId.GetHashCode
 - uid: ArmoniK.DevelopmentKit.WorkerApi.ServiceId.Key
   name: Key
   href: api/ArmoniK.DevelopmentKit.WorkerApi.ServiceId.html#ArmoniK_DevelopmentKit_WorkerApi_ServiceId_Key
@@ -7579,6 +7624,32 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.WorkerApi.ServiceId.Key
   nameWithType: ServiceId.Key
+- uid: ArmoniK.DevelopmentKit.WorkerApi.ServiceId.op_Equality(ArmoniK.DevelopmentKit.WorkerApi.ServiceId,ArmoniK.DevelopmentKit.WorkerApi.ServiceId)
+  name: Equality(ServiceId, ServiceId)
+  href: api/ArmoniK.DevelopmentKit.WorkerApi.ServiceId.html#ArmoniK_DevelopmentKit_WorkerApi_ServiceId_op_Equality_ArmoniK_DevelopmentKit_WorkerApi_ServiceId_ArmoniK_DevelopmentKit_WorkerApi_ServiceId_
+  commentId: M:ArmoniK.DevelopmentKit.WorkerApi.ServiceId.op_Equality(ArmoniK.DevelopmentKit.WorkerApi.ServiceId,ArmoniK.DevelopmentKit.WorkerApi.ServiceId)
+  fullName: ArmoniK.DevelopmentKit.WorkerApi.ServiceId.Equality(ArmoniK.DevelopmentKit.WorkerApi.ServiceId, ArmoniK.DevelopmentKit.WorkerApi.ServiceId)
+  nameWithType: ServiceId.Equality(ServiceId, ServiceId)
+- uid: ArmoniK.DevelopmentKit.WorkerApi.ServiceId.op_Equality*
+  name: Equality
+  href: api/ArmoniK.DevelopmentKit.WorkerApi.ServiceId.html#ArmoniK_DevelopmentKit_WorkerApi_ServiceId_op_Equality_
+  commentId: Overload:ArmoniK.DevelopmentKit.WorkerApi.ServiceId.op_Equality
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.WorkerApi.ServiceId.Equality
+  nameWithType: ServiceId.Equality
+- uid: ArmoniK.DevelopmentKit.WorkerApi.ServiceId.op_Inequality(ArmoniK.DevelopmentKit.WorkerApi.ServiceId,ArmoniK.DevelopmentKit.WorkerApi.ServiceId)
+  name: Inequality(ServiceId, ServiceId)
+  href: api/ArmoniK.DevelopmentKit.WorkerApi.ServiceId.html#ArmoniK_DevelopmentKit_WorkerApi_ServiceId_op_Inequality_ArmoniK_DevelopmentKit_WorkerApi_ServiceId_ArmoniK_DevelopmentKit_WorkerApi_ServiceId_
+  commentId: M:ArmoniK.DevelopmentKit.WorkerApi.ServiceId.op_Inequality(ArmoniK.DevelopmentKit.WorkerApi.ServiceId,ArmoniK.DevelopmentKit.WorkerApi.ServiceId)
+  fullName: ArmoniK.DevelopmentKit.WorkerApi.ServiceId.Inequality(ArmoniK.DevelopmentKit.WorkerApi.ServiceId, ArmoniK.DevelopmentKit.WorkerApi.ServiceId)
+  nameWithType: ServiceId.Inequality(ServiceId, ServiceId)
+- uid: ArmoniK.DevelopmentKit.WorkerApi.ServiceId.op_Inequality*
+  name: Inequality
+  href: api/ArmoniK.DevelopmentKit.WorkerApi.ServiceId.html#ArmoniK_DevelopmentKit_WorkerApi_ServiceId_op_Inequality_
+  commentId: Overload:ArmoniK.DevelopmentKit.WorkerApi.ServiceId.op_Inequality
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.WorkerApi.ServiceId.Inequality
+  nameWithType: ServiceId.Inequality
 - uid: ArmoniK.DevelopmentKit.WorkerApi.ServiceId.ToString
   name: ToString()
   href: api/ArmoniK.DevelopmentKit.WorkerApi.ServiceId.html#ArmoniK_DevelopmentKit_WorkerApi_ServiceId_ToString
@@ -7650,19 +7721,6 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.WorkerApi.ServiceRequestContext.GenerateServiceId
   nameWithType: ServiceRequestContext.GenerateServiceId
-- uid: ArmoniK.DevelopmentKit.WorkerApi.ServiceRequestContext.GetService(ArmoniK.DevelopmentKit.WorkerApi.ServiceId)
-  name: GetService(ServiceId)
-  href: api/ArmoniK.DevelopmentKit.WorkerApi.ServiceRequestContext.html#ArmoniK_DevelopmentKit_WorkerApi_ServiceRequestContext_GetService_ArmoniK_DevelopmentKit_WorkerApi_ServiceId_
-  commentId: M:ArmoniK.DevelopmentKit.WorkerApi.ServiceRequestContext.GetService(ArmoniK.DevelopmentKit.WorkerApi.ServiceId)
-  fullName: ArmoniK.DevelopmentKit.WorkerApi.ServiceRequestContext.GetService(ArmoniK.DevelopmentKit.WorkerApi.ServiceId)
-  nameWithType: ServiceRequestContext.GetService(ServiceId)
-- uid: ArmoniK.DevelopmentKit.WorkerApi.ServiceRequestContext.GetService*
-  name: GetService
-  href: api/ArmoniK.DevelopmentKit.WorkerApi.ServiceRequestContext.html#ArmoniK_DevelopmentKit_WorkerApi_ServiceRequestContext_GetService_
-  commentId: Overload:ArmoniK.DevelopmentKit.WorkerApi.ServiceRequestContext.GetService
-  isSpec: "True"
-  fullName: ArmoniK.DevelopmentKit.WorkerApi.ServiceRequestContext.GetService
-  nameWithType: ServiceRequestContext.GetService
 - uid: ArmoniK.DevelopmentKit.WorkerApi.ServiceRequestContext.IsNewSessionId(Session)
   name: IsNewSessionId(Session)
   href: api/ArmoniK.DevelopmentKit.WorkerApi.ServiceRequestContext.html#ArmoniK_DevelopmentKit_WorkerApi_ServiceRequestContext_IsNewSessionId_Session_
