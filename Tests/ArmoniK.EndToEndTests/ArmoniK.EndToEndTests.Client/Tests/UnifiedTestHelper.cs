@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,8 @@ using ArmoniK.DevelopmentKit.Client.Unified.Factory;
 using ArmoniK.DevelopmentKit.Client.Unified.Services.Admin;
 using ArmoniK.DevelopmentKit.Common;
 
+using JetBrains.Annotations;
+
 using Microsoft.Extensions.Logging;
 
 namespace ArmoniK.EndToEndTests.Client.Tests;
@@ -20,13 +23,13 @@ internal class UnifiedTestHelper : UnitTestHelperBase, IServiceInvocationHandler
 
   public UnifiedTestHelper(EngineType engineType,
                            string     applicationNamespace,
-                           string     applicationService)
+                           string     applicationService,
+                              int bufferRequestSize = 500,
+                          [CanBeNull] TimeSpan? timeOut = null)
     : base(engineType,
            applicationNamespace,
            applicationService)
-    => InitService(engineType,
-                   applicationNamespace,
-                   applicationService);
+    => InitService(engineType, bufferRequestSize, timeOut);
 
   public ISubmitterService Service      { get; private set; }
   public ServiceAdmin      ServiceAdmin { get; private set; }
@@ -43,15 +46,18 @@ internal class UnifiedTestHelper : UnitTestHelperBase, IServiceInvocationHandler
     => expectedResults_[taskId] = response;
 
   public void InitService(EngineType engineType,
-                          string     applicationNamespace,
-                          string     applicationService)
+                          int bufferRequestSize = 500,
+                          [CanBeNull] TimeSpan? timeOut = null
+                          )
   {
     switch (engineType)
     {
       case EngineType.Unified:
       {
         Service = ServiceFactory.CreateService(Props,
-                                               LoggerFactory);
+                                               LoggerFactory,
+                                               bufferRequestSize,
+                                               timeOut);
         ServiceAdmin = ServiceFactory.GetServiceAdmin(Props,
                                                       LoggerFactory);
         break;
