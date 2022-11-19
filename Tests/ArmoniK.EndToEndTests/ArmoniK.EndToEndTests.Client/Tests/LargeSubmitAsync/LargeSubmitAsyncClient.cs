@@ -134,10 +134,10 @@ public class LargeSubmitAsyncClient : ClientBaseTest<LargeSubmitAsyncClient>, IS
                                5001);
 
     CompareSubmitPerfs(props,
-                       1000,
+                       10000,
                        64000,
                        1,
-                       100,
+                       500,
                        TimeSpan.FromSeconds(10));
   }
 
@@ -164,8 +164,7 @@ public class LargeSubmitAsyncClient : ClientBaseTest<LargeSubmitAsyncClient>, IS
 
     var numbers = Enumerable.Range(0,
                                    nbElement)
-                            .Select(x => Math.Pow(42.0 / nbElement,
-                                                  1.0  / 3.0))
+                            .Select(x => 42.0 / (nbElement * nbTasks))
                             .ToArray();
 
 
@@ -193,8 +192,8 @@ public class LargeSubmitAsyncClient : ClientBaseTest<LargeSubmitAsyncClient>, IS
     Log.LogInformation($"{taskIds.Count()}/{nbTasks} Async tasks submitted in : {sw.ElapsedMilliseconds / 1000.0:0.00} secs ({taskIds.Count * 1000 / sw.ElapsedMilliseconds:0.00} Tasks/s, {(taskIds.Count * nbElement * 8.0 / 1024.0) / (sw.ElapsedMilliseconds / 1000.0):0.00} KB/s)");
 
     Assert.AreEqual(nbTasks,
-                    taskIds.Count);
-
+                    taskIds.ToHashSet()
+                           .Count);
 
     Log.LogDebug($"TaskIds : \n{string.Join("\n\t", taskIds)}");
 

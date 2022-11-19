@@ -136,9 +136,14 @@ public class Service : AbstractClientService, ISubmitterService
                                                              timeOutSending);
 
 
-    BufferSubmit.ExecuteAsync(async blockRequests =>
+    BufferSubmit.ExecuteAsync(blockRequests =>
                               {
                                 var enumerable = blockRequests.ToList();
+                                if (enumerable.Count == 0)
+                                {
+                                  return;
+                                }
+
                                 Logger?.LogInformation("Submitting buffer of {count} task...",
                                                        enumerable.Count);
                                 var taskIds   = SessionService.SubmitTasks(enumerable.Select(x => x.Payload.Serialize()));
@@ -148,9 +153,9 @@ public class Service : AbstractClientService, ISubmitterService
                                 {
                                   ResultHandlerDictionary[taskId] = enumerable.First()
                                                                               .Handler;
-                                  await queue_.Writer.WriteAsync(taskId,
-                                                                 CancellationQueueTaskSource.Token)
-                                              .ConfigureAwait(true);
+                                  queue_.Writer.WriteAsync(taskId,
+                                                           CancellationQueueTaskSource.Token)
+                                        .ConfigureAwait(true);
                                 }
                               });
   }
@@ -616,24 +621,24 @@ public class Service : AbstractClientService, ISubmitterService
                                         IServiceInvocationHandler handler,
                                         CancellationToken         token = default)
   {
-    ArmonikPayload payload = new()
-                             {
-                               ArmonikRequestType  = ArmonikRequestType.Execute,
-                               MethodName          = methodName,
-                               ClientPayload       = ProtoSerializer.SerializeMessageObjectArray(argument),
-                               SerializedArguments = false,
-                             };
-
     await BufferSubmit.SendAsync(new BlockRequest
                                  {
-                                   Payload = payload,
+                                   Payload = new ArmonikPayload
+                                             {
+                                               ArmonikRequestType  = ArmonikRequestType.Execute,
+                                               MethodName          = methodName,
+                                               ClientPayload       = ProtoSerializer.SerializeMessageObjectArray(argument),
+                                               SerializedArguments = false,
+                                             },
                                    Handler = handler,
                                  },
                                  token);
 
-    await queue_.Reader.WaitToReadAsync(CancellationQueueTaskSource.Token);
+    await queue_.Reader.WaitToReadAsync(CancellationQueueTaskSource.Token)
+                .ConfigureAwait(false);
 
-    queue_.Reader.TryRead(out var value);
+    var value = await queue_.Reader.ReadAsync(token)
+                            .ConfigureAwait(false);
 
     return value;
   }
@@ -652,23 +657,22 @@ public class Service : AbstractClientService, ISubmitterService
                                         IServiceInvocationHandler handler,
                                         CancellationToken         token = default)
   {
-    ArmonikPayload payload = new()
-                             {
-                               ArmonikRequestType  = ArmonikRequestType.Execute,
-                               MethodName          = methodName,
-                               ClientPayload       = argument,
-                               SerializedArguments = true,
-                             };
     await BufferSubmit.SendAsync(new BlockRequest
                                  {
-                                   Payload = payload,
+                                   Payload = new ArmonikPayload
+                                             {
+                                               ArmonikRequestType  = ArmonikRequestType.Execute,
+                                               MethodName          = methodName,
+                                               ClientPayload       = argument,
+                                               SerializedArguments = true,
+                                             },
                                    Handler = handler,
                                  },
                                  token)
                       .ConfigureAwait(false);
 
     return await queue_.Reader.ReadAsync(token)
-                       .ConfigureAwait(true);
+                       .ConfigureAwait(false);
   }
 
   /// <summary>
