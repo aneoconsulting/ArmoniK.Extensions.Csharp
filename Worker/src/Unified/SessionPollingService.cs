@@ -143,7 +143,7 @@ public class SessionPollingService
                                                          resultId);
                                          return new TaskRequest
                                                 {
-                                                  Payload = ByteString.CopyFrom(bytes),
+                                                  Payload = UnsafeByteOperations.UnsafeWrap(bytes.AsMemory(0, bytes.Length)),
 
                                                   ExpectedOutputKeys =
                                                   {
@@ -197,7 +197,7 @@ public class SessionPollingService
                       resultId);
       var taskRequest = new TaskRequest
                         {
-                          Payload = ByteString.CopyFrom(payload),
+                          Payload = UnsafeByteOperations.UnsafeWrap(payload.AsMemory(0, payload.Length)),
                         };
 
       taskRequest.ExpectedOutputKeys.AddRange(resultForParent

@@ -77,7 +77,8 @@ public class ProtoSerializer
 
   public byte[] SerializeMessageObjectArray(object[] values)
   {
-    var ms = new MemoryStream();
+    using var ms = new MemoryStream();
+
     foreach (var obj in values)
     {
       WriteNext(ms,
@@ -85,18 +86,26 @@ public class ProtoSerializer
     }
 
     var data = ms.ToArray();
+
+    GC.Collect();
+    GC.WaitForPendingFinalizers();
+
     return data;
   }
 
   public static byte[] SerializeMessageObject(object value)
   {
-    var ms = new MemoryStream();
+    using var ms = new MemoryStream();
 
     WriteNext(ms,
               value);
 
 
     var data = ms.ToArray();
+
+    GC.Collect();
+    GC.WaitForPendingFinalizers();
+
     return data;
   }
 
@@ -106,10 +115,8 @@ public class ProtoSerializer
 
     using (var ms = new MemoryStream(data))
     {
-      object obj;
-
       while (ReadNext(ms,
-                      out obj))
+                      out var obj))
       {
         result.Add(obj);
       }
@@ -122,14 +129,11 @@ public class ProtoSerializer
 
   public static object DeSerializeMessageObject(byte[] data)
   {
-    using (var ms = new MemoryStream(data))
-    {
-      object obj;
+    using var ms = new MemoryStream(data);
 
-      ReadNext(ms,
-               out obj);
-      return obj;
-    }
+    ReadNext(ms,
+             out var obj);
+    return obj;
   }
 
   public static void RegisterClass(Type classType)
@@ -173,7 +177,6 @@ public class ProtoSerializer
   {
     var field = typeLookup.Single(pair => pair.Value == type)
                           .Key;
-
 
     Serializer.NonGeneric.SerializeWithLengthPrefix(stream,
                                                     obj,
