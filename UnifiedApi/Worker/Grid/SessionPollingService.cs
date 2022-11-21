@@ -198,7 +198,8 @@ public class SessionPollingService
                       resultId);
       var taskRequest = new TaskRequest
                         {
-                          Payload = UnsafeByteOperations.UnsafeWrap(payload.AsMemory(0, payload.Length)),
+                          Payload = UnsafeByteOperations.UnsafeWrap(payload.AsMemory(0,
+                                                                                     payload.Length)),
                         };
 
       taskRequest.ExpectedOutputKeys.AddRange(resultForParent
