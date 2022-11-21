@@ -49,13 +49,9 @@ public class ServiceFactory
   /// <param name="timeOut"></param>
   /// <returns>returns the new instantiated service</returns>
   public static Service CreateService(Properties                 props,
-                                      [CanBeNull] ILoggerFactory loggerFactory     = null,
-                                      int                        bufferRequestSize = 500,
-                                      [CanBeNull] TimeSpan?      timeOut           = null)
+                                      [CanBeNull] ILoggerFactory loggerFactory     = null)
     => new(props,
-           loggerFactory,
-           bufferRequestSize,
-           timeOut);
+           loggerFactory);
 
   /// <summary>
   ///   Method to get the ServiceAdmin

@@ -1,4 +1,4 @@
-﻿// This file is part of the ArmoniK project
+// This file is part of the ArmoniK project
 // 
 // Copyright (C) ANEO, 2021-2022.
 //   W. Kirschenmann   <wkirschenmann@aneo.fr>
@@ -25,15 +25,14 @@
 
 using System;
 using System.Text;
+using System.Threading.Tasks;
 
 using ProtoBuf;
-
-#pragma warning disable CS1591
 
 namespace ArmoniK.DevelopmentKit.Common;
 
 [ProtoContract]
-public class ArmonikPayload
+public class ArmonikPayload : IDisposable
 {
   [ProtoMember(1)]
   public ArmonikRequestType ArmonikRequestType { get; set; }
@@ -49,7 +48,16 @@ public class ArmonikPayload
 
 
   public byte[] Serialize()
-    => ProtoSerializer.SerializeMessageObject(this);
+  {
+    if (ClientPayload is null)
+    {
+      throw new ArgumentNullException(nameof(ClientPayload));
+    }
+
+    var result = ProtoSerializer.SerializeMessageObject(this);
+
+    return result;
+  }
 
   public static ArmonikPayload Deserialize(byte[] payload)
   {
@@ -72,6 +80,25 @@ public class ArmonikPayload
   {
     var c = Convert.FromBase64String(base64);
     return Encoding.ASCII.GetString(c);
+  }
+
+  private void freePayload()
+  {
+    if (ClientPayload is null)
+    {
+      return;
+    }
+
+    Array.Clear(ClientPayload,
+                0,
+                ClientPayload.Length);
+
+    ClientPayload = null;
+  }
+
+  public virtual void Dispose()
+  {
+    freePayload();
   }
 }
 

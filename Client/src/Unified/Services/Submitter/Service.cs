@@ -24,7 +24,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Channels;
 using System.Threading.Tasks;
@@ -41,15 +40,10 @@ using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.Common.Exceptions;
 using ArmoniK.DevelopmentKit.Common.Extensions;
 
-using Google.Protobuf.WellKnownTypes;
-
-using Grpc.Core;
-
 using JetBrains.Annotations;
 
 using Microsoft.Extensions.Logging;
 
-using Channel = System.Threading.Channels.Channel;
 using TaskStatus = ArmoniK.Api.gRPC.V1.TaskStatus;
 
 namespace ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter;
@@ -89,9 +83,10 @@ public class Service : AbstractClientService, ISubmitterService
                                                                                          }.ToDictionary(k => k.Item1,
                                                                                                         v => v.Item2);
 
-  private readonly int bufferRequestSize_;
-
   private readonly Channel<string> queue_;
+
+
+  private readonly SemaphoreSlim semaphoreSlim_;
 
   /// <summary>
   ///   The default constructor to open connection with the control plane
@@ -99,22 +94,18 @@ public class Service : AbstractClientService, ISubmitterService
   /// </summary>
   /// <param name="properties">The properties containing TaskOptions and information to communicate with Control plane and </param>
   /// <param name="loggerFactory"></param>
-  /// <param name="bufferRequestSize">The capacity buffer to retain request before sending</param>
-  /// <param name="timeOut">Time out before the next submit call Default 1</param>
   public Service(Properties                 properties,
-                 [CanBeNull] ILoggerFactory loggerFactory     = null,
-                 int                        bufferRequestSize = 500,
-                 [CanBeNull] TimeSpan?      timeOut           = null)
+                 [CanBeNull] ILoggerFactory loggerFactory = null)
     : base(properties,
            loggerFactory)
   {
-    var timeOutSending = timeOut ?? TimeSpan.FromSeconds(1);
+    var timeOutSending = properties.TimeTriggerBuffer ?? TimeSpan.FromSeconds(1);
 
-    bufferRequestSize_ = bufferRequestSize;
+    var maxTasksPerBuffer = properties.MaxTasksPerBuffer;
 
-    queue_ = Channel.CreateUnbounded<string>(new UnboundedChannelOptions
-                                             {
-                                             });
+    semaphoreSlim_ = new SemaphoreSlim(properties.MaxConcurrentBuffer * maxTasksPerBuffer);
+
+    queue_ = Channel.CreateUnbounded<string>(new UnboundedChannelOptions());
 
     SessionServiceFactory = new SessionServiceFactory(LoggerFactory);
 
@@ -132,35 +123,42 @@ public class Service : AbstractClientService, ISubmitterService
     Logger?.BeginPropertyScope(("SessionId", SessionService.SessionId),
                                ("Class", "Service"));
 
-    BufferSubmit = new BatchUntilInactiveBlock<BlockRequest>(bufferRequestSize_,
-                                                             timeOutSending);
+    BufferSubmit = new BatchUntilInactiveBlock<BlockRequest>(maxTasksPerBuffer,
+                                                             timeOutSending, new ExecutionDataflowBlockOptions()
+                                                                             {
+                                                                               BoundedCapacity = properties.MaxParallelChannel,
+                                                                               MaxDegreeOfParallelism = properties.MaxParallelChannel,
+                                                                             });
 
 
     BufferSubmit.ExecuteAsync(blockRequests =>
                               {
-                                var enumerable = blockRequests.ToList();
-                                if (enumerable.Count == 0)
+                                var blockRequestList = blockRequests.ToList();
+
+                                if (blockRequestList.Count == 0)
                                 {
                                   return;
                                 }
 
                                 Logger?.LogInformation("Submitting buffer of {count} task...",
-                                                       enumerable.Count);
-                                var taskIds   = SessionService.SubmitTasks(enumerable.Select(x => x.Payload.Serialize()));
+                                                       blockRequestList.Count);
+                                var taskIds   = SessionService.SubmitTasks(blockRequestList.Select(x => x.Payload!.Serialize()));
                                 var submitted = taskIds as string[] ?? taskIds.ToArray();
 
                                 foreach (var taskId in submitted)
                                 {
-                                  ResultHandlerDictionary[taskId] = enumerable.First()
-                                                                              .Handler;
+                                  ResultHandlerDictionary[taskId] = blockRequestList.First()
+                                                                                    .Handler;
                                   queue_.Writer.WriteAsync(taskId,
                                                            CancellationQueueTaskSource.Token)
-                                        .ConfigureAwait(true);
+                                        .ConfigureAwait(false);
                                 }
+
+                                blockRequestList.ForEach(x => x.Dispose());
                               });
   }
 
-  private CancellationTokenSource CancellationQueueTaskSource { get; set; }
+  private CancellationTokenSource CancellationQueueTaskSource { get; }
 
 
   private BatchUntilInactiveBlock<BlockRequest> BufferSubmit { get; }
@@ -423,11 +421,10 @@ public class Service : AbstractClientService, ISubmitterService
         }
 
         missing.ExceptWith(resultStatusCollection.IdsReady.Select(x => x.TaskId));
-        var x = Duration.FromTimeSpan(TimeSpan.FromMinutes(5));
 
         foreach (var resultStatusData in resultStatusCollection.IdsResultError)
         {
-          var details = "";
+          string details;
 
           var taskStatus = SessionService.GetTaskStatus(resultStatusData.TaskId);
 
@@ -621,26 +618,29 @@ public class Service : AbstractClientService, ISubmitterService
                                         IServiceInvocationHandler handler,
                                         CancellationToken         token = default)
   {
-    await BufferSubmit.SendAsync(new BlockRequest
-                                 {
-                                   Payload = new ArmonikPayload
-                                             {
-                                               ArmonikRequestType  = ArmonikRequestType.Execute,
-                                               MethodName          = methodName,
-                                               ClientPayload       = ProtoSerializer.SerializeMessageObjectArray(argument),
-                                               SerializedArguments = false,
-                                             },
-                                   Handler = handler,
-                                 },
+    await semaphoreSlim_.WaitAsync(token);
+
+    var blockRequest = new BlockRequest
+                       {
+                         Payload = new ArmonikPayload
+                                   {
+                                     ArmonikRequestType  = ArmonikRequestType.Execute,
+                                     MethodName          = methodName,
+                                     ClientPayload       = ProtoSerializer.SerializeMessageObjectArray(argument),
+                                     SerializedArguments = false,
+                                   },
+                         Handler = handler,
+                         Lock    = semaphoreSlim_,
+                       };
+
+    await BufferSubmit.SendAsync(blockRequest,
                                  token);
 
     await queue_.Reader.WaitToReadAsync(CancellationQueueTaskSource.Token)
                 .ConfigureAwait(false);
 
-    var value = await queue_.Reader.ReadAsync(token)
-                            .ConfigureAwait(false);
-
-    return value;
+    return await queue_.Reader.ReadAsync(token)
+                       .ConfigureAwait(false);
   }
 
   /// <summary>
@@ -657,6 +657,9 @@ public class Service : AbstractClientService, ISubmitterService
                                         IServiceInvocationHandler handler,
                                         CancellationToken         token = default)
   {
+    await semaphoreSlim_.WaitAsync(token);
+
+
     await BufferSubmit.SendAsync(new BlockRequest
                                  {
                                    Payload = new ArmonikPayload
@@ -667,6 +670,7 @@ public class Service : AbstractClientService, ISubmitterService
                                                SerializedArguments = true,
                                              },
                                    Handler = handler,
+                                   Lock    = semaphoreSlim_,
                                  },
                                  token)
                       .ConfigureAwait(false);
@@ -714,6 +718,7 @@ public class Service : AbstractClientService, ISubmitterService
 
     SessionService        = null;
     SessionServiceFactory = null;
+    semaphoreSlim_.Dispose();
   }
 
   /// <summary>

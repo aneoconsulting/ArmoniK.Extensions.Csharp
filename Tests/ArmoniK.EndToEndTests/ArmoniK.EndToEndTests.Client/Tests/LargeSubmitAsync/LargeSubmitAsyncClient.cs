@@ -22,6 +22,7 @@
 // limitations under the License.
 
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -35,6 +36,7 @@ using ArmoniK.DevelopmentKit.Client.Unified.Factory;
 using ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter;
 using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.Common.Extensions;
+using ArmoniK.EndToEndTests.Client.Tests.CheckTypeOfSubmission;
 using ArmoniK.EndToEndTests.Common;
 
 using JetBrains.Annotations;
@@ -126,32 +128,32 @@ public class LargeSubmitAsyncClient : ClientBaseTest<LargeSubmitAsyncClient>, IS
     var taskOptions = InitializeTaskOptions();
     OverrideTaskOptions(taskOptions);
 
-    taskOptions.MaxRetries         = 3;
+    taskOptions.MaxRetries = 3;
 
     var props = new Properties(Configuration,
                                taskOptions,
                                Configuration.GetSection("Grpc")["EndPoint"],
-                               5001);
+                               5001)
+                {
+                  MaxConcurrentBuffer = 5,
+                  MaxTasksPerBuffer   = 200,
+                  MaxParallelChannel = 2,
+                  TimeTriggerBuffer   = TimeSpan.FromSeconds(10),
+                };
 
     CompareSubmitPerfs(props,
                        10000,
                        64000,
-                       1,
-                       500,
-                       TimeSpan.FromSeconds(10));
+                       2000);
   }
 
   private void CompareSubmitPerfs(Properties props,
                                   int        nbTasks,
                                   int        nbElement,
-                                  int        workloadTimeInMs = 1,
-                                  int                   bufferRequestSize = 500,
-                                  [CanBeNull] TimeSpan? timeOut           = null)
+                                  int        workloadTimeInMs = 1)
   {
     var service = ServiceFactory.CreateService(props,
-                                               LoggerFactory,
-                                               bufferRequestSize,
-                                               timeOut);
+                                               LoggerFactory);
 
     Log.LogInformation($"New session created : {service.SessionId}");
 
@@ -164,11 +166,11 @@ public class LargeSubmitAsyncClient : ClientBaseTest<LargeSubmitAsyncClient>, IS
 
     var numbers = Enumerable.Range(0,
                                    nbElement)
-                            .Select(x => 42.0 / (nbElement * nbTasks))
+                            .Select(x => (42.0 / nbElement) / nbTasks)
                             .ToArray();
 
 
-    Log.LogInformation($"=== CompareSubmitPerfs Running Sequential from {nbTasks} tasks with payload by task {nbElement * 8 / 1024.0:0.00} Ko Total : {nbTasks * nbElement / 128} Ko...   ===");
+    Log.LogInformation($"=== CompareSubmitPerfs Running Sequential from {nbTasks} tasks with payload by task {nbElement * 8 / 1024.0:0.00} Ko Total : {nbTasks * (nbElement / 128)} Ko...   ===");
 
 
     PeriodicInfo(() =>
@@ -216,20 +218,20 @@ public class LargeSubmitAsyncClient : ClientBaseTest<LargeSubmitAsyncClient>, IS
                                                  CancellationToken token = default)
   {
     int indexTask;
-    var taskIds = new List<Task<string>>();
+    //var taskIds            = new ConcurrentBag<Task>();
     var cancellationSource = new CancellationTokenSource();
 
-    for (indexTask = 0; indexTask < nbTasks; indexTask++)
-    {
-      taskIds.Add(service.SubmitAsync("ComputeSum",
-                                      ParamsHelper(numbers,
-                                                   workloadTimeInMs),
-                                      this,
-                                      cancellationSource.Token));
-    }
-
-    return Task.WhenAll(taskIds)
-               .Result;
+    var result = Enumerable.Range(0,
+                                  nbTasks).Batch(nbTasks / 10)
+                           .AsParallel()
+                           .Select((bucket) =>bucket.Select(subIdx => service.SubmitAsync("ComputeSum",
+                                                                ParamsHelper(numbers,
+                                                                             workloadTimeInMs),
+                                                                this,
+                                                                cancellationSource.Token)));
+    var taskIds = result.SelectMany(t => Task.WhenAll(t)
+                           .Result);
+    return taskIds.ToList();
   }
 
   private static void OverrideTaskOptions(TaskOptions taskOptions)

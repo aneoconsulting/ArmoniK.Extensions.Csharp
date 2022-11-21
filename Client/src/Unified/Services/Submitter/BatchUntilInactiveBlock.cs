@@ -28,6 +28,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
 
+using JetBrains.Annotations;
+
 namespace ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter;
 
 /// <summary>
@@ -41,6 +43,9 @@ public class BatchUntilInactiveBlock<T> : IPropagatorBlock<T, T[]>, IReceivableS
   private readonly TransformBlock<T[], T[]> timeoutTransformBlock_;
   private readonly Timer                    timer_;
 
+
+  private readonly ExecutionDataflowBlockOptions executionDataFlowBlockOptions_;
+
   /// <summary>
   ///   The buffer construct base on the number of request in the buffer
   ///   Be aware that buffer should be T sized for network B/W
@@ -51,12 +56,27 @@ public class BatchUntilInactiveBlock<T> : IPropagatorBlock<T, T[]>, IReceivableS
   ///   Options to configure message.
   ///   (https://learn.microsoft.com/fr-fr/dotnet/api/system.threading.tasks.dataflow.groupingdataflowblockoptions?view=net-6.0)
   /// </param>
-  public BatchUntilInactiveBlock(int                          bufferRequestsSize,
-                                 TimeSpan                     timeout,
-                                 GroupingDataflowBlockOptions dataFlowBlockOptions)
+  /// <param name="executionDataFlowBlockOptions">Parameters to control execution for each block in pipeline</param>
+  public BatchUntilInactiveBlock(int                                       bufferRequestsSize,
+                                 TimeSpan                                  timeout,
+                                 [CanBeNull] ExecutionDataflowBlockOptions executionDataFlowBlockOptions = null)
   {
+
+    
+    executionDataFlowBlockOptions_ = executionDataFlowBlockOptions ?? new ExecutionDataflowBlockOptions()
+                                                                      {
+                                                                        BoundedCapacity        = 1,
+                                                                        MaxDegreeOfParallelism = 1,
+                                                                        EnsureOrdered          = true,
+                                                                      };
+
     source_ = new BatchBlock<T>(bufferRequestsSize,
-                                dataFlowBlockOptions);
+                                new GroupingDataflowBlockOptions()
+                                {
+                                  BoundedCapacity = bufferRequestsSize,
+                                  EnsureOrdered   = true,
+                                });
+
     timer_ = new Timer(_ =>
                        {
                          source_.TriggerBatch();
@@ -71,7 +91,8 @@ public class BatchUntilInactiveBlock<T> : IPropagatorBlock<T, T[]>, IReceivableS
                                                                           System.Threading.Timeout.InfiniteTimeSpan);
 
                                                             return value;
-                                                          });
+                                                          },
+                                                          executionDataFlowBlockOptions_);
 
     source_.LinkTo(timeoutTransformBlock_);
 
@@ -79,17 +100,20 @@ public class BatchUntilInactiveBlock<T> : IPropagatorBlock<T, T[]>, IReceivableS
   }
 
   /// <summary>
-  ///   The buffer construct base on the number of request in the buffer
-  ///   Be aware that buffer should be T sized for network B/W
+  ///   Create an ActionBlock with a delegated function to execute
+  ///   at the end of pipeline
   /// </summary>
-  /// <param name="bufferRequestsSize">The capacity buffer to retain request before sending</param>
-  /// <param name="timeout">Time out before the next submit call</param>
-  public BatchUntilInactiveBlock(int      bufferRequestsSize,
-                                 TimeSpan timeout)
-    : this(bufferRequestsSize,
-           timeout,
-           new GroupingDataflowBlockOptions())
+  /// <param name="action">the method to call</param>
+  public void ExecuteAsync(Action<T[]> action)
   {
+    var actBlock = new ActionBlock<T[]>(action,
+                                        executionDataFlowBlockOptions_);
+
+    timeoutTransformBlock_.LinkTo(actBlock,
+                                  new DataflowLinkOptions
+                                  {
+                                    PropagateCompletion = true,
+                                  });
   }
 
   /// <summary>
@@ -226,16 +250,4 @@ public class BatchUntilInactiveBlock<T> : IPropagatorBlock<T, T[]>, IReceivableS
   /// </summary>
   public void TriggerBatch()
     => source_.TriggerBatch();
-
-  /// <summary>
-  ///   Create an ActionBlock with a delegated function to execute
-  ///   at the end of pipeline
-  /// </summary>
-  /// <param name="action">the method to call</param>
-  public void ExecuteAsync(Action<IEnumerable<T>> action)
-    => timeoutTransformBlock_.LinkTo(new ActionBlock<T[]>(action),
-                                     new DataflowLinkOptions
-                                     {
-                                       PropagateCompletion = true,
-                                     });
 }
