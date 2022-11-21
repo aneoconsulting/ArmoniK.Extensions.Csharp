@@ -39,12 +39,10 @@ namespace ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter;
 /// </summary>
 public class BatchUntilInactiveBlock<T> : IPropagatorBlock<T, T[]>, IReceivableSourceBlock<T[]>
 {
-  private readonly BatchBlock<T>            source_;
-  private readonly TransformBlock<T[], T[]> timeoutTransformBlock_;
-  private readonly Timer                    timer_;
-
-
   private readonly ExecutionDataflowBlockOptions executionDataFlowBlockOptions_;
+  private readonly BatchBlock<T>                 source_;
+  private readonly TransformBlock<T[], T[]>      timeoutTransformBlock_;
+  private readonly Timer                         timer_;
 
   /// <summary>
   ///   The buffer construct base on the number of request in the buffer
@@ -61,9 +59,7 @@ public class BatchUntilInactiveBlock<T> : IPropagatorBlock<T, T[]>, IReceivableS
                                  TimeSpan                                  timeout,
                                  [CanBeNull] ExecutionDataflowBlockOptions executionDataFlowBlockOptions = null)
   {
-
-    
-    executionDataFlowBlockOptions_ = executionDataFlowBlockOptions ?? new ExecutionDataflowBlockOptions()
+    executionDataFlowBlockOptions_ = executionDataFlowBlockOptions ?? new ExecutionDataflowBlockOptions
                                                                       {
                                                                         BoundedCapacity        = 1,
                                                                         MaxDegreeOfParallelism = 1,
@@ -71,7 +67,7 @@ public class BatchUntilInactiveBlock<T> : IPropagatorBlock<T, T[]>, IReceivableS
                                                                       };
 
     source_ = new BatchBlock<T>(bufferRequestsSize,
-                                new GroupingDataflowBlockOptions()
+                                new GroupingDataflowBlockOptions
                                 {
                                   BoundedCapacity = bufferRequestsSize,
                                   EnsureOrdered   = true,
@@ -97,23 +93,6 @@ public class BatchUntilInactiveBlock<T> : IPropagatorBlock<T, T[]>, IReceivableS
     source_.LinkTo(timeoutTransformBlock_);
 
     Timeout = timeout;
-  }
-
-  /// <summary>
-  ///   Create an ActionBlock with a delegated function to execute
-  ///   at the end of pipeline
-  /// </summary>
-  /// <param name="action">the method to call</param>
-  public void ExecuteAsync(Action<T[]> action)
-  {
-    var actBlock = new ActionBlock<T[]>(action,
-                                        executionDataFlowBlockOptions_);
-
-    timeoutTransformBlock_.LinkTo(actBlock,
-                                  new DataflowLinkOptions
-                                  {
-                                    PropagateCompletion = true,
-                                  });
   }
 
   /// <summary>
@@ -244,6 +223,23 @@ public class BatchUntilInactiveBlock<T> : IPropagatorBlock<T, T[]>, IReceivableS
   /// <returns></returns>
   public bool TryReceiveAll(out IList<T[]> items)
     => source_.TryReceiveAll(out items);
+
+  /// <summary>
+  ///   Create an ActionBlock with a delegated function to execute
+  ///   at the end of pipeline
+  /// </summary>
+  /// <param name="action">the method to call</param>
+  public void ExecuteAsync(Action<T[]> action)
+  {
+    var actBlock = new ActionBlock<T[]>(action,
+                                        executionDataFlowBlockOptions_);
+
+    timeoutTransformBlock_.LinkTo(actBlock,
+                                  new DataflowLinkOptions
+                                  {
+                                    PropagateCompletion = true,
+                                  });
+  }
 
   /// <summary>
   ///   Trigger the batch even if it doesn't criteria to submit

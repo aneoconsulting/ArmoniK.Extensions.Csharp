@@ -124,11 +124,12 @@ public class Service : AbstractClientService, ISubmitterService
                                ("Class", "Service"));
 
     BufferSubmit = new BatchUntilInactiveBlock<BlockRequest>(maxTasksPerBuffer,
-                                                             timeOutSending, new ExecutionDataflowBlockOptions()
-                                                                             {
-                                                                               BoundedCapacity = properties.MaxParallelChannel,
-                                                                               MaxDegreeOfParallelism = properties.MaxParallelChannel,
-                                                                             });
+                                                             timeOutSending,
+                                                             new ExecutionDataflowBlockOptions
+                                                             {
+                                                               BoundedCapacity        = properties.MaxParallelChannel,
+                                                               MaxDegreeOfParallelism = properties.MaxParallelChannel,
+                                                             });
 
 
     BufferSubmit.ExecuteAsync(blockRequests =>

@@ -22,7 +22,6 @@
 // limitations under the License.
 
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -38,8 +37,6 @@ using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.Common.Extensions;
 using ArmoniK.EndToEndTests.Client.Tests.CheckTypeOfSubmission;
 using ArmoniK.EndToEndTests.Common;
-
-using JetBrains.Annotations;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -137,14 +134,13 @@ public class LargeSubmitAsyncClient : ClientBaseTest<LargeSubmitAsyncClient>, IS
                 {
                   MaxConcurrentBuffer = 5,
                   MaxTasksPerBuffer   = 200,
-                  MaxParallelChannel = 2,
+                  MaxParallelChannel  = 2,
                   TimeTriggerBuffer   = TimeSpan.FromSeconds(10),
                 };
 
     CompareSubmitPerfs(props,
-                       10000,
-                       64000,
-                       2000);
+                       1000,
+                       64000);
   }
 
   private void CompareSubmitPerfs(Properties props,
@@ -166,7 +162,7 @@ public class LargeSubmitAsyncClient : ClientBaseTest<LargeSubmitAsyncClient>, IS
 
     var numbers = Enumerable.Range(0,
                                    nbElement)
-                            .Select(x => (42.0 / nbElement) / nbTasks)
+                            .Select(x => 42.0 / nbElement / nbTasks)
                             .ToArray();
 
 
@@ -191,7 +187,7 @@ public class LargeSubmitAsyncClient : ClientBaseTest<LargeSubmitAsyncClient>, IS
       .ToList();
 
     Log.LogInformation("Waiting for end of submission...");
-    Log.LogInformation($"{taskIds.Count()}/{nbTasks} Async tasks submitted in : {sw.ElapsedMilliseconds / 1000.0:0.00} secs ({taskIds.Count * 1000 / sw.ElapsedMilliseconds:0.00} Tasks/s, {(taskIds.Count * nbElement * 8.0 / 1024.0) / (sw.ElapsedMilliseconds / 1000.0):0.00} KB/s)");
+    Log.LogInformation($"{taskIds.Count()}/{nbTasks} Async tasks submitted in : {sw.ElapsedMilliseconds / 1000.0:0.00} secs ({taskIds.Count * 1000 / sw.ElapsedMilliseconds:0.00} Tasks/s, {taskIds.Count * nbElement * 8.0 / 1024.0 / (sw.ElapsedMilliseconds / 1000.0):0.00} KB/s)");
 
     Assert.AreEqual(nbTasks,
                     taskIds.ToHashSet()
@@ -222,15 +218,16 @@ public class LargeSubmitAsyncClient : ClientBaseTest<LargeSubmitAsyncClient>, IS
     var cancellationSource = new CancellationTokenSource();
 
     var result = Enumerable.Range(0,
-                                  nbTasks).Batch(nbTasks / 10)
+                                  nbTasks)
+                           .Batch(nbTasks / 10)
                            .AsParallel()
-                           .Select((bucket) =>bucket.Select(subIdx => service.SubmitAsync("ComputeSum",
-                                                                ParamsHelper(numbers,
-                                                                             workloadTimeInMs),
-                                                                this,
-                                                                cancellationSource.Token)));
+                           .Select(bucket => bucket.Select(subIdx => service.SubmitAsync("ComputeSum",
+                                                                                         ParamsHelper(numbers,
+                                                                                                      workloadTimeInMs),
+                                                                                         this,
+                                                                                         cancellationSource.Token)));
     var taskIds = result.SelectMany(t => Task.WhenAll(t)
-                           .Result);
+                                             .Result);
     return taskIds.ToList();
   }
 

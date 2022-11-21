@@ -54,23 +54,6 @@ public class Properties
                                                    Priority   = 1,
                                                  };
 
-  /// <summary>
-  /// Set the number of task by buffer
-  /// </summary>
-  public int      MaxTasksPerBuffer { get; set; } = 500;
-
-
-  /// <summary>
-  /// Set the number of buffer that can be filled in asynchronous submitAsync
-  /// </summary>
-  public int      MaxConcurrentBuffer { get; set; } = 1;
-
-  
-  /// <summary>
-  /// TimeSpan to trigger a batch to send the batch of submit
-  /// </summary>
-  public TimeSpan? TimeTriggerBuffer { get; set; } = TimeSpan.FromSeconds(10);
-
 
   /// <summary>
   ///   The constructor to instantiate Properties object
@@ -220,6 +203,23 @@ public class Properties
   }
 
   /// <summary>
+  ///   Set the number of task by buffer
+  /// </summary>
+  public int MaxTasksPerBuffer { get; set; } = 500;
+
+
+  /// <summary>
+  ///   Set the number of buffer that can be filled in asynchronous submitAsync
+  /// </summary>
+  public int MaxConcurrentBuffer { get; set; } = 1;
+
+
+  /// <summary>
+  ///   TimeSpan to trigger a batch to send the batch of submit
+  /// </summary>
+  public TimeSpan? TimeTriggerBuffer { get; set; } = TimeSpan.FromSeconds(10);
+
+  /// <summary>
   ///   The control plane url to connect
   /// </summary>
   public Uri ControlPlaneUri { get; set; }
@@ -316,7 +316,7 @@ public class Properties
   public TaskOptions TaskOptions { get; set; }
 
   /// <summary>
-  /// The number of channel used for Buffered Submit (Default 1)
+  ///   The number of channel used for Buffered Submit (Default 1)
   /// </summary>
   public int MaxParallelChannel { get; set; } = 1;
 }

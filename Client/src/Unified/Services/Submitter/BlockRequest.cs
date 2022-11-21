@@ -24,7 +24,6 @@
 
 using System;
 using System.Threading;
-using System.Threading.Tasks;
 
 using ArmoniK.DevelopmentKit.Client.Common;
 using ArmoniK.DevelopmentKit.Common;
@@ -35,12 +34,12 @@ namespace ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter;
 
 internal class BlockRequest : IDisposable
 {
+  public IServiceInvocationHandler Handler;
+
   [CanBeNull]
   public ArmonikPayload Payload { get; set; }
 
   public SemaphoreSlim Lock { get; set; }
-
-  public IServiceInvocationHandler Handler;
 
   public void Dispose()
   {

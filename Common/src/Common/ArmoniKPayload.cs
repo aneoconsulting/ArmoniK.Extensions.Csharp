@@ -25,7 +25,6 @@
 
 using System;
 using System.Text;
-using System.Threading.Tasks;
 
 using ProtoBuf;
 
@@ -45,6 +44,9 @@ public class ArmonikPayload : IDisposable
 
   [ProtoMember(4)]
   public bool SerializedArguments { get; set; }
+
+  public virtual void Dispose()
+    => freePayload();
 
 
   public byte[] Serialize()
@@ -94,11 +96,6 @@ public class ArmonikPayload : IDisposable
                 ClientPayload.Length);
 
     ClientPayload = null;
-  }
-
-  public virtual void Dispose()
-  {
-    freePayload();
   }
 }
 
