@@ -1,4 +1,4 @@
-﻿// This file is part of the ArmoniK project
+// This file is part of the ArmoniK project
 // 
 // Copyright (C) ANEO, 2021-2022.
 //   W. Kirschenmann   <wkirschenmann@aneo.fr>
@@ -77,7 +77,7 @@ public class ProtoSerializer
 
   public byte[] SerializeMessageObjectArray(object[] values)
   {
-    var ms = new MemoryStream();
+    using var ms = new MemoryStream();
     foreach (var obj in values)
     {
       WriteNext(ms,
@@ -90,7 +90,7 @@ public class ProtoSerializer
 
   public static byte[] SerializeMessageObject(object value)
   {
-    var ms = new MemoryStream();
+    using var ms = new MemoryStream();
 
     WriteNext(ms,
               value);
