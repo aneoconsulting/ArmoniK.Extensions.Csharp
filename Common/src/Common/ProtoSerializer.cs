@@ -86,10 +86,6 @@ public class ProtoSerializer
     }
 
     var data = ms.ToArray();
-
-    GC.Collect();
-    GC.WaitForPendingFinalizers();
-
     return data;
   }
 
