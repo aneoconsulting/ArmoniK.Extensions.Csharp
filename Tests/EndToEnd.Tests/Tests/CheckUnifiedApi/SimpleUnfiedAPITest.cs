@@ -49,7 +49,7 @@ public static class SelectExtensions
   }
 }
 
-public class SimpleService : BaseService<SimpleService>
+public class SimpleService : TaskSubmitterWorkerService
 {
   private readonly Random rd = new();
 

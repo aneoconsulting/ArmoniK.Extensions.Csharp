@@ -34,7 +34,7 @@ namespace ArmoniK.EndToEndTests.Tests.LargePayloadSubmit;
 /// <summary>
 ///   The service to register in the worker
 /// </summary>
-public class LargePayloadSubmit : BaseService<LargePayloadSubmit>
+public class LargePayloadSubmit : TaskSubmitterWorkerService
 {
   /// <summary>
   ///   Client method to compute data in the worker
