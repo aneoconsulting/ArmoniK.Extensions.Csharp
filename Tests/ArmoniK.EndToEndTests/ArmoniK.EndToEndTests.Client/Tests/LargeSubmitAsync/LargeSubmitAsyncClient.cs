@@ -71,6 +71,8 @@ public class LargeSubmitAsyncClient : ClientBaseTest<LargeSubmitAsyncClient>, IS
   /// </summary>
   public double Total { get; set; }
 
+  public Properties Props { get; set; }
+
   /// <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
   public void Dispose()
   {
@@ -128,21 +130,19 @@ public class LargeSubmitAsyncClient : ClientBaseTest<LargeSubmitAsyncClient>, IS
     taskOptions.MaxRetries = 3;
 
     Props = new Properties(Configuration,
-                               taskOptions,
-                               Configuration.GetSection("Grpc")["EndPoint"],
-                               5001)
-                {
-                  MaxConcurrentBuffers = 5,
-                  MaxTasksPerBuffer   = 100,
-                  MaxParallelChannels  = 5,
-                  TimeTriggerBuffer   = TimeSpan.FromSeconds(10),
-                };
+                           taskOptions,
+                           Configuration.GetSection("Grpc")["EndPoint"],
+                           5001)
+            {
+              MaxConcurrentBuffers = 5,
+              MaxTasksPerBuffer    = 100,
+              MaxParallelChannels  = 5,
+              TimeTriggerBuffer    = TimeSpan.FromSeconds(10),
+            };
 
     CompareSubmitPerfs(1000,
                        64000);
   }
-
-  public Properties Props { get; set; }
 
   private void CompareSubmitPerfs(int nbTasks,
                                   int nbElement,

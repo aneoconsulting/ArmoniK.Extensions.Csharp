@@ -189,7 +189,8 @@ public class Service : AbstractClientService, ISubmitterService
     => SessionService?.SessionId.Id;
 
   /// <summary>
-  ///   The method submit will execute task asynchronously on the server and will serialize object[] for Service method MethodName(Object[] arguments)
+  ///   The method submit will execute task asynchronously on the server and will serialize object[] for Service method
+  ///   MethodName(Object[] arguments)
   /// </summary>
   /// <param name="methodName">The name of the method inside the service</param>
   /// <param name="arguments">A list of object that can be passed in parameters of the function</param>
@@ -248,17 +249,17 @@ public class Service : AbstractClientService, ISubmitterService
   /// <param name="argument">One serialized argument that will already serialize for MethodName.</param>
   /// <param name="handler">The handler callBack implemented as IServiceInvocationHandler to get response or result or error</param>
   /// <returns>Returns the taskId string</returns>
-  public string Submit(string methodName,
-                       byte[] argument,
+  public string Submit(string                    methodName,
+                       byte[]                    argument,
                        IServiceInvocationHandler handler)
   {
     ArmonikPayload payload = new()
-    {
-      ArmonikRequestType = ArmonikRequestType.Execute,
-      MethodName = methodName,
-      ClientPayload = argument,
-      SerializedArguments = true,
-    };
+                             {
+                               ArmonikRequestType  = ArmonikRequestType.Execute,
+                               MethodName          = methodName,
+                               ClientPayload       = argument,
+                               SerializedArguments = true,
+                             };
 
     var taskId = SessionService.SubmitTask(payload.Serialize());
     ResultHandlerDictionary[taskId] = handler;
@@ -273,19 +274,19 @@ public class Service : AbstractClientService, ISubmitterService
   /// <param name="arguments">List of serialized arguments that will already serialize for MethodName.</param>
   /// <param name="handler">The handler callBack implemented as IServiceInvocationHandler to get response or result or error</param>
   /// <returns>Return the taskId string</returns>
-  public IEnumerable<string> Submit(string methodName,
-                                    IEnumerable<byte[]> arguments,
+  public IEnumerable<string> Submit(string                    methodName,
+                                    IEnumerable<byte[]>       arguments,
                                     IServiceInvocationHandler handler)
   {
     var armonikPayloads = arguments.Select(args => new ArmonikPayload
-    {
-      ArmonikRequestType = ArmonikRequestType.Execute,
-      MethodName = methodName,
-      ClientPayload = args,
-      SerializedArguments = true,
-    });
+                                                   {
+                                                     ArmonikRequestType  = ArmonikRequestType.Execute,
+                                                     MethodName          = methodName,
+                                                     ClientPayload       = args,
+                                                     SerializedArguments = true,
+                                                   });
 
-    var taskIds = SessionService.SubmitTasks(armonikPayloads.Select(p => p.Serialize()));
+    var taskIds   = SessionService.SubmitTasks(armonikPayloads.Select(p => p.Serialize()));
     var submitted = taskIds as string[] ?? taskIds.ToArray();
     foreach (var taskid in submitted)
     {
@@ -304,23 +305,23 @@ public class Service : AbstractClientService, ISubmitterService
   /// <param name="handler">The handler callBack implemented as IServiceInvocationHandler to get response or result or error</param>
   /// <param name="token">The cancellation token</param>
   /// <returns>Returns the taskId string</returns>
-  public async Task<string> SubmitAsync(string methodName,
-                                        object[] argument,
+  public async Task<string> SubmitAsync(string                    methodName,
+                                        object[]                  argument,
                                         IServiceInvocationHandler handler,
-                                        CancellationToken token = default)
+                                        CancellationToken         token = default)
   {
     var blockRequest = new BlockRequest
-    {
-      Payload = new ArmonikPayload
-      {
-        ArmonikRequestType = ArmonikRequestType.Execute,
-        MethodName = methodName,
-        ClientPayload = ProtoSerializer.SerializeMessageObjectArray(argument),
-        SerializedArguments = false,
-      },
-      Handler = handler,
-      Lock = semaphoreSlim_,
-    };
+                       {
+                         Payload = new ArmonikPayload
+                                   {
+                                     ArmonikRequestType  = ArmonikRequestType.Execute,
+                                     MethodName          = methodName,
+                                     ClientPayload       = ProtoSerializer.SerializeMessageObjectArray(argument),
+                                     SerializedArguments = false,
+                                   },
+                         Handler = handler,
+                         Lock    = semaphoreSlim_,
+                       };
 
     return await SubmitAsync(blockRequest,
                              token);
@@ -334,28 +335,26 @@ public class Service : AbstractClientService, ISubmitterService
   /// <param name="handler">The handler callBack implemented as IServiceInvocationHandler to get response or result or error</param>
   /// <param name="token">The cancellation token to set to cancel the async task</param>
   /// <returns>Return the taskId string</returns>
-  public async Task<string> SubmitAsync(string methodName,
-                                        byte[] argument,
+  public async Task<string> SubmitAsync(string                    methodName,
+                                        byte[]                    argument,
                                         IServiceInvocationHandler handler,
-                                        CancellationToken token = default)
-  {
-    return await SubmitAsync(new BlockRequest
-    {
-      Payload = new ArmonikPayload
-      {
-        ArmonikRequestType = ArmonikRequestType.Execute,
-        MethodName = methodName,
-        ClientPayload = argument,
-        SerializedArguments = true,
-      },
-      Handler = handler,
-      Lock = semaphoreSlim_,
-    },
-                             token)
-             .ConfigureAwait(false);
-  }
+                                        CancellationToken         token = default)
+    => await SubmitAsync(new BlockRequest
+                         {
+                           Payload = new ArmonikPayload
+                                     {
+                                       ArmonikRequestType  = ArmonikRequestType.Execute,
+                                       MethodName          = methodName,
+                                       ClientPayload       = argument,
+                                       SerializedArguments = true,
+                                     },
+                           Handler = handler,
+                           Lock    = semaphoreSlim_,
+                         },
+                         token)
+         .ConfigureAwait(false);
 
-  private async Task<string> SubmitAsync(BlockRequest blockRequest,
+  private async Task<string> SubmitAsync(BlockRequest      blockRequest,
                                          CancellationToken token = default)
   {
     await semaphoreSlim_.WaitAsync(token);
@@ -364,9 +363,6 @@ public class Service : AbstractClientService, ISubmitterService
     await BufferSubmit.SendAsync(blockRequest,
                                  token)
                       .ConfigureAwait(false);
-
-    await queue_.Reader.WaitToReadAsync(CancellationQueueTaskSource.Token)
-                .ConfigureAwait(false);
 
     return await queue_.Reader.ReadAsync(token)
                        .ConfigureAwait(false);
@@ -711,7 +707,6 @@ public class Service : AbstractClientService, ISubmitterService
     }
   }
 
-  
 
   /// <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
   public override void Dispose()

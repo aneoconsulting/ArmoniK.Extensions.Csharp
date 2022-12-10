@@ -50,8 +50,9 @@ public class BatchUntilInactiveBlock<T> : IPropagatorBlock<T, T[]>, IReceivableS
   /// </summary>
   /// <param name="bufferRequestsSize"></param>
   /// <param name="timeout">Time out before the next submit call</param>
-  /// <param name="executionDataFlowBlockOptions">Parameters to control execution for each block in pipeline
-  ///  Options to configure message.
+  /// <param name="executionDataFlowBlockOptions">
+  ///   Parameters to control execution for each block in pipeline
+  ///   Options to configure message.
   ///   https://learn.microsoft.com/fr-fr/dotnet/api/system.threading.tasks.dataflow.executiondataflowblockoptions?view=net-6.0
   /// </param>
   public BatchUntilInactiveBlock(int                                       bufferRequestsSize,

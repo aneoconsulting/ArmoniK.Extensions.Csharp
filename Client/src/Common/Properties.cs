@@ -319,6 +319,4 @@ public class Properties
   ///   The TaskOptions to pass to the session or the submission session
   /// </summary>
   public TaskOptions TaskOptions { get; set; }
-
-
 }
