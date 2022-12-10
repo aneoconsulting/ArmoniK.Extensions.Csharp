@@ -21,16 +21,20 @@ internal class UnifiedTestHelper : UnitTestHelperBase, IServiceInvocationHandler
 {
   private readonly ConcurrentDictionary<string, object> expectedResults_ = new();
 
-  public UnifiedTestHelper(EngineType            engineType,
-                           string                applicationNamespace,
-                           string                applicationService,
-                           int                   bufferRequestSize = 500,
-                           [CanBeNull] TimeSpan? timeOut           = null)
+  public UnifiedTestHelper(EngineType engineType,
+                           string     applicationNamespace,
+                           string     applicationService,
+                           int        bufferRequestSize    = 100,
+                           int        maxConcurrentBuffers = 2,
+                           int        maxParallelChannels  = 2,
+                           TimeSpan?  timeOut              = null)
     : base(engineType,
            applicationNamespace,
            applicationService)
     => InitService(engineType,
                    bufferRequestSize,
+                   maxConcurrentBuffers,
+                   maxParallelChannels,
                    timeOut);
 
   public ISubmitterService Service      { get; private set; }
@@ -47,13 +51,16 @@ internal class UnifiedTestHelper : UnitTestHelperBase, IServiceInvocationHandler
                              string taskId)
     => expectedResults_[taskId] = response;
 
-  public void InitService(EngineType            engineType,
-                          int                   bufferRequestSize = 500,
-                          [CanBeNull] TimeSpan? timeOut           = null)
+  public void InitService(EngineType engineType,
+                          int        bufferRequestSize    = 100,
+                          int        maxConcurrentBuffers = 2,
+                          int        maxParallelChannels  = 2,
+                          TimeSpan?  timeOut              = null)
   {
-    Props.MaxConcurrentBuffer = 2;
-    Props.MaxTasksPerBuffer   = bufferRequestSize;
-    Props.TimeTriggerBuffer   = timeOut ?? Props.TimeTriggerBuffer;
+    Props.MaxConcurrentBuffers = maxConcurrentBuffers;
+    Props.MaxTasksPerBuffer    = bufferRequestSize;
+    Props.MaxParallelChannels  = maxParallelChannels;
+    Props.TimeTriggerBuffer    = timeOut ?? Props.TimeTriggerBuffer;
 
     switch (engineType)
     {

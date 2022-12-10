@@ -33,33 +33,48 @@ public class LargeSubmitAsyncTest
   [TestCase(1,
             1,
             100,
-            500)]
+            2,
+            2,
+            50)]
   [TestCase(10,
             1,
             100,
-            500)]
+            2,
+            2,
+            50)]
   [TestCase(100,
             1,
             100,
-            500)]
+            2,
+            2,
+            50)]
   [TestCase(1000,
             1,
             100,
-            500)]
+            2,
+            2,
+            50)]
   [TestCase(10000,
             1,
-            100,
-            500)]
+            1000,
+            4,
+            4,
+            50)]
   public void Check_That_buffering_With_SubmitAsync_Is_Working(int nbTasks,
                                                                int nbElementInWorkLoad,
                                                                int bufferRequestSize,
-                                                               int workloadTimeInMs)
+                                                               int maxConcurrentBuffers = 2,
+                                                               int maxParallelChannels  = 2,
+                                                               int workloadTimeInMs     = 1)
   {
     var localUnifiedTestHelper = new UnifiedTestHelper(EngineType.Unified,
                                                        ApplicationNamespace,
                                                        ApplicationService,
                                                        bufferRequestSize,
+                                                       4,
+                                                       4,
                                                        TimeSpan.FromMilliseconds(workloadTimeInMs));
+
     int indexTask;
     var taskIds            = new List<Task<string>>();
     var cancellationSource = new CancellationTokenSource();

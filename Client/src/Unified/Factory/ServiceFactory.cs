@@ -43,8 +43,6 @@ public class ServiceFactory
   /// </summary>
   /// <param name="props">Properties for the service containing IConfiguration and TaskOptions</param>
   /// <param name="loggerFactory">Logger factory to create loggers for service</param>
-  /// <param name="bufferRequestSize"></param>
-  /// <param name="timeOut"></param>
   /// <returns>returns the new instantiated service</returns>
   public static Service CreateService(Properties                 props,
                                       [CanBeNull] ILoggerFactory loggerFactory = null)

@@ -1,6 +1,6 @@
 // This file is part of the ArmoniK project
 //
-// Copyright (C) ANEO, 2021-$CURRENT_YEAR$. All rights reserved.
+// Copyright (C) ANEO, 2021-2022. All rights reserved.
 //   W. Kirschenmann   <wkirschenmann@aneo.fr>
 //   J. Gurhem         <jgurhem@aneo.fr>
 //   D. Dubuc          <ddubuc@aneo.fr>
@@ -50,11 +50,10 @@ public class BatchUntilInactiveBlock<T> : IPropagatorBlock<T, T[]>, IReceivableS
   /// </summary>
   /// <param name="bufferRequestsSize"></param>
   /// <param name="timeout">Time out before the next submit call</param>
-  /// <param name="dataFlowBlockOptions">
-  ///   Options to configure message.
-  ///   (https://learn.microsoft.com/fr-fr/dotnet/api/system.threading.tasks.dataflow.groupingdataflowblockoptions?view=net-6.0)
+  /// <param name="executionDataFlowBlockOptions">Parameters to control execution for each block in pipeline
+  ///  Options to configure message.
+  ///   https://learn.microsoft.com/fr-fr/dotnet/api/system.threading.tasks.dataflow.executiondataflowblockoptions?view=net-6.0
   /// </param>
-  /// <param name="executionDataFlowBlockOptions">Parameters to control execution for each block in pipeline</param>
   public BatchUntilInactiveBlock(int                                       bufferRequestsSize,
                                  TimeSpan                                  timeout,
                                  [CanBeNull] ExecutionDataflowBlockOptions executionDataFlowBlockOptions = null)
@@ -118,36 +117,19 @@ public class BatchUntilInactiveBlock<T> : IPropagatorBlock<T, T[]>, IReceivableS
   public void Complete()
     => source_.Complete();
 
-  /// <summary>
-  ///   Return the exception produce in a Transform block or ActionBlock
-  /// </summary>
-  /// <param name="exception"></param>
+  /// <inheritdoc />
   public void Fault(Exception exception)
     => ((IDataflowBlock)source_).Fault(exception);
 
-  /// <summary>
-  ///   Link block TransformBLock or ActionBlock
-  /// </summary>
-  /// <param name="target">the Block to link to</param>
-  /// <param name="linkOptions">
-  ///   Specific option to configure max message and propagation completion
-  ///   https://learn.microsoft.com/fr-fr/dotnet/api/system.threading.tasks.dataflow.dataflowlinkoptions?view=net-6.0
-  /// </param>
-  /// <returns></returns>
+
+  /// <inheritdoc />
   public IDisposable LinkTo(ITargetBlock<T[]>   target,
                             DataflowLinkOptions linkOptions)
     => timeoutTransformBlock_.LinkTo(target,
                                      linkOptions);
 
-  /// <summary>
-  ///   To signal to the propagator object that a message is coming.
-  ///   Check if the pipeline is opened and the message is accepted
-  /// </summary>
-  /// <param name="messageHeader"></param>
-  /// <param name="messageValue"></param>
-  /// <param name="source"></param>
-  /// <param name="consumeToAccept"></param>
-  /// <returns></returns>
+
+  /// <inheritdoc />
   public DataflowMessageStatus OfferMessage(DataflowMessageHeader messageHeader,
                                             T                     messageValue,
                                             ISourceBlock<T>       source,
@@ -167,14 +149,7 @@ public class BatchUntilInactiveBlock<T> : IPropagatorBlock<T, T[]>, IReceivableS
     return offerResult;
   }
 
-  /// <summary>
-  ///   Called by a linked ITargetBlock TInput  to accept and consume a
-  ///   DataFlowMessageHeader previously offered by this ISourceBlockTOutput .
-  /// </summary>
-  /// <param name="messageHeader"></param>
-  /// <param name="target"></param>
-  /// <param name="messageConsumed"></param>
-  /// <returns></returns>
+  /// <inheritdoc />
   public T[]? ConsumeMessage(DataflowMessageHeader messageHeader,
                              ITargetBlock<T[]?>    target,
                              out bool              messageConsumed)
@@ -182,45 +157,25 @@ public class BatchUntilInactiveBlock<T> : IPropagatorBlock<T, T[]>, IReceivableS
                                                     target,
                                                     out messageConsumed);
 
-  /// <summary>
-  ///   Called by a linked ITargetBlock TInput  to reserve a previously offered
-  ///   DataFlowMessageHeader by this ISourceBlockTOutput .
-  /// </summary>
-  /// <param name="messageHeader"></param>
-  /// <param name="target"></param>
-  /// <returns></returns>
+  /// <inheritdoc />
   public bool ReserveMessage(DataflowMessageHeader messageHeader,
                              ITargetBlock<T[]>     target)
     => ((ISourceBlock<T[]>)source_).ReserveMessage(messageHeader,
                                                    target);
 
-  /// <summary>
-  ///   Called by a linked ITargetBlock  TInput  to release a previously reserved DataflowMessageHeader by this
-  ///   ISourceBlock;.
-  /// </summary>
-  /// <param name="messageHeader"></param>
-  /// <param name="target"></param>
+  /// <inheritdoc />
   public void ReleaseReservation(DataflowMessageHeader messageHeader,
                                  ITargetBlock<T[]>     target)
     => ((ISourceBlock<T[]>)source_).ReleaseReservation(messageHeader,
                                                        target);
 
-  /// <summary>
-  ///   Attempts to synchronously receive an available output item from the IReceivableSourceBlock TOutput
-  /// </summary>
-  /// <param name="filter"></param>
-  /// <param name="item"></param>
-  /// <returns></returns>
+  /// <inheritdoc />
   public bool TryReceive(Predicate<T[]>? filter,
                          out T[]         item)
     => source_.TryReceive(filter,
                           out item);
 
-  /// <summary>
-  ///   Attempts to synchronously receive all available items from the IReceivableSourceBlock TOutput
-  /// </summary>
-  /// <param name="items"></param>
-  /// <returns></returns>
+  /// <inheritdoc />
   public bool TryReceiveAll(out IList<T[]> items)
     => source_.TryReceiveAll(out items);
 

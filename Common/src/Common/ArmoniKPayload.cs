@@ -91,10 +91,6 @@ public class ArmonikPayload : IDisposable
       return;
     }
 
-    Array.Clear(ClientPayload,
-                0,
-                ClientPayload.Length);
-
     ClientPayload = null;
   }
 }

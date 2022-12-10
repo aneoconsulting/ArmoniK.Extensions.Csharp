@@ -127,28 +127,28 @@ public class LargeSubmitAsyncClient : ClientBaseTest<LargeSubmitAsyncClient>, IS
 
     taskOptions.MaxRetries = 3;
 
-    var props = new Properties(Configuration,
+    Props = new Properties(Configuration,
                                taskOptions,
                                Configuration.GetSection("Grpc")["EndPoint"],
                                5001)
                 {
-                  MaxConcurrentBuffer = 5,
-                  MaxTasksPerBuffer   = 200,
-                  MaxParallelChannel  = 2,
+                  MaxConcurrentBuffers = 5,
+                  MaxTasksPerBuffer   = 100,
+                  MaxParallelChannels  = 5,
                   TimeTriggerBuffer   = TimeSpan.FromSeconds(10),
                 };
 
-    CompareSubmitPerfs(props,
-                       1000,
+    CompareSubmitPerfs(1000,
                        64000);
   }
 
-  private void CompareSubmitPerfs(Properties props,
-                                  int        nbTasks,
-                                  int        nbElement,
-                                  int        workloadTimeInMs = 1)
+  public Properties Props { get; set; }
+
+  private void CompareSubmitPerfs(int nbTasks,
+                                  int nbElement,
+                                  int workloadTimeInMs = 1)
   {
-    var service = ServiceFactory.CreateService(props,
+    var service = ServiceFactory.CreateService(Props,
                                                LoggerFactory);
 
     Log.LogInformation($"New session created : {service.SessionId}");
@@ -219,7 +219,7 @@ public class LargeSubmitAsyncClient : ClientBaseTest<LargeSubmitAsyncClient>, IS
 
     var result = Enumerable.Range(0,
                                   nbTasks)
-                           .Batch(nbTasks / 10)
+                           .Batch(nbTasks / Props.MaxParallelChannels)
                            .AsParallel()
                            .Select(bucket => bucket.Select(subIdx => service.SubmitAsync("ComputeSum",
                                                                                          ParamsHelper(numbers,
