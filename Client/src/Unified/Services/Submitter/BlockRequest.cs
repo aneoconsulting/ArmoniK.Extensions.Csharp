@@ -22,7 +22,6 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
 using System.Threading;
 
 using ArmoniK.DevelopmentKit.Client.Common;
@@ -32,7 +31,7 @@ using JetBrains.Annotations;
 
 namespace ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter;
 
-internal class BlockRequest : IDisposable
+internal class BlockRequest
 {
   public IServiceInvocationHandler Handler;
 
@@ -40,12 +39,4 @@ internal class BlockRequest : IDisposable
   public ArmonikPayload Payload { get; set; }
 
   public SemaphoreSlim Lock { get; set; }
-
-  public void Dispose()
-  {
-    Payload?.Dispose();
-    Payload = null;
-    Lock?.Release();
-    Lock = null;
-  }
 }

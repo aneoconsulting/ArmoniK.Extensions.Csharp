@@ -22,6 +22,7 @@
 // limitations under the License.
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -46,7 +47,7 @@ namespace ArmoniK.EndToEndTests.Client.Tests.LargeSubmitAsync;
 /// <summary>
 ///   The client submission class
 /// </summary>
-public class LargeSubmitAsyncClient : ClientBaseTest<LargeSubmitAsyncClient>, IServiceInvocationHandler, IDisposable
+public class LargeSubmitAsyncClient : ClientBaseTest<LargeSubmitAsyncClient>, IServiceInvocationHandler
 {
   /// <summary>
   ///   The ctor
@@ -64,19 +65,14 @@ public class LargeSubmitAsyncClient : ClientBaseTest<LargeSubmitAsyncClient>, IS
   /// <summary>
   ///   Number of result received
   /// </summary>
-  public int NbResults { get; set; }
+  private int NbResults { get; set; }
 
   /// <summary>
   ///   The sum of avery result in once value
   /// </summary>
-  public double Total { get; set; }
+  private double Total { get; set; }
 
-  public Properties Props { get; set; }
-
-  /// <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
-  public void Dispose()
-  {
-  }
+  private Properties Props { get; set; }
 
   /// <summary>
   ///   The callBack method which has to be implemented to retrieve error or exception
@@ -162,7 +158,7 @@ public class LargeSubmitAsyncClient : ClientBaseTest<LargeSubmitAsyncClient>, IS
 
     var numbers = Enumerable.Range(0,
                                    nbElement)
-                            .Select(x => 42.0 / nbElement / nbTasks)
+                            .Select(_ => 42.0 / nbElement / nbTasks)
                             .ToArray();
 
 
@@ -209,23 +205,20 @@ public class LargeSubmitAsyncClient : ClientBaseTest<LargeSubmitAsyncClient>, IS
 
   private IEnumerable<string> ExecuteSubmitAsync(int               nbTasks,
                                                  Service           service,
-                                                 double[]          numbers,
+                                                 IEnumerable       numbers,
                                                  int               workloadTimeInMs,
                                                  CancellationToken token = default)
   {
-    int indexTask;
-    //var taskIds            = new ConcurrentBag<Task>();
-    var cancellationSource = new CancellationTokenSource();
-
     var result = Enumerable.Range(0,
                                   nbTasks)
                            .Batch(nbTasks / Props.MaxParallelChannels)
                            .AsParallel()
-                           .Select(bucket => bucket.Select(subIdx => service.SubmitAsync("ComputeSum",
-                                                                                         ParamsHelper(numbers,
-                                                                                                      workloadTimeInMs),
-                                                                                         this,
-                                                                                         cancellationSource.Token)));
+                           .Select(bucket => bucket.Select(_ => service.SubmitAsync("ComputeSum",
+                                                                                    ParamsHelper(numbers,
+                                                                                                 workloadTimeInMs),
+                                                                                    this,
+                                                                                    token)));
+
     var taskIds = result.SelectMany(t => Task.WhenAll(t)
                                              .Result);
     return taskIds.ToList();

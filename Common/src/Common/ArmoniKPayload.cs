@@ -31,7 +31,7 @@ using ProtoBuf;
 namespace ArmoniK.DevelopmentKit.Common;
 
 [ProtoContract]
-public class ArmonikPayload : IDisposable
+public class ArmonikPayload
 {
   [ProtoMember(1)]
   public ArmonikRequestType ArmonikRequestType { get; set; }
@@ -44,10 +44,6 @@ public class ArmonikPayload : IDisposable
 
   [ProtoMember(4)]
   public bool SerializedArguments { get; set; }
-
-  public virtual void Dispose()
-    => freePayload();
-
 
   public byte[] Serialize()
   {
@@ -82,16 +78,6 @@ public class ArmonikPayload : IDisposable
   {
     var c = Convert.FromBase64String(base64);
     return Encoding.ASCII.GetString(c);
-  }
-
-  private void freePayload()
-  {
-    if (ClientPayload is null)
-    {
-      return;
-    }
-
-    ClientPayload = null;
   }
 }
 

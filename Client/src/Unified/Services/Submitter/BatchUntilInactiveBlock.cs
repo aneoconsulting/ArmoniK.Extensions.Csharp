@@ -104,17 +104,14 @@ public class BatchUntilInactiveBlock<T> : IPropagatorBlock<T, T[]>, IReceivableS
   /// <summary>
   ///   Return the TimeSpan timer set in the constructor
   /// </summary>
-  public TimeSpan Timeout { get; }
+  private TimeSpan Timeout { get; }
 
-  /// <summary>
-  ///   Task to check the completion
-  /// </summary>
+  /// <inheritdoc />
   public Task Completion
     => source_.Completion;
 
-  /// <summary>
-  ///   Signal that the pipeline should be closed
-  /// </summary>
+
+  /// <inheritdoc />
   public void Complete()
     => source_.Complete();
 
@@ -151,12 +148,12 @@ public class BatchUntilInactiveBlock<T> : IPropagatorBlock<T, T[]>, IReceivableS
   }
 
   /// <inheritdoc />
-  public T[]? ConsumeMessage(DataflowMessageHeader messageHeader,
-                             ITargetBlock<T[]?>    target,
-                             out bool              messageConsumed)
-    => ((ISourceBlock<T[]?>)source_).ConsumeMessage(messageHeader,
-                                                    target,
-                                                    out messageConsumed);
+  public T[] ConsumeMessage(DataflowMessageHeader messageHeader,
+                            ITargetBlock<T[]>     target,
+                            out bool              messageConsumed)
+    => ((ISourceBlock<T[]>)source_).ConsumeMessage(messageHeader,
+                                                   target,
+                                                   out messageConsumed);
 
   /// <inheritdoc />
   public bool ReserveMessage(DataflowMessageHeader messageHeader,
@@ -171,8 +168,8 @@ public class BatchUntilInactiveBlock<T> : IPropagatorBlock<T, T[]>, IReceivableS
                                                        target);
 
   /// <inheritdoc />
-  public bool TryReceive(Predicate<T[]>? filter,
-                         out T[]         item)
+  public bool TryReceive(Predicate<T[]> filter,
+                         out T[]        item)
     => source_.TryReceive(filter,
                           out item);
 

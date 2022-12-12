@@ -154,7 +154,10 @@ public class Service : AbstractClientService, ISubmitterService
                                         .ConfigureAwait(false);
                                 }
 
-                                blockRequestList.ForEach(x => x.Dispose());
+                                blockRequestList.ForEach(x =>
+                                                         {
+                                                           x.Lock?.Release();
+                                                         });
                               });
   }
 
@@ -310,6 +313,8 @@ public class Service : AbstractClientService, ISubmitterService
                                         IServiceInvocationHandler handler,
                                         CancellationToken         token = default)
   {
+    await semaphoreSlim_.WaitAsync(token);
+
     var blockRequest = new BlockRequest
                        {
                          Payload = new ArmonikPayload
@@ -339,27 +344,28 @@ public class Service : AbstractClientService, ISubmitterService
                                         byte[]                    argument,
                                         IServiceInvocationHandler handler,
                                         CancellationToken         token = default)
-    => await SubmitAsync(new BlockRequest
-                         {
-                           Payload = new ArmonikPayload
-                                     {
-                                       ArmonikRequestType  = ArmonikRequestType.Execute,
-                                       MethodName          = methodName,
-                                       ClientPayload       = argument,
-                                       SerializedArguments = true,
-                                     },
-                           Handler = handler,
-                           Lock    = semaphoreSlim_,
-                         },
-                         token)
-         .ConfigureAwait(false);
+  {
+    await semaphoreSlim_.WaitAsync(token);
+
+    return await SubmitAsync(new BlockRequest
+                             {
+                               Payload = new ArmonikPayload
+                                         {
+                                           ArmonikRequestType  = ArmonikRequestType.Execute,
+                                           MethodName          = methodName,
+                                           ClientPayload       = argument,
+                                           SerializedArguments = true,
+                                         },
+                               Handler = handler,
+                               Lock    = semaphoreSlim_,
+                             },
+                             token)
+             .ConfigureAwait(false);
+  }
 
   private async Task<string> SubmitAsync(BlockRequest      blockRequest,
                                          CancellationToken token = default)
   {
-    await semaphoreSlim_.WaitAsync(token);
-
-
     await BufferSubmit.SendAsync(blockRequest,
                                  token)
                       .ConfigureAwait(false);
