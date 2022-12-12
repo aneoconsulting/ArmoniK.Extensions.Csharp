@@ -1,4 +1,4 @@
-﻿// This file is part of the ArmoniK project
+// This file is part of the ArmoniK project
 // 
 // Copyright (C) ANEO, 2021-2022.
 //   W. Kirschenmann   <wkirschenmann@aneo.fr>
@@ -28,8 +28,6 @@ using System.Text;
 
 using ProtoBuf;
 
-#pragma warning disable CS1591
-
 namespace ArmoniK.DevelopmentKit.Common;
 
 [ProtoContract]
@@ -47,9 +45,17 @@ public class ArmonikPayload
   [ProtoMember(4)]
   public bool SerializedArguments { get; set; }
 
-
   public byte[] Serialize()
-    => ProtoSerializer.SerializeMessageObject(this);
+  {
+    if (ClientPayload is null)
+    {
+      throw new ArgumentNullException(nameof(ClientPayload));
+    }
+
+    var result = ProtoSerializer.SerializeMessageObject(this);
+
+    return result;
+  }
 
   public static ArmonikPayload Deserialize(byte[] payload)
   {

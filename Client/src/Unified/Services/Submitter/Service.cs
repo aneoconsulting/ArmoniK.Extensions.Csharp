@@ -25,7 +25,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using System.Threading.Channels;
 using System.Threading.Tasks;
+using System.Threading.Tasks.Dataflow;
 
 using ArmoniK.Api.Common.Utils;
 using ArmoniK.Api.gRPC.V1;
@@ -37,8 +39,6 @@ using ArmoniK.DevelopmentKit.Client.Unified.Services.Common;
 using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.Common.Exceptions;
 using ArmoniK.DevelopmentKit.Common.Extensions;
-
-using Google.Protobuf.WellKnownTypes;
 
 using JetBrains.Annotations;
 
@@ -83,6 +83,11 @@ public class Service : AbstractClientService, ISubmitterService
                                                                                          }.ToDictionary(k => k.Item1,
                                                                                                         v => v.Item2);
 
+  private readonly Channel<string> queue_;
+
+
+  private readonly SemaphoreSlim semaphoreSlim_;
+
   /// <summary>
   ///   The default constructor to open connection with the control plane
   ///   and create the session to ArmoniK
@@ -94,6 +99,14 @@ public class Service : AbstractClientService, ISubmitterService
     : base(properties,
            loggerFactory)
   {
+    var timeOutSending = properties.TimeTriggerBuffer ?? TimeSpan.FromSeconds(1);
+
+    var maxTasksPerBuffer = properties.MaxTasksPerBuffer;
+
+    semaphoreSlim_ = new SemaphoreSlim(properties.MaxConcurrentBuffers * maxTasksPerBuffer);
+
+    queue_ = Channel.CreateBounded<string>(properties.MaxParallelChannels * properties.MaxConcurrentBuffers * maxTasksPerBuffer);
+
     SessionServiceFactory = new SessionServiceFactory(LoggerFactory);
 
     SessionService = SessionServiceFactory.CreateSession(properties);
@@ -101,6 +114,7 @@ public class Service : AbstractClientService, ISubmitterService
     ProtoSerializer = new ProtoSerializer();
 
     CancellationResultTaskSource = new CancellationTokenSource();
+    CancellationQueueTaskSource  = new CancellationTokenSource();
 
     HandlerResponse = Task.Run(ResultTask,
                                CancellationResultTaskSource.Token);
@@ -108,7 +122,49 @@ public class Service : AbstractClientService, ISubmitterService
     Logger = LoggerFactory?.CreateLogger<Service>();
     Logger?.BeginPropertyScope(("SessionId", SessionService.SessionId),
                                ("Class", "Service"));
+
+    BufferSubmit = new BatchUntilInactiveBlock<BlockRequest>(maxTasksPerBuffer,
+                                                             timeOutSending,
+                                                             new ExecutionDataflowBlockOptions
+                                                             {
+                                                               BoundedCapacity        = properties.MaxParallelChannels,
+                                                               MaxDegreeOfParallelism = properties.MaxParallelChannels,
+                                                             });
+
+    BufferSubmit.ExecuteAsync(blockRequests =>
+                              {
+                                var blockRequestList = blockRequests.ToList();
+
+                                if (blockRequestList.Count == 0)
+                                {
+                                  return;
+                                }
+
+                                Logger?.LogInformation("Submitting buffer of {count} task...",
+                                                       blockRequestList.Count);
+                                var taskIds   = SessionService.SubmitTasks(blockRequestList.Select(x => x.Payload!.Serialize()));
+                                var submitted = taskIds as string[] ?? taskIds.ToArray();
+
+                                foreach (var taskId in submitted)
+                                {
+                                  ResultHandlerDictionary[taskId] = blockRequestList.First()
+                                                                                    .Handler;
+                                  queue_.Writer.WriteAsync(taskId,
+                                                           CancellationQueueTaskSource.Token)
+                                        .ConfigureAwait(false);
+                                }
+
+                                blockRequestList.ForEach(x =>
+                                                         {
+                                                           x.Lock?.Release();
+                                                         });
+                              });
   }
+
+  private CancellationTokenSource CancellationQueueTaskSource { get; }
+
+
+  private BatchUntilInactiveBlock<BlockRequest> BufferSubmit { get; }
 
   /// <summary>
   ///   Property Get the SessionId
@@ -136,7 +192,8 @@ public class Service : AbstractClientService, ISubmitterService
     => SessionService?.SessionId.Id;
 
   /// <summary>
-  ///   The method submit will execute task asynchronously on the server
+  ///   The method submit will execute task asynchronously on the server and will serialize object[] for Service method
+  ///   MethodName(Object[] arguments)
   /// </summary>
   /// <param name="methodName">The name of the method inside the service</param>
   /// <param name="arguments">A list of object that can be passed in parameters of the function</param>
@@ -185,6 +242,136 @@ public class Service : AbstractClientService, ISubmitterService
     }
 
     return submitted;
+  }
+
+  /// <summary>
+  ///   The method submit with One serialized argument that will be already serialized for byte[] MethodName(byte[]
+  ///   argument).
+  /// </summary>
+  /// <param name="methodName">The name of the method inside the service</param>
+  /// <param name="argument">One serialized argument that will already serialize for MethodName.</param>
+  /// <param name="handler">The handler callBack implemented as IServiceInvocationHandler to get response or result or error</param>
+  /// <returns>Returns the taskId string</returns>
+  public string Submit(string                    methodName,
+                       byte[]                    argument,
+                       IServiceInvocationHandler handler)
+  {
+    ArmonikPayload payload = new()
+                             {
+                               ArmonikRequestType  = ArmonikRequestType.Execute,
+                               MethodName          = methodName,
+                               ClientPayload       = argument,
+                               SerializedArguments = true,
+                             };
+
+    var taskId = SessionService.SubmitTask(payload.Serialize());
+    ResultHandlerDictionary[taskId] = handler;
+    return taskId;
+  }
+
+  /// <summary>
+  ///   The method submit list of task with Enumerable list of serialized arguments that will be already serialized for
+  ///   byte[] MethodName(byte[] argument).
+  /// </summary>
+  /// <param name="methodName">The name of the method inside the service</param>
+  /// <param name="arguments">List of serialized arguments that will already serialize for MethodName.</param>
+  /// <param name="handler">The handler callBack implemented as IServiceInvocationHandler to get response or result or error</param>
+  /// <returns>Return the taskId string</returns>
+  public IEnumerable<string> Submit(string                    methodName,
+                                    IEnumerable<byte[]>       arguments,
+                                    IServiceInvocationHandler handler)
+  {
+    var armonikPayloads = arguments.Select(args => new ArmonikPayload
+                                                   {
+                                                     ArmonikRequestType  = ArmonikRequestType.Execute,
+                                                     MethodName          = methodName,
+                                                     ClientPayload       = args,
+                                                     SerializedArguments = true,
+                                                   });
+
+    var taskIds   = SessionService.SubmitTasks(armonikPayloads.Select(p => p.Serialize()));
+    var submitted = taskIds as string[] ?? taskIds.ToArray();
+    foreach (var taskid in submitted)
+    {
+      ResultHandlerDictionary[taskid] = handler;
+    }
+
+    return submitted;
+  }
+
+
+  /// <summary>
+  ///   The method submitAsync will serialize argument in object[] MethodName(object[]  argument).
+  /// </summary>
+  /// <param name="methodName">The name of the method inside the service</param>
+  /// <param name="argument">One serialized argument that will already serialize for MethodName.</param>
+  /// <param name="handler">The handler callBack implemented as IServiceInvocationHandler to get response or result or error</param>
+  /// <param name="token">The cancellation token</param>
+  /// <returns>Returns the taskId string</returns>
+  public async Task<string> SubmitAsync(string                    methodName,
+                                        object[]                  argument,
+                                        IServiceInvocationHandler handler,
+                                        CancellationToken         token = default)
+  {
+    await semaphoreSlim_.WaitAsync(token);
+
+    var blockRequest = new BlockRequest
+                       {
+                         Payload = new ArmonikPayload
+                                   {
+                                     ArmonikRequestType  = ArmonikRequestType.Execute,
+                                     MethodName          = methodName,
+                                     ClientPayload       = ProtoSerializer.SerializeMessageObjectArray(argument),
+                                     SerializedArguments = false,
+                                   },
+                         Handler = handler,
+                         Lock    = semaphoreSlim_,
+                       };
+
+    return await SubmitAsync(blockRequest,
+                             token);
+  }
+
+  /// <summary>
+  ///   The method submit with one serialized argument that will send as byte[] MethodName(byte[]   argument).
+  /// </summary>
+  /// <param name="methodName">The name of the method inside the service</param>
+  /// <param name="argument">One serialized argument that will already serialize for MethodName.</param>
+  /// <param name="handler">The handler callBack implemented as IServiceInvocationHandler to get response or result or error</param>
+  /// <param name="token">The cancellation token to set to cancel the async task</param>
+  /// <returns>Return the taskId string</returns>
+  public async Task<string> SubmitAsync(string                    methodName,
+                                        byte[]                    argument,
+                                        IServiceInvocationHandler handler,
+                                        CancellationToken         token = default)
+  {
+    await semaphoreSlim_.WaitAsync(token);
+
+    return await SubmitAsync(new BlockRequest
+                             {
+                               Payload = new ArmonikPayload
+                                         {
+                                           ArmonikRequestType  = ArmonikRequestType.Execute,
+                                           MethodName          = methodName,
+                                           ClientPayload       = argument,
+                                           SerializedArguments = true,
+                                         },
+                               Handler = handler,
+                               Lock    = semaphoreSlim_,
+                             },
+                             token)
+             .ConfigureAwait(false);
+  }
+
+  private async Task<string> SubmitAsync(BlockRequest      blockRequest,
+                                         CancellationToken token = default)
+  {
+    await BufferSubmit.SendAsync(blockRequest,
+                                 token)
+                      .ConfigureAwait(false);
+
+    return await queue_.Reader.ReadAsync(token)
+                       .ConfigureAwait(false);
   }
 
   /// <summary>
@@ -368,11 +555,10 @@ public class Service : AbstractClientService, ISubmitterService
         }
 
         missing.ExceptWith(resultStatusCollection.IdsReady.Select(x => x.TaskId));
-        var x = Duration.FromTimeSpan(TimeSpan.FromMinutes(5));
 
         foreach (var resultStatusData in resultStatusCollection.IdsResultError)
         {
-          var details = "";
+          string details;
 
           var taskStatus = SessionService.GetTaskStatus(resultStatusData.TaskId);
 
@@ -527,60 +713,6 @@ public class Service : AbstractClientService, ISubmitterService
     }
   }
 
-  /// <summary>
-  ///   The method submit with One serialized argument that will be already serialized for byte[] MethodName(byte[]
-  ///   argument).
-  /// </summary>
-  /// <param name="methodName">The name of the method inside the service</param>
-  /// <param name="argument">One serialized argument that will already serialize for MethodName.</param>
-  /// <param name="handler">The handler callBack implemented as IServiceInvocationHandler to get response or result or error</param>
-  /// <returns>Return the taskId string</returns>
-  public string Submit(string                    methodName,
-                       byte[]                    argument,
-                       IServiceInvocationHandler handler)
-  {
-    ArmonikPayload payload = new()
-                             {
-                               ArmonikRequestType  = ArmonikRequestType.Execute,
-                               MethodName          = methodName,
-                               ClientPayload       = argument,
-                               SerializedArguments = true,
-                             };
-
-    var taskId = SessionService.SubmitTask(payload.Serialize());
-    ResultHandlerDictionary[taskId] = handler;
-    return taskId;
-  }
-
-  /// <summary>
-  ///   The method submit list of task with Enumerable list of serialized arguments that will be already serialized for
-  ///   byte[] MethodName(byte[] argument).
-  /// </summary>
-  /// <param name="methodName">The name of the method inside the service</param>
-  /// <param name="arguments">List of serialized arguments that will already serialize for MethodName.</param>
-  /// <param name="handler">The handler callBack implemented as IServiceInvocationHandler to get response or result or error</param>
-  /// <returns>Return the taskId string</returns>
-  public IEnumerable<string> Submit(string                    methodName,
-                                    IEnumerable<byte[]>       arguments,
-                                    IServiceInvocationHandler handler)
-  {
-    var armonikPayloads = arguments.Select(args => new ArmonikPayload
-                                                   {
-                                                     ArmonikRequestType  = ArmonikRequestType.Execute,
-                                                     MethodName          = methodName,
-                                                     ClientPayload       = args,
-                                                     SerializedArguments = true,
-                                                   });
-
-    var taskIds   = SessionService.SubmitTasks(armonikPayloads.Select(p => p.Serialize()));
-    var submitted = taskIds as string[] ?? taskIds.ToArray();
-    foreach (var taskid in submitted)
-    {
-      ResultHandlerDictionary[taskid] = handler;
-    }
-
-    return submitted;
-  }
 
   /// <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
   public override void Dispose()
@@ -591,6 +723,7 @@ public class Service : AbstractClientService, ISubmitterService
 
     SessionService        = null;
     SessionServiceFactory = null;
+    semaphoreSlim_.Dispose();
   }
 
   /// <summary>
