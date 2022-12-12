@@ -36,4 +36,3 @@ public class ServiceContext
   public string ClientLibVersion { get; set; }
   public string AppNamespace     { get; set; }
 }
-

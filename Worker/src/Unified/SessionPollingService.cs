@@ -315,4 +315,3 @@ public static class SessionServiceExt
                                           })
              .Single();
 }
-

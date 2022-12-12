@@ -170,4 +170,3 @@ public class MyCustomWorkerException : Exception
   {
   }
 }
-

@@ -72,4 +72,3 @@ public class FsAdapter : IFileAdapter
     return DestinationFullPath;
   }
 }
-

@@ -111,4 +111,3 @@ internal class SymphonyTestHelper : UnitTestHelperBase
     return results;
   }
 }
-

@@ -79,4 +79,3 @@ internal class AddonsAssemblyLoadContext : AssemblyLoadContext
              : IntPtr.Zero;
   }
 }
-

@@ -55,4 +55,3 @@ public class ServiceInvocationContext
   public bool IsEquals(string session)
     => SessionId != null && session != null && SessionId.Id.Equals(session);
 }
-

@@ -629,4 +629,3 @@ public class Service : AbstractClientService, ISubmitterService
     public object Result { get; set; }
   }
 }
-

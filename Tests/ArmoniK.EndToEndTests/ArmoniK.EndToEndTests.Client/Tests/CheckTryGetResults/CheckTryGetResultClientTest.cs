@@ -70,4 +70,3 @@ public class CheckTryGetResultClientTest
     return taskResults.Select(result => ClientPayload.Deserialize(result.Item2));
   }
 }
-

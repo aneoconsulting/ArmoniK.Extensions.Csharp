@@ -45,4 +45,3 @@ public enum ArmonikStatusCode
   /// </summary>
   Unknown,
 }
-

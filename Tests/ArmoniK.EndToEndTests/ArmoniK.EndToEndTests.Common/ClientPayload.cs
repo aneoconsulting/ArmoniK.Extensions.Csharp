@@ -92,4 +92,3 @@ public class ClientPayload
     return Encoding.ASCII.GetString(c);
   }
 }
-

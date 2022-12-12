@@ -50,4 +50,3 @@ public class RandomExceptionWorker
                  .ToArray();
   }
 }
-

@@ -156,4 +156,3 @@ public class CheckSessionUniqCallbackClient : ClientBaseTest<CheckSessionUniqCal
     return taskResult;
   }
 }
-

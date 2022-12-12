@@ -259,4 +259,3 @@ public class AppsLoader : IAppsLoader
     return engineType == null || engineType_ != EngineTypeHelper.ToEnum(engineType) || FileAdapter == null || !pathToZipFile.Equals(FileAdapter);
   }
 }
-

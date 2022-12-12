@@ -223,4 +223,3 @@ public class GridWorker : IGridWorker
   public void Dispose()
     => SessionFinalize();
 }
-

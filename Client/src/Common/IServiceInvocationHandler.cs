@@ -49,4 +49,3 @@ public interface IServiceInvocationHandler
   void HandleResponse(object response,
                       string taskId);
 }
-

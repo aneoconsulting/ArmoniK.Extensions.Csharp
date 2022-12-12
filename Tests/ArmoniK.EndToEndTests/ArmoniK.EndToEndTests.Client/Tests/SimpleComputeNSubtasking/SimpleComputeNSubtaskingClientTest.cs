@@ -52,4 +52,3 @@ public class SimpleComputeNSubtaskingClientTest
                 Is.EqualTo(expectedResult));
   }
 }
-

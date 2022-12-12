@@ -78,4 +78,3 @@ public class SimpleComputeNSubtaskingClient : ClientBaseTest<SimpleComputeNSubta
     Log.LogInformation($"output result : {result.Result}");
   }
 }
-

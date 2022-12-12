@@ -51,4 +51,3 @@ public class SessionContext
   /// <value></value>
   public string ClientLibVersion { get; set; }
 }
-

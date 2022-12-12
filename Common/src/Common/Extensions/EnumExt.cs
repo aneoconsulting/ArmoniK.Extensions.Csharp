@@ -40,5 +40,3 @@ public static class EnumExt
     => Enum.GetName(value.GetType(),
                     value);
 }
-
-

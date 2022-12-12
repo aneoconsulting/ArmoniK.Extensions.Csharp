@@ -40,5 +40,3 @@ public interface IFileAdapter
   /// <returns>Returns the path where the file has been downloaded</returns>
   public string DownloadFile(string fileName);
 }
-
-

@@ -309,4 +309,3 @@ public class CheckAllSubmissionsClient : ClientBaseTest<CheckAllSubmissionsClien
     Batch,
   }
 }
-

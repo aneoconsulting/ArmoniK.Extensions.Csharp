@@ -40,4 +40,3 @@ public class FallBackServerAdder
   public double Square(double a)
     => a * a;
 }
-

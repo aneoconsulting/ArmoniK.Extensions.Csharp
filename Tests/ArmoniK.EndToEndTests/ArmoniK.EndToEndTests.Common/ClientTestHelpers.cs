@@ -54,4 +54,3 @@ public class ClientTestHelpers
          ApplicationNamespace = "ArmoniK.Samples.EndToEndTests",
        };
 }
-

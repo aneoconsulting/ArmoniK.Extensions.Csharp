@@ -168,4 +168,3 @@ public class SessionService : BaseClientSubmitter<SessionService>
                                    })
       .Single();
 }
-

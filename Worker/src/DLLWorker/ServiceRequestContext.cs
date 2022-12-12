@@ -309,4 +309,3 @@ public class ServiceRequestContext
     throw new WorkerApiException("Cannot find the FileStorageType in the IConfiguration. Please make sure you have properly set the field [FileStorageType]");
   }
 }
-

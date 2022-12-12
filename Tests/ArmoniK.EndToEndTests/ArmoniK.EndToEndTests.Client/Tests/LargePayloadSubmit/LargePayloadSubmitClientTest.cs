@@ -66,4 +66,3 @@ public class LargePayloadSubmitClientTest
                 Has.All.EqualTo(expectedResult));
   }
 }
-

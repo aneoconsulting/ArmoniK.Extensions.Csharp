@@ -83,5 +83,3 @@ public class ClientApiException : Exception
   public override string Message
     => message_;
 }
-
-

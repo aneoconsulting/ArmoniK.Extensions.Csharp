@@ -177,4 +177,3 @@ public class SessionService : BaseClientSubmitter<SessionService>
       .Single();
 #pragma warning restore CS1591
 }
-

@@ -152,4 +152,3 @@ public sealed class ChannelPool
       => guard.Channel;
   }
 }
-

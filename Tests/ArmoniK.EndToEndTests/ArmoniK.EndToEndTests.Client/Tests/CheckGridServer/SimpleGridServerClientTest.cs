@@ -134,4 +134,3 @@ public class SimpleGridServerClientTest
                 Is.EqualTo(expectedResult));
   }
 }
-

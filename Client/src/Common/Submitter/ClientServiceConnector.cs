@@ -223,4 +223,3 @@ public class ClientServiceConnector
                                         loggerFactory),
            loggerFactory);
 }
-

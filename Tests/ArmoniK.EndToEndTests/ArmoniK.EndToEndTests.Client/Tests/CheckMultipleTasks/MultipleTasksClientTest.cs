@@ -64,4 +64,3 @@ public class MultipleTasksClientTest
                 Is.EqualTo(nbTasks * 8));
   }
 }
-

@@ -152,4 +152,3 @@ public class ArmonikDataSynapseClientService
          EngineType           = EngineType.DataSynapse.ToString(),
        };
 }
-

@@ -66,4 +66,3 @@ public class SubtaskingTreeUnifiedApiClientTest
                 Is.EqualTo(expectedResult));
   }
 }
-

@@ -84,5 +84,3 @@ public enum ArmonikRequestType
   DeleteResources,
   GetServiceInvocation,
 }
-
-

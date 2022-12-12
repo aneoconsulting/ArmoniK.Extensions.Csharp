@@ -61,4 +61,3 @@ public interface IArchiver
                                 string       filename,
                                 bool         skipIfExists);
 }
-

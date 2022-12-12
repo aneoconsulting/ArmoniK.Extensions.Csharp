@@ -185,4 +185,3 @@ public class CheckMultipleTasksClient : ClientBaseTest<CheckMultipleTasksClient>
     return elapsedMilliseconds;
   }
 }
-

@@ -52,5 +52,3 @@ public static class Disposable
       => action_();
   }
 }
-
-

@@ -112,4 +112,3 @@ public class CheckOptionsClient : ClientBaseTest<CheckOptionsClient>
     }
   }
 }
-

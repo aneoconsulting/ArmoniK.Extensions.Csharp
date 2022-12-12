@@ -149,4 +149,3 @@ public class SubtaskingTreeUnifiedApiClient : ClientBaseTest<SubtaskingTreeUnifi
     expectedIntegerResults_[taskId] = numbers.Sum();
   }
 }
-

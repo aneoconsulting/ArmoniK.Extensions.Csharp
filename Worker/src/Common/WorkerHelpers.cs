@@ -32,4 +32,3 @@ public class WorkerHelpers
     return LoggerFactory.Create(loggingBuilder => loggingBuilder.AddSerilog(loggerConfig));
   }
 }
-

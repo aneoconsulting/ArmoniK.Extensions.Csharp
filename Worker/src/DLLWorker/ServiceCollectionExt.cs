@@ -35,4 +35,3 @@ public static class ServiceCollectionExt
                                                     IConfiguration          configuration)
     => serviceCollection;
 }
-

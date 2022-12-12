@@ -73,4 +73,3 @@ public class ServiceFactory
            props,
            loggerFactory);
 }
-

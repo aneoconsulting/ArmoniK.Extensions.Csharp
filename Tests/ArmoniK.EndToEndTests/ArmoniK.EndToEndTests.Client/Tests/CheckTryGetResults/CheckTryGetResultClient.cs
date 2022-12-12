@@ -147,4 +147,3 @@ public class CheckTryGetResultsClient : ClientBaseTest<CheckTryGetResultsClient>
     Log.LogInformation($"Session {numSession} has finished output result : {result}");
   }
 }
-

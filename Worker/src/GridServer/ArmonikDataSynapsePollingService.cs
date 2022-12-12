@@ -193,4 +193,3 @@ public static class ArmonikDataSynapsePollingServiceExt
                                  string                                taskId)
     => throw new NotImplementedException("Polling agent service is not implemented for GridServer");
 }
-

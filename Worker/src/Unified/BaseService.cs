@@ -329,4 +329,3 @@ public static class BaseServiceExt
                                                             Func<IEnumerable<Tuple<string, byte[]>>, int> func)
     => throw new NotImplementedException();
 }
-
