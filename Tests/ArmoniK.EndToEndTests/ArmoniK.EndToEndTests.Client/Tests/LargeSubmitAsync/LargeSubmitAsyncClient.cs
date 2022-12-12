@@ -22,7 +22,6 @@
 // limitations under the License.
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -203,11 +202,11 @@ public class LargeSubmitAsyncClient : ClientBaseTest<LargeSubmitAsyncClient>, IS
                     NbResults);
   }
 
-  private IEnumerable<string> ExecuteSubmitAsync(int               nbTasks,
-                                                 Service           service,
-                                                 IEnumerable       numbers,
-                                                 int               workloadTimeInMs,
-                                                 CancellationToken token = default)
+  private IEnumerable<string> ExecuteSubmitAsync(int                 nbTasks,
+                                                 Service             service,
+                                                 IEnumerable<double> numbers,
+                                                 int                 workloadTimeInMs,
+                                                 CancellationToken   token = default)
   {
     var result = Enumerable.Range(0,
                                   nbTasks)
