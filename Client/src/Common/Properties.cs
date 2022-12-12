@@ -203,6 +203,28 @@ public class Properties
   }
 
   /// <summary>
+  ///   Set the number of task by buffer
+  /// </summary>
+  public int MaxTasksPerBuffer { get; set; } = 500;
+
+
+  /// <summary>
+  ///   Set the number of buffers that can be filled in asynchronous submitAsync
+  /// </summary>
+  public int MaxConcurrentBuffers { get; set; } = 1;
+
+
+  /// <summary>
+  ///   TimeSpan to trigger a batch to send the batch of submit
+  /// </summary>
+  public TimeSpan? TimeTriggerBuffer { get; set; } = TimeSpan.FromSeconds(10);
+
+  /// <summary>
+  ///   The number of channels used for Buffered Submit (Default 1)
+  /// </summary>
+  public int MaxParallelChannels { get; set; } = 1;
+
+  /// <summary>
   ///   The control plane url to connect
   /// </summary>
   public Uri ControlPlaneUri { get; set; }

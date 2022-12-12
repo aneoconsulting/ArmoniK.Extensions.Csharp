@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,13 +21,19 @@ internal class UnifiedTestHelper : UnitTestHelperBase, IServiceInvocationHandler
 
   public UnifiedTestHelper(EngineType engineType,
                            string     applicationNamespace,
-                           string     applicationService)
+                           string     applicationService,
+                           int        bufferRequestSize    = 100,
+                           int        maxConcurrentBuffers = 2,
+                           int        maxParallelChannels  = 2,
+                           TimeSpan?  timeOut              = null)
     : base(engineType,
            applicationNamespace,
            applicationService)
     => InitService(engineType,
-                   applicationNamespace,
-                   applicationService);
+                   bufferRequestSize,
+                   maxConcurrentBuffers,
+                   maxParallelChannels,
+                   timeOut);
 
   public ISubmitterService Service      { get; private set; }
   public ServiceAdmin      ServiceAdmin { get; private set; }
@@ -43,9 +50,16 @@ internal class UnifiedTestHelper : UnitTestHelperBase, IServiceInvocationHandler
     => expectedResults_[taskId] = response;
 
   public void InitService(EngineType engineType,
-                          string     applicationNamespace,
-                          string     applicationService)
+                          int        bufferRequestSize    = 100,
+                          int        maxConcurrentBuffers = 2,
+                          int        maxParallelChannels  = 2,
+                          TimeSpan?  timeOut              = null)
   {
+    Props.MaxConcurrentBuffers = maxConcurrentBuffers;
+    Props.MaxTasksPerBuffer    = bufferRequestSize;
+    Props.MaxParallelChannels  = maxParallelChannels;
+    Props.TimeTriggerBuffer    = timeOut ?? Props.TimeTriggerBuffer;
+
     switch (engineType)
     {
       case EngineType.Unified:

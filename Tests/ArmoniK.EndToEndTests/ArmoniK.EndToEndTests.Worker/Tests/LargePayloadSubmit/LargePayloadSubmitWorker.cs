@@ -51,7 +51,6 @@ public class LargePayloadSubmitWorker : BaseService<LargePayloadSubmitWorker>
 
     Thread.Sleep(workloadTime);
 
-    return inputs.Select(x => x)
-                 .Sum();
+    return inputs.Sum();
   }
 }
