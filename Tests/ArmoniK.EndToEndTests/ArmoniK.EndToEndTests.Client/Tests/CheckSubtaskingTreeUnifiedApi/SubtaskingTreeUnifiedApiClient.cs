@@ -119,8 +119,10 @@ public class SubtaskingTreeUnifiedApiClient : ClientBaseTest<SubtaskingTreeUnifi
     taskOptions.MaxDuration.Seconds = 1800;
   }
 
+
   private static object[] ParamsHelper(params object[] elements)
     => elements;
+
 
   private void SumNumbersWithSubtasking(Service sessionService,
                                         int     maxNumberToSum    = 16,

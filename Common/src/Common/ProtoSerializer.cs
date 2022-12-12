@@ -78,7 +78,6 @@ public class ProtoSerializer
   public byte[] SerializeMessageObjectArray(object[] values)
   {
     using var ms = new MemoryStream();
-
     foreach (var obj in values)
     {
       WriteNext(ms,
@@ -105,13 +104,11 @@ public class ProtoSerializer
   {
     var result = new List<object>();
 
-    using (var ms = new MemoryStream(data))
+    using var ms = new MemoryStream(data);
+    while (ReadNext(ms,
+                    out var obj))
     {
-      while (ReadNext(ms,
-                      out var obj))
-      {
-        result.Add(obj);
-      }
+      result.Add(obj);
     }
 
     return result.Count == 0
