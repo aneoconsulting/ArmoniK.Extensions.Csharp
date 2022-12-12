@@ -116,7 +116,6 @@ public class ComputerService : WorkerStreamWrapper
                                                                           taskHandler.TaskOptions);
 
 
-
       if (ServiceRequestContext.IsNewSessionId(sessionIdCaller))
       {
         ServiceRequestContext.SessionId = sessionIdCaller;
@@ -211,3 +210,4 @@ public class ComputerService : WorkerStreamWrapper
     return message;
   }
 }
+

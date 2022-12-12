@@ -298,3 +298,4 @@ public class Properties
   /// </summary>
   public TaskOptions TaskOptions { get; set; }
 }
+

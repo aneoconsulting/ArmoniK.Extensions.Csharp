@@ -45,3 +45,4 @@ public interface IGridWorker : IDisposable
 
   public void DestroyService();
 }
+

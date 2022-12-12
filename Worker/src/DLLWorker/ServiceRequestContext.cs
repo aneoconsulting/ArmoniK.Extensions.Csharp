@@ -244,8 +244,6 @@ public class ServiceRequestContext
       throw new WorkerApiException("Cannot find namespace service in TaskOptions. Please set the namespace");
     }
 
-    ArmonikServiceWorker armonikServiceWorker;
-
     var serviceId = GenerateServiceId(engineTypeName,
                                       Path.Combine(fileAdapter.DestinationDirPath,
                                                    fileName),
@@ -267,21 +265,20 @@ public class ServiceRequestContext
                                     fileAdapter,
                                     fileName);
 
-    armonikServiceWorker = new ArmonikServiceWorker
-                           {
-                             AppsLoader = appsLoader,
-                             GridWorker = appsLoader.GetGridWorkerInstance(configuration,
-                                                                           LoggerFactory),
-                           };
+    currentService_ = new ArmonikServiceWorker
+                      {
+                        AppsLoader = appsLoader,
+                        GridWorker = appsLoader.GetGridWorkerInstance(configuration,
+                                                                      LoggerFactory),
+                      };
 
-    currentService_ = armonikServiceWorker;
-
-    if (!armonikServiceWorker.Initialized)
+    if (!currentService_.Initialized)
     {
-      armonikServiceWorker.Configure(configuration,
-                                     requestTaskOptions);
+      currentService_.Configure(configuration,
+                                requestTaskOptions);
     }
-    return armonikServiceWorker;
+
+    return currentService_;
   }
 
   public static ServiceId GenerateServiceId(string engineTypeName,
@@ -312,3 +309,4 @@ public class ServiceRequestContext
     throw new WorkerApiException("Cannot find the FileStorageType in the IConfiguration. Please make sure you have properly set the field [FileStorageType]");
   }
 }
+

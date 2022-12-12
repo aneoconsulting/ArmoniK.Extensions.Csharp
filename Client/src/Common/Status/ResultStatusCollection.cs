@@ -56,3 +56,4 @@ public class ResultStatusCollection
   /// </summary>
   public IEnumerable<ResultStatusData> Canceled { get; set; }
 }
+

@@ -153,3 +153,4 @@ public class RandomExceptionClient : ClientBaseTest<RandomExceptionClient>, ISer
     }
   }
 }
+

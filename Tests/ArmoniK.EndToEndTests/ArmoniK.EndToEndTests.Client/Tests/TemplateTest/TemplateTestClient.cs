@@ -101,3 +101,4 @@ public class TemplateTestClient : ClientBaseTest<TemplateTestClient>
     Log.LogInformation($"output result : {result.Result}");
   }
 }
+

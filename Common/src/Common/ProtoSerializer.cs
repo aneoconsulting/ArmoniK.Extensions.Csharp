@@ -244,3 +244,4 @@ public class ProtoSerializer
     public T Element;
   }
 }
+

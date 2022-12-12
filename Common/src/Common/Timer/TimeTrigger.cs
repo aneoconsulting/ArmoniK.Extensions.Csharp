@@ -71,3 +71,5 @@ public class TimerTrigger : IDisposable
   ~TimerTrigger()
     => Dispose();
 }
+
+

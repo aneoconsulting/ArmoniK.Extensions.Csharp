@@ -30,3 +30,4 @@ public interface IAppsLoader : IDisposable
   T GetServiceContainerInstance<T>(string gridAppNamespace,
                                    string gridServiceName);
 }
+

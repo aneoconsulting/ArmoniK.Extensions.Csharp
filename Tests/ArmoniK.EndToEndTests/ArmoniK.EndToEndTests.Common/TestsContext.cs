@@ -33,3 +33,4 @@ public class TestContext
   public object?       ClientClassInstance { get; set; }
   public MethodInfo[]? MethodTests         { get; set; }
 }
+

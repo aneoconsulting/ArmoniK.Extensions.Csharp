@@ -257,3 +257,4 @@ public class ZipArchiver : IArchiver
     return $"{basePath}/{assemblyName}.dll";
   }
 }
+

@@ -61,3 +61,4 @@ public class ResultStatusData
   /// </summary>
   public ResultStatus Status { get; }
 }
+

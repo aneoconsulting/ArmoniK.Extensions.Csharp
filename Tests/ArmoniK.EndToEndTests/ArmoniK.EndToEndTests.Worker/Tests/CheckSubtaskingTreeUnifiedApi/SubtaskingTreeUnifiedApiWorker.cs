@@ -187,3 +187,4 @@ public class SubtaskingTreeUnifiedApiWorker : TaskSubmitterWorkerService
     return aggregationResults.Serialize();
   }
 }
+

@@ -37,3 +37,4 @@ internal interface ITaskSubmitterWorkerServiceConfiguration
   void Configure(IConfiguration configuration,
                  TaskOptions    clientOptions);
 }
+

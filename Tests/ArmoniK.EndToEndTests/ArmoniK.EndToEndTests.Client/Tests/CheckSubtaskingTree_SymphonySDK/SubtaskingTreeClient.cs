@@ -42,6 +42,7 @@ public class SubtaskingTreeClient : ClientBaseTest<SubtaskingTreeClient>
   {
   }
 
+  [EntryPoint]
   public override void EntryPoint()
   {
     var client = new ArmonikSymphonyClient(Configuration,
@@ -103,3 +104,4 @@ public class SubtaskingTreeClient : ClientBaseTest<SubtaskingTreeClient>
     Log.LogInformation($"SplitAndSum {numbers.First()} ... {numbers.Last()}: Result is {result.Result} expected : {expectedResult} => {(result.Result == expectedResult ? "OK" : "NOT OK")} in {sw.ElapsedMilliseconds / 1000} sec.");
   }
 }
+

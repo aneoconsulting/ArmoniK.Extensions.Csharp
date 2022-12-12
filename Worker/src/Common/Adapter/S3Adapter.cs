@@ -140,3 +140,4 @@ public class S3Adapter : IFileAdapter
     }
   }
 }
+
