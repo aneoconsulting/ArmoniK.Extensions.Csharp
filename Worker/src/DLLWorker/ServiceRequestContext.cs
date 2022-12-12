@@ -270,13 +270,11 @@ public class ServiceRequestContext
                         AppsLoader = appsLoader,
                         GridWorker = appsLoader.GetGridWorkerInstance(configuration,
                                                                       LoggerFactory),
+                        ServiceId = serviceId,
                       };
 
-    if (!currentService_.Initialized)
-    {
-      currentService_.Configure(configuration,
-                                requestTaskOptions);
-    }
+    currentService_.Configure(configuration,
+                              requestTaskOptions);
 
     return currentService_;
   }
