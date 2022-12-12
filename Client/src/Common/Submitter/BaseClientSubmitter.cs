@@ -595,6 +595,7 @@ public class BaseClientSubmitter<T>
                                                               cancellationToken: cancellationToken);
       chunks = new List<ReadOnlyMemory<byte>>();
       len    = 0;
+      var isPayloadComplete = false;
 
       while (await streamingCall.ResponseStream.MoveNext(cancellationToken))
       {
@@ -607,6 +608,12 @@ public class BaseClientSubmitter<T>
             {
               chunks.Add(reply.Result.Data.Memory);
               len += reply.Result.Data.Memory.Length;
+              // In case we receive a chunk after the data complete message (corrupt stream)
+              isPayloadComplete = false;
+            }
+            else
+            {
+              isPayloadComplete = true;
             }
 
             break;
@@ -623,6 +630,11 @@ public class BaseClientSubmitter<T>
             throw new ArgumentOutOfRangeException("Got a reply with an unexpected message type.",
                                                   (Exception)null);
         }
+      }
+
+      if (!isPayloadComplete)
+      {
+        throw new ClientResultsException($"Result data is incomplete for id {resultRequest.ResultId}");
       }
     }
 

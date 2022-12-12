@@ -115,6 +115,8 @@ public class ComputerService : WorkerStreamWrapper
                                                                           fileName,
                                                                           taskHandler.TaskOptions);
 
+
+
       if (ServiceRequestContext.IsNewSessionId(sessionIdCaller))
       {
         ServiceRequestContext.SessionId = sessionIdCaller;

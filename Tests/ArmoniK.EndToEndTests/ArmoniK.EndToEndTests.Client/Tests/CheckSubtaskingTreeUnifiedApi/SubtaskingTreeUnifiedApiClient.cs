@@ -30,6 +30,7 @@ using System.Linq;
 using ArmoniK.Api.gRPC.V1;
 using ArmoniK.DevelopmentKit.Client.Common;
 using ArmoniK.DevelopmentKit.Client.Common.Exceptions;
+
 using ArmoniK.DevelopmentKit.Client.Unified.Factory;
 using ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter;
 using ArmoniK.DevelopmentKit.Common;
@@ -38,7 +39,7 @@ using ArmoniK.EndToEndTests.Common;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-namespace ArmoniK.EndToEndTests.Client.Tests.CheckSubtaskingTreeUnifiedApi;
+namespace ArmoniK.EndToEndTests.Tests.CheckSubtaskingTreeUnifiedApi;
 
 public class SubtaskingTreeUnifiedApiClient : ClientBaseTest<SubtaskingTreeUnifiedApiClient>, IServiceInvocationHandler
 {
@@ -101,6 +102,9 @@ public class SubtaskingTreeUnifiedApiClient : ClientBaseTest<SubtaskingTreeUnifi
     var taskOptions = InitializeTaskOptions();
     OverrideTaskOptions(taskOptions);
 
+    taskOptions.ApplicationService  = "SubtaskingTreeUnifiedApiWorker";
+    taskOptions.MaxDuration.Seconds = 1800;
+
     var props = new Properties(taskOptions,
                                Configuration.GetSection("Grpc")["EndPoint"],
                                5001);
@@ -113,14 +117,11 @@ public class SubtaskingTreeUnifiedApiClient : ClientBaseTest<SubtaskingTreeUnifi
   }
 
   private static void OverrideTaskOptions(TaskOptions taskOptions)
-  {
-    taskOptions.EngineType          = EngineType.Unified.ToString();
-    taskOptions.ApplicationService  = "SubtaskingTreeUnifiedApiWorker";
-    taskOptions.MaxDuration.Seconds = 1800;
-  }
+    => taskOptions.EngineType = EngineType.Unified.ToString();
 
   private static object[] ParamsHelper(params object[] elements)
     => elements;
+
 
   private void SumNumbersWithSubtasking(Service sessionService,
                                         int     maxNumberToSum    = 16,
