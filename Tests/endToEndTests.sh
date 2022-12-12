@@ -222,15 +222,13 @@ echo "List of args : ${args[*]}"
       ;;
     -b | --build)
       args=("${args[@]:1}") # past argument=value
-      echo "Only execute without build '${args[@]}'"
+      echo "Build without execute '${args[@]}'"
       build
-      break
       ;;
     -d | --deploy)
       args=("${args[@]:1}") # past argument=value
-      echo "Only deploy package'${args[@]}'"
+      echo "Deploy package : '${args[@]}'"
       deploy
-      break
       ;;
     -a)
       # all build and execute
