@@ -222,7 +222,7 @@ jobs:
         run: |
          cd Tests
          mkdir -p ${HOME}/data
-         bash -x ./endToEndTests.sh
+         bash -x ./endToEndTests.sh -b -d
          cd -
       
       - name: Run tests
