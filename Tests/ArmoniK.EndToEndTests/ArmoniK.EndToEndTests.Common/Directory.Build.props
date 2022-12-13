@@ -1,0 +1,14 @@
+<Project>
+
+  <PropertyGroup>
+    <RootProjectDir>../../..</RootProjectDir>
+  </PropertyGroup>
+
+
+  <Import Project="$(RootProjectDir)/Directory.Build.props" />
+
+  <PropertyGroup>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+  </PropertyGroup>
+
+</Project>
