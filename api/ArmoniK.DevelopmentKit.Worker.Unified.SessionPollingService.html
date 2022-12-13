@@ -1,0 +1,541 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class SessionPollingService
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class SessionPollingService
+   ">
+    <meta name="generator" content="docfx 2.59.4.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="ArmoniK.DevelopmentKit.Worker.Unified.SessionPollingService">
+  
+  
+  <h1 id="ArmoniK_DevelopmentKit_Worker_Unified_SessionPollingService" data-uid="ArmoniK.DevelopmentKit.Worker.Unified.SessionPollingService" class="text-break">Class SessionPollingService
+  </h1>
+  <div class="markdown level0 summary"><p>The class SessionService will be create each time the function CreateSession or OpenSession will
+be called by client or by the worker.</p>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level1"><span class="xref">SessionPollingService</span></div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="ArmoniK.DevelopmentKit.Worker.Unified.html">ArmoniK.DevelopmentKit.Worker.Unified</a></h6>
+  <h6><strong>Assembly</strong>: ArmoniK.DevelopmentKit.Worker.Unified.dll</h6>
+  <h5 id="ArmoniK_DevelopmentKit_Worker_Unified_SessionPollingService_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class SessionPollingService : object</code></pre>
+  </div>
+  <h3 id="constructors">Constructors
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/main/apiSpec/new?filename=ArmoniK_DevelopmentKit_Worker_Unified_SessionPollingService__ctor_ILoggerFactory_ITaskHandler_.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Worker.Unified.SessionPollingService.%23ctor(ILoggerFactory%2CITaskHandler)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Worker/src/Unified/SessionPollingService.cs/#L58">View Source</a>
+  </span>
+  <a id="ArmoniK_DevelopmentKit_Worker_Unified_SessionPollingService__ctor_" data-uid="ArmoniK.DevelopmentKit.Worker.Unified.SessionPollingService.#ctor*"></a>
+  <h4 id="ArmoniK_DevelopmentKit_Worker_Unified_SessionPollingService__ctor_ILoggerFactory_ITaskHandler_" data-uid="ArmoniK.DevelopmentKit.Worker.Unified.SessionPollingService.#ctor(ILoggerFactory,ITaskHandler)">SessionPollingService(ILoggerFactory, ITaskHandler)</h4>
+  <div class="markdown level1 summary"><p>Ctor to instantiate a new SessionService
+This is an object to send task or get Results from a session</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public SessionPollingService(ILoggerFactory loggerFactory, ITaskHandler taskHandler)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">ILoggerFactory</span></td>
+        <td><span class="parametername">loggerFactory</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">ITaskHandler</span></td>
+        <td><span class="parametername">taskHandler</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="fields">Fields
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/main/apiSpec/new?filename=ArmoniK_DevelopmentKit_Worker_Unified_SessionPollingService_TaskId2OutputId.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Worker.Unified.SessionPollingService.TaskId2OutputId%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Worker/src/Unified/SessionPollingService.cs/#L52">View Source</a>
+  </span>
+  <h4 id="ArmoniK_DevelopmentKit_Worker_Unified_SessionPollingService_TaskId2OutputId" data-uid="ArmoniK.DevelopmentKit.Worker.Unified.SessionPollingService.TaskId2OutputId">TaskId2OutputId</h4>
+  <div class="markdown level1 summary"><p>Map between ids of task and their results id after task submission</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public readonly Dictionary&lt;string, string&gt; TaskId2OutputId</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">Dictionary</span>&lt;<span class="xref">System.String</span>, <span class="xref">System.String</span>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="properties">Properties
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/main/apiSpec/new?filename=ArmoniK_DevelopmentKit_Worker_Unified_SessionPollingService_SessionId.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Worker.Unified.SessionPollingService.SessionId%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Worker/src/Unified/SessionPollingService.cs/#L89">View Source</a>
+  </span>
+  <a id="ArmoniK_DevelopmentKit_Worker_Unified_SessionPollingService_SessionId_" data-uid="ArmoniK.DevelopmentKit.Worker.Unified.SessionPollingService.SessionId*"></a>
+  <h4 id="ArmoniK_DevelopmentKit_Worker_Unified_SessionPollingService_SessionId" data-uid="ArmoniK.DevelopmentKit.Worker.Unified.SessionPollingService.SessionId">SessionId</h4>
+  <div class="markdown level1 summary"><p>Only used for internal DO NOT USED IT
+Get or Set SessionId object stored during the call of SubmitTask, SubmitSubTask,
+SubmitSubTaskWithDependencies or WaitForCompletion, WaitForSubTaskCompletion or GetResults</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Session SessionId { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">Session</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/main/apiSpec/new?filename=ArmoniK_DevelopmentKit_Worker_Unified_SessionPollingService_TaskHandler.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Worker.Unified.SessionPollingService.TaskHandler%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Worker/src/Unified/SessionPollingService.cs/#L99">View Source</a>
+  </span>
+  <a id="ArmoniK_DevelopmentKit_Worker_Unified_SessionPollingService_TaskHandler_" data-uid="ArmoniK.DevelopmentKit.Worker.Unified.SessionPollingService.TaskHandler*"></a>
+  <h4 id="ArmoniK_DevelopmentKit_Worker_Unified_SessionPollingService_TaskHandler" data-uid="ArmoniK.DevelopmentKit.Worker.Unified.SessionPollingService.TaskHandler">TaskHandler</h4>
+  <div class="markdown level1 summary"><p>The taskHandler to communicate with polling agent</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ITaskHandler TaskHandler { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">ITaskHandler</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/main/apiSpec/new?filename=ArmoniK_DevelopmentKit_Worker_Unified_SessionPollingService_TaskOptions.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Worker.Unified.SessionPollingService.TaskOptions%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Worker/src/Unified/SessionPollingService.cs/#L82">View Source</a>
+  </span>
+  <a id="ArmoniK_DevelopmentKit_Worker_Unified_SessionPollingService_TaskOptions_" data-uid="ArmoniK.DevelopmentKit.Worker.Unified.SessionPollingService.TaskOptions*"></a>
+  <h4 id="ArmoniK_DevelopmentKit_Worker_Unified_SessionPollingService_TaskOptions" data-uid="ArmoniK.DevelopmentKit.Worker.Unified.SessionPollingService.TaskOptions">TaskOptions</h4>
+  <div class="markdown level1 summary"><p>Set or Get TaskOptions with inside MaxDuration, Priority, AppName, VersionName and AppNamespace</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TaskOptions TaskOptions { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">TaskOptions</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/main/apiSpec/new?filename=ArmoniK_DevelopmentKit_Worker_Unified_SessionPollingService_GetDependenciesResult_System_String_.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Worker.Unified.SessionPollingService.GetDependenciesResult(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Worker/src/Unified/SessionPollingService.cs/#L267">View Source</a>
+  </span>
+  <a id="ArmoniK_DevelopmentKit_Worker_Unified_SessionPollingService_GetDependenciesResult_" data-uid="ArmoniK.DevelopmentKit.Worker.Unified.SessionPollingService.GetDependenciesResult*"></a>
+  <h4 id="ArmoniK_DevelopmentKit_Worker_Unified_SessionPollingService_GetDependenciesResult_System_String_" data-uid="ArmoniK.DevelopmentKit.Worker.Unified.SessionPollingService.GetDependenciesResult(System.String)">GetDependenciesResult(String)</h4>
+  <div class="markdown level1 summary"><p>Get the dependencies data from previous executed and completed tasks</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public byte[] GetDependenciesResult(string id)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">id</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Byte</span>[]</td>
+        <td><p>returns a specific data from the taskId</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/main/apiSpec/new?filename=ArmoniK_DevelopmentKit_Worker_Unified_SessionPollingService_GetDependenciesResults.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Worker.Unified.SessionPollingService.GetDependenciesResults%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Worker/src/Unified/SessionPollingService.cs/#L259">View Source</a>
+  </span>
+  <a id="ArmoniK_DevelopmentKit_Worker_Unified_SessionPollingService_GetDependenciesResults_" data-uid="ArmoniK.DevelopmentKit.Worker.Unified.SessionPollingService.GetDependenciesResults*"></a>
+  <h4 id="ArmoniK_DevelopmentKit_Worker_Unified_SessionPollingService_GetDependenciesResults" data-uid="ArmoniK.DevelopmentKit.Worker.Unified.SessionPollingService.GetDependenciesResults">GetDependenciesResults()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public IDictionary&lt;string, byte[]&gt; GetDependenciesResults()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">IDictionary</span>&lt;<span class="xref">System.String</span>, <span class="xref">System.Byte</span>[]&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/main/apiSpec/new?filename=ArmoniK_DevelopmentKit_Worker_Unified_SessionPollingService_SubmitTasks_IEnumerable_System_Byte____.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Worker.Unified.SessionPollingService.SubmitTasks(IEnumerable%7BSystem.Byte%5B%5D%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Worker/src/Unified/SessionPollingService.cs/#L134">View Source</a>
+  </span>
+  <a id="ArmoniK_DevelopmentKit_Worker_Unified_SessionPollingService_SubmitTasks_" data-uid="ArmoniK.DevelopmentKit.Worker.Unified.SessionPollingService.SubmitTasks*"></a>
+  <h4 id="ArmoniK_DevelopmentKit_Worker_Unified_SessionPollingService_SubmitTasks_IEnumerable_System_Byte____" data-uid="ArmoniK.DevelopmentKit.Worker.Unified.SessionPollingService.SubmitTasks(IEnumerable{System.Byte[]})">SubmitTasks(IEnumerable&lt;Byte[]&gt;)</h4>
+  <div class="markdown level1 summary"><p>User method to submit task from the client
+Need a client Service. In case of ServiceContainer
+pollingAgentService can be null until the OpenSession is called</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public IEnumerable&lt;string&gt; SubmitTasks(IEnumerable&lt;byte[]&gt; payloads)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">IEnumerable</span>&lt;<span class="xref">System.Byte</span>[]&gt;</td>
+        <td><span class="parametername">payloads</span></td>
+        <td><p>The user payload list to execute. General used for subTasking.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">IEnumerable</span>&lt;<span class="xref">System.String</span>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/main/apiSpec/new?filename=ArmoniK_DevelopmentKit_Worker_Unified_SessionPollingService_SubmitTasksWithDependencies_IEnumerable_Tuple_System_Byte___IList_System_String____System_Boolean_.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Worker.Unified.SessionPollingService.SubmitTasksWithDependencies(IEnumerable%7BTuple%7BSystem.Byte%5B%5D%2CIList%7BSystem.String%7D%7D%7D%2CSystem.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Worker/src/Unified/SessionPollingService.cs/#L187">View Source</a>
+  </span>
+  <a id="ArmoniK_DevelopmentKit_Worker_Unified_SessionPollingService_SubmitTasksWithDependencies_" data-uid="ArmoniK.DevelopmentKit.Worker.Unified.SessionPollingService.SubmitTasksWithDependencies*"></a>
+  <h4 id="ArmoniK_DevelopmentKit_Worker_Unified_SessionPollingService_SubmitTasksWithDependencies_IEnumerable_Tuple_System_Byte___IList_System_String____System_Boolean_" data-uid="ArmoniK.DevelopmentKit.Worker.Unified.SessionPollingService.SubmitTasksWithDependencies(IEnumerable{Tuple{System.Byte[],IList{System.String}}},System.Boolean)">SubmitTasksWithDependencies(IEnumerable&lt;Tuple&lt;Byte[], IList&lt;String&gt;&gt;&gt;, Boolean)</h4>
+  <div class="markdown level1 summary"><p>The method to submit several tasks with dependencies tasks. This task will wait for
+to start until all dependencies are completed successfully</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public IEnumerable&lt;string&gt; SubmitTasksWithDependencies(IEnumerable&lt;Tuple&lt;byte[], IList&lt;string&gt;&gt;&gt; payloadsWithDependencies, bool resultForParent = false)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">IEnumerable</span>&lt;<span class="xref">Tuple</span>&lt;<span class="xref">System.Byte</span>[], <span class="xref">IList</span>&lt;<span class="xref">System.String</span>&gt;&gt;&gt;</td>
+        <td><span class="parametername">payloadsWithDependencies</span></td>
+        <td><p>A list of Tuple(taskId, Payload) in dependence of those created tasks</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">resultForParent</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">IEnumerable</span>&lt;<span class="xref">System.String</span>&gt;</td>
+        <td><p>return a list of taskIds of the created tasks</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/main/apiSpec/new?filename=ArmoniK_DevelopmentKit_Worker_Unified_SessionPollingService_ToString.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Worker.Unified.SessionPollingService.ToString%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Worker/src/Unified/SessionPollingService.cs/#L104">View Source</a>
+  </span>
+  <a id="ArmoniK_DevelopmentKit_Worker_Unified_SessionPollingService_ToString_" data-uid="ArmoniK.DevelopmentKit.Worker.Unified.SessionPollingService.ToString*"></a>
+  <h4 id="ArmoniK_DevelopmentKit_Worker_Unified_SessionPollingService_ToString" data-uid="ArmoniK.DevelopmentKit.Worker.Unified.SessionPollingService.ToString">ToString()</h4>
+  <div class="markdown level1 summary"><p>Returns a string that represents the current object.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override string ToString()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><p>A string that represents the current object.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="extensionmethods">Extension Methods</h3>
+  <div>
+      <a class="xref" href="ArmoniK.DevelopmentKit.Worker.Unified.SessionServiceExt.html#ArmoniK_DevelopmentKit_Worker_Unified_SessionServiceExt_SubmitTask_ArmoniK_DevelopmentKit_Worker_Unified_SessionPollingService_System_Byte___">SessionServiceExt.SubmitTask(SessionPollingService, Byte[])</a>
+  </div>
+  <div>
+      <a class="xref" href="ArmoniK.DevelopmentKit.Worker.Unified.SessionServiceExt.html#ArmoniK_DevelopmentKit_Worker_Unified_SessionServiceExt_SubmitTaskWithDependencies_ArmoniK_DevelopmentKit_Worker_Unified_SessionPollingService_System_Byte___IList_System_String__">SessionServiceExt.SubmitTaskWithDependencies(SessionPollingService, Byte[], IList&lt;String&gt;)</a>
+  </div>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/main/apiSpec/new?filename=ArmoniK_DevelopmentKit_Worker_Unified_SessionPollingService.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Worker.Unified.SessionPollingService%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                  </li>
+                  <li>
+                    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Worker/src/Unified/SessionPollingService.cs/#L46" class="contribution-link">View Source</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    <!-- Required styles -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+    <!-- Load v9.1.3 of Mermaid -->
+    <!-- Hash obtained via https://www.srihash.org/ -->
+    <script type="text/javascript" src="https://unpkg.com/mermaid@9.1.3/dist/mermaid.min.js" integrity="sha384-LnGjpNDrP4cp7MIk4CpRa/lPNclrf839ryYVFx1T1mPSV3RGAZ7nlBa7pqcyGY/K" crossorigin="anonymous"></script>
+    <!-- Initialize Mermaid -->
+    <script>
+        mermaid.initialize({
+            startOnLoad: false
+        });
+        mermaid.init(undefined, ".lang-mermaid");
+    </script>
+  </body>
+</html>
