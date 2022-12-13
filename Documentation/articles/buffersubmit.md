@@ -106,7 +106,7 @@ This is the instanciation and configuration of Unified service
 Here is the complete code to send list of tasks : 
 
 ```csharp
-/// <summary>
+    /// <summary>
     ///   The first test developed to validate dependencies subTasking
     /// </summary>
     /// <param name="nbTasks">The number of task to submit</param>
