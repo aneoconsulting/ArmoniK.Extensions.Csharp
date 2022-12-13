@@ -52,6 +52,26 @@ public class SimpleUnifiedApiClientTest
   }
 
   [Test]
+  public void Check_That_Task_Options_Are_Well_Initialized_In_Worker_Size()
+  {
+    var expectedResult = numbers_.Select(elem => elem * elem * elem)
+                                 .ToArray();
+
+    var taskId = unifiedTestHelper_.Service.Submit("GetTaskOptionsFromWorker",
+                                                   UnitTestHelperBase.ParamsHelper(),
+                                                   unifiedTestHelper_);
+
+    var result = unifiedTestHelper_.WaitForResultcompletion(taskId);
+    Assert.IsNotNull(result);
+    Assert.IsInstanceOf(typeof(string),
+                        result);
+    var resultStr = result as string;
+
+    Assert.That(resultStr,
+                Is.EqualTo(unifiedTestHelper_.TaskOptions.ApplicationName));
+  }
+
+  [Test]
   public void Check_That_Method_Overload_As_Int_Is_Working()
   {
     var expectedResult = numbers_.Sum(elem => elem * elem * elem);
