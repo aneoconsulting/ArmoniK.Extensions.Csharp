@@ -26,7 +26,6 @@ internal abstract class UnitTestHelperBase
 {
   private readonly ConcurrentDictionary<string, object> expectedResults_ = new();
   protected        Properties                           Props;
-  protected        TaskOptions                          TaskOptions;
 
   public UnitTestHelperBase(EngineType engineType,
                             string     applicationNamespace,
@@ -38,6 +37,8 @@ internal abstract class UnitTestHelperBase
                    applicationNamespace,
                    applicationService);
   }
+
+  public TaskOptions TaskOptions { get; protected set; }
 
   public    ILogger        Log           { get; private set; }
   protected ILoggerFactory LoggerFactory { get; set; }

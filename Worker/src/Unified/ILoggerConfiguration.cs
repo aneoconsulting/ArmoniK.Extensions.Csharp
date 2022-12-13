@@ -22,12 +22,11 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using ArmoniK.Api.Worker.Worker;
+using Microsoft.Extensions.Configuration;
 
 namespace ArmoniK.DevelopmentKit.Worker.Unified;
 
-internal interface ITaskSubmitterWorkerServiceConfiguration
+internal interface ILoggerConfiguration
 {
-  TaskContext TaskContext { get; set; }
-  void        ConfigureSessionService(ITaskHandler taskHandler);
+  void ConfigureLogger(IConfiguration configuration);
 }

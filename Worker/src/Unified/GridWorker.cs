@@ -98,10 +98,14 @@ public class GridWorker : IGridWorker
     ServiceClass = appsLoader.GetServiceContainerInstance<object>(GridAppNamespace,
                                                                   GridServiceName);
 
-    if (ServiceClass is ITaskSubmitterWorkerServiceConfiguration serviceContext)
+    if (ServiceClass is ITaskOptionsConfiguration iTaskOptionsConfiguration)
     {
-      serviceContext.Configure(configuration,
-                               clientOptions);
+      iTaskOptionsConfiguration.ConfigureTaskOptions(clientOptions);
+    }
+
+    if (ServiceClass is ILoggerConfiguration iLoggerConfiguration)
+    {
+      iLoggerConfiguration.ConfigureLogger(configuration);
     }
   }
 
@@ -123,26 +127,35 @@ public class GridWorker : IGridWorker
 
     var payload = taskHandler.Payload;
 
-    var dataSynapsePayload = ArmonikPayload.Deserialize(payload);
+    var armonikPayload = ArmonikPayload.Deserialize(payload);
 
-    var methodName = dataSynapsePayload.MethodName;
+    var methodName = armonikPayload.MethodName;
     if (methodName == null)
     {
       throw new WorkerApiException($"Method name is empty in Service class [{GridAppNamespace}.{GridServiceName}]");
     }
 
 
-    var arguments = dataSynapsePayload.SerializedArguments
+    var arguments = armonikPayload.SerializedArguments
                       ? new object[]
                         {
-                          dataSynapsePayload.ClientPayload,
+                          armonikPayload.ClientPayload,
                         }
-                      : ProtoSerializer.DeSerializeMessageObjectArray(dataSynapsePayload.ClientPayload);
+                      : ProtoSerializer.DeSerializeMessageObjectArray(armonikPayload.ClientPayload);
 
-    var methodInfo = ServiceClass.GetType()
-                                 .GetMethod(methodName,
-                                            arguments.Select(x => x.GetType())
-                                                     .ToArray());
+    MethodInfo methodInfo;
+    if (arguments == null || arguments.Any() == false)
+    {
+      methodInfo = ServiceClass.GetType()
+                               .GetMethod(methodName);
+    }
+    else
+    {
+      methodInfo = ServiceClass.GetType()
+                               .GetMethod(methodName,
+                                          arguments.Select(x => x.GetType())
+                                                   .ToArray());
+    }
 
     if (ServiceClass is ITaskSubmitterWorkerServiceConfiguration serviceContext)
     {

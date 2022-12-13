@@ -51,7 +51,7 @@ namespace ArmoniK.DevelopmentKit.Worker.Unified;
 /// </summary>
 [PublicAPI]
 [MarkDownDoc]
-public abstract class TaskSubmitterWorkerService : ITaskSubmitterWorkerServiceConfiguration
+public abstract class TaskSubmitterWorkerService : ITaskSubmitterWorkerServiceConfiguration, ITaskOptionsConfiguration, ILoggerConfiguration
 {
   /// <summary>
   /// </summary>
@@ -113,16 +113,12 @@ public abstract class TaskSubmitterWorkerService : ITaskSubmitterWorkerServiceCo
   /// </summary>
   public ILoggerFactory LoggerFactory { get; set; }
 
-  public TaskContext TaskContext { get; set; }
-
   /// <summary>
   ///   The configure method is an internal call to prepare the ServiceContainer.
   ///   Its holds several configuration coming from the Client call
   /// </summary>
   /// <param name="configuration">The appSettings.json configuration prepared during the deployment</param>
-  /// <param name="clientOptions">All data coming from Client within TaskOptions </param>
-  public void Configure(IConfiguration configuration,
-                        TaskOptions    clientOptions)
+  public void ConfigureLogger(IConfiguration configuration)
   {
     Configuration = configuration;
 
@@ -135,6 +131,19 @@ public abstract class TaskSubmitterWorkerService : ITaskSubmitterWorkerServiceCo
                                           .Name);
     Logger.LogInformation("Configuring ServiceContainerBase");
   }
+
+  /// <summary>
+  ///   The configure method is an internal call to prepare the ServiceContainer.
+  ///   Its holds TaskOptions coming from the Client call
+  /// </summary>
+  /// <param name="clientOptions">All data coming from Client within TaskOptions </param>
+  public void ConfigureTaskOptions(TaskOptions clientOptions)
+    => TaskOptions = clientOptions;
+
+  /// <summary>
+  ///   Provides the context for the task that is bound to the given service invocation
+  /// </summary>
+  public TaskContext TaskContext { get; set; }
 
   /// <summary>
   ///   Configure Service for actual session. Connect the worker to the current pollingAgent
