@@ -63,7 +63,7 @@ Find below an example to configure and send tasks iteratively but sent by buffer
 
 This is the instanciation and configuration of Unified service
 ```csharp
- public class StressTests
+  public class StressTests
   {
     public StressTests(IConfiguration configuration,
                        ILoggerFactory factory,
@@ -162,7 +162,7 @@ Here is the complete code to send list of tasks :
 
 ### Result task handler 
 ```csharp
-private class ResultForStressTestsHandler : IServiceInvocationHandler
+    private class ResultForStressTestsHandler : IServiceInvocationHandler
     {
       private readonly ILogger<StressTests> Logger_;
 
@@ -220,6 +220,8 @@ private class ResultForStressTestsHandler : IServiceInvocationHandler
 
 ### Result output will be 
 
+<details><summary>Uncollapse output</summary>
+<p>
 ```log
 [10:37:01 INF] ===  Running from 224 tasks with payload by task 3935.3662109375 Ko Total : 881522.03125 Ko...   ===
 [10:37:01 INF] Got 0 results. All tasks submitted ? False
@@ -256,3 +258,5 @@ private class ResultForStressTestsHandler : IServiceInvocationHandler
 [11:07:46 INF] Got 224 results. All tasks submitted ? True
 [11:07:46 INF] Total result is 9407.98365779803
 ```
+</p>
+</details>
