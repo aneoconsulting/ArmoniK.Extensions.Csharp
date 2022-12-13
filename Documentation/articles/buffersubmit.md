@@ -12,7 +12,7 @@ This buffer system is based on a storage mechanism for tasks and 2 triggers whic
 
 The buffering can be set from the object `Properties` provided when the Service is created
 Here below an example of configuration : 
-```csharp=
+```csharp
 var props = new Properties(TaskOptions,
                              configuration.GetSection("Grpc")["EndPoint"])
               {
@@ -37,7 +37,7 @@ In this example there 10 buffers of 50 tasks that will be sent over 5 Grpc chann
 The functions are the following:
 
 The method below will asynchronously send the task without arguments serialization
-```csharp=
+```csharp
 public async Task<string> SubmitAsync(string                    methodName,
                                       byte[]                    argument,
                                       IServiceInvocationHandler handler,
@@ -46,7 +46,7 @@ public async Task<string> SubmitAsync(string                    methodName,
 
 
 The method below will asynchronously send the task and serialize arguments objects
-```csharp=
+```csharp
 public async Task<string> SubmitAsync(string                    methodName,
                                         object[]                  argument,
                                         IServiceInvocationHandler handler,
@@ -62,7 +62,7 @@ Find below an example to configure and send tasks iteratively but sent by buffer
 ### Creation and configuration Unified service
 
 This is the instanciation and configuration of Unified service
-```csharp=
+```csharp
  public class StressTests
   {
     public StressTests(IConfiguration configuration,
@@ -105,7 +105,7 @@ This is the instanciation and configuration of Unified service
 ### Example of execution tasks
 Here is the complete code to send list of tasks : 
 
-```csharp=
+```csharp
 /// <summary>
     ///   The first test developed to validate dependencies subTasking
     /// </summary>
@@ -161,7 +161,7 @@ Here is the complete code to send list of tasks :
 ```
 
 ### Result task handler 
-```csharp=
+```csharp
 private class ResultForStressTestsHandler : IServiceInvocationHandler
     {
       private readonly ILogger<StressTests> Logger_;
@@ -220,7 +220,7 @@ private class ResultForStressTestsHandler : IServiceInvocationHandler
 
 ### Result output will be 
 
-```log=
+```log
 [10:37:01 INF] ===  Running from 224 tasks with payload by task 3935.3662109375 Ko Total : 881522.03125 Ko...   ===
 [10:37:01 INF] Got 0 results. All tasks submitted ? False
 [10:37:02 INF] Submitting buffer of 50 task...
