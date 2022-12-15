@@ -32,7 +32,7 @@ where :
 
 `TimeTriggerBuffer` is a TimeSpan to trigger a buffer to be sended over a grpc channel
 
-In this example there are 10 buffers of 50 tasks each that will be sent over 5 Grpc channels in parallel. In other words, 2 buffers of 50 tasks will be prepared by Grpc channel
+In this example there are 10 buffers of 50 tasks each that will be sent over 5 Grpc channels in parallel. In other words, 2 buffers of 50 tasks will be prepared per Grpc channel
 
 ## Submission method
 The functions are the following:
