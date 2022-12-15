@@ -592,7 +592,7 @@ public class BaseClientSubmitter<T>
 
     {
       using var streamingCall = submitterService.TryGetResultStream(resultRequest,
-                                                              cancellationToken: cancellationToken);
+                                                                    cancellationToken: cancellationToken);
       chunks = new List<ReadOnlyMemory<byte>>();
       len    = 0;
       var isPayloadComplete = false;
