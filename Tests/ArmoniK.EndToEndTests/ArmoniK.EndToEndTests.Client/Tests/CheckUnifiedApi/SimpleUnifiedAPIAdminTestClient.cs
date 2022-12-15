@@ -180,8 +180,8 @@ public class SimpleUnifiedApiAdminTestClient : ClientBaseTest<SimpleUnifiedApiTe
     Thread.Sleep(10000);
     //Cancel all the session
     var countCancelTasks = serviceAdmin.AdminMonitoringService.CountTaskBySession(sessionService.SessionId,
-                                                                                  TaskStatus.Canceled,
-                                                                                  TaskStatus.Canceling);
+                                                                                  TaskStatus.Cancelled,
+                                                                                  TaskStatus.Cancelling);
 
     Log.LogInformation($"Number of canceled tasks after Session cancel is {countCancelTasks}");
 

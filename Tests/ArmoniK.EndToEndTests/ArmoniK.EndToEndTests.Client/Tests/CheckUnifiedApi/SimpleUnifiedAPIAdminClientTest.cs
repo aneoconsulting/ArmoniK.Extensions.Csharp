@@ -50,7 +50,7 @@ public class SimpleUnifiedApiAdminClientTest
 
     unifiedTestHelper_.WaitForResultcompletion(tasks);
     var cancelledTaskCount = unifiedTestHelper_.ServiceAdmin.AdminMonitoringService.CountTaskBySession(unifiedTestHelper_.Service.SessionId,
-                                                                                                       TaskStatus.Canceled);
+                                                                                                       TaskStatus.Cancelled);
 
     Assert.That(cancelledTaskCount,
                 Is.GreaterThan(0));

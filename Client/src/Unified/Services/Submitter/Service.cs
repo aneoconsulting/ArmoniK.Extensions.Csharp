@@ -62,9 +62,9 @@ public class Service : AbstractClientService, ISubmitterService
                                                                                                         ArmonikStatusCode.ResultNotReady),
                                                                                            Tuple.Create(TaskStatus.Timeout,
                                                                                                         ArmonikStatusCode.TaskTimeout),
-                                                                                           Tuple.Create(TaskStatus.Canceled,
+                                                                                           Tuple.Create(TaskStatus.Cancelled,
                                                                                                         ArmonikStatusCode.TaskCanceled),
-                                                                                           Tuple.Create(TaskStatus.Canceling,
+                                                                                           Tuple.Create(TaskStatus.Cancelling,
                                                                                                         ArmonikStatusCode.TaskCanceled),
                                                                                            Tuple.Create(TaskStatus.Error,
                                                                                                         ArmonikStatusCode.TaskFailed),
@@ -564,8 +564,8 @@ public class Service : AbstractClientService, ISubmitterService
 
           switch (taskStatus)
           {
-            case TaskStatus.Canceling:
-            case TaskStatus.Canceled:
+            case TaskStatus.Cancelling:
+            case TaskStatus.Cancelled:
               details = $"Task {resultStatusData.TaskId} was canceled";
               break;
             default:
