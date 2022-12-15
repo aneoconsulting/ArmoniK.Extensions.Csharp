@@ -1,12 +1,13 @@
 # Buffering submission
 
 ## Introduction
-A feature in Armonik.Extensions.Csharp allows batch submission of tasks even if the calls to submission are made iteratively. It is possible to buffer task submissions by the client when sending them.
+A feature in Armonik.Extensions.Csharp allows buffered submission of tasks even if the submission calls are made iteratively. It is possible for the client to buffer task submissions when sending them.
 
-In the situation where a client cannot control its iterative task submission calls, two function calls have been made available in ArmoniK.DevelopmentKit.Client.Unified. 
+In the situation where a client cannot control its iterative task submission calls, two function calls named ```public async Task<string> SubmitAsync(...)``` have been made available in ArmoniK.DevelopmentKit.Client.Unified. 
 
 The asynchronous methods SubmitAsync allows first to iteratively submit tasks without waiting for the taskId results. 
-This buffer system is based on a storage mechanism for tasks and 2 triggers which is Capacity of buffer and timeout trigger. The SDK then takes care of sending the tasks according to two criteria; If the number of tasks exceeds the capacity of the buffer or if the cumulative time of SubmitAsync functions calls exceeds a waiting time before sending the buffer ; The buffer will be partially filled and submitted with a number of tasks lower than the capacity buffer. A new buffer will then be made available to create a new batch of sends
+The buffer is submitted when it is full, or after a specified time, whichever comes first. When it is sent after the specified time, the buffer might not be full.
+A new buffer will then be made available to create a new batch of sends
 
 ## Buffer configuration
 
@@ -31,7 +32,7 @@ where :
 
 `TimeTriggerBuffer` is a TimeSpan to trigger a buffer to be sended over a grpc channel
 
-In this example there 10 buffers of 50 tasks that will be sent over 5 Grpc channel in parallel. In antoher words 2 buffer of 50 will be prepared by Grpc channel
+In this example there are 10 buffers of 50 tasks each that will be sent over 5 Grpc channels in parallel. In other words, 2 buffers of 50 tasks will be prepared by Grpc channel
 
 ## Submission method
 The functions are the following:
@@ -57,7 +58,7 @@ public async Task<string> SubmitAsync(string                    methodName,
 
 
 ## Example
-Find below an example to configure and send tasks iteratively but sent by buffer 
+Find below an example to configure and send tasks iteratively with buffering 
 
 ### Creation and configuration Unified service
 
@@ -103,7 +104,7 @@ This is the instanciation and configuration of Unified service
     }
 ```
 ### Example of execution tasks
-Here is the complete code to send list of tasks : 
+Here is the complete code to send a list of tasks : 
 
 ```csharp
     /// <summary>
@@ -219,9 +220,9 @@ Here is the complete code to send list of tasks :
 
 
 ### Result output will be 
-
 <details><summary>Uncollapse output</summary>
 <p>
+
 ```log
 [10:37:01 INF] ===  Running from 224 tasks with payload by task 3935.3662109375 Ko Total : 881522.03125 Ko...   ===
 [10:37:01 INF] Got 0 results. All tasks submitted ? False
@@ -235,7 +236,7 @@ Here is the complete code to send list of tasks :
 [10:37:12 INF] HTTPS Activated: False
 [10:37:12 INF] Created and acquired new channel Grpc.Net.Client.GrpcChannel from pool
 
-...
+
 
 [10:43:39 INF] Submitting buffer of 50 task...
 [10:43:39 INF] Submitting buffer of 50 task...
