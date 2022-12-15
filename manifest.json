@@ -2501,6 +2501,18 @@
     },
     {
       "type": "Conceptual",
+      "source_relative_path": "articles/buffersubmit.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/buffersubmit.html",
+          "hash": "qfG4HtGSWbeMxpiNR03CdxCeh3vLZHp9TCBX0QEHG3I="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
       "source_relative_path": "articles/intro.md",
       "output": {
         ".html": {
@@ -2517,7 +2529,7 @@
       "output": {
         ".html": {
           "relative_path": "articles/toc.html",
-          "hash": "BlPxk5mtl2kgfcZUgkEguqiSAR/EUyUTT4EdebwkQvs="
+          "hash": "P8C+BpM2qaFJF9UV2ezQ6v26yr3ul3nvKvnUXoEecoI="
         }
       },
       "is_incremental": false,
@@ -2562,7 +2574,7 @@
         "ConceptualDocumentProcessor": {
           "can_incremental": false,
           "incrementalPhase": "build",
-          "total_file_count": 3,
+          "total_file_count": 4,
           "skipped_file_count": 0
         },
         "ManagedReferenceDocumentProcessor": {
