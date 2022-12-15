@@ -591,7 +591,7 @@ public class BaseClientSubmitter<T>
     var       submitterService = new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel);
 
     {
-      var streamingCall = submitterService.TryGetResultStream(resultRequest,
+      using var streamingCall = submitterService.TryGetResultStream(resultRequest,
                                                               cancellationToken: cancellationToken);
       chunks = new List<ReadOnlyMemory<byte>>();
       len    = 0;
