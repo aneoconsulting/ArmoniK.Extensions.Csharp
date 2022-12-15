@@ -46,7 +46,7 @@ public class AdminMonitoringService
   }
 
   /// <summary>
-  ///   This method can mark the session in status Canceled and
+  ///   This method can mark the session in status Cancelled and
   ///   mark all tasks in cancel status
   /// </summary>
   /// <param name="sessionId">the sessionId of the session to cancel</param>
@@ -169,7 +169,7 @@ public class AdminMonitoringService
   /// <param name="sessionId"></param>
   /// <returns>The list of filtered task </returns>
   [Obsolete]
-  public IEnumerable<string> ListCanceledTasks(string sessionId)
+  public IEnumerable<string> ListCancelledTasks(string sessionId)
     => channelPool_.WithChannel(channel => new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel).ListTasks(new TaskFilter
                                                                                                                   {
                                                                                                                     Session = new TaskFilter.Types.IdsRequest
@@ -183,8 +183,8 @@ public class AdminMonitoringService
                                                                                                                                {
                                                                                                                                  Statuses =
                                                                                                                                  {
-                                                                                                                                   TaskStatus.Canceled,
-                                                                                                                                   TaskStatus.Canceling,
+                                                                                                                                   TaskStatus.Cancelled,
+                                                                                                                                   TaskStatus.Cancelling,
                                                                                                                                  },
                                                                                                                                },
                                                                                                                   })
@@ -228,14 +228,14 @@ public class AdminMonitoringService
   ///   The method is to get a filtered list of running session
   /// </summary>
   /// <returns>returns a list of session filtered</returns>
-  public IEnumerable<string> ListCanceledSessions()
+  public IEnumerable<string> ListCancelledSessions()
     => channelPool_.WithChannel(channel => new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel).ListSessions(new SessionFilter
                                                                                                                      {
                                                                                                                        Included = new SessionFilter.Types.StatusesRequest
                                                                                                                                   {
                                                                                                                                     Statuses =
                                                                                                                                     {
-                                                                                                                                      SessionStatus.Canceled,
+                                                                                                                                      SessionStatus.Cancelled,
                                                                                                                                     },
                                                                                                                                   },
                                                                                                                      })
@@ -366,8 +366,8 @@ public class AdminMonitoringService
                                                                                                                                 {
                                                                                                                                   Statuses =
                                                                                                                                   {
-                                                                                                                                    TaskStatus.Canceling,
-                                                                                                                                    TaskStatus.Canceled,
+                                                                                                                                    TaskStatus.Cancelling,
+                                                                                                                                    TaskStatus.Cancelled,
                                                                                                                                   },
                                                                                                                                 },
                                                                                                                    })

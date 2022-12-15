@@ -18,7 +18,7 @@ public enum ArmonikStatusCode
   /// <summary>
   ///   The task has been canceled by operator or user himself
   /// </summary>
-  TaskCanceled,
+  TaskCancelled,
 
   /// <summary>
   ///   the task has reached the max duration of execution
