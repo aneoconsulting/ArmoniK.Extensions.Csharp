@@ -62,10 +62,10 @@ public class Service : AbstractClientService, ISubmitterService
                                                                                                         ArmonikStatusCode.ResultNotReady),
                                                                                            Tuple.Create(TaskStatus.Timeout,
                                                                                                         ArmonikStatusCode.TaskTimeout),
-                                                                                           Tuple.Create(TaskStatus.Canceled,
-                                                                                                        ArmonikStatusCode.TaskCanceled),
-                                                                                           Tuple.Create(TaskStatus.Canceling,
-                                                                                                        ArmonikStatusCode.TaskCanceled),
+                                                                                           Tuple.Create(TaskStatus.Cancelled,
+                                                                                                        ArmonikStatusCode.TaskCancelled),
+                                                                                           Tuple.Create(TaskStatus.Cancelling,
+                                                                                                        ArmonikStatusCode.TaskCancelled),
                                                                                            Tuple.Create(TaskStatus.Error,
                                                                                                         ArmonikStatusCode.TaskFailed),
                                                                                            Tuple.Create(TaskStatus.Processing,
@@ -564,8 +564,8 @@ public class Service : AbstractClientService, ISubmitterService
 
           switch (taskStatus)
           {
-            case TaskStatus.Canceling:
-            case TaskStatus.Canceled:
+            case TaskStatus.Cancelling:
+            case TaskStatus.Cancelled:
               details = $"Task {resultStatusData.TaskId} was canceled";
               break;
             default:

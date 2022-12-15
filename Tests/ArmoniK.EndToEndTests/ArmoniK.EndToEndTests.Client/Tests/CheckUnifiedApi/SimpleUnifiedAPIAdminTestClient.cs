@@ -59,7 +59,7 @@ public class SimpleUnifiedApiAdminTestClient : ClientBaseTest<SimpleUnifiedApiTe
   public void HandleError(ServiceInvocationException e,
                           string                     taskId)
   {
-    if (e.StatusCode == ArmonikStatusCode.TaskCanceled)
+    if (e.StatusCode == ArmonikStatusCode.TaskCancelled)
     {
       Log.LogWarning($"Task canceled : {taskId}. Status {e.StatusCode.ToString()} Message : {e.Message}\nDetails : {e.OutputDetails}");
     }
@@ -180,8 +180,8 @@ public class SimpleUnifiedApiAdminTestClient : ClientBaseTest<SimpleUnifiedApiTe
     Thread.Sleep(10000);
     //Cancel all the session
     var countCancelTasks = serviceAdmin.AdminMonitoringService.CountTaskBySession(sessionService.SessionId,
-                                                                                  TaskStatus.Canceled,
-                                                                                  TaskStatus.Canceling);
+                                                                                  TaskStatus.Cancelled,
+                                                                                  TaskStatus.Cancelling);
 
     Log.LogInformation($"Number of canceled tasks after Session cancel is {countCancelTasks}");
 
