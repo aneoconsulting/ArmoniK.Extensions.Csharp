@@ -37,12 +37,12 @@ references:
   commentId: F:ArmoniK.DevelopmentKit.Client.Common.Exceptions.ArmonikStatusCode.ResultReady
   fullName: ArmoniK.DevelopmentKit.Client.Common.Exceptions.ArmonikStatusCode.ResultReady
   nameWithType: ArmonikStatusCode.ResultReady
-- uid: ArmoniK.DevelopmentKit.Client.Common.Exceptions.ArmonikStatusCode.TaskCanceled
-  name: TaskCanceled
-  href: api/ArmoniK.DevelopmentKit.Client.Common.Exceptions.ArmonikStatusCode.html#ArmoniK_DevelopmentKit_Client_Common_Exceptions_ArmonikStatusCode_TaskCanceled
-  commentId: F:ArmoniK.DevelopmentKit.Client.Common.Exceptions.ArmonikStatusCode.TaskCanceled
-  fullName: ArmoniK.DevelopmentKit.Client.Common.Exceptions.ArmonikStatusCode.TaskCanceled
-  nameWithType: ArmonikStatusCode.TaskCanceled
+- uid: ArmoniK.DevelopmentKit.Client.Common.Exceptions.ArmonikStatusCode.TaskCancelled
+  name: TaskCancelled
+  href: api/ArmoniK.DevelopmentKit.Client.Common.Exceptions.ArmonikStatusCode.html#ArmoniK_DevelopmentKit_Client_Common_Exceptions_ArmonikStatusCode_TaskCancelled
+  commentId: F:ArmoniK.DevelopmentKit.Client.Common.Exceptions.ArmonikStatusCode.TaskCancelled
+  fullName: ArmoniK.DevelopmentKit.Client.Common.Exceptions.ArmonikStatusCode.TaskCancelled
+  nameWithType: ArmonikStatusCode.TaskCancelled
 - uid: ArmoniK.DevelopmentKit.Client.Common.Exceptions.ArmonikStatusCode.TaskCompleted
   name: TaskCompleted
   href: api/ArmoniK.DevelopmentKit.Client.Common.Exceptions.ArmonikStatusCode.html#ArmoniK_DevelopmentKit_Client_Common_Exceptions_ArmonikStatusCode_TaskCompleted
@@ -2358,32 +2358,32 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.ListAllTasksBySession
   nameWithType: AdminMonitoringService.ListAllTasksBySession
-- uid: ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.ListCanceledSessions
-  name: ListCanceledSessions()
-  href: api/ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.html#ArmoniK_DevelopmentKit_Client_Unified_Services_Admin_AdminMonitoringService_ListCanceledSessions
-  commentId: M:ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.ListCanceledSessions
-  fullName: ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.ListCanceledSessions()
-  nameWithType: AdminMonitoringService.ListCanceledSessions()
-- uid: ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.ListCanceledSessions*
-  name: ListCanceledSessions
-  href: api/ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.html#ArmoniK_DevelopmentKit_Client_Unified_Services_Admin_AdminMonitoringService_ListCanceledSessions_
-  commentId: Overload:ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.ListCanceledSessions
+- uid: ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.ListCancelledSessions
+  name: ListCancelledSessions()
+  href: api/ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.html#ArmoniK_DevelopmentKit_Client_Unified_Services_Admin_AdminMonitoringService_ListCancelledSessions
+  commentId: M:ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.ListCancelledSessions
+  fullName: ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.ListCancelledSessions()
+  nameWithType: AdminMonitoringService.ListCancelledSessions()
+- uid: ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.ListCancelledSessions*
+  name: ListCancelledSessions
+  href: api/ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.html#ArmoniK_DevelopmentKit_Client_Unified_Services_Admin_AdminMonitoringService_ListCancelledSessions_
+  commentId: Overload:ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.ListCancelledSessions
   isSpec: "True"
-  fullName: ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.ListCanceledSessions
-  nameWithType: AdminMonitoringService.ListCanceledSessions
-- uid: ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.ListCanceledTasks(System.String)
-  name: ListCanceledTasks(String)
-  href: api/ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.html#ArmoniK_DevelopmentKit_Client_Unified_Services_Admin_AdminMonitoringService_ListCanceledTasks_System_String_
-  commentId: M:ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.ListCanceledTasks(System.String)
-  fullName: ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.ListCanceledTasks(System.String)
-  nameWithType: AdminMonitoringService.ListCanceledTasks(String)
-- uid: ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.ListCanceledTasks*
-  name: ListCanceledTasks
-  href: api/ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.html#ArmoniK_DevelopmentKit_Client_Unified_Services_Admin_AdminMonitoringService_ListCanceledTasks_
-  commentId: Overload:ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.ListCanceledTasks
+  fullName: ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.ListCancelledSessions
+  nameWithType: AdminMonitoringService.ListCancelledSessions
+- uid: ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.ListCancelledTasks(System.String)
+  name: ListCancelledTasks(String)
+  href: api/ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.html#ArmoniK_DevelopmentKit_Client_Unified_Services_Admin_AdminMonitoringService_ListCancelledTasks_System_String_
+  commentId: M:ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.ListCancelledTasks(System.String)
+  fullName: ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.ListCancelledTasks(System.String)
+  nameWithType: AdminMonitoringService.ListCancelledTasks(String)
+- uid: ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.ListCancelledTasks*
+  name: ListCancelledTasks
+  href: api/ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.html#ArmoniK_DevelopmentKit_Client_Unified_Services_Admin_AdminMonitoringService_ListCancelledTasks_
+  commentId: Overload:ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.ListCancelledTasks
   isSpec: "True"
-  fullName: ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.ListCanceledTasks
-  nameWithType: AdminMonitoringService.ListCanceledTasks
+  fullName: ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.ListCancelledTasks
+  nameWithType: AdminMonitoringService.ListCancelledTasks
 - uid: ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.ListErrorTasks(System.String)
   name: ListErrorTasks(String)
   href: api/ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.html#ArmoniK_DevelopmentKit_Client_Unified_Services_Admin_AdminMonitoringService_ListErrorTasks_System_String_
