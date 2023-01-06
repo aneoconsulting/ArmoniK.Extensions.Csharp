@@ -38,10 +38,10 @@ internal abstract class UnitTestHelperBase
                    applicationService);
   }
 
-  public TaskOptions TaskOptions { get; protected set; }
+  public TaskOptions? TaskOptions { get; protected set; }
 
-  public    ILogger        Log           { get; private set; }
-  protected ILoggerFactory LoggerFactory { get; set; }
+  public    ILogger         Log           { get; private set; }
+  protected ILoggerFactory? LoggerFactory { get; set; }
 
   protected IConfiguration Configuration { get; set; }
 
@@ -87,13 +87,13 @@ internal abstract class UnitTestHelperBase
                            5001);
   }
 
-  public static object[] ParamsHelper(params object[] elements)
+  public static object?[] ParamsHelper(params object?[] elements)
     => elements;
 
 
-  protected TaskOptions InitializeTaskOptions(EngineType engineType,
-                                              string     applicationNamespace,
-                                              string     applicationService)
+  protected TaskOptions? InitializeTaskOptions(EngineType engineType,
+                                               string     applicationNamespace,
+                                               string     applicationService)
     => new()
        {
          MaxDuration = new Duration

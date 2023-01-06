@@ -36,26 +36,33 @@ namespace ArmoniK.DevelopmentKit.Worker.Symphony;
 [MarkDownDoc]
 public class TaskContext
 {
-  public byte[] Payload;
-  public string TaskId { get; set; }
+  public TaskContext(string                              taskId,
+                     string                              sessionId,
+                     TaskOptions                         taskOptions,
+                     IReadOnlyDictionary<string, byte[]> dataDependencies,
+                     IEnumerable<string>?                dependenciesTaskIds = null)
+  {
+    TaskId              = taskId;
+    SessionId           = sessionId;
+    DependenciesTaskIds = dependenciesTaskIds;
+    TaskOptions         = taskOptions;
+    DataDependencies    = dataDependencies;
+  }
 
-  public string SessionId { get; set; }
+  public string TaskId { get; }
 
-  public IEnumerable<string> DependenciesTaskIds { get; set; }
+  public string SessionId { get; init; }
 
-  public TaskOptions TaskOptions { get; set; }
+  public IEnumerable<string>? DependenciesTaskIds { get; init; }
+
+  public TaskOptions TaskOptions { get; init; }
 
 
   /// <summary>
   ///   The customer payload to deserialize by the customer
   /// </summary>
   /// <value></value>
-  public byte[] TaskInput
-  {
-    get => Payload;
+  public byte[]? Payload { get; init; }
 
-    set => Payload = value;
-  }
-
-  public IReadOnlyDictionary<string, byte[]> DataDependencies { get; set; }
+  public IReadOnlyDictionary<string, byte[]> DataDependencies { get; init; }
 }

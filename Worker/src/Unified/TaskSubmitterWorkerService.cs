@@ -101,12 +101,12 @@ public abstract class TaskSubmitterWorkerService : ITaskSubmitterWorkerServiceCo
   /// <summary>
   ///   Return TaskOption coming from Client side
   /// </summary>
-  public TaskOptions TaskOptions { get; set; } = new();
+  public TaskOptions? TaskOptions { get; set; } = new();
 
   /// <summary>
   ///   Get or Set Configuration
   /// </summary>
-  public IConfiguration Configuration { get; set; }
+  public IConfiguration? Configuration { get; set; }
 
   /// <summary>
   ///   The logger factory to create new Logger in sub class caller
@@ -118,7 +118,7 @@ public abstract class TaskSubmitterWorkerService : ITaskSubmitterWorkerServiceCo
   ///   Its holds several configuration coming from the Client call
   /// </summary>
   /// <param name="configuration">The appSettings.json configuration prepared during the deployment</param>
-  public void ConfigureLogger(IConfiguration configuration)
+  public void ConfigureLogger(IConfiguration? configuration)
   {
     Configuration = configuration;
 
@@ -137,7 +137,7 @@ public abstract class TaskSubmitterWorkerService : ITaskSubmitterWorkerServiceCo
   ///   Its holds TaskOptions coming from the Client call
   /// </summary>
   /// <param name="clientOptions">All data coming from Client within TaskOptions </param>
-  public void ConfigureTaskOptions(TaskOptions clientOptions)
+  public void ConfigureTaskOptions(TaskOptions? clientOptions)
     => TaskOptions = clientOptions;
 
   /// <summary>
@@ -198,8 +198,8 @@ public abstract class TaskSubmitterWorkerService : ITaskSubmitterWorkerServiceCo
   ///   <remarks>It is case sensitive</remarks>
   /// </param>
   /// <param name="arguments">The arguments of the method to call </param>
-  public string SubmitTask(string   methodName,
-                           object[] arguments)
+  public string SubmitTask(string    methodName,
+                           object?[] arguments)
   {
     var protoSerializer = new ProtoSerializer();
     ArmonikPayload armonikPayload = new()
@@ -246,7 +246,7 @@ public abstract class TaskSubmitterWorkerService : ITaskSubmitterWorkerServiceCo
   /// <param name="resultForParent"></param>
   /// <returns>return the taskId of the created task </returns>
   public string SubmitTaskWithDependencies(string        methodName,
-                                           object[]      arguments,
+                                           object?[]     arguments,
                                            IList<string> dependencies,
                                            bool          resultForParent = false)
   {
@@ -280,8 +280,8 @@ public abstract class TaskSubmitterWorkerService : ITaskSubmitterWorkerServiceCo
   /// </summary>
   /// <param name="sessionId">The ID of the current session</param>
   /// <param name="requestTaskOptions">The default <see cref="TaskOptions" /> used by tasks in the current session</param>
-  public void ConfigureSession(Session     sessionId,
-                               TaskOptions requestTaskOptions)
+  public void ConfigureSession(Session      sessionId,
+                               TaskOptions? requestTaskOptions)
   {
     SessionId = sessionId;
 

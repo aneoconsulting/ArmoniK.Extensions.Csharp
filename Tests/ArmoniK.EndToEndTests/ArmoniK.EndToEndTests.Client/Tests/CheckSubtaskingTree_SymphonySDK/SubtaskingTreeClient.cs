@@ -35,8 +35,8 @@ namespace ArmoniK.EndToEndTests.Client.Tests.CheckSubtaskingTree_SymphonySDK;
 
 public class SubtaskingTreeClient : ClientBaseTest<SubtaskingTreeClient>
 {
-  public SubtaskingTreeClient(IConfiguration configuration,
-                              ILoggerFactory loggerFactory)
+  public SubtaskingTreeClient(IConfiguration  configuration,
+                              ILoggerFactory? loggerFactory)
     : base(configuration,
            loggerFactory)
   {
@@ -68,9 +68,9 @@ public class SubtaskingTreeClient : ClientBaseTest<SubtaskingTreeClient>
   /// <param name="taskId">The task which is waiting for</param>
   /// <param name="cancellationToken"></param>
   /// <returns></returns>
-  private static byte[] WaitForTaskResult(SessionService    sessionService,
-                                          string            taskId,
-                                          CancellationToken cancellationToken = default)
+  private static byte[]? WaitForTaskResult(SessionService    sessionService,
+                                           string            taskId,
+                                           CancellationToken cancellationToken = default)
   {
     var taskResult = sessionService.GetResult(taskId,
                                               cancellationToken);

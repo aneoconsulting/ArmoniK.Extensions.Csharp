@@ -34,12 +34,12 @@ namespace ArmoniK.DevelopmentKit.Worker.Common.Adapter;
 
 public class S3Adapter : IFileAdapter
 {
-  public S3Adapter(string endPointRegion,
-                   string bucketName,
-                   string awsAccessKeyId,
-                   string awsSecretAccessKey,
-                   string remoteS3Path,
-                   string localZipDir = "/tmp/packages/zip")
+  public S3Adapter(string  endPointRegion,
+                   string  bucketName,
+                   string? awsAccessKeyId,
+                   string? awsSecretAccessKey,
+                   string  remoteS3Path,
+                   string  localZipDir = "/tmp/packages/zip")
   {
     var config = new AmazonS3Config
                  {
@@ -64,15 +64,11 @@ public class S3Adapter : IFileAdapter
     }
   }
 
-  private AmazonS3Config ConfigAmazonS3 { get; set; }
-
   private string LocalZipDir { get; }
 
   private string RemoteS3Path { get; }
 
   private string BucketName { get; }
-
-  private string AwsSessionToken { get; set; }
 
   private AmazonS3Client Client { get; }
 

@@ -44,18 +44,18 @@ public class ClientPayload
     AggregationNTask,
   }
 
-  public bool      IsRootTask { get; set; }
-  public TaskType  Type       { get; set; }
-  public List<int> Numbers    { get; set; }
-  public int       Result     { get; set; }
-  public byte[]    Payload    { get; set; }
+  public bool       IsRootTask { get; set; }
+  public TaskType   Type       { get; set; }
+  public List<int>? Numbers    { get; set; }
+  public int        Result     { get; set; }
+  public byte[]?    Payload    { get; set; }
 
   //public string SubTaskId { get; set; }
   public int Sleep       { get; set; }
   public int SingleInput { get; set; }
 
-  public string Message    { get; set; }
-  public int    NbSubTasks { get; set; }
+  public string? Message    { get; set; }
+  public int     NbSubTasks { get; set; }
 
   public byte[] Serialize()
   {
@@ -63,7 +63,7 @@ public class ClientPayload
     return Encoding.ASCII.GetBytes(StringToBase64(jsonString));
   }
 
-  public static ClientPayload Deserialize(byte[] payload)
+  public static ClientPayload Deserialize(byte[]? payload)
   {
     if (payload == null || payload.Length == 0)
     {
@@ -76,7 +76,7 @@ public class ClientPayload
     }
 
     var str = Encoding.ASCII.GetString(payload);
-    return JsonSerializer.Deserialize<ClientPayload>(Base64ToString(str));
+    return JsonSerializer.Deserialize<ClientPayload>(Base64ToString(str)) ?? throw new Exception("Cannot deserialize payload. Fail to parse json");
   }
 
   private static string StringToBase64(string serializedJson)

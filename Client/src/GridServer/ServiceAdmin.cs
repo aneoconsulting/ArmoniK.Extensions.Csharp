@@ -40,9 +40,9 @@ public class ServiceAdmin : IDisposable
 {
   private static ServiceAdmin serviceAdmin_;
 
-  public ServiceAdmin(IConfiguration configuration,
-                      ILoggerFactory loggerFactory,
-                      Properties     properties)
+  public ServiceAdmin(IConfiguration  configuration,
+                      ILoggerFactory? loggerFactory,
+                      Properties      properties)
   {
     ClientService = new ArmonikDataSynapseClientService(properties,
                                                         loggerFactory);
@@ -96,9 +96,9 @@ public class ServiceAdmin : IDisposable
   public void ResourceExists(string name)
     => throw new NotImplementedException();
 
-  public static ServiceAdmin CreateInstance(IConfiguration configuration,
-                                            ILoggerFactory loggerFactory,
-                                            Properties     properties)
+  public static ServiceAdmin CreateInstance(IConfiguration  configuration,
+                                            ILoggerFactory? loggerFactory,
+                                            Properties      properties)
   {
     serviceAdmin_ ??= new ServiceAdmin(configuration,
                                        loggerFactory,

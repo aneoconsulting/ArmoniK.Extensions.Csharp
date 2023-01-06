@@ -43,10 +43,10 @@ namespace ArmoniK.EndToEndTests.Client.Tests.CheckUnifiedApi;
 
 public class SimpleUnifiedApiAdminTestClient : ClientBaseTest<SimpleUnifiedApiTestClient>, IServiceInvocationHandler
 {
-  private ILoggerFactory loggerFactory_;
+  private ILoggerFactory? loggerFactory_;
 
-  public SimpleUnifiedApiAdminTestClient(IConfiguration configuration,
-                                         ILoggerFactory loggerFactory)
+  public SimpleUnifiedApiAdminTestClient(IConfiguration  configuration,
+                                         ILoggerFactory? loggerFactory)
     : base(configuration,
            loggerFactory)
     => loggerFactory_ = loggerFactory;
@@ -56,8 +56,8 @@ public class SimpleUnifiedApiAdminTestClient : ClientBaseTest<SimpleUnifiedApiTe
   /// </summary>
   /// <param name="e">The exception sent to the client from the control plane</param>
   /// <param name="taskId">The task identifier which has invoke the error callBack</param>
-  public void HandleError(ServiceInvocationException e,
-                          string                     taskId)
+  public void HandleError(ServiceInvocationException? e,
+                          string                      taskId)
   {
     if (e.StatusCode == ArmonikStatusCode.TaskCancelled)
     {
@@ -124,7 +124,7 @@ public class SimpleUnifiedApiAdminTestClient : ClientBaseTest<SimpleUnifiedApiTe
                             csa);
   }
 
-  private static void OverrideTaskOptions(TaskOptions taskOptions)
+  private static void OverrideTaskOptions(TaskOptions? taskOptions)
   {
     taskOptions.EngineType         = EngineType.Unified.ToString();
     taskOptions.ApplicationService = "CheckUnifiedApiWorker";
@@ -139,8 +139,8 @@ public class SimpleUnifiedApiAdminTestClient : ClientBaseTest<SimpleUnifiedApiTe
   /// </summary>
   /// <param name="sessionService"></param>
   /// <param name="serviceAdmin"></param>
-  private void RunningAndCancelSession(Service      sessionService,
-                                       ServiceAdmin serviceAdmin)
+  private void RunningAndCancelSession(Service       sessionService,
+                                       ServiceAdmin? serviceAdmin)
   {
     var numbers = new List<double>
                   {

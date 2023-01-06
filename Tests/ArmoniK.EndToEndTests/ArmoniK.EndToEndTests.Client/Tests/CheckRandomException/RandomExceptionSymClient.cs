@@ -41,8 +41,8 @@ namespace ArmoniK.EndToEndTests.Client.Tests.CheckRandomException;
 [UsedImplicitly]
 public class CheckRandomExceptionSymClient : ClientBaseTest<CheckRandomExceptionSymClient>
 {
-  public CheckRandomExceptionSymClient(IConfiguration configuration,
-                                       ILoggerFactory loggerFactory)
+  public CheckRandomExceptionSymClient(IConfiguration  configuration,
+                                       ILoggerFactory? loggerFactory)
     : base(configuration,
            loggerFactory)
   {
@@ -75,13 +75,13 @@ public class CheckRandomExceptionSymClient : ClientBaseTest<CheckRandomException
   /// <param name="sessionService">The sessionService API to connect to the Control plane Service</param>
   /// <param name="taskIds">The tasks which are waiting for</param>
   /// <returns></returns>
-  private IEnumerable<Tuple<string, byte[]>> WaitForTasksResult(int                 numSession,
-                                                                SessionService      sessionService,
-                                                                IEnumerable<string> taskIds)
+  private IEnumerable<Tuple<string, byte[]?>> WaitForTasksResult(int                 numSession,
+                                                                 SessionService      sessionService,
+                                                                 IEnumerable<string> taskIds)
   {
     var ids     = taskIds.ToList();
     var missing = ids;
-    var results = new List<Tuple<string, byte[]>>();
+    var results = new List<Tuple<string, byte[]?>>();
 
     try
     {
@@ -162,7 +162,7 @@ public class CheckRandomExceptionSymClient : ClientBaseTest<CheckRandomException
     Log.LogInformation($"Session {numSession} has finished output result : {result}");
 
     var resultInError = taskResults.Where(x => x.Item2 == null);
-    var inError       = resultInError as Tuple<string, byte[]>[] ?? resultInError.ToArray();
+    var inError       = resultInError as Tuple<string, byte[]?>[] ?? resultInError.ToArray();
     if (inError.Any())
     {
       Log.LogWarning($"Session {numSession}  : The following tasks list is in error \n{string.Join("\n ", inError.Select(x => x.Item1))}");

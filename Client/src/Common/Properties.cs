@@ -66,14 +66,14 @@ public class Properties
   /// <param name="clientKeyPem">The client key file in a pem format</param>
   /// <param name="caCertPem">The Server certificate file to validate mTLS</param>
   /// <param name="sslValidation">Disable the ssl strong validation of ssl certificate (default : enable => true)</param>
-  public Properties(TaskOptions options,
-                    string      connectionAddress,
-                    int         connectionPort = 0,
-                    string      protocol       = null,
-                    string      clientCertPem  = null,
-                    string      clientKeyPem   = null,
-                    string      caCertPem      = null,
-                    bool        sslValidation  = true)
+  public Properties(TaskOptions? options,
+                    string?      connectionAddress,
+                    int          connectionPort = 0,
+                    string?      protocol       = null,
+                    string?      clientCertPem  = null,
+                    string?      clientKeyPem   = null,
+                    string?      caCertPem      = null,
+                    bool         sslValidation  = true)
     : this(new ConfigurationBuilder().AddEnvironmentVariables()
                                      .Build(),
            options,
@@ -101,13 +101,13 @@ public class Properties
   /// <param name="sslValidation">Disable the ssl strong validation of ssl certificate (default : enable => true)</param>
   /// <exception cref="ArgumentException"></exception>
   public Properties(IConfiguration configuration,
-                    TaskOptions    options,
-                    string         connectionAddress = null,
+                    TaskOptions?   options,
+                    string?        connectionAddress = null,
                     int            connectionPort    = 0,
-                    string         protocol          = null,
-                    string         clientCertFilePem = null,
-                    string         clientKeyFilePem  = null,
-                    string         caCertPem         = null,
+                    string?        protocol          = null,
+                    string?        clientCertFilePem = null,
+                    string?        clientKeyFilePem  = null,
+                    string?        caCertPem         = null,
                     bool           sslValidation     = true)
   {
     TaskOptions   = options;
@@ -194,12 +194,12 @@ public class Properties
     }
 
     //Check if Uri is correct
-    if (Protocol == "err://" || ConnectionAddress == "NoEndPoint" || ConnectionPort == 0)
+    if (Protocol == "err://" || ConnectionAddress is null or "NoEndPoint" || ConnectionPort == 0)
     {
       throw new ArgumentException($"Issue with the connection point : {ConnectionString}");
     }
 
-    ControlPlaneUri = new Uri(ConnectionString);
+    ControlPlaneUri = new Uri(ConnectionString!);
   }
 
   /// <summary>
@@ -248,17 +248,17 @@ public class Properties
   /// <summary>
   ///   The path to the CA Root file name
   /// </summary>
-  public string CaCertFilePem { get; set; }
+  public string? CaCertFilePem { get; set; }
 
   /// <summary>
   ///   The property to get the path of the certificate file
   /// </summary>
-  public string ClientCertFilePem { get; }
+  public string? ClientCertFilePem { get; }
 
   /// <summary>
   ///   the property to get the path of the key certificate
   /// </summary>
-  public string ClientKeyFilePem { get; }
+  public string? ClientKeyFilePem { get; }
 
   /// <summary>
   ///   The SSL validation property to disable SSL strong verification
@@ -273,7 +273,7 @@ public class Properties
   /// <summary>
   ///   The connection string building the value Port Protocol and address
   /// </summary>
-  public string ConnectionString
+  public string? ConnectionString
   {
     get => $"{Protocol}://{ConnectionAddress}:{ConnectionPort}";
     set
@@ -303,7 +303,7 @@ public class Properties
   /// <summary>
   ///   Secure or insecure protocol communication https or http (Default http)
   /// </summary>
-  public string Protocol { get; set; } = "http";
+  public string? Protocol { get; set; } = "http";
 
   /// <summary>
   ///   The connection address property to connect to the control plane
@@ -318,5 +318,5 @@ public class Properties
   /// <summary>
   ///   The TaskOptions to pass to the session or the submission session
   /// </summary>
-  public TaskOptions TaskOptions { get; set; }
+  public TaskOptions? TaskOptions { get; set; }
 }

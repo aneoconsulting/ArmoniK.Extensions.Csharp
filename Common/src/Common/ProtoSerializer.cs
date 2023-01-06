@@ -60,7 +60,7 @@ public class ProtoSerializer
                                                                 typeof(short[]),
                                                                 typeof(byte[]),
                                                                 typeof(string[]),
-                                                                typeof(Nullable),
+                                                                typeof(NullObject),
                                                                 typeof(ProtoArray),
                                                                 typeof(IEnumerable),
                                                                 typeof(IDictionary),
@@ -75,7 +75,7 @@ public class ProtoSerializer
                                                                .ToDictionary(x => x.idx,
                                                                              x => x.t);
 
-  public byte[] SerializeMessageObjectArray(object[] values)
+  public byte[] SerializeMessageObjectArray(object?[] values)
   {
     using var ms = new MemoryStream();
     foreach (var obj in values)
@@ -88,7 +88,7 @@ public class ProtoSerializer
     return data;
   }
 
-  public static byte[] SerializeMessageObject(object value)
+  public static byte[] SerializeMessageObject(object? value)
   {
     using var ms = new MemoryStream();
 
@@ -100,9 +100,14 @@ public class ProtoSerializer
     return data;
   }
 
-  public static object[] DeSerializeMessageObjectArray(byte[] data)
+  public static object?[]? DeSerializeMessageObjectArray(byte[]? data)
   {
-    var result = new List<object>();
+    var result = new List<object?>();
+
+    if (data == null)
+    {
+      return null;
+    }
 
     using var ms = new MemoryStream(data);
     while (ReadNext(ms,
@@ -116,12 +121,18 @@ public class ProtoSerializer
              : result.ToArray();
   }
 
-  public static object DeSerializeMessageObject(byte[] data)
+  public static object? DeSerializeMessageObject(byte[]? data)
   {
+    if (data == null)
+    {
+      return null;
+    }
+
     using var ms = new MemoryStream(data);
 
     ReadNext(ms,
              out var obj);
+
     return obj;
   }
 
@@ -131,10 +142,10 @@ public class ProtoSerializer
     typeLookup[max + 1] = classType;
   }
 
-  private static void WriteNext(Stream stream,
-                                object obj)
+  private static void WriteNext(Stream  stream,
+                                object? obj)
   {
-    obj ??= new Nullable();
+    obj ??= new NullObject();
 
     var type = obj.GetType();
 
@@ -160,9 +171,9 @@ public class ProtoSerializer
     }
   }
 
-  private static void SerializeSingle(Stream stream,
-                                      object obj,
-                                      Type   type)
+  private static void SerializeSingle(Stream  stream,
+                                      object? obj,
+                                      Type    type)
   {
     var field = typeLookup.Single(pair => pair.Value == type)
                           .Key;
@@ -173,8 +184,8 @@ public class ProtoSerializer
                                                     field);
   }
 
-  private static bool ReadNext(Stream     stream,
-                               out object obj)
+  private static bool ReadNext(Stream      stream,
+                               out object? obj)
   {
     if (!Serializer.NonGeneric.TryDeserializeWithLengthPrefix(stream,
                                                               PrefixStyle.Base128,
@@ -187,14 +198,14 @@ public class ProtoSerializer
       return false;
     }
 
-    if (obj is Nullable)
+    if (obj is NullObject)
     {
       obj = null;
     }
 
     if (obj is ProtoArray)
     {
-      var finalObj = new List<object>();
+      var finalObj = new List<object?>();
       var arrInfo  = (ProtoArray)obj;
       if (arrInfo.NbElement < 0)
       {
@@ -218,15 +229,15 @@ public class ProtoSerializer
     return true;
   }
 
-  public static T Deserialize<T>(byte[] dataPayloadInBytes)
+  public static T? Deserialize<T>(byte[]? dataPayloadInBytes)
   {
     var obj = DeSerializeMessageObject(dataPayloadInBytes);
 
-    return (T)obj;
+    return (T?)obj;
   }
 
   [ProtoContract]
-  public class Nullable
+  public class NullObject
   {
   }
 
@@ -241,6 +252,6 @@ public class ProtoSerializer
   public class ProtoNative<T>
   {
     [ProtoMember(1)]
-    public T Element;
+    public T? Element;
   }
 }

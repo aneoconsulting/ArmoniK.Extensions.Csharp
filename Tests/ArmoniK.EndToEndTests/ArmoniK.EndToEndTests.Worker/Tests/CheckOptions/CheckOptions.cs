@@ -42,7 +42,7 @@ public class ServiceContainer : ServiceContainerBase
   public override byte[] OnInvoke(SessionContext sessionContext,
                                   TaskContext    taskContext)
   {
-    _ = ClientPayload.Deserialize(taskContext.TaskInput);
+    _ = ClientPayload.Deserialize(taskContext.Payload);
     ConfigureSession(SessionId,
                      taskContext.TaskOptions);
 

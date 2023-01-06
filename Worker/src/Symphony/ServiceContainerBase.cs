@@ -54,7 +54,7 @@ public abstract class ServiceContainerBase
   ///   Get or Set SubSessionId object stored during the call of SubmitTask, SubmitSubTask,
   ///   SubmitSubTaskWithDependencies or WaitForCompletion, WaitForSubTaskCompletion or GetResults
   /// </summary>
-  public Session SessionId { get; set; }
+  public Session? SessionId { get; set; }
 
   /// <summary>
   ///   Property to retrieve the sessionService previously created
@@ -64,8 +64,8 @@ public abstract class ServiceContainerBase
   /// <summary>
   ///   Map between ids of task and their results id after task submission
   /// </summary>
-  public Dictionary<string, string> TaskId2OutputId
-    => SessionService.TaskId2OutputId;
+  public Dictionary<string, string>? TaskId2OutputId
+    => SessionService?.TaskId2OutputId;
 
   //internal ITaskHandler TaskHandler { get; set; }
 
@@ -77,23 +77,23 @@ public abstract class ServiceContainerBase
   /// <summary>
   ///   Get or set the taskId (ONLY INTERNAL USED)
   /// </summary>
-  public TaskId TaskId { get; set; }
+  public TaskId? TaskId { get; set; }
 
   /// <summary>
   ///   Get or Set Configuration
   /// </summary>
-  public IConfiguration Configuration { get; set; }
+  public IConfiguration? Configuration { get; set; }
 
   /// <summary>
   ///   The logger factory to create new Logger in sub class caller
   /// </summary>
-  public ILoggerFactory LoggerFactory { get; set; }
+  public ILoggerFactory? LoggerFactory { get; set; }
 
   /// <summary>
   ///   ginScope
   ///   Get access to Logger with Logger.Lo.
   /// </summary>
-  public ILogger<ServiceContainerBase> Logger { get; set; }
+  public ILogger<ServiceContainerBase>? Logger { get; set; }
 
   /// <summary>
   ///   The middleware triggers the invocation of this handler just after a Service Instance is started.
@@ -243,8 +243,8 @@ public abstract class ServiceContainerBase
   /// </summary>
   /// <param name="configuration">The appSettings.json configuration prepared during the deployment</param>
   /// <param name="clientOptions">All data coming from Client within TaskOptions </param>
-  public void Configure(IConfiguration configuration,
-                        TaskOptions    clientOptions)
+  public void Configure(IConfiguration? configuration,
+                        TaskOptions?    clientOptions)
   {
     Configuration = configuration;
 

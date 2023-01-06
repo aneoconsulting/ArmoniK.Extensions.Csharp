@@ -10,7 +10,7 @@ namespace ArmoniK.DevelopmentKit.Worker.Common;
 
 public class WorkerHelpers
 {
-  public static IConfiguration GetDefaultConfiguration()
+  public static IConfiguration? GetDefaultConfiguration()
   {
     var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory())
                                             .AddJsonFile("appsettings.json",
@@ -21,7 +21,7 @@ public class WorkerHelpers
     return builder.Build();
   }
 
-  public static ILoggerFactory GetDefaultLoggerFactory(IConfiguration configuration = null)
+  public static ILoggerFactory GetDefaultLoggerFactory(IConfiguration? configuration = null)
   {
     configuration ??= GetDefaultConfiguration();
 

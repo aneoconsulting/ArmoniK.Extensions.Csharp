@@ -40,21 +40,21 @@ namespace ArmoniK.EndToEndTests.Common;
 [PublicAPI]
 public abstract class ClientBaseTest<T>
 {
-  public ClientBaseTest(IConfiguration configuration,
-                        ILoggerFactory loggerFactory)
+  public ClientBaseTest(IConfiguration  configuration,
+                        ILoggerFactory? loggerFactory)
   {
     Configuration = configuration;
 
     LoggerFactory = loggerFactory;
 
-    Log = LoggerFactory.CreateLogger<T>();
+    Log = LoggerFactory?.CreateLogger<T>();
   }
 
   protected IConfiguration Configuration { get; set; }
 
-  protected static ILogger<T> Log { get; set; }
+  protected static ILogger<T>? Log { get; set; }
 
-  protected ILoggerFactory LoggerFactory { get; set; }
+  protected ILoggerFactory? LoggerFactory { get; set; }
 
   protected virtual TaskOptions InitializeTaskOptions()
     => new()
@@ -71,7 +71,7 @@ public abstract class ClientBaseTest<T>
                                                                                    .Location)
                                                            .ProductVersion,
                                             @"\+.*", // Remove Hash build From Version
-                                            "") ?? "1.0.0-700",
+                                            ""),
          ApplicationNamespace = typeof(T).Namespace.Replace("Client",
                                                             "Worker"),
          ApplicationService = (typeof(T).Name + "Worker").Replace("Client",

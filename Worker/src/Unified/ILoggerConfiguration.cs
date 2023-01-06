@@ -28,5 +28,5 @@ namespace ArmoniK.DevelopmentKit.Worker.Unified;
 
 internal interface ILoggerConfiguration
 {
-  void ConfigureLogger(IConfiguration configuration);
+  void ConfigureLogger(IConfiguration? configuration);
 }

@@ -51,10 +51,10 @@ public class ServiceInvocationException : Exception
   ///   The default constructor
   /// </summary>
   /// <param name="e">The previous exception</param>
-  public ServiceInvocationException(Exception e)
-    : base(e.Message,
+  public ServiceInvocationException(Exception? e)
+    : base(e?.Message ?? "Unknown InnerException",
            e)
-    => message_ = $"{message_} with InnerException {e.GetType()} message : {e.Message}";
+    => message_ = $"{message_} with InnerException {e?.GetType()} message : {e?.Message}";
 
   /// <summary>
   ///   The overriden constructor to accept inner Exception as parameters

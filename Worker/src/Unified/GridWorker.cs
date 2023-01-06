@@ -32,6 +32,8 @@ using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.Common.Exceptions;
 using ArmoniK.DevelopmentKit.Worker.Common;
 
+using JetBrains.Annotations;
+
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
@@ -42,6 +44,7 @@ using Microsoft.Extensions.Logging;
 namespace ArmoniK.DevelopmentKit.Worker.Unified;
 
 [XmlDocIgnore]
+[PublicAPI]
 public class GridWorker : IGridWorker
 {
   private ServiceContext serviceContext_;
@@ -62,9 +65,9 @@ public class GridWorker : IGridWorker
 
   public object ServiceClass { get; set; }
 
-  public string GridServiceName { get; set; }
+  public string? GridServiceName { get; set; }
 
-  public string GridAppNamespace { get; set; }
+  public string? GridAppNamespace { get; set; }
 
   public string GridAppVersion { get; set; }
 
@@ -72,11 +75,11 @@ public class GridWorker : IGridWorker
 
   public TaskOptions TaskOptions { get; set; }
 
-  public IConfiguration Configurations { get; set; }
+  public IConfiguration? Configurations { get; set; }
 
-  public void Configure(IConfiguration configuration,
-                        TaskOptions    clientOptions,
-                        IAppsLoader    appsLoader)
+  public void Configure(IConfiguration? configuration,
+                        TaskOptions     clientOptions,
+                        IAppsLoader     appsLoader)
   {
     Configurations = configuration;
     TaskOptions    = clientOptions.Clone();
@@ -114,7 +117,7 @@ public class GridWorker : IGridWorker
   {
     if (session == null)
     {
-      throw new ArgumentNullException("Session is null in the Execute function");
+      throw new ArgumentNullException(nameof(session));
     }
 
     Logger.BeginPropertyScope(("sessionId", session));
@@ -137,7 +140,7 @@ public class GridWorker : IGridWorker
 
 
     var arguments = armonikPayload.SerializedArguments
-                      ? new object[]
+                      ? new object?[]
                         {
                           armonikPayload.ClientPayload,
                         }

@@ -34,8 +34,6 @@ using ArmoniK.DevelopmentKit.Common;
 
 using Google.Protobuf.WellKnownTypes;
 
-using JetBrains.Annotations;
-
 using Microsoft.Extensions.Logging;
 
 namespace ArmoniK.DevelopmentKit.Client.Unified.Services;
@@ -51,10 +49,10 @@ public class SessionService : BaseClientSubmitter<SessionService>
   ///   Ctor to instantiate a new SessionService
   ///   This is an object to send task or get Results from a session
   /// </summary>
-  public SessionService(ChannelPool                channelPool,
-                        [CanBeNull] ILoggerFactory loggerFactory = null,
-                        [CanBeNull] TaskOptions    taskOptions   = null,
-                        [CanBeNull] Session        session       = null)
+  public SessionService(ChannelPool     channelPool,
+                        ILoggerFactory? loggerFactory = null,
+                        TaskOptions?    taskOptions   = null,
+                        Session?        session       = null)
     : base(channelPool,
            loggerFactory)
   {
@@ -64,7 +62,7 @@ public class SessionService : BaseClientSubmitter<SessionService>
 
     SessionId = session ?? CreateSession(new List<string>
                                          {
-                                           taskOptions.PartitionId,
+                                           TaskOptions.PartitionId,
                                          });
 
     Logger?.LogDebug($"Session Created {SessionId}");
@@ -76,7 +74,7 @@ public class SessionService : BaseClientSubmitter<SessionService>
   {
     if (SessionId?.Id != null)
     {
-      return SessionId?.Id;
+      return SessionId.Id;
     }
 
     return "Session_Not_ready";
@@ -147,9 +145,9 @@ public class SessionService : BaseClientSubmitter<SessionService>
   /// <param name="payloads">
   ///   The user payload list to execute. General used for subTasking.
   /// </param>
-  public IEnumerable<string> SubmitTasks(IEnumerable<byte[]> payloads)
-    => SubmitTasksWithDependencies(payloads.Select(payload => new Tuple<byte[], IList<string>>(payload,
-                                                                                               null)));
+  public IEnumerable<string> SubmitTasks(IEnumerable<byte[]?> payloads)
+    => SubmitTasksWithDependencies(payloads.Select(payload => new Tuple<byte[]?, IList<string>?>(payload,
+                                                                                                 null)));
 
   /// <summary>
   ///   User method to submit task from the client
@@ -177,8 +175,8 @@ public class SessionService : BaseClientSubmitter<SessionService>
   /// <param name="payload">The payload to submit</param>
   /// <param name="dependencies">A list of task Id in dependence of this created task</param>
   /// <returns>return the taskId of the created task </returns>
-  public string SubmitTaskWithDependencies(byte[]        payload,
-                                           IList<string> dependencies)
+  public string SubmitTaskWithDependencies(byte[]?        payload,
+                                           IList<string>? dependencies)
     => SubmitTasksWithDependencies(new[]
                                    {
                                      Tuple.Create(payload,

@@ -40,6 +40,7 @@
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
     <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
     <Version>1.0.0-local</Version>
     <PackageId>$(MSBuildProjectName)</PackageId>
     <PackageTags>armonik.extensions.csharp</PackageTags>

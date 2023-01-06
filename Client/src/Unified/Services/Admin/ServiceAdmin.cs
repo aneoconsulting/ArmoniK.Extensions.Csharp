@@ -39,8 +39,8 @@ public class ServiceAdmin : AbstractClientService
   /// </summary>
   /// <param name="properties">the properties setting to connection to the control plane</param>
   /// <param name="loggerFactory"></param>
-  public ServiceAdmin(Properties     properties,
-                      ILoggerFactory loggerFactory)
+  public ServiceAdmin(Properties      properties,
+                      ILoggerFactory? loggerFactory)
     : base(properties,
            loggerFactory)
   {

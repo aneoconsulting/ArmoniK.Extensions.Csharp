@@ -56,5 +56,5 @@ public class TaskContext
     set => Payload = value;
   }
 
-  public IReadOnlyDictionary<string, byte[]> DataDependencies { get; set; }
+  public IReadOnlyDictionary<string, byte[]?> DataDependencies { get; set; }
 }

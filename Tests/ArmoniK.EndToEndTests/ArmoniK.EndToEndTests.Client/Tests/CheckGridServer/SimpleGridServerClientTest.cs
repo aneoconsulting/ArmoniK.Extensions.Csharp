@@ -17,7 +17,7 @@ public class SimpleGridServerClientTest
                                                  .Select(i => (double)i)
                                                  .ToArray();
 
-  private UnifiedTestHelper unifiedTestHelper_;
+  private UnifiedTestHelper? unifiedTestHelper_;
 
   [SetUp]
   public void Setup()

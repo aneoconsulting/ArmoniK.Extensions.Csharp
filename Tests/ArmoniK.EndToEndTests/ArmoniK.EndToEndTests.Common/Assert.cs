@@ -28,9 +28,9 @@ public static class Assert
   public static void AreEqual<T>(T expected,
                                  T value)
   {
-    if (!expected.Equals(value))
+    if (expected != null && !expected.Equals(value))
     {
-      throw new ArgumentException($"Excpected {expected}\nBut was: {value}");
+      throw new ArgumentException($"Expected {expected}\nBut was: {value}");
     }
   }
 }

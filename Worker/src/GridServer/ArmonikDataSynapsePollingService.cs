@@ -46,8 +46,8 @@ namespace ArmoniK.DevelopmentKit.Worker.GridServer;
 [MarkDownDoc]
 public class ArmonikDataSynapsePollingService
 {
-  private readonly  IConfigurationSection                     controlPlanAddress_;
-  internal readonly ILogger<ArmonikDataSynapsePollingService> Logger;
+  private readonly  IConfigurationSection                      controlPlanAddress_;
+  internal readonly ILogger<ArmonikDataSynapsePollingService>? Logger;
 
   /// <summary>
   ///   The ctor with IConfiguration and optional TaskOptions
@@ -55,13 +55,15 @@ public class ArmonikDataSynapsePollingService
   /// <param name="configuration">IConfiguration to set Client Data information and Grpc EndPoint</param>
   /// <param name="loggerFactory">The factory to create the logger for clientService</param>
   /// <param name="taskOptions">TaskOptions for any Session</param>
-  public ArmonikDataSynapsePollingService(IConfiguration configuration,
-                                          ILoggerFactory loggerFactory,
-                                          TaskOptions    taskOptions = null)
+  public ArmonikDataSynapsePollingService(IConfiguration  configuration,
+                                          ILoggerFactory? loggerFactory,
+                                          TaskOptions?    taskOptions = null)
   {
     controlPlanAddress_ = configuration.GetSection(SectionControlPlan);
 
-    Logger = loggerFactory.CreateLogger<ArmonikDataSynapsePollingService>();
+    Logger = loggerFactory?.CreateLogger<ArmonikDataSynapsePollingService>();
+
+    TaskOptions = taskOptions;
   }
 
   /// <summary>
@@ -72,7 +74,7 @@ public class ArmonikDataSynapsePollingService
   /// <summary>
   ///   Set or Get TaskOptions with inside MaxDuration, Priority, AppName, VersionName and AppNamespace
   /// </summary>
-  public TaskOptions TaskOptions { get; set; }
+  public TaskOptions? TaskOptions { get; set; }
 
   /// <summary>
   ///   Only used for internal DO NOT USED IT

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -43,12 +43,12 @@ public class TimerTrigger : IDisposable
   /// <summary>
   ///   Task cancellation token source to cancel delayed task on disposal
   /// </summary>
-  private CancellationTokenSource CancellationToken { get; set; }
+  private CancellationTokenSource? CancellationToken { get; set; }
 
   /// <summary>
   ///   Reference to the running task
   /// </summary>
-  private Task RunningTask { get; set; }
+  private Task? RunningTask { get; set; }
 
   /// <inheritdoc />
   public void Dispose()
@@ -63,7 +63,7 @@ public class TimerTrigger : IDisposable
   /// <summary>
   ///   Triggers once every 24 hours on the specified time
   /// </summary>
-  public event Action OnTimeTriggered;
+  public event Action? OnTimeTriggered;
 
   /// <summary>
   ///   Finalized to ensure Dispose is called when out of scope

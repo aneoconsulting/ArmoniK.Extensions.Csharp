@@ -13,9 +13,9 @@ namespace ArmoniK.EndToEndTests.Client.Tests.CheckSubtaskingTreeUnifiedApi;
 
 public class SubtaskingTreeUnifiedApiClientTest
 {
-  private const string            ApplicationNamespace = "ArmoniK.EndToEndTests.Worker.Tests.CheckSubtaskingTreeUnifiedApi";
-  private const string            ApplicationService   = "SubtaskingTreeUnifiedApiWorker";
-  private       UnifiedTestHelper unifiedTestHelper_;
+  private const string             ApplicationNamespace = "ArmoniK.EndToEndTests.Worker.Tests.CheckSubtaskingTreeUnifiedApi";
+  private const string             ApplicationService   = "SubtaskingTreeUnifiedApiWorker";
+  private       UnifiedTestHelper? unifiedTestHelper_;
 
   [SetUp]
   public void Setup()

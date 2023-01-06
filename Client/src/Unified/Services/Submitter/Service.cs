@@ -94,8 +94,8 @@ public class Service : AbstractClientService, ISubmitterService
   /// </summary>
   /// <param name="properties">The properties containing TaskOptions and information to communicate with Control plane and </param>
   /// <param name="loggerFactory"></param>
-  public Service(Properties                 properties,
-                 [CanBeNull] ILoggerFactory loggerFactory = null)
+  public Service(Properties                  properties,
+                 [CanBeNull] ILoggerFactory? loggerFactory = null)
     : base(properties,
            loggerFactory)
   {
@@ -142,7 +142,7 @@ public class Service : AbstractClientService, ISubmitterService
 
                                 Logger?.LogInformation("Submitting buffer of {count} task...",
                                                        blockRequestList.Count);
-                                var taskIds   = SessionService.SubmitTasks(blockRequestList.Select(x => x.Payload!.Serialize()));
+                                var taskIds   = SessionService.SubmitTasks(blockRequestList.Select(x => x.Payload?.Serialize()));
                                 var submitted = taskIds as string[] ?? taskIds.ToArray();
 
                                 foreach (var taskId in submitted)
@@ -156,7 +156,7 @@ public class Service : AbstractClientService, ISubmitterService
 
                                 blockRequestList.ForEach(x =>
                                                          {
-                                                           x.Lock?.Release();
+                                                           x.Semaphore?.Release();
                                                          });
                               });
   }
@@ -172,7 +172,7 @@ public class Service : AbstractClientService, ISubmitterService
   private SessionService SessionService { get; set; }
 
   [CanBeNull]
-  private ILogger Logger { get; }
+  private ILogger? Logger { get; }
 
   private ProtoSerializer ProtoSerializer { get; }
 
@@ -188,7 +188,7 @@ public class Service : AbstractClientService, ISubmitterService
   /// <summary>
   ///   The sessionId
   /// </summary>
-  public string SessionId
+  public string? SessionId
     => SessionService?.SessionId.Id;
 
   /// <summary>
@@ -199,9 +199,9 @@ public class Service : AbstractClientService, ISubmitterService
   /// <param name="arguments">A list of object that can be passed in parameters of the function</param>
   /// <param name="handler">The handler callBack implemented as IServiceInvocationHandler to get response or result or error</param>
   /// <returns>Return the taskId string</returns>
-  public string Submit(string                    methodName,
-                       object[]                  arguments,
-                       IServiceInvocationHandler handler)
+  public string Submit(string                     methodName,
+                       object?[]                  arguments,
+                       IServiceInvocationHandler? handler)
   {
     ArmonikPayload payload = new()
                              {
@@ -222,9 +222,9 @@ public class Service : AbstractClientService, ISubmitterService
   /// <param name="arguments">A list of parameters that can be passed in parameters of the each call of function</param>
   /// <param name="handler">The handler callBack implemented as IServiceInvocationHandler to get response or result or error</param>
   /// <returns>Return the list of created taskIds</returns>
-  public IEnumerable<string> Submit(string                    methodName,
-                                    IEnumerable<object[]>     arguments,
-                                    IServiceInvocationHandler handler)
+  public IEnumerable<string> Submit(string                     methodName,
+                                    IEnumerable<object?[]>     arguments,
+                                    IServiceInvocationHandler? handler)
   {
     var armonikPayloads = arguments.Select(args => new ArmonikPayload
                                                    {
@@ -252,9 +252,9 @@ public class Service : AbstractClientService, ISubmitterService
   /// <param name="argument">One serialized argument that will already serialize for MethodName.</param>
   /// <param name="handler">The handler callBack implemented as IServiceInvocationHandler to get response or result or error</param>
   /// <returns>Returns the taskId string</returns>
-  public string Submit(string                    methodName,
-                       byte[]                    argument,
-                       IServiceInvocationHandler handler)
+  public string Submit(string                     methodName,
+                       byte[]                     argument,
+                       IServiceInvocationHandler? handler)
   {
     ArmonikPayload payload = new()
                              {
@@ -277,9 +277,9 @@ public class Service : AbstractClientService, ISubmitterService
   /// <param name="arguments">List of serialized arguments that will already serialize for MethodName.</param>
   /// <param name="handler">The handler callBack implemented as IServiceInvocationHandler to get response or result or error</param>
   /// <returns>Return the taskId string</returns>
-  public IEnumerable<string> Submit(string                    methodName,
-                                    IEnumerable<byte[]>       arguments,
-                                    IServiceInvocationHandler handler)
+  public IEnumerable<string> Submit(string                     methodName,
+                                    IEnumerable<byte[]>        arguments,
+                                    IServiceInvocationHandler? handler)
   {
     var armonikPayloads = arguments.Select(args => new ArmonikPayload
                                                    {
@@ -309,7 +309,7 @@ public class Service : AbstractClientService, ISubmitterService
   /// <param name="token">The cancellation token</param>
   /// <returns>Returns the taskId string</returns>
   public async Task<string> SubmitAsync(string                    methodName,
-                                        object[]                  argument,
+                                        object?[]                 argument,
                                         IServiceInvocationHandler handler,
                                         CancellationToken         token = default)
   {
@@ -324,8 +324,8 @@ public class Service : AbstractClientService, ISubmitterService
                                      ClientPayload       = ProtoSerializer.SerializeMessageObjectArray(argument),
                                      SerializedArguments = false,
                                    },
-                         Handler = handler,
-                         Lock    = semaphoreSlim_,
+                         Handler   = handler,
+                         Semaphore = semaphoreSlim_,
                        };
 
     return await SubmitAsync(blockRequest,
@@ -356,8 +356,8 @@ public class Service : AbstractClientService, ISubmitterService
                                            ClientPayload       = argument,
                                            SerializedArguments = true,
                                          },
-                               Handler = handler,
-                               Lock    = semaphoreSlim_,
+                               Handler   = handler,
+                               Semaphore = semaphoreSlim_,
                              },
                              token)
              .ConfigureAwait(false);
@@ -414,8 +414,8 @@ public class Service : AbstractClientService, ISubmitterService
   /// <param name="methodName">The string name of the method</param>
   /// <param name="arguments">the array of object to pass as arguments for the method</param>
   /// <returns>Returns a tuple with the taskId string and an object as result of the method call</returns>
-  public ServiceResult Execute(string   methodName,
-                               object[] arguments)
+  public ServiceResult Execute(string    methodName,
+                               object?[] arguments)
   {
     ArmonikPayload dataSynapsePayload = new()
                                         {
@@ -453,8 +453,8 @@ public class Service : AbstractClientService, ISubmitterService
                                           SerializedArguments = true,
                                         };
 
-    var      taskId = "not-TaskId";
-    object[] result;
+    var        taskId = "not-TaskId";
+    object?[]? result;
 
     try
     {
@@ -495,7 +495,7 @@ public class Service : AbstractClientService, ISubmitterService
   }
 
   private void ProxyTryGetResults(IEnumerable<string>                taskIds,
-                                  Action<string, byte[]>             responseHandler,
+                                  Action<string, byte[]?>            responseHandler,
                                   Action<string, TaskStatus, string> errorHandler,
                                   int                                chunkResultSize = 500)
   {
@@ -641,7 +641,7 @@ public class Service : AbstractClientService, ISubmitterService
                                {
                                  const ArmonikStatusCode statusCode = ArmonikStatusCode.Unknown;
 
-                                 ServiceInvocationException ex;
+                                 ServiceInvocationException? ex;
 
                                  var ae = e as AggregateException;
 
@@ -754,11 +754,11 @@ public class Service : AbstractClientService, ISubmitterService
     /// <summary>
     ///   The getter to return the taskId
     /// </summary>
-    public string TaskId { get; set; }
+    public string TaskId { get; init; } = "NoInitTaskId";
 
     /// <summary>
     ///   The getter to return the result in object type format
     /// </summary>
-    public object Result { get; set; }
+    public object? Result { get; init; }
   }
 }

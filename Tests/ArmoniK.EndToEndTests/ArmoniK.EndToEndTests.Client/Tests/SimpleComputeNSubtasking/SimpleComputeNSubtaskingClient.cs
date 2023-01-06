@@ -33,8 +33,8 @@ namespace ArmoniK.EndToEndTests.Client.Tests.SimpleComputeNSubtasking;
 
 public class SimpleComputeNSubtaskingClient : ClientBaseTest<SimpleComputeNSubtaskingClient>
 {
-  public SimpleComputeNSubtaskingClient(IConfiguration configuration,
-                                        ILoggerFactory loggerFactory)
+  public SimpleComputeNSubtaskingClient(IConfiguration  configuration,
+                                        ILoggerFactory? loggerFactory)
     : base(configuration,
            loggerFactory)
   {

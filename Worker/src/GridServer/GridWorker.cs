@@ -58,36 +58,36 @@ public class GridWorker : IGridWorker
 
   public IConfiguration Configuration { get; set; }
 
-  public object ServiceClass { get; set; }
+  public object? ServiceClass { get; set; }
 
-  public string GridServiceName { get; set; }
+  public string? GridServiceName { get; set; }
 
-  public string GridAppNamespace { get; set; }
+  public string? GridAppNamespace { get; set; }
 
-  public string GridAppVersion { get; set; }
+  public string? GridAppVersion { get; set; }
 
-  public string GridAppName { get; set; }
+  public string? GridAppName { get; set; }
 
-  public TaskOptions TaskOptions { get; set; }
+  public TaskOptions? TaskOptions { get; set; }
 
-  public IConfiguration Configurations { get; set; }
+  public IConfiguration? Configurations { get; set; }
 
-  public ServiceAdminWorker ServiceAdminWorker { get; set; }
+  public ServiceAdminWorker? ServiceAdminWorker { get; set; }
 
-  public ServiceInvocationContext ServiceInvocationContext { get; set; }
+  public ServiceInvocationContext? ServiceInvocationContext { get; set; }
 
-  public void Configure(IConfiguration configuration,
-                        TaskOptions    clientOptions,
-                        IAppsLoader    appsLoader)
+  public void Configure(IConfiguration? configuration,
+                        TaskOptions?    clientOptions,
+                        IAppsLoader     appsLoader)
   {
     Configurations = configuration;
     TaskOptions    = clientOptions;
 
 
-    GridAppName      = clientOptions.ApplicationName;
-    GridAppVersion   = clientOptions.ApplicationVersion;
-    GridAppNamespace = clientOptions.ApplicationNamespace;
-    GridServiceName  = clientOptions.ApplicationService;
+    GridAppName      = clientOptions?.ApplicationName;
+    GridAppVersion   = clientOptions?.ApplicationVersion;
+    GridAppNamespace = clientOptions?.ApplicationNamespace;
+    GridServiceName  = clientOptions?.ApplicationService;
 
     ServiceClass = appsLoader.GetServiceContainerInstance<object>(GridAppNamespace,
                                                                   GridServiceName);
@@ -129,7 +129,7 @@ public class GridWorker : IGridWorker
 
     var dataSynapsePayload = ArmonikPayload.Deserialize(payload);
 
-    if (dataSynapsePayload.ArmonikRequestType != ArmonikRequestType.Execute)
+    if (dataSynapsePayload?.ArmonikRequestType != ArmonikRequestType.Execute)
     {
       return RequestTypeBalancer(dataSynapsePayload);
     }
@@ -142,20 +142,23 @@ public class GridWorker : IGridWorker
 
 
     var arguments = dataSynapsePayload.SerializedArguments
-                      ? new object[]
+                      ? new object?[]
                         {
                           dataSynapsePayload.ClientPayload,
                         }
                       : ProtoSerializer.DeSerializeMessageObjectArray(dataSynapsePayload.ClientPayload);
 
-    var methodInfo = ServiceClass.GetType()
-                                 .GetMethod(methodName,
-                                            arguments.Select(x => x.GetType())
-                                                     .ToArray());
+    var methodInfo = arguments != null
+                       ? ServiceClass.GetType()
+                                     .GetMethod(methodName,
+                                                arguments.Select(x => x!.GetType())
+                                                         .ToArray())
+                       : ServiceClass.GetType()
+                                     .GetMethod(methodName);
     if (methodInfo == null)
     {
       throw new
-        WorkerApiException($"Cannot found method [{methodName}({string.Join(", ", arguments.Select(x => x.GetType().Name))})] in Service class [{GridAppNamespace}.{GridServiceName}]");
+        WorkerApiException($"Cannot found method [{methodName}({string.Join(", ", arguments?.Select(x => x!.GetType().Name) ?? Array.Empty<string>())})] in Service class [{GridAppNamespace}.{GridServiceName}]");
     }
 
     try
@@ -222,16 +225,14 @@ public class GridWorker : IGridWorker
     ServiceAdminWorker?.Dispose();
   }
 
-  private byte[] RequestTypeBalancer(ArmonikPayload dataSynapsePayload)
+  private byte[] RequestTypeBalancer(ArmonikPayload? dataSynapsePayload)
   {
-    switch (dataSynapsePayload.ArmonikRequestType)
+    switch (dataSynapsePayload?.ArmonikRequestType)
     {
       case ArmonikRequestType.Upload:
-        return ServiceAdminWorker.UploadResources("TODO");
+        return ServiceAdminWorker?.UploadResources("TODO") ?? Array.Empty<byte>();
       default:
-        return new byte[]
-               {
-               };
+        return Array.Empty<byte>();
     }
   }
 }

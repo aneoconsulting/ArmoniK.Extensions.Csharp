@@ -125,7 +125,7 @@ public class CheckAllSubmissionsClientTest
 
     stopWatch.Start();
     symphonyTestHelper_.Log.LogInformation("Starting to retrieve the result : ");
-    IEnumerable<Tuple<string, byte[]>> results;
+    IEnumerable<Tuple<string, byte[]?>> results;
 
     if (getResultType == GetResultType.GetResult)
     {
@@ -136,7 +136,7 @@ public class CheckAllSubmissionsClientTest
       results = symphonyTestHelper_.WaitForTasksResult(taskIds.ToList());
     }
 
-    var tuples = results as Tuple<string, byte[]>[] ?? results.ToArray();
+    var tuples = results as Tuple<string, byte[]?>[] ?? results.ToArray();
     stopWatch.Stop();
     ts = stopWatch.Elapsed;
     // Format and display the TimeSpan value.

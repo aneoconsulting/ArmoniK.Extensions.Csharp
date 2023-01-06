@@ -50,10 +50,10 @@ public class SessionService : BaseClientSubmitter<SessionService>
   ///   Ctor to instantiate a new SessionService
   ///   This is an object to send task or get Results from a session
   /// </summary>
-  public SessionService(ChannelPool                channelPool,
-                        [CanBeNull] ILoggerFactory loggerFactory = null,
-                        [CanBeNull] TaskOptions    taskOptions   = null,
-                        [CanBeNull] Session        session       = null)
+  public SessionService(ChannelPool                 channelPool,
+                        [CanBeNull] ILoggerFactory? loggerFactory = null,
+                        [CanBeNull] TaskOptions?    taskOptions   = null,
+                        [CanBeNull] Session?        session       = null)
     : base(channelPool,
            loggerFactory)
   {
@@ -78,7 +78,7 @@ public class SessionService : BaseClientSubmitter<SessionService>
   ///   Default task options
   /// </summary>
   /// <returns></returns>
-  public static TaskOptions InitializeDefaultTaskOptions()
+  public static TaskOptions? InitializeDefaultTaskOptions()
     => new()
        {
          MaxDuration = new Duration
@@ -93,7 +93,7 @@ public class SessionService : BaseClientSubmitter<SessionService>
          ApplicationNamespace = "ArmoniK.Samples.Symphony.Packages",
        };
 
-  private Session CreateSession(IEnumerable<string> partitionIds)
+  private Session? CreateSession(IEnumerable<string> partitionIds)
   {
     using var _ = Logger?.LogFunction();
     var createSessionRequest = new CreateSessionRequest
@@ -116,7 +116,7 @@ public class SessionService : BaseClientSubmitter<SessionService>
   ///   Set connection to an already opened Session
   /// </summary>
   /// <param name="session">SessionId previously opened</param>
-  public void OpenSession(Session session)
+  public void OpenSession(Session? session)
   {
     if (SessionId == null)
     {

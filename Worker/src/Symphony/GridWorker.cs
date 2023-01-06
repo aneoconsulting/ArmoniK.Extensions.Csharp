@@ -50,30 +50,28 @@ public class GridWorker : IGridWorker
                           .CreateLogger<GridWorker>();
   }
 
-  public GridWorker(IConfiguration configuration,
-                    ILoggerFactory factory)
+  public GridWorker(IConfiguration  configuration,
+                    ILoggerFactory? factory)
   {
     Configuration = configuration;
 
-    Logger = factory.CreateLogger<GridWorker>();
+    Logger = factory?.CreateLogger<GridWorker>();
   }
 
-  private ILogger<GridWorker> Logger { get; }
+  private ILogger<GridWorker>? Logger { get; }
 
-  public TaskOptions TaskOptions { get; set; }
-
-  public string GridAppNamespace { get; set; }
+  public string? GridAppNamespace { get; set; }
 
   public string GridAppVersion { get; set; }
 
   public string GridAppName { get; set; }
 
-  public IConfiguration Configuration { get; set; }
+  public IConfiguration? Configuration { get; set; }
 
 
-  public Session SessionId { get; set; }
+  public Session? SessionId { get; set; }
 
-  public TaskId TaskId { get; set; }
+  public TaskId? TaskId { get; set; }
 
   public void Configure(IConfiguration configuration,
                         TaskOptions    clientOptions,
@@ -92,15 +90,15 @@ public class GridWorker : IGridWorker
                       };
 
 
-    Logger.LogInformation("Loading ServiceContainer from Application package :  " + $"\n\tappName   :   {GridAppName}" + $"\n\tversion   :   {GridAppVersion}" +
-                          $"\n\tnameSpace :   {GridAppNamespace}");
+    Logger?.LogInformation("Loading ServiceContainer from Application package :  " + $"\n\tappName   :   {GridAppName}" + $"\n\tversion   :   {GridAppVersion}" +
+                           $"\n\tnameSpace :   {GridAppNamespace}");
 
     serviceContainerBase_ = appsLoader.GetServiceContainerInstance<ServiceContainerBase>(GridAppNamespace,
                                                                                          "ServiceContainer");
 
     serviceContainerBase_.Configure(configuration,
                                     clientOptions);
-    Logger.LogDebug("Call OnCreateService");
+    Logger?.LogDebug("Call OnCreateService");
 
     OnCreateService();
   }
@@ -108,10 +106,10 @@ public class GridWorker : IGridWorker
   public void InitializeSessionWorker(Session     sessionId,
                                       TaskOptions requestTaskOptions)
   {
-    Logger.BeginPropertyScope(("SessionId", sessionId));
+    Logger?.BeginPropertyScope(("SessionId", sessionId));
 
 
-    serviceContainerBase_.Logger.BeginPropertyScope(("SessionId", sessionId));
+    serviceContainerBase_.Logger?.BeginPropertyScope(("SessionId", sessionId));
 
     if (SessionId == null || !sessionId.Equals(SessionId))
     {
@@ -140,24 +138,24 @@ public class GridWorker : IGridWorker
                Task = taskHandler.TaskId,
              };
 
-    Logger.BeginPropertyScope(("TaskId", TaskId));
+    Logger?.BeginPropertyScope(("TaskId", TaskId));
 
 
-    serviceContainerBase_.Logger.BeginPropertyScope(("TaskId", TaskId.Task));
+    serviceContainerBase_.Logger?.BeginPropertyScope(("TaskId", TaskId.Task));
 
-    var taskContext = new TaskContext
+    var taskContext = new TaskContext(TaskId.Task,
+                                      taskHandler.SessionId,
+                                      taskHandler.TaskOptions,
+                                      taskHandler.DataDependencies)
                       {
-                        TaskId              = TaskId.Task,
-                        TaskInput           = taskHandler.Payload,
+                        Payload             = taskHandler.Payload,
                         SessionId           = taskHandler.SessionId,
                         DependenciesTaskIds = taskHandler.DataDependencies.Select(t => t.Key),
-                        DataDependencies    = taskHandler.DataDependencies,
-                        TaskOptions         = taskHandler.TaskOptions,
                       };
 
     serviceContainerBase_.ConfigureSessionService(taskHandler);
     serviceContainerBase_.TaskId = TaskId;
-    Logger.LogInformation("Check Enrich with taskId");
+    Logger?.LogInformation("Check Enrich with taskId");
     var clientPayload = serviceContainerBase_.OnInvoke(sessionContext_,
                                                        taskContext);
 

@@ -35,8 +35,6 @@ using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.Common.Exceptions;
 using ArmoniK.DevelopmentKit.Common.Extensions;
 
-using JetBrains.Annotations;
-
 using Microsoft.Extensions.Logging;
 
 #pragma warning disable CS1591
@@ -57,9 +55,9 @@ public class Service : ISubmitterService, IDisposable
   /// <param name="serviceType">The service type (NOT YET USED)</param>
   /// <param name="properties">The properties containing TaskOptions and information to communicate with Control plane and </param>
   /// <param name="loggerFactory">The logger factory to instantiate Logger with the current class type</param>
-  public Service(string                     serviceType,
-                 Properties                 properties,
-                 [CanBeNull] ILoggerFactory loggerFactory = null)
+  public Service(string          serviceType,
+                 Properties      properties,
+                 ILoggerFactory? loggerFactory = null)
   {
     ClientService = new ArmonikDataSynapseClientService(properties,
                                                         loggerFactory);
@@ -77,14 +75,13 @@ public class Service : ISubmitterService, IDisposable
 
   private Dictionary<string, Task> TaskWarehouse { get; } = new();
 
-  private ArmonikDataSynapseClientService ClientService { get; set; }
+  private ArmonikDataSynapseClientService? ClientService { get; set; }
 
   private ProtoSerializer ProtoSerializer { get; }
 
-  [CanBeNull]
-  private ILogger Logger { get; }
+  private ILogger? Logger { get; }
 
-  public Task HandlerResponse { get; set; }
+  public Task? HandlerResponse { get; set; }
 
   /// <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
   public void Dispose()
@@ -98,19 +95,19 @@ public class Service : ISubmitterService, IDisposable
       // ignored
     }
 
-    SessionService = null;
+    SessionService = null!;
     ClientService  = null;
     HandlerResponse?.Dispose();
   }
 
-  public string SessionId
-    => SessionService?.SessionId.Id;
+  public string? SessionId
+    => SessionService?.SessionId?.Id;
 
 
   /// <inheritdoc />
-  public string Submit(string                    methodName,
-                       object[]                  arguments,
-                       IServiceInvocationHandler handler)
+  public string Submit(string                     methodName,
+                       object?[]                  arguments,
+                       IServiceInvocationHandler? handler)
   {
     ArmonikPayload dataSynapsePayload = new()
                                         {
@@ -124,9 +121,9 @@ public class Service : ISubmitterService, IDisposable
   }
 
   /// <inheritdoc />
-  public IEnumerable<string> Submit(string                    methodName,
-                                    IEnumerable<object[]>     arguments,
-                                    IServiceInvocationHandler handler)
+  public IEnumerable<string> Submit(string                     methodName,
+                                    IEnumerable<object?[]>     arguments,
+                                    IServiceInvocationHandler? handler)
   {
     var dataSynapsePayloads = arguments.Select(args => new ArmonikPayload
                                                        {
@@ -155,7 +152,6 @@ public class Service : ISubmitterService, IDisposable
   /// <param name="arguments">the array of object to pass as arguments for the method</param>
   /// <returns>Returns an object as result of the method call</returns>
   /// <exception cref="WorkerApiException"></exception>
-  [CanBeNull]
   public ServiceResult LocalExecute(object   service,
                                     string   methodName,
                                     object[] arguments)
@@ -186,8 +182,8 @@ public class Service : ISubmitterService, IDisposable
   /// <param name="methodName">The string name of the method</param>
   /// <param name="arguments">the array of object to pass as arguments for the method</param>
   /// <returns>Returns a tuple with the taskId string and an object as result of the method call</returns>
-  public ServiceResult Execute(string   methodName,
-                               object[] arguments)
+  public ServiceResult Execute(string    methodName,
+                               object?[] arguments)
   {
     ArmonikPayload dataSynapsePayload = new()
                                         {
@@ -195,6 +191,11 @@ public class Service : ISubmitterService, IDisposable
                                           MethodName         = methodName,
                                           ClientPayload      = ProtoSerializer.SerializeMessageObjectArray(arguments),
                                         };
+
+    if (SessionService == null)
+    {
+      throw new Exception("SessionService is not set to a valid property");
+    }
 
     var taskId = SessionService.SubmitTask(dataSynapsePayload.Serialize());
 
@@ -242,8 +243,8 @@ public class Service : ISubmitterService, IDisposable
   /// <param name="dataSynapsePayload">The armonikPayload to pass with Function name and serialized arguments</param>
   /// <param name="handler">The handler callBack for Error and response</param>
   /// <returns>Return the taskId</returns>
-  public string Submit(ArmonikPayload            dataSynapsePayload,
-                       IServiceInvocationHandler handler)
+  public string Submit(ArmonikPayload             dataSynapsePayload,
+                       IServiceInvocationHandler? handler = null)
   {
     var taskId = SessionService.SubmitTask(dataSynapsePayload.Serialize());
 
@@ -255,24 +256,24 @@ public class Service : ISubmitterService, IDisposable
                                    var result      = ProtoSerializer.DeSerializeMessageObjectArray(byteResults);
 
 
-                                   handler.HandleResponse(result?[0],
-                                                          taskId);
+                                   handler?.HandleResponse(result?[0],
+                                                           taskId);
                                  }
                                  catch (Exception ex)
                                  {
                                    switch (ex)
                                    {
                                      case ServiceInvocationException invocationException:
-                                       handler.HandleError(invocationException,
-                                                           taskId);
+                                       handler?.HandleError(invocationException,
+                                                            taskId);
                                        break;
                                      case AggregateException aggregateException:
-                                       handler.HandleError(new ServiceInvocationException(aggregateException.InnerException),
-                                                           taskId);
+                                       handler?.HandleError(new ServiceInvocationException(aggregateException.InnerException),
+                                                            taskId);
                                        break;
                                      default:
-                                       handler.HandleError(new ServiceInvocationException(ex),
-                                                           taskId);
+                                       handler?.HandleError(new ServiceInvocationException(ex),
+                                                            taskId);
                                        break;
                                    }
                                  }
@@ -291,9 +292,9 @@ public class Service : ISubmitterService, IDisposable
   /// <param name="argument">One serialized argument that will already serialize for MethodName.</param>
   /// <param name="handler">The handler callBack implemented as IServiceInvocationHandler to get response or result or error</param>
   /// <returns>Return the taskId string</returns>
-  public string Submit(string                    methodName,
-                       byte[]                    argument,
-                       IServiceInvocationHandler handler)
+  public string Submit(string                     methodName,
+                       byte[]                     argument,
+                       IServiceInvocationHandler? handler)
   {
     ArmonikPayload dataSynapsePayload = new()
                                         {
@@ -307,16 +308,16 @@ public class Service : ISubmitterService, IDisposable
                   handler);
   }
 
-  private byte[] ActiveGetResult(params string[] taskId)
+  private byte[]? ActiveGetResult(params string[] taskId)
     => ActiveGetResults(taskId)
        .Single()
        .Item2;
 
-  private IEnumerable<Tuple<string, byte[]>> ActiveGetResults(IEnumerable<string> taskIds,
-                                                              int                 chunkResultSize = 500)
+  private IEnumerable<Tuple<string, byte[]?>> ActiveGetResults(IEnumerable<string> taskIds,
+                                                               int                 chunkResultSize = 500)
   {
     var missing  = taskIds.ToHashSet();
-    var results  = new List<Tuple<string, byte[]>>();
+    var results  = new List<Tuple<string, byte[]?>>();
     var holdPrev = 0;
     var waitInSeconds = new List<int>
                         {
@@ -328,7 +329,7 @@ public class Service : ISubmitterService, IDisposable
                         };
     var idx = 0;
 
-    Logger?.BeginPropertyScope(("SessionId", SessionId),
+    Logger?.BeginPropertyScope(("SessionId", SessionId ?? "NoSessionId"),
                                ("Function", "ActiveGetResults"));
 
     while (missing.Count != 0)
@@ -337,7 +338,7 @@ public class Service : ISubmitterService, IDisposable
       {
         var partialResults = SessionService.TryGetResults(bucket);
 
-        results.AddRange(partialResults);
+        results.AddRange(partialResults!);
 
         missing.ExceptWith(partialResults.Select(x => x.Item1));
 
@@ -375,20 +376,20 @@ public class Service : ISubmitterService, IDisposable
   /// </summary>
   /// <returns>Returns true if the service was destroyed previously</returns>
   public bool IsDestroyed()
-  {
-    if (SessionService == null || ClientService == null)
-    {
-      return true;
-    }
-
-    return false;
-  }
+    => ClientService == null;
 
   /// <summary>
   ///   Class to return TaskId and the result
   /// </summary>
   public class ServiceResult
   {
+    public ServiceResult(string  taskId = "NotValidTaskId",
+                         object? result = null)
+    {
+      TaskId = taskId;
+      Result = result;
+    }
+
     /// <summary>
     ///   The getter to return the taskId
     /// </summary>
@@ -397,6 +398,6 @@ public class Service : ISubmitterService, IDisposable
     /// <summary>
     ///   The getter to return the result in object type format
     /// </summary>
-    public object Result { get; set; }
+    public object? Result { get; set; }
   }
 }

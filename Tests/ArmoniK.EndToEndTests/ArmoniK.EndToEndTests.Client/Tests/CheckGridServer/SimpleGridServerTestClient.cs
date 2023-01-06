@@ -40,8 +40,8 @@ namespace ArmoniK.EndToEndTests.Client.Tests.CheckGridServer;
 
 public class SimpleGridServerTestClient : ClientBaseTest<SimpleGridServerTestClient>, IServiceInvocationHandler
 {
-  public SimpleGridServerTestClient(IConfiguration configuration,
-                                    ILoggerFactory loggerFactory)
+  public SimpleGridServerTestClient(IConfiguration  configuration,
+                                    ILoggerFactory? loggerFactory)
     : base(configuration,
            loggerFactory)
   {
@@ -52,8 +52,8 @@ public class SimpleGridServerTestClient : ClientBaseTest<SimpleGridServerTestCli
   /// </summary>
   /// <param name="e">The exception sent to the client from the control plane</param>
   /// <param name="taskId">The task identifier which has invoke the error callBack</param>
-  public void HandleError(ServiceInvocationException e,
-                          string                     taskId)
+  public void HandleError(ServiceInvocationException? e,
+                          string                      taskId)
   {
     Log.LogError($"Error from {taskId} : " + e.Message);
     throw new ApplicationException($"Error from {taskId}",
@@ -110,7 +110,7 @@ public class SimpleGridServerTestClient : ClientBaseTest<SimpleGridServerTestCli
     ClientStartup1(cs);
   }
 
-  private static void OverrideTaskOptions(TaskOptions taskOptions)
+  private static void OverrideTaskOptions(TaskOptions? taskOptions)
     => taskOptions.EngineType = EngineType.DataSynapse.ToString();
 
   /// <summary>
@@ -120,15 +120,15 @@ public class SimpleGridServerTestClient : ClientBaseTest<SimpleGridServerTestCli
   /// <param name="sessionService">The sessionService API to connect to the Control plane Service</param>
   /// <param name="taskId">The task which is waiting for</param>
   /// <returns></returns>
-  private static byte[] WaitForTaskResult(SessionService sessionService,
-                                          string         taskId)
+  private static byte[]? WaitForTaskResult(SessionService sessionService,
+                                           string         taskId)
   {
     var taskResult = sessionService.GetResult(taskId);
 
     return taskResult;
   }
 
-  private static object[] ParamsHelper(params object[] elements)
+  private static object?[] ParamsHelper(params object?[] elements)
     => elements;
 
   /// <summary>

@@ -168,8 +168,8 @@ public static class IEnumerableExt
   /// <param name="comparer">The comparer element</param>
   /// <typeparam name="T"></typeparam>
   /// <returns></returns>
-  public static HashSet<T> ToHashSet<T>(this IEnumerable<T>  source,
-                                        IEqualityComparer<T> comparer = null)
+  public static HashSet<T> ToHashSet<T>(this IEnumerable<T>   source,
+                                        IEqualityComparer<T>? comparer = null)
     => new(source,
            comparer);
 }

@@ -8,9 +8,9 @@ namespace ArmoniK.EndToEndTests.Client.Tests.CheckRandomException;
 
 public class RandomExceptionClientTest
 {
-  private const string            ApplicationNamespace = "ArmoniK.EndToEndTests.Worker.Tests.CheckRandomException";
-  private const string            ApplicationService   = "RandomExceptionWorker";
-  private       UnifiedTestHelper unifiedTestHelper_;
+  private const string             ApplicationNamespace = "ArmoniK.EndToEndTests.Worker.Tests.CheckRandomException";
+  private const string             ApplicationService   = "RandomExceptionWorker";
+  private       UnifiedTestHelper? unifiedTestHelper_;
 
   [SetUp]
   public void Setup()

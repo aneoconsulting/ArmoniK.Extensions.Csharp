@@ -21,14 +21,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System;
+
 using ArmoniK.Api.gRPC.V1;
 using ArmoniK.DevelopmentKit.Client.Common;
 using ArmoniK.DevelopmentKit.Client.Common.Submitter;
 using ArmoniK.DevelopmentKit.Common;
 
 using Google.Protobuf.WellKnownTypes;
-
-using JetBrains.Annotations;
 
 using Microsoft.Extensions.Logging;
 
@@ -52,8 +52,8 @@ public class ArmonikDataSynapseClientService
   /// </summary>
   /// <param name="properties">Properties containing TaskOption and connection string to the control plane</param>
   /// <param name="loggerFactory">The factory to create the logger for clientService</param>
-  public ArmonikDataSynapseClientService(Properties                 properties,
-                                         [CanBeNull] ILoggerFactory loggerFactory = null)
+  public ArmonikDataSynapseClientService(Properties      properties,
+                                         ILoggerFactory? loggerFactory = null)
   {
     properties_   = properties;
     LoggerFactory = loggerFactory;
@@ -62,25 +62,24 @@ public class ArmonikDataSynapseClientService
     TaskOptions = properties_.TaskOptions;
   }
 
-  [CanBeNull]
-  private ILogger<ArmonikDataSynapseClientService> Logger { get; }
+  private ILogger<ArmonikDataSynapseClientService>? Logger { get; }
 
-  private ChannelPool GrpcPool { get; set; }
+  private ChannelPool? GrpcPool { get; set; }
 
 
   /// <summary>
   ///   Set or Get TaskOptions with inside MaxDuration, Priority, AppName, VersionName and AppNamespace
   /// </summary>
-  private TaskOptions TaskOptions { get; set; }
+  private TaskOptions? TaskOptions { get; set; }
 
-  private ILoggerFactory LoggerFactory { get; }
+  private ILoggerFactory? LoggerFactory { get; }
 
   /// <summary>
   ///   Create the session to submit task
   /// </summary>
   /// <param name="taskOptions">Optional parameter to set TaskOptions during the Session creation</param>
   /// <returns></returns>
-  public SessionService CreateSession(TaskOptions taskOptions = null)
+  public SessionService CreateSession(TaskOptions? taskOptions = null)
   {
     if (taskOptions != null)
     {
@@ -91,7 +90,7 @@ public class ArmonikDataSynapseClientService
 
     Logger?.LogDebug("Creating Session... ");
 
-    return new SessionService(GrpcPool,
+    return new SessionService(GrpcPool!,
                               LoggerFactory,
                               TaskOptions);
   }
@@ -103,10 +102,15 @@ public class ArmonikDataSynapseClientService
       return;
     }
 
+    if (string.IsNullOrEmpty(properties_.ConnectionString))
+    {
+      throw new ArgumentException("Connection string is null or empty");
+    }
 
-    GrpcPool = ClientServiceConnector.ControlPlaneConnectionPool(properties_.ConnectionString,
-                                                                 properties_.ClientCertFilePem,
-                                                                 properties_.ClientKeyFilePem,
+
+    GrpcPool = ClientServiceConnector.ControlPlaneConnectionPool(properties_.ConnectionString!,
+                                                                 properties_.ClientCertFilePem ?? "",
+                                                                 properties_.ClientKeyFilePem  ?? "",
                                                                  properties_.ConfSSLValidation,
                                                                  LoggerFactory);
   }
@@ -116,12 +120,12 @@ public class ArmonikDataSynapseClientService
   /// </summary>
   /// <param name="sessionId">SessionId previously opened</param>
   /// <param name="clientOptions"></param>
-  public SessionService OpenSession(string      sessionId,
-                                    TaskOptions clientOptions = null)
+  public SessionService OpenSession(string       sessionId,
+                                    TaskOptions? clientOptions = null)
   {
     ControlPlaneConnection();
 
-    return new SessionService(GrpcPool,
+    return new SessionService(GrpcPool!,
                               LoggerFactory,
                               clientOptions ?? SessionService.InitializeDefaultTaskOptions(),
                               new Session

@@ -14,10 +14,10 @@ namespace ArmoniK.EndToEndTests.Client.Tests.LargePayloadSubmit;
 
 public class LargePayloadSubmitClientTest
 {
-  private const string            ApplicationNamespace = "ArmoniK.EndToEndTests.Worker.Tests.LargePayloadSubmit";
-  private const string            ApplicationService   = "LargePayloadSubmitWorker";
-  private       UnifiedTestHelper unifiedTestHelper_;
-  protected     ILoggerFactory    LoggerFactory { get; set; }
+  private const string             ApplicationNamespace = "ArmoniK.EndToEndTests.Worker.Tests.LargePayloadSubmit";
+  private const string             ApplicationService   = "LargePayloadSubmitWorker";
+  private       UnifiedTestHelper? unifiedTestHelper_;
+  protected     ILoggerFactory     LoggerFactory { get; set; }
 
   protected IConfiguration Configuration { get; set; }
 

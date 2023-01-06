@@ -86,7 +86,7 @@ public class ComputerService : WorkerStreamWrapper
                                 ("SessionId", sessionIdCaller));
 
       Logger.LogInformation($"Receive new task Session        {sessionIdCaller} -> task {taskId}");
-      Logger.LogInformation($"Previous Session#SubSession was {ServiceRequestContext.SessionId?.Id ?? "NOT SET"}");
+      Logger.LogInformation($"Previous Session#SubSession was {ServiceRequestContext.SessionId.Id ?? "NOT SET"}");
       if (new[]
           {
             (nameof(taskHandler.TaskOptions.ApplicationName), string.IsNullOrEmpty(taskHandler.TaskOptions.ApplicationName)),

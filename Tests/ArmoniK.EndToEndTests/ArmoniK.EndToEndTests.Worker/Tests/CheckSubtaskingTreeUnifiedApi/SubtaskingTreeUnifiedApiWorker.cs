@@ -61,7 +61,7 @@ public class SubtaskingTreeUnifiedApiWorker : TaskSubmitterWorkerService
                                                int     nbSplit = 2)
     => listToSplit.Chunk((int)Math.Ceiling(listToSplit.Count / (float)nbSplit));
 
-  public byte[] ComputeSubTaskingTreeSum(byte[] clientPayload)
+  public byte[] ComputeSubTaskingTreeSum(byte[]? clientPayload)
   {
     Logger.LogInformation("Enter in function : SplitAndSum taskID : {TaskId}",
                           TaskContext.TaskId);
@@ -146,11 +146,11 @@ public class SubtaskingTreeUnifiedApiWorker : TaskSubmitterWorkerService
     return null; //nothing to do
   }
 
-  private static object[] ParamsHelper(params object[] elements)
+  private static object?[] ParamsHelper(params object?[] elements)
     => elements;
 
 
-  public byte[] AggregateValues(byte[] serializedClientPayload)
+  public byte[] AggregateValues(byte[]? serializedClientPayload)
   {
     var clientPayload = ClientPayload.Deserialize(serializedClientPayload);
 

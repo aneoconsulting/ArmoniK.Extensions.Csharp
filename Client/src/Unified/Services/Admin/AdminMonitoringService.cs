@@ -24,8 +24,8 @@ public class AdminMonitoringService
   /// </summary>
   /// <param name="channel">The entry point to the control plane</param>
   /// <param name="loggerFactory">The factory logger to create logger</param>
-  public AdminMonitoringService(ChannelPool                channelPool,
-                                [CanBeNull] ILoggerFactory loggerFactory = null)
+  public AdminMonitoringService(ChannelPool                 channelPool,
+                                [CanBeNull] ILoggerFactory? loggerFactory = null)
   {
     Logger       = loggerFactory?.CreateLogger<AdminMonitoringService>();
     channelPool_ = channelPool;
@@ -50,7 +50,7 @@ public class AdminMonitoringService
   ///   mark all tasks in cancel status
   /// </summary>
   /// <param name="sessionId">the sessionId of the session to cancel</param>
-  public void CancelSession(string sessionId)
+  public void CancelSession(string? sessionId)
     => channelPool_.WithChannel(channel => new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel).CancelSession(new Session
                                                                                                                       {
                                                                                                                         Id = sessionId,
@@ -326,7 +326,7 @@ public class AdminMonitoringService
   /// <param name="sessionId">the id of the session</param>
   /// <param name="taskStatus">a variadic list of taskStatus </param>
   /// <returns>return the number of task</returns>
-  public int CountTaskBySession(string              sessionId,
+  public int CountTaskBySession(string?             sessionId,
                                 params TaskStatus[] taskStatus)
     => channelPool_.WithChannel(channel => new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel).CountTasks(new TaskFilter
                                                                                                                    {

@@ -45,7 +45,7 @@ public class ServiceContainer : ServiceContainerBase
   public override byte[] OnInvoke(SessionContext sessionContext,
                                   TaskContext    taskContext)
   {
-    _ = ClientPayload.Deserialize(taskContext.TaskInput);
+    _ = ClientPayload.Deserialize(taskContext.Payload);
 
     /////////////////// TO SERVER SIDE TEST HERE //////////////////////////////////////////
 

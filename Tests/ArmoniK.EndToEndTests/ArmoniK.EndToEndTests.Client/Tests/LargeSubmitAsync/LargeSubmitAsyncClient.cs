@@ -53,8 +53,8 @@ public class LargeSubmitAsyncClient : ClientBaseTest<LargeSubmitAsyncClient>, IS
   /// </summary>
   /// <param name="configuration"></param>
   /// <param name="loggerFactory"></param>
-  public LargeSubmitAsyncClient(IConfiguration configuration,
-                                ILoggerFactory loggerFactory)
+  public LargeSubmitAsyncClient(IConfiguration  configuration,
+                                ILoggerFactory? loggerFactory)
     : base(configuration,
            loggerFactory)
   {
@@ -78,8 +78,8 @@ public class LargeSubmitAsyncClient : ClientBaseTest<LargeSubmitAsyncClient>, IS
   /// </summary>
   /// <param name="e">The exception sent to the client from the control plane</param>
   /// <param name="taskId">The task identifier which has invoke the error callBack</param>
-  public void HandleError(ServiceInvocationException e,
-                          string                     taskId)
+  public void HandleError(ServiceInvocationException? e,
+                          string                      taskId)
   {
     Log.LogError($"Error from {taskId} : " + e.Message);
     NbResults++;
@@ -202,11 +202,11 @@ public class LargeSubmitAsyncClient : ClientBaseTest<LargeSubmitAsyncClient>, IS
                     NbResults);
   }
 
-  private IEnumerable<string> ExecuteSubmitAsync(int                 nbTasks,
-                                                 Service             service,
-                                                 IEnumerable<double> numbers,
-                                                 int                 workloadTimeInMs,
-                                                 CancellationToken   token = default)
+  private IEnumerable<string> ExecuteSubmitAsync(int                  nbTasks,
+                                                 Service              service,
+                                                 IEnumerable<double>? numbers,
+                                                 int                  workloadTimeInMs,
+                                                 CancellationToken    token = default)
   {
     var result = Enumerable.Range(0,
                                   nbTasks)
@@ -223,7 +223,7 @@ public class LargeSubmitAsyncClient : ClientBaseTest<LargeSubmitAsyncClient>, IS
     return taskIds.ToList();
   }
 
-  private static void OverrideTaskOptions(TaskOptions taskOptions)
+  private static void OverrideTaskOptions(TaskOptions? taskOptions)
   {
     taskOptions.EngineType           = EngineType.Unified.ToString();
     taskOptions.ApplicationNamespace = "ArmoniK.EndToEndTests.Worker.Tests.LargePayloadSubmit";
@@ -231,7 +231,7 @@ public class LargeSubmitAsyncClient : ClientBaseTest<LargeSubmitAsyncClient>, IS
   }
 
 
-  private static object[] ParamsHelper(params object[] elements)
+  private static object?[] ParamsHelper(params object?[] elements)
     => elements;
 
   private static void PeriodicInfo(Action            action,

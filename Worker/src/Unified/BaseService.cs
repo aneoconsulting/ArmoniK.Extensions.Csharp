@@ -108,7 +108,7 @@ public abstract class BaseService<T>
   /// <summary>
   ///   Get or Set Configuration
   /// </summary>
-  public IConfiguration Configuration { get; set; }
+  public IConfiguration? Configuration { get; set; }
 
   /// <summary>
   ///   The logger factory to create new Logger in sub class caller
@@ -245,8 +245,8 @@ public abstract class BaseService<T>
   /// </summary>
   /// <param name="configuration">The appSettings.json configuration prepared during the deployment</param>
   /// <param name="clientOptions">All data coming from Client within TaskOptions </param>
-  public void Configure(IConfiguration configuration,
-                        TaskOptions    clientOptions)
+  public void Configure(IConfiguration? configuration,
+                        TaskOptions     clientOptions)
   {
     Configuration = configuration;
 

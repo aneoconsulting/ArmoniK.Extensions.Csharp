@@ -41,7 +41,7 @@ public sealed class ChannelPool
   private readonly Func<ChannelBase> channelFactory_;
 
   [CanBeNull]
-  private readonly ILogger<ChannelPool> logger_;
+  private readonly ILogger<ChannelPool>? logger_;
 
   private readonly ConcurrentBag<ChannelBase> pool_;
 
@@ -50,8 +50,8 @@ public sealed class ChannelPool
   /// </summary>
   /// <param name="channelFactory">Function used to create new channels</param>
   /// <param name="loggerFactory">loggerFactory used to instantiate a logger for the pool</param>
-  public ChannelPool(Func<ChannelBase>          channelFactory,
-                     [CanBeNull] ILoggerFactory loggerFactory = null)
+  public ChannelPool(Func<ChannelBase> channelFactory,
+                     ILoggerFactory?   loggerFactory = null)
   {
     channelFactory_ = channelFactory;
     pool_           = new ConcurrentBag<ChannelBase>();

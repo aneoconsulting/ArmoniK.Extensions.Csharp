@@ -53,8 +53,8 @@ public static class MyExtensions
 
 public class CheckAllSubmissionsClient : ClientBaseTest<CheckAllSubmissionsClient>
 {
-  public CheckAllSubmissionsClient(IConfiguration configuration,
-                                   ILoggerFactory loggerFactory)
+  public CheckAllSubmissionsClient(IConfiguration  configuration,
+                                   ILoggerFactory? loggerFactory)
     : base(configuration,
            loggerFactory)
   {
@@ -88,7 +88,7 @@ public class CheckAllSubmissionsClient : ClientBaseTest<CheckAllSubmissionsClien
                      SubmissionType.Sequential,
                      GetResultType.GetResult);
     }
-    catch (Exception e)
+    catch (Exception? e)
     {
       Log.LogError(e,
                    "Submission Error 10 Jobs with 1 subtask");
@@ -104,7 +104,7 @@ public class CheckAllSubmissionsClient : ClientBaseTest<CheckAllSubmissionsClien
                      SubmissionType.Batch,
                      GetResultType.TryGetResult);
     }
-    catch (Exception e)
+    catch (Exception? e)
     {
       Log.LogError(e,
                    "Submission Error 1 Jobs with 5000 subtasks");
@@ -167,7 +167,7 @@ public class CheckAllSubmissionsClient : ClientBaseTest<CheckAllSubmissionsClien
 
     stopWatch.Start();
     Log.LogInformation("Starting to retrieve the result : ");
-    IEnumerable<Tuple<string, byte[]>> results;
+    IEnumerable<Tuple<string, byte[]?>> results;
 
     if (getResultType == GetResultType.GetResult)
     {
@@ -179,7 +179,7 @@ public class CheckAllSubmissionsClient : ClientBaseTest<CheckAllSubmissionsClien
                               taskIds.ToList());
     }
 
-    var tuples = results as Tuple<string, byte[]>[] ?? results.ToArray();
+    var tuples = results as Tuple<string, byte[]?>[] ?? results.ToArray();
     stopWatch.Stop();
     ts = stopWatch.Elapsed;
     // Format and display the TimeSpan value.
@@ -231,12 +231,12 @@ public class CheckAllSubmissionsClient : ClientBaseTest<CheckAllSubmissionsClien
   }
 
 
-  private IEnumerable<Tuple<string, byte[]>> GetTryResults(SessionService sessionService,
-                                                           IList<string>  taskIds)
+  private IEnumerable<Tuple<string, byte[]?>> GetTryResults(SessionService sessionService,
+                                                            IList<string>  taskIds)
   {
     var ids      = taskIds.ToList();
     var missing  = ids;
-    var results  = new List<Tuple<string, byte[]>>();
+    var results  = new List<Tuple<string, byte[]?>>();
     var cts      = new CancellationTokenSource();
     var holdPrev = 0;
     var waitInSeconds = new List<int>

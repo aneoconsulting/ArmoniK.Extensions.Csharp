@@ -116,7 +116,7 @@ public class ServiceContainer : ServiceContainerBase
   public override byte[] OnInvoke(SessionContext sessionContext,
                                   TaskContext    taskContext)
   {
-    var clientPayload = ClientPayload.Deserialize(taskContext.TaskInput);
+    var clientPayload = ClientPayload.Deserialize(taskContext.Payload);
 
     if (clientPayload.Type == ClientPayload.TaskType.ComputeSquare)
     {

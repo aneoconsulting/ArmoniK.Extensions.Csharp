@@ -53,8 +53,8 @@ public class LargePayloadSubmitClient : ClientBaseTest<LargePayloadSubmitClient>
   /// </summary>
   /// <param name="configuration"></param>
   /// <param name="loggerFactory"></param>
-  public LargePayloadSubmitClient(IConfiguration configuration,
-                                  ILoggerFactory loggerFactory)
+  public LargePayloadSubmitClient(IConfiguration  configuration,
+                                  ILoggerFactory? loggerFactory)
     : base(configuration,
            loggerFactory)
   {
@@ -70,8 +70,8 @@ public class LargePayloadSubmitClient : ClientBaseTest<LargePayloadSubmitClient>
   /// </summary>
   /// <param name="e">The exception sent to the client from the control plane</param>
   /// <param name="taskId">The task identifier which has invoke the error callBack</param>
-  public void HandleError(ServiceInvocationException e,
-                          string                     taskId)
+  public void HandleError(ServiceInvocationException? e,
+                          string                      taskId)
   {
     Log.LogError($"Error from {taskId} : " + e.Message);
     throw new ApplicationException($"Error from {taskId}",
@@ -132,11 +132,11 @@ public class LargePayloadSubmitClient : ClientBaseTest<LargePayloadSubmitClient>
                   cts); // 1000 tasks x 500 KB of payload
   }
 
-  private static void OverrideTaskOptions(TaskOptions taskOptions)
+  private static void OverrideTaskOptions(TaskOptions? taskOptions)
     => taskOptions.EngineType = EngineType.Unified.ToString();
 
 
-  private static object[] ParamsHelper(params object[] elements)
+  private static object?[] ParamsHelper(params object?[] elements)
     => elements;
 
   private static void PeriodicInfo(Action            action,

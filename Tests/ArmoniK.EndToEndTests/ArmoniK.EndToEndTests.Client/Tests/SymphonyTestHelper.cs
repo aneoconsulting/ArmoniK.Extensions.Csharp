@@ -18,11 +18,6 @@ internal class SymphonyTestHelper : UnitTestHelperBase
     : base(EngineType.Symphony,
            applicationNamespace,
            applicationService)
-    => InitService();
-
-  public SessionService SessionService { get; private set; }
-
-  public void InitService()
   {
     var client = new ArmonikSymphonyClient(Configuration,
                                            LoggerFactory);
@@ -30,6 +25,8 @@ internal class SymphonyTestHelper : UnitTestHelperBase
     SessionService = client.CreateSession(TaskOptions);
     Log.LogInformation($"New session created : {SessionService.SessionId}");
   }
+
+  public SessionService SessionService { get; }
 
   /// <summary>
   ///   Simple function to wait and get the result from subTasking and result delegation
@@ -54,8 +51,8 @@ internal class SymphonyTestHelper : UnitTestHelperBase
   /// <param name="taskIds">The tasks which we are waiting for</param>
   /// <param name="cancellationToken"></param>
   /// <returns></returns>
-  public IEnumerable<Tuple<string, byte[]>> WaitForTaskResults(IEnumerable<string> taskIds,
-                                                               CancellationToken   cancellationToken = default)
+  public IEnumerable<Tuple<string, byte[]?>> WaitForTaskResults(IEnumerable<string> taskIds,
+                                                                CancellationToken   cancellationToken = default)
   {
     var taskResults = SessionService.GetResults(taskIds,
                                                 cancellationToken);
@@ -69,11 +66,11 @@ internal class SymphonyTestHelper : UnitTestHelperBase
   /// </summary>
   /// <param name="taskIds">The tasks which are waiting for</param>
   /// <returns></returns>
-  public IEnumerable<Tuple<string, byte[]>> WaitForTasksResult(IEnumerable<string> taskIds)
+  public IEnumerable<Tuple<string, byte[]?>> WaitForTasksResult(IEnumerable<string> taskIds)
   {
     var ids     = taskIds.ToList();
     var missing = ids;
-    var results = new List<Tuple<string, byte[]>>();
+    var results = new List<Tuple<string, byte[]?>>();
 
     try
     {

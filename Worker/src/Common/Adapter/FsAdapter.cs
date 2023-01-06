@@ -48,7 +48,7 @@ public class FsAdapter : IFileAdapter
   /// <summary>
   ///   The getter to retrieve the last downloaded file
   /// </summary>
-  public string DestinationFullPath { get; set; }
+  public string? DestinationFullPath { get; set; }
 
   public string DestinationDirPath { get; set; }
 

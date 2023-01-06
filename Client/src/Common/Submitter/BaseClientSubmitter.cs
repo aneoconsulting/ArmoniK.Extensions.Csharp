@@ -64,9 +64,9 @@ public class BaseClientSubmitter<T>
   /// <param name="channelPool">Channel used to create grpc clients</param>
   /// <param name="loggerFactory">the logger factory to pass for root object</param>
   /// <param name="chunkSubmitSize">The size of chunk to split the list of tasks</param>
-  public BaseClientSubmitter(ChannelPool                channelPool,
-                             [CanBeNull] ILoggerFactory loggerFactory   = null,
-                             int                        chunkSubmitSize = 500)
+  public BaseClientSubmitter(ChannelPool     channelPool,
+                             ILoggerFactory? loggerFactory   = null,
+                             int             chunkSubmitSize = 500)
   {
     channelPool_     = channelPool;
     Logger           = loggerFactory?.CreateLogger<T>();
@@ -76,13 +76,13 @@ public class BaseClientSubmitter<T>
   /// <summary>
   ///   Set or Get TaskOptions with inside MaxDuration, Priority, AppName, VersionName and AppNamespace
   /// </summary>
-  public TaskOptions TaskOptions { get; set; }
+  public TaskOptions? TaskOptions { get; set; }
 
   /// <summary>
   ///   Get SessionId object stored during the call of SubmitTask, SubmitSubTask,
   ///   SubmitSubTaskWithDependencies or WaitForCompletion, WaitForSubTaskCompletion or GetResults
   /// </summary>
-  public Session SessionId { get; protected set; }
+  public Session? SessionId { get; protected set; }
 
 
 #pragma warning restore CS1591
@@ -102,18 +102,17 @@ public class BaseClientSubmitter<T>
   ///   The logger to call the generate log in Seq
   /// </summary>
 
-  [CanBeNull]
-  protected ILogger<T> Logger { get; set; }
+  protected ILogger<T>? Logger { get; set; }
 
   /// <summary>
   ///   Service for interacting with results
   /// </summary>
-  protected Results.ResultsClient ResultService { get; set; }
+  protected Results.ResultsClient? ResultService { get; set; }
 
   /// <summary>
   ///   Service for interacting with results
   /// </summary>
-  protected Tasks.TasksClient TaskService { get; set; }
+  protected Tasks.TasksClient? TaskService { get; set; }
 
   /// <summary>
   ///   Returns the status of the task
@@ -153,7 +152,7 @@ public class BaseClientSubmitter<T>
     => channelPool_.WithChannel(channel => new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel).TryGetTaskOutput(new TaskOutputRequest
                                                                                                                          {
                                                                                                                            TaskId  = taskId,
-                                                                                                                           Session = SessionId.Id,
+                                                                                                                           Session = SessionId?.Id,
                                                                                                                          }));
 
 
@@ -165,8 +164,8 @@ public class BaseClientSubmitter<T>
   /// <param name="maxRetries">The number of retry before fail to submit task</param>
   /// <returns>return a list of taskIds of the created tasks </returns>
   [PublicAPI]
-  public IEnumerable<string> SubmitTasksWithDependencies(IEnumerable<Tuple<byte[], IList<string>>> payloadsWithDependencies,
-                                                         int                                       maxRetries = 5)
+  public IEnumerable<string> SubmitTasksWithDependencies(IEnumerable<Tuple<byte[]?, IList<string>?>> payloadsWithDependencies,
+                                                         int                                         maxRetries = 5)
     => payloadsWithDependencies.ToChunk(chunkSubmitSize_)
                                .SelectMany(chunk =>
                                            {
@@ -188,8 +187,8 @@ public class BaseClientSubmitter<T>
   /// <param name="maxRetries">Set the number of retries Default Value 5</param>
   /// <returns>return the ids of the created tasks</returns>
   [PublicAPI]
-  private IEnumerable<string> ChunkSubmitTasksWithDependencies(IEnumerable<Tuple<string, byte[], IList<string>>> payloadsWithDependencies,
-                                                               int                                               maxRetries)
+  private IEnumerable<string> ChunkSubmitTasksWithDependencies(IEnumerable<Tuple<string, byte[]?, IList<string>?>> payloadsWithDependencies,
+                                                               int                                                 maxRetries)
   {
     using var _ = Logger?.LogFunction();
 
@@ -209,7 +208,7 @@ public class BaseClientSubmitter<T>
                                                           {
                                                             InitRequest = new CreateLargeTaskRequest.Types.InitRequest
                                                                           {
-                                                                            SessionId   = SessionId.Id,
+                                                                            SessionId   = SessionId?.Id,
                                                                             TaskOptions = TaskOptions,
                                                                           },
                                                           })
@@ -241,7 +240,7 @@ public class BaseClientSubmitter<T>
                                                             })
                                   .Wait();
 
-          for (var j = 0; j < payload.Length; j += serviceConfiguration.DataChunkMaxSize)
+          for (var j = 0; j < payload?.Length; j += serviceConfiguration.DataChunkMaxSize)
           {
             var chunkSize = Math.Min(serviceConfiguration.DataChunkMaxSize,
                                      payload.Length - j);
@@ -420,7 +419,7 @@ public class BaseClientSubmitter<T>
                                                                                                      {
                                                                                                        result2TaskDic.Keys,
                                                                                                      },
-                                                                                                     SessionId = SessionId.Id,
+                                                                                                     SessionId = SessionId?.Id,
                                                                                                    });
                                           return resultStatusReply.IdStatuses;
                                         },
@@ -438,7 +437,7 @@ public class BaseClientSubmitter<T>
                                  out var taskId);
 
       var resData = new ResultStatusData(idStatusPair.ResultId,
-                                         taskId,
+                                         taskId ?? "Err_No_taskId",
                                          idStatusPair.Status);
 
       switch (idStatusPair.Status)
@@ -503,7 +502,7 @@ public class BaseClientSubmitter<T>
     var resultRequest = new ResultRequest
                         {
                           ResultId = resultId,
-                          Session  = SessionId.Id,
+                          Session  = SessionId?.Id,
                         };
 
     using var channel          = channelPool_.GetChannel();
@@ -561,16 +560,16 @@ public class BaseClientSubmitter<T>
   /// <returns>return a dictionary with key taskId and payload</returns>
   /// <exception cref="ArgumentNullException"></exception>
   /// <exception cref="ArgumentException"></exception>
-  public IEnumerable<Tuple<string, byte[]>> GetResults(IEnumerable<string> taskIds,
-                                                       CancellationToken   cancellationToken = default)
+  public IEnumerable<Tuple<string, byte[]?>> GetResults(IEnumerable<string> taskIds,
+                                                        CancellationToken   cancellationToken = default)
     => taskIds.AsParallel()
               .Select(id =>
                       {
                         var res = GetResult(id,
                                             cancellationToken);
 
-                        return new Tuple<string, byte[]>(id,
-                                                         res);
+                        return new Tuple<string, byte[]?>(id,
+                                                          res);
                       });
 
   /// <summary>
@@ -581,8 +580,8 @@ public class BaseClientSubmitter<T>
   /// <returns></returns>
   /// <exception cref="Exception"></exception>
   /// <exception cref="ArgumentOutOfRangeException"></exception>
-  public async Task<byte[]> TryGetResultAsync(ResultRequest     resultRequest,
-                                              CancellationToken cancellationToken = default)
+  public async Task<byte[]?> TryGetResultAsync(ResultRequest     resultRequest,
+                                               CancellationToken cancellationToken = default)
   {
     List<ReadOnlyMemory<byte>> chunks;
     int                        len;
@@ -627,8 +626,8 @@ public class BaseClientSubmitter<T>
             return null;
 
           default:
-            throw new ArgumentOutOfRangeException("Got a reply with an unexpected message type.",
-                                                  (Exception)null);
+            throw new ArgumentOutOfRangeException("TryGetResultAsync",
+                                                  new Exception("Unknown TryGetResultAsync exception"));
         }
       }
 
@@ -659,9 +658,9 @@ public class BaseClientSubmitter<T>
   /// <param name="cancellationToken">The optional cancellationToken</param>
   /// <returns>Returns the result or byte[0] if there no result or null if task is not yet ready</returns>
   [PublicAPI]
-  public byte[] TryGetResult(string            taskId,
-                             bool              checkOutput       = true,
-                             CancellationToken cancellationToken = default)
+  public byte[]? TryGetResult(string            taskId,
+                              bool              checkOutput       = true,
+                              CancellationToken cancellationToken = default)
   {
     using var _ = Logger?.LogFunction(taskId);
     var resultId = GetResultIds(new[]
@@ -674,7 +673,7 @@ public class BaseClientSubmitter<T>
     var resultRequest = new ResultRequest
                         {
                           ResultId = resultId,
-                          Session  = SessionId.Id,
+                          Session  = SessionId?.Id,
                         };
 
     var resultReply = Retry.WhileException(5,
@@ -741,7 +740,7 @@ public class BaseClientSubmitter<T>
   /// </summary>
   /// <param name="resultIds">A list of result ids</param>
   /// <returns>Returns an Enumerable pair of </returns>
-  public IList<Tuple<string, byte[]>> TryGetResults(IList<string> resultIds)
+  public List<Tuple<string, byte[]>> TryGetResults(IList<string> resultIds)
   {
     var resultStatus = GetResultStatus(resultIds);
 
@@ -774,7 +773,7 @@ public class BaseClientSubmitter<T>
         Logger?.LogError(msg);
 
         throw new ClientResultsException(msg,
-                                         (resultStatus.IdsError ?? Enumerable.Empty<string>()).Concat(resultStatus.IdsResultError.Select(x => x.TaskId)));
+                                         resultStatus.IdsError.Concat(resultStatus.IdsResultError.Select(x => x.TaskId)));
       }
     }
 
@@ -783,7 +782,7 @@ public class BaseClientSubmitter<T>
                                           var res = TryGetResultAsync(new ResultRequest
                                                                       {
                                                                         ResultId = resultStatusData.ResultId,
-                                                                        Session  = SessionId.Id,
+                                                                        Session  = SessionId?.Id,
                                                                       })
                                             .Result;
                                           return res == null
@@ -792,6 +791,6 @@ public class BaseClientSubmitter<T>
                                                                                res);
                                         })
                        .Where(el => el != null)
-                       .ToList();
+                       .ToList()!;
   }
 }

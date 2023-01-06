@@ -22,11 +22,27 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using ArmoniK.Api.gRPC.V1;
+#if NET472 || NET48
+using System.ComponentModel;
 
-namespace ArmoniK.DevelopmentKit.Worker.Unified;
-
-internal interface ITaskOptionsConfiguration
+// ReSharper disable once CheckNamespace
+namespace System.Runtime.CompilerServices
 {
-  void ConfigureTaskOptions(TaskOptions? clientOptions);
+  /// <summary>
+  ///   Reserved to be used by the compiler for tracking metadata.
+  ///   This class should not be used by developers in source code.
+  /// </summary>
+  [EditorBrowsable(EditorBrowsableState.Never)]
+  internal static class IsExternalInit
+  {
+  }
+}
+
+#endif
+
+namespace ArmoniK.DevelopmentKit.Common
+{
+  internal interface IExternalInit
+  {
+  }
 }

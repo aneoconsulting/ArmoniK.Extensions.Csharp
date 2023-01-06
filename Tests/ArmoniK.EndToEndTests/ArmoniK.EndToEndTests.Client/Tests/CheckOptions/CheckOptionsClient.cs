@@ -33,8 +33,8 @@ namespace ArmoniK.EndToEndTests.Tests.CheckOptions;
 
 public class CheckOptionsClient : ClientBaseTest<CheckOptionsClient>
 {
-  public CheckOptionsClient(IConfiguration configuration,
-                            ILoggerFactory loggerFactory)
+  public CheckOptionsClient(IConfiguration  configuration,
+                            ILoggerFactory? loggerFactory)
     : base(configuration,
            loggerFactory)
   {
@@ -67,8 +67,8 @@ public class CheckOptionsClient : ClientBaseTest<CheckOptionsClient>
   /// <param name="sessionService">The sessionService API to connect to the Control plane Service</param>
   /// <param name="taskId">The task which is waiting for</param>
   /// <returns></returns>
-  private static byte[] WaitForTaskResult(SessionService sessionService,
-                                          string         taskId)
+  private static byte[]? WaitForTaskResult(SessionService sessionService,
+                                           string         taskId)
   {
     var taskResult = sessionService.GetResult(taskId);
 

@@ -233,11 +233,11 @@ public class ServiceRequestContext
     return IsNewSessionId(currentSessionId);
   }
 
-  public ArmonikServiceWorker CreateOrGetArmonikService(IConfiguration configuration,
-                                                        string         engineTypeName,
-                                                        IFileAdapter   fileAdapter,
-                                                        string         fileName,
-                                                        TaskOptions    requestTaskOptions)
+  public ArmonikServiceWorker CreateOrGetArmonikService(IConfiguration? configuration,
+                                                        string          engineTypeName,
+                                                        IFileAdapter    fileAdapter,
+                                                        string          fileName,
+                                                        TaskOptions?    requestTaskOptions)
   {
     if (string.IsNullOrEmpty(requestTaskOptions.ApplicationNamespace))
     {
@@ -286,8 +286,8 @@ public class ServiceRequestContext
            uniqueKey,
            namespaceService);
 
-  public static IFileAdapter CreateOrGetFileAdapter(IConfiguration configuration,
-                                                    string         localDirectoryZip)
+  public static IFileAdapter CreateOrGetFileAdapter(IConfiguration? configuration,
+                                                    string          localDirectoryZip)
   {
     var sectionStorage = configuration.GetSection("FileStorageType");
     if (sectionStorage.Exists() && configuration["FileStorageType"] == "FS")

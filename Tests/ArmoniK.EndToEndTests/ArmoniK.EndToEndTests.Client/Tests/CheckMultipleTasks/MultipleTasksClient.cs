@@ -38,8 +38,8 @@ namespace ArmoniK.EndToEndTests.Client.Tests.CheckMultipleTasks;
 [Disabled]
 public class CheckMultipleTasksClient : ClientBaseTest<CheckMultipleTasksClient>
 {
-  public CheckMultipleTasksClient(IConfiguration configuration,
-                                  ILoggerFactory loggerFactory)
+  public CheckMultipleTasksClient(IConfiguration  configuration,
+                                  ILoggerFactory? loggerFactory)
     : base(configuration,
            loggerFactory)
   {
@@ -70,9 +70,9 @@ public class CheckMultipleTasksClient : ClientBaseTest<CheckMultipleTasksClient>
   /// <param name="taskId">The task which is waiting for</param>
   /// <param name="cancellationToken"></param>
   /// <returns></returns>
-  private static byte[] WaitForTaskResult(SessionService    sessionService,
-                                          string            taskId,
-                                          CancellationToken cancellationToken = default)
+  private static byte[]? WaitForTaskResult(SessionService    sessionService,
+                                           string            taskId,
+                                           CancellationToken cancellationToken = default)
   {
     var taskResult = sessionService.GetResult(taskId,
                                               cancellationToken);

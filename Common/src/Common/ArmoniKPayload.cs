@@ -33,14 +33,23 @@ namespace ArmoniK.DevelopmentKit.Common;
 [ProtoContract]
 public class ArmonikPayload
 {
+  public ArmonikPayload(string? methodName          = "noMethod",
+                        byte[]? clientPayload       = null,
+                        bool    serializedArguments = false)
+  {
+    MethodName          = methodName;
+    ClientPayload       = clientPayload;
+    SerializedArguments = serializedArguments;
+  }
+
   [ProtoMember(1)]
   public ArmonikRequestType ArmonikRequestType { get; set; }
 
   [ProtoMember(2)]
-  public string MethodName { get; set; }
+  public string? MethodName { get; set; }
 
   [ProtoMember(3)]
-  public byte[] ClientPayload { get; set; }
+  public byte[]? ClientPayload { get; set; }
 
   [ProtoMember(4)]
   public bool SerializedArguments { get; set; }
@@ -57,7 +66,7 @@ public class ArmonikPayload
     return result;
   }
 
-  public static ArmonikPayload Deserialize(byte[] payload)
+  public static ArmonikPayload? Deserialize(byte[]? payload)
   {
     if (payload == null || payload.Length == 0)
     {

@@ -40,8 +40,8 @@ namespace ArmoniK.EndToEndTests.Client.Tests.CheckTryGetResults;
 [UsedImplicitly]
 public class CheckTryGetResultsClient : ClientBaseTest<CheckTryGetResultsClient>
 {
-  public CheckTryGetResultsClient(IConfiguration configuration,
-                                  ILoggerFactory loggerFactory)
+  public CheckTryGetResultsClient(IConfiguration  configuration,
+                                  ILoggerFactory? loggerFactory)
     : base(configuration,
            loggerFactory)
   {
@@ -73,12 +73,12 @@ public class CheckTryGetResultsClient : ClientBaseTest<CheckTryGetResultsClient>
   /// <param name="sessionService">The sessionService API to connect to the Control plane Service</param>
   /// <param name="taskIds">The tasks which are waiting for</param>
   /// <returns></returns>
-  private IEnumerable<Tuple<string, byte[]>> WaitForTasksResult(SessionService      sessionService,
-                                                                IEnumerable<string> taskIds)
+  private IEnumerable<Tuple<string, byte[]?>> WaitForTasksResult(SessionService      sessionService,
+                                                                 IEnumerable<string> taskIds)
   {
     var ids     = taskIds.ToList();
     var missing = ids;
-    var results = new List<Tuple<string, byte[]>>();
+    var results = new List<Tuple<string, byte[]?>>();
 
     while (missing.Count != 0)
     {

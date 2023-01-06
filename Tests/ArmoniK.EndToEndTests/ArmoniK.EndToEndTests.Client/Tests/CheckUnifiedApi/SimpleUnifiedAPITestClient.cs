@@ -41,13 +41,13 @@ namespace ArmoniK.EndToEndTests.Client.Tests.CheckUnifiedApi;
 
 public class IgnoreErrorHandler : IServiceInvocationHandler
 {
-  private readonly ILogger logger_;
+  private readonly ILogger? logger_;
 
-  public IgnoreErrorHandler(ILogger logger)
+  public IgnoreErrorHandler(ILogger? logger)
     => logger_ = logger;
 
-  public void HandleError(ServiceInvocationException e,
-                          string                     taskId)
+  public void HandleError(ServiceInvocationException? e,
+                          string                      taskId)
     => logger_.LogError($"Error (ignore) from {taskId} : " + e.Message);
 
   public void HandleResponse(object response,
@@ -75,8 +75,8 @@ public class IgnoreErrorHandler : IServiceInvocationHandler
 
 public class SimpleUnifiedApiTestClient : ClientBaseTest<SimpleUnifiedApiTestClient>, IServiceInvocationHandler
 {
-  public SimpleUnifiedApiTestClient(IConfiguration configuration,
-                                    ILoggerFactory loggerFactory)
+  public SimpleUnifiedApiTestClient(IConfiguration  configuration,
+                                    ILoggerFactory? loggerFactory)
     : base(configuration,
            loggerFactory)
   {
@@ -87,8 +87,8 @@ public class SimpleUnifiedApiTestClient : ClientBaseTest<SimpleUnifiedApiTestCli
   /// </summary>
   /// <param name="e">The exception sent to the client from the control plane</param>
   /// <param name="taskId">The task identifier which has invoke the error callBack</param>
-  public void HandleError(ServiceInvocationException e,
-                          string                     taskId)
+  public void HandleError(ServiceInvocationException? e,
+                          string                      taskId)
   {
     Log.LogError($"Error from {taskId} : " + e.Message);
     throw new ApplicationException($"Error from {taskId}",
@@ -149,7 +149,7 @@ public class SimpleUnifiedApiTestClient : ClientBaseTest<SimpleUnifiedApiTestCli
     ClientStartup3(cs);
   }
 
-  private static void OverrideTaskOptions(TaskOptions taskOptions)
+  private static void OverrideTaskOptions(TaskOptions? taskOptions)
   {
     taskOptions.EngineType         = EngineType.Unified.ToString();
     taskOptions.ApplicationService = "CheckUnifiedApiWorker";
@@ -159,7 +159,7 @@ public class SimpleUnifiedApiTestClient : ClientBaseTest<SimpleUnifiedApiTestCli
   }
 
 
-  private static object[] ParamsHelper(params object[] elements)
+  private static object?[] ParamsHelper(params object?[] elements)
     => elements;
 
   /// <summary>

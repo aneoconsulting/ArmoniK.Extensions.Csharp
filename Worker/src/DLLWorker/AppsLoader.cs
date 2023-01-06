@@ -44,11 +44,11 @@ public class AppsLoader : IAppsLoader
   private readonly ILogger<AppsLoader> logger_;
   private          Assembly            assembly_;
 
-  public AppsLoader(IConfiguration configuration,
-                    ILoggerFactory loggerFactory,
-                    string         engineTypeAssemblyName,
-                    IFileAdapter   fileAdapter,
-                    string         fileName)
+  public AppsLoader(IConfiguration? configuration,
+                    ILoggerFactory  loggerFactory,
+                    string          engineTypeAssemblyName,
+                    IFileAdapter    fileAdapter,
+                    string          fileName)
   {
     engineType_ = EngineTypeHelper.ToEnum(engineTypeAssemblyName);
 
@@ -156,8 +156,8 @@ public class AppsLoader : IAppsLoader
 
   public string PathToAssemblyGridWorker { get; set; }
 
-  public T GetServiceContainerInstance<T>(string appNamespace,
-                                          string serviceContainerClassName)
+  public T GetServiceContainerInstance<T>(string? appNamespace,
+                                          string? serviceContainerClassName)
   {
     using (UserAssemblyLoadContext.EnterContextualReflection())
     {
@@ -187,8 +187,8 @@ public class AppsLoader : IAppsLoader
     UserAssemblyLoadContext = null;
   }
 
-  public IGridWorker GetGridWorkerInstance(IConfiguration configuration,
-                                           ILoggerFactory loggerFactory)
+  public IGridWorker GetGridWorkerInstance(IConfiguration? configuration,
+                                           ILoggerFactory  loggerFactory)
   {
     // Create an instance of a class from the assembly.
     try
