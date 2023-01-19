@@ -76,7 +76,7 @@ public class BaseClientSubmitter<T>
   /// <summary>
   ///   Set or Get TaskOptions with inside MaxDuration, Priority, AppName, VersionName and AppNamespace
   /// </summary>
-  public TaskOptions? TaskOptions { get; set; }
+  public TaskOptions TaskOptions { get; set; }
 
   /// <summary>
   ///   Get SessionId object stored during the call of SubmitTask, SubmitSubTask,
@@ -164,7 +164,7 @@ public class BaseClientSubmitter<T>
   /// <param name="maxRetries">The number of retry before fail to submit task</param>
   /// <returns>return a list of taskIds of the created tasks </returns>
   [PublicAPI]
-  public IEnumerable<string> SubmitTasksWithDependencies(IEnumerable<Tuple<byte[]?, IList<string>?>> payloadsWithDependencies,
+  public IEnumerable<string> SubmitTasksWithDependencies(IEnumerable<Tuple<byte[], IList<string>?>> payloadsWithDependencies,
                                                          int                                         maxRetries = 5)
     => payloadsWithDependencies.ToChunk(chunkSubmitSize_)
                                .SelectMany(chunk =>

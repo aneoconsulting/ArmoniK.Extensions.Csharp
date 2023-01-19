@@ -38,11 +38,11 @@ namespace ArmoniK.DevelopmentKit.Client.GridServer;
 
 public class ServiceAdmin : IDisposable
 {
-  private static ServiceAdmin serviceAdmin_;
+  private static ServiceAdmin _serviceAdmin = null!;
 
-  public ServiceAdmin(IConfiguration  configuration,
-                      ILoggerFactory? loggerFactory,
-                      Properties      properties)
+  private ServiceAdmin(IConfiguration  configuration,
+                       ILoggerFactory? loggerFactory,
+                       Properties      properties)
   {
     ClientService = new ArmonikDataSynapseClientService(properties,
                                                         loggerFactory);
@@ -100,10 +100,10 @@ public class ServiceAdmin : IDisposable
                                             ILoggerFactory? loggerFactory,
                                             Properties      properties)
   {
-    serviceAdmin_ ??= new ServiceAdmin(configuration,
+    _serviceAdmin ??= new ServiceAdmin(configuration,
                                        loggerFactory,
                                        properties);
-    return serviceAdmin_;
+    return _serviceAdmin;
   }
 
   public string UploadResource(string filepath)

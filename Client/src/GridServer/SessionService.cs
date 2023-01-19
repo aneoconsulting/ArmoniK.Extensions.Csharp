@@ -51,10 +51,10 @@ public class SessionService : BaseClientSubmitter<SessionService>
   ///   Ctor to instantiate a new SessionService
   ///   This is an object to send task or get Results from a session
   /// </summary>
-  public SessionService(ChannelPool                 grpcPool,
-                        [CanBeNull] ILoggerFactory? loggerFactory = null,
-                        [CanBeNull] TaskOptions?    taskOptions   = null,
-                        [CanBeNull] Session?        sessionId     = null)
+  public SessionService(ChannelPool     grpcPool,
+                        ILoggerFactory? loggerFactory = null,
+                        TaskOptions?    taskOptions   = null,
+                        Session?        sessionId     = null)
     : base(grpcPool,
            loggerFactory)
   {
@@ -82,7 +82,7 @@ public class SessionService : BaseClientSubmitter<SessionService>
   ///   Priority = 1
   /// </summary>
   /// <returns>Default taskOptions</returns>
-  public static TaskOptions? InitializeDefaultTaskOptions()
+  public static TaskOptions InitializeDefaultTaskOptions()
     => new()
        {
          MaxDuration = new Duration
@@ -121,8 +121,13 @@ public class SessionService : BaseClientSubmitter<SessionService>
   ///   Set connection to an already opened Session
   /// </summary>
   /// <param name="session">SessionId previously opened</param>
-  public void OpenSession(Session? session)
+  public void OpenSession(Session session)
   {
+    if (session == null)
+    {
+      throw new ArgumentNullException(nameof(session));
+    }
+
     if (SessionId == null)
     {
       Logger?.LogDebug($"Open Session {session.Id}");

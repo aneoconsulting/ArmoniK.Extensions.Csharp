@@ -36,7 +36,7 @@ namespace ArmoniK.DevelopmentKit.Client.GridServer;
 [MarkDownDoc]
 public class ServiceFactory
 {
-  private static ServiceFactory _instanceFactory;
+  private static ServiceFactory _instanceFactory = null!;
 
   private ServiceFactory()
   {
@@ -48,12 +48,7 @@ public class ServiceFactory
   /// <returns>Returns the ServiceFactory to create new Service</returns>
   public static ServiceFactory GetInstance()
   {
-    if (_instanceFactory == null)
-    {
-      _instanceFactory = new ServiceFactory();
-    }
-
-    return _instanceFactory;
+    return _instanceFactory ??= new ServiceFactory();
   }
 
   /// <summary>
