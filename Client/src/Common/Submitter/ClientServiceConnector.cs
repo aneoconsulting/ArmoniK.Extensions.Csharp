@@ -145,7 +145,7 @@ public class ClientServiceConnector
                            Credentials = uri.Scheme == Uri.UriSchemeHttps
                                            ? new SslCredentials()
                                            : ChannelCredentials.Insecure,
-                           HttpHandler = httpClientHandler,
+                           HttpHandler   = httpClientHandler,
                            LoggerFactory = loggerFactory,
                          };
 
