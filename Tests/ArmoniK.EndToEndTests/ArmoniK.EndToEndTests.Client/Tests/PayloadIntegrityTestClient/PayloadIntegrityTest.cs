@@ -108,7 +108,7 @@ public class PayloadIntegrityTest
     for (var i = 0; i < numberOfPayload; i++)
     {
       tasks.Add(NewSubmitCallAsync(fixture,
-                          service));
+                                   service));
     }
 
     Task.WaitAll(tasks.ToArray());
@@ -126,7 +126,7 @@ public class PayloadIntegrityTest
   }
 
   private async Task NewSubmitCallAsync(Fixture fixture,
-                               Service service)
+                                        Service service)
   {
     var payload = new[]
                   {
