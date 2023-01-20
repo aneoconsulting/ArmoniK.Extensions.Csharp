@@ -121,7 +121,7 @@ internal abstract class UnitTestHelperBase
 public static class IEnumerable
 {
   /// <summary>
-  /// Extensions to loop Async all over IEnumerable without expected result
+  ///   Extensions to loop Async all over IEnumerable without expected result
   /// </summary>
   /// <param name="list"></param>
   /// <param name="function"></param>
@@ -129,12 +129,10 @@ public static class IEnumerable
   /// <returns></returns>
   public static Task LoopAsync<T>(this IEnumerable<T> list,
                                   Func<T, Task>       function)
-  {
-    return Task.WhenAll(list.Select(function));
-  }
+    => Task.WhenAll(list.Select(function));
 
   /// <summary>
-  /// Iterable loop to execution lambda on the IEnumerable
+  ///   Iterable loop to execution lambda on the IEnumerable
   /// </summary>
   /// <param name="list">The IEnumerable list to iterate on</param>
   /// <param name="function">The lambda function to apply on the Enumerable list</param>

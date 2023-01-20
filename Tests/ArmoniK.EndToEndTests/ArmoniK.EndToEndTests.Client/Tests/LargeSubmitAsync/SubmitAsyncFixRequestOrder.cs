@@ -1,5 +1,5 @@
 using System;
-using System.Collections.Generic;
+using System.Collections.Concurrent;
 using System.Data;
 using System.Linq;
 using System.Threading;
@@ -14,8 +14,8 @@ namespace ArmoniK.EndToEndTests.Client.Tests.LargeSubmitAsync;
 
 public class SubmitAsyncFixRequestOrder
 {
-  private const string ApplicationNamespace = "ArmoniK.EndToEndTests.Worker.Tests.LargePayloadSubmit";
-  private const string ApplicationService   = "LargePayloadSubmitWorker";
+  private const string ApplicationNamespace = "ArmoniK.EndToEndTests.Worker.Tests.CheckUnifiedApi";
+  private const string ApplicationService   = "CheckUnifiedApiWorker";
 
   private UnifiedTestHelper unifiedTestHelper_;
 
@@ -49,6 +49,12 @@ public class SubmitAsyncFixRequestOrder
             2,
             2,
             50)]
+  [TestCase(1000,
+            1,
+            100,
+            4,
+            4,
+            50)]
   public void Check_That_Batching_return_Ids_In_Good_Order_With_Unified_SDK(int nbTasks,
                                                                             int nbElementInWorkLoad,
                                                                             int bufferRequestSize,
@@ -56,8 +62,6 @@ public class SubmitAsyncFixRequestOrder
                                                                             int maxParallelChannels  = 2,
                                                                             int workloadTimeInMs     = 1)
   {
-    int indexTask;
-    var taskIds            = new List<Task<string>>();
     var cancellationSource = new CancellationTokenSource();
 
 
@@ -65,9 +69,9 @@ public class SubmitAsyncFixRequestOrder
                                                        ApplicationNamespace,
                                                        ApplicationService,
                                                        bufferRequestSize,
-                                                       4,
-                                                       4,
-                                                       TimeSpan.FromMilliseconds(workloadTimeInMs));
+                                                       maxConcurrentBuffers,
+                                                       maxParallelChannels,
+                                                       TimeSpan.FromSeconds(1));
 
     var service = localUnifiedTestHelper.Service as Service;
     if (service == null)
@@ -75,34 +79,36 @@ public class SubmitAsyncFixRequestOrder
       throw new NoNullAllowedException("Unified API Service is null");
     }
 
-    var numbers = Enumerable.Range(1,
-                                   nbElementInWorkLoad)
-                            .Select(elem => (double)elem)
-                            .ToArray();
-    var taskIdExpectedResults = new List<(string taskId, double expectedResult)>();
+    var taskIdExpectedResults = new ConcurrentDictionary<string, double>();
+
+    async Task Function(int i)
+    {
+      double expectedResult = i * i * i;
+      var myTaskId = await service.SubmitAsync("ComputeBasicArrayCube",
+                                               UnitTestHelperBase.ParamsHelper(new double[]
+                                                                               {
+                                                                                 i,
+                                                                               }),
+                                               localUnifiedTestHelper,
+                                               cancellationSource.Token);
+      taskIdExpectedResults[myTaskId] = expectedResult;
+    }
 
     Enumerable.Range(0,
-                     200)
-              .LoopAsync(function: async (i) =>
-                                   {
-                                     double expectedResult = i * i * i;
-                                     var myTaskId = await service.SubmitAsync("ComputeBasicArrayCube",
-                                                                        UnitTestHelperBase.ParamsHelper(new double[]
-                                                                                                        {
-                                                                                                          i,
-                                                                                                        }),
-                                                                        unifiedTestHelper_,
-                                                                        cancellationSource.Token);
-                                     taskIdExpectedResults.Add((myTaskId, expectedResult));
+                     nbTasks)
+              .LoopAsync(Function)
+              .Wait(cancellationSource.Token);
 
-                                   }).Wait(cancellationSource.Token);
-
-    var taskResult = unifiedTestHelper_.WaitForResultcompletion(taskIdExpectedResults.Select(elem => elem.taskId));
+    var taskResult = localUnifiedTestHelper.WaitForResultcompletion(taskIdExpectedResults.Select(elem => elem.Key));
     Assert.IsNotNull(taskResult);
-    foreach (var taskIdExpectedResult in taskIdExpectedResults)
+    Assert.IsNotNull(taskIdExpectedResults);
+
+    Assert.That(nbTasks == taskIdExpectedResults.Count);
+
+    foreach (var taskIdExpectedResult in taskIdExpectedResults!)
     {
-      Assert.That(((double[])taskResult[taskIdExpectedResult.taskId])[0],
-                  Is.EqualTo(taskIdExpectedResult.expectedResult));
+      Assert.That(((double[])taskResult[taskIdExpectedResult.Key])[0],
+                  Is.EqualTo(taskIdExpectedResult.Value));
     }
   }
 }
