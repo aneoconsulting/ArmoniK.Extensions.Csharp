@@ -107,7 +107,7 @@ public class PayloadIntegrityTest
     var service = ServiceFactory.CreateService(props);
     for (var i = 0; i < numberOfPayload; i++)
     {
-      tasks.Add(NewMethod(fixture,
+      tasks.Add(NewSubmitCallAsync(fixture,
                           service));
     }
 
@@ -125,7 +125,7 @@ public class PayloadIntegrityTest
     taskAndData_.Clear();
   }
 
-  private async Task NewMethod(Fixture fixture,
+  private async Task NewSubmitCallAsync(Fixture fixture,
                                Service service)
   {
     var payload = new[]

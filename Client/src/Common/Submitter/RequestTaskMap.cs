@@ -37,10 +37,10 @@ public class RequestTaskMap
   private readonly ConcurrentDictionary<Guid, string> dictionary_ = new();
 
   /// <summary>
-  ///   Push the resultId resultId and taskId in the concurrentDictionary
+  ///   Push the resultId and taskId in the concurrentDictionary
   /// </summary>
-  /// <param name="resultId"></param>
-  /// <param name="taskId"></param>
+  /// <param name="resultId">The result Id push during the submission</param>
+  /// <param name="taskId">the taskId was given by the control Plane</param>
   public void PutResponse(Guid   resultId,
                           string taskId)
     => dictionary_[resultId] = taskId;
@@ -48,7 +48,7 @@ public class RequestTaskMap
   /// <summary>
   ///   Get the correct taskId based on the resultId
   /// </summary>
-  /// <param name="resultId"></param>
+  /// <param name="resultId">The result Id push during the submission</param>
   /// <returns>the async taskId</returns>
   public async Task<string> GetResponseAsync(Guid resultId)
   {
