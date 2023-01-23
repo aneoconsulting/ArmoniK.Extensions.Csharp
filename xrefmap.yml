@@ -609,6 +609,24 @@ references:
   fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter(Of T).GetResult
   nameWithType: BaseClientSubmitter<T>.GetResult
   nameWithType.vb: BaseClientSubmitter(Of T).GetResult
+- uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.GetResultIds(IEnumerable{System.String})
+  name: GetResultIds(IEnumerable<String>)
+  href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_GetResultIds_IEnumerable_System_String__
+  commentId: M:ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.GetResultIds(IEnumerable{System.String})
+  name.vb: GetResultIds(IEnumerable(Of String))
+  fullName: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter<T>.GetResultIds(IEnumerable<System.String>)
+  fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter(Of T).GetResultIds(IEnumerable(Of System.String))
+  nameWithType: BaseClientSubmitter<T>.GetResultIds(IEnumerable<String>)
+  nameWithType.vb: BaseClientSubmitter(Of T).GetResultIds(IEnumerable(Of String))
+- uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.GetResultIds*
+  name: GetResultIds
+  href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_GetResultIds_
+  commentId: Overload:ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.GetResultIds
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter<T>.GetResultIds
+  fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter(Of T).GetResultIds
+  nameWithType: BaseClientSubmitter<T>.GetResultIds
+  nameWithType.vb: BaseClientSubmitter(Of T).GetResultIds
 - uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.GetResults(IEnumerable{System.String},CancellationToken)
   name: GetResults(IEnumerable<String>, CancellationToken)
   href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_GetResults_IEnumerable_System_String__CancellationToken_
@@ -757,6 +775,15 @@ references:
   fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter(Of T).SubmitTasksWithDependencies(IEnumerable(Of Tuple(Of System.Byte(), IList(Of System.String))), System.Int32)
   nameWithType: BaseClientSubmitter<T>.SubmitTasksWithDependencies(IEnumerable<Tuple<Byte[], IList<String>>>, Int32)
   nameWithType.vb: BaseClientSubmitter(Of T).SubmitTasksWithDependencies(IEnumerable(Of Tuple(Of Byte(), IList(Of String))), Int32)
+- uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.SubmitTasksWithDependencies(IEnumerable{Tuple{System.String,System.Byte[],IList{System.String}}},System.Int32)
+  name: SubmitTasksWithDependencies(IEnumerable<Tuple<String, Byte[], IList<String>>>, Int32)
+  href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_SubmitTasksWithDependencies_IEnumerable_Tuple_System_String_System_Byte___IList_System_String____System_Int32_
+  commentId: M:ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.SubmitTasksWithDependencies(IEnumerable{Tuple{System.String,System.Byte[],IList{System.String}}},System.Int32)
+  name.vb: SubmitTasksWithDependencies(IEnumerable(Of Tuple(Of String, Byte(), IList(Of String))), Int32)
+  fullName: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter<T>.SubmitTasksWithDependencies(IEnumerable<Tuple<System.String, System.Byte[], IList<System.String>>>, System.Int32)
+  fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter(Of T).SubmitTasksWithDependencies(IEnumerable(Of Tuple(Of System.String, System.Byte(), IList(Of System.String))), System.Int32)
+  nameWithType: BaseClientSubmitter<T>.SubmitTasksWithDependencies(IEnumerable<Tuple<String, Byte[], IList<String>>>, Int32)
+  nameWithType.vb: BaseClientSubmitter(Of T).SubmitTasksWithDependencies(IEnumerable(Of Tuple(Of String, Byte(), IList(Of String))), Int32)
 - uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.SubmitTasksWithDependencies*
   name: SubmitTasksWithDependencies
   href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_SubmitTasksWithDependencies_
@@ -1082,6 +1109,38 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.Client.Common.Submitter.ISubmitterService.Submit
   nameWithType: ISubmitterService.Submit
+- uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.RequestTaskMap
+  name: RequestTaskMap
+  href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.RequestTaskMap.html
+  commentId: T:ArmoniK.DevelopmentKit.Client.Common.Submitter.RequestTaskMap
+  fullName: ArmoniK.DevelopmentKit.Client.Common.Submitter.RequestTaskMap
+  nameWithType: RequestTaskMap
+- uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.RequestTaskMap.GetResponseAsync(Guid)
+  name: GetResponseAsync(Guid)
+  href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.RequestTaskMap.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_RequestTaskMap_GetResponseAsync_Guid_
+  commentId: M:ArmoniK.DevelopmentKit.Client.Common.Submitter.RequestTaskMap.GetResponseAsync(Guid)
+  fullName: ArmoniK.DevelopmentKit.Client.Common.Submitter.RequestTaskMap.GetResponseAsync(Guid)
+  nameWithType: RequestTaskMap.GetResponseAsync(Guid)
+- uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.RequestTaskMap.GetResponseAsync*
+  name: GetResponseAsync
+  href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.RequestTaskMap.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_RequestTaskMap_GetResponseAsync_
+  commentId: Overload:ArmoniK.DevelopmentKit.Client.Common.Submitter.RequestTaskMap.GetResponseAsync
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Client.Common.Submitter.RequestTaskMap.GetResponseAsync
+  nameWithType: RequestTaskMap.GetResponseAsync
+- uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.RequestTaskMap.PutResponse(Guid,System.String)
+  name: PutResponse(Guid, String)
+  href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.RequestTaskMap.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_RequestTaskMap_PutResponse_Guid_System_String_
+  commentId: M:ArmoniK.DevelopmentKit.Client.Common.Submitter.RequestTaskMap.PutResponse(Guid,System.String)
+  fullName: ArmoniK.DevelopmentKit.Client.Common.Submitter.RequestTaskMap.PutResponse(Guid, System.String)
+  nameWithType: RequestTaskMap.PutResponse(Guid, String)
+- uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.RequestTaskMap.PutResponse*
+  name: PutResponse
+  href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.RequestTaskMap.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_RequestTaskMap_PutResponse_
+  commentId: Overload:ArmoniK.DevelopmentKit.Client.Common.Submitter.RequestTaskMap.PutResponse
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Client.Common.Submitter.RequestTaskMap.PutResponse
+  nameWithType: RequestTaskMap.PutResponse
 - uid: ArmoniK.DevelopmentKit.Client.GridServer
   name: ArmoniK.DevelopmentKit.Client.GridServer
   href: api/ArmoniK.DevelopmentKit.Client.GridServer.html
@@ -8043,6 +8102,12 @@ references:
   isSpec: "True"
   fullName: ArmoniK.EndToEndTests.Client.Program.GetMethods
   nameWithType: Program.GetMethods
+- uid: ArmoniK.EndToEndTests.Client.Tests
+  name: ArmoniK.EndToEndTests.Client.Tests
+  href: api/ArmoniK.EndToEndTests.Client.Tests.html
+  commentId: N:ArmoniK.EndToEndTests.Client.Tests
+  fullName: ArmoniK.EndToEndTests.Client.Tests
+  nameWithType: ArmoniK.EndToEndTests.Client.Tests
 - uid: ArmoniK.EndToEndTests.Client.Tests.CheckGridServer
   name: ArmoniK.EndToEndTests.Client.Tests.CheckGridServer
   href: api/ArmoniK.EndToEndTests.Client.Tests.CheckGridServer.html
@@ -9075,13 +9140,13 @@ references:
   isSpec: "True"
   fullName: ArmoniK.EndToEndTests.Client.Tests.CheckTypeOfSubmission.MyExtensions.Batch
   nameWithType: MyExtensions.Batch
-- uid: ArmoniK.EndToEndTests.Client.Tests.CheckTypeOfSubmission.MyExtensions.Batch``1(IEnumerable{``0},System.Int32)
+- uid: ArmoniK.EndToEndTests.Client.Tests.CheckTypeOfSubmission.MyExtensions.Batch``1(ArmoniK.EndToEndTests.Client.Tests.IEnumerable{``0},System.Int32)
   name: Batch<T>(IEnumerable<T>, Int32)
-  href: api/ArmoniK.EndToEndTests.Client.Tests.CheckTypeOfSubmission.MyExtensions.html#ArmoniK_EndToEndTests_Client_Tests_CheckTypeOfSubmission_MyExtensions_Batch__1_IEnumerable___0__System_Int32_
-  commentId: M:ArmoniK.EndToEndTests.Client.Tests.CheckTypeOfSubmission.MyExtensions.Batch``1(IEnumerable{``0},System.Int32)
+  href: api/ArmoniK.EndToEndTests.Client.Tests.CheckTypeOfSubmission.MyExtensions.html#ArmoniK_EndToEndTests_Client_Tests_CheckTypeOfSubmission_MyExtensions_Batch__1_ArmoniK_EndToEndTests_Client_Tests_IEnumerable___0__System_Int32_
+  commentId: M:ArmoniK.EndToEndTests.Client.Tests.CheckTypeOfSubmission.MyExtensions.Batch``1(ArmoniK.EndToEndTests.Client.Tests.IEnumerable{``0},System.Int32)
   name.vb: Batch(Of T)(IEnumerable(Of T), Int32)
-  fullName: ArmoniK.EndToEndTests.Client.Tests.CheckTypeOfSubmission.MyExtensions.Batch<T>(IEnumerable<T>, System.Int32)
-  fullName.vb: ArmoniK.EndToEndTests.Client.Tests.CheckTypeOfSubmission.MyExtensions.Batch(Of T)(IEnumerable(Of T), System.Int32)
+  fullName: ArmoniK.EndToEndTests.Client.Tests.CheckTypeOfSubmission.MyExtensions.Batch<T>(ArmoniK.EndToEndTests.Client.Tests.IEnumerable<T>, System.Int32)
+  fullName.vb: ArmoniK.EndToEndTests.Client.Tests.CheckTypeOfSubmission.MyExtensions.Batch(Of T)(ArmoniK.EndToEndTests.Client.Tests.IEnumerable(Of T), System.Int32)
   nameWithType: MyExtensions.Batch<T>(IEnumerable<T>, Int32)
   nameWithType.vb: MyExtensions.Batch(Of T)(IEnumerable(Of T), Int32)
 - uid: ArmoniK.EndToEndTests.Client.Tests.CheckUnifiedApi
@@ -9419,6 +9484,44 @@ references:
   isSpec: "True"
   fullName: ArmoniK.EndToEndTests.Client.Tests.CheckUnifiedApi.SimpleUnifiedApiTestClient.HandleResponse
   nameWithType: SimpleUnifiedApiTestClient.HandleResponse
+- uid: ArmoniK.EndToEndTests.Client.Tests.IEnumerable
+  name: IEnumerable
+  href: api/ArmoniK.EndToEndTests.Client.Tests.IEnumerable.html
+  commentId: T:ArmoniK.EndToEndTests.Client.Tests.IEnumerable
+  fullName: ArmoniK.EndToEndTests.Client.Tests.IEnumerable
+  nameWithType: IEnumerable
+- uid: ArmoniK.EndToEndTests.Client.Tests.IEnumerable.LoopAsync*
+  name: LoopAsync
+  href: api/ArmoniK.EndToEndTests.Client.Tests.IEnumerable.html#ArmoniK_EndToEndTests_Client_Tests_IEnumerable_LoopAsync_
+  commentId: Overload:ArmoniK.EndToEndTests.Client.Tests.IEnumerable.LoopAsync
+  isSpec: "True"
+  fullName: ArmoniK.EndToEndTests.Client.Tests.IEnumerable.LoopAsync
+  nameWithType: IEnumerable.LoopAsync
+- uid: ArmoniK.EndToEndTests.Client.Tests.IEnumerable.LoopAsync``1(ArmoniK.EndToEndTests.Client.Tests.IEnumerable{``0},Func{``0,Task})
+  name: LoopAsync<T>(IEnumerable<T>, Func<T, Task>)
+  href: api/ArmoniK.EndToEndTests.Client.Tests.IEnumerable.html#ArmoniK_EndToEndTests_Client_Tests_IEnumerable_LoopAsync__1_ArmoniK_EndToEndTests_Client_Tests_IEnumerable___0__Func___0_Task__
+  commentId: M:ArmoniK.EndToEndTests.Client.Tests.IEnumerable.LoopAsync``1(ArmoniK.EndToEndTests.Client.Tests.IEnumerable{``0},Func{``0,Task})
+  name.vb: LoopAsync(Of T)(IEnumerable(Of T), Func(Of T, Task))
+  fullName: ArmoniK.EndToEndTests.Client.Tests.IEnumerable.LoopAsync<T>(ArmoniK.EndToEndTests.Client.Tests.IEnumerable<T>, Func<T, Task>)
+  fullName.vb: ArmoniK.EndToEndTests.Client.Tests.IEnumerable.LoopAsync(Of T)(ArmoniK.EndToEndTests.Client.Tests.IEnumerable(Of T), Func(Of T, Task))
+  nameWithType: IEnumerable.LoopAsync<T>(IEnumerable<T>, Func<T, Task>)
+  nameWithType.vb: IEnumerable.LoopAsync(Of T)(IEnumerable(Of T), Func(Of T, Task))
+- uid: ArmoniK.EndToEndTests.Client.Tests.IEnumerable.LoopAsyncResult*
+  name: LoopAsyncResult
+  href: api/ArmoniK.EndToEndTests.Client.Tests.IEnumerable.html#ArmoniK_EndToEndTests_Client_Tests_IEnumerable_LoopAsyncResult_
+  commentId: Overload:ArmoniK.EndToEndTests.Client.Tests.IEnumerable.LoopAsyncResult
+  isSpec: "True"
+  fullName: ArmoniK.EndToEndTests.Client.Tests.IEnumerable.LoopAsyncResult
+  nameWithType: IEnumerable.LoopAsyncResult
+- uid: ArmoniK.EndToEndTests.Client.Tests.IEnumerable.LoopAsyncResult``2(ArmoniK.EndToEndTests.Client.Tests.IEnumerable{``0},Func{``0,Task{``1}})
+  name: LoopAsyncResult<TIn, TOut>(IEnumerable<TIn>, Func<TIn, Task<TOut>>)
+  href: api/ArmoniK.EndToEndTests.Client.Tests.IEnumerable.html#ArmoniK_EndToEndTests_Client_Tests_IEnumerable_LoopAsyncResult__2_ArmoniK_EndToEndTests_Client_Tests_IEnumerable___0__Func___0_Task___1___
+  commentId: M:ArmoniK.EndToEndTests.Client.Tests.IEnumerable.LoopAsyncResult``2(ArmoniK.EndToEndTests.Client.Tests.IEnumerable{``0},Func{``0,Task{``1}})
+  name.vb: LoopAsyncResult(Of TIn, TOut)(IEnumerable(Of TIn), Func(Of TIn, Task(Of TOut)))
+  fullName: ArmoniK.EndToEndTests.Client.Tests.IEnumerable.LoopAsyncResult<TIn, TOut>(ArmoniK.EndToEndTests.Client.Tests.IEnumerable<TIn>, Func<TIn, Task<TOut>>)
+  fullName.vb: ArmoniK.EndToEndTests.Client.Tests.IEnumerable.LoopAsyncResult(Of TIn, TOut)(ArmoniK.EndToEndTests.Client.Tests.IEnumerable(Of TIn), Func(Of TIn, Task(Of TOut)))
+  nameWithType: IEnumerable.LoopAsyncResult<TIn, TOut>(IEnumerable<TIn>, Func<TIn, Task<TOut>>)
+  nameWithType.vb: IEnumerable.LoopAsyncResult(Of TIn, TOut)(IEnumerable(Of TIn), Func(Of TIn, Task(Of TOut)))
 - uid: ArmoniK.EndToEndTests.Client.Tests.LargePayloadSubmit
   name: ArmoniK.EndToEndTests.Client.Tests.LargePayloadSubmit
   href: api/ArmoniK.EndToEndTests.Client.Tests.LargePayloadSubmit.html
@@ -9637,19 +9740,19 @@ references:
   commentId: T:ArmoniK.EndToEndTests.Client.Tests.LargeSubmitAsync.LargeSubmitAsyncTest
   fullName: ArmoniK.EndToEndTests.Client.Tests.LargeSubmitAsync.LargeSubmitAsyncTest
   nameWithType: LargeSubmitAsyncTest
-- uid: ArmoniK.EndToEndTests.Client.Tests.LargeSubmitAsync.LargeSubmitAsyncTest.Check_That_buffering_With_SubmitAsync_Is_Working(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)
-  name: Check_That_buffering_With_SubmitAsync_Is_Working(Int32, Int32, Int32, Int32, Int32, Int32)
-  href: api/ArmoniK.EndToEndTests.Client.Tests.LargeSubmitAsync.LargeSubmitAsyncTest.html#ArmoniK_EndToEndTests_Client_Tests_LargeSubmitAsync_LargeSubmitAsyncTest_Check_That_buffering_With_SubmitAsync_Is_Working_System_Int32_System_Int32_System_Int32_System_Int32_System_Int32_System_Int32_
-  commentId: M:ArmoniK.EndToEndTests.Client.Tests.LargeSubmitAsync.LargeSubmitAsyncTest.Check_That_buffering_With_SubmitAsync_Is_Working(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)
-  fullName: ArmoniK.EndToEndTests.Client.Tests.LargeSubmitAsync.LargeSubmitAsyncTest.Check_That_buffering_With_SubmitAsync_Is_Working(System.Int32, System.Int32, System.Int32, System.Int32, System.Int32, System.Int32)
-  nameWithType: LargeSubmitAsyncTest.Check_That_buffering_With_SubmitAsync_Is_Working(Int32, Int32, Int32, Int32, Int32, Int32)
-- uid: ArmoniK.EndToEndTests.Client.Tests.LargeSubmitAsync.LargeSubmitAsyncTest.Check_That_buffering_With_SubmitAsync_Is_Working*
-  name: Check_That_buffering_With_SubmitAsync_Is_Working
-  href: api/ArmoniK.EndToEndTests.Client.Tests.LargeSubmitAsync.LargeSubmitAsyncTest.html#ArmoniK_EndToEndTests_Client_Tests_LargeSubmitAsync_LargeSubmitAsyncTest_Check_That_buffering_With_SubmitAsync_Is_Working_
-  commentId: Overload:ArmoniK.EndToEndTests.Client.Tests.LargeSubmitAsync.LargeSubmitAsyncTest.Check_That_buffering_With_SubmitAsync_Is_Working
+- uid: ArmoniK.EndToEndTests.Client.Tests.LargeSubmitAsync.LargeSubmitAsyncTest.Check_That_Buffering_With_SubmitAsync_Is_Working(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)
+  name: Check_That_Buffering_With_SubmitAsync_Is_Working(Int32, Int32, Int32, Int32, Int32, Int32)
+  href: api/ArmoniK.EndToEndTests.Client.Tests.LargeSubmitAsync.LargeSubmitAsyncTest.html#ArmoniK_EndToEndTests_Client_Tests_LargeSubmitAsync_LargeSubmitAsyncTest_Check_That_Buffering_With_SubmitAsync_Is_Working_System_Int32_System_Int32_System_Int32_System_Int32_System_Int32_System_Int32_
+  commentId: M:ArmoniK.EndToEndTests.Client.Tests.LargeSubmitAsync.LargeSubmitAsyncTest.Check_That_Buffering_With_SubmitAsync_Is_Working(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)
+  fullName: ArmoniK.EndToEndTests.Client.Tests.LargeSubmitAsync.LargeSubmitAsyncTest.Check_That_Buffering_With_SubmitAsync_Is_Working(System.Int32, System.Int32, System.Int32, System.Int32, System.Int32, System.Int32)
+  nameWithType: LargeSubmitAsyncTest.Check_That_Buffering_With_SubmitAsync_Is_Working(Int32, Int32, Int32, Int32, Int32, Int32)
+- uid: ArmoniK.EndToEndTests.Client.Tests.LargeSubmitAsync.LargeSubmitAsyncTest.Check_That_Buffering_With_SubmitAsync_Is_Working*
+  name: Check_That_Buffering_With_SubmitAsync_Is_Working
+  href: api/ArmoniK.EndToEndTests.Client.Tests.LargeSubmitAsync.LargeSubmitAsyncTest.html#ArmoniK_EndToEndTests_Client_Tests_LargeSubmitAsync_LargeSubmitAsyncTest_Check_That_Buffering_With_SubmitAsync_Is_Working_
+  commentId: Overload:ArmoniK.EndToEndTests.Client.Tests.LargeSubmitAsync.LargeSubmitAsyncTest.Check_That_Buffering_With_SubmitAsync_Is_Working
   isSpec: "True"
-  fullName: ArmoniK.EndToEndTests.Client.Tests.LargeSubmitAsync.LargeSubmitAsyncTest.Check_That_buffering_With_SubmitAsync_Is_Working
-  nameWithType: LargeSubmitAsyncTest.Check_That_buffering_With_SubmitAsync_Is_Working
+  fullName: ArmoniK.EndToEndTests.Client.Tests.LargeSubmitAsync.LargeSubmitAsyncTest.Check_That_Buffering_With_SubmitAsync_Is_Working
+  nameWithType: LargeSubmitAsyncTest.Check_That_Buffering_With_SubmitAsync_Is_Working
 - uid: ArmoniK.EndToEndTests.Client.Tests.LargeSubmitAsync.LargeSubmitAsyncTest.Cleanup
   name: Cleanup()
   href: api/ArmoniK.EndToEndTests.Client.Tests.LargeSubmitAsync.LargeSubmitAsyncTest.html#ArmoniK_EndToEndTests_Client_Tests_LargeSubmitAsync_LargeSubmitAsyncTest_Cleanup
@@ -9663,6 +9766,133 @@ references:
   isSpec: "True"
   fullName: ArmoniK.EndToEndTests.Client.Tests.LargeSubmitAsync.LargeSubmitAsyncTest.Cleanup
   nameWithType: LargeSubmitAsyncTest.Cleanup
+- uid: ArmoniK.EndToEndTests.Client.Tests.LargeSubmitAsync.SubmitAsyncFixRequestOrder
+  name: SubmitAsyncFixRequestOrder
+  href: api/ArmoniK.EndToEndTests.Client.Tests.LargeSubmitAsync.SubmitAsyncFixRequestOrder.html
+  commentId: T:ArmoniK.EndToEndTests.Client.Tests.LargeSubmitAsync.SubmitAsyncFixRequestOrder
+  fullName: ArmoniK.EndToEndTests.Client.Tests.LargeSubmitAsync.SubmitAsyncFixRequestOrder
+  nameWithType: SubmitAsyncFixRequestOrder
+- uid: ArmoniK.EndToEndTests.Client.Tests.LargeSubmitAsync.SubmitAsyncFixRequestOrder.Check_That_Batching_return_Ids_In_Good_Order_With_Unified_SDK(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)
+  name: Check_That_Batching_return_Ids_In_Good_Order_With_Unified_SDK(Int32, Int32, Int32, Int32, Int32, Int32)
+  href: api/ArmoniK.EndToEndTests.Client.Tests.LargeSubmitAsync.SubmitAsyncFixRequestOrder.html#ArmoniK_EndToEndTests_Client_Tests_LargeSubmitAsync_SubmitAsyncFixRequestOrder_Check_That_Batching_return_Ids_In_Good_Order_With_Unified_SDK_System_Int32_System_Int32_System_Int32_System_Int32_System_Int32_System_Int32_
+  commentId: M:ArmoniK.EndToEndTests.Client.Tests.LargeSubmitAsync.SubmitAsyncFixRequestOrder.Check_That_Batching_return_Ids_In_Good_Order_With_Unified_SDK(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)
+  fullName: ArmoniK.EndToEndTests.Client.Tests.LargeSubmitAsync.SubmitAsyncFixRequestOrder.Check_That_Batching_return_Ids_In_Good_Order_With_Unified_SDK(System.Int32, System.Int32, System.Int32, System.Int32, System.Int32, System.Int32)
+  nameWithType: SubmitAsyncFixRequestOrder.Check_That_Batching_return_Ids_In_Good_Order_With_Unified_SDK(Int32, Int32, Int32, Int32, Int32, Int32)
+- uid: ArmoniK.EndToEndTests.Client.Tests.LargeSubmitAsync.SubmitAsyncFixRequestOrder.Check_That_Batching_return_Ids_In_Good_Order_With_Unified_SDK*
+  name: Check_That_Batching_return_Ids_In_Good_Order_With_Unified_SDK
+  href: api/ArmoniK.EndToEndTests.Client.Tests.LargeSubmitAsync.SubmitAsyncFixRequestOrder.html#ArmoniK_EndToEndTests_Client_Tests_LargeSubmitAsync_SubmitAsyncFixRequestOrder_Check_That_Batching_return_Ids_In_Good_Order_With_Unified_SDK_
+  commentId: Overload:ArmoniK.EndToEndTests.Client.Tests.LargeSubmitAsync.SubmitAsyncFixRequestOrder.Check_That_Batching_return_Ids_In_Good_Order_With_Unified_SDK
+  isSpec: "True"
+  fullName: ArmoniK.EndToEndTests.Client.Tests.LargeSubmitAsync.SubmitAsyncFixRequestOrder.Check_That_Batching_return_Ids_In_Good_Order_With_Unified_SDK
+  nameWithType: SubmitAsyncFixRequestOrder.Check_That_Batching_return_Ids_In_Good_Order_With_Unified_SDK
+- uid: ArmoniK.EndToEndTests.Client.Tests.LargeSubmitAsync.SubmitAsyncFixRequestOrder.Cleanup
+  name: Cleanup()
+  href: api/ArmoniK.EndToEndTests.Client.Tests.LargeSubmitAsync.SubmitAsyncFixRequestOrder.html#ArmoniK_EndToEndTests_Client_Tests_LargeSubmitAsync_SubmitAsyncFixRequestOrder_Cleanup
+  commentId: M:ArmoniK.EndToEndTests.Client.Tests.LargeSubmitAsync.SubmitAsyncFixRequestOrder.Cleanup
+  fullName: ArmoniK.EndToEndTests.Client.Tests.LargeSubmitAsync.SubmitAsyncFixRequestOrder.Cleanup()
+  nameWithType: SubmitAsyncFixRequestOrder.Cleanup()
+- uid: ArmoniK.EndToEndTests.Client.Tests.LargeSubmitAsync.SubmitAsyncFixRequestOrder.Cleanup*
+  name: Cleanup
+  href: api/ArmoniK.EndToEndTests.Client.Tests.LargeSubmitAsync.SubmitAsyncFixRequestOrder.html#ArmoniK_EndToEndTests_Client_Tests_LargeSubmitAsync_SubmitAsyncFixRequestOrder_Cleanup_
+  commentId: Overload:ArmoniK.EndToEndTests.Client.Tests.LargeSubmitAsync.SubmitAsyncFixRequestOrder.Cleanup
+  isSpec: "True"
+  fullName: ArmoniK.EndToEndTests.Client.Tests.LargeSubmitAsync.SubmitAsyncFixRequestOrder.Cleanup
+  nameWithType: SubmitAsyncFixRequestOrder.Cleanup
+- uid: ArmoniK.EndToEndTests.Client.Tests.PayloadIntegrityTestClient
+  name: ArmoniK.EndToEndTests.Client.Tests.PayloadIntegrityTestClient
+  href: api/ArmoniK.EndToEndTests.Client.Tests.PayloadIntegrityTestClient.html
+  commentId: N:ArmoniK.EndToEndTests.Client.Tests.PayloadIntegrityTestClient
+  fullName: ArmoniK.EndToEndTests.Client.Tests.PayloadIntegrityTestClient
+  nameWithType: ArmoniK.EndToEndTests.Client.Tests.PayloadIntegrityTestClient
+- uid: ArmoniK.EndToEndTests.Client.Tests.PayloadIntegrityTestClient.HandleErrorType
+  name: HandleErrorType
+  href: api/ArmoniK.EndToEndTests.Client.Tests.PayloadIntegrityTestClient.HandleErrorType.html
+  commentId: T:ArmoniK.EndToEndTests.Client.Tests.PayloadIntegrityTestClient.HandleErrorType
+  fullName: ArmoniK.EndToEndTests.Client.Tests.PayloadIntegrityTestClient.HandleErrorType
+  nameWithType: HandleErrorType
+- uid: ArmoniK.EndToEndTests.Client.Tests.PayloadIntegrityTestClient.HandleResponseType
+  name: HandleResponseType
+  href: api/ArmoniK.EndToEndTests.Client.Tests.PayloadIntegrityTestClient.HandleResponseType.html
+  commentId: T:ArmoniK.EndToEndTests.Client.Tests.PayloadIntegrityTestClient.HandleResponseType
+  fullName: ArmoniK.EndToEndTests.Client.Tests.PayloadIntegrityTestClient.HandleResponseType
+  nameWithType: HandleResponseType
+- uid: ArmoniK.EndToEndTests.Client.Tests.PayloadIntegrityTestClient.PayloadIntegrityTest
+  name: PayloadIntegrityTest
+  href: api/ArmoniK.EndToEndTests.Client.Tests.PayloadIntegrityTestClient.PayloadIntegrityTest.html
+  commentId: T:ArmoniK.EndToEndTests.Client.Tests.PayloadIntegrityTestClient.PayloadIntegrityTest
+  fullName: ArmoniK.EndToEndTests.Client.Tests.PayloadIntegrityTestClient.PayloadIntegrityTest
+  nameWithType: PayloadIntegrityTest
+- uid: ArmoniK.EndToEndTests.Client.Tests.PayloadIntegrityTestClient.PayloadIntegrityTest.CopyPayload(System.Int32,System.Int32,System.Int32)
+  name: CopyPayload(Int32, Int32, Int32)
+  href: api/ArmoniK.EndToEndTests.Client.Tests.PayloadIntegrityTestClient.PayloadIntegrityTest.html#ArmoniK_EndToEndTests_Client_Tests_PayloadIntegrityTestClient_PayloadIntegrityTest_CopyPayload_System_Int32_System_Int32_System_Int32_
+  commentId: M:ArmoniK.EndToEndTests.Client.Tests.PayloadIntegrityTestClient.PayloadIntegrityTest.CopyPayload(System.Int32,System.Int32,System.Int32)
+  fullName: ArmoniK.EndToEndTests.Client.Tests.PayloadIntegrityTestClient.PayloadIntegrityTest.CopyPayload(System.Int32, System.Int32, System.Int32)
+  nameWithType: PayloadIntegrityTest.CopyPayload(Int32, Int32, Int32)
+- uid: ArmoniK.EndToEndTests.Client.Tests.PayloadIntegrityTestClient.PayloadIntegrityTest.CopyPayload*
+  name: CopyPayload
+  href: api/ArmoniK.EndToEndTests.Client.Tests.PayloadIntegrityTestClient.PayloadIntegrityTest.html#ArmoniK_EndToEndTests_Client_Tests_PayloadIntegrityTestClient_PayloadIntegrityTest_CopyPayload_
+  commentId: Overload:ArmoniK.EndToEndTests.Client.Tests.PayloadIntegrityTestClient.PayloadIntegrityTest.CopyPayload
+  isSpec: "True"
+  fullName: ArmoniK.EndToEndTests.Client.Tests.PayloadIntegrityTestClient.PayloadIntegrityTest.CopyPayload
+  nameWithType: PayloadIntegrityTest.CopyPayload
+- uid: ArmoniK.EndToEndTests.Client.Tests.PayloadIntegrityTestClient.PayloadIntegrityTest.Setup
+  name: Setup()
+  href: api/ArmoniK.EndToEndTests.Client.Tests.PayloadIntegrityTestClient.PayloadIntegrityTest.html#ArmoniK_EndToEndTests_Client_Tests_PayloadIntegrityTestClient_PayloadIntegrityTest_Setup
+  commentId: M:ArmoniK.EndToEndTests.Client.Tests.PayloadIntegrityTestClient.PayloadIntegrityTest.Setup
+  fullName: ArmoniK.EndToEndTests.Client.Tests.PayloadIntegrityTestClient.PayloadIntegrityTest.Setup()
+  nameWithType: PayloadIntegrityTest.Setup()
+- uid: ArmoniK.EndToEndTests.Client.Tests.PayloadIntegrityTestClient.PayloadIntegrityTest.Setup*
+  name: Setup
+  href: api/ArmoniK.EndToEndTests.Client.Tests.PayloadIntegrityTestClient.PayloadIntegrityTest.html#ArmoniK_EndToEndTests_Client_Tests_PayloadIntegrityTestClient_PayloadIntegrityTest_Setup_
+  commentId: Overload:ArmoniK.EndToEndTests.Client.Tests.PayloadIntegrityTestClient.PayloadIntegrityTest.Setup
+  isSpec: "True"
+  fullName: ArmoniK.EndToEndTests.Client.Tests.PayloadIntegrityTestClient.PayloadIntegrityTest.Setup
+  nameWithType: PayloadIntegrityTest.Setup
+- uid: ArmoniK.EndToEndTests.Client.Tests.PayloadIntegrityTestClient.ResultHandler
+  name: ResultHandler
+  href: api/ArmoniK.EndToEndTests.Client.Tests.PayloadIntegrityTestClient.ResultHandler.html
+  commentId: T:ArmoniK.EndToEndTests.Client.Tests.PayloadIntegrityTestClient.ResultHandler
+  fullName: ArmoniK.EndToEndTests.Client.Tests.PayloadIntegrityTestClient.ResultHandler
+  nameWithType: ResultHandler
+- uid: ArmoniK.EndToEndTests.Client.Tests.PayloadIntegrityTestClient.ResultHandler.#ctor(ArmoniK.EndToEndTests.Client.Tests.PayloadIntegrityTestClient.HandleErrorType,ArmoniK.EndToEndTests.Client.Tests.PayloadIntegrityTestClient.HandleResponseType)
+  name: ResultHandler(HandleErrorType, HandleResponseType)
+  href: api/ArmoniK.EndToEndTests.Client.Tests.PayloadIntegrityTestClient.ResultHandler.html#ArmoniK_EndToEndTests_Client_Tests_PayloadIntegrityTestClient_ResultHandler__ctor_ArmoniK_EndToEndTests_Client_Tests_PayloadIntegrityTestClient_HandleErrorType_ArmoniK_EndToEndTests_Client_Tests_PayloadIntegrityTestClient_HandleResponseType_
+  commentId: M:ArmoniK.EndToEndTests.Client.Tests.PayloadIntegrityTestClient.ResultHandler.#ctor(ArmoniK.EndToEndTests.Client.Tests.PayloadIntegrityTestClient.HandleErrorType,ArmoniK.EndToEndTests.Client.Tests.PayloadIntegrityTestClient.HandleResponseType)
+  fullName: ArmoniK.EndToEndTests.Client.Tests.PayloadIntegrityTestClient.ResultHandler.ResultHandler(ArmoniK.EndToEndTests.Client.Tests.PayloadIntegrityTestClient.HandleErrorType, ArmoniK.EndToEndTests.Client.Tests.PayloadIntegrityTestClient.HandleResponseType)
+  nameWithType: ResultHandler.ResultHandler(HandleErrorType, HandleResponseType)
+- uid: ArmoniK.EndToEndTests.Client.Tests.PayloadIntegrityTestClient.ResultHandler.#ctor*
+  name: ResultHandler
+  href: api/ArmoniK.EndToEndTests.Client.Tests.PayloadIntegrityTestClient.ResultHandler.html#ArmoniK_EndToEndTests_Client_Tests_PayloadIntegrityTestClient_ResultHandler__ctor_
+  commentId: Overload:ArmoniK.EndToEndTests.Client.Tests.PayloadIntegrityTestClient.ResultHandler.#ctor
+  isSpec: "True"
+  fullName: ArmoniK.EndToEndTests.Client.Tests.PayloadIntegrityTestClient.ResultHandler.ResultHandler
+  nameWithType: ResultHandler.ResultHandler
+- uid: ArmoniK.EndToEndTests.Client.Tests.PayloadIntegrityTestClient.ResultHandler.HandleError(ServiceInvocationException,System.String)
+  name: HandleError(ServiceInvocationException, String)
+  href: api/ArmoniK.EndToEndTests.Client.Tests.PayloadIntegrityTestClient.ResultHandler.html#ArmoniK_EndToEndTests_Client_Tests_PayloadIntegrityTestClient_ResultHandler_HandleError_ServiceInvocationException_System_String_
+  commentId: M:ArmoniK.EndToEndTests.Client.Tests.PayloadIntegrityTestClient.ResultHandler.HandleError(ServiceInvocationException,System.String)
+  fullName: ArmoniK.EndToEndTests.Client.Tests.PayloadIntegrityTestClient.ResultHandler.HandleError(ServiceInvocationException, System.String)
+  nameWithType: ResultHandler.HandleError(ServiceInvocationException, String)
+- uid: ArmoniK.EndToEndTests.Client.Tests.PayloadIntegrityTestClient.ResultHandler.HandleError*
+  name: HandleError
+  href: api/ArmoniK.EndToEndTests.Client.Tests.PayloadIntegrityTestClient.ResultHandler.html#ArmoniK_EndToEndTests_Client_Tests_PayloadIntegrityTestClient_ResultHandler_HandleError_
+  commentId: Overload:ArmoniK.EndToEndTests.Client.Tests.PayloadIntegrityTestClient.ResultHandler.HandleError
+  isSpec: "True"
+  fullName: ArmoniK.EndToEndTests.Client.Tests.PayloadIntegrityTestClient.ResultHandler.HandleError
+  nameWithType: ResultHandler.HandleError
+- uid: ArmoniK.EndToEndTests.Client.Tests.PayloadIntegrityTestClient.ResultHandler.HandleResponse(System.Object,System.String)
+  name: HandleResponse(Object, String)
+  href: api/ArmoniK.EndToEndTests.Client.Tests.PayloadIntegrityTestClient.ResultHandler.html#ArmoniK_EndToEndTests_Client_Tests_PayloadIntegrityTestClient_ResultHandler_HandleResponse_System_Object_System_String_
+  commentId: M:ArmoniK.EndToEndTests.Client.Tests.PayloadIntegrityTestClient.ResultHandler.HandleResponse(System.Object,System.String)
+  fullName: ArmoniK.EndToEndTests.Client.Tests.PayloadIntegrityTestClient.ResultHandler.HandleResponse(System.Object, System.String)
+  nameWithType: ResultHandler.HandleResponse(Object, String)
+- uid: ArmoniK.EndToEndTests.Client.Tests.PayloadIntegrityTestClient.ResultHandler.HandleResponse*
+  name: HandleResponse
+  href: api/ArmoniK.EndToEndTests.Client.Tests.PayloadIntegrityTestClient.ResultHandler.html#ArmoniK_EndToEndTests_Client_Tests_PayloadIntegrityTestClient_ResultHandler_HandleResponse_
+  commentId: Overload:ArmoniK.EndToEndTests.Client.Tests.PayloadIntegrityTestClient.ResultHandler.HandleResponse
+  isSpec: "True"
+  fullName: ArmoniK.EndToEndTests.Client.Tests.PayloadIntegrityTestClient.ResultHandler.HandleResponse
+  nameWithType: ResultHandler.HandleResponse
 - uid: ArmoniK.EndToEndTests.Client.Tests.SimpleComputeNSubtasking
   name: ArmoniK.EndToEndTests.Client.Tests.SimpleComputeNSubtasking
   href: api/ArmoniK.EndToEndTests.Client.Tests.SimpleComputeNSubtasking.html
@@ -11348,6 +11578,31 @@ references:
   isSpec: "True"
   fullName: ArmoniK.EndToEndTests.Worker.Tests.LargePayloadSubmit.LargePayloadSubmitWorker.ComputeSum
   nameWithType: LargePayloadSubmitWorker.ComputeSum
+- uid: ArmoniK.EndToEndTests.Worker.Tests.PayloadIntegrityTestWorker.Services
+  name: ArmoniK.EndToEndTests.Worker.Tests.PayloadIntegrityTestWorker.Services
+  href: api/ArmoniK.EndToEndTests.Worker.Tests.PayloadIntegrityTestWorker.Services.html
+  commentId: N:ArmoniK.EndToEndTests.Worker.Tests.PayloadIntegrityTestWorker.Services
+  fullName: ArmoniK.EndToEndTests.Worker.Tests.PayloadIntegrityTestWorker.Services
+  nameWithType: ArmoniK.EndToEndTests.Worker.Tests.PayloadIntegrityTestWorker.Services
+- uid: ArmoniK.EndToEndTests.Worker.Tests.PayloadIntegrityTestWorker.Services.ServiceApps
+  name: ServiceApps
+  href: api/ArmoniK.EndToEndTests.Worker.Tests.PayloadIntegrityTestWorker.Services.ServiceApps.html
+  commentId: T:ArmoniK.EndToEndTests.Worker.Tests.PayloadIntegrityTestWorker.Services.ServiceApps
+  fullName: ArmoniK.EndToEndTests.Worker.Tests.PayloadIntegrityTestWorker.Services.ServiceApps
+  nameWithType: ServiceApps
+- uid: ArmoniK.EndToEndTests.Worker.Tests.PayloadIntegrityTestWorker.Services.ServiceApps.CopyPayload(System.String)
+  name: CopyPayload(String)
+  href: api/ArmoniK.EndToEndTests.Worker.Tests.PayloadIntegrityTestWorker.Services.ServiceApps.html#ArmoniK_EndToEndTests_Worker_Tests_PayloadIntegrityTestWorker_Services_ServiceApps_CopyPayload_System_String_
+  commentId: M:ArmoniK.EndToEndTests.Worker.Tests.PayloadIntegrityTestWorker.Services.ServiceApps.CopyPayload(System.String)
+  fullName: ArmoniK.EndToEndTests.Worker.Tests.PayloadIntegrityTestWorker.Services.ServiceApps.CopyPayload(System.String)
+  nameWithType: ServiceApps.CopyPayload(String)
+- uid: ArmoniK.EndToEndTests.Worker.Tests.PayloadIntegrityTestWorker.Services.ServiceApps.CopyPayload*
+  name: CopyPayload
+  href: api/ArmoniK.EndToEndTests.Worker.Tests.PayloadIntegrityTestWorker.Services.ServiceApps.html#ArmoniK_EndToEndTests_Worker_Tests_PayloadIntegrityTestWorker_Services_ServiceApps_CopyPayload_
+  commentId: Overload:ArmoniK.EndToEndTests.Worker.Tests.PayloadIntegrityTestWorker.Services.ServiceApps.CopyPayload
+  isSpec: "True"
+  fullName: ArmoniK.EndToEndTests.Worker.Tests.PayloadIntegrityTestWorker.Services.ServiceApps.CopyPayload
+  nameWithType: ServiceApps.CopyPayload
 - uid: ArmoniK.EndToEndTests.Worker.Tests.SimpleComputeNSubtasking
   name: ArmoniK.EndToEndTests.Worker.Tests.SimpleComputeNSubtasking
   href: api/ArmoniK.EndToEndTests.Worker.Tests.SimpleComputeNSubtasking.html
