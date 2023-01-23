@@ -22,6 +22,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+using System;
 using System.Threading;
 
 using ArmoniK.DevelopmentKit.Client.Common;
@@ -38,5 +39,6 @@ internal class BlockRequest
   [CanBeNull]
   public ArmonikPayload Payload { get; set; }
 
-  public SemaphoreSlim Lock { get; set; }
+  public SemaphoreSlim Lock     { get; set; }
+  public Guid          ResultId { get; set; }
 }
