@@ -34,7 +34,6 @@ internal class BlockRequest
 {
   public IServiceInvocationHandler Handler;
 
-  [CanBeNull]
   public ArmonikPayload Payload { get; set; }
 
   public SemaphoreSlim Lock     { get; set; }

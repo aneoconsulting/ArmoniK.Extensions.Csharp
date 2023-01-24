@@ -163,7 +163,7 @@ public class Service : AbstractClientService, ISubmitterService
 
                                 blockRequestList.ForEach(x =>
                                                          {
-                                                           x.Semaphore?.Release();
+                                                           x.Lock?.Release();
                                                          });
                               });
   }
@@ -333,7 +333,7 @@ public class Service : AbstractClientService, ISubmitterService
                                      SerializedArguments = false,
                                    },
                          Handler   = handler,
-                         Semaphore = semaphoreSlim_,
+                         Lock = semaphoreSlim_,
                        };
 
     return await SubmitAsync(blockRequest,
@@ -366,7 +366,7 @@ public class Service : AbstractClientService, ISubmitterService
                                            SerializedArguments = true,
                                          },
                                Handler   = handler,
-                               Semaphore = semaphoreSlim_,
+                               Lock = semaphoreSlim_,
                              },
                              token)
              .ConfigureAwait(false);
