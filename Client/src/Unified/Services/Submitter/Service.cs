@@ -25,7 +25,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using System.Threading.Channels;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
 
@@ -83,7 +82,7 @@ public class Service : AbstractClientService, ISubmitterService
                                                                                          }.ToDictionary(k => k.Item1,
                                                                                                         v => v.Item2);
 
-  private readonly Channel<string> queue_;
+  private readonly RequestTaskMap requestTaskMap_ = new();
 
 
   private readonly SemaphoreSlim semaphoreSlim_;
@@ -104,8 +103,6 @@ public class Service : AbstractClientService, ISubmitterService
     var maxTasksPerBuffer = properties.MaxTasksPerBuffer;
 
     semaphoreSlim_ = new SemaphoreSlim(properties.MaxConcurrentBuffers * maxTasksPerBuffer);
-
-    queue_ = Channel.CreateBounded<string>(properties.MaxParallelChannels * properties.MaxConcurrentBuffers * maxTasksPerBuffer);
 
     SessionServiceFactory = new SessionServiceFactory(LoggerFactory);
 
@@ -142,16 +139,26 @@ public class Service : AbstractClientService, ISubmitterService
 
                                 Logger?.LogInformation("Submitting buffer of {count} task...",
                                                        blockRequestList.Count);
-                                var taskIds   = SessionService.SubmitTasks(blockRequestList.Select(x => x.Payload?.Serialize()));
-                                var submitted = taskIds as string[] ?? taskIds.ToArray();
 
-                                foreach (var taskId in submitted)
+                                var taskIds =
+                                  SessionService.SubmitTasksWithDependencies(blockRequestList.Select(x => new Tuple<string, byte[], IList<string>>(x.ResultId.ToString(),
+                                                                                                                                                   x.Payload!
+                                                                                                                                                    .Serialize(),
+                                                                                                                                                   null)));
+                                var taskIdsResultIds = SessionService.GetResultIds(taskIds);
+
+                                foreach (var pairTaskIdResultId in taskIdsResultIds)
                                 {
-                                  ResultHandlerDictionary[taskId] = blockRequestList.First()
-                                                                                    .Handler;
-                                  queue_.Writer.WriteAsync(taskId,
-                                                           CancellationQueueTaskSource.Token)
-                                        .ConfigureAwait(false);
+                                  var blockRequest = blockRequestList.FirstOrDefault(x => x.ResultId.ToString() == pairTaskIdResultId.ResultIds.First());
+                                  if (blockRequest == null)
+                                  {
+                                    throw new InvalidOperationException($"Cannot find BlockRequest with result id {pairTaskIdResultId.TaskId}");
+                                  }
+
+                                  ResultHandlerDictionary[pairTaskIdResultId.TaskId] = blockRequest.Handler;
+
+                                  requestTaskMap_.PutResponse(blockRequest.ResultId,
+                                                              pairTaskIdResultId.TaskId);
                                 }
 
                                 blockRequestList.ForEach(x =>
@@ -317,6 +324,7 @@ public class Service : AbstractClientService, ISubmitterService
 
     var blockRequest = new BlockRequest
                        {
+                         ResultId = Guid.NewGuid(),
                          Payload = new ArmonikPayload
                                    {
                                      ArmonikRequestType  = ArmonikRequestType.Execute,
@@ -349,6 +357,7 @@ public class Service : AbstractClientService, ISubmitterService
 
     return await SubmitAsync(new BlockRequest
                              {
+                               ResultId = Guid.NewGuid(),
                                Payload = new ArmonikPayload
                                          {
                                            ArmonikRequestType  = ArmonikRequestType.Execute,
@@ -370,8 +379,7 @@ public class Service : AbstractClientService, ISubmitterService
                                  token)
                       .ConfigureAwait(false);
 
-    return await queue_.Reader.ReadAsync(token)
-                       .ConfigureAwait(false);
+    return await requestTaskMap_.GetResponseAsync(blockRequest.ResultId);
   }
 
   /// <summary>

@@ -1,8 +1,11 @@
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 using ArmoniK.Api.gRPC.V1;
 using ArmoniK.DevelopmentKit.Client.Common;
@@ -113,4 +116,35 @@ internal abstract class UnitTestHelperBase
          ApplicationService   = applicationService,
          EngineType           = engineType.ToString(),
        };
+}
+
+public static class IEnumerable
+{
+  /// <summary>
+  ///   Extensions to loop Async all over IEnumerable without expected result
+  /// </summary>
+  /// <param name="list"></param>
+  /// <param name="function"></param>
+  /// <typeparam name="T"></typeparam>
+  /// <returns></returns>
+  public static Task LoopAsync<T>(this IEnumerable<T> list,
+                                  Func<T, Task>       function)
+    => Task.WhenAll(list.Select(function));
+
+  /// <summary>
+  ///   Iterable loop to execution lambda on the IEnumerable
+  /// </summary>
+  /// <param name="list">The IEnumerable list to iterate on</param>
+  /// <param name="function">The lambda function to apply on the Enumerable list</param>
+  /// <typeparam name="TIn">Input data type</typeparam>
+  /// <typeparam name="TOut">Output dataType</typeparam>
+  /// <returns></returns>
+  public static async Task<IEnumerable<TOut>> LoopAsyncResult<TIn, TOut>(this IEnumerable<TIn> list,
+                                                                         Func<TIn, Task<TOut>> function)
+  {
+    var loopResult = await Task.WhenAll(list.Select(function));
+
+    return loopResult.ToList()
+                     .AsEnumerable();
+  }
 }

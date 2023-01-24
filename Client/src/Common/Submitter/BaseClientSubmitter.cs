@@ -123,7 +123,6 @@ public class BaseClientSubmitter<T>
   {
     var status = GetTaskStatues(taskId)
       .Single();
-
     return status.Item2;
   }
 
@@ -155,12 +154,31 @@ public class BaseClientSubmitter<T>
                                                                                                                            Session = SessionId?.Id,
                                                                                                                          }));
 
+  /// <summary>
+  ///   The method to submit several tasks with dependencies tasks. This task will wait for
+  ///   to start until all dependencies are completed successfully
+  /// </summary>
+  /// <param name="payloadsWithDependencies">
+  ///   A list of Tuple(resultId, payload, parent dependencies) in dependence of those
+  ///   created tasks
+  /// </param>
+  /// <param name="maxRetries">The number of retry before fail to submit task</param>
+  /// <returns>return a list of taskIds of the created tasks </returns>
+  [PublicAPI]
+  public IEnumerable<string> SubmitTasksWithDependencies(IEnumerable<Tuple<string, byte[], IList<string>>> payloadsWithDependencies,
+                                                         int                                               maxRetries = 5)
+    => payloadsWithDependencies.ToChunk(chunkSubmitSize_)
+                               .SelectMany(chunk => ChunkSubmitTasksWithDependencies(chunk,
+                                                                                     maxRetries));
 
   /// <summary>
   ///   The method to submit several tasks with dependencies tasks. This task will wait for
   ///   to start until all dependencies are completed successfully
   /// </summary>
-  /// <param name="payloadsWithDependencies">A list of Tuple(taskId, Payload) in dependence of those created tasks</param>
+  /// <param name="payloadsWithDependencies">
+  ///   A list of Tuple(Payload, parent dependencies) in dependence of those created
+  ///   tasks
+  /// </param>
   /// <param name="maxRetries">The number of retry before fail to submit task</param>
   /// <returns>return a list of taskIds of the created tasks </returns>
   [PublicAPI]
@@ -471,7 +489,7 @@ public class BaseClientSubmitter<T>
     return resultStatusList;
   }
 
-  private ICollection<GetResultIdsResponse.Types.MapTaskResult> GetResultIds(IEnumerable<string> taskIds)
+  public ICollection<GetResultIdsResponse.Types.MapTaskResult> GetResultIds(IEnumerable<string> taskIds)
     => channelPool_.WithChannel(channel => new Tasks.TasksClient(channel).GetResultIds(new GetResultIdsRequest
                                                                                        {
                                                                                          TaskId =

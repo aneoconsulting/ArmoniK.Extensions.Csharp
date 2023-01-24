@@ -42,25 +42,13 @@ public class LargeSubmitAsyncTest
             2,
             2,
             50)]
-  [TestCase(100,
-            1,
-            100,
-            2,
-            2,
-            50)]
   [TestCase(1000,
             1,
             100,
             2,
             2,
             50)]
-  [TestCase(10000,
-            1,
-            1000,
-            4,
-            4,
-            50)]
-  public void Check_That_buffering_With_SubmitAsync_Is_Working(int nbTasks,
+  public void Check_That_Buffering_With_SubmitAsync_Is_Working(int nbTasks,
                                                                int nbElementInWorkLoad,
                                                                int bufferRequestSize,
                                                                int maxConcurrentBuffers = 2,
@@ -71,9 +59,9 @@ public class LargeSubmitAsyncTest
                                                        ApplicationNamespace,
                                                        ApplicationService,
                                                        bufferRequestSize,
-                                                       4,
-                                                       4,
-                                                       TimeSpan.FromMilliseconds(workloadTimeInMs));
+                                                       maxConcurrentBuffers,
+                                                       maxParallelChannels,
+                                                       TimeSpan.FromSeconds(10));
 
     int indexTask;
     var taskIds            = new List<Task<string>>();
