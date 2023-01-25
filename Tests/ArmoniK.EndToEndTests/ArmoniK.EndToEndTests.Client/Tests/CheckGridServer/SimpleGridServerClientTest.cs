@@ -36,17 +36,17 @@ public class SimpleGridServerClientTest
     var expectedResult = numbers_.Select(elem => elem * elem * elem)
                                  .ToArray();
 
-    var taskId = unifiedTestHelper_.Service.Submit("ComputeBasicArrayCube",
+    var taskId = unifiedTestHelper_?.Service.Submit("ComputeBasicArrayCube",
                                                    UnitTestHelperBase.ParamsHelper(numbers_),
-                                                   unifiedTestHelper_);
+                                                   unifiedTestHelper_) ?? throw new NullReferenceException(nameof(unifiedTestHelper_));
 
-    var result = unifiedTestHelper_.WaitForResultcompletion(taskId);
+    var result = unifiedTestHelper_?.WaitForResultcompletion(taskId);
     Assert.IsNotNull(result);
     Assert.IsInstanceOf(typeof(double[]),
                         result);
 
     CollectionAssert.AreEqual(expectedResult,
-                              (double[])result);
+                              (double[])result!);
   }
 
   [Test]
@@ -54,11 +54,11 @@ public class SimpleGridServerClientTest
   {
     var expectedResult = numbers_.Sum(elem => elem * elem * elem);
 
-    var taskId = unifiedTestHelper_.Service.Submit("ComputeReduceCube",
+    var taskId = unifiedTestHelper_?.Service.Submit("ComputeReduceCube",
                                                    UnitTestHelperBase.ParamsHelper(numbers_),
-                                                   unifiedTestHelper_);
+                                                   unifiedTestHelper_) ?? throw new NullReferenceException(nameof(unifiedTestHelper_));
 
-    var result = unifiedTestHelper_.WaitForResultcompletion(taskId);
+    var result = unifiedTestHelper_?.WaitForResultcompletion(taskId);
     Assert.IsNotNull(result);
     Assert.IsInstanceOf(typeof(double),
                         result);
@@ -72,12 +72,12 @@ public class SimpleGridServerClientTest
   {
     var expectedResult = numbers_.Sum(elem => elem * elem * elem);
 
-    var taskId = unifiedTestHelper_.Service.Submit("ComputeReduceCube",
+    var taskId = unifiedTestHelper_?.Service.Submit("ComputeReduceCube",
                                                    UnitTestHelperBase.ParamsHelper(numbers_.SelectMany(BitConverter.GetBytes)
                                                                                            .ToArray()),
-                                                   unifiedTestHelper_);
+                                                   unifiedTestHelper_) ?? throw new NullReferenceException(nameof(unifiedTestHelper_));
 
-    var result = unifiedTestHelper_.WaitForResultcompletion(taskId);
+    var result = unifiedTestHelper_?.WaitForResultcompletion(taskId);
     Assert.IsNotNull(result);
     Assert.IsInstanceOf(typeof(double),
                         result);
@@ -93,15 +93,15 @@ public class SimpleGridServerClientTest
                                           idx) => 4 * x * numbers_[idx])
                                  .ToArray();
 
-    var taskId = unifiedTestHelper_.Service.Submit("ComputeMadd",
+    var taskId = unifiedTestHelper_?.Service.Submit("ComputeMadd",
                                                    UnitTestHelperBase.ParamsHelper(numbers_.SelectMany(BitConverter.GetBytes)
                                                                                            .ToArray(),
                                                                                    numbers_.SelectMany(BitConverter.GetBytes)
                                                                                            .ToArray(),
                                                                                    4.0),
-                                                   unifiedTestHelper_);
+                                                   unifiedTestHelper_) ?? throw new NullReferenceException(nameof(unifiedTestHelper_));
 
-    var result = unifiedTestHelper_.WaitForResultcompletion(taskId);
+    var result = unifiedTestHelper_?.WaitForResultcompletion(taskId);
     Assert.IsNotNull(result);
     Assert.IsInstanceOf(typeof(double[]),
                         result);
@@ -117,15 +117,15 @@ public class SimpleGridServerClientTest
                                           idx) => 4 * x * numbers_[idx])
                                  .ToArray();
 
-    var taskId = unifiedTestHelper_.Service.Submit("NonStaticComputeMadd",
+    var taskId = unifiedTestHelper_?.Service.Submit("NonStaticComputeMadd",
                                                    UnitTestHelperBase.ParamsHelper(numbers_.SelectMany(BitConverter.GetBytes)
                                                                                            .ToArray(),
                                                                                    numbers_.SelectMany(BitConverter.GetBytes)
                                                                                            .ToArray(),
                                                                                    4.0),
-                                                   unifiedTestHelper_);
+                                                   unifiedTestHelper_) ?? throw new NullReferenceException(nameof(unifiedTestHelper_));
 
-    var result = unifiedTestHelper_.WaitForResultcompletion(taskId);
+    var result = unifiedTestHelper_?.WaitForResultcompletion(taskId);
     Assert.IsNotNull(result);
     Assert.IsInstanceOf(typeof(double[]),
                         result);

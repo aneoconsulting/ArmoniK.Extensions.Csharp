@@ -24,6 +24,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading;
 
@@ -59,13 +60,13 @@ public class SimpleUnifiedApiAdminTestClient : ClientBaseTest<SimpleUnifiedApiTe
   public void HandleError(ServiceInvocationException? e,
                           string                      taskId)
   {
-    if (e.StatusCode == ArmonikStatusCode.TaskCancelled)
+    if (e?.StatusCode == ArmonikStatusCode.TaskCancelled)
     {
-      Log.LogWarning($"Task canceled : {taskId}. Status {e.StatusCode.ToString()} Message : {e.Message}\nDetails : {e.OutputDetails}");
+      Log?.LogWarning($"Task canceled : {taskId}. Status {e.StatusCode.ToString()} Message : {e.Message}\nDetails : {e.OutputDetails}");
     }
     else
     {
-      Log.LogError($"Fail to get result from {taskId}. Status {e.StatusCode.ToString()} Message : {e.Message}\nDetails : {e.OutputDetails}");
+      Log?.LogError($"Fail to get result from {taskId}. Status {e?.StatusCode.ToString()} Message : {e?.Message}\nDetails : {e?.OutputDetails}");
 
       throw new ApplicationException($"Error from {taskId}",
                                      e);
@@ -100,7 +101,7 @@ public class SimpleUnifiedApiAdminTestClient : ClientBaseTest<SimpleUnifiedApiTe
   [EntryPoint]
   public override void EntryPoint()
   {
-    Log.LogInformation("Configure taskOptions");
+    Log?.LogInformation("Configure taskOptions");
     var taskOptions = InitializeTaskOptions();
     OverrideTaskOptions(taskOptions);
 
@@ -116,15 +117,15 @@ public class SimpleUnifiedApiAdminTestClient : ClientBaseTest<SimpleUnifiedApiTe
     using var csa = ServiceFactory.GetServiceAdmin(props,
                                                    LoggerFactory);
 
-    Log.LogInformation($"New session created : {cs.SessionId}");
+    Log?.LogInformation($"New session created : {cs.SessionId}");
 
 
-    Log.LogInformation("Submit Batch of 100 tasks in one submit call and Cancel the session");
+    Log?.LogInformation("Submit Batch of 100 tasks in one submit call and Cancel the session");
     RunningAndCancelSession(cs,
                             csa);
   }
 
-  private static void OverrideTaskOptions(TaskOptions? taskOptions)
+  private static void OverrideTaskOptions(TaskOptions taskOptions)
   {
     taskOptions.EngineType         = EngineType.Unified.ToString();
     taskOptions.ApplicationService = "CheckUnifiedApiWorker";
@@ -167,13 +168,13 @@ public class SimpleUnifiedApiAdminTestClient : ClientBaseTest<SimpleUnifiedApiTe
     //Get the count of running tasks after 15 s
     Thread.Sleep(15000);
 
-    var countRunningTasks = serviceAdmin.AdminMonitoringService.CountTaskBySession(sessionService.SessionId,
-                                                                                   TaskStatus.Completed);
+    var countRunningTasks = serviceAdmin?.AdminMonitoringService.CountTaskBySession(sessionService.SessionId,
+                                                                                   TaskStatus.Completed) ?? throw new NoNullAllowedException(nameof(serviceAdmin));
 
-    Log.LogInformation($"Number of completed tasks after 15 seconds is {countRunningTasks}");
+    Log?.LogInformation($"Number of completed tasks after 15 seconds is {countRunningTasks}");
 
     //Cancel all the session
-    Log.LogInformation("Cancel the whole session");
+    Log?.LogInformation("Cancel the whole session");
     serviceAdmin.AdminMonitoringService.CancelSession(sessionService.SessionId);
 
     //Get the count of running tasks after 10 s
@@ -183,19 +184,19 @@ public class SimpleUnifiedApiAdminTestClient : ClientBaseTest<SimpleUnifiedApiTe
                                                                                   TaskStatus.Cancelled,
                                                                                   TaskStatus.Cancelling);
 
-    Log.LogInformation($"Number of canceled tasks after Session cancel is {countCancelTasks}");
+    Log?.LogInformation($"Number of canceled tasks after Session cancel is {countCancelTasks}");
 
 
     countRunningTasks = serviceAdmin.AdminMonitoringService.CountTaskBySession(sessionService.SessionId,
                                                                                TaskStatus.Completed);
 
-    Log.LogInformation($"Number of running tasks after Session cancel is {countRunningTasks}");
+    Log?.LogInformation($"Number of running tasks after Session cancel is {countRunningTasks}");
 
 
     var countErrorTasks = serviceAdmin.AdminMonitoringService.CountTaskBySession(sessionService.SessionId,
                                                                                  TaskStatus.Error,
                                                                                  TaskStatus.Timeout);
 
-    Log.LogInformation($"Number of error tasks after Session cancel is {countErrorTasks}");
+    Log?.LogInformation($"Number of error tasks after Session cancel is {countErrorTasks}");
   }
 }

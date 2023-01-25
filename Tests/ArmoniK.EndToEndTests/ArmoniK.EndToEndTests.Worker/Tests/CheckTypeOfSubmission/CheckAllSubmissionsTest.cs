@@ -48,7 +48,7 @@ public class ServiceContainer : ServiceContainerBase
 
   private byte[] AggregateValues(TaskContext taskContext)
   {
-    Logger.LogInformation($"Aggregate Task from Dependencies TaskIds : [{string.Join(", ", taskContext.DependenciesTaskIds)}]");
+    Logger?.LogInformation($"Aggregate Task from Dependencies TaskIds : [{string.Join(", ", taskContext.DependenciesTaskIds ?? new List<string>())}]");
 
     var sum = taskContext.DataDependencies?.Select(x => ClientPayload.Deserialize(x.Value)
                                                                      .Result)
@@ -64,8 +64,8 @@ public class ServiceContainer : ServiceContainerBase
     return childResult.Serialize();
   }
 
-  public override byte[] OnInvoke(SessionContext sessionContext,
-                                  TaskContext    taskContext)
+  public override byte[]? OnInvoke(SessionContext sessionContext,
+                                   TaskContext    taskContext)
   {
     var payload = ClientPayload.Deserialize(taskContext.Payload);
 
@@ -103,7 +103,7 @@ public class ServiceContainer : ServiceContainerBase
         return new ClientPayload
                {
                  Type   = ClientPayload.TaskType.Result,
-                 Result = payload.Numbers.Sum(),
+                 Result = payload?.Numbers?.Sum() ?? -1,
                }.Serialize(); //nothing to do
       case ClientPayload.TaskType.Aggregation:
         return AggregateValues(taskContext);
@@ -112,7 +112,7 @@ public class ServiceContainer : ServiceContainerBase
         return new ClientPayload
                {
                  Type   = ClientPayload.TaskType.Result,
-                 Result = payload.Numbers.Sum(),
+                 Result = payload?.Numbers?.Sum() ?? -1,
                }.Serialize(); //nothing to do
     }
     /////////////////// TO SERVER SIDE TEST HERE //////////////////////////////////////////

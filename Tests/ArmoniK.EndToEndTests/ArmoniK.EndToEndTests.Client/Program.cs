@@ -39,9 +39,9 @@ namespace ArmoniK.EndToEndTests.Client;
 
 public class Program
 {
-  private static IConfiguration   Configuration { get; set; }
-  private static ILogger<Program> Logger        { get; set; }
-  private static ILoggerFactory   LoggerFactory { get; set; }
+  private static IConfiguration?   Configuration { get; set; }
+  private static ILogger<Program>? Logger        { get; set; }
+  private static ILoggerFactory?   LoggerFactory { get; set; }
 
   private static void Main(string[] args)
   {
@@ -114,16 +114,16 @@ public class Program
                                                }
                                              })
                                  .Where(x => x != null)
-                                 .Where(x => x.IsPublic && !x.IsGenericType && !typeof(Delegate).IsAssignableFrom(x) && !x.GetCustomAttributes<ObsoleteAttribute>()
+                                 .Where(x => x!.IsPublic && !x.IsGenericType && !typeof(Delegate).IsAssignableFrom(x) && !x.GetCustomAttributes<ObsoleteAttribute>()
                                                                                                                           .Any() && !x
                                                                                                                                      .GetCustomAttributes<
                                                                                                                                        DisabledAttribute>()
                                                                                                                                      .Any())
                                  .ToArray();
 
-    var results = serviceContainerTypes.Select(x => new Tuple<Type, MethodInfo[]>(x,
-                                                                                  GetMethods(x)))
-                                       .Where(x => x.Item2 != null && x.Item2.Length > 0 && x.Item2.Any(m => m.GetCustomAttributes<EntryPointAttribute>()
+    var results = serviceContainerTypes.Select(x => new Tuple<Type, MethodInfo[]>(x!,
+                                                                                  GetMethods(x!)))
+                                       .Where(x => x!.Item2 != null && x.Item2.Length > 0 && x!.Item2.Any(m => m.GetCustomAttributes<EntryPointAttribute>()
                                                                                                               .Any()))
                                        .Select(x => new TestContext
                                                     {
@@ -137,7 +137,7 @@ public class Program
 
     var retrieveClientTests = results.ToList();
 
-    Logger.LogInformation($"List of tests : \n\t{string.Join("\n\t", retrieveClientTests.Select(x => $"{x.NameSpaceTest}.{x.ClassClient}"))}");
+    Logger?.LogInformation($"List of tests : \n\t{string.Join("\n\t", retrieveClientTests.Select(x => $"{x.NameSpaceTest}.{x.ClassClient}"))}");
 
     return retrieveClientTests;
   }
@@ -165,12 +165,12 @@ public class Program
                                                }
                                              })
                                  .Where(x => x != null)
-                                 .Where(x => x.IsPublic && !x.IsGenericType && !typeof(Delegate).IsAssignableFrom(x) && !x.GetCustomAttributes<ObsoleteAttribute>()
+                                 .Where(x => x!.IsPublic && !x!.IsGenericType && !typeof(Delegate).IsAssignableFrom(x) && !x!.GetCustomAttributes<ObsoleteAttribute>()
                                                                                                                           .Any())
                                  .ToArray();
 
-    var results = serviceContainerTypes.Select(x => new Tuple<Type, MethodInfo[]>(x,
-                                                                                  GetMethods(x)))
+    var results = serviceContainerTypes.Select(x => new Tuple<Type, MethodInfo[]>(x!,
+                                                                                  GetMethods(x!)))
                                        .Where(x => x.Item2 is
                                                    {
                                                      Length: > 0,
@@ -187,7 +187,7 @@ public class Program
                                                     })
                                        .Where(x =>
                                               {
-                                                Logger.LogInformation("test detected {test}",
+                                                Logger?.LogInformation("test detected {test}",
                                                                       x.ClassClient?.Name);
                                                 return listTests.Any(t => x.ClassClient != null && string.Equals(x.ClassClient.Name,
                                                                                                                  t,
@@ -196,7 +196,7 @@ public class Program
 
     var retrieveClientTests = results.ToList();
 
-    Logger.LogInformation($"List of specifics tests : \n\t{string.Join("\n\t", retrieveClientTests.Select(x => $"{x.NameSpaceTest}.{x.ClassClient}"))}");
+    Logger?.LogInformation($"List of specifics tests : \n\t{string.Join("\n\t", retrieveClientTests.Select(x => $"{x.NameSpaceTest}.{x.ClassClient}"))}");
 
     return retrieveClientTests;
   }

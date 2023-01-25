@@ -23,6 +23,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 
 using ArmoniK.Api.gRPC.V1;
@@ -66,35 +67,35 @@ public abstract class TaskSubmitterWorkerService : ITaskSubmitterWorkerServiceCo
   /// <summary>
   /// </summary>
   /// <param name="loggerFactory">The factory logger to create logger</param>
-  public TaskSubmitterWorkerService(ILoggerFactory loggerFactory)
+  public TaskSubmitterWorkerService(ILoggerFactory? loggerFactory)
   {
     LoggerFactory = loggerFactory;
 
-    Logger = loggerFactory.CreateLogger(GetType()
+    Logger = loggerFactory?.CreateLogger(GetType()
                                           .Name);
   }
 
   /// <summary>
   ///   Get access to Logger with Logger.LoggingScope.
   /// </summary>
-  public ILogger Logger { get; set; }
+  public ILogger? Logger { get; set; }
 
   /// <summary>
   ///   Get or Set SubSessionId object stored during the call of SubmitTask, SubmitSubTask,
   ///   SubmitSubTaskWithDependencies or WaitForCompletion, WaitForSubTaskCompletion or GetResults
   /// </summary>
-  public Session SessionId { get; set; }
+  public Session SessionId { get; set; } = new() { Id = "BadSessionId"};
 
   /// <summary>
   ///   Property to retrieve the sessionService previously created
   /// </summary>
-  internal SessionPollingService SessionService { get; set; }
+  internal SessionPollingService? SessionService { get; set; }
 
   /// <summary>
   ///   Map between ids of task and their results id after task submission
   /// </summary>
   public Dictionary<string, string> TaskId2OutputId
-    => SessionService.TaskId2OutputId;
+    => SessionService?.TaskId2OutputId ?? throw new NoNullAllowedException(nameof(SessionService));
 
   //internal ITaskHandler TaskHandler { get; set; }
 
@@ -111,7 +112,7 @@ public abstract class TaskSubmitterWorkerService : ITaskSubmitterWorkerServiceCo
   /// <summary>
   ///   The logger factory to create new Logger in sub class caller
   /// </summary>
-  public ILoggerFactory LoggerFactory { get; set; }
+  public ILoggerFactory? LoggerFactory { get; set; }
 
   /// <summary>
   ///   The configure method is an internal call to prepare the ServiceContainer.
@@ -143,7 +144,7 @@ public abstract class TaskSubmitterWorkerService : ITaskSubmitterWorkerServiceCo
   /// <summary>
   ///   Provides the context for the task that is bound to the given service invocation
   /// </summary>
-  public TaskContext TaskContext { get; set; }
+  public TaskContext? TaskContext { get; set; }
 
   /// <summary>
   ///   Configure Service for actual session. Connect the worker to the current pollingAgent
@@ -160,7 +161,7 @@ public abstract class TaskSubmitterWorkerService : ITaskSubmitterWorkerServiceCo
   ///   The user payload list to execute. Generally used for subTasking.
   /// </param>
   public IEnumerable<string> SubmitTasks(IEnumerable<byte[]> payloads)
-    => SessionService.SubmitTasks(payloads);
+    => SessionService?.SubmitTasks(payloads) ?? throw new NoNullAllowedException(nameof(SessionService));
 
 
   /// <summary>
@@ -172,8 +173,8 @@ public abstract class TaskSubmitterWorkerService : ITaskSubmitterWorkerServiceCo
   /// <returns>return a list of taskIds of the created tasks </returns>
   public IEnumerable<string> SubmitTasksWithDependencies(IEnumerable<Tuple<byte[], IList<string>>> payloadWithDependencies,
                                                          bool                                      resultForParent = false)
-    => SessionService.SubmitTasksWithDependencies(payloadWithDependencies,
-                                                  resultForParent);
+    => SessionService?.SubmitTasksWithDependencies(payloadWithDependencies,
+                                                  resultForParent) ?? throw new NoNullAllowedException(nameof(SessionService));
 
 
   /// <summary>
@@ -183,11 +184,11 @@ public abstract class TaskSubmitterWorkerService : ITaskSubmitterWorkerServiceCo
   ///   The user payload to execute. Generally used for subtasking.
   /// </param>
   public string SubmitTask(byte[] payload)
-    => SessionService.SubmitTasks(new[]
+    => SessionService?.SubmitTasks(new[]
                                   {
                                     payload,
                                   })
-                     .Single();
+                     .Single() ?? throw new NoNullAllowedException(nameof(SessionService));
 
 
   /// <summary>
@@ -209,11 +210,11 @@ public abstract class TaskSubmitterWorkerService : ITaskSubmitterWorkerServiceCo
                                       ClientPayload       = protoSerializer.SerializeMessageObjectArray(arguments),
                                       SerializedArguments = false,
                                     };
-    return SessionService.SubmitTasks(new[]
+    return SessionService?.SubmitTasks(new[]
                                       {
                                         armonikPayload.Serialize(),
                                       })
-                         .Single();
+                         .Single() ?? throw new NoNullAllowedException(nameof(SessionService));
   }
 
 
@@ -228,13 +229,13 @@ public abstract class TaskSubmitterWorkerService : ITaskSubmitterWorkerServiceCo
   public string SubmitTaskWithDependencie(byte[]        payload,
                                           IList<string> dependencies,
                                           bool          resultForParent = false)
-    => SessionService.SubmitTasksWithDependencies(new[]
+    => SessionService?.SubmitTasksWithDependencies(new[]
                                                   {
                                                     Tuple.Create(payload,
                                                                  dependencies),
                                                   },
                                                   resultForParent)
-                     .Single();
+                     .Single() ?? throw new NoNullAllowedException(nameof(SessionService));
 
   /// <summary>
   ///   The method to submit One task with dependencies tasks. This task will wait for
@@ -258,13 +259,13 @@ public abstract class TaskSubmitterWorkerService : ITaskSubmitterWorkerServiceCo
                                       ClientPayload       = protoSerializer.SerializeMessageObjectArray(arguments),
                                       SerializedArguments = false,
                                     };
-    return SessionService.SubmitTasksWithDependencies(new[]
+    return SessionService?.SubmitTasksWithDependencies(new[]
                                                       {
                                                         Tuple.Create(armonikPayload.Serialize(),
                                                                      dependencies),
                                                       },
                                                       resultForParent)
-                         .Single();
+                         .Single() ?? throw new NoNullAllowedException(nameof(SessionService));
   }
 
   /// <summary>
@@ -273,7 +274,7 @@ public abstract class TaskSubmitterWorkerService : ITaskSubmitterWorkerServiceCo
   /// <param name="taskId">The task Id to get the result</param>
   /// <returns>return the customer payload</returns>
   public byte[] GetDependenciesResult(string taskId)
-    => SessionService.GetDependenciesResult(taskId);
+    => SessionService?.GetDependenciesResult(taskId) ?? throw new NoNullAllowedException(nameof(SessionService));
 
   /// <summary>
   ///   Prepare Session and create SessionService with the specific session

@@ -68,13 +68,13 @@ public abstract class ClientBaseTest<T>
          PartitionId     = Environment.GetEnvironmentVariable("PARTITION") ?? "",
          ApplicationName = "ArmoniK.EndToEndTests.Worker",
          ApplicationVersion = Regex.Replace(FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly()
-                                                                                   .Location)
-                                                           .ProductVersion,
+                                                                                   .Location ?? "")
+                                                           .ProductVersion!,
                                             @"\+.*", // Remove Hash build From Version
                                             ""),
-         ApplicationNamespace = typeof(T).Namespace.Replace("Client",
+         ApplicationNamespace = typeof(T)!.Namespace!.Replace("Client",
                                                             "Worker"),
-         ApplicationService = (typeof(T).Name + "Worker").Replace("Client",
+         ApplicationService = (typeof(T)!.Name! + "Worker").Replace("Client",
                                                                   ""),
 
          EngineType = EngineType.Symphony.ToString(),

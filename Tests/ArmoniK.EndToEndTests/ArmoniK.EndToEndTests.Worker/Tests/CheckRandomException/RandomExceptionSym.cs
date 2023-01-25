@@ -56,7 +56,7 @@ public class ServiceContainer : ServiceContainerBase
   private string Job_of_N_Tasks(byte[] payload,
                                 int    nbTasks)
   {
-    Logger.LogInformation($"Executing {nbTasks} Subtasks with ExpM1 compute");
+    Logger?.LogInformation($"Executing {nbTasks} Subtasks with ExpM1 compute");
 
     var payloads = new List<byte[]>(nbTasks);
     for (var i = 0; i < nbTasks; i++)
@@ -75,7 +75,7 @@ public class ServiceContainer : ServiceContainerBase
                                                     taskIds.ToList());
 
     var elapsedMilliseconds = sw.ElapsedMilliseconds;
-    Logger.LogInformation($"Server called {nbTasks} tasks in {elapsedMilliseconds} ms");
+    Logger?.LogInformation($"Server called {nbTasks} tasks in {elapsedMilliseconds} ms");
 
     return aggTaskId;
   }
@@ -94,15 +94,15 @@ public class ServiceContainer : ServiceContainerBase
                 x + 10897286400.0) * x + 54486432000.0) * x + 217945728000.0) * x + 653837184000.0) * x + 1307674368000.0) * x * 7.6471637318198164759011319857881e-13;
   }
 
-  public override byte[] OnInvoke(SessionContext sessionContext,
-                                  TaskContext    taskContext)
+  public override byte[]? OnInvoke(SessionContext sessionContext,
+                                   TaskContext    taskContext)
   {
     var clientPayload = ClientPayload.Deserialize(taskContext.Payload);
-    using var _ = Logger.BeginPropertyScope(("SessionId", sessionContext.SessionId),
+    using var _ = Logger?.BeginPropertyScope(("SessionId", sessionContext.SessionId),
                                             ("TaskId", taskContext.TaskId),
                                             ("ClientPayload", clientPayload.Type));
 
-    Logger.LogInformation("{ClientPayload} task, sessionId : {SessionId}, taskId : {TaskId}",
+    Logger?.LogInformation("{ClientPayload} task, sessionId : {SessionId}, taskId : {TaskId}",
                           clientPayload.Type,
                           sessionContext.SessionId,
                           taskContext.TaskId);
@@ -128,7 +128,7 @@ public class ServiceContainer : ServiceContainerBase
                }.Serialize();
       }
       case ClientPayload.TaskType.Aggregation:
-        Logger.LogInformation($"!!!! All subtask Finished sessionId : {sessionContext.SessionId}\n\n");
+        Logger?.LogInformation($"!!!! All subtask Finished sessionId : {sessionContext.SessionId}\n\n");
         break;
       case ClientPayload.TaskType.JobOfNTasks:
       {
@@ -145,7 +145,7 @@ public class ServiceContainer : ServiceContainerBase
         return null;
       }
       default:
-        Logger.LogInformation($"Task type is unManaged {clientPayload.Type}");
+        Logger?.LogInformation($"Task type is unManaged {clientPayload.Type}");
         throw new WorkerApiException($"Task type is unManaged {clientPayload.Type}");
     }
 

@@ -59,7 +59,7 @@ public class SubtaskingTreeUnifiedApiClient : ClientBaseTest<SubtaskingTreeUnifi
   public void HandleError(ServiceInvocationException? e,
                           string                      taskId)
   {
-    Log.LogError($"Error from {taskId} : " + e.Message);
+    Log?.LogError(e, "Error from {taskId} : ", e?.Message);
     throw new ApplicationException($"Error from {taskId}",
                                    e);
   }
@@ -75,18 +75,18 @@ public class SubtaskingTreeUnifiedApiClient : ClientBaseTest<SubtaskingTreeUnifi
     switch (response)
     {
       case null:
-        Log.LogInformation("Task finished but nothing returned in Result");
+        Log?.LogInformation("Task finished but nothing returned in Result");
         break;
       case double value:
-        Log.LogInformation($"Task finished with result {value}");
+        Log?.LogInformation($"Task finished with result {value}");
         break;
       case double[] doubles:
-        Log.LogInformation("Result is " + string.Join(", ",
+        Log?.LogInformation("Result is " + string.Join(", ",
                                                       doubles));
         break;
       case byte[] values:
         var result = ClientPayload.Deserialize(values);
-        Log.LogInformation($"Result is {result.Result} expected is : {expectedIntegerResults_[taskId]}");
+        Log?.LogInformation($"Result is {result.Result} expected is : {expectedIntegerResults_[taskId]}");
         Assert.AreEqual(expectedIntegerResults_[taskId],
                         result.Result);
         break;
@@ -97,7 +97,7 @@ public class SubtaskingTreeUnifiedApiClient : ClientBaseTest<SubtaskingTreeUnifi
   [EntryPoint]
   public override void EntryPoint()
   {
-    Log.LogInformation("Configure taskOptions");
+    Log?.LogInformation("Configure taskOptions");
     var taskOptions = InitializeTaskOptions();
     OverrideTaskOptions(taskOptions);
 
@@ -108,11 +108,11 @@ public class SubtaskingTreeUnifiedApiClient : ClientBaseTest<SubtaskingTreeUnifi
     using var cs = ServiceFactory.CreateService(props,
                                                 LoggerFactory);
 
-    Log.LogInformation("Running End to End test to compute Sum of numbers with subtasking");
+    Log?.LogInformation("Running End to End test to compute Sum of numbers with subtasking");
     SumNumbersWithSubtasking(cs);
   }
 
-  private static void OverrideTaskOptions(TaskOptions? taskOptions)
+  private static void OverrideTaskOptions(TaskOptions taskOptions)
   {
     taskOptions.EngineType          = EngineType.Unified.ToString();
     taskOptions.ApplicationService  = "SubtaskingTreeUnifiedApiWorker";
@@ -128,7 +128,7 @@ public class SubtaskingTreeUnifiedApiClient : ClientBaseTest<SubtaskingTreeUnifi
                                         int     maxNumberToSum    = 16,
                                         int     subtaskSplitCount = 2)
   {
-    Log.LogInformation($"Launching Sum of numbers 1 to {maxNumberToSum}");
+    Log?.LogInformation($"Launching Sum of numbers 1 to {maxNumberToSum}");
     var numbers = Enumerable.Range(1,
                                    maxNumberToSum)
                             .ToList();

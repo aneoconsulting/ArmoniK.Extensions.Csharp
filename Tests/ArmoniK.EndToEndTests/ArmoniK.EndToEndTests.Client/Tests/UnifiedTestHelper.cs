@@ -30,7 +30,7 @@ internal class UnifiedTestHelper : UnitTestHelperBase, IServiceInvocationHandler
            applicationNamespace,
            applicationService)
   {
-    Props.MaxConcurrentBuffers = maxConcurrentBuffers;
+    Props!.MaxConcurrentBuffers = maxConcurrentBuffers;
     Props.MaxTasksPerBuffer    = bufferRequestSize;
     Props.MaxParallelChannels  = maxParallelChannels;
     Props.TimeTriggerBuffer    = timeOut ?? Props.TimeTriggerBuffer;
@@ -57,7 +57,7 @@ internal class UnifiedTestHelper : UnitTestHelperBase, IServiceInvocationHandler
         throw new ArgumentOutOfRangeException(nameof(engineType));
     }
 
-    Log.LogInformation($"New session created : {Service.SessionId}");
+    Log?.LogInformation($"New session created : {Service.SessionId}");
   }
 
   public ISubmitterService Service      { get; }
@@ -66,7 +66,7 @@ internal class UnifiedTestHelper : UnitTestHelperBase, IServiceInvocationHandler
   public void HandleError(ServiceInvocationException? e,
                           string                      taskId)
   {
-    Log.LogError("Error (ignore) from {taskId} : [ {message} ]",
+    Log?.LogError("Error (ignore) from {taskId} : [ {message} ]",
                  taskId,
                  e?.Message);
     expectedResults_[taskId] = e;

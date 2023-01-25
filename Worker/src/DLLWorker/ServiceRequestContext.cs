@@ -22,6 +22,7 @@
 // limitations under the License.
 
 using System;
+using System.Data;
 using System.IO;
 
 using ArmoniK.Api.gRPC.V1;
@@ -48,7 +49,7 @@ public class ServiceId : IEquatable<ServiceId>
   public string Key { get; }
 
   /// <inheritdoc />
-  public bool Equals(ServiceId other)
+  public bool Equals(ServiceId? other)
   {
     if (other is null)
     {
@@ -70,7 +71,7 @@ public class ServiceId : IEquatable<ServiceId>
     => Key;
 
   /// <inheritdoc />
-  public override bool Equals(object obj)
+  public override bool Equals(object? obj)
   {
     if (obj is null)
     {
@@ -99,8 +100,8 @@ public class ServiceId : IEquatable<ServiceId>
   /// <param name="a">ServiceId a</param>
   /// <param name="b">ServiceId b</param>
   /// <returns>Same as a.Equals(b)</returns>
-  public static bool operator ==(ServiceId a,
-                                 ServiceId b)
+  public static bool operator ==(ServiceId? a,
+                                 ServiceId? b)
     => a?.Equals(b) ?? false;
 
   /// <summary>
@@ -109,8 +110,8 @@ public class ServiceId : IEquatable<ServiceId>
   /// <param name="a">ServiceId a</param>
   /// <param name="b">ServiceId b</param>
   /// <returns>Same as !a.Equals(b)</returns>
-  public static bool operator !=(ServiceId a,
-                                 ServiceId b)
+  public static bool operator !=(ServiceId? a,
+                                 ServiceId? b)
     => !(a == b);
 }
 
@@ -119,48 +120,48 @@ public class ArmonikServiceWorker : IDisposable
   public ArmonikServiceWorker()
     => Initialized = false;
 
-  public ServiceId ServiceId { get; set; }
+  public ServiceId? ServiceId { get; init; }
 
-  public AppsLoader  AppsLoader { get; set; }
-  public IGridWorker GridWorker { get; set; }
+  public AppsLoader?  AppsLoader { get; set; }
+  public IGridWorker? GridWorker { get; set; }
 
   public bool Initialized { get; set; }
 
   /// <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
   public void Dispose()
   {
-    using (AppsLoader.UserAssemblyLoadContext.EnterContextualReflection())
+    using (AppsLoader?.UserAssemblyLoadContext.EnterContextualReflection())
     {
       GridWorker?.Dispose();
     }
 
     GridWorker = null;
-    AppsLoader.Dispose();
+    AppsLoader?.Dispose();
     AppsLoader  = null;
     Initialized = false;
   }
 
   public void CloseSession()
   {
-    using (AppsLoader.UserAssemblyLoadContext.EnterContextualReflection())
+    using (AppsLoader?.UserAssemblyLoadContext.EnterContextualReflection())
     {
       GridWorker?.SessionFinalize();
     }
   }
 
-  public void Configure(IConfiguration configuration,
-                        TaskOptions    requestTaskOptions)
+  public void Configure(IConfiguration? configuration,
+                        TaskOptions     requestTaskOptions)
   {
     if (Initialized)
     {
       return;
     }
 
-    using (AppsLoader.UserAssemblyLoadContext.EnterContextualReflection())
+    using (AppsLoader?.UserAssemblyLoadContext.EnterContextualReflection())
     {
-      GridWorker.Configure(configuration,
+      GridWorker?.Configure(configuration,
                            requestTaskOptions,
-                           AppsLoader);
+                           AppsLoader ?? throw new NoNullAllowedException(nameof(AppsLoader)));
     }
 
     Initialized = true;
@@ -169,18 +170,18 @@ public class ArmonikServiceWorker : IDisposable
   public void InitializeSessionWorker(Session     sessionId,
                                       TaskOptions taskHandlerTaskOptions)
   {
-    using (AppsLoader.UserAssemblyLoadContext.EnterContextualReflection())
+    using (AppsLoader?.UserAssemblyLoadContext.EnterContextualReflection())
     {
-      GridWorker.InitializeSessionWorker(sessionId,
+      GridWorker?.InitializeSessionWorker(sessionId,
                                          taskHandlerTaskOptions);
     }
   }
 
   public byte[] Execute(ITaskHandler taskHandler)
   {
-    using (AppsLoader.UserAssemblyLoadContext.EnterContextualReflection())
+    using (AppsLoader?.UserAssemblyLoadContext.EnterContextualReflection())
     {
-      return GridWorker.Execute(taskHandler);
+      return GridWorker?.Execute(taskHandler) ?? throw new NoNullAllowedException(nameof(GridWorker));
     }
   }
 }
@@ -189,8 +190,7 @@ public class ServiceRequestContext
 {
   private readonly ILogger<ServiceRequestContext> logger_;
 
-  [CanBeNull]
-  private ArmonikServiceWorker currentService_;
+  private ArmonikServiceWorker? currentService_;
 
   public ServiceRequestContext(ILoggerFactory loggerFactory)
   {
@@ -199,9 +199,9 @@ public class ServiceRequestContext
     logger_         = loggerFactory.CreateLogger<ServiceRequestContext>();
   }
 
-  public Session SessionId { get; set; }
+  public Session? SessionId { get; set; }
 
-  public ILoggerFactory LoggerFactory { get; set; }
+  public ILoggerFactory? LoggerFactory { get; set; }
 
   public bool IsNewSessionId(Session sessionId)
   {
@@ -239,7 +239,7 @@ public class ServiceRequestContext
                                                         string          fileName,
                                                         TaskOptions?    requestTaskOptions)
   {
-    if (string.IsNullOrEmpty(requestTaskOptions.ApplicationNamespace))
+    if (string.IsNullOrEmpty(requestTaskOptions?.ApplicationNamespace))
     {
       throw new WorkerApiException("Cannot find namespace service in TaskOptions. Please set the namespace");
     }
@@ -249,7 +249,7 @@ public class ServiceRequestContext
                                                    fileName),
                                       requestTaskOptions.ApplicationNamespace);
 
-    if (currentService_?.ServiceId == serviceId)
+    if (serviceId == currentService_?.ServiceId)
     {
       return currentService_;
     }
@@ -286,7 +286,7 @@ public class ServiceRequestContext
            uniqueKey,
            namespaceService);
 
-  public static IFileAdapter CreateOrGetFileAdapter(IConfiguration? configuration,
+  public static IFileAdapter CreateOrGetFileAdapter(IConfiguration configuration,
                                                     string          localDirectoryZip)
   {
     var sectionStorage = configuration.GetSection("FileStorageType");

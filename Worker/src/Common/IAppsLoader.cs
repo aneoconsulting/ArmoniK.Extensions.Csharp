@@ -1,4 +1,4 @@
-﻿// This file is part of the ArmoniK project
+// This file is part of the ArmoniK project
 // 
 // Copyright (C) ANEO, 2021-2022.
 //   W. Kirschenmann   <wkirschenmann@aneo.fr>
@@ -28,5 +28,5 @@ namespace ArmoniK.DevelopmentKit.Worker.Common;
 public interface IAppsLoader : IDisposable
 {
   T GetServiceContainerInstance<T>(string? gridAppNamespace,
-                                   string? gridServiceName);
+                                    string? gridServiceName);
 }

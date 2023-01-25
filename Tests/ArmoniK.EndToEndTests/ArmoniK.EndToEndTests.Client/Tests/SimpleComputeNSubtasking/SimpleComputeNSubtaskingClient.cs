@@ -46,14 +46,14 @@ public class SimpleComputeNSubtaskingClient : ClientBaseTest<SimpleComputeNSubta
     var client = new ArmonikSymphonyClient(Configuration,
                                            LoggerFactory);
 
-    Log.LogInformation("Configure taskOptions");
+    Log?.LogInformation("Configure taskOptions");
     var taskOptions = InitializeTaskOptions();
 
     var sessionService = client.CreateSession(taskOptions);
 
-    Log.LogInformation($"New session created : {sessionService}");
+    Log?.LogInformation($"New session created : {sessionService}");
 
-    Log.LogInformation("Running End to End test to compute Square value with SubTasking");
+    Log?.LogInformation("Running End to End test to compute Square value with SubTasking");
 
     var numbers = new List<int>
                   {
@@ -69,12 +69,12 @@ public class SimpleComputeNSubtaskingClient : ClientBaseTest<SimpleComputeNSubta
                         };
     var taskId = sessionService.SubmitTask(clientPayload.Serialize());
 
-    Log.LogInformation($"Wait for root task to finish [task {taskId}]");
+    Log?.LogInformation($"Wait for root task to finish [task {taskId}]");
 
     var taskResult = sessionService.GetResult(taskId);
 
     var result = ClientPayload.Deserialize(taskResult);
 
-    Log.LogInformation($"output result : {result.Result}");
+    Log?.LogInformation($"output result : {result.Result}");
   }
 }

@@ -28,7 +28,7 @@ namespace ArmoniK.EndToEndTests.Client.Tests;
 internal abstract class UnitTestHelperBase
 {
   private readonly ConcurrentDictionary<string, object> expectedResults_ = new();
-  protected        Properties                           Props;
+  protected        Properties?                          Props;
 
   public UnitTestHelperBase(EngineType engineType,
                             string     applicationNamespace,
@@ -43,10 +43,10 @@ internal abstract class UnitTestHelperBase
 
   public TaskOptions? TaskOptions { get; protected set; }
 
-  public    ILogger         Log           { get; private set; }
+  public    ILogger?        Log           { get; private set; }
   protected ILoggerFactory? LoggerFactory { get; set; }
 
-  protected IConfiguration Configuration { get; set; }
+  protected IConfiguration? Configuration { get; set; }
 
   public void InitConfig()
   {
@@ -74,7 +74,7 @@ internal abstract class UnitTestHelperBase
     Log = LoggerFactory.CreateLogger<Program>();
 
 
-    Log.LogInformation("Configure taskOptions");
+    Log?.LogInformation("Configure taskOptions");
   }
 
   public void InitProperties(EngineType engineType,
@@ -86,7 +86,7 @@ internal abstract class UnitTestHelperBase
                                         applicationService);
 
     Props = new Properties(TaskOptions,
-                           Configuration.GetSection("Grpc")["EndPoint"],
+                           Configuration!.GetSection("Grpc")["EndPoint"],
                            5001);
   }
 
@@ -94,7 +94,7 @@ internal abstract class UnitTestHelperBase
     => elements;
 
 
-  protected TaskOptions? InitializeTaskOptions(EngineType engineType,
+  protected TaskOptions InitializeTaskOptions(EngineType engineType,
                                                string     applicationNamespace,
                                                string     applicationService)
     => new()
@@ -108,10 +108,10 @@ internal abstract class UnitTestHelperBase
          PartitionId     = Environment.GetEnvironmentVariable("PARTITION") ?? "",
          ApplicationName = "ArmoniK.EndToEndTests.Worker",
          ApplicationVersion = Regex.Replace(FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly()
-                                                                                   .Location)
-                                                           .ProductVersion,
+                                                                                   .Location!)
+                                                           .ProductVersion!,
                                             @"\+.*", // Remove Hash build From Version
-                                            "") ?? "1.0.0-700",
+                                            ""),
          ApplicationNamespace = applicationNamespace,
          ApplicationService   = applicationService,
          EngineType           = engineType.ToString(),

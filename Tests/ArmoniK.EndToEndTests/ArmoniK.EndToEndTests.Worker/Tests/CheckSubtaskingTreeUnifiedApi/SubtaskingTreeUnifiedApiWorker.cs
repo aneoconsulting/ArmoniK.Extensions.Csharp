@@ -61,15 +61,15 @@ public class SubtaskingTreeUnifiedApiWorker : TaskSubmitterWorkerService
                                                int     nbSplit = 2)
     => listToSplit.Chunk((int)Math.Ceiling(listToSplit.Count / (float)nbSplit));
 
-  public byte[] ComputeSubTaskingTreeSum(byte[]? clientPayload)
+  public byte[]? ComputeSubTaskingTreeSum(byte[]? clientPayload)
   {
-    Logger.LogInformation("Enter in function : SplitAndSum taskID : {TaskId}",
-                          TaskContext.TaskId);
+    Logger?.LogInformation("Enter in function : SplitAndSum taskID : {TaskId}",
+                          TaskContext?.TaskId);
 
     var payload = ClientPayload.Deserialize(clientPayload);
     CheckPayload(payload);
 
-    if (payload.Numbers.Count == 0)
+    if (payload?.Numbers?.Count == 0)
     {
       return new ClientPayload
              {
@@ -78,10 +78,10 @@ public class SubtaskingTreeUnifiedApiWorker : TaskSubmitterWorkerService
              }.Serialize(); // Nothing to do
     }
 
-    if (payload.Numbers.Count == 1)
+    if (payload?.Numbers?.Count == 1)
     {
       var value = payload.Numbers[0];
-      Logger.LogInformation("final tree {value}",
+      Logger?.LogInformation("final tree {value}",
                             value);
 
       return new ClientPayload
@@ -92,8 +92,8 @@ public class SubtaskingTreeUnifiedApiWorker : TaskSubmitterWorkerService
     }
 
     // if (clientPayload.numbers.Count > 1)
-    var splittedLists = SplitList(payload.Numbers,
-                                  payload.NbSubTasks);
+    var splittedLists = SplitList(payload?.Numbers!,
+                                  payload!.NbSubTasks!);
 
     var subTaskIds = new List<string>(payload.NbSubTasks);
     foreach (var splittedList in splittedLists)
@@ -107,14 +107,14 @@ public class SubtaskingTreeUnifiedApiWorker : TaskSubmitterWorkerService
                          };
       if (splittedList.Count() <= 100)
       {
-        Logger.LogInformation("Submitting subTask, numbers : [{Numbers}] payload type : {PayloadType}",
+        Logger?.LogInformation("Submitting subTask, numbers : [{Numbers}] payload type : {PayloadType}",
                               string.Join(';',
                                           splittedList),
                               payload.Type);
       }
       else
       {
-        Logger.LogInformation("Submitting subTask, numbers : [{NumbersFrom};...;{NumbersTo}]",
+        Logger?.LogInformation("Submitting subTask, numbers : [{NumbersFrom};...;{NumbersTo}]",
                               string.Join(';',
                                           splittedList.Take(50)),
                               string.Join(';',
@@ -132,13 +132,13 @@ public class SubtaskingTreeUnifiedApiWorker : TaskSubmitterWorkerService
                                  Result = 0,
                                };
 
-    Logger.LogInformation("Submitting aggregation task");
+    Logger?.LogInformation("Submitting aggregation task");
     var aggTaskId = SubmitTaskWithDependencies(nameof(AggregateValues),
                                                ParamsHelper(aggPayload.Serialize()),
                                                subTaskIds,
                                                true);
 
-    Logger.LogInformation("Submitted  SubmitTaskWithDependencies : {aggTaskId} with task dependencies {subtaskIds}...",
+    Logger?.LogInformation("Submitted  SubmitTaskWithDependencies : {aggTaskId} with task dependencies {subtaskIds}...",
                           aggTaskId,
                           string.Join(';',
                                       subTaskIds.Take(10)));
@@ -154,28 +154,31 @@ public class SubtaskingTreeUnifiedApiWorker : TaskSubmitterWorkerService
   {
     var clientPayload = ClientPayload.Deserialize(serializedClientPayload);
 
-    Logger.LogInformation("Aggregate Task. Request result from Dependencies TaskIds : {DependenciesTaskIds}",
+    Logger?.LogInformation("Aggregate Task. Request result from Dependencies TaskIds : {DependenciesTaskIds}",
                           string.Join(", ",
-                                      TaskContext.DependenciesTaskIds.Take(10)));
+                                      TaskContext?.DependenciesTaskIds?.Take(10) ?? new List<string>()));
     var aggregatedValuesSum = 0;
     var dependencyValues    = new List<int>();
-    foreach (var taskDependency in TaskContext.DataDependencies)
+    if (TaskContext?.DataDependencies != null)
     {
-      if (taskDependency.Value == null || taskDependency.Value.Length == 0)
+      foreach (var taskDependency in TaskContext?.DataDependencies!)
       {
-        throw new WorkerApiException($"Cannot retrieve result from taskId {TaskContext.DependenciesTaskIds?.Single()}");
-      }
+        if (taskDependency.Value == null || taskDependency.Value.Length == 0)
+        {
+          throw new WorkerApiException($"Cannot retrieve result from taskId {TaskContext?.DependenciesTaskIds?.Single()}");
+        }
 
-      var deprot                  = ProtoSerializer.DeSerializeMessageObjectArray(taskDependency.Value);
-      var dependencyResultPayload = ClientPayload.Deserialize(deprot[0] as byte[]);
-      dependencyValues.Add(dependencyResultPayload.Result);
-      aggregatedValuesSum += dependencyResultPayload.Result;
+        var deprot                  = ProtoSerializer.DeSerializeMessageObjectArray(taskDependency.Value);
+        var dependencyResultPayload = ClientPayload.Deserialize(deprot?[0] as byte[]);
+        dependencyValues.Add(dependencyResultPayload.Result);
+        aggregatedValuesSum += dependencyResultPayload.Result;
+      }
     }
 
-    Logger.LogInformation("Aggregation has summed parents data dependencies {dependencyValues}, result = {aggregatedValuesSum}",
-                          string.Join("+",
-                                      dependencyValues),
-                          aggregatedValuesSum);
+    Logger?.LogInformation("Aggregation has summed parents data dependencies {dependencyValues}, result = {aggregatedValuesSum}",
+                           string.Join("+",
+                                       dependencyValues),
+                           aggregatedValuesSum);
     aggregatedValuesSum += clientPayload.Result;
 
     ClientPayload aggregationResults = new()

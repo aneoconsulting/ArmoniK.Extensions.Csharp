@@ -33,13 +33,6 @@ internal class AddonsAssemblyLoadContext : AssemblyLoadContext
   private readonly AssemblyDependencyResolver _resolver;
   private readonly AssemblyDependencyResolver _rootResolver;
 
-  public AddonsAssemblyLoadContext()
-    : base(Guid.NewGuid()
-               .ToString(),
-           true)
-  {
-  }
-
   public AddonsAssemblyLoadContext(string mainAssemblyToLoadPath)
     : base(Guid.NewGuid()
                .ToString(),
@@ -51,7 +44,7 @@ internal class AddonsAssemblyLoadContext : AssemblyLoadContext
     _resolver = new AssemblyDependencyResolver(mainAssemblyToLoadPath);
   }
 
-  protected override Assembly Load(AssemblyName name)
+  protected override Assembly? Load(AssemblyName name)
   {
     if (_rootResolver.ResolveAssemblyToPath(name) != null)
     {

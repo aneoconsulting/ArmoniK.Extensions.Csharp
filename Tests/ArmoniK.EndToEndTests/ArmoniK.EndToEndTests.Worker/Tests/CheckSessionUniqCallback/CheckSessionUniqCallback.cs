@@ -33,13 +33,11 @@ namespace ArmoniK.EndToEndTests.Worker.Tests.CheckSessionUniqCallback;
 [PublicAPI]
 public sealed class ServiceContainer : ServiceContainerBase
 {
-  private static string _resultMessage;
-  private        int    countCall_;
+  private static string _resultMessage = "";
+  private        int     countCall_     = 0;
 
   public ServiceContainer()
   {
-    _resultMessage ??= "";
-
     countCall_     = 1000000;
     _resultMessage = $"new ServiceContainer Instance : {GetHashCode()}\n";
   }
@@ -66,7 +64,7 @@ public sealed class ServiceContainer : ServiceContainerBase
   {
     //END USER PLEASE FIXME
     countCall_ += 100000;
-    Logger.LogInformation($"Call OnCreateService on service [InstanceID : {GetHashCode()}]");
+    Logger?.LogInformation($"Call OnCreateService on service [InstanceID : {GetHashCode()}]");
     _resultMessage = $"{_resultMessage}\nCall OnCreateService on service [InstanceID : {GetHashCode()}]";
   }
 
@@ -74,7 +72,7 @@ public sealed class ServiceContainer : ServiceContainerBase
   {
     //END USER PLEASE FIXME
     countCall_ += 1000;
-    Logger.LogInformation($"Call OnSessionEnter on service [InstanceID : {GetHashCode()}]");
+    Logger?.LogInformation($"Call OnSessionEnter on service [InstanceID : {GetHashCode()}]");
     _resultMessage = $"{_resultMessage}\nCall OnSessionEnter on service [InstanceID : {GetHashCode()}]";
   }
 
@@ -83,7 +81,7 @@ public sealed class ServiceContainer : ServiceContainerBase
                                   TaskContext    taskContext)
   {
     countCall_ += 1;
-    Logger.LogInformation($"Call OnInvoke on service [InstanceID : {GetHashCode()}]");
+    Logger?.LogInformation($"Call OnInvoke on service [InstanceID : {GetHashCode()}]");
     _resultMessage = $"{_resultMessage}\nCall OnInvoke on service [InstanceID : {GetHashCode()}]";
     _resultMessage = $"{_resultMessage}\n{PrintStates(countCall_)}";
 

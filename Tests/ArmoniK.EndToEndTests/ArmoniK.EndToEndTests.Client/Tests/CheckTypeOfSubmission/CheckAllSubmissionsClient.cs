@@ -66,7 +66,7 @@ public class CheckAllSubmissionsClient : ClientBaseTest<CheckAllSubmissionsClien
     var client = new ArmonikSymphonyClient(Configuration,
                                            LoggerFactory);
 
-    Log.LogInformation("Configure taskOptions");
+    Log?.LogInformation("Configure taskOptions");
     var taskOptions = InitializeTaskOptions();
 
     var sessionService = client.CreateSession(taskOptions);
@@ -75,9 +75,9 @@ public class CheckAllSubmissionsClient : ClientBaseTest<CheckAllSubmissionsClien
                                                  LoggerFactory);
     var resultService = resultClient.OpenSession(sessionService.SessionId);
 
-    Log.LogInformation($"New session created : {sessionService}");
+    Log?.LogInformation($"New session created : {sessionService}");
 
-    Log.LogInformation("Running End to End test to compute Square value with SubTasking");
+    Log?.LogInformation("Running End to End test to compute Square value with SubTasking");
 
     try
     {
@@ -90,7 +90,7 @@ public class CheckAllSubmissionsClient : ClientBaseTest<CheckAllSubmissionsClien
     }
     catch (Exception? e)
     {
-      Log.LogError(e,
+      Log?.LogError(e,
                    "Submission Error 10 Jobs with 1 subtask");
       throw;
     }
@@ -106,7 +106,7 @@ public class CheckAllSubmissionsClient : ClientBaseTest<CheckAllSubmissionsClien
     }
     catch (Exception? e)
     {
-      Log.LogError(e,
+      Log?.LogError(e,
                    "Submission Error 1 Jobs with 5000 subtasks");
       throw;
     }
@@ -119,7 +119,7 @@ public class CheckAllSubmissionsClient : ClientBaseTest<CheckAllSubmissionsClien
                               SubmissionType submissionType,
                               GetResultType  getResultType)
   {
-    Log.LogInformation($"==  Running {nbJob} Tasks with {nbSubTasks} subTasks {submissionType.GetName()} submit, Result method {getResultType.GetName()} =====");
+    Log?.LogInformation($"==  Running {nbJob} Tasks with {nbSubTasks} subTasks {submissionType.GetName()} submit, Result method {getResultType.GetName()} =====");
     var numbers = new List<int>
                   {
                     1,
@@ -162,11 +162,11 @@ public class CheckAllSubmissionsClient : ClientBaseTest<CheckAllSubmissionsClien
     var ts = stopWatch.Elapsed;
     // Format and display the TimeSpan value.
     var elapsedTime = $"{ts.Hours:00}:{ts.Minutes:00}:{ts.Seconds:00}.{ts.Milliseconds / 10:00}";
-    Log.LogInformation("End of submission in " + elapsedTime);
+    Log?.LogInformation("End of submission in " + elapsedTime);
 
 
     stopWatch.Start();
-    Log.LogInformation("Starting to retrieve the result : ");
+    Log?.LogInformation("Starting to retrieve the result : ");
     IEnumerable<Tuple<string, byte[]?>> results;
 
     if (getResultType == GetResultType.GetResult)
@@ -184,12 +184,12 @@ public class CheckAllSubmissionsClient : ClientBaseTest<CheckAllSubmissionsClien
     ts = stopWatch.Elapsed;
     // Format and display the TimeSpan value.
     elapsedTime = $"{ts.Hours:00}:{ts.Minutes:00}:{ts.Seconds:00}.{ts.Milliseconds / 10:00}";
-    Log.LogInformation("Finished to get Results in " + elapsedTime);
+    Log?.LogInformation("Finished to get Results in " + elapsedTime);
 
 
     stopWatch.Start();
 
-    Log.LogInformation($"Starting to deserialize {tuples.Count()} results : ");
+    Log?.LogInformation($"Starting to deserialize {tuples.Count()} results : ");
 
     var computeResult = tuples.Select(x => ClientPayload.Deserialize(x.Item2)
                                                         .Result)
@@ -205,7 +205,7 @@ public class CheckAllSubmissionsClient : ClientBaseTest<CheckAllSubmissionsClien
     ts = stopWatch.Elapsed;
     // Format and display the TimeSpan value.
     elapsedTime = $"{ts.Hours:00}:{ts.Minutes:00}:{ts.Seconds:00}.{ts.Milliseconds / 10:00}";
-    Log.LogInformation($"===== Finished to execute {nbJob} nTask with {nbSubTasks} subtask " +
+    Log?.LogInformation($"===== Finished to execute {nbJob} nTask with {nbSubTasks} subtask " +
                        $"with result computed {computeResult} vs expected {expectedResult} in {elapsedTime}\n");
   }
 
@@ -250,7 +250,7 @@ public class CheckAllSubmissionsClient : ClientBaseTest<CheckAllSubmissionsClien
 
     PeriodicInfo(() =>
                  {
-                   Log.LogInformation($"Got {results.Count} / {ids.Count} result(s) ");
+                   Log?.LogInformation($"Got {results.Count} / {ids.Count} result(s) ");
                  },
                  20,
                  cts.Token);
@@ -268,7 +268,7 @@ public class CheckAllSubmissionsClient : ClientBaseTest<CheckAllSubmissionsClien
 
                         if (listPartialResults.Count() != 0)
                         {
-                          results.AddRange(listPartialResults);
+                          results.AddRange(listPartialResults!);
                         }
 
                         missing = missing.Where(x => listPartialResults.ToList()

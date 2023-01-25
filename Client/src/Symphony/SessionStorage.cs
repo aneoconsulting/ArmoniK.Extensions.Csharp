@@ -21,14 +21,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System;
 using System.Collections.Generic;
 
 using ArmoniK.DevelopmentKit.Common.Exceptions;
-
+#pragma warning disable CS8618
 #pragma warning disable CS1591
 
 namespace ArmoniK.DevelopmentKit.Client.Symphony;
 
+[Obsolete]
 public class SessionStorage
 {
   private static SessionStorage _instance;

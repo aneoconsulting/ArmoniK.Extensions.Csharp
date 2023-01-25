@@ -59,7 +59,7 @@ public abstract class ServiceContainerBase
   /// <summary>
   ///   Property to retrieve the sessionService previously created
   /// </summary>
-  internal SessionPollingService SessionService { get; set; }
+  internal SessionPollingService? SessionService { get; set; }
 
   /// <summary>
   ///   Map between ids of task and their results id after task submission
@@ -127,8 +127,8 @@ public abstract class ServiceContainerBase
   /// <param name="taskContext">
   ///   Holds all information on the state of the task such as the task ID and the payload.
   /// </param>
-  public abstract byte[] OnInvoke(SessionContext sessionContext,
-                                  TaskContext    taskContext);
+  public abstract byte[]? OnInvoke(SessionContext sessionContext,
+                                   TaskContext    taskContext);
 
 
   /// <summary>
@@ -157,7 +157,7 @@ public abstract class ServiceContainerBase
   ///   The user payload list to execute. Generally used for subTasking.
   /// </param>
   public IEnumerable<string> SubmitTasks(IEnumerable<byte[]> payloads)
-    => SessionService.SubmitTasks(payloads);
+    => SessionService?.SubmitTasks(payloads) ?? throw new NullReferenceException(nameof(SessionService));
 
 
   /// <summary>
@@ -169,8 +169,8 @@ public abstract class ServiceContainerBase
   /// <returns>return a list of taskIds of the created tasks </returns>
   public IEnumerable<string> SubmitTasksWithDependencies(IEnumerable<Tuple<byte[], IList<string>>> payloadWithDependencies,
                                                          bool                                      resultForParent = false)
-    => SessionService.SubmitTasksWithDependencies(payloadWithDependencies,
-                                                  resultForParent);
+    => SessionService?.SubmitTasksWithDependencies(payloadWithDependencies,
+                                                   resultForParent) ?? throw new NullReferenceException(nameof(SessionService));
 
   /// <summary>
   ///   The method to submit one subtask with dependencies tasks. This task will wait for
@@ -197,7 +197,7 @@ public abstract class ServiceContainerBase
   /// <returns>return a list of taskIds of the created subtasks </returns>
   [Obsolete]
   public IEnumerable<string> SubmitSubtasksWithDependencies(IEnumerable<Tuple<byte[], IList<string>>> payloadWithDependencies)
-    => SessionService.SubmitTasksWithDependencies(payloadWithDependencies);
+    => SessionService?.SubmitTasksWithDependencies(payloadWithDependencies) ?? throw new NullReferenceException(nameof(SessionService));
 
   /// <summary>
   ///   User method to wait for only the parent task from the client
@@ -235,7 +235,7 @@ public abstract class ServiceContainerBase
   /// <param name="taskId">The task Id to get the result</param>
   /// <returns>return the customer payload</returns>
   public byte[] GetDependenciesResult(string taskId)
-    => SessionService.GetDependenciesResult(taskId);
+    => SessionService?.GetDependenciesResult(taskId) ?? throw new NullReferenceException(nameof(SessionService));
 
   /// <summary>
   ///   The configure method is an internal call to prepare the ServiceContainer.
@@ -294,11 +294,11 @@ public static class ServiceContainerBaseExt
   /// </param>
   public static string SubmitTask(this ServiceContainerBase serviceContainerBase,
                                   byte[]                    payload)
-    => serviceContainerBase.SessionService.SubmitTasks(new[]
-                                                       {
-                                                         payload,
-                                                       })
-                           .Single();
+    => serviceContainerBase?.SessionService?.SubmitTasks(new[]
+                                                         {
+                                                           payload,
+                                                         })
+                           .Single() ?? throw new NullReferenceException(nameof(serviceContainerBase));
 
   /// <summary>
   ///   The method to submit One task with dependencies tasks. This task will wait for

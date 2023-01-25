@@ -23,14 +23,27 @@
 
 using ArmoniK.DevelopmentKit.Common;
 
+using JetBrains.Annotations;
+
 #pragma warning disable CS1591
 namespace ArmoniK.DevelopmentKit.Worker.Symphony;
 
 /// <summary>
 /// </summary>
-[MarkDownDoc]
+[PublicAPI]
 public class ServiceContext
 {
+  public ServiceContext(string? applicationName  = null,
+                        string? serviceName      = null,
+                        string? clientLibVersion = null,
+                        string? appNamespace     = null)
+  {
+    ApplicationName  = applicationName  ?? "BadApplicationName";
+    ServiceName      = serviceName      ?? "BadServiceName";
+    ClientLibVersion = clientLibVersion ?? "BadApplicationVersion";
+    AppNamespace     = appNamespace     ?? "BadApplicationNamespace";
+  }
+
   public string  ApplicationName  { get; set; }
   public string  ServiceName      { get; set; }
   public string  ClientLibVersion { get; set; }

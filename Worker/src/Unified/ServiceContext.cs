@@ -31,8 +31,8 @@ namespace ArmoniK.DevelopmentKit.Worker.Unified;
 [MarkDownDoc]
 public class ServiceContext
 {
-  public string  ApplicationName  { get; set; }
-  public string? ServiceName      { get; set; }
-  public string  ClientLibVersion { get; set; }
-  public string? AppNamespace     { get; set; }
+  public string ApplicationName  { get; set; } = "BadAppsName";
+  public string ServiceName      { get; set; } = "BadServiceName";
+  public string ClientLibVersion { get; set; } = "BadAppsVersion";
+  public string AppNamespace     { get; set; } = "BadServiceNamespace";
 }

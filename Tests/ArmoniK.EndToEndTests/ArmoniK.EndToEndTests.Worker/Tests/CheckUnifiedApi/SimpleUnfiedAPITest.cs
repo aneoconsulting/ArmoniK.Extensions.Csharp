@@ -51,7 +51,7 @@ public class CheckUnifiedApiWorker : TaskSubmitterWorkerService
   }
 
   public string GetTaskOptionsFromWorker()
-    => TaskOptions.ApplicationName;
+    => TaskOptions?.ApplicationName ?? "BadAppsName";
 
   public static double[] ComputeMadd(byte[] inputs1,
                                      byte[] inputs2,

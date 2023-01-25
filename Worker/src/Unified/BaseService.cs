@@ -63,35 +63,35 @@ public abstract class BaseService<T>
   /// <summary>
   /// </summary>
   /// <param name="loggerFactory"></param>
-  public BaseService(ILoggerFactory loggerFactory)
+  public BaseService(ILoggerFactory? loggerFactory)
   {
     LoggerFactory = loggerFactory;
 
-    Logger = loggerFactory.CreateLogger<T>();
+    Logger = loggerFactory?.CreateLogger<T>();
   }
 
   /// <summary>
   ///   ginScope
   ///   Get access to Logger with Logger.Lo.
   /// </summary>
-  public ILogger<T> Logger { get; set; }
+  public ILogger<T>? Logger { get; set; }
 
   /// <summary>
   ///   Get or Set SubSessionId object stored during the call of SubmitTask, SubmitSubTask,
   ///   SubmitSubTaskWithDependencies or WaitForCompletion, WaitForSubTaskCompletion or GetResults
   /// </summary>
-  public Session SessionId { get; set; }
+  public Session? SessionId { get; set; }
 
   /// <summary>
   ///   Property to retrieve the sessionService previously created
   /// </summary>
-  internal SessionPollingService SessionService { get; set; }
+  internal SessionPollingService? SessionService { get; set; }
 
   /// <summary>
   ///   Map between ids of task and their results id after task submission
   /// </summary>
   public Dictionary<string, string> TaskId2OutputId
-    => SessionService.TaskId2OutputId;
+    => SessionService?.TaskId2OutputId ?? throw new NullReferenceException(nameof(SessionService));
 
   //internal ITaskHandler TaskHandler { get; set; }
 
@@ -101,11 +101,6 @@ public abstract class BaseService<T>
   public TaskOptions TaskOptions { get; set; } = new();
 
   /// <summary>
-  ///   Get or set the taskId (ONLY INTERNAL USED)
-  /// </summary>
-  public TaskId TaskId { get; set; }
-
-  /// <summary>
   ///   Get or Set Configuration
   /// </summary>
   public IConfiguration? Configuration { get; set; }
@@ -113,7 +108,7 @@ public abstract class BaseService<T>
   /// <summary>
   ///   The logger factory to create new Logger in sub class caller
   /// </summary>
-  public ILoggerFactory LoggerFactory { get; set; }
+  public ILoggerFactory? LoggerFactory { get; set; }
 
   /// <summary>
   ///   The middleware triggers the invocation of this handler just after a Service Instance is started.
@@ -186,7 +181,7 @@ public abstract class BaseService<T>
   ///   The user payload list to execute. Generally used for subTasking.
   /// </param>
   public IEnumerable<string> SubmitTasks(IEnumerable<byte[]> payloads)
-    => SessionService.SubmitTasks(payloads);
+    => SessionService?.SubmitTasks(payloads) ?? throw new NullReferenceException(nameof(SessionService));
 
 
   /// <summary>
@@ -198,8 +193,8 @@ public abstract class BaseService<T>
   /// <returns>return a list of taskIds of the created tasks </returns>
   public IEnumerable<string> SubmitTasksWithDependencies(IEnumerable<Tuple<byte[], IList<string>>> payloadWithDependencies,
                                                          bool                                      resultForParent = false)
-    => SessionService.SubmitTasksWithDependencies(payloadWithDependencies,
-                                                  resultForParent);
+    => SessionService?.SubmitTasksWithDependencies(payloadWithDependencies,
+                                                   resultForParent) ?? throw new NullReferenceException(nameof(SessionService));
 
   /// <summary>
   ///   User method to wait for only the parent task from the client
@@ -237,7 +232,7 @@ public abstract class BaseService<T>
   /// <param name="taskId">The task Id to get the result</param>
   /// <returns>return the customer payload</returns>
   public byte[] GetDependenciesResult(string taskId)
-    => SessionService.GetDependenciesResult(taskId);
+    => SessionService?.GetDependenciesResult(taskId) ?? throw new NullReferenceException(nameof(SessionService));
 
   /// <summary>
   ///   The configure method is an internal call to prepare the ServiceContainer.
@@ -296,11 +291,11 @@ public static class BaseServiceExt
   /// </param>
   public static string SubmitTask<T>(this BaseService<T> serviceContainerBase,
                                      byte[]              payload)
-    => serviceContainerBase.SessionService.SubmitTasks(new[]
-                                                       {
-                                                         payload,
-                                                       })
-                           .Single();
+    => serviceContainerBase.SessionService?.SubmitTasks(new[]
+                                                        {
+                                                          payload,
+                                                        })
+                           .Single() ?? throw new NullReferenceException(nameof(serviceContainerBase.SessionService));
 
   /// <summary>
   ///   The method to submit One task with dependencies tasks. This task will wait for

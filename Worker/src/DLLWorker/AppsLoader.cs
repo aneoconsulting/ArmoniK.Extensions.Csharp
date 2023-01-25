@@ -22,6 +22,7 @@
 // limitations under the License.
 
 using System;
+using System.Data;
 using System.IO;
 using System.Reflection;
 using System.Runtime.Loader;
@@ -41,22 +42,24 @@ public class AppsLoader : IAppsLoader
   private readonly Assembly   assemblyGridWorker_;
   private readonly EngineType engineType_;
 
-  private readonly ILogger<AppsLoader> logger_;
-  private          Assembly            assembly_;
+  private readonly ILogger<AppsLoader>? logger_;
+  private          Assembly             assembly_;
 
   public AppsLoader(IConfiguration? configuration,
-                    ILoggerFactory  loggerFactory,
+                    ILoggerFactory? loggerFactory,
                     string          engineTypeAssemblyName,
                     IFileAdapter    fileAdapter,
                     string          fileName)
   {
+    Configuration = configuration;
+
     engineType_ = EngineTypeHelper.ToEnum(engineTypeAssemblyName);
 
     FileAdapter = fileAdapter;
 
     ArmoniKDevelopmentKitServerApi = new EngineTypes()[engineType_];
 
-    logger_ = loggerFactory.CreateLogger<AppsLoader>();
+    logger_ = loggerFactory?.CreateLogger<AppsLoader>();
 
     var archiver = new ZipArchiver();
 
@@ -81,7 +84,7 @@ public class AppsLoader : IAppsLoader
     }
     catch (Exception ex)
     {
-      logger_.LogError($"Cannot load assembly from path [${localPathToAssembly}] "             + ex.Message + Environment.NewLine + ex.StackTrace);
+      logger_?.LogError($"Cannot load assembly from path [${localPathToAssembly}] "             + ex.Message + Environment.NewLine + ex.StackTrace);
       throw new WorkerApiException($"Cannot load assembly from path [${localPathToAssembly}] " + ex.Message + Environment.NewLine + ex.StackTrace);
     }
 
@@ -95,7 +98,7 @@ public class AppsLoader : IAppsLoader
     }
     catch (Exception ex)
     {
-      logger_.LogError($"Cannot load assembly from path [${localPathToAssemblyGridWorker}] "             + ex.Message + Environment.NewLine + ex.StackTrace);
+      logger_?.LogError($"Cannot load assembly from path [${localPathToAssemblyGridWorker}] "             + ex.Message + Environment.NewLine + ex.StackTrace);
       throw new WorkerApiException($"Cannot load assembly from path [${localPathToAssemblyGridWorker}] " + ex.Message + Environment.NewLine + ex.StackTrace);
     }
 
@@ -103,52 +106,52 @@ public class AppsLoader : IAppsLoader
     if (location != null)
     {
       Directory.SetCurrentDirectory(location);
-      logger_.LogInformation($"Set Default path to [${location}]");
+      logger_?.LogInformation($"Set Default path to [${location}]");
     }
 
-    logger_.LogInformation($"GridWorker assembly from path [${localPathToAssemblyGridWorker}]");
+    logger_?.LogInformation($"GridWorker assembly from path [${localPathToAssemblyGridWorker}]");
 
     PathToAssemblyGridWorker = localPathToAssemblyGridWorker;
 
     var currentDomain = AppDomain.CurrentDomain;
     currentDomain.AssemblyResolve += LoadFromSameFolder;
+  }
 
-    Assembly LoadFromSameFolder(object           sender,
-                                ResolveEventArgs args)
-    {
-      var folderPath = Path.GetDirectoryName(PathToAssembly);
-      var assemblyPath = Path.Combine(folderPath ?? "",
-                                      new AssemblyName(args.Name).Name + ".dll");
-
-      Assembly assembly;
-
-      try
-      {
-        assembly = Assembly.LoadFrom(assemblyPath);
-      }
-      catch (Exception)
-      {
-        folderPath = "/app";
-        assemblyPath = Path.Combine(folderPath,
+  Assembly? LoadFromSameFolder(object?          sender,
+                               ResolveEventArgs args)
+  {
+    var folderPath = Path.GetDirectoryName(PathToAssembly);
+    var assemblyPath = Path.Combine(folderPath ?? "",
                                     new AssemblyName(args.Name).Name + ".dll");
 
-        if (!File.Exists(assemblyPath))
-        {
-          return null;
-        }
+    Assembly assembly;
 
-        assembly = Assembly.LoadFrom(assemblyPath);
+    try
+    {
+      assembly = Assembly.LoadFrom(assemblyPath);
+    }
+    catch (Exception)
+    {
+      folderPath = "/app";
+      assemblyPath = Path.Combine(folderPath,
+                                  new AssemblyName(args.Name).Name + ".dll");
+
+      if (!File.Exists(assemblyPath))
+      {
+        return null;
       }
 
-      return assembly;
+      assembly = Assembly.LoadFrom(assemblyPath);
     }
+
+    return assembly;
   }
 
   private string ArmoniKDevelopmentKitServerApi { get; }
 
   public AssemblyLoadContext UserAssemblyLoadContext { get; private set; }
 
-  public IConfiguration Configuration { get; }
+  public IConfiguration? Configuration { get; }
 
   public IFileAdapter FileAdapter { get; set; }
 
@@ -166,7 +169,7 @@ public class AppsLoader : IAppsLoader
 
       if (classType != null)
       {
-        var serviceContainer = (T)Activator.CreateInstance(classType);
+        var serviceContainer = (T?)Activator.CreateInstance(classType) ?? throw new WorkerApiException($"Cannot find constructor for : {nameof(classType)}");
 
         return serviceContainer;
       }
@@ -177,18 +180,11 @@ public class AppsLoader : IAppsLoader
 
   public void Dispose()
   {
-    assembly_ = null;
-    if (UserAssemblyLoadContext != null)
-      // Unload the context.
-    {
-      UserAssemblyLoadContext.Unload();
-    }
-
-    UserAssemblyLoadContext = null;
+    UserAssemblyLoadContext.Unload();
   }
 
   public IGridWorker GetGridWorkerInstance(IConfiguration? configuration,
-                                           ILoggerFactory  loggerFactory)
+                                           ILoggerFactory? loggerFactory)
   {
     // Create an instance of a class from the assembly.
     try
@@ -199,17 +195,19 @@ public class AppsLoader : IAppsLoader
 
         if (classType != null)
         {
-          var args = new object[]
+          var args = new object?[]
                      {
                        configuration,
                        loggerFactory,
                      };
 
 
-          var gridWorker = (IGridWorker)Activator.CreateInstance(classType,
-                                                                 args);
-
-          return gridWorker;
+          var gridWorker = (IGridWorker?)Activator.CreateInstance(classType,
+                                                                  args);
+          if (gridWorker != null)
+          {
+            return gridWorker;
+          }
         }
       }
     }
@@ -233,10 +231,12 @@ public class AppsLoader : IAppsLoader
 
       if (classType != null)
       {
-        var serviceContainer = (T)Activator.CreateInstance(classType,
-                                                           args);
-
-        return serviceContainer;
+        var serviceContainer = (T?)Activator.CreateInstance(classType,
+                                                            args);
+        if (serviceContainer != null)
+        {
+          return serviceContainer;
+        }
       }
     }
 

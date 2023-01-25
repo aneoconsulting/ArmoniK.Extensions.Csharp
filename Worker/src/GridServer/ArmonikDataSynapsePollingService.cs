@@ -56,32 +56,17 @@ public class ArmonikDataSynapsePollingService
   /// <param name="loggerFactory">The factory to create the logger for clientService</param>
   /// <param name="taskOptions">TaskOptions for any Session</param>
   public ArmonikDataSynapsePollingService(IConfiguration  configuration,
-                                          ILoggerFactory? loggerFactory,
-                                          TaskOptions?    taskOptions = null)
+                                          ILoggerFactory? loggerFactory)
   {
     controlPlanAddress_ = configuration.GetSection(SectionControlPlan);
 
     Logger = loggerFactory?.CreateLogger<ArmonikDataSynapsePollingService>();
-
-    TaskOptions = taskOptions;
   }
 
   /// <summary>
   ///   Returns the section key Grpc from appSettings.json
   /// </summary>
   public static string SectionControlPlan { get; } = "Grpc";
-
-  /// <summary>
-  ///   Set or Get TaskOptions with inside MaxDuration, Priority, AppName, VersionName and AppNamespace
-  /// </summary>
-  public TaskOptions? TaskOptions { get; set; }
-
-  /// <summary>
-  ///   Only used for internal DO NOT USED IT
-  ///   Get or Set SessionId object stored during the call of SubmitTask, SubmitSubTask,
-  ///   SubmitSubTaskWithDependencies or WaitForCompletion, WaitForSubTaskCompletion or GetResults
-  /// </summary>
-  public Session SessionId { get; private set; }
 
   /// <summary>
   ///   This method is creating a default taskOptions initialization where

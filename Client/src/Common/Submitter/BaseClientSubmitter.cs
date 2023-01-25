@@ -47,6 +47,8 @@ using JetBrains.Annotations;
 
 using Microsoft.Extensions.Logging;
 
+using static ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool;
+
 using TaskStatus = ArmoniK.Api.gRPC.V1.TaskStatus;
 
 namespace ArmoniK.DevelopmentKit.Client.Common.Submitter;
@@ -56,19 +58,22 @@ namespace ArmoniK.DevelopmentKit.Client.Common.Submitter;
 ///   Need to pass the child object Class Type
 /// </summary>
 [PublicAPI]
-public class BaseClientSubmitter<T>
+public abstract class BaseClientSubmitter<T>
 {
   /// <summary>
   ///   Base Object for all Client submitter
   /// </summary>
   /// <param name="channelPool">Channel used to create grpc clients</param>
+  /// <param name="taskOptions">TaskOptions for the whole client session</param>
   /// <param name="loggerFactory">the logger factory to pass for root object</param>
   /// <param name="chunkSubmitSize">The size of chunk to split the list of tasks</param>
-  public BaseClientSubmitter(ChannelPool     channelPool,
-                             ILoggerFactory? loggerFactory   = null,
-                             int             chunkSubmitSize = 500)
+  protected BaseClientSubmitter(ChannelPool     channelPool,
+                                TaskOptions     taskOptions,
+                                ILoggerFactory? loggerFactory   = null,
+                                int             chunkSubmitSize = 500)
   {
     channelPool_     = channelPool;
+    TaskOptions      = taskOptions;
     Logger           = loggerFactory?.CreateLogger<T>();
     chunkSubmitSize_ = chunkSubmitSize;
   }
@@ -83,9 +88,6 @@ public class BaseClientSubmitter<T>
   ///   SubmitSubTaskWithDependencies or WaitForCompletion, WaitForSubTaskCompletion or GetResults
   /// </summary>
   public Session? SessionId { get; protected set; }
-
-
-#pragma warning restore CS1591
 
   /// <summary>
   ///   The channel pool to use for creating clients
@@ -165,8 +167,8 @@ public class BaseClientSubmitter<T>
   /// <param name="maxRetries">The number of retry before fail to submit task</param>
   /// <returns>return a list of taskIds of the created tasks </returns>
   [PublicAPI]
-  public IEnumerable<string> SubmitTasksWithDependencies(IEnumerable<Tuple<string, byte[], IList<string>>> payloadsWithDependencies,
-                                                         int                                               maxRetries = 5)
+  public IEnumerable<string> SubmitTasksWithDependencies(IEnumerable<Tuple<string, byte[], IList<string>?>> payloadsWithDependencies,
+                                                         int                                                maxRetries = 5)
     => payloadsWithDependencies.ToChunk(chunkSubmitSize_)
                                .SelectMany(chunk => ChunkSubmitTasksWithDependencies(chunk,
                                                                                      maxRetries));
@@ -183,7 +185,7 @@ public class BaseClientSubmitter<T>
   /// <returns>return a list of taskIds of the created tasks </returns>
   [PublicAPI]
   public IEnumerable<string> SubmitTasksWithDependencies(IEnumerable<Tuple<byte[], IList<string>?>> payloadsWithDependencies,
-                                                         int                                         maxRetries = 5)
+                                                         int                                        maxRetries = 5)
     => payloadsWithDependencies.ToChunk(chunkSubmitSize_)
                                .SelectMany(chunk =>
                                            {
@@ -205,8 +207,8 @@ public class BaseClientSubmitter<T>
   /// <param name="maxRetries">Set the number of retries Default Value 5</param>
   /// <returns>return the ids of the created tasks</returns>
   [PublicAPI]
-  private IEnumerable<string> ChunkSubmitTasksWithDependencies(IEnumerable<Tuple<string, byte[]?, IList<string>?>> payloadsWithDependencies,
-                                                               int                                                 maxRetries)
+  private IEnumerable<string> ChunkSubmitTasksWithDependencies(IEnumerable<Tuple<string, byte[], IList<string>?>> payloadsWithDependencies,
+                                                               int                                                maxRetries)
   {
     using var _ = Logger?.LogFunction();
 
@@ -215,6 +217,8 @@ public class BaseClientSubmitter<T>
 
     var serviceConfiguration = submitterService.GetServiceConfigurationAsync(new Empty())
                                                .ResponseAsync.Result;
+
+    var withDependencies = payloadsWithDependencies.ToList();
 
     for (var nbRetry = 0; nbRetry < maxRetries; nbRetry++)
     {
@@ -237,7 +241,7 @@ public class BaseClientSubmitter<T>
         // It will happen only during a retry to submit tasks
         // Loosing a little bit of perf in case of retry is not a big deal : in the usual case, it should not happen.
         //
-        foreach (var (resultId, payload, dependencies) in payloadsWithDependencies)
+        foreach (var (resultId, payload, dependencies) in withDependencies)
         {
           asyncClientStreamingCall.RequestStream.WriteAsync(new CreateLargeTaskRequest
                                                             {
@@ -258,7 +262,7 @@ public class BaseClientSubmitter<T>
                                                             })
                                   .Wait();
 
-          for (var j = 0; j < payload?.Length; j += serviceConfiguration.DataChunkMaxSize)
+          for (var j = 0; j < payload.Length; j += serviceConfiguration.DataChunkMaxSize)
           {
             var chunkSize = Math.Min(serviceConfiguration.DataChunkMaxSize,
                                      payload.Length - j);
@@ -421,8 +425,8 @@ public class BaseClientSubmitter<T>
     var result2TaskDic = mapTaskResults.ToDictionary(result => result.ResultIds.Single(),
                                                      result => result.TaskId);
 
-    using var channel          = channelPool_.GetChannel();
-    var       submitterService = new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel);
+    using ChannelGuard channel          = channelPool_.GetChannel() ?? throw new NoNullAllowedException(nameof(ChannelGuard));
+    var                submitterService = new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel);
 
     var idStatus = Retry.WhileException(5,
                                         200,
@@ -478,17 +482,21 @@ public class BaseClientSubmitter<T>
       result2TaskDic.Remove(idStatusPair.ResultId);
     }
 
-    var resultStatusList = new ResultStatusCollection
-                           {
-                             IdsResultError = idsResultError,
-                             IdsError       = result2TaskDic.Values,
-                             IdsReady       = idsReady,
-                             IdsNotReady    = idsNotReady,
-                           };
-
-    return resultStatusList;
+    return new ResultStatusCollection
+           {
+             IdsResultError = idsResultError,
+             IdsError       = result2TaskDic.Values,
+             IdsReady       = idsReady,
+             IdsNotReady    = idsNotReady,
+           };
+    ;
   }
 
+  /// <summary>
+  /// Get the IEnumerable resultId from a Enumerable taskIds
+  /// </summary>
+  /// <param name="taskIds">The Enumerable taskIds</param>
+  /// <returns>Returns the lists of resultId corresponding to the list of taskIds</returns>
   public ICollection<GetResultIdsResponse.Types.MapTaskResult> GetResultIds(IEnumerable<string> taskIds)
     => channelPool_.WithChannel(channel => new Tasks.TasksClient(channel).GetResultIds(new GetResultIdsRequest
                                                                                        {

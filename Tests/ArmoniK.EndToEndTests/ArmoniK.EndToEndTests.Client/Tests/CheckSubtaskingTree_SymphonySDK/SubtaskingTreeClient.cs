@@ -48,14 +48,14 @@ public class SubtaskingTreeClient : ClientBaseTest<SubtaskingTreeClient>
     var client = new ArmonikSymphonyClient(Configuration,
                                            LoggerFactory);
 
-    Log.LogInformation("Configure taskOptions");
+    Log?.LogInformation("Configure taskOptions");
     var taskOptions = InitializeTaskOptions();
 
     var sessionService = client.CreateSession(taskOptions);
 
-    Log.LogInformation($"New session created : {sessionService}");
+    Log?.LogInformation($"New session created : {sessionService}");
 
-    Log.LogInformation("Running End to End test to compute Sum of numbers in a subtasking tree way");
+    Log?.LogInformation("Running End to End test to compute Sum of numbers in a subtasking tree way");
     ExecuteTreeSubtasking(sessionService,
                           256);
   }
@@ -101,6 +101,6 @@ public class SubtaskingTreeClient : ClientBaseTest<SubtaskingTreeClient>
     var result = ClientPayload.Deserialize(taskResult);
     sw.Stop();
     var expectedResult = numbers.Sum(elem => (long)elem);
-    Log.LogInformation($"SplitAndSum {numbers.First()} ... {numbers.Last()}: Result is {result.Result} expected : {expectedResult} => {(result.Result == expectedResult ? "OK" : "NOT OK")} in {sw.ElapsedMilliseconds / 1000} sec.");
+    Log?.LogInformation($"SplitAndSum {numbers.First()} ... {numbers.Last()}: Result is {result.Result} expected : {expectedResult} => {(result.Result == expectedResult ? "OK" : "NOT OK")} in {sw.ElapsedMilliseconds / 1000} sec.");
   }
 }

@@ -1,4 +1,5 @@
 using System;
+using System.Data;
 using System.Linq;
 
 using ArmoniK.DevelopmentKit.Client.Common.Exceptions;
@@ -38,9 +39,9 @@ public class SimpleUnifiedApiClientTest
     var expectedResult = numbers_.Select(elem => elem * elem * elem)
                                  .ToArray();
 
-    var taskId = unifiedTestHelper_.Service.Submit("ComputeBasicArrayCube",
+    var taskId = unifiedTestHelper_?.Service.Submit("ComputeBasicArrayCube",
                                                    UnitTestHelperBase.ParamsHelper(numbers_),
-                                                   unifiedTestHelper_);
+                                                   unifiedTestHelper_) ?? throw new NoNullAllowedException(nameof(unifiedTestHelper_));
 
     var result = unifiedTestHelper_.WaitForResultcompletion(taskId);
     Assert.IsNotNull(result);
@@ -48,7 +49,7 @@ public class SimpleUnifiedApiClientTest
                         result);
 
     CollectionAssert.AreEqual(expectedResult,
-                              (double[])result);
+                              (double[]?)result);
   }
 
   [Test]
@@ -57,9 +58,9 @@ public class SimpleUnifiedApiClientTest
     var expectedResult = numbers_.Select(elem => elem * elem * elem)
                                  .ToArray();
 
-    var taskId = unifiedTestHelper_.Service.Submit("GetTaskOptionsFromWorker",
+    var taskId = unifiedTestHelper_?.Service.Submit("GetTaskOptionsFromWorker",
                                                    UnitTestHelperBase.ParamsHelper(),
-                                                   unifiedTestHelper_);
+                                                   unifiedTestHelper_) ?? throw new NoNullAllowedException(nameof(unifiedTestHelper_));
 
     var result = unifiedTestHelper_.WaitForResultcompletion(taskId);
     Assert.IsNotNull(result);
@@ -68,7 +69,7 @@ public class SimpleUnifiedApiClientTest
     var resultStr = result as string;
 
     Assert.That(resultStr,
-                Is.EqualTo(unifiedTestHelper_.TaskOptions.ApplicationName));
+                Is.EqualTo(unifiedTestHelper_.TaskOptions?.ApplicationName));
   }
 
   [Test]
@@ -76,9 +77,10 @@ public class SimpleUnifiedApiClientTest
   {
     var expectedResult = numbers_.Sum(elem => elem * elem * elem);
 
-    var taskId = unifiedTestHelper_.Service.Submit("ComputeReduceCube",
+    var taskId = unifiedTestHelper_?.Service.Submit("ComputeReduceCube",
                                                    UnitTestHelperBase.ParamsHelper(numbers_),
-                                                   unifiedTestHelper_);
+                                                   unifiedTestHelper_) ?? throw new NoNullAllowedException(nameof(unifiedTestHelper_));
+    ;
 
     var result = unifiedTestHelper_.WaitForResultcompletion(taskId);
     Assert.IsNotNull(result);
@@ -94,10 +96,11 @@ public class SimpleUnifiedApiClientTest
   {
     var expectedResult = numbers_.Sum(elem => elem * elem * elem);
 
-    var taskId = unifiedTestHelper_.Service.Submit("ComputeReduceCube",
+    var taskId = unifiedTestHelper_?.Service.Submit("ComputeReduceCube",
                                                    UnitTestHelperBase.ParamsHelper(numbers_.SelectMany(BitConverter.GetBytes)
                                                                                            .ToArray()),
-                                                   unifiedTestHelper_);
+                                                   unifiedTestHelper_) ?? throw new NoNullAllowedException(nameof(unifiedTestHelper_));
+    ;
 
     var result = unifiedTestHelper_.WaitForResultcompletion(taskId);
     Assert.IsNotNull(result);
@@ -115,14 +118,14 @@ public class SimpleUnifiedApiClientTest
                                           idx) => 4 * x * numbers_[idx])
                                  .ToArray();
 
-    var taskId = unifiedTestHelper_.Service.Submit("ComputeMadd",
+    var taskId = unifiedTestHelper_?.Service.Submit("ComputeMadd",
                                                    UnitTestHelperBase.ParamsHelper(numbers_.SelectMany(BitConverter.GetBytes)
                                                                                            .ToArray(),
                                                                                    numbers_.SelectMany(BitConverter.GetBytes)
                                                                                            .ToArray(),
                                                                                    4.0),
-                                                   unifiedTestHelper_);
-
+                                                   unifiedTestHelper_) ?? throw new NoNullAllowedException(nameof(unifiedTestHelper_));
+    
     var result = unifiedTestHelper_.WaitForResultcompletion(taskId);
     Assert.IsNotNull(result);
     Assert.IsInstanceOf(typeof(double[]),
@@ -139,13 +142,14 @@ public class SimpleUnifiedApiClientTest
                                           idx) => 4 * x * numbers_[idx])
                                  .ToArray();
 
-    var taskId = unifiedTestHelper_.Service.Submit("NonStaticComputeMadd",
+    var taskId = unifiedTestHelper_?.Service.Submit("NonStaticComputeMadd",
                                                    UnitTestHelperBase.ParamsHelper(numbers_.SelectMany(BitConverter.GetBytes)
                                                                                            .ToArray(),
                                                                                    numbers_.SelectMany(BitConverter.GetBytes)
                                                                                            .ToArray(),
                                                                                    4.0),
-                                                   unifiedTestHelper_);
+                                                   unifiedTestHelper_) ?? throw new NoNullAllowedException(nameof(unifiedTestHelper_));
+    ;
 
     var result = unifiedTestHelper_.WaitForResultcompletion(taskId);
     Assert.IsNotNull(result);
@@ -160,11 +164,12 @@ public class SimpleUnifiedApiClientTest
   public void Check_That_We_Get_Exception_If_RetryCount_Is_Exceeded()
   {
     var nbTasksToSubmit = 3;
-    var taskId = unifiedTestHelper_.Service.Submit("RandomTaskError",
+    var taskId = unifiedTestHelper_?.Service.Submit("RandomTaskError",
                                                    Enumerable.Range(1,
                                                                     nbTasksToSubmit)
                                                              .Select(_ => UnitTestHelperBase.ParamsHelper(100)),
-                                                   unifiedTestHelper_);
+                                                   unifiedTestHelper_) ?? throw new NoNullAllowedException(nameof(unifiedTestHelper_));
+    ;
 
     var results = unifiedTestHelper_.WaitForResultcompletion(taskId);
 

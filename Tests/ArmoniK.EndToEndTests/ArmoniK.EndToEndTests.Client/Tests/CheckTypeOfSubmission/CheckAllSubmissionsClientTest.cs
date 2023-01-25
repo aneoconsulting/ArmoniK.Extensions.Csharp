@@ -97,7 +97,7 @@ public class CheckAllSubmissionsClientTest
                              SubmissionType submissionType,
                              GetResultType  getResultType)
   {
-    symphonyTestHelper_.Log.LogInformation($"==  Running {nbJob} Tasks with {nbSubTasks} subTasks " +
+    symphonyTestHelper_.Log?.LogInformation($"==  Running {nbJob} Tasks with {nbSubTasks} subTasks " +
                                            $" {submissionType.GetName()} submit, Result method {getResultType.GetName()} =====");
 
 
@@ -120,11 +120,11 @@ public class CheckAllSubmissionsClientTest
     var ts = stopWatch.Elapsed;
     // Format and display the TimeSpan value.
     var elapsedTime = $"{ts.Hours:00}:{ts.Minutes:00}:{ts.Seconds:00}.{ts.Milliseconds / 10:00}";
-    symphonyTestHelper_.Log.LogInformation("End of submission in " + elapsedTime);
+    symphonyTestHelper_.Log?.LogInformation("End of submission in " + elapsedTime);
 
 
     stopWatch.Start();
-    symphonyTestHelper_.Log.LogInformation("Starting to retrieve the result : ");
+    symphonyTestHelper_.Log?.LogInformation("Starting to retrieve the result : ");
     IEnumerable<Tuple<string, byte[]?>> results;
 
     if (getResultType == GetResultType.GetResult)
@@ -141,12 +141,12 @@ public class CheckAllSubmissionsClientTest
     ts = stopWatch.Elapsed;
     // Format and display the TimeSpan value.
     elapsedTime = $"{ts.Hours:00}:{ts.Minutes:00}:{ts.Seconds:00}.{ts.Milliseconds / 10:00}";
-    symphonyTestHelper_.Log.LogInformation("Finished to get Results in " + elapsedTime);
+    symphonyTestHelper_.Log?.LogInformation("Finished to get Results in " + elapsedTime);
 
 
     stopWatch.Start();
 
-    symphonyTestHelper_.Log.LogInformation($"Starting to deserialize {tuples.Count()} results : ");
+    symphonyTestHelper_.Log?.LogInformation($"Starting to deserialize {tuples.Count()} results : ");
 
     var computedResult = tuples.Select(x => ClientPayload.Deserialize(x.Item2)
                                                          .Result)

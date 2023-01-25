@@ -34,7 +34,7 @@ public class SessionContext
 {
   /// <summary>
   /// </summary>
-  public int TimeRemoteDebug;
+  public int TimeRemoteDebug = 0;
 
   /// <summary>
   /// </summary>
@@ -44,10 +44,10 @@ public class SessionContext
   /// <summary>
   /// </summary>
   /// <value></value>
-  public string SessionId { get; set; }
+  public string SessionId { get; set; } = "BadSessionId";
 
   /// <summary>
   /// </summary>
   /// <value></value>
-  public string ClientLibVersion { get; set; }
+  public string ClientLibVersion { get; set; } = "BadAppsVersion";
 }

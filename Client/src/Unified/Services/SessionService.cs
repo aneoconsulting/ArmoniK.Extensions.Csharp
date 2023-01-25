@@ -54,10 +54,9 @@ public class SessionService : BaseClientSubmitter<SessionService>
                         TaskOptions?    taskOptions   = null,
                         Session?        session       = null)
     : base(channelPool,
+           taskOptions ?? InitializeDefaultTaskOptions(),
            loggerFactory)
   {
-    TaskOptions = taskOptions ?? InitializeDefaultTaskOptions();
-
     Logger?.LogDebug("Creating Session... ");
 
     SessionId = session ?? CreateSession(new List<string>
@@ -145,9 +144,9 @@ public class SessionService : BaseClientSubmitter<SessionService>
   /// <param name="payloads">
   ///   The user payload list to execute. General used for subTasking.
   /// </param>
-  public IEnumerable<string> SubmitTasks(IEnumerable<byte[]?> payloads)
-    => SubmitTasksWithDependencies(payloads.Select(payload => new Tuple<byte[]?, IList<string>?>(payload,
-                                                                                                 null)));
+  public IEnumerable<string> SubmitTasks(IEnumerable<byte[]> payloads)
+    => SubmitTasksWithDependencies(payloads.Select(payload => new Tuple<byte[], IList<string>?>(payload,
+                                                                                                null)));
 
   /// <summary>
   ///   User method to submit task from the client
@@ -175,7 +174,7 @@ public class SessionService : BaseClientSubmitter<SessionService>
   /// <param name="payload">The payload to submit</param>
   /// <param name="dependencies">A list of task Id in dependence of this created task</param>
   /// <returns>return the taskId of the created task </returns>
-  public string SubmitTaskWithDependencies(byte[]?        payload,
+  public string SubmitTaskWithDependencies(byte[]         payload,
                                            IList<string>? dependencies)
     => SubmitTasksWithDependencies(new[]
                                    {

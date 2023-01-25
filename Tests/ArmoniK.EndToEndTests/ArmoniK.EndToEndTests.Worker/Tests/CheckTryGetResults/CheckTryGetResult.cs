@@ -59,7 +59,7 @@ public class ServiceContainer : ServiceContainerBase
     {
       case ClientPayload.TaskType.Expm1:
       {
-        Logger.LogInformation($"ExpM1 task, sessionId : {sessionContext.SessionId}, taskId : {taskContext.TaskId}, sessionId from task : {taskContext.SessionId}");
+        Logger?.LogInformation($"ExpM1 task, sessionId : {sessionContext.SessionId}, taskId : {taskContext.TaskId}, sessionId from task : {taskContext.SessionId}");
         var result = 0.0;
 
         for (var idx = 2; idx > 0; idx--)
@@ -75,7 +75,7 @@ public class ServiceContainer : ServiceContainerBase
       }
       case ClientPayload.TaskType.ComputeCube:
       {
-        var result = clientPayload.Numbers.Sum(x => x * x * x);
+        var result = clientPayload?.Numbers?.Sum(x => x * x * x) ?? 0;
         return new ClientPayload
                {
                  Type   = ClientPayload.TaskType.Result,
@@ -83,7 +83,7 @@ public class ServiceContainer : ServiceContainerBase
                }.Serialize();
       }
       default:
-        Logger.LogInformation($"Task type is unManaged {clientPayload.Type}");
+        Logger?.LogInformation($"Task type is unManaged {clientPayload.Type}");
         throw new WorkerApiException($"Task type is unManaged {clientPayload.Type}");
     }
   }

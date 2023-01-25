@@ -32,14 +32,14 @@ namespace ArmoniK.DevelopmentKit.Worker.Common;
 
 public interface IGridWorker : IDisposable
 {
-  public void Configure(IConfiguration configuration,
-                        TaskOptions    clientOptions,
-                        IAppsLoader    appsLoader);
+  public void Configure(IConfiguration? configuration,
+                        TaskOptions     clientOptions,
+                        IAppsLoader     appsLoader);
 
   public void InitializeSessionWorker(Session     sessionId,
                                       TaskOptions requestTaskOptions);
 
-  public byte[] Execute(ITaskHandler taskHandler);
+  public byte[]? Execute(ITaskHandler taskHandler);
 
   public void SessionFinalize();
 

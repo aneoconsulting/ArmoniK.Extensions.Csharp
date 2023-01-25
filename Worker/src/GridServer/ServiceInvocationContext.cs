@@ -1,4 +1,4 @@
-﻿// This file is part of the ArmoniK project
+// This file is part of the ArmoniK project
 // 
 // Copyright (C) ANEO, 2021-2022.
 //   W. Kirschenmann   <wkirschenmann@aneo.fr>
@@ -42,10 +42,13 @@ namespace ArmoniK.DevelopmentKit.Worker.GridServer;
 [MarkDownDoc]
 public class ServiceInvocationContext
 {
+  public ServiceInvocationContext()
+    => SessionId = new Session();
+
   /// <summary>
   ///   Get the sessionId created by an createSession call before.
   /// </summary>
-  public Session SessionId { get; set; }
+  public Session SessionId { get; init; }
 
   /// <summary>
   ///   Check if the session is the same as previously created
@@ -53,5 +56,5 @@ public class ServiceInvocationContext
   /// <param name="session"></param>
   /// <returns>Return boolean True if SessionId is null or equals to session parameters</returns>
   public bool IsEquals(string session)
-    => SessionId != null && session != null && SessionId.Id.Equals(session);
+    => SessionId.Id.Equals(session);
 }

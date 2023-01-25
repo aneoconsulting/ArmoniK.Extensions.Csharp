@@ -73,7 +73,7 @@ public class LargePayloadSubmitClient : ClientBaseTest<LargePayloadSubmitClient>
   public void HandleError(ServiceInvocationException? e,
                           string                      taskId)
   {
-    Log.LogError($"Error from {taskId} : " + e.Message);
+    Log?.LogError(e, "Error from {taskId} : ", e?.Message);
     throw new ApplicationException($"Error from {taskId}",
                                    e);
   }
@@ -89,13 +89,13 @@ public class LargePayloadSubmitClient : ClientBaseTest<LargePayloadSubmitClient>
     switch (response)
     {
       case null:
-        Log.LogInformation("Task finished but nothing returned in Result");
+        Log?.LogInformation("Task finished but nothing returned in Result");
         break;
       case double:
         nbResults_++;
         break;
       case byte[] values:
-        Log.LogInformation("Result is " + string.Join(", ",
+        Log?.LogInformation("Result is " + string.Join(", ",
                                                       values.ConvertToArray()));
         break;
     }
@@ -108,7 +108,7 @@ public class LargePayloadSubmitClient : ClientBaseTest<LargePayloadSubmitClient>
   [EntryPoint]
   public override void EntryPoint()
   {
-    Log.LogInformation("Configure taskOptions");
+    Log?.LogInformation("Configure taskOptions");
     var taskOptions = InitializeTaskOptions();
     OverrideTaskOptions(taskOptions);
 
@@ -121,9 +121,9 @@ public class LargePayloadSubmitClient : ClientBaseTest<LargePayloadSubmitClient>
                                                 LoggerFactory);
 
 
-    Log.LogInformation($"New session created : {cs.SessionId}");
+    Log?.LogInformation($"New session created : {cs.SessionId}");
 
-    Log.LogInformation("Running End to End test to compute heavy vector in sequential");
+    Log?.LogInformation("Running End to End test to compute heavy vector in sequential");
 
     using var cts = new CancellationTokenSource();
     ComputeVector(cs,
@@ -132,7 +132,7 @@ public class LargePayloadSubmitClient : ClientBaseTest<LargePayloadSubmitClient>
                   cts); // 1000 tasks x 500 KB of payload
   }
 
-  private static void OverrideTaskOptions(TaskOptions? taskOptions)
+  private static void OverrideTaskOptions(TaskOptions taskOptions)
     => taskOptions.EngineType = EngineType.Unified.ToString();
 
 
@@ -182,11 +182,11 @@ public class LargePayloadSubmitClient : ClientBaseTest<LargePayloadSubmitClient>
                                    nbElement)
                             .Select(x => (double)x)
                             .ToArray();
-    Log.LogInformation($"===  Running from {nbTasks} tasks with payload by task {nbElement * 8 / 1024} Ko Total : {nbTasks * nbElement / 128} Ko...   ===");
+    Log?.LogInformation($"===  Running from {nbTasks} tasks with payload by task {nbElement * 8 / 1024} Ko Total : {nbTasks * nbElement / 128} Ko...   ===");
 
     PeriodicInfo(() =>
                  {
-                   Log.LogInformation($"{indexTask}/{nbTasks} Tasks. " + $"Got {nbResults_} results. " +
+                   Log?.LogInformation($"{indexTask}/{nbTasks} Tasks. " + $"Got {nbResults_} results. " +
                                       $"Check Submission perf : Payload {(indexTask - prevIndex) * nbElement * 8.0 / 1024.0 / elapsed:0.0} Ko/s, " +
                                       $"{(indexTask - prevIndex)                                                   / (double)elapsed:0.00} tasks/s");
                    prevIndex = indexTask;
@@ -199,7 +199,7 @@ public class LargePayloadSubmitClient : ClientBaseTest<LargePayloadSubmitClient>
 
     for (indexTask = 0; indexTask < nbTasks; indexTask++)
     {
-      Log.LogDebug($"{indexTask}/{nbTasks} Task Time avg to submit {indexTask / (sw.ElapsedMilliseconds / 1000.0):0.00} Task/s");
+      Log?.LogDebug($"{indexTask}/{nbTasks} Task Time avg to submit {indexTask / (sw.ElapsedMilliseconds / 1000.0):0.00} Task/s");
 
       sessionService.Submit("ComputeSum",
                             ParamsHelper(numbers,
@@ -207,7 +207,7 @@ public class LargePayloadSubmitClient : ClientBaseTest<LargePayloadSubmitClient>
                             this);
     }
 
-    Log.LogInformation($"{nbTasks} tasks submitted in : {sw.ElapsedMilliseconds / 1000} secs with Total bytes {nbTasks * nbElement / 128} Ko");
+    Log?.LogInformation($"{nbTasks} tasks submitted in : {sw.ElapsedMilliseconds / 1000} secs with Total bytes {nbTasks * nbElement / 128} Ko");
     cancellationTokenSource.Cancel();
   }
 }

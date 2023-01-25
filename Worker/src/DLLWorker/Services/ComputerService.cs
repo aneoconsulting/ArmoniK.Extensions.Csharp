@@ -46,16 +46,16 @@ public class ComputerService : WorkerStreamWrapper
   public ComputerService(IConfiguration        configuration,
                          GrpcChannelProvider   provider,
                          ServiceRequestContext serviceRequestContext)
-    : base(serviceRequestContext.LoggerFactory,
+    : base(serviceRequestContext.LoggerFactory!,
            provider)
   {
     Configuration         = configuration;
-    Logger                = serviceRequestContext.LoggerFactory.CreateLogger<ComputerService>();
+    Logger                = serviceRequestContext.LoggerFactory?.CreateLogger<ComputerService>();
     ServiceRequestContext = serviceRequestContext;
-    Logger.LogInformation("Starting worker...OK");
+    Logger?.LogInformation("Starting worker...OK");
   }
 
-  private ILogger<ComputerService> Logger { get; }
+  private ILogger<ComputerService>? Logger { get; }
 
   public ServiceRequestContext ServiceRequestContext { get; }
 
@@ -63,12 +63,12 @@ public class ComputerService : WorkerStreamWrapper
 
   public override async Task<Output> Process(ITaskHandler taskHandler)
   {
-    using var scopedLog = Logger.BeginNamedScope("Execute task",
+    using var scopedLog = Logger?.BeginNamedScope("Execute task",
                                                  ("Session", taskHandler.SessionId),
                                                  ("TaskId", taskHandler.TaskId));
-    Logger.LogTrace("DataDependencies {DataDependencies}",
+    Logger?.LogTrace("DataDependencies {DataDependencies}",
                     taskHandler.DataDependencies.Keys);
-    Logger.LogTrace("ExpectedResults {ExpectedResults}",
+    Logger?.LogTrace("ExpectedResults {ExpectedResults}",
                     taskHandler.ExpectedResults);
 
     Output output;
@@ -82,11 +82,11 @@ public class ComputerService : WorkerStreamWrapper
                    {
                      Task = taskHandler.TaskId,
                    };
-      Logger.BeginPropertyScope(("TaskId", taskId.Task),
+      Logger?.BeginPropertyScope(("TaskId", taskId.Task),
                                 ("SessionId", sessionIdCaller));
 
-      Logger.LogInformation($"Receive new task Session        {sessionIdCaller} -> task {taskId}");
-      Logger.LogInformation($"Previous Session#SubSession was {ServiceRequestContext.SessionId.Id ?? "NOT SET"}");
+      Logger?.LogInformation($"Receive new task Session        {sessionIdCaller} -> task {taskId}");
+      Logger?.LogInformation($"Previous Session#SubSession was {ServiceRequestContext.SessionId?.Id ?? "NOT SET"}");
       if (new[]
           {
             (nameof(taskHandler.TaskOptions.ApplicationName), string.IsNullOrEmpty(taskHandler.TaskOptions.ApplicationName)),
@@ -128,7 +128,7 @@ public class ComputerService : WorkerStreamWrapper
 
       ServiceRequestContext.SessionId = sessionIdCaller;
 
-      Logger.LogInformation("Executing task");
+      Logger?.LogInformation("Executing task");
       var sw     = Stopwatch.StartNew();
       var result = serviceWorker.Execute(taskHandler);
 
@@ -139,8 +139,8 @@ public class ComputerService : WorkerStreamWrapper
       }
 
 
-      Logger.BeginPropertyScope(("Elapsed", sw.ElapsedMilliseconds / 1000.0));
-      Logger.LogInformation("Executed task");
+      Logger?.BeginPropertyScope(("Elapsed", sw.ElapsedMilliseconds / 1000.0));
+      Logger?.LogInformation("Executed task");
 
 
       output = new Output
@@ -150,7 +150,7 @@ public class ComputerService : WorkerStreamWrapper
     }
     catch (WorkerApiException ex)
     {
-      Logger.LogError(ex,
+      Logger?.LogError(ex,
                       "WorkerAPIException failure while executing task");
 
       return new Output
@@ -162,9 +162,9 @@ public class ComputerService : WorkerStreamWrapper
              };
     }
 
-    catch (Exception ex)
+    catch (Exception? ex)
     {
-      Logger.LogError(ex,
+      Logger?.LogError(ex,
                       "Unmanaged exception while executing task");
 
       throw new RpcException(new Status(StatusCode.Aborted,

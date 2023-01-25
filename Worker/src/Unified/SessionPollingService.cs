@@ -55,23 +55,23 @@ public class SessionPollingService
   ///   Ctor to instantiate a new SessionService
   ///   This is an object to send task or get Results from a session
   /// </summary>
-  public SessionPollingService(ILoggerFactory loggerFactory,
+  public SessionPollingService(ILoggerFactory? loggerFactory,
                                ITaskHandler   taskHandler)
   {
-    Logger        = loggerFactory.CreateLogger<SessionPollingService>();
+    Logger        = loggerFactory?.CreateLogger<SessionPollingService>();
     LoggerFactory = loggerFactory;
     TaskHandler   = taskHandler;
 
     TaskOptions = TaskHandler.TaskOptions.Clone();
 
-    Logger.LogDebug("Creating Session... ");
+    Logger?.LogDebug("Creating Session... ");
 
     SessionId = new Session
                 {
                   Id = TaskHandler.SessionId,
                 };
 
-    Logger.LogDebug($"Session Created {SessionId}");
+    Logger?.LogDebug($"Session Created {SessionId}");
 
     TaskId2OutputId = new Dictionary<string, string>();
   }
@@ -89,9 +89,9 @@ public class SessionPollingService
   public Session SessionId { get; }
 
 
-  private ILoggerFactory LoggerFactory { get; }
+  private ILoggerFactory? LoggerFactory { get; }
 
-  internal ILogger<SessionPollingService> Logger { get; set; }
+  internal ILogger<SessionPollingService>? Logger { get; set; }
 
   /// <summary>
   ///   The taskHandler to communicate with polling agent
@@ -133,13 +133,13 @@ public class SessionPollingService
   /// </param>
   public IEnumerable<string> SubmitTasks(IEnumerable<byte[]> payloads)
   {
-    using var _ = Logger.LogFunction();
+    using var _ = Logger?.LogFunction();
 
     var taskRequests = payloads.Select(bytes =>
                                        {
                                          var resultId = Guid.NewGuid()
                                                             .ToString();
-                                         Logger.LogDebug("Create task {task}",
+                                         Logger?.LogDebug("Create task {task}",
                                                          resultId);
                                          return new TaskRequest
                                                 {
@@ -187,14 +187,14 @@ public class SessionPollingService
   public IEnumerable<string> SubmitTasksWithDependencies(IEnumerable<Tuple<byte[], IList<string>>> payloadsWithDependencies,
                                                          bool                                      resultForParent = false)
   {
-    using var _            = Logger.LogFunction();
+    using var _            = Logger?.LogFunction();
     var       taskRequests = new List<TaskRequest>();
 
     foreach (var (payload, dependencies) in payloadsWithDependencies)
     {
       var resultId = Guid.NewGuid()
                          .ToString();
-      Logger.LogDebug("Create task {task}",
+      Logger?.LogDebug("Create task {task}",
                       resultId);
       var taskRequest = new TaskRequest
                         {
@@ -222,7 +222,7 @@ public class SessionPollingService
           taskRequest.DataDependencies.Add(resultId);
         }
 
-        Logger.LogDebug("Dependencies : {dep}",
+        Logger?.LogDebug("Dependencies : {dep}",
                         string.Join(", ",
                                     dependencies.Select(item => item.ToString())));
       }
@@ -273,7 +273,7 @@ public class SessionPollingService
       throw new KeyNotFoundException(id);
     }
 
-    return data;
+    return data ?? throw new InvalidOperationException("Data from Dependencies is null");
   }
 }
 

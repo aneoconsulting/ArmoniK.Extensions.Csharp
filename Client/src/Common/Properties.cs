@@ -66,14 +66,14 @@ public class Properties
   /// <param name="clientKeyPem">The client key file in a pem format</param>
   /// <param name="caCertPem">The Server certificate file to validate mTLS</param>
   /// <param name="sslValidation">Disable the ssl strong validation of ssl certificate (default : enable => true)</param>
-  public Properties(TaskOptions? options,
-                    string?      connectionAddress,
-                    int          connectionPort = 0,
-                    string?      protocol       = null,
-                    string?      clientCertPem  = null,
-                    string?      clientKeyPem   = null,
-                    string?      caCertPem      = null,
-                    bool         sslValidation  = true)
+  public Properties(TaskOptions options,
+                    string?     connectionAddress,
+                    int         connectionPort = 0,
+                    string?     protocol       = null,
+                    string?     clientCertPem  = null,
+                    string?     clientKeyPem   = null,
+                    string?     caCertPem      = null,
+                    bool        sslValidation  = true)
     : this(new ConfigurationBuilder().AddEnvironmentVariables()
                                      .Build(),
            options,
@@ -101,7 +101,7 @@ public class Properties
   /// <param name="sslValidation">Disable the ssl strong validation of ssl certificate (default : enable => true)</param>
   /// <exception cref="ArgumentException"></exception>
   public Properties(IConfiguration configuration,
-                    TaskOptions?   options,
+                    TaskOptions    options,
                     string?        connectionAddress = null,
                     int            connectionPort    = 0,
                     string?        protocol          = null,
@@ -124,7 +124,8 @@ public class Properties
       ConnectionString = sectionGrpc.GetSection(SectionEndPoint)
                                     .Exists()
                            ? sectionGrpc[SectionEndPoint]
-                           : null;
+                           : ConnectionString;
+
       ConfSSLValidation = !sectionGrpc.GetSection(SectionSSlValidation)
                                       .Exists() || sectionGrpc[SectionSSlValidation] != "disable";
 
@@ -199,7 +200,7 @@ public class Properties
       throw new ArgumentException($"Issue with the connection point : {ConnectionString}");
     }
 
-    ControlPlaneUri = new Uri(ConnectionString!);
+    ControlPlaneUri = new Uri(ConnectionString);
   }
 
   /// <summary>
@@ -273,7 +274,7 @@ public class Properties
   /// <summary>
   ///   The connection string building the value Port Protocol and address
   /// </summary>
-  public string? ConnectionString
+  public string ConnectionString
   {
     get => $"{Protocol}://{ConnectionAddress}:{ConnectionPort}";
     set
@@ -318,5 +319,5 @@ public class Properties
   /// <summary>
   ///   The TaskOptions to pass to the session or the submission session
   /// </summary>
-  public TaskOptions? TaskOptions { get; set; }
+  public TaskOptions TaskOptions { get; set; }
 }

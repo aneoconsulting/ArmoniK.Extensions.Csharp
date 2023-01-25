@@ -28,6 +28,6 @@ namespace ArmoniK.DevelopmentKit.Worker.Unified;
 
 internal interface ITaskSubmitterWorkerServiceConfiguration
 {
-  TaskContext TaskContext { get; set; }
+  TaskContext? TaskContext { get; set; }
   void        ConfigureSessionService(ITaskHandler taskHandler);
 }

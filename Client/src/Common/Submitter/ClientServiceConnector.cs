@@ -46,8 +46,8 @@ public class ClientServiceConnector
   /// <param name="loggerFactory">Optional logger factory</param>
   /// <returns></returns>
   private static ChannelBase ControlPlaneConnection(string          endPoint,
-                                                    string          clientCertFilename = "",
-                                                    string          clientKeyFilename  = "",
+                                                    string?         clientCertFilename = "",
+                                                    string?          clientKeyFilename  = "",
                                                     bool            sslValidation      = true,
                                                     ILoggerFactory? loggerFactory      = null)
   {
@@ -106,7 +106,9 @@ public class ClientServiceConnector
                                                     bool                   sslValidation = true,
                                                     ILoggerFactory?        loggerFactory = null)
   {
-    var uri = new Uri(endPoint);
+    var _ = loggerFactory?.CreateLogger<ClientServiceConnector>();
+
+    var uri    = new Uri(endPoint);
 
     var credentials = uri.Scheme == Uri.UriSchemeHttps
                         ? new SslCredentials()
@@ -192,8 +194,8 @@ public class ClientServiceConnector
   /// <param name="loggerFactory">Optional logger factory</param>
   /// <returns></returns>
   public static ChannelPool ControlPlaneConnectionPool(string          endPoint,
-                                                       string          clientCertFilename = "",
-                                                       string          clientKeyFilename  = "",
+                                                       string?         clientCertFilename = "",
+                                                       string?         clientKeyFilename  = "",
                                                        bool            sslValidation      = true,
                                                        ILoggerFactory? loggerFactory      = null)
     => new(() => ControlPlaneConnection(endPoint,

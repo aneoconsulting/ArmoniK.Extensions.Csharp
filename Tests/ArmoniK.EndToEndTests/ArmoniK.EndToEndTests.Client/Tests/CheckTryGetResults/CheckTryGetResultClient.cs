@@ -54,7 +54,7 @@ public class CheckTryGetResultsClient : ClientBaseTest<CheckTryGetResultsClient>
 
     var client = new ArmonikSymphonyClient(Configuration,
                                            LoggerFactory);
-    Log.LogInformation("------   Start 2 Sessions  with 100 tasks  -------");
+    Log?.LogInformation("------   Start 2 Sessions  with 100 tasks  -------");
     var payloadsTasks = Enumerable.Range(1,
                                          2)
                                   .Select(idx => new Task(() => ClientStartup(client,
@@ -88,8 +88,8 @@ public class CheckTryGetResultsClient : ClientBaseTest<CheckTryGetResultsClient>
 
       if (listPartialResults.Count() != 0)
       {
-        results.AddRange(listPartialResults);
-        Log.LogInformation($"------  Session {sessionService.SessionId.Id}  Get {listPartialResults.Count()} result(s)  -------");
+        results.AddRange(listPartialResults!);
+        Log?.LogInformation($"------  Session {sessionService.SessionId?.Id}  Get {listPartialResults.Count()} result(s)  -------");
       }
 
       missing = missing.Where(x => listPartialResults.ToList()
@@ -98,7 +98,7 @@ public class CheckTryGetResultsClient : ClientBaseTest<CheckTryGetResultsClient>
 
       if (missing.Count != 0)
       {
-        Log.LogInformation($"------  Session {sessionService.SessionId.Id} Still missing {missing.Count()} result(s)  -------");
+        Log?.LogInformation($"------  Session {sessionService.SessionId?.Id} Still missing {missing.Count()} result(s)  -------");
       }
 
       Thread.Sleep(1000);
@@ -120,7 +120,7 @@ public class CheckTryGetResultsClient : ClientBaseTest<CheckTryGetResultsClient>
                           Type = ClientPayload.TaskType.Expm1,
                         };
 
-    Log.LogInformation($"Configure taskOptions for Session {numSession}");
+    Log?.LogInformation($"Configure taskOptions for Session {numSession}");
 
     var taskOptions = InitializeTaskOptions();
 
@@ -135,7 +135,7 @@ public class CheckTryGetResultsClient : ClientBaseTest<CheckTryGetResultsClient>
     var taskIds = sessionService.SubmitTasks(payloads);
 
 
-    Log.LogInformation($"Session {numSession} [ {sessionService} ]is waiting for output result..");
+    Log?.LogInformation($"Session {numSession} [ {sessionService} ]is waiting for output result..");
 
     var taskResults = WaitForTasksResult(sessionService,
                                          taskIds);
@@ -144,6 +144,6 @@ public class CheckTryGetResultsClient : ClientBaseTest<CheckTryGetResultsClient>
                                                       .Result)
                             .Sum();
 
-    Log.LogInformation($"Session {numSession} has finished output result : {result}");
+    Log?.LogInformation($"Session {numSession} has finished output result : {result}");
   }
 }

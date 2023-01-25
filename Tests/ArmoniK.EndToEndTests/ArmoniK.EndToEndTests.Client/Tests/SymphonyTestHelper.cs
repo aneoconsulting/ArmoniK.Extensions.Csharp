@@ -19,11 +19,11 @@ internal class SymphonyTestHelper : UnitTestHelperBase
            applicationNamespace,
            applicationService)
   {
-    var client = new ArmonikSymphonyClient(Configuration,
+    var client = new ArmonikSymphonyClient(Configuration!,
                                            LoggerFactory);
 
     SessionService = client.CreateSession(TaskOptions);
-    Log.LogInformation($"New session created : {SessionService.SessionId}");
+    Log?.LogInformation($"New session created : {SessionService.SessionId}");
   }
 
   public SessionService SessionService { get; }
@@ -82,7 +82,7 @@ internal class SymphonyTestHelper : UnitTestHelperBase
 
         if (listPartialResults.Count() != 0)
         {
-          results.AddRange(listPartialResults);
+          results.AddRange(listPartialResults!);
         }
 
         missing = missing.Where(x => listPartialResults.ToList()
@@ -91,7 +91,7 @@ internal class SymphonyTestHelper : UnitTestHelperBase
 
         if (missing.Count != 0)
         {
-          Log.LogInformation($"------  Still missing {missing.Count()} result(s)  -------");
+          Log?.LogInformation($"------  Still missing {missing.Count()} result(s)  -------");
         }
 
         Thread.Sleep(1000);
@@ -99,9 +99,9 @@ internal class SymphonyTestHelper : UnitTestHelperBase
     }
     catch (ClientResultsException ex)
     {
-      Log.LogError(ex.Message);
-      Log.LogError("------ Adding Failed results as null in the list");
-      results.AddRange(ex.TaskIds.Select(x => new Tuple<string, byte[]>(x,
+      Log?.LogError(ex.Message);
+      Log?.LogError("------ Adding Failed results as null in the list");
+      results.AddRange(ex.TaskIds.Select(x => new Tuple<string, byte[]?>(x,
                                                                         null)));
     }
 

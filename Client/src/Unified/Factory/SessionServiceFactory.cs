@@ -31,8 +31,6 @@ using ArmoniK.DevelopmentKit.Common;
 
 using Google.Protobuf.WellKnownTypes;
 
-using JetBrains.Annotations;
-
 using Microsoft.Extensions.Logging;
 
 namespace ArmoniK.DevelopmentKit.Client.Unified.Factory;
@@ -52,16 +50,15 @@ public class SessionServiceFactory
   ///   The ctor with IConfiguration and optional TaskOptions
   /// </summary>
   /// <param name="loggerFactory">The factory to create the logger for clientService</param>
-  public SessionServiceFactory([CanBeNull] ILoggerFactory? loggerFactory = null)
+  public SessionServiceFactory(ILoggerFactory? loggerFactory = null)
   {
     LoggerFactory = loggerFactory;
     Logger        = loggerFactory?.CreateLogger<SessionServiceFactory>();
   }
 
-  [CanBeNull]
-  private ILogger<SessionServiceFactory> Logger { get; }
+  private ILogger<SessionServiceFactory>? Logger { get; }
 
-  private ChannelPool GrpcPool { get; set; }
+  private ChannelPool? GrpcPool { get; set; }
 
 
   private ILoggerFactory? LoggerFactory { get; }
@@ -77,7 +74,7 @@ public class SessionServiceFactory
 
     Logger?.LogDebug("Creating Session... ");
 
-    return new SessionService(GrpcPool,
+    return new SessionService(GrpcPool!,
                               LoggerFactory,
                               properties.TaskOptions);
   }
@@ -109,7 +106,7 @@ public class SessionServiceFactory
   {
     ControlPlaneConnection(properties);
 
-    return new SessionService(GrpcPool,
+    return new SessionService(GrpcPool!,
                               LoggerFactory,
                               clientOptions,
                               new Session
@@ -153,7 +150,7 @@ public class SessionServiceFactory
   {
     ControlPlaneConnection(properties);
 
-    return new AdminMonitoringService(GrpcPool,
+    return new AdminMonitoringService(GrpcPool!,
                                       LoggerFactory);
   }
 }

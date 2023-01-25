@@ -48,14 +48,14 @@ public class TemplateTestClient : ClientBaseTest<TemplateTestClient>
     var client = new ArmonikSymphonyClient(Configuration,
                                            LoggerFactory);
 
-    Log.LogInformation("Configure taskOptions");
+    Log?.LogInformation("Configure taskOptions");
     var taskOptions = InitializeTaskOptions();
 
     var sessionService = client.CreateSession(taskOptions);
 
-    Log.LogInformation($"New session created : {sessionService}");
+    Log?.LogInformation($"New session created : {sessionService}");
 
-    Log.LogInformation("Running End to End test to compute Square value with SubTasking");
+    Log?.LogInformation("Running End to End test to compute Square value with SubTasking");
     ClientStartup1(sessionService);
   }
 
@@ -98,6 +98,6 @@ public class TemplateTestClient : ClientBaseTest<TemplateTestClient>
                                        taskId);
     var result = ClientPayload.Deserialize(taskResult);
 
-    Log.LogInformation($"output result : {result.Result}");
+    Log?.LogInformation($"output result : {result.Result}");
   }
 }

@@ -21,7 +21,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using ArmoniK.DevelopmentKit.Common;
+using JetBrains.Annotations;
 
 namespace ArmoniK.DevelopmentKit.Worker.Symphony;
 
@@ -29,12 +29,27 @@ namespace ArmoniK.DevelopmentKit.Worker.Symphony;
 ///   Container for the information associated with a particular Session.
 ///   Such information may be required during the servicing of a task from a Session.
 /// </summary>
-[MarkDownDoc]
+[PublicAPI]
 public class SessionContext
 {
   /// <summary>
   /// </summary>
   public int TimeRemoteDebug;
+
+  /// <summary>
+  /// Default constructor
+  /// </summary>
+  /// <param name="sessionId">The sessionId</param>
+  /// <param name="clientLibVersion">The application version in string format</param>
+  /// <param name="timeRemoteDebug">waiting time before starting worker to debug</param>
+  public SessionContext(string sessionId = "BadSessionId",
+                        string clientLibVersion = "badAppsVersion",
+                        int    timeRemoteDebug = 0)
+  {
+    TimeRemoteDebug  = timeRemoteDebug;
+    SessionId        = sessionId;
+    ClientLibVersion = clientLibVersion;
+  }
 
   /// <summary>
   /// </summary>

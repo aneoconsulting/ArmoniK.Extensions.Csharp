@@ -21,12 +21,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System;
 using System.Linq;
 using System.Runtime.Loader;
 
 using ArmoniK.Api.Common.Utils;
 using ArmoniK.Api.gRPC.V1;
 using ArmoniK.Api.Worker.Worker;
+using ArmoniK.DevelopmentKit.Common.Exceptions;
 using ArmoniK.DevelopmentKit.Worker.Common;
 
 using Microsoft.Extensions.Configuration;
@@ -39,9 +41,9 @@ namespace ArmoniK.DevelopmentKit.Worker.Symphony;
 [XmlDocIgnore]
 public class GridWorker : IGridWorker
 {
-  private ServiceContainerBase serviceContainerBase_;
-  private ServiceContext       serviceContext_;
-  private SessionContext       sessionContext_;
+  private ServiceContainerBase? serviceContainerBase_;
+  private ServiceContext?       serviceContext_;
+  private SessionContext?       sessionContext_;
 
   public GridWorker()
   {
@@ -62,9 +64,9 @@ public class GridWorker : IGridWorker
 
   public string? GridAppNamespace { get; set; }
 
-  public string GridAppVersion { get; set; }
+  public string? GridAppVersion { get; set; }
 
-  public string GridAppName { get; set; }
+  public string? GridAppName { get; set; }
 
   public IConfiguration? Configuration { get; set; }
 
@@ -96,7 +98,7 @@ public class GridWorker : IGridWorker
     serviceContainerBase_ = appsLoader.GetServiceContainerInstance<ServiceContainerBase>(GridAppNamespace,
                                                                                          "ServiceContainer");
 
-    serviceContainerBase_.Configure(configuration,
+    serviceContainerBase_!.Configure(configuration,
                                     clientOptions);
     Logger?.LogDebug("Call OnCreateService");
 
@@ -109,14 +111,14 @@ public class GridWorker : IGridWorker
     Logger?.BeginPropertyScope(("SessionId", sessionId));
 
 
-    serviceContainerBase_.Logger?.BeginPropertyScope(("SessionId", sessionId));
+    serviceContainerBase_!.Logger?.BeginPropertyScope(("SessionId", sessionId));
 
     if (SessionId == null || !sessionId.Equals(SessionId))
     {
       if (SessionId == null)
       {
         SessionId = sessionId;
-        serviceContainerBase_.ConfigureSession(SessionId,
+        serviceContainerBase_!.ConfigureSession(SessionId,
                                                requestTaskOptions);
         OnSessionEnter(sessionId);
       }
@@ -124,14 +126,14 @@ public class GridWorker : IGridWorker
       {
         OnSessionLeave();
         SessionId = sessionId;
-        serviceContainerBase_.ConfigureSession(SessionId,
+        serviceContainerBase_!.ConfigureSession(SessionId,
                                                requestTaskOptions);
         OnSessionEnter(sessionId);
       }
     }
   }
 
-  public byte[] Execute(ITaskHandler taskHandler)
+  public byte[]? Execute(ITaskHandler taskHandler)
   {
     TaskId = new TaskId
              {
@@ -141,7 +143,7 @@ public class GridWorker : IGridWorker
     Logger?.BeginPropertyScope(("TaskId", TaskId));
 
 
-    serviceContainerBase_.Logger?.BeginPropertyScope(("TaskId", TaskId.Task));
+    serviceContainerBase_!.Logger?.BeginPropertyScope(("TaskId", TaskId.Task));
 
     var taskContext = new TaskContext(TaskId.Task,
                                       taskHandler.SessionId,
@@ -153,11 +155,11 @@ public class GridWorker : IGridWorker
                         DependenciesTaskIds = taskHandler.DataDependencies.Select(t => t.Key),
                       };
 
-    serviceContainerBase_.ConfigureSessionService(taskHandler);
-    serviceContainerBase_.TaskId = TaskId;
+    serviceContainerBase_!.ConfigureSessionService(taskHandler);
+    serviceContainerBase_!.TaskId = TaskId;
     Logger?.LogInformation("Check Enrich with taskId");
-    var clientPayload = serviceContainerBase_.OnInvoke(sessionContext_,
-                                                       taskContext);
+    var clientPayload = serviceContainerBase_!.OnInvoke(sessionContext_ ?? throw new InvalidOperationException("SessionContext should not be null"),
+                                                       taskContext      ?? throw new InvalidOperationException("taskContext should not be null"));
 
     // Return to user the taskId, could be any other information
     return clientPayload;
@@ -176,10 +178,10 @@ public class GridWorker : IGridWorker
 
   public void OnCreateService()
   {
-    using (AssemblyLoadContext.EnterContextualReflection(serviceContainerBase_.GetType()
+    using (AssemblyLoadContext.EnterContextualReflection(serviceContainerBase_!.GetType()
                                                                               .Assembly))
     {
-      serviceContainerBase_.OnCreateService(serviceContext_);
+      serviceContainerBase_!.OnCreateService(serviceContext_!);
     }
   }
 
@@ -191,26 +193,26 @@ public class GridWorker : IGridWorker
   {
     sessionContext_ = new SessionContext
                       {
-                        ClientLibVersion = GridAppVersion,
+                        ClientLibVersion = GridAppVersion ?? throw new WorkerApiException("GridAppVersion is missing"),
                         SessionId        = session.Id,
                       };
     SessionId = session;
 
-    if (serviceContainerBase_.SessionId == null || string.IsNullOrEmpty(serviceContainerBase_.SessionId.Id))
+    if (serviceContainerBase_!.SessionId == null || string.IsNullOrEmpty(serviceContainerBase_!.SessionId.Id))
     {
-      serviceContainerBase_.SessionId = session;
+      serviceContainerBase_!.SessionId = session;
     }
 
-    serviceContainerBase_.SessionId = session;
+    serviceContainerBase_!.SessionId = session;
 
-    serviceContainerBase_.OnSessionEnter(sessionContext_);
+    serviceContainerBase_!.OnSessionEnter(sessionContext_);
   }
 
   public void OnSessionLeave()
   {
     if (sessionContext_ != null)
     {
-      serviceContainerBase_.OnSessionLeave(sessionContext_);
+      serviceContainerBase_!.OnSessionLeave(sessionContext_);
       SessionId       = null;
       sessionContext_ = null;
     }
@@ -222,7 +224,7 @@ public class GridWorker : IGridWorker
 
     if (serviceContext_ != null)
     {
-      serviceContainerBase_.OnDestroyService(serviceContext_);
+      serviceContainerBase_!.OnDestroyService(serviceContext_);
       serviceContext_ = null;
       SessionId       = null;
     }

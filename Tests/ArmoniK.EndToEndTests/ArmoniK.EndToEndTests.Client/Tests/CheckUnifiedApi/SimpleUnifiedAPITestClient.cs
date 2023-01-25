@@ -48,7 +48,7 @@ public class IgnoreErrorHandler : IServiceInvocationHandler
 
   public void HandleError(ServiceInvocationException? e,
                           string                      taskId)
-    => logger_.LogError($"Error (ignore) from {taskId} : " + e.Message);
+    => logger_?.LogError($"Error (ignore) from {taskId} : " + e?.Message);
 
   public void HandleResponse(object response,
                              string taskId)
@@ -56,17 +56,17 @@ public class IgnoreErrorHandler : IServiceInvocationHandler
     switch (response)
     {
       case null:
-        logger_.LogInformation("Task finished but nothing returned in Result");
+        logger_?.LogInformation("Task finished but nothing returned in Result");
         break;
       case double value:
-        logger_.LogInformation($"Task finished with result {value}");
+        logger_?.LogInformation($"Task finished with result {value}");
         break;
       case double[] doubles:
-        logger_.LogInformation("Result is " + string.Join(", ",
+        logger_?.LogInformation("Result is " + string.Join(", ",
                                                           doubles));
         break;
       case byte[] values:
-        logger_.LogInformation("Result is " + string.Join(", ",
+        logger_?.LogInformation("Result is " + string.Join(", ",
                                                           values.ConvertToArray()));
         break;
     }
@@ -90,7 +90,7 @@ public class SimpleUnifiedApiTestClient : ClientBaseTest<SimpleUnifiedApiTestCli
   public void HandleError(ServiceInvocationException? e,
                           string                      taskId)
   {
-    Log.LogError($"Error from {taskId} : " + e.Message);
+    Log?.LogError(e, "Error from {taskId} : ", e?.Message);
     throw new ApplicationException($"Error from {taskId}",
                                    e);
   }
@@ -106,17 +106,17 @@ public class SimpleUnifiedApiTestClient : ClientBaseTest<SimpleUnifiedApiTestCli
     switch (response)
     {
       case null:
-        Log.LogInformation("Task finished but nothing returned in Result");
+        Log?.LogInformation("Task finished but nothing returned in Result");
         break;
       case double value:
-        Log.LogInformation($"Task finished with result {value}");
+        Log?.LogInformation($"Task finished with result {value}");
         break;
       case double[] doubles:
-        Log.LogInformation("Result is " + string.Join(", ",
+        Log?.LogInformation("Result is " + string.Join(", ",
                                                       doubles));
         break;
       case byte[] values:
-        Log.LogInformation("Result is " + string.Join(", ",
+        Log?.LogInformation("Result is " + string.Join(", ",
                                                       values.ConvertToArray()));
         break;
     }
@@ -126,7 +126,7 @@ public class SimpleUnifiedApiTestClient : ClientBaseTest<SimpleUnifiedApiTestCli
   [EntryPoint]
   public override void EntryPoint()
   {
-    Log.LogInformation("Configure taskOptions");
+    Log?.LogInformation("Configure taskOptions");
     var taskOptions = InitializeTaskOptions();
     OverrideTaskOptions(taskOptions);
 
@@ -137,19 +137,19 @@ public class SimpleUnifiedApiTestClient : ClientBaseTest<SimpleUnifiedApiTestCli
     using var cs = ServiceFactory.CreateService(props,
                                                 LoggerFactory);
 
-    Log.LogInformation($"New session created : {cs.SessionId}");
+    Log?.LogInformation($"New session created : {cs.SessionId}");
 
-    Log.LogInformation("Running End to End test to compute several simple tests in sequential");
+    Log?.LogInformation("Running End to End test to compute several simple tests in sequential");
     ClientStartup1(cs);
 
-    Log.LogInformation("Submit Batch of 100 tasks in one submit call");
+    Log?.LogInformation("Submit Batch of 100 tasks in one submit call");
     ClientStartup2(cs);
 
-    Log.LogInformation("Submit Batch of 500 tasks with sequential submits");
+    Log?.LogInformation("Submit Batch of 500 tasks with sequential submits");
     ClientStartup3(cs);
   }
 
-  private static void OverrideTaskOptions(TaskOptions? taskOptions)
+  private static void OverrideTaskOptions(TaskOptions taskOptions)
   {
     taskOptions.EngineType         = EngineType.Unified.ToString();
     taskOptions.ApplicationService = "CheckUnifiedApiWorker";

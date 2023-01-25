@@ -1,3 +1,4 @@
+using System.Data;
 using System.Linq;
 
 using ArmoniK.DevelopmentKit.Common;
@@ -38,7 +39,7 @@ public class SubtaskingTreeUnifiedApiClientTest
   public void Check_That_Subtasking_Is_Working_With_Unified_SDK(int maxNumberToSum,
                                                                 int subtaskSplitCount)
   {
-    unifiedTestHelper_.Log.LogInformation($"Launching Sum of numbers 1 to {maxNumberToSum}");
+    unifiedTestHelper_?.Log?.LogInformation($"Launching Sum of numbers 1 to {maxNumberToSum}");
     var numbers = Enumerable.Range(1,
                                    maxNumberToSum)
                             .ToList();
@@ -50,9 +51,9 @@ public class SubtaskingTreeUnifiedApiClientTest
                     Type       = ClientPayload.TaskType.None,
                   };
 
-    var taskId = unifiedTestHelper_.Service.Submit("ComputeSubTaskingTreeSum",
+    var taskId = unifiedTestHelper_?.Service.Submit("ComputeSubTaskingTreeSum",
                                                    UnitTestHelperBase.ParamsHelper(payload.Serialize()),
-                                                   unifiedTestHelper_);
+                                                   unifiedTestHelper_) ?? throw new NoNullAllowedException(nameof(unifiedTestHelper_));
 
 
     var expectedResult = numbers.Sum();
@@ -61,7 +62,7 @@ public class SubtaskingTreeUnifiedApiClientTest
     Assert.IsNotNull(taskResult);
     Assert.IsInstanceOf(typeof(byte[]),
                         taskResult);
-    var clientPayloadResult = ClientPayload.Deserialize((byte[])taskResult);
+    var clientPayloadResult = ClientPayload.Deserialize((byte[]?)taskResult);
     Assert.That(clientPayloadResult.Result,
                 Is.EqualTo(expectedResult));
   }

@@ -21,6 +21,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.Data;
+
 using ArmoniK.DevelopmentKit.Worker.Symphony;
 using ArmoniK.EndToEndTests.Common;
 
@@ -43,7 +45,7 @@ public class ServiceContainer : ServiceContainerBase
                                   TaskContext    taskContext)
   {
     _ = ClientPayload.Deserialize(taskContext.Payload);
-    ConfigureSession(SessionId,
+    ConfigureSession(SessionId ?? throw new NoNullAllowedException(nameof(SessionId)),
                      taskContext.TaskOptions);
 
     /////////////////// TO SERVER SIDE TEST HERE //////////////////////////////////////////

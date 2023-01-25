@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -15,15 +16,6 @@ public class LargeSubmitAsyncTest
 {
   private const string ApplicationNamespace = "ArmoniK.EndToEndTests.Worker.Tests.LargePayloadSubmit";
   private const string ApplicationService   = "LargePayloadSubmitWorker";
-
-  private UnifiedTestHelper unifiedTestHelper_;
-
-  //[SetUp]
-  //public void Setup()
-  //  => unifiedTestHelper_ = new UnifiedTestHelper(EngineType.Unified,
-  //                                                ApplicationNamespace,
-  //                                                ApplicationService);
-
 
   [TearDown]
   public void Cleanup()
@@ -77,11 +69,11 @@ public class LargeSubmitAsyncTest
 
     for (indexTask = 0; indexTask < nbTasks; indexTask++)
     {
-      taskIds.Add(service.SubmitAsync("ComputeSum",
+      taskIds.Add(service?.SubmitAsync("ComputeSum",
                                       UnitTestHelperBase.ParamsHelper(numbers,
                                                                       workloadTimeInMs),
                                       localUnifiedTestHelper,
-                                      cancellationSource.Token));
+                                      cancellationSource.Token) ?? throw new NoNullAllowedException(nameof(service)));
     }
     //System.Threading.Thread.Sleep(10000);
 

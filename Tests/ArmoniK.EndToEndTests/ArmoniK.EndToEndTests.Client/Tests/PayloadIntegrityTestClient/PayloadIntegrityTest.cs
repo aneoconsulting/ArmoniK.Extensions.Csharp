@@ -98,7 +98,7 @@ public class PayloadIntegrityTest
     var fixture = new Fixture();
     var tasks   = new List<Task>();
     var props = new Properties(_configuration,
-                               taskOptions_)
+                               taskOptions_!)
                 {
                   MaxConcurrentBuffers = maxConcurrentBuffers,
                   MaxTasksPerBuffer    = maxTasksPerBuffer,
@@ -136,13 +136,13 @@ public class PayloadIntegrityTest
     {
       var taskId = await service.SubmitAsync("CopyPayload",
                                              payload.ToArray(),
-                                             resultHandler_);
+                                             resultHandler_!);
       taskAndData_.TryAdd(taskId,
                           payload.First());
     }
-    catch (Exception ex)
+    catch (Exception)
     {
-      Log.Error("Error during the SubmitASync");
+      // ignored
     }
   }
 }

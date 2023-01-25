@@ -51,14 +51,14 @@ public class CheckMultipleTasksClient : ClientBaseTest<CheckMultipleTasksClient>
     var client = new ArmonikSymphonyClient(Configuration,
                                            LoggerFactory);
 
-    Log.LogInformation("Configure taskOptions");
+    Log?.LogInformation("Configure taskOptions");
     var taskOptions = InitializeTaskOptions();
 
     var sessionService = client.CreateSession(taskOptions);
 
-    Log.LogInformation($"New session created : {sessionService}");
+    Log?.LogInformation($"New session created : {sessionService}");
 
-    Log.LogInformation("Running End to End test to compute Square value with SubTasking");
+    Log?.LogInformation("Running End to End test to compute Square value with SubTasking");
     ClientStartup1(sessionService);
   }
 
@@ -106,7 +106,7 @@ public class CheckMultipleTasksClient : ClientBaseTest<CheckMultipleTasksClient>
     long       sumTimeElapsed = 0;
     const long maxDuration    = 5 * 60 * 1000; // 5 min
 
-    Log.LogInformation($"Running tests with {string.Join("; ", listOfNbTasks)} nbTasks in {maxDuration / 1000} secs");
+    Log?.LogInformation($"Running tests with {string.Join("; ", listOfNbTasks)} nbTasks in {maxDuration / 1000} secs");
     var cancellationToken     = new CancellationTokenSource();
     var waitCancellationToken = new CancellationTokenSource();
     var token                 = waitCancellationToken.Token;
@@ -138,7 +138,7 @@ public class CheckMultipleTasksClient : ClientBaseTest<CheckMultipleTasksClient>
       }
       finally
       {
-        Log.LogWarning($"TimeElapsed more than {maxDuration / (60 * 1000)} min. Stop tests after running Jobs");
+        Log?.LogWarning($"TimeElapsed more than {maxDuration / (60 * 1000)} min. Stop tests after running Jobs");
         cancellationToken.Dispose();
       }
     }
@@ -167,7 +167,7 @@ public class CheckMultipleTasksClient : ClientBaseTest<CheckMultipleTasksClient>
     var taskIds     = sessionService.SubmitTasks(payloads);
     foreach (var taskId in taskIds)
     {
-      Log.LogInformation($"Client is calling {nbTasks} tasks...");
+      Log?.LogInformation($"Client is calling {nbTasks} tasks...");
       var taskResult = WaitForTaskResult(sessionService,
                                          taskId,
                                          cancellationToken);
@@ -180,7 +180,7 @@ public class CheckMultipleTasksClient : ClientBaseTest<CheckMultipleTasksClient>
                     finalResult);
 
     var elapsedMilliseconds = sw.ElapsedMilliseconds;
-    Log.LogInformation($"Client called {nbTasks} tasks in {elapsedMilliseconds} ms aggregated Result = {finalResult}");
+    Log?.LogInformation($"Client called {nbTasks} tasks in {elapsedMilliseconds} ms aggregated Result = {finalResult}");
 
     return elapsedMilliseconds;
   }

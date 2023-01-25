@@ -17,15 +17,6 @@ public class SubmitAsyncFixRequestOrder
   private const string ApplicationNamespace = "ArmoniK.EndToEndTests.Worker.Tests.CheckUnifiedApi";
   private const string ApplicationService   = "CheckUnifiedApiWorker";
 
-  private UnifiedTestHelper unifiedTestHelper_;
-
-  //[SetUp]
-  //public void Setup()
-  //  => unifiedTestHelper_ = new UnifiedTestHelper(EngineType.Unified,
-  //                                                ApplicationNamespace,
-  //                                                ApplicationService);
-
-
   [TearDown]
   public void Cleanup()
   {
@@ -107,7 +98,7 @@ public class SubmitAsyncFixRequestOrder
 
     foreach (var taskIdExpectedResult in taskIdExpectedResults!)
     {
-      Assert.That(((double[])taskResult[taskIdExpectedResult.Key])[0],
+      Assert.That((((double[]?)taskResult[taskIdExpectedResult.Key])!)[0],
                   Is.EqualTo(taskIdExpectedResult.Value));
     }
   }

@@ -34,8 +34,6 @@ using ArmoniK.DevelopmentKit.Common;
 
 using Google.Protobuf.WellKnownTypes;
 
-using JetBrains.Annotations;
-
 using Microsoft.Extensions.Logging;
 
 namespace ArmoniK.DevelopmentKit.Client.GridServer;
@@ -56,17 +54,16 @@ public class SessionService : BaseClientSubmitter<SessionService>
                         TaskOptions?    taskOptions   = null,
                         Session?        sessionId     = null)
     : base(grpcPool,
+           taskOptions ?? InitializeDefaultTaskOptions(),
            loggerFactory)
   {
-    TaskOptions = taskOptions ?? InitializeDefaultTaskOptions();
-
     Logger?.LogDebug("Creating Session... ");
 
     SessionId = sessionId ?? CreateSession(new List<string>
                                            {
                                              TaskOptions.PartitionId,
                                            });
-
+    
     Logger?.LogDebug($"Session Created {SessionId}");
   }
 
@@ -98,7 +95,7 @@ public class SessionService : BaseClientSubmitter<SessionService>
          ApplicationService   = "FallBackServerAdder",
        };
 
-  private Session? CreateSession(IEnumerable<string> partitionIds)
+  private Session CreateSession(IEnumerable<string> partitionIds)
   {
     using var _ = Logger?.LogFunction();
     var createSessionRequest = new CreateSessionRequest
@@ -145,8 +142,7 @@ public class SessionService : BaseClientSubmitter<SessionService>
   ///   The user payload list to execute. General used for subTasking.
   /// </param>
   public IEnumerable<string> SubmitTasks(IEnumerable<byte[]> payloads)
-    => SubmitTasksWithDependencies(payloads.Select(payload => new Tuple<byte[], IList<string>>(payload,
-                                                                                               null)));
+    => SubmitTasksWithDependencies(payloads.Select(payload => new Tuple<byte[], IList<string>?>(payload, null)));
 
   /// <summary>
   ///   User method to submit task from the client
@@ -172,8 +168,8 @@ public class SessionService : BaseClientSubmitter<SessionService>
   /// <param name="payload">The payload to submit</param>
   /// <param name="dependencies">A list of task Id in dependence of this created task</param>
   /// <returns>return the taskId of the created task </returns>
-  public string SubmitTaskWithDependencies(byte[]        payload,
-                                           IList<string> dependencies)
+  public string SubmitTaskWithDependencies(byte[]         payload,
+                                           IList<string>? dependencies)
     => SubmitTasksWithDependencies(new[]
                                    {
                                      Tuple.Create(payload,

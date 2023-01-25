@@ -53,7 +53,7 @@ public class MultipleTasksClientTest
     var finalResult = 0;
     foreach (var taskId in taskIds)
     {
-      symphonyTestHelper_.Log.LogInformation($"Client is calling {nbTasks} tasks...");
+      symphonyTestHelper_.Log?.LogInformation($"Client is calling {nbTasks} tasks...");
       var taskResult = symphonyTestHelper_.WaitForTaskResult(taskId);
       var result     = ClientPayload.Deserialize(taskResult);
 

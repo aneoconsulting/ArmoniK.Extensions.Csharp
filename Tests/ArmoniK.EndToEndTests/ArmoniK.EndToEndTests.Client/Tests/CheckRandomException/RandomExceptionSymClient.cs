@@ -55,7 +55,7 @@ public class CheckRandomExceptionSymClient : ClientBaseTest<CheckRandomException
 
     var client = new ArmonikSymphonyClient(Configuration,
                                            LoggerFactory);
-    Log.LogInformation("------   Start 2 Sessions  with 100 tasks  -------");
+    Log?.LogInformation("------   Start 2 Sessions  with 100 tasks  -------");
     var payloadsTasks = Enumerable.Range(1,
                                          2)
                                   .Select(idx => new Task(() => ClientStartup(client,
@@ -89,21 +89,21 @@ public class CheckRandomExceptionSymClient : ClientBaseTest<CheckRandomException
       {
         var partialResults = sessionService.TryGetResults(missing);
 
-        var listPartialResults = partialResults.ToList();
+        var listPartialResults = partialResults?.ToList()!;
 
-        if (listPartialResults.Count() != 0)
+        if (listPartialResults != null && listPartialResults.Count() != 0)
         {
-          results.AddRange(listPartialResults);
-          Log.LogInformation($"------  Session {numSession}  Get {listPartialResults.Count()} result(s)  -------");
+          results.AddRange(listPartialResults!);
+          Log?.LogInformation($"------  Session {numSession}  Get {listPartialResults.Count()} result(s)  -------");
         }
 
-        missing = missing.Where(x => listPartialResults.ToList()
+        missing = missing.Where(x => listPartialResults!.ToList()
                                                        .All(rId => rId.Item1 != x))
                          .ToList();
 
         if (missing.Count != 0)
         {
-          Log.LogInformation($"------  Session {numSession} Still missing {missing.Count()} result(s)  -------");
+          Log?.LogInformation($"------  Session {numSession} Still missing {missing.Count()} result(s)  -------");
         }
 
         Thread.Sleep(1000);
@@ -111,13 +111,13 @@ public class CheckRandomExceptionSymClient : ClientBaseTest<CheckRandomException
     }
     catch (ClientResultsException ex)
     {
-      Log.LogError(ex.Message);
-      Log.LogError($"------ Session {numSession} Adding Failed results as null in the list");
-      results.AddRange(ex.TaskIds.Select(x => new Tuple<string, byte[]>(x,
-                                                                        null)));
+      Log?.LogError(ex.Message);
+      Log?.LogError($"------ Session {numSession} Adding Failed results as null in the list");
+      results?.AddRange(ex.TaskIds.Select(x => new Tuple<string, byte[]?>(x,
+                                                                          null)));
     }
 
-    return results;
+    return results ?? throw new ClientApiException("Cannot retrieve result. Result is null");
   }
 
   /// <summary>
@@ -133,7 +133,7 @@ public class CheckRandomExceptionSymClient : ClientBaseTest<CheckRandomException
                           Type = ClientPayload.TaskType.Expm1,
                         };
 
-    Log.LogInformation($"Configure taskOptions for Session {numSession}");
+    Log?.LogInformation($"Configure taskOptions for Session {numSession}");
 
     var taskOptions = InitializeTaskOptions();
 
@@ -148,24 +148,25 @@ public class CheckRandomExceptionSymClient : ClientBaseTest<CheckRandomException
     var taskIds = sessionService.SubmitTasks(payloads);
 
 
-    Log.LogInformation($"Session {numSession} [ {sessionService} ]is waiting for output result..");
+    Log?.LogInformation($"Session {numSession} [ {sessionService} ]is waiting for output result..");
 
     var taskResults = WaitForTasksResult(numSession,
                                          sessionService,
-                                         taskIds);
+                                         taskIds)
+      .ToList();
 
     var result = taskResults.Where(x => x.Item2 != null)
                             .Select(x => ClientPayload.Deserialize(x.Item2)
                                                       .Result)
                             .Sum();
 
-    Log.LogInformation($"Session {numSession} has finished output result : {result}");
+    Log?.LogInformation($"Session {numSession} has finished output result : {result}");
 
     var resultInError = taskResults.Where(x => x.Item2 == null);
     var inError       = resultInError as Tuple<string, byte[]?>[] ?? resultInError.ToArray();
     if (inError.Any())
     {
-      Log.LogWarning($"Session {numSession}  : The following tasks list is in error \n{string.Join("\n ", inError.Select(x => x.Item1))}");
+      Log?.LogWarning($"Session {numSession}  : The following tasks list is in error \n{string.Join("\n ", inError.Select(x => x.Item1))}");
     }
   }
 }

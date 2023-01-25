@@ -21,6 +21,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.Collections.Generic;
 using System.Linq;
 
 using ArmoniK.DevelopmentKit.Common.Exceptions;
@@ -46,12 +47,12 @@ public class ServiceContainer : ServiceContainerBase
     //END USER PLEASE FIXME
   }
 
-  public byte[] ComputeSquare(TaskContext   taskContext,
-                              ClientPayload clientPayload)
+  public byte[]? ComputeSquare(TaskContext   taskContext,
+                               ClientPayload clientPayload)
   {
-    Logger.LogInformation($"Enter in function : ComputeSquare with taskId {taskContext.TaskId}");
+    Logger?.LogInformation($"Enter in function : ComputeSquare with taskId {taskContext.TaskId}");
 
-    if (clientPayload.Numbers.Count == 0)
+    if (clientPayload?.Numbers?.Count == 0)
     {
       return new ClientPayload
              {
@@ -60,10 +61,10 @@ public class ServiceContainer : ServiceContainerBase
              }.Serialize(); // Nothing to do
     }
 
-    if (clientPayload.Numbers.Count == 1)
+    if (clientPayload?.Numbers?.Count == 1)
     {
       var value = clientPayload.Numbers[0] * clientPayload.Numbers[0];
-      Logger.LogInformation($"Compute {value}             with taskId {taskContext.TaskId}");
+      Logger?.LogInformation($"Compute {value}             with taskId {taskContext.TaskId}");
 
       return new ClientPayload
              {
@@ -73,18 +74,18 @@ public class ServiceContainer : ServiceContainerBase
     }
     else // if (clientPayload.numbers.Count > 1)
     {
-      var value  = clientPayload.Numbers[0];
+      var value  = clientPayload!.Numbers?[0] ?? -1;
       var square = value * value;
 
       var subTaskPayload = new ClientPayload();
-      clientPayload.Numbers.RemoveAt(0);
-      subTaskPayload.Numbers = clientPayload.Numbers;
-      subTaskPayload.Type    = clientPayload.Type;
-      Logger.LogInformation($"Compute {value} in                 {taskContext.TaskId}");
+      clientPayload?.Numbers?.RemoveAt(0);
+      subTaskPayload.Numbers = clientPayload?.Numbers;
+      subTaskPayload.Type    = clientPayload!.Type;
+      Logger?.LogInformation($"Compute {value} in                 {taskContext.TaskId}");
 
-      Logger.LogInformation($"Submitting subTask from task          : {taskContext.TaskId} from Session {SessionId}");
+      Logger?.LogInformation($"Submitting subTask from task          : {taskContext.TaskId} from Session {SessionId}");
       var subTaskId = this.SubmitTask(subTaskPayload.Serialize());
-      Logger.LogInformation($"Submitted  subTask                    : {subTaskId} with ParentTask {TaskId}");
+      Logger?.LogInformation($"Submitted  subTask                    : {subTaskId} with ParentTask {TaskId}");
 
       ClientPayload aggPayload = new()
                                  {
@@ -92,7 +93,9 @@ public class ServiceContainer : ServiceContainerBase
                                    Result = square,
                                  };
 
-      Logger.LogInformation($"Submitting aggregate task             : {taskContext.TaskId} from Session {SessionId}");
+      Logger?.LogInformation("Submitting aggregate task             : {taskId} from Session {sessionId}",
+                             taskContext.TaskId,
+                             SessionId);
 
       var aggTaskId = this.SubmitTaskWithDependencies(aggPayload.Serialize(),
                                                       new[]
@@ -101,20 +104,16 @@ public class ServiceContainer : ServiceContainerBase
                                                       },
                                                       true);
 
-      Logger.LogInformation($"Submitted  SubmitTaskWithDependencies : {aggTaskId} with task dependencies      {subTaskId}");
+      Logger?.LogInformation("Submitted  SubmitTaskWithDependencies : {aggTaskId} with task dependencies      {subTaskId}",
+                             aggTaskId,
+                             subTaskId);
 
-      //return new ClientPayload
-      //  {
-      //    Type      = ClientPayload.TaskType.Aggregation,
-      //    SubTaskId = aggTaskId,
-      //  }
-      //  .Serialize(); //nothing to do
       return null;
     }
   }
 
-  public override byte[] OnInvoke(SessionContext sessionContext,
-                                  TaskContext    taskContext)
+  public override byte[]? OnInvoke(SessionContext sessionContext,
+                                   TaskContext    taskContext)
   {
     var clientPayload = ClientPayload.Deserialize(taskContext.Payload);
 
@@ -130,20 +129,20 @@ public class ServiceContainer : ServiceContainerBase
                              clientPayload);
     }
 
-    Logger.LogInformation($"Task type is unManaged {clientPayload.Type}");
+    Logger?.LogInformation($"Task type is unManaged {clientPayload.Type}");
     throw new WorkerApiException($"Task type is unManaged {clientPayload.Type}");
   }
 
-  private byte[] AggregateValues(TaskContext   taskContext,
-                                 ClientPayload clientPayload)
+  private byte[]? AggregateValues(TaskContext   taskContext,
+                                  ClientPayload clientPayload)
   {
-    Logger.LogInformation($"Aggregate Task {taskContext.TaskId} request result from Dependencies TaskIds : [{string.Join(", ", taskContext.DependenciesTaskIds)}]");
-    var parentResult = taskContext.DataDependencies?.Single()
+    Logger?.LogInformation($"Aggregate Task {taskContext.TaskId} request result from Dependencies TaskIds : [{string.Join(", ", taskContext?.DependenciesTaskIds ?? new List<string>())}]");
+    var parentResult = taskContext?.DataDependencies?.Single()
                                   .Value;
 
     if (parentResult == null || parentResult.Length == 0)
     {
-      throw new WorkerApiException($"Cannot retrieve Result from taskId {taskContext.DependenciesTaskIds?.Single()}");
+      throw new WorkerApiException($"Cannot retrieve Result from taskId {taskContext?.DependenciesTaskIds?.Single()}");
     }
 
     var parentResultPayload = ClientPayload.Deserialize(parentResult);

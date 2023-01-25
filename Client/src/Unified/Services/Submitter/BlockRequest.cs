@@ -30,13 +30,13 @@ using ArmoniK.DevelopmentKit.Common;
 
 namespace ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter;
 
-internal class BlockRequest
+internal struct BlockRequest
 {
   public IServiceInvocationHandler Handler;
 
-  public ArmonikPayload Payload { get; set; }
+  public ArmonikPayload Payload { get; init; }
 
-  public SemaphoreSlim Lock     { get; set; }
+  public SemaphoreSlim Lock     { get; init; }
   
-  public Guid          ResultId { get; set; }
+  public Guid          ResultId { get; init; }
 }

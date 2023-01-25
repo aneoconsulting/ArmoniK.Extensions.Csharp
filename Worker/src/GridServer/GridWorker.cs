@@ -44,19 +44,19 @@ namespace ArmoniK.DevelopmentKit.Worker.GridServer;
 [XmlDocIgnore]
 public class GridWorker : IGridWorker
 {
-  public GridWorker(IConfiguration configuration,
-                    ILoggerFactory factory)
+  public GridWorker(IConfiguration? configuration,
+                    ILoggerFactory? factory)
   {
     Configuration = configuration;
     LoggerFactory = factory;
-    Logger        = factory.CreateLogger<GridWorker>();
+    Logger        = factory?.CreateLogger<GridWorker>();
   }
 
-  private ILogger<GridWorker> Logger { get; }
+  private ILogger<GridWorker>? Logger { get; }
 
-  public ILoggerFactory LoggerFactory { get; set; }
+  public ILoggerFactory? LoggerFactory { get; set; }
 
-  public IConfiguration Configuration { get; set; }
+  public IConfiguration? Configuration { get; set; }
 
   public object? ServiceClass { get; set; }
 
@@ -106,7 +106,7 @@ public class GridWorker : IGridWorker
                                  {
                                    SessionId = session,
                                  };
-    Logger.BeginPropertyScope(("SessionId", session));
+    Logger?.BeginPropertyScope(("SessionId", session));
 
     TaskOptions serviceAdminTaskOptions = new()
                                           {
@@ -122,8 +122,8 @@ public class GridWorker : IGridWorker
 
   public byte[] Execute(ITaskHandler taskHandler)
   {
-    using var _ = Logger.BeginPropertyScope(("SessionId", taskHandler.SessionId),
-                                            ("TaskId", $"{taskHandler.TaskId}"));
+    using var _ = Logger?.BeginPropertyScope(("SessionId", taskHandler.SessionId),
+                                             ("TaskId", $"{taskHandler.TaskId}"));
 
     var payload = taskHandler.Payload;
 
@@ -149,11 +149,11 @@ public class GridWorker : IGridWorker
                       : ProtoSerializer.DeSerializeMessageObjectArray(dataSynapsePayload.ClientPayload);
 
     var methodInfo = arguments != null
-                       ? ServiceClass.GetType()
+                       ? ServiceClass?.GetType()
                                      .GetMethod(methodName,
                                                 arguments.Select(x => x!.GetType())
                                                          .ToArray())
-                       : ServiceClass.GetType()
+                       : ServiceClass?.GetType()
                                      .GetMethod(methodName);
     if (methodInfo == null)
     {

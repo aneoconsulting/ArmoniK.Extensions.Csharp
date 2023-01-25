@@ -1,4 +1,4 @@
-﻿// This file is part of the ArmoniK project
+// This file is part of the ArmoniK project
 // 
 // Copyright (C) ANEO, 2021-2022.
 //   W. Kirschenmann   <wkirschenmann@aneo.fr>
@@ -38,12 +38,10 @@ namespace ArmoniK.DevelopmentKit.Worker.GridServer;
 public class ServiceAdminWorker
 {
   public ServiceAdminWorker(IConfiguration configuration,
-                            ILoggerFactory loggerFactory,
-                            TaskOptions    taskOptions)
+                            ILoggerFactory loggerFactory)
   {
     ClientService = new ArmonikDataSynapsePollingService(configuration,
-                                                         loggerFactory,
-                                                         taskOptions);
+                                                         loggerFactory);
     throw new NotImplementedException("Service Admin Worker need to move into Poling agent");
   }
 

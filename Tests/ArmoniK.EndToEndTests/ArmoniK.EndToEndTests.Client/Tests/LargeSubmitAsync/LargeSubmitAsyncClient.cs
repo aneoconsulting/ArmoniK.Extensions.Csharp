@@ -71,7 +71,7 @@ public class LargeSubmitAsyncClient : ClientBaseTest<LargeSubmitAsyncClient>, IS
   /// </summary>
   private double Total { get; set; }
 
-  private Properties Props { get; set; }
+  private Properties? Props { get; set; }
 
   /// <summary>
   ///   The callBack method which has to be implemented to retrieve error or exception
@@ -81,7 +81,7 @@ public class LargeSubmitAsyncClient : ClientBaseTest<LargeSubmitAsyncClient>, IS
   public void HandleError(ServiceInvocationException? e,
                           string                      taskId)
   {
-    Log.LogError($"Error from {taskId} : " + e.Message);
+    Log?.LogError(e, "Error from {taskId} : ", e?.Message);
     NbResults++;
     throw new ApplicationException($"Error from {taskId}",
                                    e);
@@ -98,14 +98,14 @@ public class LargeSubmitAsyncClient : ClientBaseTest<LargeSubmitAsyncClient>, IS
     switch (response)
     {
       case null:
-        Log.LogInformation("Task finished but nothing returned in Result");
+        Log?.LogInformation("Task finished but nothing returned in Result");
         break;
       case double value:
         NbResults++;
         Total += value;
         break;
       case byte[] values:
-        Log.LogInformation("Result is " + string.Join(", ",
+        Log?.LogInformation("Result is " + string.Join(", ",
                                                       values.ConvertToArray()));
         break;
     }
@@ -118,7 +118,7 @@ public class LargeSubmitAsyncClient : ClientBaseTest<LargeSubmitAsyncClient>, IS
   [EntryPoint]
   public override void EntryPoint()
   {
-    Log.LogInformation("Configure taskOptions");
+    Log?.LogInformation("Configure taskOptions");
     var taskOptions = InitializeTaskOptions();
     OverrideTaskOptions(taskOptions);
 
@@ -143,12 +143,12 @@ public class LargeSubmitAsyncClient : ClientBaseTest<LargeSubmitAsyncClient>, IS
                                   int nbElement,
                                   int workloadTimeInMs = 1)
   {
-    var service = ServiceFactory.CreateService(Props,
+    var service = ServiceFactory.CreateService(Props!,
                                                LoggerFactory);
 
-    Log.LogInformation($"New session created : {service.SessionId}");
+    Log?.LogInformation($"New session created : {service.SessionId}");
 
-    Log.LogInformation("Running End to End test to compute heavy vector in sequential");
+    Log?.LogInformation("Running End to End test to compute heavy vector in sequential");
 
     using var cancellationTokenSource = new CancellationTokenSource();
     var       prevIndex               = 0;
@@ -161,12 +161,12 @@ public class LargeSubmitAsyncClient : ClientBaseTest<LargeSubmitAsyncClient>, IS
                             .ToArray();
 
 
-    Log.LogInformation($"=== CompareSubmitPerfs Running Sequential from {nbTasks} tasks with payload by task {nbElement * 8 / 1024.0:0.00} Ko Total : {nbTasks * (nbElement / 128)} Ko...   ===");
+    Log?.LogInformation($"=== CompareSubmitPerfs Running Sequential from {nbTasks} tasks with payload by task {nbElement * 8 / 1024.0:0.00} Ko Total : {nbTasks * (nbElement / 128)} Ko...   ===");
 
 
     PeriodicInfo(() =>
                  {
-                   Log.LogInformation($"Got {NbResults} results. {(NbResults - prevIndex) / (double)elapsed:0.00} results/s");
+                   Log?.LogInformation($"Got {NbResults} results. {(NbResults - prevIndex) / (double)elapsed:0.00} results/s");
                    prevIndex = NbResults;
                  },
                  elapsed,
@@ -181,19 +181,19 @@ public class LargeSubmitAsyncClient : ClientBaseTest<LargeSubmitAsyncClient>, IS
                                      cancellationTokenSource.Token)
       .ToList();
 
-    Log.LogInformation("Waiting for end of submission...");
-    Log.LogInformation($"{taskIds.Count()}/{nbTasks} Async tasks submitted in : {sw.ElapsedMilliseconds / 1000.0:0.00} secs ({taskIds.Count * 1000 / sw.ElapsedMilliseconds:0.00} Tasks/s, {taskIds.Count * nbElement * 8.0 / 1024.0 / (sw.ElapsedMilliseconds / 1000.0):0.00} KB/s)");
+    Log?.LogInformation("Waiting for end of submission...");
+    Log?.LogInformation($"{taskIds.Count()}/{nbTasks} Async tasks submitted in : {sw.ElapsedMilliseconds / 1000.0:0.00} secs ({taskIds.Count * 1000 / sw.ElapsedMilliseconds:0.00} Tasks/s, {taskIds.Count * nbElement * 8.0 / 1024.0 / (sw.ElapsedMilliseconds / 1000.0):0.00} KB/s)");
 
     Assert.AreEqual(nbTasks,
                     taskIds.ToHashSet()
                            .Count);
 
-    Log.LogDebug($"TaskIds : \n{string.Join("\n\t", taskIds)}");
+    Log?.LogDebug($"TaskIds : \n{string.Join("\n\t", taskIds)}");
 
-    Log.LogInformation("Waiting for result before exit");
+    Log?.LogInformation("Waiting for result before exit");
 
     service.Dispose();
-    Log.LogInformation("Nb result received : {res} : total is {Total} in {time:0.00}",
+    Log?.LogInformation("Nb result received : {res} : total is {Total} in {time:0.00}",
                        NbResults,
                        (int)Total,
                        sw.ElapsedMilliseconds / 1000.0);
@@ -210,7 +210,7 @@ public class LargeSubmitAsyncClient : ClientBaseTest<LargeSubmitAsyncClient>, IS
   {
     var result = Enumerable.Range(0,
                                   nbTasks)
-                           .Batch(nbTasks / Props.MaxParallelChannels)
+                           .Batch(nbTasks / Props!.MaxParallelChannels)
                            .AsParallel()
                            .Select(bucket => bucket.Select(_ => service.SubmitAsync("ComputeSum",
                                                                                     ParamsHelper(numbers,
@@ -223,7 +223,7 @@ public class LargeSubmitAsyncClient : ClientBaseTest<LargeSubmitAsyncClient>, IS
     return taskIds.ToList();
   }
 
-  private static void OverrideTaskOptions(TaskOptions? taskOptions)
+  private static void OverrideTaskOptions(TaskOptions taskOptions)
   {
     taskOptions.EngineType           = EngineType.Unified.ToString();
     taskOptions.ApplicationNamespace = "ArmoniK.EndToEndTests.Worker.Tests.LargePayloadSubmit";

@@ -41,8 +41,8 @@ namespace ArmoniK.DevelopmentKit.Client.Symphony;
 [MarkDownDoc]
 public class ArmonikSymphonyClient
 {
-  private readonly IConfigurationSection          controlPlanSection_;
-  private readonly ILogger<ArmonikSymphonyClient> Logger;
+  private readonly IConfigurationSection?          controlPlanSection_;
+  private readonly ILogger<ArmonikSymphonyClient>? Logger;
 
 
   /// <summary>
@@ -59,7 +59,7 @@ public class ArmonikSymphonyClient
                             ? configuration.GetSection(SectionGrpc)
                             : null;
     LoggerFactory = loggerFactory;
-    Logger        = loggerFactory.CreateLogger<ArmonikSymphonyClient>();
+    Logger        = loggerFactory?.CreateLogger<ArmonikSymphonyClient>();
   }
 
   private ILoggerFactory? LoggerFactory { get; }
@@ -80,7 +80,7 @@ public class ArmonikSymphonyClient
   private static string SectionClientCertFile { get; } = "ClientCert";
   private static string SectionClientKeyFile  { get; } = "ClientKey";
 
-  private ChannelPool GrpcPool { get; set; }
+  private ChannelPool? GrpcPool { get; set; }
 
 
   private IConfiguration Configuration { get; }
@@ -94,7 +94,7 @@ public class ArmonikSymphonyClient
   {
     ControlPlaneConnection();
 
-    return new SessionService(GrpcPool,
+    return new SessionService(GrpcPool!,
                               LoggerFactory,
                               taskOptions);
   }
@@ -110,7 +110,7 @@ public class ArmonikSymphonyClient
   {
     ControlPlaneConnection();
 
-    return new SessionService(GrpcPool,
+    return new SessionService(GrpcPool!,
                               LoggerFactory,
                               clientOptions ?? SessionService.InitializeDefaultTaskOptions(),
                               sessionId);

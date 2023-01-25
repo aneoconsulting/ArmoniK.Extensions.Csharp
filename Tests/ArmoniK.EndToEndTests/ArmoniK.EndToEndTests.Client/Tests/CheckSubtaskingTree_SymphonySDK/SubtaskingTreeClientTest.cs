@@ -56,7 +56,7 @@ public class SubtaskingTreeClientTest
 
     var taskResult = symphonyTestHelper_.WaitForTaskResult(taskId);
     var result     = ClientPayload.Deserialize(taskResult);
-    symphonyTestHelper_.Log
+    symphonyTestHelper_.Log?
                        .LogInformation($"SplitAndSum {numbers.First()} ... {numbers.Last()}: Result is {result.Result} expected : {expectedResult} => {(result.Result == expectedResult ? "OK" : "NOT OK")} in {sw.ElapsedMilliseconds / 1000} sec.");
 
     Assert.That(result.Result,

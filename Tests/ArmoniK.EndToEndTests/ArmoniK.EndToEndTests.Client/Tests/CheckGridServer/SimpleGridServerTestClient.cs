@@ -55,7 +55,7 @@ public class SimpleGridServerTestClient : ClientBaseTest<SimpleGridServerTestCli
   public void HandleError(ServiceInvocationException? e,
                           string                      taskId)
   {
-    Log.LogError($"Error from {taskId} : " + e.Message);
+    Log?.LogError(e, "Error from {taskId} : ", e?.Message);
     throw new ApplicationException($"Error from {taskId}",
                                    e);
   }
@@ -71,17 +71,17 @@ public class SimpleGridServerTestClient : ClientBaseTest<SimpleGridServerTestCli
     switch (response)
     {
       case null:
-        Log.LogDebug("Task finished but nothing returned in Result");
+        Log?.LogDebug("Task finished but nothing returned in Result");
         break;
       case double value:
-        Log.LogDebug($"Task finished with result {value}");
+        Log?.LogDebug($"Task finished with result {value}");
         break;
       case double[] doubles:
-        Log.LogDebug("Result is " + string.Join(", ",
+        Log?.LogDebug("Result is " + string.Join(", ",
                                                 doubles));
         break;
       case byte[] values:
-        Log.LogDebug("Result is " + string.Join(", ",
+        Log?.LogDebug("Result is " + string.Join(", ",
                                                 values.ConvertToArray()));
         break;
     }
@@ -91,7 +91,7 @@ public class SimpleGridServerTestClient : ClientBaseTest<SimpleGridServerTestCli
   [EntryPoint]
   public override void EntryPoint()
   {
-    Log.LogInformation("Configure taskOptions");
+    Log?.LogInformation("Configure taskOptions");
     var taskOptions = InitializeTaskOptions();
     OverrideTaskOptions(taskOptions);
 
@@ -104,13 +104,13 @@ public class SimpleGridServerTestClient : ClientBaseTest<SimpleGridServerTestCli
                                                 props);
 
 
-    Log.LogInformation($"New session created : {cs.SessionId}");
+    Log?.LogInformation($"New session created : {cs.SessionId}");
 
-    Log.LogInformation("Running End to End test to compute Square value with SubTasking");
+    Log?.LogInformation("Running End to End test to compute Square value with SubTasking");
     ClientStartup1(cs);
   }
 
-  private static void OverrideTaskOptions(TaskOptions? taskOptions)
+  private static void OverrideTaskOptions(TaskOptions taskOptions)
     => taskOptions.EngineType = EngineType.DataSynapse.ToString();
 
   /// <summary>

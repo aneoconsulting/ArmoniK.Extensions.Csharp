@@ -22,6 +22,8 @@
 // limitations under the License.
 
 using System;
+using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Reflection;
 
@@ -47,7 +49,7 @@ namespace ArmoniK.DevelopmentKit.Worker.Unified;
 [PublicAPI]
 public class GridWorker : IGridWorker
 {
-  private ServiceContext serviceContext_;
+  private ServiceContext? serviceContext_;
 
   public GridWorker(IConfiguration configuration,
                     ILoggerFactory factory)
@@ -63,17 +65,17 @@ public class GridWorker : IGridWorker
 
   public IConfiguration Configuration { get; set; }
 
-  public object ServiceClass { get; set; }
+  public object? ServiceClass { get; set; }
 
-  public string? GridServiceName { get; set; }
+  public string? GridServiceName { get; set; } = "BadServiceName";
 
-  public string? GridAppNamespace { get; set; }
+  public string? GridAppNamespace { get; set; } = "BadServiceNamespace";
 
-  public string GridAppVersion { get; set; }
+  public string? GridAppVersion { get; set; } = "BadAppsVersion";
 
-  public string GridAppName { get; set; }
+  public string GridAppName { get; set; } = "BadAppsName";
 
-  public TaskOptions TaskOptions { get; set; }
+  public TaskOptions? TaskOptions { get; set; }
 
   public IConfiguration? Configurations { get; set; }
 
@@ -123,14 +125,14 @@ public class GridWorker : IGridWorker
     Logger.BeginPropertyScope(("sessionId", session));
   }
 
-  public byte[] Execute(ITaskHandler taskHandler)
+  public byte[]? Execute(ITaskHandler taskHandler)
   {
     using var _ = Logger.BeginPropertyScope(("sessionId", taskHandler.SessionId),
                                             ("taskId", $"{taskHandler.TaskId}"));
 
     var payload = taskHandler.Payload;
 
-    var armonikPayload = ArmonikPayload.Deserialize(payload);
+    var armonikPayload = ArmonikPayload.Deserialize(payload) ?? throw new NoNullAllowedException(nameof(payload));
 
     var methodName = armonikPayload.MethodName;
     if (methodName == null)
@@ -149,15 +151,15 @@ public class GridWorker : IGridWorker
     MethodInfo methodInfo;
     if (arguments == null || arguments.Any() == false)
     {
-      methodInfo = ServiceClass.GetType()
-                               .GetMethod(methodName);
+      methodInfo = ServiceClass?.GetType()
+                               .GetMethod(methodName) ?? throw new NoNullAllowedException(nameof(ServiceClass));
     }
     else
     {
-      methodInfo = ServiceClass.GetType()
+      methodInfo = ServiceClass?.GetType()
                                .GetMethod(methodName,
-                                          arguments.Select(x => x.GetType())
-                                                   .ToArray());
+                                          arguments.Select(x => x!.GetType())
+                                                   .ToArray()) ?? throw new NoNullAllowedException(nameof(ServiceClass));
     }
 
     if (ServiceClass is ITaskSubmitterWorkerServiceConfiguration serviceContext)
@@ -177,7 +179,7 @@ public class GridWorker : IGridWorker
     if (methodInfo == null)
     {
       throw new
-        WorkerApiException($"Cannot found method [{methodName}({string.Join(", ", arguments.Select(x => x.GetType().Name))})] in Service class [{GridAppNamespace}.{GridServiceName}]");
+        WorkerApiException($"Cannot found method [{methodName}({string.Join(", ", arguments?.Select(x => x?.GetType().Name) ?? new List<string>())})] in Service class [{GridAppNamespace}.{GridServiceName}]");
     }
 
     try

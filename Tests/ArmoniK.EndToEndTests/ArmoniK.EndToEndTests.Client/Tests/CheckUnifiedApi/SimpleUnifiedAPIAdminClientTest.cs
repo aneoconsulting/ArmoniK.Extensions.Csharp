@@ -1,4 +1,5 @@
 using System;
+using System.Data;
 using System.Linq;
 
 using ArmoniK.Api.gRPC.V1;
@@ -36,20 +37,20 @@ public class SimpleUnifiedApiAdminClientTest
   public void Check_That_CancelSession_Is_Working()
   {
     const int wantedCount = 100;
-    var tasks = unifiedTestHelper_.Service.Submit("ComputeBasicArrayCube",
+    var tasks = unifiedTestHelper_?.Service.Submit("ComputeBasicArrayCube",
                                                   Enumerable.Range(1,
                                                                    wantedCount)
                                                             .Select(_ => UnitTestHelperBase.ParamsHelper(numbers_)),
-                                                  unifiedTestHelper_);
-    if (tasks.Count() is var count && count != wantedCount)
+                                                  unifiedTestHelper_) ?? throw new NoNullAllowedException(nameof(unifiedTestHelper_));
+    if (tasks != null && tasks?.Count() is var count && count != wantedCount)
     {
       throw new ApplicationException($"Expected {wantedCount} submitted tasks, got {count}");
     }
 
-    unifiedTestHelper_.ServiceAdmin.AdminMonitoringService.CancelSession(unifiedTestHelper_.Service.SessionId);
+    unifiedTestHelper_!.ServiceAdmin?.AdminMonitoringService.CancelSession(unifiedTestHelper_.Service.SessionId);
 
-    unifiedTestHelper_.WaitForResultcompletion(tasks);
-    var cancelledTaskCount = unifiedTestHelper_.ServiceAdmin.AdminMonitoringService.CountTaskBySession(unifiedTestHelper_.Service.SessionId,
+    unifiedTestHelper_!.WaitForResultcompletion(tasks ?? throw new NoNullAllowedException(nameof(tasks)));
+    var cancelledTaskCount = unifiedTestHelper_?.ServiceAdmin?.AdminMonitoringService.CountTaskBySession(unifiedTestHelper_.Service.SessionId,
                                                                                                        TaskStatus.Cancelled);
 
     Assert.That(cancelledTaskCount,

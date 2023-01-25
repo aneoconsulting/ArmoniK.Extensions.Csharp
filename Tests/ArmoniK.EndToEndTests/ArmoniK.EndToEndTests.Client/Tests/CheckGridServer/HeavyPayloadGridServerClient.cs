@@ -62,8 +62,7 @@ public class HeavyPayloadGridServerClient : ClientBaseTest<HeavyPayloadGridServe
   public void HandleError(ServiceInvocationException? e,
                           string                      taskId)
   {
-    Log.LogError($"Error from {taskId} : " + e.Message,
-                 e);
+    Log?.LogError(e, "Error from {taskId} : ", e?.Message);
     throw new ApplicationException($"Error from {taskId}",
                                    e);
   }
@@ -73,25 +72,25 @@ public class HeavyPayloadGridServerClient : ClientBaseTest<HeavyPayloadGridServe
   /// </summary>
   /// <param name="response">The object receive from the server as result the method called by the client</param>
   /// <param name="taskId">The task identifier which has invoke the response callBack</param>
-  public void HandleResponse(object response,
-                             string taskId)
+  public void HandleResponse(object? response,
+                             string  taskId)
   {
     switch (response)
     {
       case null:
-        Log.LogInformation("Task finished but nothing returned in Result");
+        Log?.LogInformation("Task finished but nothing returned in Result");
         break;
       case double value:
-        Log.LogInformation($"Task finished with result {value}");
+        Log?.LogInformation($"Task finished with result {value}");
         break;
       case double[] doubles:
-        Log.LogInformation($"Result type are {doubles.GetType().Name} with {doubles.Length} element(s)");
-        Log.LogInformation("Result is " + string.Join(", ",
+        Log?.LogInformation($"Result type are {doubles.GetType().Name} with {doubles.Length} element(s)");
+        Log?.LogInformation("Result is " + string.Join(", ",
                                                       doubles.SubArray(0,
                                                                        100)));
         break;
       case byte[] values:
-        Log.LogInformation("Result is " + string.Join(", ",
+        Log?.LogInformation("Result is " + string.Join(", ",
                                                       values.ConvertToArray()));
         break;
     }
@@ -101,7 +100,7 @@ public class HeavyPayloadGridServerClient : ClientBaseTest<HeavyPayloadGridServe
   [EntryPoint]
   public override void EntryPoint()
   {
-    Log.LogInformation("Configure taskOptions");
+    Log?.LogInformation("Configure taskOptions");
     var taskOptions = InitializeTaskOptions();
     OverrideTaskOptions(taskOptions);
 
@@ -115,14 +114,19 @@ public class HeavyPayloadGridServerClient : ClientBaseTest<HeavyPayloadGridServe
                                                 LoggerFactory);
 
 
-    Log.LogInformation($"New session created : {cs.SessionId}");
+    Log?.LogInformation($"New session created : {cs.SessionId}");
 
-    Log.LogInformation("Running End to End test to compute Square value with SubTasking");
+    Log?.LogInformation("Running End to End test to compute Square value with SubTasking");
     ClientStartup1(cs);
   }
 
   private static void OverrideTaskOptions(TaskOptions? taskOptions)
-    => taskOptions.EngineType = EngineType.DataSynapse.ToString();
+  {
+    if (taskOptions != null)
+    {
+      taskOptions.EngineType = EngineType.DataSynapse.ToString();
+    }
+  }
 
   /// <summary>
   ///   Simple function to wait and get the result from subTasking and result delegation
@@ -131,7 +135,7 @@ public class HeavyPayloadGridServerClient : ClientBaseTest<HeavyPayloadGridServe
   /// <param name="sessionService">The sessionService API to connect to the Control plane Service</param>
   /// <param name="taskId">The task which is waiting for</param>
   /// <returns></returns>
-  private static byte[]? WaitForTaskResult(SessionService sessionService,
+  private static byte[] WaitForTaskResult(SessionService sessionService,
                                            string         taskId)
   {
     var taskResult = sessionService.GetResult(taskId);
