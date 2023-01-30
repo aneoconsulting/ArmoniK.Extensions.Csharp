@@ -4,22 +4,22 @@
 
   <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Class BatchUntilInactiveBlock&lt;T&gt;
+      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+      <title>Class BatchUntilInactiveBlock&lt;T&gt;
  </title>
-    <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Class BatchUntilInactiveBlock&lt;T&gt;
+      <meta name="viewport" content="width=device-width">
+      <meta name="title" content="Class BatchUntilInactiveBlock&lt;T&gt;
  ">
-  
-    <link rel="shortcut icon" href="../favicon.ico">
-    <link rel="stylesheet" href="../styles/docfx.vendor.css">
-    <link rel="stylesheet" href="../styles/docfx.css">
-    <link rel="stylesheet" href="../styles/main.css">
-    <meta property="docfx:navrel" content="../toc.html">
-    <meta property="docfx:tocrel" content="toc.html">
-  
-  
-  
+    
+      <link rel="shortcut icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../styles/docfx.vendor.css">
+      <link rel="stylesheet" href="../styles/docfx.css">
+      <link rel="stylesheet" href="../styles/main.css">
+      <meta property="docfx:navrel" content="../toc.html">
+      <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
   </head>
   <body data-spy="scroll" data-target="#affix" data-offset="120">
     <div id="wrapper">
@@ -79,18 +79,18 @@ to BatchSize, or when a Timeout period has elapsed after receiving the last item
   <div class="markdown level0 conceptual"></div>
   <div class="inheritance">
     <h5>Inheritance</h5>
-    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level0"><span class="xref">object</span></div>
     <div class="level1"><span class="xref">BatchUntilInactiveBlock&lt;T&gt;</span></div>
   </div>
   <div class="implements">
     <h5>Implements</h5>
-    <div><span class="xref">IReceivableSourceBlock</span>&lt;T[]&gt;</div>
+    <div><span class="xref">IReceivableSourceBlock&lt;&gt;</span>&lt;T[]&gt;</div>
   </div>
-  <h6><strong>Namespace</strong>: <a class="xref" href="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.html">ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter</a></h6>
+  <h6><strong>Namespace</strong>: <span class="xref">ArmoniK</span>.<span class="xref">DevelopmentKit</span>.<span class="xref">Client</span>.<span class="xref">Unified</span>.<a class="xref" href="ArmoniK.DevelopmentKit.Client.Unified.Services.html">Services</a>.<a class="xref" href="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.html">Submitter</a></h6>
   <h6><strong>Assembly</strong>: ArmoniK.DevelopmentKit.Client.Unified.dll</h6>
   <h5 id="ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_BatchUntilInactiveBlock_1_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public class BatchUntilInactiveBlock&lt;T&gt; : IPropagatorBlock&lt;T, T[]&gt;</code></pre>
+    <pre><code class="lang-csharp hljs">public class BatchUntilInactiveBlock&lt;T&gt; : IPropagatorBlock&lt;T, T[]&gt;, IReceivableSourceBlock&lt;T[]&gt;</code></pre>
   </div>
   <h5 class="typeParameters">Type Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -117,7 +117,7 @@ to BatchSize, or when a Timeout period has elapsed after receiving the last item
     <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Unified/Services/Submitter/BatchUntilInactiveBlock.cs/#L58">View Source</a>
   </span>
   <a id="ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_BatchUntilInactiveBlock_1__ctor_" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.#ctor*"></a>
-  <h4 id="ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_BatchUntilInactiveBlock_1__ctor_System_Int32_TimeSpan_ExecutionDataflowBlockOptions_" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.#ctor(System.Int32,TimeSpan,ExecutionDataflowBlockOptions)">BatchUntilInactiveBlock(Int32, TimeSpan, ExecutionDataflowBlockOptions)</h4>
+  <h4 id="ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_BatchUntilInactiveBlock_1__ctor_System_Int32_TimeSpan_ExecutionDataflowBlockOptions_" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.#ctor(System.Int32,TimeSpan,ExecutionDataflowBlockOptions)">BatchUntilInactiveBlock(int, TimeSpan, ExecutionDataflowBlockOptions)</h4>
   <div class="markdown level1 summary"><p>The buffer construct base on the number of request in the buffer
 Be aware that buffer should be T sized for network B/W</p>
 </div>
@@ -137,7 +137,7 @@ Be aware that buffer should be T sized for network B/W</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Int32</span></td>
+        <td><span class="xref">int</span></td>
         <td><span class="parametername">bufferRequestsSize</span></td>
         <td></td>
       </tr>
@@ -185,7 +185,7 @@ Options to configure message.
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Int32</span></td>
+        <td><span class="xref">int</span></td>
         <td></td>
       </tr>
     </tbody>
@@ -199,10 +199,7 @@ Options to configure message.
   </span>
   <a id="ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_BatchUntilInactiveBlock_1_Completion_" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.Completion*"></a>
   <h4 id="ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_BatchUntilInactiveBlock_1_Completion" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.Completion">Completion</h4>
-  <div class="markdown level1 summary"><p>Provides a dataFlow block that batches inputs into arrays.
-A batch is produced when the number of currently queued items becomes equal
-to BatchSize, or when a Timeout period has elapsed after receiving the last item.</p>
-</div>
+  <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
@@ -234,10 +231,7 @@ to BatchSize, or when a Timeout period has elapsed after receiving the last item
   </span>
   <a id="ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_BatchUntilInactiveBlock_1_Complete_" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.Complete*"></a>
   <h4 id="ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_BatchUntilInactiveBlock_1_Complete" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.Complete">Complete()</h4>
-  <div class="markdown level1 summary"><p>Provides a dataFlow block that batches inputs into arrays.
-A batch is produced when the number of currently queued items becomes equal
-to BatchSize, or when a Timeout period has elapsed after receiving the last item.</p>
-</div>
+  <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
@@ -251,11 +245,8 @@ to BatchSize, or when a Timeout period has elapsed after receiving the last item
     <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Unified/Services/Submitter/BatchUntilInactiveBlock.cs/#L151">View Source</a>
   </span>
   <a id="ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_BatchUntilInactiveBlock_1_ConsumeMessage_" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.ConsumeMessage*"></a>
-  <h4 id="ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_BatchUntilInactiveBlock_1_ConsumeMessage_DataflowMessageHeader_ITargetBlock__0____System_Boolean__" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.ConsumeMessage(DataflowMessageHeader,ITargetBlock{`0[]},System.Boolean@)">ConsumeMessage(DataflowMessageHeader, ITargetBlock&lt;T[]&gt;, out Boolean)</h4>
-  <div class="markdown level1 summary"><p>Provides a dataFlow block that batches inputs into arrays.
-A batch is produced when the number of currently queued items becomes equal
-to BatchSize, or when a Timeout period has elapsed after receiving the last item.</p>
-</div>
+  <h4 id="ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_BatchUntilInactiveBlock_1_ConsumeMessage_DataflowMessageHeader_ITargetBlock__0____System_Boolean__" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.ConsumeMessage(DataflowMessageHeader,ITargetBlock{`0[]},System.Boolean@)">ConsumeMessage(DataflowMessageHeader, ITargetBlock&lt;T[]&gt;, out bool)</h4>
+  <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
@@ -277,12 +268,12 @@ to BatchSize, or when a Timeout period has elapsed after receiving the last item
         <td></td>
       </tr>
       <tr>
-        <td><span class="xref">ITargetBlock</span>&lt;T[]&gt;</td>
+        <td><span class="xref">ITargetBlock&lt;&gt;</span>&lt;T[]&gt;</td>
         <td><span class="parametername">target</span></td>
         <td></td>
       </tr>
       <tr>
-        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="xref">bool</span></td>
         <td><span class="parametername">messageConsumed</span></td>
         <td></td>
       </tr>
@@ -331,7 +322,7 @@ at the end of pipeline</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">Action</span>&lt;T[]&gt;</td>
+        <td><span class="xref">Action&lt;&gt;</span>&lt;T[]&gt;</td>
         <td><span class="parametername">action</span></td>
         <td><p>the method to call</p>
 </td>
@@ -347,10 +338,7 @@ at the end of pipeline</p>
   </span>
   <a id="ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_BatchUntilInactiveBlock_1_Fault_" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.Fault*"></a>
   <h4 id="ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_BatchUntilInactiveBlock_1_Fault_Exception_" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.Fault(Exception)">Fault(Exception)</h4>
-  <div class="markdown level1 summary"><p>Provides a dataFlow block that batches inputs into arrays.
-A batch is produced when the number of currently queued items becomes equal
-to BatchSize, or when a Timeout period has elapsed after receiving the last item.</p>
-</div>
+  <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
@@ -382,10 +370,7 @@ to BatchSize, or when a Timeout period has elapsed after receiving the last item
   </span>
   <a id="ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_BatchUntilInactiveBlock_1_LinkTo_" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.LinkTo*"></a>
   <h4 id="ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_BatchUntilInactiveBlock_1_LinkTo_ITargetBlock__0____DataflowLinkOptions_" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.LinkTo(ITargetBlock{`0[]},DataflowLinkOptions)">LinkTo(ITargetBlock&lt;T[]&gt;, DataflowLinkOptions)</h4>
-  <div class="markdown level1 summary"><p>Provides a dataFlow block that batches inputs into arrays.
-A batch is produced when the number of currently queued items becomes equal
-to BatchSize, or when a Timeout period has elapsed after receiving the last item.</p>
-</div>
+  <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
@@ -402,7 +387,7 @@ to BatchSize, or when a Timeout period has elapsed after receiving the last item
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">ITargetBlock</span>&lt;T[]&gt;</td>
+        <td><span class="xref">ITargetBlock&lt;&gt;</span>&lt;T[]&gt;</td>
         <td><span class="parametername">target</span></td>
         <td></td>
       </tr>
@@ -436,11 +421,8 @@ to BatchSize, or when a Timeout period has elapsed after receiving the last item
     <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Unified/Services/Submitter/BatchUntilInactiveBlock.cs/#L131">View Source</a>
   </span>
   <a id="ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_BatchUntilInactiveBlock_1_OfferMessage_" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.OfferMessage*"></a>
-  <h4 id="ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_BatchUntilInactiveBlock_1_OfferMessage_DataflowMessageHeader__0_ISourceBlock__0__System_Boolean_" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.OfferMessage(DataflowMessageHeader,`0,ISourceBlock{`0},System.Boolean)">OfferMessage(DataflowMessageHeader, T, ISourceBlock&lt;T&gt;, Boolean)</h4>
-  <div class="markdown level1 summary"><p>Provides a dataFlow block that batches inputs into arrays.
-A batch is produced when the number of currently queued items becomes equal
-to BatchSize, or when a Timeout period has elapsed after receiving the last item.</p>
-</div>
+  <h4 id="ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_BatchUntilInactiveBlock_1_OfferMessage_DataflowMessageHeader__0_ISourceBlock__0__System_Boolean_" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.OfferMessage(DataflowMessageHeader,`0,ISourceBlock{`0},System.Boolean)">OfferMessage(DataflowMessageHeader, T, ISourceBlock&lt;T&gt;, bool)</h4>
+  <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
@@ -467,12 +449,12 @@ to BatchSize, or when a Timeout period has elapsed after receiving the last item
         <td></td>
       </tr>
       <tr>
-        <td><span class="xref">ISourceBlock</span>&lt;T&gt;</td>
+        <td><span class="xref">ISourceBlock&lt;&gt;</span>&lt;T&gt;</td>
         <td><span class="parametername">source</span></td>
         <td></td>
       </tr>
       <tr>
-        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="xref">bool</span></td>
         <td><span class="parametername">consumeToAccept</span></td>
         <td></td>
       </tr>
@@ -502,10 +484,7 @@ to BatchSize, or when a Timeout period has elapsed after receiving the last item
   </span>
   <a id="ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_BatchUntilInactiveBlock_1_ReleaseReservation_" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.ReleaseReservation*"></a>
   <h4 id="ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_BatchUntilInactiveBlock_1_ReleaseReservation_DataflowMessageHeader_ITargetBlock__0____" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.ReleaseReservation(DataflowMessageHeader,ITargetBlock{`0[]})">ReleaseReservation(DataflowMessageHeader, ITargetBlock&lt;T[]&gt;)</h4>
-  <div class="markdown level1 summary"><p>Provides a dataFlow block that batches inputs into arrays.
-A batch is produced when the number of currently queued items becomes equal
-to BatchSize, or when a Timeout period has elapsed after receiving the last item.</p>
-</div>
+  <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
@@ -527,7 +506,7 @@ to BatchSize, or when a Timeout period has elapsed after receiving the last item
         <td></td>
       </tr>
       <tr>
-        <td><span class="xref">ITargetBlock</span>&lt;T[]&gt;</td>
+        <td><span class="xref">ITargetBlock&lt;&gt;</span>&lt;T[]&gt;</td>
         <td><span class="parametername">target</span></td>
         <td></td>
       </tr>
@@ -542,10 +521,7 @@ to BatchSize, or when a Timeout period has elapsed after receiving the last item
   </span>
   <a id="ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_BatchUntilInactiveBlock_1_ReserveMessage_" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.ReserveMessage*"></a>
   <h4 id="ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_BatchUntilInactiveBlock_1_ReserveMessage_DataflowMessageHeader_ITargetBlock__0____" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.ReserveMessage(DataflowMessageHeader,ITargetBlock{`0[]})">ReserveMessage(DataflowMessageHeader, ITargetBlock&lt;T[]&gt;)</h4>
-  <div class="markdown level1 summary"><p>Provides a dataFlow block that batches inputs into arrays.
-A batch is produced when the number of currently queued items becomes equal
-to BatchSize, or when a Timeout period has elapsed after receiving the last item.</p>
-</div>
+  <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
@@ -567,7 +543,7 @@ to BatchSize, or when a Timeout period has elapsed after receiving the last item
         <td></td>
       </tr>
       <tr>
-        <td><span class="xref">ITargetBlock</span>&lt;T[]&gt;</td>
+        <td><span class="xref">ITargetBlock&lt;&gt;</span>&lt;T[]&gt;</td>
         <td><span class="parametername">target</span></td>
         <td></td>
       </tr>
@@ -583,7 +559,7 @@ to BatchSize, or when a Timeout period has elapsed after receiving the last item
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="xref">bool</span></td>
         <td></td>
       </tr>
     </tbody>
@@ -613,10 +589,7 @@ to BatchSize, or when a Timeout period has elapsed after receiving the last item
   </span>
   <a id="ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_BatchUntilInactiveBlock_1_TryReceive_" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.TryReceive*"></a>
   <h4 id="ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_BatchUntilInactiveBlock_1_TryReceive_Predicate__0_____0____" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.TryReceive(Predicate{`0[]},`0[]@)">TryReceive(Predicate&lt;T[]&gt;, out T[])</h4>
-  <div class="markdown level1 summary"><p>Provides a dataFlow block that batches inputs into arrays.
-A batch is produced when the number of currently queued items becomes equal
-to BatchSize, or when a Timeout period has elapsed after receiving the last item.</p>
-</div>
+  <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
@@ -633,7 +606,7 @@ to BatchSize, or when a Timeout period has elapsed after receiving the last item
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">Predicate</span>&lt;T[]&gt;</td>
+        <td><span class="xref">Predicate&lt;&gt;</span>&lt;T[]&gt;</td>
         <td><span class="parametername">filter</span></td>
         <td></td>
       </tr>
@@ -654,7 +627,7 @@ to BatchSize, or when a Timeout period has elapsed after receiving the last item
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="xref">bool</span></td>
         <td></td>
       </tr>
     </tbody>
@@ -668,10 +641,7 @@ to BatchSize, or when a Timeout period has elapsed after receiving the last item
   </span>
   <a id="ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_BatchUntilInactiveBlock_1_TryReceiveAll_" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.TryReceiveAll*"></a>
   <h4 id="ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_BatchUntilInactiveBlock_1_TryReceiveAll_IList__0_____" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.TryReceiveAll(IList{`0[]}@)">TryReceiveAll(out IList&lt;T[]&gt;)</h4>
-  <div class="markdown level1 summary"><p>Provides a dataFlow block that batches inputs into arrays.
-A batch is produced when the number of currently queued items becomes equal
-to BatchSize, or when a Timeout period has elapsed after receiving the last item.</p>
-</div>
+  <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
@@ -688,7 +658,7 @@ to BatchSize, or when a Timeout period has elapsed after receiving the last item
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">IList</span>&lt;T[]&gt;</td>
+        <td><span class="xref">IList&lt;&gt;</span>&lt;T[]&gt;</td>
         <td><span class="parametername">items</span></td>
         <td></td>
       </tr>
@@ -704,7 +674,7 @@ to BatchSize, or when a Timeout period has elapsed after receiving the last item
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="xref">bool</span></td>
         <td></td>
       </tr>
     </tbody>

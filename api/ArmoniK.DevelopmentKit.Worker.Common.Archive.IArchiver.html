@@ -4,22 +4,22 @@
 
   <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Interface IArchiver
+      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+      <title>Interface IArchiver
  </title>
-    <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Interface IArchiver
+      <meta name="viewport" content="width=device-width">
+      <meta name="title" content="Interface IArchiver
  ">
-  
-    <link rel="shortcut icon" href="../favicon.ico">
-    <link rel="stylesheet" href="../styles/docfx.vendor.css">
-    <link rel="stylesheet" href="../styles/docfx.css">
-    <link rel="stylesheet" href="../styles/main.css">
-    <meta property="docfx:navrel" content="../toc.html">
-    <meta property="docfx:tocrel" content="toc.html">
-  
-  
-  
+    
+      <link rel="shortcut icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../styles/docfx.vendor.css">
+      <link rel="stylesheet" href="../styles/docfx.css">
+      <link rel="stylesheet" href="../styles/main.css">
+      <meta property="docfx:navrel" content="../toc.html">
+      <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
   </head>
   <body data-spy="scroll" data-target="#affix" data-offset="120">
     <div id="wrapper">
@@ -75,7 +75,7 @@
   <div class="markdown level0 summary"><p>Interface for archive extraction</p>
 </div>
   <div class="markdown level0 conceptual"></div>
-  <h6><strong>Namespace</strong>: <a class="xref" href="ArmoniK.DevelopmentKit.Worker.Common.Archive.html">ArmoniK.DevelopmentKit.Worker.Common.Archive</a></h6>
+  <h6><strong>Namespace</strong>: <span class="xref">ArmoniK</span>.<span class="xref">DevelopmentKit</span>.<span class="xref">Worker</span>.<a class="xref" href="ArmoniK.DevelopmentKit.Worker.Common.html">Common</a>.<a class="xref" href="ArmoniK.DevelopmentKit.Worker.Common.Archive.html">Archive</a></h6>
   <h6><strong>Assembly</strong>: ArmoniK.DevelopmentKit.Worker.Common.dll</h6>
   <h5 id="ArmoniK_DevelopmentKit_Worker_Common_Archive_IArchiver_syntax">Syntax</h5>
   <div class="codewrapper">
@@ -91,7 +91,7 @@
     <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Worker/src/Common/Archive/IArchiver.cs/#L49">View Source</a>
   </span>
   <a id="ArmoniK_DevelopmentKit_Worker_Common_Archive_IArchiver_ArchiveAlreadyExtracted_" data-uid="ArmoniK.DevelopmentKit.Worker.Common.Archive.IArchiver.ArchiveAlreadyExtracted*"></a>
-  <h4 id="ArmoniK_DevelopmentKit_Worker_Common_Archive_IArchiver_ArchiveAlreadyExtracted_ArmoniK_DevelopmentKit_Common_IFileAdapter_System_String_System_Int32_" data-uid="ArmoniK.DevelopmentKit.Worker.Common.Archive.IArchiver.ArchiveAlreadyExtracted(ArmoniK.DevelopmentKit.Common.IFileAdapter,System.String,System.Int32)">ArchiveAlreadyExtracted(IFileAdapter, String, Int32)</h4>
+  <h4 id="ArmoniK_DevelopmentKit_Worker_Common_Archive_IArchiver_ArchiveAlreadyExtracted_ArmoniK_DevelopmentKit_Common_IFileAdapter_System_String_System_Int32_" data-uid="ArmoniK.DevelopmentKit.Worker.Common.Archive.IArchiver.ArchiveAlreadyExtracted(ArmoniK.DevelopmentKit.Common.IFileAdapter,System.String,System.Int32)">ArchiveAlreadyExtracted(IFileAdapter, string, int)</h4>
   <div class="markdown level1 summary"><p>Checks if the archive has already been extracted</p>
 </div>
   <div class="markdown level1 conceptual"></div>
@@ -116,13 +116,13 @@
 </td>
       </tr>
       <tr>
-        <td><span class="xref">System.String</span></td>
+        <td><span class="xref">string</span></td>
         <td><span class="parametername">fileName</span></td>
         <td><p>File name</p>
 </td>
       </tr>
       <tr>
-        <td><span class="xref">System.Int32</span></td>
+        <td><span class="xref">int</span></td>
         <td><span class="parametername">waitForArchiver</span></td>
         <td><p>Number of 2 seconds intervals to wait for the lock file to be</p>
 </td>
@@ -139,7 +139,7 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="xref">bool</span></td>
         <td><p>True if the archive has already been extracted, false otherwise</p>
 </td>
       </tr>
@@ -153,7 +153,7 @@
     <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Worker/src/Common/Archive/IArchiver.cs/#L60">View Source</a>
   </span>
   <a id="ArmoniK_DevelopmentKit_Worker_Common_Archive_IArchiver_DownloadArchive_" data-uid="ArmoniK.DevelopmentKit.Worker.Common.Archive.IArchiver.DownloadArchive*"></a>
-  <h4 id="ArmoniK_DevelopmentKit_Worker_Common_Archive_IArchiver_DownloadArchive_ArmoniK_DevelopmentKit_Common_IFileAdapter_System_String_System_Boolean_" data-uid="ArmoniK.DevelopmentKit.Worker.Common.Archive.IArchiver.DownloadArchive(ArmoniK.DevelopmentKit.Common.IFileAdapter,System.String,System.Boolean)">DownloadArchive(IFileAdapter, String, Boolean)</h4>
+  <h4 id="ArmoniK_DevelopmentKit_Worker_Common_Archive_IArchiver_DownloadArchive_ArmoniK_DevelopmentKit_Common_IFileAdapter_System_String_System_Boolean_" data-uid="ArmoniK.DevelopmentKit.Worker.Common.Archive.IArchiver.DownloadArchive(ArmoniK.DevelopmentKit.Common.IFileAdapter,System.String,System.Boolean)">DownloadArchive(IFileAdapter, string, bool)</h4>
   <div class="markdown level1 summary"><p>Download the archive from the fileAdapter</p>
 </div>
   <div class="markdown level1 conceptual"></div>
@@ -178,13 +178,13 @@
 </td>
       </tr>
       <tr>
-        <td><span class="xref">System.String</span></td>
+        <td><span class="xref">string</span></td>
         <td><span class="parametername">filename</span></td>
         <td><p>File name</p>
 </td>
       </tr>
       <tr>
-        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="xref">bool</span></td>
         <td><span class="parametername">skipIfExists</span></td>
         <td><p>If set to true, doesn't download if the file already exists</p>
 </td>
@@ -201,7 +201,7 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.String</span></td>
+        <td><span class="xref">string</span></td>
         <td><p>Path to the download archive</p>
 </td>
       </tr>
@@ -215,7 +215,7 @@
     <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Worker/src/Common/Archive/IArchiver.cs/#L39">View Source</a>
   </span>
   <a id="ArmoniK_DevelopmentKit_Worker_Common_Archive_IArchiver_ExtractArchive_" data-uid="ArmoniK.DevelopmentKit.Worker.Common.Archive.IArchiver.ExtractArchive*"></a>
-  <h4 id="ArmoniK_DevelopmentKit_Worker_Common_Archive_IArchiver_ExtractArchive_ArmoniK_DevelopmentKit_Common_IFileAdapter_System_String_" data-uid="ArmoniK.DevelopmentKit.Worker.Common.Archive.IArchiver.ExtractArchive(ArmoniK.DevelopmentKit.Common.IFileAdapter,System.String)">ExtractArchive(IFileAdapter, String)</h4>
+  <h4 id="ArmoniK_DevelopmentKit_Worker_Common_Archive_IArchiver_ExtractArchive_ArmoniK_DevelopmentKit_Common_IFileAdapter_System_String_" data-uid="ArmoniK.DevelopmentKit.Worker.Common.Archive.IArchiver.ExtractArchive(ArmoniK.DevelopmentKit.Common.IFileAdapter,System.String)">ExtractArchive(IFileAdapter, string)</h4>
   <div class="markdown level1 summary"><p>Extracts an archive file</p>
 </div>
   <div class="markdown level1 conceptual"></div>
@@ -240,7 +240,7 @@
 </td>
       </tr>
       <tr>
-        <td><span class="xref">System.String</span></td>
+        <td><span class="xref">string</span></td>
         <td><span class="parametername">filename</span></td>
         <td><p>File name</p>
 </td>
@@ -257,7 +257,7 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.String</span></td>
+        <td><span class="xref">string</span></td>
         <td><p>Path to assembly file</p>
 </td>
       </tr>

@@ -4,22 +4,22 @@
 
   <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Class Properties
+      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+      <title>Class Properties
  </title>
-    <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Class Properties
+      <meta name="viewport" content="width=device-width">
+      <meta name="title" content="Class Properties
  ">
-  
-    <link rel="shortcut icon" href="../favicon.ico">
-    <link rel="stylesheet" href="../styles/docfx.vendor.css">
-    <link rel="stylesheet" href="../styles/docfx.css">
-    <link rel="stylesheet" href="../styles/main.css">
-    <meta property="docfx:navrel" content="../toc.html">
-    <meta property="docfx:tocrel" content="toc.html">
-  
-  
-  
+    
+      <link rel="shortcut icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../styles/docfx.vendor.css">
+      <link rel="stylesheet" href="../styles/docfx.css">
+      <link rel="stylesheet" href="../styles/main.css">
+      <meta property="docfx:navrel" content="../toc.html">
+      <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
   </head>
   <body data-spy="scroll" data-target="#affix" data-offset="120">
     <div id="wrapper">
@@ -82,14 +82,14 @@ The ssl mTLS certificate if needed to connect to the control plane</li>
   <div class="markdown level0 conceptual"></div>
   <div class="inheritance">
     <h5>Inheritance</h5>
-    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level0"><span class="xref">object</span></div>
     <div class="level1"><span class="xref">Properties</span></div>
   </div>
-  <h6><strong>Namespace</strong>: <a class="xref" href="ArmoniK.DevelopmentKit.Client.Common.html">ArmoniK.DevelopmentKit.Client.Common</a></h6>
+  <h6><strong>Namespace</strong>: <span class="xref">ArmoniK</span>.<span class="xref">DevelopmentKit</span>.<span class="xref">Client</span>.<a class="xref" href="ArmoniK.DevelopmentKit.Client.Common.html">Common</a></h6>
   <h6><strong>Assembly</strong>: ArmoniK.DevelopmentKit.Client.Common.dll</h6>
   <h5 id="ArmoniK_DevelopmentKit_Client_Common_Properties_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public class Properties : object</code></pre>
+    <pre><code class="lang-csharp hljs">public class Properties</code></pre>
   </div>
   <h3 id="constructors">Constructors
 </h3>
@@ -101,7 +101,7 @@ The ssl mTLS certificate if needed to connect to the control plane</li>
     <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Properties.cs/#L103">View Source</a>
   </span>
   <a id="ArmoniK_DevelopmentKit_Client_Common_Properties__ctor_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Properties.#ctor*"></a>
-  <h4 id="ArmoniK_DevelopmentKit_Client_Common_Properties__ctor_IConfiguration_TaskOptions_System_String_System_Int32_System_String_System_String_System_String_System_String_System_Boolean_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Properties.#ctor(IConfiguration,TaskOptions,System.String,System.Int32,System.String,System.String,System.String,System.String,System.Boolean)">Properties(IConfiguration, TaskOptions, String, Int32, String, String, String, String, Boolean)</h4>
+  <h4 id="ArmoniK_DevelopmentKit_Client_Common_Properties__ctor_IConfiguration_TaskOptions_System_String_System_Int32_System_String_System_String_System_String_System_String_System_Boolean_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Properties.#ctor(IConfiguration,TaskOptions,System.String,System.Int32,System.String,System.String,System.String,System.String,System.Boolean)">Properties(IConfiguration, TaskOptions, string, int, string, string, string, string, bool)</h4>
   <div class="markdown level1 summary"><p>The constructor to instantiate Properties object</p>
 </div>
   <div class="markdown level1 conceptual"></div>
@@ -132,43 +132,43 @@ The ssl mTLS certificate if needed to connect to the control plane</li>
 </td>
       </tr>
       <tr>
-        <td><span class="xref">System.String</span></td>
+        <td><span class="xref">string</span></td>
         <td><span class="parametername">connectionAddress</span></td>
         <td><p>The control plane address to connect</p>
 </td>
       </tr>
       <tr>
-        <td><span class="xref">System.Int32</span></td>
+        <td><span class="xref">int</span></td>
         <td><span class="parametername">connectionPort</span></td>
         <td><p>The optional port to connect to the control plane</p>
 </td>
       </tr>
       <tr>
-        <td><span class="xref">System.String</span></td>
+        <td><span class="xref">string</span></td>
         <td><span class="parametername">protocol</span></td>
         <td><p>the protocol https or http</p>
 </td>
       </tr>
       <tr>
-        <td><span class="xref">System.String</span></td>
+        <td><span class="xref">string</span></td>
         <td><span class="parametername">clientCertFilePem</span></td>
         <td><p>The client certificate fil in a pem format</p>
 </td>
       </tr>
       <tr>
-        <td><span class="xref">System.String</span></td>
+        <td><span class="xref">string</span></td>
         <td><span class="parametername">clientKeyFilePem</span></td>
         <td><p>The client key file in a pem format</p>
 </td>
       </tr>
       <tr>
-        <td><span class="xref">System.String</span></td>
+        <td><span class="xref">string</span></td>
         <td><span class="parametername">caCertPem</span></td>
         <td><p>The Server certificate file to validate mTLS</p>
 </td>
       </tr>
       <tr>
-        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="xref">bool</span></td>
         <td><span class="parametername">sslValidation</span></td>
         <td><p>Disable the ssl strong validation of ssl certificate (default : enable =&gt; true)</p>
 </td>
@@ -183,7 +183,7 @@ The ssl mTLS certificate if needed to connect to the control plane</li>
     <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Properties.cs/#L69">View Source</a>
   </span>
   <a id="ArmoniK_DevelopmentKit_Client_Common_Properties__ctor_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Properties.#ctor*"></a>
-  <h4 id="ArmoniK_DevelopmentKit_Client_Common_Properties__ctor_TaskOptions_System_String_System_Int32_System_String_System_String_System_String_System_String_System_Boolean_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Properties.#ctor(TaskOptions,System.String,System.Int32,System.String,System.String,System.String,System.String,System.Boolean)">Properties(TaskOptions, String, Int32, String, String, String, String, Boolean)</h4>
+  <h4 id="ArmoniK_DevelopmentKit_Client_Common_Properties__ctor_TaskOptions_System_String_System_Int32_System_String_System_String_System_String_System_String_System_Boolean_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Properties.#ctor(TaskOptions,System.String,System.Int32,System.String,System.String,System.String,System.String,System.Boolean)">Properties(TaskOptions, string, int, string, string, string, string, bool)</h4>
   <div class="markdown level1 summary"><p>The constructor to instantiate Properties object</p>
 </div>
   <div class="markdown level1 conceptual"></div>
@@ -208,43 +208,43 @@ The ssl mTLS certificate if needed to connect to the control plane</li>
 </td>
       </tr>
       <tr>
-        <td><span class="xref">System.String</span></td>
+        <td><span class="xref">string</span></td>
         <td><span class="parametername">connectionAddress</span></td>
         <td><p>The control plane address to connect</p>
 </td>
       </tr>
       <tr>
-        <td><span class="xref">System.Int32</span></td>
+        <td><span class="xref">int</span></td>
         <td><span class="parametername">connectionPort</span></td>
         <td><p>The optional port to connect to the control plane</p>
 </td>
       </tr>
       <tr>
-        <td><span class="xref">System.String</span></td>
+        <td><span class="xref">string</span></td>
         <td><span class="parametername">protocol</span></td>
         <td><p>the protocol https or http</p>
 </td>
       </tr>
       <tr>
-        <td><span class="xref">System.String</span></td>
+        <td><span class="xref">string</span></td>
         <td><span class="parametername">clientCertPem</span></td>
         <td><p>The client certificate fil in a pem format</p>
 </td>
       </tr>
       <tr>
-        <td><span class="xref">System.String</span></td>
+        <td><span class="xref">string</span></td>
         <td><span class="parametername">clientKeyPem</span></td>
         <td><p>The client key file in a pem format</p>
 </td>
       </tr>
       <tr>
-        <td><span class="xref">System.String</span></td>
+        <td><span class="xref">string</span></td>
         <td><span class="parametername">caCertPem</span></td>
         <td><p>The Server certificate file to validate mTLS</p>
 </td>
       </tr>
       <tr>
-        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="xref">bool</span></td>
         <td><span class="parametername">sslValidation</span></td>
         <td><p>Disable the ssl strong validation of ssl certificate (default : enable =&gt; true)</p>
 </td>
@@ -311,7 +311,7 @@ The ssl mTLS certificate if needed to connect to the control plane</li>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.String</span></td>
+        <td><span class="xref">string</span></td>
         <td></td>
       </tr>
     </tbody>
@@ -342,7 +342,7 @@ The ssl mTLS certificate if needed to connect to the control plane</li>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.String</span></td>
+        <td><span class="xref">string</span></td>
         <td></td>
       </tr>
     </tbody>
@@ -373,7 +373,7 @@ The ssl mTLS certificate if needed to connect to the control plane</li>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.String</span></td>
+        <td><span class="xref">string</span></td>
         <td></td>
       </tr>
     </tbody>
@@ -435,7 +435,7 @@ The ssl mTLS certificate if needed to connect to the control plane</li>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="xref">bool</span></td>
         <td></td>
       </tr>
     </tbody>
@@ -466,7 +466,7 @@ The ssl mTLS certificate if needed to connect to the control plane</li>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.String</span></td>
+        <td><span class="xref">string</span></td>
         <td></td>
       </tr>
     </tbody>
@@ -497,7 +497,7 @@ The ssl mTLS certificate if needed to connect to the control plane</li>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Int32</span></td>
+        <td><span class="xref">int</span></td>
         <td></td>
       </tr>
     </tbody>
@@ -528,7 +528,7 @@ The ssl mTLS certificate if needed to connect to the control plane</li>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.String</span></td>
+        <td><span class="xref">string</span></td>
         <td></td>
       </tr>
     </tbody>
@@ -590,7 +590,7 @@ The ssl mTLS certificate if needed to connect to the control plane</li>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Int32</span></td>
+        <td><span class="xref">int</span></td>
         <td></td>
       </tr>
     </tbody>
@@ -621,7 +621,7 @@ The ssl mTLS certificate if needed to connect to the control plane</li>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Int32</span></td>
+        <td><span class="xref">int</span></td>
         <td></td>
       </tr>
     </tbody>
@@ -652,7 +652,7 @@ The ssl mTLS certificate if needed to connect to the control plane</li>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Int32</span></td>
+        <td><span class="xref">int</span></td>
         <td></td>
       </tr>
     </tbody>
@@ -683,7 +683,7 @@ The ssl mTLS certificate if needed to connect to the control plane</li>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.String</span></td>
+        <td><span class="xref">string</span></td>
         <td></td>
       </tr>
     </tbody>
@@ -714,7 +714,7 @@ The ssl mTLS certificate if needed to connect to the control plane</li>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.String</span></td>
+        <td><span class="xref">string</span></td>
         <td></td>
       </tr>
     </tbody>
@@ -776,7 +776,7 @@ The ssl mTLS certificate if needed to connect to the control plane</li>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">TimeSpan</span>&gt;</td>
+        <td><span class="xref">TimeSpan</span>?</td>
         <td></td>
       </tr>
     </tbody>

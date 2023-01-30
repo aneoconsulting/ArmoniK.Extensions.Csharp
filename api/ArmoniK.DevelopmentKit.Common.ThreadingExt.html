@@ -4,22 +4,22 @@
 
   <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Class ThreadingExt
+      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+      <title>Class ThreadingExt
  </title>
-    <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Class ThreadingExt
+      <meta name="viewport" content="width=device-width">
+      <meta name="title" content="Class ThreadingExt
  ">
-  
-    <link rel="shortcut icon" href="../favicon.ico">
-    <link rel="stylesheet" href="../styles/docfx.vendor.css">
-    <link rel="stylesheet" href="../styles/docfx.css">
-    <link rel="stylesheet" href="../styles/main.css">
-    <meta property="docfx:navrel" content="../toc.html">
-    <meta property="docfx:tocrel" content="toc.html">
-  
-  
-  
+    
+      <link rel="shortcut icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../styles/docfx.vendor.css">
+      <link rel="stylesheet" href="../styles/docfx.css">
+      <link rel="stylesheet" href="../styles/main.css">
+      <meta property="docfx:navrel" content="../toc.html">
+      <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
   </head>
   <body data-spy="scroll" data-target="#affix" data-offset="120">
     <div id="wrapper">
@@ -77,14 +77,14 @@
   <div class="markdown level0 conceptual"></div>
   <div class="inheritance">
     <h5>Inheritance</h5>
-    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level0"><span class="xref">object</span></div>
     <div class="level1"><span class="xref">ThreadingExt</span></div>
   </div>
-  <h6><strong>Namespace</strong>: <a class="xref" href="ArmoniK.DevelopmentKit.Common.html">ArmoniK.DevelopmentKit.Common</a></h6>
+  <h6><strong>Namespace</strong>: <span class="xref">ArmoniK</span>.<span class="xref">DevelopmentKit</span>.<a class="xref" href="ArmoniK.DevelopmentKit.Common.html">Common</a></h6>
   <h6><strong>Assembly</strong>: ArmoniK.DevelopmentKit.Common.dll</h6>
   <h5 id="ArmoniK_DevelopmentKit_Common_ThreadingExt_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static class ThreadingExt : object</code></pre>
+    <pre><code class="lang-csharp hljs">public static class ThreadingExt</code></pre>
   </div>
   <h3 id="methods">Methods
 </h3>
@@ -121,7 +121,7 @@ and release it after.</p>
         <td></td>
       </tr>
       <tr>
-        <td><span class="xref">Func</span>&lt;T&gt;</td>
+        <td><span class="xref">Func&lt;&gt;</span>&lt;T&gt;</td>
         <td><span class="parametername">func</span></td>
         <td></td>
       </tr>
@@ -219,7 +219,7 @@ and release it after.</p>
   <div class="markdown level1 conceptual"></div>
   <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static async Task&lt;IDisposable&gt; LockGuardAsync(this SemaphoreSlim sem)</code></pre>
+    <pre><code class="lang-csharp hljs">public static Task&lt;IDisposable&gt; LockGuardAsync(this SemaphoreSlim sem)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -248,7 +248,7 @@ and release it after.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">Task</span>&lt;<span class="xref">IDisposable</span>&gt;</td>
+        <td><span class="xref">Task&lt;&gt;</span>&lt;<span class="xref">IDisposable</span>&gt;</td>
         <td></td>
       </tr>
     </tbody>

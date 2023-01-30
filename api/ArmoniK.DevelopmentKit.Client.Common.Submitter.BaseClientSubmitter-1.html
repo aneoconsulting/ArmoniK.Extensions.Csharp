@@ -4,22 +4,22 @@
 
   <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Class BaseClientSubmitter&lt;T&gt;
+      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+      <title>Class BaseClientSubmitter&lt;T&gt;
  </title>
-    <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Class BaseClientSubmitter&lt;T&gt;
+      <meta name="viewport" content="width=device-width">
+      <meta name="title" content="Class BaseClientSubmitter&lt;T&gt;
  ">
-  
-    <link rel="shortcut icon" href="../favicon.ico">
-    <link rel="stylesheet" href="../styles/docfx.vendor.css">
-    <link rel="stylesheet" href="../styles/docfx.css">
-    <link rel="stylesheet" href="../styles/main.css">
-    <meta property="docfx:navrel" content="../toc.html">
-    <meta property="docfx:tocrel" content="toc.html">
-  
-  
-  
+    
+      <link rel="shortcut icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../styles/docfx.vendor.css">
+      <link rel="stylesheet" href="../styles/docfx.css">
+      <link rel="stylesheet" href="../styles/main.css">
+      <meta property="docfx:navrel" content="../toc.html">
+      <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
   </head>
   <body data-spy="scroll" data-target="#affix" data-offset="120">
     <div id="wrapper">
@@ -78,17 +78,17 @@ Need to pass the child object Class Type</p>
   <div class="markdown level0 conceptual"></div>
   <div class="inheritance">
     <h5>Inheritance</h5>
-    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level0"><span class="xref">object</span></div>
     <div class="level1"><span class="xref">BaseClientSubmitter&lt;T&gt;</span></div>
       <div class="level2"><a class="xref" href="ArmoniK.DevelopmentKit.Client.GridServer.SessionService.html">SessionService</a></div>
       <div class="level2"><a class="xref" href="ArmoniK.DevelopmentKit.Client.Symphony.SessionService.html">SessionService</a></div>
       <div class="level2"><a class="xref" href="ArmoniK.DevelopmentKit.Client.Unified.Services.SessionService.html">SessionService</a></div>
   </div>
-  <h6><strong>Namespace</strong>: <a class="xref" href="ArmoniK.DevelopmentKit.Client.Common.Submitter.html">ArmoniK.DevelopmentKit.Client.Common.Submitter</a></h6>
+  <h6><strong>Namespace</strong>: <span class="xref">ArmoniK</span>.<span class="xref">DevelopmentKit</span>.<span class="xref">Client</span>.<a class="xref" href="ArmoniK.DevelopmentKit.Client.Common.html">Common</a>.<a class="xref" href="ArmoniK.DevelopmentKit.Client.Common.Submitter.html">Submitter</a></h6>
   <h6><strong>Assembly</strong>: ArmoniK.DevelopmentKit.Client.Common.dll</h6>
   <h5 id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public class BaseClientSubmitter&lt;T&gt; : object</code></pre>
+    <pre><code class="lang-csharp hljs">public class BaseClientSubmitter&lt;T&gt;</code></pre>
   </div>
   <h5 class="typeParameters">Type Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -115,7 +115,7 @@ Need to pass the child object Class Type</p>
     <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/BaseClientSubmitter.cs/#L67">View Source</a>
   </span>
   <a id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1__ctor_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.#ctor*"></a>
-  <h4 id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1__ctor_ArmoniK_DevelopmentKit_Client_Common_Submitter_ChannelPool_ILoggerFactory_System_Int32_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.#ctor(ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool,ILoggerFactory,System.Int32)">BaseClientSubmitter(ChannelPool, ILoggerFactory, Int32)</h4>
+  <h4 id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1__ctor_ArmoniK_DevelopmentKit_Client_Common_Submitter_ChannelPool_ILoggerFactory_System_Int32_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.#ctor(ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool,ILoggerFactory,System.Int32)">BaseClientSubmitter(ChannelPool, ILoggerFactory, int)</h4>
   <div class="markdown level1 summary"><p>Base Object for all Client submitter</p>
 </div>
   <div class="markdown level1 conceptual"></div>
@@ -146,7 +146,7 @@ Need to pass the child object Class Type</p>
 </td>
       </tr>
       <tr>
-        <td><span class="xref">System.Int32</span></td>
+        <td><span class="xref">int</span></td>
         <td><span class="parametername">chunkSubmitSize</span></td>
         <td><p>The size of chunk to split the list of tasks</p>
 </td>
@@ -213,7 +213,7 @@ Need to pass the child object Class Type</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">ILogger</span>&lt;T&gt;</td>
+        <td><span class="xref">ILogger&lt;&gt;</span>&lt;T&gt;</td>
         <td></td>
       </tr>
     </tbody>
@@ -353,7 +353,7 @@ SubmitSubTaskWithDependencies or WaitForCompletion, WaitForSubTaskCompletion or 
     <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/BaseClientSubmitter.cs/#L509">View Source</a>
   </span>
   <a id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_GetResult_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.GetResult*"></a>
-  <h4 id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_GetResult_System_String_CancellationToken_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.GetResult(System.String,CancellationToken)">GetResult(String, CancellationToken)</h4>
+  <h4 id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_GetResult_System_String_CancellationToken_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.GetResult(System.String,CancellationToken)">GetResult(string, CancellationToken)</h4>
   <div class="markdown level1 summary"><p>Try to find the result of One task. If there no result, the function return byte[0]</p>
 </div>
   <div class="markdown level1 conceptual"></div>
@@ -372,7 +372,7 @@ SubmitSubTaskWithDependencies or WaitForCompletion, WaitForSubTaskCompletion or 
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.String</span></td>
+        <td><span class="xref">string</span></td>
         <td><span class="parametername">taskId</span></td>
         <td><p>The Id of the task</p>
 </td>
@@ -395,7 +395,7 @@ SubmitSubTaskWithDependencies or WaitForCompletion, WaitForSubTaskCompletion or 
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Byte</span>[]</td>
+        <td><span class="xref">byte</span>[]</td>
         <td><p>Returns the result or byte[0] if there no result</p>
 </td>
       </tr>
@@ -409,10 +409,8 @@ SubmitSubTaskWithDependencies or WaitForCompletion, WaitForSubTaskCompletion or 
     <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/BaseClientSubmitter.cs/#L493">View Source</a>
   </span>
   <a id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_GetResultIds_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.GetResultIds*"></a>
-  <h4 id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_GetResultIds_IEnumerable_System_String__" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.GetResultIds(IEnumerable{System.String})">GetResultIds(IEnumerable&lt;String&gt;)</h4>
-  <div class="markdown level1 summary"><p>Base Object for all Client submitter
-Need to pass the child object Class Type</p>
-</div>
+  <h4 id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_GetResultIds_IEnumerable_System_String__" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.GetResultIds(IEnumerable{System.String})">GetResultIds(IEnumerable&lt;string&gt;)</h4>
+  <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
@@ -429,7 +427,7 @@ Need to pass the child object Class Type</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">IEnumerable</span>&lt;<span class="xref">System.String</span>&gt;</td>
+        <td><span class="xref">IEnumerable&lt;&gt;</span>&lt;<span class="xref">string</span>&gt;</td>
         <td><span class="parametername">taskIds</span></td>
         <td></td>
       </tr>
@@ -445,7 +443,7 @@ Need to pass the child object Class Type</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">ICollection</span>&lt;<span class="xref">GetResultIdsResponse.Types.MapTaskResult</span>&gt;</td>
+        <td><span class="xref">ICollection&lt;&gt;</span>&lt;<span class="xref">MapTaskResult</span>&gt;</td>
         <td></td>
       </tr>
     </tbody>
@@ -458,7 +456,7 @@ Need to pass the child object Class Type</p>
     <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/BaseClientSubmitter.cs/#L582">View Source</a>
   </span>
   <a id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_GetResults_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.GetResults*"></a>
-  <h4 id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_GetResults_IEnumerable_System_String__CancellationToken_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.GetResults(IEnumerable{System.String},CancellationToken)">GetResults(IEnumerable&lt;String&gt;, CancellationToken)</h4>
+  <h4 id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_GetResults_IEnumerable_System_String__CancellationToken_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.GetResults(IEnumerable{System.String},CancellationToken)">GetResults(IEnumerable&lt;string&gt;, CancellationToken)</h4>
   <div class="markdown level1 summary"><p>Retrieve results from control plane</p>
 </div>
   <div class="markdown level1 conceptual"></div>
@@ -477,7 +475,7 @@ Need to pass the child object Class Type</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">IEnumerable</span>&lt;<span class="xref">System.String</span>&gt;</td>
+        <td><span class="xref">IEnumerable&lt;&gt;</span>&lt;<span class="xref">string</span>&gt;</td>
         <td><span class="parametername">taskIds</span></td>
         <td><p>Collection of task ids</p>
 </td>
@@ -500,7 +498,7 @@ Need to pass the child object Class Type</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">IEnumerable</span>&lt;<span class="xref">Tuple</span>&lt;<span class="xref">System.String</span>, <span class="xref">System.Byte</span>[]&gt;&gt;</td>
+        <td><span class="xref">IEnumerable&lt;&gt;</span>&lt;<span class="xref">Tuple&lt;, &gt;</span>&lt;<span class="xref">string</span>, <span class="xref">byte</span>[]&gt;&gt;</td>
         <td><p>return a dictionary with key taskId and payload</p>
 </td>
       </tr>
@@ -514,7 +512,7 @@ Need to pass the child object Class Type</p>
     <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/BaseClientSubmitter.cs/#L417">View Source</a>
   </span>
   <a id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_GetResultStatus_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.GetResultStatus*"></a>
-  <h4 id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_GetResultStatus_IEnumerable_System_String__CancellationToken_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.GetResultStatus(IEnumerable{System.String},CancellationToken)">GetResultStatus(IEnumerable&lt;String&gt;, CancellationToken)</h4>
+  <h4 id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_GetResultStatus_IEnumerable_System_String__CancellationToken_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.GetResultStatus(IEnumerable{System.String},CancellationToken)">GetResultStatus(IEnumerable&lt;string&gt;, CancellationToken)</h4>
   <div class="markdown level1 summary"><p>Get the result status of a list of results</p>
 </div>
   <div class="markdown level1 conceptual"></div>
@@ -533,7 +531,7 @@ Need to pass the child object Class Type</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">IEnumerable</span>&lt;<span class="xref">System.String</span>&gt;</td>
+        <td><span class="xref">IEnumerable&lt;&gt;</span>&lt;<span class="xref">string</span>&gt;</td>
         <td><span class="parametername">taskIds</span></td>
         <td><p>Collection of task ids from which to retrieve results</p>
 </td>
@@ -569,7 +567,7 @@ Need to pass the child object Class Type</p>
     <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/BaseClientSubmitter.cs/#L151">View Source</a>
   </span>
   <a id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_GetTaskOutputInfo_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.GetTaskOutputInfo*"></a>
-  <h4 id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_GetTaskOutputInfo_System_String_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.GetTaskOutputInfo(System.String)">GetTaskOutputInfo(String)</h4>
+  <h4 id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_GetTaskOutputInfo_System_String_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.GetTaskOutputInfo(System.String)">GetTaskOutputInfo(string)</h4>
   <div class="markdown level1 summary"><p>Return the taskOutput when error occurred</p>
 </div>
   <div class="markdown level1 conceptual"></div>
@@ -588,7 +586,7 @@ Need to pass the child object Class Type</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.String</span></td>
+        <td><span class="xref">string</span></td>
         <td><span class="parametername">taskId</span></td>
         <td></td>
       </tr>
@@ -617,7 +615,7 @@ Need to pass the child object Class Type</p>
     <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/BaseClientSubmitter.cs/#L135">View Source</a>
   </span>
   <a id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_GetTaskStatues_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.GetTaskStatues*"></a>
-  <h4 id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_GetTaskStatues_System_String___" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.GetTaskStatues(System.String[])">GetTaskStatues(String[])</h4>
+  <h4 id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_GetTaskStatues_System_String___" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.GetTaskStatues(System.String[])">GetTaskStatues(params string[])</h4>
   <div class="markdown level1 summary"><p>Returns the list status of the tasks</p>
 </div>
   <div class="markdown level1 conceptual"></div>
@@ -636,7 +634,7 @@ Need to pass the child object Class Type</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.String</span>[]</td>
+        <td><span class="xref">string</span>[]</td>
         <td><span class="parametername">taskIds</span></td>
         <td><p>The list of taskIds</p>
 </td>
@@ -653,7 +651,7 @@ Need to pass the child object Class Type</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">IEnumerable</span>&lt;<span class="xref">Tuple</span>&lt;<span class="xref">System.String</span>, <span class="xref">ArmoniK.Api.gRPC.V1.TaskStatus</span>&gt;&gt;</td>
+        <td><span class="xref">IEnumerable&lt;&gt;</span>&lt;<span class="xref">Tuple&lt;, &gt;</span>&lt;<span class="xref">string</span>, <span class="xref">ArmoniK.Api.gRPC.V1.TaskStatus</span>&gt;&gt;</td>
         <td></td>
       </tr>
     </tbody>
@@ -666,7 +664,7 @@ Need to pass the child object Class Type</p>
     <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/BaseClientSubmitter.cs/#L123">View Source</a>
   </span>
   <a id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_GetTaskStatus_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.GetTaskStatus*"></a>
-  <h4 id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_GetTaskStatus_System_String_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.GetTaskStatus(System.String)">GetTaskStatus(String)</h4>
+  <h4 id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_GetTaskStatus_System_String_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.GetTaskStatus(System.String)">GetTaskStatus(string)</h4>
   <div class="markdown level1 summary"><p>Returns the status of the task</p>
 </div>
   <div class="markdown level1 conceptual"></div>
@@ -685,7 +683,7 @@ Need to pass the child object Class Type</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.String</span></td>
+        <td><span class="xref">string</span></td>
         <td><span class="parametername">taskId</span></td>
         <td><p>The taskId of the task</p>
 </td>
@@ -715,7 +713,7 @@ Need to pass the child object Class Type</p>
     <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/BaseClientSubmitter.cs/#L185">View Source</a>
   </span>
   <a id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_SubmitTasksWithDependencies_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.SubmitTasksWithDependencies*"></a>
-  <h4 id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_SubmitTasksWithDependencies_IEnumerable_Tuple_System_Byte___IList_System_String____System_Int32_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.SubmitTasksWithDependencies(IEnumerable{Tuple{System.Byte[],IList{System.String}}},System.Int32)">SubmitTasksWithDependencies(IEnumerable&lt;Tuple&lt;Byte[], IList&lt;String&gt;&gt;&gt;, Int32)</h4>
+  <h4 id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_SubmitTasksWithDependencies_IEnumerable_Tuple_System_Byte___IList_System_String____System_Int32_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.SubmitTasksWithDependencies(IEnumerable{Tuple{System.Byte[],IList{System.String}}},System.Int32)">SubmitTasksWithDependencies(IEnumerable&lt;Tuple&lt;byte[], IList&lt;string&gt;&gt;&gt;, int)</h4>
   <div class="markdown level1 summary"><p>The method to submit several tasks with dependencies tasks. This task will wait for
 to start until all dependencies are completed successfully</p>
 </div>
@@ -735,14 +733,14 @@ to start until all dependencies are completed successfully</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">IEnumerable</span>&lt;<span class="xref">Tuple</span>&lt;<span class="xref">System.Byte</span>[], <span class="xref">IList</span>&lt;<span class="xref">System.String</span>&gt;&gt;&gt;</td>
+        <td><span class="xref">IEnumerable&lt;&gt;</span>&lt;<span class="xref">Tuple&lt;, &gt;</span>&lt;<span class="xref">byte</span>[], <span class="xref">IList&lt;&gt;</span>&lt;<span class="xref">string</span>&gt;&gt;&gt;</td>
         <td><span class="parametername">payloadsWithDependencies</span></td>
         <td><p>A list of Tuple(Payload, parent dependencies) in dependence of those created
 tasks</p>
 </td>
       </tr>
       <tr>
-        <td><span class="xref">System.Int32</span></td>
+        <td><span class="xref">int</span></td>
         <td><span class="parametername">maxRetries</span></td>
         <td><p>The number of retry before fail to submit task</p>
 </td>
@@ -759,7 +757,7 @@ tasks</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">IEnumerable</span>&lt;<span class="xref">System.String</span>&gt;</td>
+        <td><span class="xref">IEnumerable&lt;&gt;</span>&lt;<span class="xref">string</span>&gt;</td>
         <td><p>return a list of taskIds of the created tasks</p>
 </td>
       </tr>
@@ -773,7 +771,7 @@ tasks</p>
     <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/BaseClientSubmitter.cs/#L168">View Source</a>
   </span>
   <a id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_SubmitTasksWithDependencies_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.SubmitTasksWithDependencies*"></a>
-  <h4 id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_SubmitTasksWithDependencies_IEnumerable_Tuple_System_String_System_Byte___IList_System_String____System_Int32_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.SubmitTasksWithDependencies(IEnumerable{Tuple{System.String,System.Byte[],IList{System.String}}},System.Int32)">SubmitTasksWithDependencies(IEnumerable&lt;Tuple&lt;String, Byte[], IList&lt;String&gt;&gt;&gt;, Int32)</h4>
+  <h4 id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_SubmitTasksWithDependencies_IEnumerable_Tuple_System_String_System_Byte___IList_System_String____System_Int32_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.SubmitTasksWithDependencies(IEnumerable{Tuple{System.String,System.Byte[],IList{System.String}}},System.Int32)">SubmitTasksWithDependencies(IEnumerable&lt;Tuple&lt;string, byte[], IList&lt;string&gt;&gt;&gt;, int)</h4>
   <div class="markdown level1 summary"><p>The method to submit several tasks with dependencies tasks. This task will wait for
 to start until all dependencies are completed successfully</p>
 </div>
@@ -793,14 +791,14 @@ to start until all dependencies are completed successfully</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">IEnumerable</span>&lt;<span class="xref">Tuple</span>&lt;<span class="xref">System.String</span>, <span class="xref">System.Byte</span>[], <span class="xref">IList</span>&lt;<span class="xref">System.String</span>&gt;&gt;&gt;</td>
+        <td><span class="xref">IEnumerable&lt;&gt;</span>&lt;<span class="xref">Tuple</span>&lt;<span class="xref">string</span>, <span class="xref">byte</span>[], <span class="xref">IList&lt;&gt;</span>&lt;<span class="xref">string</span>&gt;&gt;&gt;</td>
         <td><span class="parametername">payloadsWithDependencies</span></td>
         <td><p>A list of Tuple(resultId, payload, parent dependencies) in dependence of those
 created tasks</p>
 </td>
       </tr>
       <tr>
-        <td><span class="xref">System.Int32</span></td>
+        <td><span class="xref">int</span></td>
         <td><span class="parametername">maxRetries</span></td>
         <td><p>The number of retry before fail to submit task</p>
 </td>
@@ -817,7 +815,7 @@ created tasks</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">IEnumerable</span>&lt;<span class="xref">System.String</span>&gt;</td>
+        <td><span class="xref">IEnumerable&lt;&gt;</span>&lt;<span class="xref">string</span>&gt;</td>
         <td><p>return a list of taskIds of the created tasks</p>
 </td>
       </tr>
@@ -831,7 +829,7 @@ created tasks</p>
     <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/BaseClientSubmitter.cs/#L679">View Source</a>
   </span>
   <a id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_TryGetResult_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.TryGetResult*"></a>
-  <h4 id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_TryGetResult_System_String_System_Boolean_CancellationToken_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.TryGetResult(System.String,System.Boolean,CancellationToken)">TryGetResult(String, Boolean, CancellationToken)</h4>
+  <h4 id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_TryGetResult_System_String_System_Boolean_CancellationToken_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.TryGetResult(System.String,System.Boolean,CancellationToken)">TryGetResult(string, bool, CancellationToken)</h4>
   <div class="markdown level1 summary"><p>Try to find the result of One task. If there no result, the function return byte[0]</p>
 </div>
   <div class="markdown level1 conceptual"></div>
@@ -850,13 +848,13 @@ created tasks</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.String</span></td>
+        <td><span class="xref">string</span></td>
         <td><span class="parametername">taskId</span></td>
         <td><p>The Id of the task</p>
 </td>
       </tr>
       <tr>
-        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="xref">bool</span></td>
         <td><span class="parametername">checkOutput</span></td>
         <td></td>
       </tr>
@@ -878,7 +876,7 @@ created tasks</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Byte</span>[]</td>
+        <td><span class="xref">byte</span>[]</td>
         <td><p>Returns the result or byte[0] if there no result or null if task is not yet ready</p>
 </td>
       </tr>
@@ -898,7 +896,7 @@ created tasks</p>
   <div class="markdown level1 conceptual"></div>
   <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public async Task&lt;byte[]&gt; TryGetResultAsync(ResultRequest resultRequest, CancellationToken cancellationToken = null)</code></pre>
+    <pre><code class="lang-csharp hljs">public Task&lt;byte[]&gt; TryGetResultAsync(ResultRequest resultRequest, CancellationToken cancellationToken = null)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -934,7 +932,7 @@ created tasks</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">Task</span>&lt;<span class="xref">System.Byte</span>[]&gt;</td>
+        <td><span class="xref">Task&lt;&gt;</span>&lt;<span class="xref">byte</span>[]&gt;</td>
         <td></td>
       </tr>
     </tbody>
@@ -947,7 +945,7 @@ created tasks</p>
     <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/BaseClientSubmitter.cs/#L762">View Source</a>
   </span>
   <a id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_TryGetResults_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.TryGetResults*"></a>
-  <h4 id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_TryGetResults_IList_System_String__" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.TryGetResults(IList{System.String})">TryGetResults(IList&lt;String&gt;)</h4>
+  <h4 id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_TryGetResults_IList_System_String__" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.TryGetResults(IList{System.String})">TryGetResults(IList&lt;string&gt;)</h4>
   <div class="markdown level1 summary"><p>Try to get result of a list of taskIds</p>
 </div>
   <div class="markdown level1 conceptual"></div>
@@ -966,7 +964,7 @@ created tasks</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">IList</span>&lt;<span class="xref">System.String</span>&gt;</td>
+        <td><span class="xref">IList&lt;&gt;</span>&lt;<span class="xref">string</span>&gt;</td>
         <td><span class="parametername">resultIds</span></td>
         <td><p>A list of result ids</p>
 </td>
@@ -983,7 +981,7 @@ created tasks</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">IList</span>&lt;<span class="xref">Tuple</span>&lt;<span class="xref">System.String</span>, <span class="xref">System.Byte</span>[]&gt;&gt;</td>
+        <td><span class="xref">IList&lt;&gt;</span>&lt;<span class="xref">Tuple&lt;, &gt;</span>&lt;<span class="xref">string</span>, <span class="xref">byte</span>[]&gt;&gt;</td>
         <td><p>Returns an Enumerable pair of</p>
 </td>
       </tr>
@@ -997,7 +995,7 @@ created tasks</p>
     <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/BaseClientSubmitter.cs/#L357">View Source</a>
   </span>
   <a id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_WaitForTaskCompletion_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.WaitForTaskCompletion*"></a>
-  <h4 id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_WaitForTaskCompletion_System_String_System_Int32_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.WaitForTaskCompletion(System.String,System.Int32)">WaitForTaskCompletion(String, Int32)</h4>
+  <h4 id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_WaitForTaskCompletion_System_String_System_Int32_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.WaitForTaskCompletion(System.String,System.Int32)">WaitForTaskCompletion(string, int)</h4>
   <div class="markdown level1 summary"><p>User method to wait for only the parent task from the client</p>
 </div>
   <div class="markdown level1 conceptual"></div>
@@ -1016,13 +1014,13 @@ created tasks</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.String</span></td>
+        <td><span class="xref">string</span></td>
         <td><span class="parametername">taskId</span></td>
         <td><p>The task taskId of the task to wait for</p>
 </td>
       </tr>
       <tr>
-        <td><span class="xref">System.Int32</span></td>
+        <td><span class="xref">int</span></td>
         <td><span class="parametername">retry</span></td>
         <td><p>Option variable to set the number of retry (Default: 5)</p>
 </td>
@@ -1037,7 +1035,7 @@ created tasks</p>
     <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/BaseClientSubmitter.cs/#L374">View Source</a>
   </span>
   <a id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_WaitForTasksCompletion_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.WaitForTasksCompletion*"></a>
-  <h4 id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_WaitForTasksCompletion_IEnumerable_System_String__" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.WaitForTasksCompletion(IEnumerable{System.String})">WaitForTasksCompletion(IEnumerable&lt;String&gt;)</h4>
+  <h4 id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_WaitForTasksCompletion_IEnumerable_System_String__" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.WaitForTasksCompletion(IEnumerable{System.String})">WaitForTasksCompletion(IEnumerable&lt;string&gt;)</h4>
   <div class="markdown level1 summary"><p>User method to wait for only the parent task from the client</p>
 </div>
   <div class="markdown level1 conceptual"></div>
@@ -1056,7 +1054,7 @@ created tasks</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">IEnumerable</span>&lt;<span class="xref">System.String</span>&gt;</td>
+        <td><span class="xref">IEnumerable&lt;&gt;</span>&lt;<span class="xref">string</span>&gt;</td>
         <td><span class="parametername">taskIds</span></td>
         <td><p>List of taskIds</p>
 </td>

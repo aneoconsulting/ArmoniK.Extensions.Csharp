@@ -4,22 +4,22 @@
 
   <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Interface ISubmitterService
+      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+      <title>Interface ISubmitterService
  </title>
-    <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Interface ISubmitterService
+      <meta name="viewport" content="width=device-width">
+      <meta name="title" content="Interface ISubmitterService
  ">
-  
-    <link rel="shortcut icon" href="../favicon.ico">
-    <link rel="stylesheet" href="../styles/docfx.vendor.css">
-    <link rel="stylesheet" href="../styles/docfx.css">
-    <link rel="stylesheet" href="../styles/main.css">
-    <meta property="docfx:navrel" content="../toc.html">
-    <meta property="docfx:tocrel" content="toc.html">
-  
-  
-  
+    
+      <link rel="shortcut icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../styles/docfx.vendor.css">
+      <link rel="stylesheet" href="../styles/docfx.css">
+      <link rel="stylesheet" href="../styles/main.css">
+      <meta property="docfx:navrel" content="../toc.html">
+      <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
   </head>
   <body data-spy="scroll" data-target="#affix" data-offset="120">
     <div id="wrapper">
@@ -75,7 +75,7 @@
   <div class="markdown level0 summary"><p>Common Interface for Submitter services.</p>
 </div>
   <div class="markdown level0 conceptual"></div>
-  <h6><strong>Namespace</strong>: <a class="xref" href="ArmoniK.DevelopmentKit.Client.Common.Submitter.html">ArmoniK.DevelopmentKit.Client.Common.Submitter</a></h6>
+  <h6><strong>Namespace</strong>: <span class="xref">ArmoniK</span>.<span class="xref">DevelopmentKit</span>.<span class="xref">Client</span>.<a class="xref" href="ArmoniK.DevelopmentKit.Client.Common.html">Common</a>.<a class="xref" href="ArmoniK.DevelopmentKit.Client.Common.Submitter.html">Submitter</a></h6>
   <h6><strong>Assembly</strong>: ArmoniK.DevelopmentKit.Client.Common.dll</h6>
   <h5 id="ArmoniK_DevelopmentKit_Client_Common_Submitter_ISubmitterService_syntax">Syntax</h5>
   <div class="codewrapper">
@@ -109,7 +109,7 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.String</span></td>
+        <td><span class="xref">string</span></td>
         <td></td>
       </tr>
     </tbody>
@@ -124,7 +124,7 @@
     <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/ISubmitterService.cs/#L59">View Source</a>
   </span>
   <a id="ArmoniK_DevelopmentKit_Client_Common_Submitter_ISubmitterService_Submit_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.ISubmitterService.Submit*"></a>
-  <h4 id="ArmoniK_DevelopmentKit_Client_Common_Submitter_ISubmitterService_Submit_System_String_IEnumerable_System_Object____ArmoniK_DevelopmentKit_Client_Common_IServiceInvocationHandler_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.ISubmitterService.Submit(System.String,IEnumerable{System.Object[]},ArmoniK.DevelopmentKit.Client.Common.IServiceInvocationHandler)">Submit(String, IEnumerable&lt;Object[]&gt;, IServiceInvocationHandler)</h4>
+  <h4 id="ArmoniK_DevelopmentKit_Client_Common_Submitter_ISubmitterService_Submit_System_String_IEnumerable_System_Object____ArmoniK_DevelopmentKit_Client_Common_IServiceInvocationHandler_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.ISubmitterService.Submit(System.String,IEnumerable{System.Object[]},ArmoniK.DevelopmentKit.Client.Common.IServiceInvocationHandler)">Submit(string, IEnumerable&lt;object[]&gt;, IServiceInvocationHandler)</h4>
   <div class="markdown level1 summary"><p>The method submits a list of task with a list of arguments for each task which will be serialized into a byte[] for
 each call
 MethodName(byte[] argument)</p>
@@ -145,13 +145,13 @@ MethodName(byte[] argument)</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.String</span></td>
+        <td><span class="xref">string</span></td>
         <td><span class="parametername">methodName</span></td>
         <td><p>The name of the method inside the service</p>
 </td>
       </tr>
       <tr>
-        <td><span class="xref">IEnumerable</span>&lt;<span class="xref">System.Object</span>[]&gt;</td>
+        <td><span class="xref">IEnumerable&lt;&gt;</span>&lt;<span class="xref">object</span>[]&gt;</td>
         <td><span class="parametername">arguments</span></td>
         <td><p>A list of parameters that can be passed in parameters of the each call of function</p>
 </td>
@@ -174,7 +174,7 @@ MethodName(byte[] argument)</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">IEnumerable</span>&lt;<span class="xref">System.String</span>&gt;</td>
+        <td><span class="xref">IEnumerable&lt;&gt;</span>&lt;<span class="xref">string</span>&gt;</td>
         <td><p>Return the list of created taskIds</p>
 </td>
       </tr>
@@ -188,7 +188,7 @@ MethodName(byte[] argument)</p>
     <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/ISubmitterService.cs/#L46">View Source</a>
   </span>
   <a id="ArmoniK_DevelopmentKit_Client_Common_Submitter_ISubmitterService_Submit_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.ISubmitterService.Submit*"></a>
-  <h4 id="ArmoniK_DevelopmentKit_Client_Common_Submitter_ISubmitterService_Submit_System_String_System_Object___ArmoniK_DevelopmentKit_Client_Common_IServiceInvocationHandler_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.ISubmitterService.Submit(System.String,System.Object[],ArmoniK.DevelopmentKit.Client.Common.IServiceInvocationHandler)">Submit(String, Object[], IServiceInvocationHandler)</h4>
+  <h4 id="ArmoniK_DevelopmentKit_Client_Common_Submitter_ISubmitterService_Submit_System_String_System_Object___ArmoniK_DevelopmentKit_Client_Common_IServiceInvocationHandler_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.ISubmitterService.Submit(System.String,System.Object[],ArmoniK.DevelopmentKit.Client.Common.IServiceInvocationHandler)">Submit(string, object[], IServiceInvocationHandler)</h4>
   <div class="markdown level1 summary"><p>The method submit will execute task asynchronously on the server</p>
 </div>
   <div class="markdown level1 conceptual"></div>
@@ -207,13 +207,13 @@ MethodName(byte[] argument)</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.String</span></td>
+        <td><span class="xref">string</span></td>
         <td><span class="parametername">methodName</span></td>
         <td><p>The name of the method inside the service</p>
 </td>
       </tr>
       <tr>
-        <td><span class="xref">System.Object</span>[]</td>
+        <td><span class="xref">object</span>[]</td>
         <td><span class="parametername">arguments</span></td>
         <td><p>A list of objects that can be passed in parameters of the function</p>
 </td>
@@ -236,7 +236,7 @@ MethodName(byte[] argument)</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.String</span></td>
+        <td><span class="xref">string</span></td>
         <td><p>Return the taskId string</p>
 </td>
       </tr>

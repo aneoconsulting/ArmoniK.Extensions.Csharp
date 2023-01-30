@@ -4,22 +4,22 @@
 
   <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Class LargeSubmitAsyncClient
+      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+      <title>Class LargeSubmitAsyncClient
  </title>
-    <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Class LargeSubmitAsyncClient
+      <meta name="viewport" content="width=device-width">
+      <meta name="title" content="Class LargeSubmitAsyncClient
  ">
-  
-    <link rel="shortcut icon" href="../favicon.ico">
-    <link rel="stylesheet" href="../styles/docfx.vendor.css">
-    <link rel="stylesheet" href="../styles/docfx.css">
-    <link rel="stylesheet" href="../styles/main.css">
-    <meta property="docfx:navrel" content="../toc.html">
-    <meta property="docfx:tocrel" content="toc.html">
-  
-  
-  
+    
+      <link rel="shortcut icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../styles/docfx.vendor.css">
+      <link rel="stylesheet" href="../styles/docfx.css">
+      <link rel="stylesheet" href="../styles/main.css">
+      <meta property="docfx:navrel" content="../toc.html">
+      <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
   </head>
   <body data-spy="scroll" data-target="#affix" data-offset="120">
     <div id="wrapper">
@@ -77,7 +77,7 @@
   <div class="markdown level0 conceptual"></div>
   <div class="inheritance">
     <h5>Inheritance</h5>
-    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level0"><span class="xref">object</span></div>
     <div class="level1"><a class="xref" href="ArmoniK.EndToEndTests.Common.ClientBaseTest-1.html">ClientBaseTest</a>&lt;<a class="xref" href="ArmoniK.EndToEndTests.Client.Tests.LargeSubmitAsync.LargeSubmitAsyncClient.html">LargeSubmitAsyncClient</a>&gt;</div>
     <div class="level2"><span class="xref">LargeSubmitAsyncClient</span></div>
   </div>
@@ -100,11 +100,11 @@
       <a class="xref" href="ArmoniK.EndToEndTests.Common.ClientBaseTest-1.html#ArmoniK_EndToEndTests_Common_ClientBaseTest_1_InitializeTaskOptions">ClientBaseTest&lt;LargeSubmitAsyncClient&gt;.InitializeTaskOptions()</a>
     </div>
   </div>
-  <h6><strong>Namespace</strong>: <a class="xref" href="ArmoniK.EndToEndTests.Client.Tests.LargeSubmitAsync.html">ArmoniK.EndToEndTests.Client.Tests.LargeSubmitAsync</a></h6>
+  <h6><strong>Namespace</strong>: <span class="xref">ArmoniK</span>.<span class="xref">EndToEndTests</span>.<a class="xref" href="ArmoniK.EndToEndTests.Client.html">Client</a>.<a class="xref" href="ArmoniK.EndToEndTests.Client.Tests.html">Tests</a>.<a class="xref" href="ArmoniK.EndToEndTests.Client.Tests.LargeSubmitAsync.html">LargeSubmitAsync</a></h6>
   <h6><strong>Assembly</strong>: ArmoniK.EndToEndTests.Client.dll</h6>
   <h5 id="ArmoniK_EndToEndTests_Client_Tests_LargeSubmitAsync_LargeSubmitAsyncClient_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public class LargeSubmitAsyncClient : ClientBaseTest&lt;LargeSubmitAsyncClient&gt;</code></pre>
+    <pre><code class="lang-csharp hljs">public class LargeSubmitAsyncClient : ClientBaseTest&lt;LargeSubmitAsyncClient&gt;, IServiceInvocationHandler</code></pre>
   </div>
   <h3 id="constructors">Constructors
 </h3>
@@ -174,7 +174,7 @@
     <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Tests/ArmoniK.EndToEndTests/ArmoniK.EndToEndTests.Client/Tests/LargeSubmitAsync/LargeSubmitAsyncClient.cs/#L81">View Source</a>
   </span>
   <a id="ArmoniK_EndToEndTests_Client_Tests_LargeSubmitAsync_LargeSubmitAsyncClient_HandleError_" data-uid="ArmoniK.EndToEndTests.Client.Tests.LargeSubmitAsync.LargeSubmitAsyncClient.HandleError*"></a>
-  <h4 id="ArmoniK_EndToEndTests_Client_Tests_LargeSubmitAsync_LargeSubmitAsyncClient_HandleError_ServiceInvocationException_System_String_" data-uid="ArmoniK.EndToEndTests.Client.Tests.LargeSubmitAsync.LargeSubmitAsyncClient.HandleError(ServiceInvocationException,System.String)">HandleError(ServiceInvocationException, String)</h4>
+  <h4 id="ArmoniK_EndToEndTests_Client_Tests_LargeSubmitAsync_LargeSubmitAsyncClient_HandleError_ServiceInvocationException_System_String_" data-uid="ArmoniK.EndToEndTests.Client.Tests.LargeSubmitAsync.LargeSubmitAsyncClient.HandleError(ServiceInvocationException,System.String)">HandleError(ServiceInvocationException, string)</h4>
   <div class="markdown level1 summary"><p>The callBack method which has to be implemented to retrieve error or exception</p>
 </div>
   <div class="markdown level1 conceptual"></div>
@@ -199,7 +199,7 @@
 </td>
       </tr>
       <tr>
-        <td><span class="xref">System.String</span></td>
+        <td><span class="xref">string</span></td>
         <td><span class="parametername">taskId</span></td>
         <td><p>The task identifier which has invoke the error callBack</p>
 </td>
@@ -214,7 +214,7 @@
     <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Tests/ArmoniK.EndToEndTests/ArmoniK.EndToEndTests.Client/Tests/LargeSubmitAsync/LargeSubmitAsyncClient.cs/#L95">View Source</a>
   </span>
   <a id="ArmoniK_EndToEndTests_Client_Tests_LargeSubmitAsync_LargeSubmitAsyncClient_HandleResponse_" data-uid="ArmoniK.EndToEndTests.Client.Tests.LargeSubmitAsync.LargeSubmitAsyncClient.HandleResponse*"></a>
-  <h4 id="ArmoniK_EndToEndTests_Client_Tests_LargeSubmitAsync_LargeSubmitAsyncClient_HandleResponse_System_Object_System_String_" data-uid="ArmoniK.EndToEndTests.Client.Tests.LargeSubmitAsync.LargeSubmitAsyncClient.HandleResponse(System.Object,System.String)">HandleResponse(Object, String)</h4>
+  <h4 id="ArmoniK_EndToEndTests_Client_Tests_LargeSubmitAsync_LargeSubmitAsyncClient_HandleResponse_System_Object_System_String_" data-uid="ArmoniK.EndToEndTests.Client.Tests.LargeSubmitAsync.LargeSubmitAsyncClient.HandleResponse(System.Object,System.String)">HandleResponse(object, string)</h4>
   <div class="markdown level1 summary"><p>The callBack method which has to be implemented to retrieve response from the server</p>
 </div>
   <div class="markdown level1 conceptual"></div>
@@ -233,13 +233,13 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Object</span></td>
+        <td><span class="xref">object</span></td>
         <td><span class="parametername">response</span></td>
         <td><p>The object receive from the server as result the method called by the client</p>
 </td>
       </tr>
       <tr>
-        <td><span class="xref">System.String</span></td>
+        <td><span class="xref">string</span></td>
         <td><span class="parametername">taskId</span></td>
         <td><p>The task identifier which has invoke the response callBack</p>
 </td>
