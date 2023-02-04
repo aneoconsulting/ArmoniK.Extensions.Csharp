@@ -81,7 +81,9 @@ public class LargeSubmitAsyncClient : ClientBaseTest<LargeSubmitAsyncClient>, IS
   public void HandleError(ServiceInvocationException? e,
                           string                      taskId)
   {
-    Log?.LogError(e, "Error from {taskId} : ", e?.Message);
+    Log?.LogError(e,
+                  "Error from {taskId} : ",
+                  e?.Message);
     NbResults++;
     throw new ApplicationException($"Error from {taskId}",
                                    e);
@@ -106,7 +108,7 @@ public class LargeSubmitAsyncClient : ClientBaseTest<LargeSubmitAsyncClient>, IS
         break;
       case byte[] values:
         Log?.LogInformation("Result is " + string.Join(", ",
-                                                      values.ConvertToArray()));
+                                                       values.ConvertToArray()));
         break;
     }
   }
@@ -194,9 +196,9 @@ public class LargeSubmitAsyncClient : ClientBaseTest<LargeSubmitAsyncClient>, IS
 
     service.Dispose();
     Log?.LogInformation("Nb result received : {res} : total is {Total} in {time:0.00}",
-                       NbResults,
-                       (int)Total,
-                       sw.ElapsedMilliseconds / 1000.0);
+                        NbResults,
+                        (int)Total,
+                        sw.ElapsedMilliseconds / 1000.0);
 
     Assert.AreEqual(nbTasks,
                     NbResults);

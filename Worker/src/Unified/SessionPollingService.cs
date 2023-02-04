@@ -56,7 +56,7 @@ public class SessionPollingService
   ///   This is an object to send task or get Results from a session
   /// </summary>
   public SessionPollingService(ILoggerFactory? loggerFactory,
-                               ITaskHandler   taskHandler)
+                               ITaskHandler    taskHandler)
   {
     Logger        = loggerFactory?.CreateLogger<SessionPollingService>();
     LoggerFactory = loggerFactory;
@@ -140,7 +140,7 @@ public class SessionPollingService
                                          var resultId = Guid.NewGuid()
                                                             .ToString();
                                          Logger?.LogDebug("Create task {task}",
-                                                         resultId);
+                                                          resultId);
                                          return new TaskRequest
                                                 {
                                                   Payload = UnsafeByteOperations.UnsafeWrap(bytes.AsMemory(0,
@@ -195,7 +195,7 @@ public class SessionPollingService
       var resultId = Guid.NewGuid()
                          .ToString();
       Logger?.LogDebug("Create task {task}",
-                      resultId);
+                       resultId);
       var taskRequest = new TaskRequest
                         {
                           Payload = UnsafeByteOperations.UnsafeWrap(payload.AsMemory(0,
@@ -223,8 +223,8 @@ public class SessionPollingService
         }
 
         Logger?.LogDebug("Dependencies : {dep}",
-                        string.Join(", ",
-                                    dependencies.Select(item => item.ToString())));
+                         string.Join(", ",
+                                     dependencies.Select(item => item.ToString())));
       }
 
       taskRequests.Add(taskRequest);

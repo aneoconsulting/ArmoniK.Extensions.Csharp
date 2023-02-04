@@ -169,7 +169,7 @@ public class SimpleUnifiedApiAdminTestClient : ClientBaseTest<SimpleUnifiedApiTe
     Thread.Sleep(15000);
 
     var countRunningTasks = serviceAdmin?.AdminMonitoringService.CountTaskBySession(sessionService.SessionId,
-                                                                                   TaskStatus.Completed) ?? throw new NoNullAllowedException(nameof(serviceAdmin));
+                                                                                    TaskStatus.Completed) ?? throw new NoNullAllowedException(nameof(serviceAdmin));
 
     Log?.LogInformation($"Number of completed tasks after 15 seconds is {countRunningTasks}");
 

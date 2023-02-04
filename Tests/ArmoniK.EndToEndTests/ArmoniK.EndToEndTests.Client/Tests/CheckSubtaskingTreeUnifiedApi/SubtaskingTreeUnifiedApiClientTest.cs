@@ -52,8 +52,8 @@ public class SubtaskingTreeUnifiedApiClientTest
                   };
 
     var taskId = unifiedTestHelper_?.Service.Submit("ComputeSubTaskingTreeSum",
-                                                   UnitTestHelperBase.ParamsHelper(payload.Serialize()),
-                                                   unifiedTestHelper_) ?? throw new NoNullAllowedException(nameof(unifiedTestHelper_));
+                                                    UnitTestHelperBase.ParamsHelper(payload.Serialize()),
+                                                    unifiedTestHelper_) ?? throw new NoNullAllowedException(nameof(unifiedTestHelper_));
 
 
     var expectedResult = numbers.Sum();

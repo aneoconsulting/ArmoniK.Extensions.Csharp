@@ -31,9 +31,9 @@ internal class UnifiedTestHelper : UnitTestHelperBase, IServiceInvocationHandler
            applicationService)
   {
     Props!.MaxConcurrentBuffers = maxConcurrentBuffers;
-    Props.MaxTasksPerBuffer    = bufferRequestSize;
-    Props.MaxParallelChannels  = maxParallelChannels;
-    Props.TimeTriggerBuffer    = timeOut ?? Props.TimeTriggerBuffer;
+    Props.MaxTasksPerBuffer     = bufferRequestSize;
+    Props.MaxParallelChannels   = maxParallelChannels;
+    Props.TimeTriggerBuffer     = timeOut ?? Props.TimeTriggerBuffer;
 
     switch (engineType)
     {
@@ -67,8 +67,8 @@ internal class UnifiedTestHelper : UnitTestHelperBase, IServiceInvocationHandler
                           string                      taskId)
   {
     Log?.LogError("Error (ignore) from {taskId} : [ {message} ]",
-                 taskId,
-                 e?.Message);
+                  taskId,
+                  e?.Message);
     expectedResults_[taskId] = e;
   }
 

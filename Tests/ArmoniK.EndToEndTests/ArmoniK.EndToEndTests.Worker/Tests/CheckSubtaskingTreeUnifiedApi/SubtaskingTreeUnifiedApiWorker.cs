@@ -64,7 +64,7 @@ public class SubtaskingTreeUnifiedApiWorker : TaskSubmitterWorkerService
   public byte[]? ComputeSubTaskingTreeSum(byte[]? clientPayload)
   {
     Logger?.LogInformation("Enter in function : SplitAndSum taskID : {TaskId}",
-                          TaskContext?.TaskId);
+                           TaskContext?.TaskId);
 
     var payload = ClientPayload.Deserialize(clientPayload);
     CheckPayload(payload);
@@ -82,7 +82,7 @@ public class SubtaskingTreeUnifiedApiWorker : TaskSubmitterWorkerService
     {
       var value = payload.Numbers[0];
       Logger?.LogInformation("final tree {value}",
-                            value);
+                             value);
 
       return new ClientPayload
              {
@@ -108,17 +108,17 @@ public class SubtaskingTreeUnifiedApiWorker : TaskSubmitterWorkerService
       if (splittedList.Count() <= 100)
       {
         Logger?.LogInformation("Submitting subTask, numbers : [{Numbers}] payload type : {PayloadType}",
-                              string.Join(';',
-                                          splittedList),
-                              payload.Type);
+                               string.Join(';',
+                                           splittedList),
+                               payload.Type);
       }
       else
       {
         Logger?.LogInformation("Submitting subTask, numbers : [{NumbersFrom};...;{NumbersTo}]",
-                              string.Join(';',
-                                          splittedList.Take(50)),
-                              string.Join(';',
-                                          splittedList.TakeLast(50)));
+                               string.Join(';',
+                                           splittedList.Take(50)),
+                               string.Join(';',
+                                           splittedList.TakeLast(50)));
       }
 
       var subTaskId = SubmitTask("ComputeSubTaskingTreeSum",
@@ -139,9 +139,9 @@ public class SubtaskingTreeUnifiedApiWorker : TaskSubmitterWorkerService
                                                true);
 
     Logger?.LogInformation("Submitted  SubmitTaskWithDependencies : {aggTaskId} with task dependencies {subtaskIds}...",
-                          aggTaskId,
-                          string.Join(';',
-                                      subTaskIds.Take(10)));
+                           aggTaskId,
+                           string.Join(';',
+                                       subTaskIds.Take(10)));
 
     return null; //nothing to do
   }
@@ -155,8 +155,8 @@ public class SubtaskingTreeUnifiedApiWorker : TaskSubmitterWorkerService
     var clientPayload = ClientPayload.Deserialize(serializedClientPayload);
 
     Logger?.LogInformation("Aggregate Task. Request result from Dependencies TaskIds : {DependenciesTaskIds}",
-                          string.Join(", ",
-                                      TaskContext?.DependenciesTaskIds?.Take(10) ?? new List<string>()));
+                           string.Join(", ",
+                                       TaskContext?.DependenciesTaskIds?.Take(10) ?? new List<string>()));
     var aggregatedValuesSum = 0;
     var dependencyValues    = new List<int>();
     if (TaskContext?.DataDependencies != null)

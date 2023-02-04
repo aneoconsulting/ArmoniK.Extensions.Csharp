@@ -99,13 +99,13 @@ public class ServiceContainer : ServiceContainerBase
   {
     var clientPayload = ClientPayload.Deserialize(taskContext.Payload);
     using var _ = Logger?.BeginPropertyScope(("SessionId", sessionContext.SessionId),
-                                            ("TaskId", taskContext.TaskId),
-                                            ("ClientPayload", clientPayload.Type));
+                                             ("TaskId", taskContext.TaskId),
+                                             ("ClientPayload", clientPayload.Type));
 
     Logger?.LogInformation("{ClientPayload} task, sessionId : {SessionId}, taskId : {TaskId}",
-                          clientPayload.Type,
-                          sessionContext.SessionId,
-                          taskContext.TaskId);
+                           clientPayload.Type,
+                           sessionContext.SessionId,
+                           taskContext.TaskId);
 
     switch (clientPayload.Type)
     {

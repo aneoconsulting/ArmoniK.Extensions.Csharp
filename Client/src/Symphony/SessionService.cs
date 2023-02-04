@@ -114,9 +114,7 @@ public class SessionService : BaseClientSubmitter<SessionService>
   /// </summary>
   /// <param name="session">SessionId previously opened</param>
   public void OpenSession(Session? session)
-  {
-    SessionId = session ?? throw new ArgumentNullException(nameof(session));
-  }
+    => SessionId = session ?? throw new ArgumentNullException(nameof(session));
 
   /// <summary>
   ///   User method to submit task from the client

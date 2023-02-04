@@ -73,7 +73,9 @@ public class LargePayloadSubmitClient : ClientBaseTest<LargePayloadSubmitClient>
   public void HandleError(ServiceInvocationException? e,
                           string                      taskId)
   {
-    Log?.LogError(e, "Error from {taskId} : ", e?.Message);
+    Log?.LogError(e,
+                  "Error from {taskId} : ",
+                  e?.Message);
     throw new ApplicationException($"Error from {taskId}",
                                    e);
   }
@@ -96,7 +98,7 @@ public class LargePayloadSubmitClient : ClientBaseTest<LargePayloadSubmitClient>
         break;
       case byte[] values:
         Log?.LogInformation("Result is " + string.Join(", ",
-                                                      values.ConvertToArray()));
+                                                       values.ConvertToArray()));
         break;
     }
   }
@@ -187,8 +189,8 @@ public class LargePayloadSubmitClient : ClientBaseTest<LargePayloadSubmitClient>
     PeriodicInfo(() =>
                  {
                    Log?.LogInformation($"{indexTask}/{nbTasks} Tasks. " + $"Got {nbResults_} results. " +
-                                      $"Check Submission perf : Payload {(indexTask - prevIndex) * nbElement * 8.0 / 1024.0 / elapsed:0.0} Ko/s, " +
-                                      $"{(indexTask - prevIndex)                                                   / (double)elapsed:0.00} tasks/s");
+                                       $"Check Submission perf : Payload {(indexTask - prevIndex) * nbElement * 8.0 / 1024.0 / elapsed:0.0} Ko/s, " +
+                                       $"{(indexTask - prevIndex)                                                   / (double)elapsed:0.00} tasks/s");
                    prevIndex = indexTask;
                  },
                  elapsed,

@@ -61,6 +61,17 @@ namespace ArmoniK.DevelopmentKit.Client.Common.Submitter;
 public abstract class BaseClientSubmitter<T>
 {
   /// <summary>
+  ///   The channel pool to use for creating clients
+  /// </summary>
+  protected ChannelPool channelPool_;
+
+
+  /// <summary>
+  ///   The number of chunk to split the payloadsWithDependencies
+  /// </summary>
+  private int chunkSubmitSize_;
+
+  /// <summary>
   ///   Base Object for all Client submitter
   /// </summary>
   /// <param name="channelPool">Channel used to create grpc clients</param>
@@ -88,17 +99,6 @@ public abstract class BaseClientSubmitter<T>
   ///   SubmitSubTaskWithDependencies or WaitForCompletion, WaitForSubTaskCompletion or GetResults
   /// </summary>
   public Session? SessionId { get; protected set; }
-
-  /// <summary>
-  ///   The channel pool to use for creating clients
-  /// </summary>
-  protected ChannelPool channelPool_;
-
-
-  /// <summary>
-  ///   The number of chunk to split the payloadsWithDependencies
-  /// </summary>
-  private int chunkSubmitSize_;
 
   /// <summary>
   ///   The logger to call the generate log in Seq
@@ -425,8 +425,8 @@ public abstract class BaseClientSubmitter<T>
     var result2TaskDic = mapTaskResults.ToDictionary(result => result.ResultIds.Single(),
                                                      result => result.TaskId);
 
-    using ChannelGuard channel          = channelPool_.GetChannel() ?? throw new NoNullAllowedException(nameof(ChannelGuard));
-    var                submitterService = new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel);
+    using var channel          = channelPool_.GetChannel() ?? throw new NoNullAllowedException(nameof(ChannelGuard));
+    var       submitterService = new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel);
 
     var idStatus = Retry.WhileException(5,
                                         200,
@@ -493,7 +493,7 @@ public abstract class BaseClientSubmitter<T>
   }
 
   /// <summary>
-  /// Get the IEnumerable resultId from a Enumerable taskIds
+  ///   Get the IEnumerable resultId from a Enumerable taskIds
   /// </summary>
   /// <param name="taskIds">The Enumerable taskIds</param>
   /// <returns>Returns the lists of resultId corresponding to the list of taskIds</returns>

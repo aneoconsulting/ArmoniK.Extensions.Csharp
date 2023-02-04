@@ -98,7 +98,7 @@ public class CheckRandomExceptionSymClient : ClientBaseTest<CheckRandomException
         }
 
         missing = missing.Where(x => listPartialResults!.ToList()
-                                                       .All(rId => rId.Item1 != x))
+                                                        .All(rId => rId.Item1 != x))
                          .ToList();
 
         if (missing.Count != 0)

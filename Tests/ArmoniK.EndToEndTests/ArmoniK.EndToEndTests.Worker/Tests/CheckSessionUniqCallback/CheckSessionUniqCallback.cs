@@ -34,7 +34,7 @@ namespace ArmoniK.EndToEndTests.Worker.Tests.CheckSessionUniqCallback;
 public sealed class ServiceContainer : ServiceContainerBase
 {
   private static string _resultMessage = "";
-  private        int     countCall_     = 0;
+  private        int    countCall_;
 
   public ServiceContainer()
   {

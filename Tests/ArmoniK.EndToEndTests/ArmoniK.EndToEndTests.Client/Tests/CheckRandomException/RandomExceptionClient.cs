@@ -51,7 +51,9 @@ public class RandomExceptionClient : ClientBaseTest<RandomExceptionClient>, ISer
   /// <param name="taskId">The task identifier which has invoke the error callBack</param>
   public void HandleError(ServiceInvocationException? e,
                           string                      taskId)
-    => Log?.LogError(e,"Expected Error from {taskId} : " , e?.Message);
+    => Log?.LogError(e,
+                     "Expected Error from {taskId} : ",
+                     e?.Message);
 
   /// <summary>
   ///   The callBack method which has to be implemented to retrieve response from the server

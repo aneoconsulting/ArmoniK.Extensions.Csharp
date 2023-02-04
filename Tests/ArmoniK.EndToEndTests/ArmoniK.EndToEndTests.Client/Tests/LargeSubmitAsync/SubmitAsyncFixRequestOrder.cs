@@ -98,7 +98,7 @@ public class SubmitAsyncFixRequestOrder
 
     foreach (var taskIdExpectedResult in taskIdExpectedResults!)
     {
-      Assert.That((((double[]?)taskResult[taskIdExpectedResult.Key])!)[0],
+      Assert.That(((double[]?)taskResult[taskIdExpectedResult.Key])![0],
                   Is.EqualTo(taskIdExpectedResult.Value));
     }
   }

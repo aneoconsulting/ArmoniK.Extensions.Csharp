@@ -63,7 +63,7 @@ public class SessionService : BaseClientSubmitter<SessionService>
                                            {
                                              TaskOptions.PartitionId,
                                            });
-    
+
     Logger?.LogDebug($"Session Created {SessionId}");
   }
 
@@ -142,7 +142,8 @@ public class SessionService : BaseClientSubmitter<SessionService>
   ///   The user payload list to execute. General used for subTasking.
   /// </param>
   public IEnumerable<string> SubmitTasks(IEnumerable<byte[]> payloads)
-    => SubmitTasksWithDependencies(payloads.Select(payload => new Tuple<byte[], IList<string>?>(payload, null)));
+    => SubmitTasksWithDependencies(payloads.Select(payload => new Tuple<byte[], IList<string>?>(payload,
+                                                                                                null)));
 
   /// <summary>
   ///   User method to submit task from the client

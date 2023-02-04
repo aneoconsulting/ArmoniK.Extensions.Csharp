@@ -170,13 +170,13 @@ public class Service : AbstractClientService, ISubmitterService
   /// <summary>
   ///   Property Get the SessionId
   /// </summary>
-  private SessionService SessionService { get; set; }
+  private SessionService SessionService { get; }
 
   private ILogger? Logger { get; }
 
   private ProtoSerializer ProtoSerializer { get; }
 
-  private SessionServiceFactory SessionServiceFactory { get; set; }
+  private SessionServiceFactory SessionServiceFactory { get; }
 
   private CancellationTokenSource CancellationResultTaskSource { get; }
 
@@ -279,8 +279,8 @@ public class Service : AbstractClientService, ISubmitterService
   /// <param name="arguments">List of serialized arguments that will already serialize for MethodName.</param>
   /// <param name="handler">The handler callBack implemented as IServiceInvocationHandler to get response or result or error</param>
   /// <returns>Return the taskId string</returns>
-  public IEnumerable<string> Submit(string                     methodName,
-                                    IEnumerable<byte[]>        arguments,
+  public IEnumerable<string> Submit(string                    methodName,
+                                    IEnumerable<byte[]>       arguments,
                                     IServiceInvocationHandler handler)
   {
     var armonikPayloads = arguments.Select(args => new ArmonikPayload

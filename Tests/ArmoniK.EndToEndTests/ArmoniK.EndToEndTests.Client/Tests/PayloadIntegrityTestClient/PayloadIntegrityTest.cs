@@ -20,8 +20,6 @@ using Microsoft.Extensions.Configuration;
 
 using NUnit.Framework;
 
-using Serilog;
-
 namespace ArmoniK.EndToEndTests.Client.Tests.PayloadIntegrityTestClient;
 
 [TestFixture]

@@ -32,8 +32,6 @@ using ArmoniK.DevelopmentKit.Common.Exceptions;
 using ArmoniK.DevelopmentKit.Worker.Common;
 using ArmoniK.DevelopmentKit.Worker.Common.Adapter;
 
-using JetBrains.Annotations;
-
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
@@ -160,8 +158,8 @@ public class ArmonikServiceWorker : IDisposable
     using (AppsLoader?.UserAssemblyLoadContext.EnterContextualReflection())
     {
       GridWorker?.Configure(configuration,
-                           requestTaskOptions,
-                           AppsLoader ?? throw new NoNullAllowedException(nameof(AppsLoader)));
+                            requestTaskOptions,
+                            AppsLoader ?? throw new NoNullAllowedException(nameof(AppsLoader)));
     }
 
     Initialized = true;
@@ -173,15 +171,20 @@ public class ArmonikServiceWorker : IDisposable
     using (AppsLoader?.UserAssemblyLoadContext.EnterContextualReflection())
     {
       GridWorker?.InitializeSessionWorker(sessionId,
-                                         taskHandlerTaskOptions);
+                                          taskHandlerTaskOptions);
     }
   }
 
-  public byte[] Execute(ITaskHandler taskHandler)
+  public byte[]? Execute(ITaskHandler taskHandler)
   {
     using (AppsLoader?.UserAssemblyLoadContext.EnterContextualReflection())
     {
-      return GridWorker?.Execute(taskHandler) ?? throw new NoNullAllowedException(nameof(GridWorker));
+      if (GridWorker == null)
+      {
+        throw new NoNullAllowedException(nameof(GridWorker));
+      }
+
+      return GridWorker?.Execute(taskHandler);
     }
   }
 }
@@ -287,7 +290,7 @@ public class ServiceRequestContext
            namespaceService);
 
   public static IFileAdapter CreateOrGetFileAdapter(IConfiguration configuration,
-                                                    string          localDirectoryZip)
+                                                    string         localDirectoryZip)
   {
     var sectionStorage = configuration.GetSection("FileStorageType");
     if (sectionStorage.Exists() && configuration["FileStorageType"] == "FS")

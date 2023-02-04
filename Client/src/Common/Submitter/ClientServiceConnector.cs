@@ -47,7 +47,7 @@ public class ClientServiceConnector
   /// <returns></returns>
   private static ChannelBase ControlPlaneConnection(string          endPoint,
                                                     string?         clientCertFilename = "",
-                                                    string?          clientKeyFilename  = "",
+                                                    string?         clientKeyFilename  = "",
                                                     bool            sslValidation      = true,
                                                     ILoggerFactory? loggerFactory      = null)
   {
@@ -108,7 +108,7 @@ public class ClientServiceConnector
   {
     var _ = loggerFactory?.CreateLogger<ClientServiceConnector>();
 
-    var uri    = new Uri(endPoint);
+    var uri = new Uri(endPoint);
 
     var credentials = uri.Scheme == Uri.UriSchemeHttps
                         ? new SslCredentials()
@@ -145,7 +145,7 @@ public class ClientServiceConnector
                            Credentials = uri.Scheme == Uri.UriSchemeHttps
                                            ? new SslCredentials()
                                            : ChannelCredentials.Insecure,
-                           HttpHandler = httpClientHandler,
+                           HttpHandler   = httpClientHandler,
                            LoggerFactory = loggerFactory,
                          };
 

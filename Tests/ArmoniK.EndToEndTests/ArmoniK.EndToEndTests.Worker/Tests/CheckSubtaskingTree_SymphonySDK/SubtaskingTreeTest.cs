@@ -125,7 +125,7 @@ public class ServiceContainer : ServiceContainerBase
     {
       var value = clientPayload.Numbers[0];
       Logger?.LogInformation("final tree {value}",
-                            value);
+                             value);
 
       return new ClientPayload
              {
@@ -151,17 +151,17 @@ public class ServiceContainer : ServiceContainerBase
       if (splittedList.Count() <= 100)
       {
         Logger?.LogInformation("Submitting subTask, numbers : [{Numbers}] payload type : {PayloadType}",
-                              string.Join(';',
-                                          splittedList),
-                              clientPayload.Type);
+                               string.Join(';',
+                                           splittedList),
+                               clientPayload.Type);
       }
       else
       {
         Logger?.LogInformation("Submitting subTask, numbers : [{NumbersFrom};...;{NumbersTo}]",
-                              string.Join(';',
-                                          splittedList.Take(50)),
-                              string.Join(';',
-                                          splittedList.TakeLast(50)));
+                               string.Join(';',
+                                           splittedList.Take(50)),
+                               string.Join(';',
+                                           splittedList.TakeLast(50)));
       }
 
       var subTaskId = this.SubmitTask(childPayload.Serialize());
@@ -179,9 +179,9 @@ public class ServiceContainer : ServiceContainerBase
                                                     subTaskIds,
                                                     true);
     Logger?.LogInformation("Submitted  SubmitTaskWithDependencies : {aggTaskId} with task dependencies {subtaskIds}...",
-                          aggTaskId,
-                          string.Join(';',
-                                      subTaskIds.Take(10)));
+                           aggTaskId,
+                           string.Join(';',
+                                       subTaskIds.Take(10)));
     return null; //nothing to do
   }
 
@@ -189,8 +189,8 @@ public class ServiceContainer : ServiceContainerBase
                                  ClientPayload clientPayload)
   {
     Logger?.LogInformation("Aggregate Task. Request result from Dependencies TaskIds : {DependenciesTaskIds}",
-                          string.Join(", ",
-                                      taskContext?.DependenciesTaskIds?.Take(10) ?? new List<string>()));
+                           string.Join(", ",
+                                       taskContext?.DependenciesTaskIds?.Take(10) ?? new List<string>()));
     var aggregatedValuesSum = 0;
     if (taskContext?.DataDependencies != null)
     {

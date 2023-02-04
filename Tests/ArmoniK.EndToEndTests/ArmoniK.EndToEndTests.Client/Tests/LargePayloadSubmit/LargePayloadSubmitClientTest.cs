@@ -53,9 +53,9 @@ public class LargePayloadSubmitClientTest
     for (var indexTask = 0; indexTask < nbTasks; indexTask++)
     {
       var taskId = unifiedTestHelper_?.Service.Submit("ComputeSum",
-                                                     UnitTestHelperBase.ParamsHelper(numbers,
-                                                                                     workloadTimeInMs),
-                                                     unifiedTestHelper_) ?? throw new NoNullAllowedException(nameof(unifiedTestHelper_));
+                                                      UnitTestHelperBase.ParamsHelper(numbers,
+                                                                                      workloadTimeInMs),
+                                                      unifiedTestHelper_) ?? throw new NoNullAllowedException(nameof(unifiedTestHelper_));
       taskIds.Add(taskId);
     }
 

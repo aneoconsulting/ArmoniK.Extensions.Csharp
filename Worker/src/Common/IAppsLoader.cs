@@ -28,5 +28,5 @@ namespace ArmoniK.DevelopmentKit.Worker.Common;
 public interface IAppsLoader : IDisposable
 {
   T GetServiceContainerInstance<T>(string? gridAppNamespace,
-                                    string? gridServiceName);
+                                   string? gridServiceName);
 }

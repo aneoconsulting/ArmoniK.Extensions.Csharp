@@ -95,8 +95,8 @@ internal abstract class UnitTestHelperBase
 
 
   protected TaskOptions InitializeTaskOptions(EngineType engineType,
-                                               string     applicationNamespace,
-                                               string     applicationService)
+                                              string     applicationNamespace,
+                                              string     applicationService)
     => new()
        {
          MaxDuration = new Duration

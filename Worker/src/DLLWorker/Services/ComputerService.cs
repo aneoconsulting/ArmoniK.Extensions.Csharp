@@ -23,6 +23,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
@@ -38,6 +39,8 @@ using Grpc.Core;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+
+using ProtoBuf;
 
 namespace ArmoniK.DevelopmentKit.Worker.DLLWorker.Services;
 
@@ -64,12 +67,12 @@ public class ComputerService : WorkerStreamWrapper
   public override async Task<Output> Process(ITaskHandler taskHandler)
   {
     using var scopedLog = Logger?.BeginNamedScope("Execute task",
-                                                 ("Session", taskHandler.SessionId),
-                                                 ("TaskId", taskHandler.TaskId));
+                                                  ("Session", taskHandler.SessionId),
+                                                  ("TaskId", taskHandler.TaskId));
     Logger?.LogTrace("DataDependencies {DataDependencies}",
-                    taskHandler.DataDependencies.Keys);
+                     taskHandler.DataDependencies.Keys);
     Logger?.LogTrace("ExpectedResults {ExpectedResults}",
-                    taskHandler.ExpectedResults);
+                     taskHandler.ExpectedResults);
 
     Output output;
     try
@@ -83,7 +86,7 @@ public class ComputerService : WorkerStreamWrapper
                      Task = taskHandler.TaskId,
                    };
       Logger?.BeginPropertyScope(("TaskId", taskId.Task),
-                                ("SessionId", sessionIdCaller));
+                                 ("SessionId", sessionIdCaller));
 
       Logger?.LogInformation($"Receive new task Session        {sessionIdCaller} -> task {taskId}");
       Logger?.LogInformation($"Previous Session#SubSession was {ServiceRequestContext.SessionId?.Id ?? "NOT SET"}");
@@ -137,6 +140,11 @@ public class ComputerService : WorkerStreamWrapper
         await taskHandler.SendResult(taskHandler.ExpectedResults.Single(),
                                      result);
       }
+      else
+      {
+        Logger?.LogDebug("No result coming from the execution task {task}",
+                         taskId.Task);
+      }
 
 
       Logger?.BeginPropertyScope(("Elapsed", sw.ElapsedMilliseconds / 1000.0));
@@ -148,10 +156,10 @@ public class ComputerService : WorkerStreamWrapper
                  Ok = new Empty(),
                };
     }
-    catch (WorkerApiException ex)
+    catch (Exception ex) when (ex is WorkerApiException or NoNullAllowedException or NullReferenceException or InvalidOperationException or ProtoException)
     {
       Logger?.LogError(ex,
-                      "WorkerAPIException failure while executing task");
+                       "Worker Exception while executing task. No retry for this task");
 
       return new Output
              {
@@ -161,11 +169,10 @@ public class ComputerService : WorkerStreamWrapper
                        },
              };
     }
-
     catch (Exception? ex)
     {
       Logger?.LogError(ex,
-                      "Unmanaged exception while executing task");
+                       "Unmanaged exception while executing task");
 
       throw new RpcException(new Status(StatusCode.Aborted,
                                         ex.Message + Environment.NewLine + ex.StackTrace));

@@ -33,13 +33,11 @@ namespace ArmoniK.DevelopmentKit.Common;
 [ProtoContract]
 public class ArmonikPayload
 {
-  public ArmonikPayload(string? methodName          = "noMethod",
-                        byte[]? clientPayload       = null,
-                        bool    serializedArguments = false)
+  public ArmonikPayload()
   {
-    MethodName          = methodName;
-    ClientPayload       = clientPayload;
-    SerializedArguments = serializedArguments;
+    MethodName          = "noMethod";
+    ClientPayload       = null;
+    SerializedArguments = false;
   }
 
   [ProtoMember(1)]

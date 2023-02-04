@@ -55,7 +55,9 @@ public class SimpleGridServerTestClient : ClientBaseTest<SimpleGridServerTestCli
   public void HandleError(ServiceInvocationException? e,
                           string                      taskId)
   {
-    Log?.LogError(e, "Error from {taskId} : ", e?.Message);
+    Log?.LogError(e,
+                  "Error from {taskId} : ",
+                  e?.Message);
     throw new ApplicationException($"Error from {taskId}",
                                    e);
   }
@@ -78,11 +80,11 @@ public class SimpleGridServerTestClient : ClientBaseTest<SimpleGridServerTestCli
         break;
       case double[] doubles:
         Log?.LogDebug("Result is " + string.Join(", ",
-                                                doubles));
+                                                 doubles));
         break;
       case byte[] values:
         Log?.LogDebug("Result is " + string.Join(", ",
-                                                values.ConvertToArray()));
+                                                 values.ConvertToArray()));
         break;
     }
   }

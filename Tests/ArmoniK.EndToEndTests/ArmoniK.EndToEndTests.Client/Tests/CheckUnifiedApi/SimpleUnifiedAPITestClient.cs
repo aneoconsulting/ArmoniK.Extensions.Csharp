@@ -63,11 +63,11 @@ public class IgnoreErrorHandler : IServiceInvocationHandler
         break;
       case double[] doubles:
         logger_?.LogInformation("Result is " + string.Join(", ",
-                                                          doubles));
+                                                           doubles));
         break;
       case byte[] values:
         logger_?.LogInformation("Result is " + string.Join(", ",
-                                                          values.ConvertToArray()));
+                                                           values.ConvertToArray()));
         break;
     }
   }
@@ -90,7 +90,9 @@ public class SimpleUnifiedApiTestClient : ClientBaseTest<SimpleUnifiedApiTestCli
   public void HandleError(ServiceInvocationException? e,
                           string                      taskId)
   {
-    Log?.LogError(e, "Error from {taskId} : ", e?.Message);
+    Log?.LogError(e,
+                  "Error from {taskId} : ",
+                  e?.Message);
     throw new ApplicationException($"Error from {taskId}",
                                    e);
   }
@@ -113,11 +115,11 @@ public class SimpleUnifiedApiTestClient : ClientBaseTest<SimpleUnifiedApiTestCli
         break;
       case double[] doubles:
         Log?.LogInformation("Result is " + string.Join(", ",
-                                                      doubles));
+                                                       doubles));
         break;
       case byte[] values:
         Log?.LogInformation("Result is " + string.Join(", ",
-                                                      values.ConvertToArray()));
+                                                       values.ConvertToArray()));
         break;
     }
   }

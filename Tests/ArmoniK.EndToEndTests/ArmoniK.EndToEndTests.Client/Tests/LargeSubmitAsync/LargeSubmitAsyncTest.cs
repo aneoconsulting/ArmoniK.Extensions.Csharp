@@ -70,10 +70,10 @@ public class LargeSubmitAsyncTest
     for (indexTask = 0; indexTask < nbTasks; indexTask++)
     {
       taskIds.Add(service?.SubmitAsync("ComputeSum",
-                                      UnitTestHelperBase.ParamsHelper(numbers,
-                                                                      workloadTimeInMs),
-                                      localUnifiedTestHelper,
-                                      cancellationSource.Token) ?? throw new NoNullAllowedException(nameof(service)));
+                                       UnitTestHelperBase.ParamsHelper(numbers,
+                                                                       workloadTimeInMs),
+                                       localUnifiedTestHelper,
+                                       cancellationSource.Token) ?? throw new NoNullAllowedException(nameof(service)));
     }
     //System.Threading.Thread.Sleep(10000);
 

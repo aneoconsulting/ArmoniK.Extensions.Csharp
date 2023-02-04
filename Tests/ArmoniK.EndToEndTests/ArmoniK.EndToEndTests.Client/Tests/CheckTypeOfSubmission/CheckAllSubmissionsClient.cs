@@ -91,7 +91,7 @@ public class CheckAllSubmissionsClient : ClientBaseTest<CheckAllSubmissionsClien
     catch (Exception? e)
     {
       Log?.LogError(e,
-                   "Submission Error 10 Jobs with 1 subtask");
+                    "Submission Error 10 Jobs with 1 subtask");
       throw;
     }
 
@@ -107,7 +107,7 @@ public class CheckAllSubmissionsClient : ClientBaseTest<CheckAllSubmissionsClien
     catch (Exception? e)
     {
       Log?.LogError(e,
-                   "Submission Error 1 Jobs with 5000 subtasks");
+                    "Submission Error 1 Jobs with 5000 subtasks");
       throw;
     }
   }
@@ -206,7 +206,7 @@ public class CheckAllSubmissionsClient : ClientBaseTest<CheckAllSubmissionsClien
     // Format and display the TimeSpan value.
     elapsedTime = $"{ts.Hours:00}:{ts.Minutes:00}:{ts.Seconds:00}.{ts.Milliseconds / 10:00}";
     Log?.LogInformation($"===== Finished to execute {nbJob} nTask with {nbSubTasks} subtask " +
-                       $"with result computed {computeResult} vs expected {expectedResult} in {elapsedTime}\n");
+                        $"with result computed {computeResult} vs expected {expectedResult} in {elapsedTime}\n");
   }
 
   private static void PeriodicInfo(Action            action,

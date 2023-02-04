@@ -37,14 +37,14 @@ public class SessionContext
   public int TimeRemoteDebug;
 
   /// <summary>
-  /// Default constructor
+  ///   Default constructor
   /// </summary>
   /// <param name="sessionId">The sessionId</param>
   /// <param name="clientLibVersion">The application version in string format</param>
   /// <param name="timeRemoteDebug">waiting time before starting worker to debug</param>
-  public SessionContext(string sessionId = "BadSessionId",
+  public SessionContext(string sessionId        = "BadSessionId",
                         string clientLibVersion = "badAppsVersion",
-                        int    timeRemoteDebug = 0)
+                        int    timeRemoteDebug  = 0)
   {
     TimeRemoteDebug  = timeRemoteDebug;
     SessionId        = sessionId;

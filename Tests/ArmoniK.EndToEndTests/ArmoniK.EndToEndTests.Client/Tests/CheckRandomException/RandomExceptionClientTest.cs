@@ -38,10 +38,11 @@ public class RandomExceptionClientTest
     for (var launchCount = 0; launchCount < 10; launchCount++)
     {
       var taskId = unifiedTestHelper_?.Service.Submit("ComputeBasicArrayCube",
-                                                     UnitTestHelperBase.ParamsHelper(numbers,
-                                                                                     0.2),
-                                                     unifiedTestHelper_) ?? throw new NullReferenceException(nameof(unifiedTestHelper_));
-      Assert.That(taskId, Is.Not.Null);
+                                                      UnitTestHelperBase.ParamsHelper(numbers,
+                                                                                      0.2),
+                                                      unifiedTestHelper_) ?? throw new NullReferenceException(nameof(unifiedTestHelper_));
+      Assert.That(taskId,
+                  Is.Not.Null);
 
       var result = unifiedTestHelper_.WaitForResultcompletion(taskId);
       Assert.IsNotNull(result);

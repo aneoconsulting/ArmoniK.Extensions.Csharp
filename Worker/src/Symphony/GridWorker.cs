@@ -99,7 +99,7 @@ public class GridWorker : IGridWorker
                                                                                          "ServiceContainer");
 
     serviceContainerBase_!.Configure(configuration,
-                                    clientOptions);
+                                     clientOptions);
     Logger?.LogDebug("Call OnCreateService");
 
     OnCreateService();
@@ -119,7 +119,7 @@ public class GridWorker : IGridWorker
       {
         SessionId = sessionId;
         serviceContainerBase_!.ConfigureSession(SessionId,
-                                               requestTaskOptions);
+                                                requestTaskOptions);
         OnSessionEnter(sessionId);
       }
       else
@@ -127,7 +127,7 @@ public class GridWorker : IGridWorker
         OnSessionLeave();
         SessionId = sessionId;
         serviceContainerBase_!.ConfigureSession(SessionId,
-                                               requestTaskOptions);
+                                                requestTaskOptions);
         OnSessionEnter(sessionId);
       }
     }
@@ -159,7 +159,7 @@ public class GridWorker : IGridWorker
     serviceContainerBase_!.TaskId = TaskId;
     Logger?.LogInformation("Check Enrich with taskId");
     var clientPayload = serviceContainerBase_!.OnInvoke(sessionContext_ ?? throw new InvalidOperationException("SessionContext should not be null"),
-                                                       taskContext      ?? throw new InvalidOperationException("taskContext should not be null"));
+                                                        taskContext     ?? throw new InvalidOperationException("taskContext should not be null"));
 
     // Return to user the taskId, could be any other information
     return clientPayload;
@@ -179,7 +179,7 @@ public class GridWorker : IGridWorker
   public void OnCreateService()
   {
     using (AssemblyLoadContext.EnterContextualReflection(serviceContainerBase_!.GetType()
-                                                                              .Assembly))
+                                                                               .Assembly))
     {
       serviceContainerBase_!.OnCreateService(serviceContext_!);
     }

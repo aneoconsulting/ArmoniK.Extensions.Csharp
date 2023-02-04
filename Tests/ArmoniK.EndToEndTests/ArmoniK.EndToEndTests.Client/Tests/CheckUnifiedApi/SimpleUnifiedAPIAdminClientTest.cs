@@ -38,10 +38,10 @@ public class SimpleUnifiedApiAdminClientTest
   {
     const int wantedCount = 100;
     var tasks = unifiedTestHelper_?.Service.Submit("ComputeBasicArrayCube",
-                                                  Enumerable.Range(1,
-                                                                   wantedCount)
-                                                            .Select(_ => UnitTestHelperBase.ParamsHelper(numbers_)),
-                                                  unifiedTestHelper_) ?? throw new NoNullAllowedException(nameof(unifiedTestHelper_));
+                                                   Enumerable.Range(1,
+                                                                    wantedCount)
+                                                             .Select(_ => UnitTestHelperBase.ParamsHelper(numbers_)),
+                                                   unifiedTestHelper_) ?? throw new NoNullAllowedException(nameof(unifiedTestHelper_));
     if (tasks != null && tasks?.Count() is var count && count != wantedCount)
     {
       throw new ApplicationException($"Expected {wantedCount} submitted tasks, got {count}");
@@ -51,7 +51,7 @@ public class SimpleUnifiedApiAdminClientTest
 
     unifiedTestHelper_!.WaitForResultcompletion(tasks ?? throw new NoNullAllowedException(nameof(tasks)));
     var cancelledTaskCount = unifiedTestHelper_?.ServiceAdmin?.AdminMonitoringService.CountTaskBySession(unifiedTestHelper_.Service.SessionId,
-                                                                                                       TaskStatus.Cancelled);
+                                                                                                         TaskStatus.Cancelled);
 
     Assert.That(cancelledTaskCount,
                 Is.GreaterThan(0));

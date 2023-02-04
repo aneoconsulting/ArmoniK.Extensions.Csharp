@@ -21,8 +21,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using ArmoniK.DevelopmentKit.Common;
-
 using JetBrains.Annotations;
 
 #pragma warning disable CS1591

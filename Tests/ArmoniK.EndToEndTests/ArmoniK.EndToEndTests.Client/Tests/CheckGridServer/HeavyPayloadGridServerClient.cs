@@ -62,7 +62,9 @@ public class HeavyPayloadGridServerClient : ClientBaseTest<HeavyPayloadGridServe
   public void HandleError(ServiceInvocationException? e,
                           string                      taskId)
   {
-    Log?.LogError(e, "Error from {taskId} : ", e?.Message);
+    Log?.LogError(e,
+                  "Error from {taskId} : ",
+                  e?.Message);
     throw new ApplicationException($"Error from {taskId}",
                                    e);
   }
@@ -86,12 +88,12 @@ public class HeavyPayloadGridServerClient : ClientBaseTest<HeavyPayloadGridServe
       case double[] doubles:
         Log?.LogInformation($"Result type are {doubles.GetType().Name} with {doubles.Length} element(s)");
         Log?.LogInformation("Result is " + string.Join(", ",
-                                                      doubles.SubArray(0,
-                                                                       100)));
+                                                       doubles.SubArray(0,
+                                                                        100)));
         break;
       case byte[] values:
         Log?.LogInformation("Result is " + string.Join(", ",
-                                                      values.ConvertToArray()));
+                                                       values.ConvertToArray()));
         break;
     }
   }
@@ -136,7 +138,7 @@ public class HeavyPayloadGridServerClient : ClientBaseTest<HeavyPayloadGridServe
   /// <param name="taskId">The task which is waiting for</param>
   /// <returns></returns>
   private static byte[] WaitForTaskResult(SessionService sessionService,
-                                           string         taskId)
+                                          string         taskId)
   {
     var taskResult = sessionService.GetResult(taskId);
 

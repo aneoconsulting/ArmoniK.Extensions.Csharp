@@ -102,7 +102,7 @@ internal class SymphonyTestHelper : UnitTestHelperBase
       Log?.LogError(ex.Message);
       Log?.LogError("------ Adding Failed results as null in the list");
       results.AddRange(ex.TaskIds.Select(x => new Tuple<string, byte[]?>(x,
-                                                                        null)));
+                                                                         null)));
     }
 
     return results;

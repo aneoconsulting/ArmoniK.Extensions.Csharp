@@ -47,9 +47,7 @@ public class ServiceFactory
   /// </summary>
   /// <returns>Returns the ServiceFactory to create new Service</returns>
   public static ServiceFactory GetInstance()
-  {
-    return _instanceFactory ??= new ServiceFactory();
-  }
+    => _instanceFactory ??= new ServiceFactory();
 
   /// <summary>
   ///   The method to create new Service

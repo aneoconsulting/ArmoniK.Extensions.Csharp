@@ -72,7 +72,7 @@ public abstract class TaskSubmitterWorkerService : ITaskSubmitterWorkerServiceCo
     LoggerFactory = loggerFactory;
 
     Logger = loggerFactory?.CreateLogger(GetType()
-                                          .Name);
+                                           .Name);
   }
 
   /// <summary>
@@ -84,7 +84,10 @@ public abstract class TaskSubmitterWorkerService : ITaskSubmitterWorkerServiceCo
   ///   Get or Set SubSessionId object stored during the call of SubmitTask, SubmitSubTask,
   ///   SubmitSubTaskWithDependencies or WaitForCompletion, WaitForSubTaskCompletion or GetResults
   /// </summary>
-  public Session SessionId { get; set; } = new() { Id = "BadSessionId"};
+  public Session SessionId { get; set; } = new()
+                                           {
+                                             Id = "BadSessionId",
+                                           };
 
   /// <summary>
   ///   Property to retrieve the sessionService previously created
@@ -174,7 +177,7 @@ public abstract class TaskSubmitterWorkerService : ITaskSubmitterWorkerServiceCo
   public IEnumerable<string> SubmitTasksWithDependencies(IEnumerable<Tuple<byte[], IList<string>>> payloadWithDependencies,
                                                          bool                                      resultForParent = false)
     => SessionService?.SubmitTasksWithDependencies(payloadWithDependencies,
-                                                  resultForParent) ?? throw new NoNullAllowedException(nameof(SessionService));
+                                                   resultForParent) ?? throw new NoNullAllowedException(nameof(SessionService));
 
 
   /// <summary>
@@ -185,9 +188,9 @@ public abstract class TaskSubmitterWorkerService : ITaskSubmitterWorkerServiceCo
   /// </param>
   public string SubmitTask(byte[] payload)
     => SessionService?.SubmitTasks(new[]
-                                  {
-                                    payload,
-                                  })
+                                   {
+                                     payload,
+                                   })
                      .Single() ?? throw new NoNullAllowedException(nameof(SessionService));
 
 
@@ -211,9 +214,9 @@ public abstract class TaskSubmitterWorkerService : ITaskSubmitterWorkerServiceCo
                                       SerializedArguments = false,
                                     };
     return SessionService?.SubmitTasks(new[]
-                                      {
-                                        armonikPayload.Serialize(),
-                                      })
+                                       {
+                                         armonikPayload.Serialize(),
+                                       })
                          .Single() ?? throw new NoNullAllowedException(nameof(SessionService));
   }
 
@@ -230,11 +233,11 @@ public abstract class TaskSubmitterWorkerService : ITaskSubmitterWorkerServiceCo
                                           IList<string> dependencies,
                                           bool          resultForParent = false)
     => SessionService?.SubmitTasksWithDependencies(new[]
-                                                  {
-                                                    Tuple.Create(payload,
-                                                                 dependencies),
-                                                  },
-                                                  resultForParent)
+                                                   {
+                                                     Tuple.Create(payload,
+                                                                  dependencies),
+                                                   },
+                                                   resultForParent)
                      .Single() ?? throw new NoNullAllowedException(nameof(SessionService));
 
   /// <summary>
@@ -260,11 +263,11 @@ public abstract class TaskSubmitterWorkerService : ITaskSubmitterWorkerServiceCo
                                       SerializedArguments = false,
                                     };
     return SessionService?.SubmitTasksWithDependencies(new[]
-                                                      {
-                                                        Tuple.Create(armonikPayload.Serialize(),
-                                                                     dependencies),
-                                                      },
-                                                      resultForParent)
+                                                       {
+                                                         Tuple.Create(armonikPayload.Serialize(),
+                                                                      dependencies),
+                                                       },
+                                                       resultForParent)
                          .Single() ?? throw new NoNullAllowedException(nameof(SessionService));
   }
 

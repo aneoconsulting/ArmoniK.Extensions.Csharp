@@ -59,7 +59,9 @@ public class SubtaskingTreeUnifiedApiClient : ClientBaseTest<SubtaskingTreeUnifi
   public void HandleError(ServiceInvocationException? e,
                           string                      taskId)
   {
-    Log?.LogError(e, "Error from {taskId} : ", e?.Message);
+    Log?.LogError(e,
+                  "Error from {taskId} : ",
+                  e?.Message);
     throw new ApplicationException($"Error from {taskId}",
                                    e);
   }
@@ -82,7 +84,7 @@ public class SubtaskingTreeUnifiedApiClient : ClientBaseTest<SubtaskingTreeUnifi
         break;
       case double[] doubles:
         Log?.LogInformation("Result is " + string.Join(", ",
-                                                      doubles));
+                                                       doubles));
         break;
       case byte[] values:
         var result = ClientPayload.Deserialize(values);

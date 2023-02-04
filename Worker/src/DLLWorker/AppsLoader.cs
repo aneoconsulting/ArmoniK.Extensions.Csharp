@@ -22,7 +22,6 @@
 // limitations under the License.
 
 using System;
-using System.Data;
 using System.IO;
 using System.Reflection;
 using System.Runtime.Loader;
@@ -39,11 +38,11 @@ namespace ArmoniK.DevelopmentKit.Worker.DLLWorker;
 
 public class AppsLoader : IAppsLoader
 {
+  private readonly Assembly   assembly_;
   private readonly Assembly   assemblyGridWorker_;
   private readonly EngineType engineType_;
 
   private readonly ILogger<AppsLoader>? logger_;
-  private          Assembly             assembly_;
 
   public AppsLoader(IConfiguration? configuration,
                     ILoggerFactory? loggerFactory,
@@ -84,7 +83,7 @@ public class AppsLoader : IAppsLoader
     }
     catch (Exception ex)
     {
-      logger_?.LogError($"Cannot load assembly from path [${localPathToAssembly}] "             + ex.Message + Environment.NewLine + ex.StackTrace);
+      logger_?.LogError($"Cannot load assembly from path [${localPathToAssembly}] "            + ex.Message + Environment.NewLine + ex.StackTrace);
       throw new WorkerApiException($"Cannot load assembly from path [${localPathToAssembly}] " + ex.Message + Environment.NewLine + ex.StackTrace);
     }
 
@@ -98,7 +97,7 @@ public class AppsLoader : IAppsLoader
     }
     catch (Exception ex)
     {
-      logger_?.LogError($"Cannot load assembly from path [${localPathToAssemblyGridWorker}] "             + ex.Message + Environment.NewLine + ex.StackTrace);
+      logger_?.LogError($"Cannot load assembly from path [${localPathToAssemblyGridWorker}] "            + ex.Message + Environment.NewLine + ex.StackTrace);
       throw new WorkerApiException($"Cannot load assembly from path [${localPathToAssemblyGridWorker}] " + ex.Message + Environment.NewLine + ex.StackTrace);
     }
 
@@ -117,39 +116,9 @@ public class AppsLoader : IAppsLoader
     currentDomain.AssemblyResolve += LoadFromSameFolder;
   }
 
-  Assembly? LoadFromSameFolder(object?          sender,
-                               ResolveEventArgs args)
-  {
-    var folderPath = Path.GetDirectoryName(PathToAssembly);
-    var assemblyPath = Path.Combine(folderPath ?? "",
-                                    new AssemblyName(args.Name).Name + ".dll");
-
-    Assembly assembly;
-
-    try
-    {
-      assembly = Assembly.LoadFrom(assemblyPath);
-    }
-    catch (Exception)
-    {
-      folderPath = "/app";
-      assemblyPath = Path.Combine(folderPath,
-                                  new AssemblyName(args.Name).Name + ".dll");
-
-      if (!File.Exists(assemblyPath))
-      {
-        return null;
-      }
-
-      assembly = Assembly.LoadFrom(assemblyPath);
-    }
-
-    return assembly;
-  }
-
   private string ArmoniKDevelopmentKitServerApi { get; }
 
-  public AssemblyLoadContext UserAssemblyLoadContext { get; private set; }
+  public AssemblyLoadContext UserAssemblyLoadContext { get; }
 
   public IConfiguration? Configuration { get; }
 
@@ -179,8 +148,36 @@ public class AppsLoader : IAppsLoader
   }
 
   public void Dispose()
+    => UserAssemblyLoadContext.Unload();
+
+  private Assembly? LoadFromSameFolder(object?          sender,
+                                       ResolveEventArgs args)
   {
-    UserAssemblyLoadContext.Unload();
+    var folderPath = Path.GetDirectoryName(PathToAssembly);
+    var assemblyPath = Path.Combine(folderPath ?? "",
+                                    new AssemblyName(args.Name).Name + ".dll");
+
+    Assembly assembly;
+
+    try
+    {
+      assembly = Assembly.LoadFrom(assemblyPath);
+    }
+    catch (Exception)
+    {
+      folderPath = "/app";
+      assemblyPath = Path.Combine(folderPath,
+                                  new AssemblyName(args.Name).Name + ".dll");
+
+      if (!File.Exists(assemblyPath))
+      {
+        return null;
+      }
+
+      assembly = Assembly.LoadFrom(assemblyPath);
+    }
+
+    return assembly;
   }
 
   public IGridWorker GetGridWorkerInstance(IConfiguration? configuration,

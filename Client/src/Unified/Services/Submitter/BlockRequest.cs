@@ -36,7 +36,7 @@ internal struct BlockRequest
 
   public ArmonikPayload Payload { get; init; }
 
-  public SemaphoreSlim Lock     { get; init; }
-  
-  public Guid          ResultId { get; init; }
+  public SemaphoreSlim Lock { get; init; }
+
+  public Guid ResultId { get; init; }
 }

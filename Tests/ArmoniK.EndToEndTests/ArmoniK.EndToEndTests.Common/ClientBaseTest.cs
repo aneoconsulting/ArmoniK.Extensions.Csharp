@@ -73,9 +73,9 @@ public abstract class ClientBaseTest<T>
                                             @"\+.*", // Remove Hash build From Version
                                             ""),
          ApplicationNamespace = typeof(T)!.Namespace!.Replace("Client",
-                                                            "Worker"),
+                                                              "Worker"),
          ApplicationService = (typeof(T)!.Name! + "Worker").Replace("Client",
-                                                                  ""),
+                                                                    ""),
 
          EngineType = EngineType.Symphony.ToString(),
        };
