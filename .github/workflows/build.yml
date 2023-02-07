@@ -188,15 +188,15 @@ jobs:
 
     - name: login
       run: |
-        echo ${{ secrets.DOCKER_HUB_TOKEN }} | docker login -u dhaneo1 --password-stdin
+        echo ${{ secrets.DOCKER_HUB_TOKEN }} | docker login -u ${{ secrets.DOCKER_HUB_LOGIN }} --password-stdin
 
-    - name: build
+    - name: buildx
       run: |
-        docker build -t dockerhubaneo/armonik_worker_dll:$VERSION -f Worker/src/DLLWorker/Dockerfile .
+        docker buildx create --use
 
-    - name: push
+    - name: buildAndPush
       run: |
-        docker push dockerhubaneo/armonik_worker_dll:$VERSION
+        docker buildx build --push --platform linux/amd64,linux/arm64 -t dockerhubaneo/armonik_worker_dll:$VERSION -f Worker/src/DLLWorker/Dockerfile .
 
   testEndToEnd:
     needs:
