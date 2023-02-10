@@ -266,14 +266,14 @@ public class SessionPollingService
   /// <returns>returns a specific data from the taskId </returns>
   public byte[] GetDependenciesResult(string id)
   {
-    var isOkay = TaskHandler.DataDependencies.TryGetValue(id,
-                                                          out var data);
-    if (!isOkay)
+    
+    if (!TaskHandler.DataDependencies.TryGetValue(id,
+                                                  out var data))
     {
       throw new KeyNotFoundException(id);
     }
 
-    return data!;
+    return data;
   }
 }
 

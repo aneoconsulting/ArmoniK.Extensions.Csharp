@@ -27,8 +27,6 @@ using System.Collections.Concurrent;
 
 using Grpc.Core;
 
-using JetBrains.Annotations;
-
 using Microsoft.Extensions.Logging;
 
 namespace ArmoniK.DevelopmentKit.Client.Common.Submitter;

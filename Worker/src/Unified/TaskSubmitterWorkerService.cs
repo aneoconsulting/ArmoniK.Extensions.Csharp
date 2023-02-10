@@ -169,12 +169,10 @@ public abstract class TaskSubmitterWorkerService : ITaskSubmitterWorkerServiceCo
   /// <returns>return a list of taskIds of the created tasks </returns>
   public IEnumerable<string> SubmitTasksWithDependencies(IEnumerable<Tuple<byte[], IList<string>>> payloadWithDependencies,
                                                          bool                                      resultForParent = false)
-  {
-    return SessionService?.SubmitTasksWithDependencies(payloadWithDependencies,
-                                                       resultForParent) ??
-           throw new
-             NullReferenceException($"{nameof(SessionService)} wasn't set to a valid instance. {nameof(SessionService)} implementation should inherit {typeof(ITaskSubmitterWorkerServiceConfiguration)}");
-  }
+    => SessionService?.SubmitTasksWithDependencies(payloadWithDependencies,
+                                                   resultForParent) ??
+       throw new
+         NullReferenceException($"{nameof(SessionService)} wasn't set to a valid instance. {nameof(SessionService)} implementation should inherit {typeof(ITaskSubmitterWorkerServiceConfiguration)}");
 
 
   /// <summary>
