@@ -39,10 +39,3 @@ namespace System.Runtime.CompilerServices
 }
 
 #endif
-
-namespace ArmoniK.DevelopmentKit.Common
-{
-  internal interface IExternalInit
-  {
-  }
-}

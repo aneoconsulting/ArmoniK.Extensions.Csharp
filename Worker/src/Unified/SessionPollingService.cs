@@ -273,7 +273,7 @@ public class SessionPollingService
       throw new KeyNotFoundException(id);
     }
 
-    return data ?? throw new InvalidOperationException("Data from Dependencies is null");
+    return data!;
   }
 }
 

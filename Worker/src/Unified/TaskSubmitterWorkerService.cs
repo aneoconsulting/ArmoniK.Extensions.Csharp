@@ -65,17 +65,6 @@ public abstract class TaskSubmitterWorkerService : ITaskSubmitterWorkerServiceCo
   }
 
   /// <summary>
-  /// </summary>
-  /// <param name="loggerFactory">The factory logger to create logger</param>
-  public TaskSubmitterWorkerService(ILoggerFactory? loggerFactory)
-  {
-    LoggerFactory = loggerFactory;
-
-    Logger = loggerFactory?.CreateLogger(GetType()
-                                           .Name);
-  }
-
-  /// <summary>
   ///   Get access to Logger with Logger.LoggingScope.
   /// </summary>
   public ILogger? Logger { get; set; }
@@ -98,7 +87,9 @@ public abstract class TaskSubmitterWorkerService : ITaskSubmitterWorkerServiceCo
   ///   Map between ids of task and their results id after task submission
   /// </summary>
   public Dictionary<string, string> TaskId2OutputId
-    => SessionService?.TaskId2OutputId ?? throw new NoNullAllowedException(nameof(SessionService));
+    => SessionService?.TaskId2OutputId ??
+       throw new
+         NullReferenceException($"{nameof(SessionService)} wasn't set to a valid instance. {nameof(SessionService)} implementation should inherit {typeof(ITaskSubmitterWorkerServiceConfiguration)}");
 
   //internal ITaskHandler TaskHandler { get; set; }
 
@@ -164,7 +155,9 @@ public abstract class TaskSubmitterWorkerService : ITaskSubmitterWorkerServiceCo
   ///   The user payload list to execute. Generally used for subTasking.
   /// </param>
   public IEnumerable<string> SubmitTasks(IEnumerable<byte[]> payloads)
-    => SessionService?.SubmitTasks(payloads) ?? throw new NoNullAllowedException(nameof(SessionService));
+    => SessionService?.SubmitTasks(payloads) ??
+       throw new
+         NullReferenceException($"{nameof(SessionService)} wasn't set to a valid instance. {nameof(SessionService)} implementation should inherit {typeof(ITaskSubmitterWorkerServiceConfiguration)}");
 
 
   /// <summary>
@@ -176,8 +169,12 @@ public abstract class TaskSubmitterWorkerService : ITaskSubmitterWorkerServiceCo
   /// <returns>return a list of taskIds of the created tasks </returns>
   public IEnumerable<string> SubmitTasksWithDependencies(IEnumerable<Tuple<byte[], IList<string>>> payloadWithDependencies,
                                                          bool                                      resultForParent = false)
-    => SessionService?.SubmitTasksWithDependencies(payloadWithDependencies,
-                                                   resultForParent) ?? throw new NoNullAllowedException(nameof(SessionService));
+  {
+    return SessionService?.SubmitTasksWithDependencies(payloadWithDependencies,
+                                                       resultForParent) ??
+           throw new
+             NullReferenceException($"{nameof(SessionService)} wasn't set to a valid instance. {nameof(SessionService)} implementation should inherit {typeof(ITaskSubmitterWorkerServiceConfiguration)}");
+  }
 
 
   /// <summary>
@@ -191,7 +188,9 @@ public abstract class TaskSubmitterWorkerService : ITaskSubmitterWorkerServiceCo
                                    {
                                      payload,
                                    })
-                     .Single() ?? throw new NoNullAllowedException(nameof(SessionService));
+                     .Single() ??
+       throw new
+         NullReferenceException($"{nameof(SessionService)} wasn't set to a valid instance. {nameof(SessionService)} implementation should inherit {typeof(ITaskSubmitterWorkerServiceConfiguration)}");
 
 
   /// <summary>
@@ -217,7 +216,9 @@ public abstract class TaskSubmitterWorkerService : ITaskSubmitterWorkerServiceCo
                                        {
                                          armonikPayload.Serialize(),
                                        })
-                         .Single() ?? throw new NoNullAllowedException(nameof(SessionService));
+                         .Single() ??
+           throw new
+             NullReferenceException($"{nameof(SessionService)} wasn't set to a valid instance. {nameof(SessionService)} implementation should inherit {typeof(ITaskSubmitterWorkerServiceConfiguration)}");
   }
 
 
@@ -238,7 +239,10 @@ public abstract class TaskSubmitterWorkerService : ITaskSubmitterWorkerServiceCo
                                                                   dependencies),
                                                    },
                                                    resultForParent)
-                     .Single() ?? throw new NoNullAllowedException(nameof(SessionService));
+                     .Single() ??
+       throw new
+         NullReferenceException($"{nameof(SessionService)} wasn't set to a valid instance. {nameof(SessionService)} implementation should inherit {typeof(ITaskSubmitterWorkerServiceConfiguration)}");
+
 
   /// <summary>
   ///   The method to submit One task with dependencies tasks. This task will wait for
@@ -268,7 +272,9 @@ public abstract class TaskSubmitterWorkerService : ITaskSubmitterWorkerServiceCo
                                                                       dependencies),
                                                        },
                                                        resultForParent)
-                         .Single() ?? throw new NoNullAllowedException(nameof(SessionService));
+                         .Single() ??
+           throw new
+             NullReferenceException($"{nameof(SessionService)} wasn't set to a valid instance. {nameof(SessionService)} implementation should inherit {typeof(ITaskSubmitterWorkerServiceConfiguration)}");
   }
 
   /// <summary>

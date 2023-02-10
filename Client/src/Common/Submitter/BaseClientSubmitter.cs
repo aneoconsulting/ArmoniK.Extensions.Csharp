@@ -766,7 +766,7 @@ public abstract class BaseClientSubmitter<T>
   /// </summary>
   /// <param name="resultIds">A list of result ids</param>
   /// <returns>Returns an Enumerable pair of </returns>
-  public List<Tuple<string, byte[]>> TryGetResults(IList<string> resultIds)
+  public IList<Tuple<string, byte[]>> TryGetResults(IList<string> resultIds)
   {
     var resultStatus = GetResultStatus(resultIds);
 
@@ -808,7 +808,7 @@ public abstract class BaseClientSubmitter<T>
                                           var res = TryGetResultAsync(new ResultRequest
                                                                       {
                                                                         ResultId = resultStatusData.ResultId,
-                                                                        Session  = SessionId?.Id,
+                                                                        Session  = SessionId?.Id ?? throw new NoNullAllowedException(nameof(SessionId)),
                                                                       })
                                             .Result;
                                           return res == null

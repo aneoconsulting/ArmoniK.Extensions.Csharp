@@ -212,10 +212,6 @@ public class GridWorker : IGridWorker
     {
       throw new WorkerApiException(e);
     }
-    catch (InvalidOperationException e)
-    {
-      throw new WorkerApiException(e);
-    }
     catch (NotSupportedException e)
     {
       throw new WorkerApiException(e);

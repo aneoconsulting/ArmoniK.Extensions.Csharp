@@ -40,7 +40,6 @@ public sealed class ChannelPool
 {
   private readonly Func<ChannelBase> channelFactory_;
 
-  [CanBeNull]
   private readonly ILogger<ChannelPool>? logger_;
 
   private readonly ConcurrentBag<ChannelBase> pool_;
