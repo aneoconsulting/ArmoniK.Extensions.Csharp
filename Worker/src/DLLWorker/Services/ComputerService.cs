@@ -55,7 +55,7 @@ public class ComputerService : WorkerStreamWrapper
     Configuration         = configuration;
     Logger                = serviceRequestContext.LoggerFactory?.CreateLogger<ComputerService>();
     ServiceRequestContext = serviceRequestContext;
-    Logger?.LogInformation("Starting worker...OK");
+    Logger.LogDebug("Starting worker...OK");
   }
 
   private ILogger<ComputerService>? Logger { get; }
