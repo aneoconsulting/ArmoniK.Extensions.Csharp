@@ -266,7 +266,6 @@ public class SessionPollingService
   /// <returns>returns a specific data from the taskId </returns>
   public byte[] GetDependenciesResult(string id)
   {
-    
     if (!TaskHandler.DataDependencies.TryGetValue(id,
                                                   out var data))
     {
