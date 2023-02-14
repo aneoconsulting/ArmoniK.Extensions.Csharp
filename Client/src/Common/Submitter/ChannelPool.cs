@@ -27,9 +27,8 @@ using System.Collections.Concurrent;
 
 using Grpc.Core;
 
-using JetBrains.Annotations;
-
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 
 namespace ArmoniK.DevelopmentKit.Client.Common.Submitter;
 
@@ -40,7 +39,6 @@ public sealed class ChannelPool
 {
   private readonly Func<ChannelBase> channelFactory_;
 
-  [CanBeNull]
   private readonly ILogger<ChannelPool> logger_;
 
   private readonly ConcurrentBag<ChannelBase> pool_;
@@ -50,12 +48,12 @@ public sealed class ChannelPool
   /// </summary>
   /// <param name="channelFactory">Function used to create new channels</param>
   /// <param name="loggerFactory">loggerFactory used to instantiate a logger for the pool</param>
-  public ChannelPool(Func<ChannelBase>          channelFactory,
-                     [CanBeNull] ILoggerFactory loggerFactory = null)
+  public ChannelPool(Func<ChannelBase> channelFactory,
+                     ILoggerFactory?   loggerFactory = null)
   {
     channelFactory_ = channelFactory;
     pool_           = new ConcurrentBag<ChannelBase>();
-    logger_         = loggerFactory?.CreateLogger<ChannelPool>();
+    logger_         = loggerFactory?.CreateLogger<ChannelPool>() ?? NullLogger<ChannelPool>.Instance;
   }
 
   /// <summary>
@@ -66,14 +64,14 @@ public sealed class ChannelPool
   {
     if (pool_.TryTake(out var channel))
     {
-      logger_?.LogDebug("Acquired already existing channel {channel} from pool",
-                        channel);
+      logger_.LogDebug("Acquired already existing channel {channel} from pool",
+                       channel);
       return channel;
     }
 
     channel = channelFactory_();
-    logger_?.LogInformation("Created and acquired new channel {channel} from pool",
-                            channel);
+    logger_.LogInformation("Created and acquired new channel {channel} from pool",
+                           channel);
     return channel;
   }
 
@@ -83,8 +81,8 @@ public sealed class ChannelPool
   /// <param name="channel">Channel to release</param>
   private void ReleaseChannel(ChannelBase channel)
   {
-    logger_?.LogDebug("Released channel {channel} to pool",
-                      channel);
+    logger_.LogDebug("Released channel {channel} to pool",
+                     channel);
     pool_.Add(channel);
   }
 

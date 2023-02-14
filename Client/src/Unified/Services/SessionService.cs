@@ -51,41 +51,38 @@ public class SessionService : BaseClientSubmitter<SessionService>
   ///   Ctor to instantiate a new SessionService
   ///   This is an object to send task or get Results from a session
   /// </summary>
-  public SessionService(ChannelPool                channelPool,
-                        [CanBeNull] ILoggerFactory loggerFactory = null,
-                        [CanBeNull] TaskOptions    taskOptions   = null,
-                        [CanBeNull] Session        session       = null)
+  public SessionService(ChannelPool     channelPool,
+                        ILoggerFactory? loggerFactory = null,
+                        TaskOptions?    taskOptions   = null,
+                        Session?        session       = null)
     : base(channelPool,
            loggerFactory)
   {
     TaskOptions = taskOptions ?? InitializeDefaultTaskOptions();
 
-    Logger?.LogDebug("Creating Session... ");
+    Logger.LogDebug("Creating Session... ");
 
-    SessionId = session ?? CreateSession(new List<string>
-                                         {
-                                           taskOptions.PartitionId,
-                                         });
+    SessionId = session ?? CreateSession(taskOptions != null
+                                           ? new List<string>
+                                             {
+                                               taskOptions.PartitionId,
+                                             }
+                                           : Array.Empty<string>());
 
-    Logger?.LogDebug($"Session Created {SessionId}");
+    Logger.LogDebug($"Session Created {SessionId}");
   }
 
   /// <summary>Returns a string that represents the current object.</summary>
   /// <returns>A string that represents the current object.</returns>
+  [PublicAPI]
   public override string ToString()
-  {
-    if (SessionId?.Id != null)
-    {
-      return SessionId?.Id;
-    }
-
-    return "Session_Not_ready";
-  }
+    => SessionId.Id;
 
   /// <summary>
   ///   Supply a default TaskOptions
   /// </summary>
   /// <returns>A default TaskOptions object</returns>
+  [PublicAPI]
   public static TaskOptions InitializeDefaultTaskOptions()
   {
     TaskOptions taskOptions = new()
@@ -108,7 +105,7 @@ public class SessionService : BaseClientSubmitter<SessionService>
 
   private Session CreateSession(IEnumerable<string> partitionIds)
   {
-    using var _ = Logger?.LogFunction();
+    using var _ = Logger.LogFunction();
     var createSessionRequest = new CreateSessionRequest
                                {
                                  DefaultTaskOption = TaskOptions,
@@ -117,7 +114,7 @@ public class SessionService : BaseClientSubmitter<SessionService>
                                    partitionIds,
                                  },
                                };
-    var session = channelPool_.WithChannel(channel => new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel).CreateSession(createSessionRequest));
+    var session = ChannelPool.WithChannel(channel => new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel).CreateSession(createSessionRequest));
 
     return new Session
            {
@@ -129,11 +126,12 @@ public class SessionService : BaseClientSubmitter<SessionService>
   ///   Set connection to an already opened Session
   /// </summary>
   /// <param name="session">SessionId previously opened</param>
+  [PublicAPI]
   public void OpenSession(Session session)
   {
-    if (SessionId == null)
+    if (SessionId.Id == "")
     {
-      Logger?.LogDebug($"Open Session {session.Id}");
+      Logger.LogDebug($"Open Session {session.Id}");
     }
 
     SessionId = session;
@@ -147,9 +145,10 @@ public class SessionService : BaseClientSubmitter<SessionService>
   /// <param name="payloads">
   ///   The user payload list to execute. General used for subTasking.
   /// </param>
+  [PublicAPI]
   public IEnumerable<string> SubmitTasks(IEnumerable<byte[]> payloads)
     => SubmitTasksWithDependencies(payloads.Select(payload => new Tuple<byte[], IList<string>>(payload,
-                                                                                               null)));
+                                                                                               Array.Empty<string>())));
 
   /// <summary>
   ///   User method to submit task from the client
@@ -158,6 +157,7 @@ public class SessionService : BaseClientSubmitter<SessionService>
   ///   The user payload to execute.
   /// </param>
   /// <param name="waitTimeBeforeNextSubmit">The time to wait before 2 single submitTask</param>
+  [PublicAPI]
   public string SubmitTask(byte[] payload,
                            int    waitTimeBeforeNextSubmit = 2)
   {
@@ -177,6 +177,7 @@ public class SessionService : BaseClientSubmitter<SessionService>
   /// <param name="payload">The payload to submit</param>
   /// <param name="dependencies">A list of task Id in dependence of this created task</param>
   /// <returns>return the taskId of the created task </returns>
+  [PublicAPI]
   public string SubmitTaskWithDependencies(byte[]        payload,
                                            IList<string> dependencies)
     => SubmitTasksWithDependencies(new[]
@@ -185,5 +186,4 @@ public class SessionService : BaseClientSubmitter<SessionService>
                                                   dependencies),
                                    })
       .Single();
-#pragma warning restore CS1591
 }

@@ -1,12 +1,15 @@
-﻿using System;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
+
+using JetBrains.Annotations;
 
 namespace ArmoniK.DevelopmentKit.Common.Timer;
 
 /// <summary>
 ///   Utility class for triggering an event every 24 hours at a specified time of day
 /// </summary>
+[PublicAPI]
 public class TimerTrigger : IDisposable
 {
   /// <summary>
@@ -23,27 +26,21 @@ public class TimerTrigger : IDisposable
                                 second,
                                 milliseconds);
 
-    CancellationToken = new CancellationTokenSource();
     RunningTask = Task.Run(() =>
                            {
-                             while (true)
+                             while (!CancellationToken.Token.IsCancellationRequested)
                              {
                                Thread.Sleep(timeSpan);
-                               OnTimeTriggered?.Invoke();
+                               OnTimeTriggered.Invoke();
                              }
                            },
                            CancellationToken.Token);
   }
 
   /// <summary>
-  ///   Time of day (from 00:00:00) to trigger
-  /// </summary>
-  private TimeSpan TriggerMilli { get; }
-
-  /// <summary>
   ///   Task cancellation token source to cancel delayed task on disposal
   /// </summary>
-  private CancellationTokenSource CancellationToken { get; set; }
+  private CancellationTokenSource CancellationToken { get; set; } = new();
 
   /// <summary>
   ///   Reference to the running task
@@ -53,17 +50,17 @@ public class TimerTrigger : IDisposable
   /// <inheritdoc />
   public void Dispose()
   {
-    CancellationToken?.Cancel();
-    CancellationToken?.Dispose();
-    CancellationToken = null;
-    RunningTask?.Dispose();
-    RunningTask = null;
+    CancellationToken.Cancel();
+    CancellationToken.Dispose();
+    RunningTask.Dispose();
   }
 
   /// <summary>
   ///   Triggers once every 24 hours on the specified time
   /// </summary>
-  public event Action OnTimeTriggered;
+  public event Action OnTimeTriggered = delegate
+                                        {
+                                        };
 
   /// <summary>
   ///   Finalized to ensure Dispose is called when out of scope

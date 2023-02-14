@@ -41,63 +41,90 @@ namespace ArmoniK.DevelopmentKit.Client.Symphony;
 [MarkDownDoc]
 public class ArmonikSymphonyClient
 {
-  private readonly IConfigurationSection          controlPlanSection_;
-  private readonly ILogger<ArmonikSymphonyClient> Logger;
+  /// <summary>
+  ///   Returns the section key Grpc from appSettings.json
+  /// </summary>
+  public const string SectionGrpc = "Grpc";
 
+  private const string SectionEndPoint = "Endpoint";
+
+  /// <summary>
+  ///   The key to to select option in configuration
+  /// </summary>
+  public const string SectionMtls = "mTLS";
+
+  private const string SectionSSlValidation  = "SSLValidation";
+  private const string SectionClientCertFile = "ClientCert";
+  private const string SectionClientKeyFile  = "ClientKey";
 
   /// <summary>
   ///   The ctor with IConfiguration and optional TaskOptions
   /// </summary>
   /// <param name="configuration">IConfiguration to set Client Data information and Grpc EndPoint</param>
   /// <param name="loggerFactory">Factory to create logger in the client service</param>
-  public ArmonikSymphonyClient(IConfiguration configuration,
-                               ILoggerFactory loggerFactory)
+  public ArmonikSymphonyClient(IConfiguration  configuration,
+                               ILoggerFactory? loggerFactory)
   {
-    Configuration = configuration;
-    controlPlanSection_ = configuration.GetSection(SectionGrpc)
-                                       .Exists()
-                            ? configuration.GetSection(SectionGrpc)
-                            : null;
+    var controlPlanSection = configuration.GetSection(SectionGrpc)
+                                          .Exists()
+                               ? configuration.GetSection(SectionGrpc)
+                               : null;
     LoggerFactory = loggerFactory;
-    Logger        = loggerFactory.CreateLogger<ArmonikSymphonyClient>();
+
+
+    var endPoint           = "";
+    var clientCertFilename = "";
+    var clientKeyFilename  = "";
+    var sslValidation      = true;
+
+    if (controlPlanSection != null)
+    {
+      if (controlPlanSection.GetSection(SectionMtls)
+                            .Exists() && controlPlanSection[SectionMtls]
+            .ToLower() == "true")
+      {
+        if (controlPlanSection.GetSection(SectionClientCertFile)
+                              .Exists())
+        {
+          clientCertFilename = controlPlanSection[SectionClientCertFile];
+        }
+
+        if (controlPlanSection.GetSection(SectionClientKeyFile)
+                              .Exists())
+        {
+          clientKeyFilename = controlPlanSection[SectionClientKeyFile];
+        }
+      }
+
+      if (controlPlanSection.GetSection(SectionSSlValidation)
+                            .Exists() && controlPlanSection[SectionSSlValidation] == "disable")
+      {
+        sslValidation = false;
+      }
+
+      endPoint = controlPlanSection[SectionEndPoint];
+    }
+
+    GrpcPool = ClientServiceConnector.ControlPlaneConnectionPool(endPoint,
+                                                                 clientCertFilename,
+                                                                 clientKeyFilename,
+                                                                 sslValidation,
+                                                                 LoggerFactory);
   }
 
-  private ILoggerFactory LoggerFactory { get; }
+  private ILoggerFactory? LoggerFactory { get; }
 
-  /// <summary>
-  ///   Returns the section key Grpc from appSettings.json
-  /// </summary>
-  public string SectionGrpc { get; set; } = "Grpc";
-
-  private static string SectionEndPoint { get; } = "Endpoint";
-
-  /// <summary>
-  ///   The key to to select option in configuration
-  /// </summary>
-  public string SectionMTLS { get; set; } = "mTLS";
-
-  private static string SectionSSlValidation  { get; } = "SSLValidation";
-  private static string SectionClientCertFile { get; } = "ClientCert";
-  private static string SectionClientKeyFile  { get; } = "ClientKey";
-
-  private ChannelPool GrpcPool { get; set; }
-
-
-  private IConfiguration Configuration { get; }
+  private ChannelPool GrpcPool { get; }
 
   /// <summary>
   ///   Create the session to submit task
   /// </summary>
   /// <param name="taskOptions">Optional parameter to set TaskOptions during the Session creation</param>
   /// <returns>Returns the SessionService to submit, wait or get result</returns>
-  public SessionService CreateSession(TaskOptions taskOptions = null)
-  {
-    ControlPlaneConnection();
-
-    return new SessionService(GrpcPool,
-                              LoggerFactory,
-                              taskOptions);
-  }
+  public SessionService CreateSession(TaskOptions? taskOptions = null)
+    => new SessionService(GrpcPool,
+                          LoggerFactory,
+                          taskOptions);
 
   /// <summary>
   ///   Open the session already created to submit task
@@ -105,56 +132,10 @@ public class ArmonikSymphonyClient
   /// <param name="sessionId">The sessionId string which will opened</param>
   /// <param name="clientOptions">the customer taskOptions send to the server by the client</param>
   /// <returns>Returns the SessionService to submit, wait or get result</returns>
-  public SessionService OpenSession(Session     sessionId,
-                                    TaskOptions clientOptions = null)
-  {
-    ControlPlaneConnection();
-
-    return new SessionService(GrpcPool,
-                              LoggerFactory,
-                              clientOptions ?? SessionService.InitializeDefaultTaskOptions(),
-                              sessionId);
-  }
-
-  private void ControlPlaneConnection()
-  {
-    if (GrpcPool != null)
-    {
-      return;
-    }
-
-
-    string clientCertFilename = null;
-    string clientKeyFilename  = null;
-    var    sslValidation      = true;
-
-    if (controlPlanSection_!.GetSection(SectionMTLS)
-                            .Exists() && controlPlanSection_[SectionMTLS]
-          .ToLower() == "true")
-    {
-      if (controlPlanSection_!.GetSection(SectionClientCertFile)
-                              .Exists())
-      {
-        clientCertFilename = controlPlanSection_[SectionClientCertFile];
-      }
-
-      if (controlPlanSection_!.GetSection(SectionClientKeyFile)
-                              .Exists())
-      {
-        clientKeyFilename = controlPlanSection_[SectionClientKeyFile];
-      }
-    }
-
-    if (controlPlanSection_!.GetSection(SectionSSlValidation)
-                            .Exists() && controlPlanSection_![SectionSSlValidation] == "disable")
-    {
-      sslValidation = false;
-    }
-
-    GrpcPool = ClientServiceConnector.ControlPlaneConnectionPool(controlPlanSection_[SectionEndPoint],
-                                                                 clientCertFilename,
-                                                                 clientKeyFilename,
-                                                                 sslValidation,
-                                                                 LoggerFactory);
-  }
+  public SessionService OpenSession(Session      sessionId,
+                                    TaskOptions? clientOptions = null)
+    => new SessionService(GrpcPool,
+                          LoggerFactory,
+                          clientOptions ?? SessionService.InitializeDefaultTaskOptions(),
+                          sessionId);
 }

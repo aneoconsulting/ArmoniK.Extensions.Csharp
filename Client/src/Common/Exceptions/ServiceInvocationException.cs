@@ -57,6 +57,14 @@ public class ServiceInvocationException : Exception
     => message_ = $"{message_} with InnerException {e.GetType()} message : {e.Message}";
 
   /// <summary>
+  ///   Constructor from only a message
+  /// </summary>
+  /// <param name="message">Message of the error</param>
+  public ServiceInvocationException(string message)
+    : base(message)
+    => message_ = message;
+
+  /// <summary>
   ///   The overriden constructor to accept inner Exception as parameters
   /// </summary>
   /// <param name="e">The previous exception</param>

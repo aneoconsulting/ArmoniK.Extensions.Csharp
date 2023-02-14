@@ -34,6 +34,7 @@ using Google.Protobuf.WellKnownTypes;
 using JetBrains.Annotations;
 
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 
 namespace ArmoniK.DevelopmentKit.Client.Unified.Factory;
 
@@ -52,49 +53,43 @@ public class SessionServiceFactory
   ///   The ctor with IConfiguration and optional TaskOptions
   /// </summary>
   /// <param name="loggerFactory">The factory to create the logger for clientService</param>
-  public SessionServiceFactory([CanBeNull] ILoggerFactory loggerFactory = null)
+  [PublicAPI]
+  public SessionServiceFactory(ILoggerFactory? loggerFactory = null)
   {
     LoggerFactory = loggerFactory;
-    Logger        = loggerFactory?.CreateLogger<SessionServiceFactory>();
+    Logger        = loggerFactory?.CreateLogger<SessionServiceFactory>() ?? NullLogger<SessionServiceFactory>.Instance;
   }
 
-  [CanBeNull]
   private ILogger<SessionServiceFactory> Logger { get; }
 
-  private ChannelPool GrpcPool { get; set; }
+  private ChannelPool? GrpcPool { get; set; }
 
 
-  private ILoggerFactory LoggerFactory { get; }
+  private ILoggerFactory? LoggerFactory { get; }
 
   /// <summary>
   ///   Create the session to submit task
   /// </summary>
   /// <param name="properties">All settings to create the session</param>
   /// <returns></returns>
+  [PublicAPI]
   public SessionService CreateSession(Properties properties)
   {
-    ControlPlaneConnection(properties);
+    Logger.LogDebug("Creating Session... ");
 
-    Logger?.LogDebug("Creating Session... ");
-
-    return new SessionService(GrpcPool,
+    return new SessionService(GetPool(properties),
                               LoggerFactory,
                               properties.TaskOptions);
   }
 
-  private void ControlPlaneConnection(Properties properties)
+  private ChannelPool GetPool(Properties properties)
   {
-    if (GrpcPool != null)
-    {
-      return;
-    }
-
-
-    GrpcPool = ClientServiceConnector.ControlPlaneConnectionPool(properties.ConnectionString,
-                                                                 properties.ClientCertFilePem,
-                                                                 properties.ClientKeyFilePem,
-                                                                 properties.ConfSSLValidation,
-                                                                 LoggerFactory);
+    GrpcPool ??= ClientServiceConnector.ControlPlaneConnectionPool(properties.ConnectionString,
+                                                                   properties.ClientCertFilePem,
+                                                                   properties.ClientKeyFilePem,
+                                                                   properties.ConfSSLValidation,
+                                                                   LoggerFactory);
+    return GrpcPool;
   }
 
   /// <summary>
@@ -103,20 +98,17 @@ public class SessionServiceFactory
   /// <param name="properties">The properties setting for the session</param>
   /// <param name="sessionId">SessionId previously opened</param>
   /// <param name="clientOptions"></param>
-  public SessionService OpenSession(Properties  properties,
-                                    string      sessionId,
-                                    TaskOptions clientOptions = null)
-  {
-    ControlPlaneConnection(properties);
-
-    return new SessionService(GrpcPool,
-                              LoggerFactory,
-                              clientOptions,
-                              new Session
-                              {
-                                Id = sessionId,
-                              });
-  }
+  [PublicAPI]
+  public SessionService OpenSession(Properties   properties,
+                                    string       sessionId,
+                                    TaskOptions? clientOptions = null)
+    => new SessionService(GetPool(properties),
+                          LoggerFactory,
+                          clientOptions,
+                          new Session
+                          {
+                            Id = sessionId,
+                          });
 
   /// <summary>
   ///   This method is creating a default taskOptions initialization where
@@ -124,6 +116,7 @@ public class SessionServiceFactory
   ///   The version is 1.0.0 the namespace ArmoniK.DevelopmentKit.GridServer and simple service FallBackServerAdder
   /// </summary>
   /// <returns>Return the default taskOptions</returns>
+  [PublicAPI]
   public static TaskOptions InitDefaultSessionOptions()
   {
     TaskOptions taskOptions = new()
@@ -149,11 +142,8 @@ public class SessionServiceFactory
   /// </summary>
   /// <param name="properties">The properties containing all information for connection</param>
   /// <returns>returns the services of Administration and Monitoring</returns>
+  [PublicAPI]
   public AdminMonitoringService GetAdminMonitoringService(Properties properties)
-  {
-    ControlPlaneConnection(properties);
-
-    return new AdminMonitoringService(GrpcPool,
-                                      LoggerFactory);
-  }
+    => new AdminMonitoringService(GetPool(properties),
+                                  LoggerFactory);
 }

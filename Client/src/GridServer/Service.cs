@@ -38,6 +38,7 @@ using ArmoniK.DevelopmentKit.Common.Extensions;
 using JetBrains.Annotations;
 
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 
 #pragma warning disable CS1591
 
@@ -57,34 +58,34 @@ public class Service : ISubmitterService, IDisposable
   /// <param name="serviceType">The service type (NOT YET USED)</param>
   /// <param name="properties">The properties containing TaskOptions and information to communicate with Control plane and </param>
   /// <param name="loggerFactory">The logger factory to instantiate Logger with the current class type</param>
-  public Service(string                     serviceType,
-                 Properties                 properties,
-                 [CanBeNull] ILoggerFactory loggerFactory = null)
+  public Service(string          serviceType,
+                 Properties      properties,
+                 ILoggerFactory? loggerFactory = null)
   {
+    _ = serviceType;
     ClientService = new ArmonikDataSynapseClientService(properties,
                                                         loggerFactory);
     SessionService = ClientService.CreateSession(properties.TaskOptions);
 
     ProtoSerializer = new ProtoSerializer();
 
-    Logger = loggerFactory?.CreateLogger<Service>();
+    Logger = loggerFactory?.CreateLogger<Service>() ?? NullLogger<Service>.Instance;
   }
 
   /// <summary>
   ///   Property Get the SessionId
   /// </summary>
-  private SessionService SessionService { get; set; }
+  private SessionService SessionService { get; }
 
   private Dictionary<string, Task> TaskWarehouse { get; } = new();
 
-  private ArmonikDataSynapseClientService ClientService { get; set; }
+  private ArmonikDataSynapseClientService ClientService { get; }
 
   private ProtoSerializer ProtoSerializer { get; }
 
-  [CanBeNull]
   private ILogger Logger { get; }
 
-  public Task HandlerResponse { get; set; }
+  public Task HandlerResponse { get; set; } = Task.CompletedTask;
 
   /// <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
   public void Dispose()
@@ -98,13 +99,11 @@ public class Service : ISubmitterService, IDisposable
       // ignored
     }
 
-    SessionService = null;
-    ClientService  = null;
-    HandlerResponse?.Dispose();
+    HandlerResponse.Dispose();
   }
 
   public string SessionId
-    => SessionService?.SessionId.Id;
+    => SessionService.SessionId.Id;
 
 
   /// <inheritdoc />
@@ -155,10 +154,10 @@ public class Service : ISubmitterService, IDisposable
   /// <param name="arguments">the array of object to pass as arguments for the method</param>
   /// <returns>Returns an object as result of the method call</returns>
   /// <exception cref="WorkerApiException"></exception>
-  [CanBeNull]
-  public ServiceResult LocalExecute(object   service,
-                                    string   methodName,
-                                    object[] arguments)
+  [PublicAPI]
+  public ServiceResult LocalExecute(object    service,
+                                    string    methodName,
+                                    object?[] arguments)
   {
     var methodInfo = service.GetType()
                             .GetMethod(methodName);
@@ -186,6 +185,7 @@ public class Service : ISubmitterService, IDisposable
   /// <param name="methodName">The string name of the method</param>
   /// <param name="arguments">the array of object to pass as arguments for the method</param>
   /// <returns>Returns a tuple with the taskId string and an object as result of the method call</returns>
+  [PublicAPI]
   public ServiceResult Execute(string   methodName,
                                object[] arguments)
   {
@@ -203,7 +203,7 @@ public class Service : ISubmitterService, IDisposable
     return new ServiceResult
            {
              TaskId = taskId,
-             Result = result?[0],
+             Result = result[0],
            };
   }
 
@@ -214,6 +214,7 @@ public class Service : ISubmitterService, IDisposable
   /// <param name="methodName">The string name of the method</param>
   /// <param name="dataArg">the array of byte to pass as argument for the methodName(byte[] dataArg)</param>
   /// <returns>Returns a tuple with the taskId string and an object as result of the method call</returns>
+  [PublicAPI]
   public ServiceResult Execute(string methodName,
                                byte[] dataArg)
   {
@@ -232,7 +233,7 @@ public class Service : ISubmitterService, IDisposable
     return new ServiceResult
            {
              TaskId = taskId,
-             Result = result?[0],
+             Result = result[0],
            };
   }
 
@@ -242,6 +243,7 @@ public class Service : ISubmitterService, IDisposable
   /// <param name="dataSynapsePayload">The armonikPayload to pass with Function name and serialized arguments</param>
   /// <param name="handler">The handler callBack for Error and response</param>
   /// <returns>Return the taskId</returns>
+  [PublicAPI]
   public string Submit(ArmonikPayload            dataSynapsePayload,
                        IServiceInvocationHandler handler)
   {
@@ -255,7 +257,7 @@ public class Service : ISubmitterService, IDisposable
                                    var result      = ProtoSerializer.DeSerializeMessageObjectArray(byteResults);
 
 
-                                   handler.HandleResponse(result?[0],
+                                   handler.HandleResponse(result[0],
                                                           taskId);
                                  }
                                  catch (Exception ex)
@@ -267,7 +269,8 @@ public class Service : ISubmitterService, IDisposable
                                                            taskId);
                                        break;
                                      case AggregateException aggregateException:
-                                       handler.HandleError(new ServiceInvocationException(aggregateException.InnerException),
+                                       var innerEx = aggregateException.InnerException;
+                                       handler.HandleError(new ServiceInvocationException(innerEx ?? ex),
                                                            taskId);
                                        break;
                                      default:
@@ -291,6 +294,7 @@ public class Service : ISubmitterService, IDisposable
   /// <param name="argument">One serialized argument that will already serialize for MethodName.</param>
   /// <param name="handler">The handler callBack implemented as IServiceInvocationHandler to get response or result or error</param>
   /// <returns>Return the taskId string</returns>
+  [PublicAPI]
   public string Submit(string                    methodName,
                        byte[]                    argument,
                        IServiceInvocationHandler handler)
@@ -328,8 +332,8 @@ public class Service : ISubmitterService, IDisposable
                         };
     var idx = 0;
 
-    Logger?.BeginPropertyScope(("SessionId", SessionId),
-                               ("Function", "ActiveGetResults"));
+    using var loggerScope = Logger.BeginPropertyScope(("SessionId", SessionId),
+                                                      ("Function", "ActiveGetResults"));
 
     while (missing.Count != 0)
     {
@@ -367,6 +371,7 @@ public class Service : ISubmitterService, IDisposable
   /// <summary>
   ///   The method to destroy the service and close the session
   /// </summary>
+  [PublicAPI]
   public void Destroy()
     => Dispose();
 
@@ -374,29 +379,24 @@ public class Service : ISubmitterService, IDisposable
   ///   Check if this service has been destroyed before that call
   /// </summary>
   /// <returns>Returns true if the service was destroyed previously</returns>
+  [PublicAPI]
   public bool IsDestroyed()
-  {
-    if (SessionService == null || ClientService == null)
-    {
-      return true;
-    }
-
-    return false;
-  }
+    => false;
 
   /// <summary>
   ///   Class to return TaskId and the result
   /// </summary>
+  [PublicAPI]
   public class ServiceResult
   {
     /// <summary>
     ///   The getter to return the taskId
     /// </summary>
-    public string TaskId { get; set; }
+    public string TaskId { get; set; } = "";
 
     /// <summary>
     ///   The getter to return the result in object type format
     /// </summary>
-    public object Result { get; set; }
+    public object? Result { get; set; }
   }
 }

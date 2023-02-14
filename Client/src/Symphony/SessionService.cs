@@ -33,8 +33,6 @@ using ArmoniK.DevelopmentKit.Common;
 
 using Google.Protobuf.WellKnownTypes;
 
-using JetBrains.Annotations;
-
 using Microsoft.Extensions.Logging;
 
 namespace ArmoniK.DevelopmentKit.Client.Symphony;
@@ -50,29 +48,29 @@ public class SessionService : BaseClientSubmitter<SessionService>
   ///   Ctor to instantiate a new SessionService
   ///   This is an object to send task or get Results from a session
   /// </summary>
-  public SessionService(ChannelPool                channelPool,
-                        [CanBeNull] ILoggerFactory loggerFactory = null,
-                        [CanBeNull] TaskOptions    taskOptions   = null,
-                        [CanBeNull] Session        session       = null)
+  public SessionService(ChannelPool     channelPool,
+                        ILoggerFactory? loggerFactory = null,
+                        TaskOptions?    taskOptions   = null,
+                        Session?        session       = null)
     : base(channelPool,
            loggerFactory)
   {
     TaskOptions = taskOptions ?? InitializeDefaultTaskOptions();
 
-    Logger?.LogDebug("Creating Session... ");
+    Logger.LogDebug("Creating Session... ");
 
     SessionId = session ?? CreateSession(new List<string>
                                          {
                                            TaskOptions.PartitionId,
                                          });
 
-    Logger?.LogDebug($"Session Created {SessionId}");
+    Logger.LogDebug($"Session Created {SessionId}");
   }
 
   /// <summary>Returns a string that represents the current object.</summary>
   /// <returns>A string that represents the current object.</returns>
   public override string ToString()
-    => SessionId?.Id ?? "Session_Not_ready";
+    => SessionId.Id;
 
   /// <summary>
   ///   Default task options
@@ -95,7 +93,7 @@ public class SessionService : BaseClientSubmitter<SessionService>
 
   private Session CreateSession(IEnumerable<string> partitionIds)
   {
-    using var _ = Logger?.LogFunction();
+    using var _ = Logger.LogFunction();
     var createSessionRequest = new CreateSessionRequest
                                {
                                  DefaultTaskOption = TaskOptions,
@@ -104,7 +102,7 @@ public class SessionService : BaseClientSubmitter<SessionService>
                                    partitionIds,
                                  },
                                };
-    var session = channelPool_.WithChannel(channel => new Submitter.SubmitterClient(channel).CreateSession(createSessionRequest));
+    var session = ChannelPool.WithChannel(channel => new Submitter.SubmitterClient(channel).CreateSession(createSessionRequest));
 
     return new Session
            {
@@ -118,9 +116,9 @@ public class SessionService : BaseClientSubmitter<SessionService>
   /// <param name="session">SessionId previously opened</param>
   public void OpenSession(Session session)
   {
-    if (SessionId == null)
+    if (SessionId.Id == "")
     {
-      Logger?.LogDebug($"Open Session {session.Id}");
+      Logger.LogDebug($"Open Session {session.Id}");
     }
 
     SessionId = session;
@@ -136,7 +134,7 @@ public class SessionService : BaseClientSubmitter<SessionService>
   /// </param>
   public IEnumerable<string> SubmitTasks(IEnumerable<byte[]> payloads)
     => SubmitTasksWithDependencies(payloads.Select(payload => new Tuple<byte[], IList<string>>(payload,
-                                                                                               null)));
+                                                                                               Array.Empty<string>())));
 
   /// <summary>
   ///   User method to submit task from the client

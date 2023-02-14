@@ -1,18 +1,22 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+
+using JetBrains.Annotations;
 
 namespace ArmoniK.DevelopmentKit.Common.Exceptions;
 
 /// <summary>
 ///   Bundle an exception with list of task in Error
 /// </summary>
+[PublicAPI]
 public class ClientResultsException : Exception
 {
   /// <summary>
   ///   The default constructor to refer the list of task in error
   /// </summary>
   /// <param name="taskIds">The list of taskId</param>
+  [PublicAPI]
   public ClientResultsException(params string[] taskIds)
     : base(BuildMessage(taskIds))
     => TaskIds = taskIds;
@@ -22,6 +26,7 @@ public class ClientResultsException : Exception
   /// </summary>
   /// <param name="message">the message in exception</param>
   /// <param name="taskIds">The list of taskId</param>
+  [PublicAPI]
   public ClientResultsException(string          message,
                                 params string[] taskIds)
     : base(message)
@@ -32,6 +37,7 @@ public class ClientResultsException : Exception
   /// </summary>
   /// <param name="message">The string message in exception</param>
   /// <param name="taskIds"></param>
+  [PublicAPI]
   public ClientResultsException(string              message,
                                 IEnumerable<string> taskIds)
     : base(message)
@@ -40,6 +46,7 @@ public class ClientResultsException : Exception
   /// <summary>
   ///   The list of taskId in error
   /// </summary>
+  [PublicAPI]
   public IEnumerable<string> TaskIds { get; set; }
 
   private static string BuildMessage(IEnumerable<string> taskIds)

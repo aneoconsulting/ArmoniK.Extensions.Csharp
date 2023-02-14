@@ -24,8 +24,6 @@
 using ArmoniK.DevelopmentKit.Client.Common;
 using ArmoniK.DevelopmentKit.Common;
 
-using JetBrains.Annotations;
-
 using Microsoft.Extensions.Logging;
 
 namespace ArmoniK.DevelopmentKit.Client.GridServer;
@@ -36,7 +34,7 @@ namespace ArmoniK.DevelopmentKit.Client.GridServer;
 [MarkDownDoc]
 public class ServiceFactory
 {
-  private static ServiceFactory _instanceFactory;
+  private static readonly ServiceFactory InstanceFactory = new();
 
   private ServiceFactory()
   {
@@ -47,14 +45,7 @@ public class ServiceFactory
   /// </summary>
   /// <returns>Returns the ServiceFactory to create new Service</returns>
   public static ServiceFactory GetInstance()
-  {
-    if (_instanceFactory == null)
-    {
-      _instanceFactory = new ServiceFactory();
-    }
-
-    return _instanceFactory;
-  }
+    => InstanceFactory;
 
   /// <summary>
   ///   The method to create new Service
@@ -66,9 +57,9 @@ public class ServiceFactory
   /// <param name="props">Properties for the service containing IConfiguration and TaskOptions</param>
   /// <param name="loggerFactory">Logger factory to produce logs</param>
   /// <returns>returns the new instantiated service</returns>
-  public Service CreateService(string                     serviceType,
-                               Properties                 props,
-                               [CanBeNull] ILoggerFactory loggerFactory = null)
+  public Service CreateService(string          serviceType,
+                               Properties      props,
+                               ILoggerFactory? loggerFactory = null)
     => new(serviceType,
            props,
            loggerFactory);

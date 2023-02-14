@@ -25,18 +25,20 @@ using System.Collections.Generic;
 
 using ArmoniK.DevelopmentKit.Common.Exceptions;
 
+using JetBrains.Annotations;
+
 #pragma warning disable CS1591
 
 namespace ArmoniK.DevelopmentKit.Client.Symphony;
 
+[PublicAPI]
 public class SessionStorage
 {
-  private static SessionStorage _instance;
-
   private readonly Dictionary<string, string> sessionFromTaskIds_;
 
   private readonly Dictionary<string, List<string>> taskIdsFromSession_;
 
+  [PublicAPI]
   private SessionStorage()
   {
     taskIdsFromSession_ = new Dictionary<string, List<string>>();
@@ -45,18 +47,9 @@ public class SessionStorage
 
   /// <summary>
   /// </summary>
-  /// <returns></returns>
-  public SessionStorage GetInstance()
-  {
-    _instance ??= new SessionStorage();
-
-    return _instance;
-  }
-
-  /// <summary>
-  /// </summary>
   /// <param name="session"></param>
   /// <param name="taskId"></param>
+  [PublicAPI]
   public void AttachTaskToSession(string session,
                                   string taskId)
   {
@@ -78,6 +71,7 @@ public class SessionStorage
   /// <param name="taskId"></param>
   /// <returns></returns>
   /// <exception cref="WorkerApiException"></exception>
+  [PublicAPI]
   public string GetSessionFromTaskId(string taskId)
   {
     if (!sessionFromTaskIds_.ContainsKey(taskId) || sessionFromTaskIds_[taskId] == null)
@@ -93,6 +87,7 @@ public class SessionStorage
   /// <param name="session"></param>
   /// <returns></returns>
   /// <exception cref="WorkerApiException"></exception>
+  [PublicAPI]
   public IEnumerable<string> GetTaskIdsFromSession(string session)
   {
     if (!taskIdsFromSession_.ContainsKey(session))

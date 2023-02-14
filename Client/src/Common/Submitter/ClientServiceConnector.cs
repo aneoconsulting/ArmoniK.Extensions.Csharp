@@ -4,9 +4,8 @@ using System.Net.Http;
 
 using Grpc.Core;
 
-using JetBrains.Annotations;
-
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 #if NET5_0_OR_GREATER
 using Grpc.Net.Client;
 
@@ -29,9 +28,9 @@ public class ClientServiceConnector
   /// <param name="sslValidation">Optional : Check if the ssl must have a strong validation (default true)</param>
   /// <param name="loggerFactory">Optional : the logger factory to create the logger</param>
   /// <returns></returns>
-  private static ChannelBase ControlPlaneConnection(string         endPoint,
-                                                    bool           sslValidation = true,
-                                                    ILoggerFactory loggerFactory = null)
+  private static ChannelBase ControlPlaneConnection(string          endPoint,
+                                                    bool            sslValidation = true,
+                                                    ILoggerFactory? loggerFactory = null)
     => ControlPlaneConnection(endPoint,
                               "",
                               "",
@@ -47,20 +46,20 @@ public class ClientServiceConnector
   /// <param name="sslValidation">Check if the ssl must have a strong validation</param>
   /// <param name="loggerFactory">Optional logger factory</param>
   /// <returns></returns>
-  private static ChannelBase ControlPlaneConnection(string                     endPoint,
-                                                    string                     clientCertFilename,
-                                                    string                     clientKeyFilename,
-                                                    bool                       sslValidation = true,
-                                                    [CanBeNull] ILoggerFactory loggerFactory = null)
+  private static ChannelBase ControlPlaneConnection(string          endPoint,
+                                                    string          clientCertFilename,
+                                                    string          clientKeyFilename,
+                                                    bool            sslValidation = true,
+                                                    ILoggerFactory? loggerFactory = null)
   {
-    var logger = loggerFactory?.CreateLogger<ClientServiceConnector>();
+    var logger = loggerFactory?.CreateLogger<ClientServiceConnector>() ?? NullLogger<ClientServiceConnector>.Instance;
     if ((!string.IsNullOrEmpty(clientCertFilename) && string.IsNullOrEmpty(clientKeyFilename)) ||
         (string.IsNullOrEmpty(clientCertFilename)  && !string.IsNullOrEmpty(clientKeyFilename)))
     {
       throw new ArgumentException("Missing path to one of certificate file. Please the check path to files");
     }
 
-    Tuple<string, string> clientPem = null;
+    Tuple<string, string>? clientPem = null;
 
     if (!string.IsNullOrEmpty(clientCertFilename) && !string.IsNullOrEmpty(clientKeyFilename))
     {
@@ -73,19 +72,19 @@ public class ClientServiceConnector
       }
       catch (Exception e)
       {
-        logger?.LogError("Fail to read certificate file",
-                         e);
+        logger.LogError(e,
+                        "Fail to read certificate file");
         throw;
       }
     }
 
     var uri = new Uri(endPoint);
-    logger?.LogInformation($"Connecting to armoniK  : {uri} port : {uri.Port}");
-    logger?.LogInformation($"HTTPS Activated: {uri.Scheme == Uri.UriSchemeHttps}");
+    logger.LogInformation($"Connecting to armoniK  : {uri} port : {uri.Port}");
+    logger.LogInformation($"HTTPS Activated: {uri.Scheme == Uri.UriSchemeHttps}");
 
     if (!string.IsNullOrEmpty(clientCertFilename))
     {
-      logger?.LogInformation("mTLS Activated: properties_.ClientCertFilePem");
+      logger.LogInformation("mTLS Activated: properties_.ClientCertFilePem");
     }
 
 
@@ -103,16 +102,14 @@ public class ClientServiceConnector
   /// <param name="sslValidation">Check if the ssl must have a strong validation</param>
   /// <param name="loggerFactory">Optional logger factory</param>
   /// <returns></returns>
-  private static ChannelBase ControlPlaneConnection(string                     endPoint,
-                                                    Tuple<string, string>      clientPem     = null,
-                                                    bool                       sslValidation = true,
-                                                    [CanBeNull] ILoggerFactory loggerFactory = null)
+  private static ChannelBase ControlPlaneConnection(string                 endPoint,
+                                                    Tuple<string, string>? clientPem     = null,
+                                                    bool                   sslValidation = true,
+                                                    ILoggerFactory?        loggerFactory = null)
   {
+    _ = loggerFactory;
     var uri = new Uri(endPoint);
 
-    var credentials = uri.Scheme == Uri.UriSchemeHttps
-                        ? new SslCredentials()
-                        : ChannelCredentials.Insecure;
     var httpClientHandler = new HttpClientHandler();
     if (!sslValidation)
     {
@@ -153,6 +150,9 @@ public class ClientServiceConnector
                                          channelOptions);
 
 #else
+    var credentials = uri.Scheme == Uri.UriSchemeHttps
+                        ? new SslCredentials()
+                        : ChannelCredentials.Insecure;
     Environment.SetEnvironmentVariable("GRPC_DNS_RESOLVER",
                                        "native");
     if (clientPem != null)
@@ -175,9 +175,9 @@ public class ClientServiceConnector
   /// <param name="sslValidation">Optional : Check if the ssl must have a strong validation (default true)</param>
   /// <param name="loggerFactory">Optional : the logger factory to create the logger</param>
   /// <returns></returns>
-  public static ChannelPool ControlPlaneConnectionPool(string         endPoint,
-                                                       bool           sslValidation = true,
-                                                       ILoggerFactory loggerFactory = null)
+  public static ChannelPool ControlPlaneConnectionPool(string          endPoint,
+                                                       bool            sslValidation = true,
+                                                       ILoggerFactory? loggerFactory = null)
     => new(() => ControlPlaneConnection(endPoint,
                                         sslValidation,
                                         loggerFactory),
@@ -193,11 +193,11 @@ public class ClientServiceConnector
   /// <param name="sslValidation">Check if the ssl must have a strong validation</param>
   /// <param name="loggerFactory">Optional logger factory</param>
   /// <returns></returns>
-  public static ChannelPool ControlPlaneConnectionPool(string                     endPoint,
-                                                       string                     clientCertFilename,
-                                                       string                     clientKeyFilename,
-                                                       bool                       sslValidation = true,
-                                                       [CanBeNull] ILoggerFactory loggerFactory = null)
+  public static ChannelPool ControlPlaneConnectionPool(string          endPoint,
+                                                       string          clientCertFilename,
+                                                       string          clientKeyFilename,
+                                                       bool            sslValidation = true,
+                                                       ILoggerFactory? loggerFactory = null)
     => new(() => ControlPlaneConnection(endPoint,
                                         clientCertFilename,
                                         clientKeyFilename,
@@ -213,10 +213,10 @@ public class ClientServiceConnector
   /// <param name="sslValidation">Check if the ssl must have a strong validation</param>
   /// <param name="loggerFactory">Optional logger factory</param>
   /// <returns>The connection pool</returns>
-  public static ChannelPool ControlPlaneConnectionPool(string                     endPoint,
-                                                       Tuple<string, string>      clientPem     = null,
-                                                       bool                       sslValidation = true,
-                                                       [CanBeNull] ILoggerFactory loggerFactory = null)
+  public static ChannelPool ControlPlaneConnectionPool(string                 endPoint,
+                                                       Tuple<string, string>? clientPem     = null,
+                                                       bool                   sslValidation = true,
+                                                       ILoggerFactory?        loggerFactory = null)
     => new(() => ControlPlaneConnection(endPoint,
                                         clientPem,
                                         sslValidation,

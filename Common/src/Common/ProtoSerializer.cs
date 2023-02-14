@@ -39,7 +39,7 @@ namespace ArmoniK.DevelopmentKit.Common;
 public class ProtoSerializer
 {
 // *** you need some mechanism to map types to fields
-  private static readonly IDictionary<int, Type> typeLookup = new List<Type>
+  private static readonly IDictionary<int, Type> TypeLookup = new List<Type>
                                                               {
                                                                 typeof(ProtoNative<int>),
                                                                 typeof(int),
@@ -100,9 +100,9 @@ public class ProtoSerializer
     return data;
   }
 
-  public static object[] DeSerializeMessageObjectArray(byte[] data)
+  public static object?[] DeSerializeMessageObjectArray(byte[] data)
   {
-    var result = new List<object>();
+    var result = new List<object?>();
 
     using var ms = new MemoryStream(data);
     while (ReadNext(ms,
@@ -112,11 +112,11 @@ public class ProtoSerializer
     }
 
     return result.Count == 0
-             ? null
+             ? Array.Empty<object?>()
              : result.ToArray();
   }
 
-  public static object DeSerializeMessageObject(byte[] data)
+  public static object? DeSerializeMessageObject(byte[] data)
   {
     using var ms = new MemoryStream(data);
 
@@ -127,18 +127,18 @@ public class ProtoSerializer
 
   public static void RegisterClass(Type classType)
   {
-    var max = typeLookup.Keys.Max();
-    typeLookup[max + 1] = classType;
+    var max = TypeLookup.Keys.Max();
+    TypeLookup[max + 1] = classType;
   }
 
-  private static void WriteNext(Stream stream,
-                                object obj)
+  private static void WriteNext(Stream  stream,
+                                object? obj)
   {
     obj ??= new Nullable();
 
     var type = obj.GetType();
 
-    if (type.IsArray && typeLookup.All(pair => pair.Value.Name != type.Name))
+    if (type.IsArray && TypeLookup.All(pair => pair.Value.Name != type.Name))
     {
       WriteNext(stream,
                 new ProtoArray
@@ -164,7 +164,7 @@ public class ProtoSerializer
                                       object obj,
                                       Type   type)
   {
-    var field = typeLookup.Single(pair => pair.Value == type)
+    var field = TypeLookup.Single(pair => pair.Value == type)
                           .Key;
 
     Serializer.NonGeneric.SerializeWithLengthPrefix(stream,
@@ -173,15 +173,12 @@ public class ProtoSerializer
                                                     field);
   }
 
-  private static bool ReadNext(Stream     stream,
-                               out object obj)
+  private static bool ReadNext(Stream      stream,
+                               out object? obj)
   {
     if (!Serializer.NonGeneric.TryDeserializeWithLengthPrefix(stream,
                                                               PrefixStyle.Base128,
-                                                              field =>
-                                                              {
-                                                                return typeLookup[field];
-                                                              },
+                                                              field => TypeLookup[field],
                                                               out obj))
     {
       return false;
@@ -194,7 +191,7 @@ public class ProtoSerializer
 
     if (obj is ProtoArray)
     {
-      var finalObj = new List<object>();
+      var finalObj = new List<object?>();
       var arrInfo  = (ProtoArray)obj;
       if (arrInfo.NbElement < 0)
       {
@@ -218,11 +215,11 @@ public class ProtoSerializer
     return true;
   }
 
-  public static T Deserialize<T>(byte[] dataPayloadInBytes)
+  public static T? Deserialize<T>(byte[] dataPayloadInBytes)
   {
     var obj = DeSerializeMessageObject(dataPayloadInBytes);
 
-    return (T)obj;
+    return (T?)obj;
   }
 
   [ProtoContract]
@@ -241,6 +238,6 @@ public class ProtoSerializer
   public class ProtoNative<T>
   {
     [ProtoMember(1)]
-    public T Element;
+    public T? Element;
   }
 }

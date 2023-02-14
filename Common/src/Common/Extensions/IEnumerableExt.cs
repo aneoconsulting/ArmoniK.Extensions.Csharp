@@ -28,6 +28,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
+using JetBrains.Annotations;
+
 namespace ArmoniK.DevelopmentKit.Common.Extensions;
 
 /// <summary>
@@ -35,6 +37,7 @@ namespace ArmoniK.DevelopmentKit.Common.Extensions;
 ///   Chunk split the IEnumerable in several IEnumerable
 ///   Original source code : https://github.com/dotnet/runtime/blob/main/src/libraries/System.Linq/src/System/Linq/Chunk.cs
 /// </summary>
+[PublicAPI]
 public static class IEnumerableExt
 {
   /// <summary>
@@ -168,8 +171,8 @@ public static class IEnumerableExt
   /// <param name="comparer">The comparer element</param>
   /// <typeparam name="T"></typeparam>
   /// <returns></returns>
-  public static HashSet<T> ToHashSet<T>(this IEnumerable<T>  source,
-                                        IEqualityComparer<T> comparer = null)
+  public static HashSet<T> ToHashSet<T>(this IEnumerable<T>   source,
+                                        IEqualityComparer<T>? comparer = null)
     => new(source,
            comparer);
 }

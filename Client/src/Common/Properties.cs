@@ -69,10 +69,10 @@ public class Properties
   public Properties(TaskOptions options,
                     string      connectionAddress,
                     int         connectionPort = 0,
-                    string      protocol       = null,
-                    string      clientCertPem  = null,
-                    string      clientKeyPem   = null,
-                    string      caCertPem      = null,
+                    string      protocol       = "",
+                    string      clientCertPem  = "",
+                    string      clientKeyPem   = "",
+                    string      caCertPem      = "",
                     bool        sslValidation  = true)
     : this(new ConfigurationBuilder().AddEnvironmentVariables()
                                      .Build(),
@@ -102,12 +102,12 @@ public class Properties
   /// <exception cref="ArgumentException"></exception>
   public Properties(IConfiguration configuration,
                     TaskOptions    options,
-                    string         connectionAddress = null,
+                    string         connectionAddress = "",
                     int            connectionPort    = 0,
-                    string         protocol          = null,
-                    string         clientCertFilePem = null,
-                    string         clientKeyFilePem  = null,
-                    string         caCertPem         = null,
+                    string         protocol          = "",
+                    string         clientCertFilePem = "",
+                    string         clientKeyFilePem  = "",
+                    string         caCertPem         = "",
                     bool           sslValidation     = true)
   {
     TaskOptions   = options;
@@ -124,7 +124,7 @@ public class Properties
       ConnectionString = sectionGrpc.GetSection(SectionEndPoint)
                                     .Exists()
                            ? sectionGrpc[SectionEndPoint]
-                           : null;
+                           : "";
       ConfSSLValidation = !sectionGrpc.GetSection(SectionSSlValidation)
                                       .Exists() || sectionGrpc[SectionSSlValidation] != "disable";
 
@@ -135,29 +135,29 @@ public class Properties
         CaCertFilePem = sectionGrpc.GetSection(SectionCaCert)
                                    .Exists()
                           ? sectionGrpc[SectionCaCert]
-                          : null;
+                          : "";
         ClientCertFilePem = sectionGrpc.GetSection(SectionClientCert)
                                        .Exists()
                               ? sectionGrpc[SectionClientCert]
-                              : null;
+                              : "";
         ClientKeyFilePem = sectionGrpc.GetSection(SectionClientKey)
                                       .Exists()
                              ? sectionGrpc[SectionClientKey]
-                             : null;
+                             : "";
       }
     }
 
-    if (clientCertFilePem != null)
+    if (clientCertFilePem != "")
     {
       ClientCertFilePem = clientCertFilePem;
     }
 
-    if (clientKeyFilePem != null)
+    if (clientKeyFilePem != "")
     {
       ClientKeyFilePem = clientKeyFilePem;
     }
 
-    if (caCertPem != null)
+    if (caCertPem != "")
     {
       CaCertFilePem = caCertPem;
     }
@@ -172,7 +172,7 @@ public class Properties
     //                  $"ClientKeyFilePem  = {ClientKeyFilePem}\n"
     //                  );
 
-    if (connectionAddress != null)
+    if (connectionAddress != "")
     {
       var uri = new Uri(connectionAddress);
       ConnectionAddress = uri.Host;
@@ -188,7 +188,7 @@ public class Properties
       ConnectionPort = connectionPort;
     }
 
-    if (protocol != null)
+    if (protocol != "")
     {
       Protocol = protocol;
     }
@@ -248,21 +248,22 @@ public class Properties
   /// <summary>
   ///   The path to the CA Root file name
   /// </summary>
-  public string CaCertFilePem { get; set; }
+  public string CaCertFilePem { get; set; } = "";
 
   /// <summary>
   ///   The property to get the path of the certificate file
   /// </summary>
-  public string ClientCertFilePem { get; }
+  public string ClientCertFilePem { get; } = "";
 
   /// <summary>
   ///   the property to get the path of the key certificate
   /// </summary>
-  public string ClientKeyFilePem { get; }
+  public string ClientKeyFilePem { get; } = "";
 
   /// <summary>
   ///   The SSL validation property to disable SSL strong verification
   /// </summary>
+  // ReSharper disable once InconsistentNaming
   public bool ConfSSLValidation { get; }
 
   /// <summary>
@@ -308,7 +309,7 @@ public class Properties
   /// <summary>
   ///   The connection address property to connect to the control plane
   /// </summary>
-  public string ConnectionAddress { get; set; }
+  public string ConnectionAddress { get; set; } = "";
 
   /// <summary>
   ///   The option connection port to connect to control plane (Default : 5001)

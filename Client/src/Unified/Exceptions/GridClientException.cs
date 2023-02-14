@@ -1,4 +1,4 @@
-﻿// This file is part of the ArmoniK project
+// This file is part of the ArmoniK project
 // 
 // Copyright (C) ANEO, 2021-2022.
 //   W. Kirschenmann   <wkirschenmann@aneo.fr>
@@ -23,17 +23,21 @@
 
 using System;
 
+using JetBrains.Annotations;
+
 namespace ArmoniK.DevelopmentKit.Client.Unified.Exceptions;
 
 /// <summary>
 ///   The exception class for Client side reporting Grid Error
 /// </summary>
+[PublicAPI]
 public class GridClientException : Exception
 {
   /// <summary>
   ///   The constructor in string message in parameters
   /// </summary>
   /// <param name="message">the message to include in the exception</param>
+  [PublicAPI]
   public GridClientException(string message)
     : base(message)
   {
@@ -44,6 +48,7 @@ public class GridClientException : Exception
   /// </summary>
   /// <param name="message">The string message in the new exception</param>
   /// <param name="e">the inner exception</param>
+  [PublicAPI]
   public GridClientException(string    message,
                              Exception e)
     : base(message,

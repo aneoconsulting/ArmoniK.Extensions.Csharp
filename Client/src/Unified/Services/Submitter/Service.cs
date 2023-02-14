@@ -42,6 +42,7 @@ using ArmoniK.DevelopmentKit.Common.Extensions;
 using JetBrains.Annotations;
 
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 
 using TaskStatus = ArmoniK.Api.gRPC.V1.TaskStatus;
 
@@ -93,8 +94,8 @@ public class Service : AbstractClientService, ISubmitterService
   /// </summary>
   /// <param name="properties">The properties containing TaskOptions and information to communicate with Control plane and </param>
   /// <param name="loggerFactory"></param>
-  public Service(Properties                 properties,
-                 [CanBeNull] ILoggerFactory loggerFactory = null)
+  public Service(Properties      properties,
+                 ILoggerFactory? loggerFactory = null)
     : base(properties,
            loggerFactory)
   {
@@ -116,9 +117,9 @@ public class Service : AbstractClientService, ISubmitterService
     HandlerResponse = Task.Run(ResultTask,
                                CancellationResultTaskSource.Token);
 
-    Logger = LoggerFactory?.CreateLogger<Service>();
-    Logger?.BeginPropertyScope(("SessionId", SessionService.SessionId),
-                               ("Class", "Service"));
+    Logger = LoggerFactory?.CreateLogger<Service>() ?? NullLogger<Service>.Instance;
+    using var loggerScope = Logger.BeginPropertyScope(("SessionId", SessionService.SessionId),
+                                                      ("Class", "Service"));
 
     BufferSubmit = new BatchUntilInactiveBlock<BlockRequest>(maxTasksPerBuffer,
                                                              timeOutSending,

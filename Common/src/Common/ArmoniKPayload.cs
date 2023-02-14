@@ -21,72 +21,86 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-//TODO : remove pragma
-
 using System;
-using System.Text;
 
 using ProtoBuf;
 
 namespace ArmoniK.DevelopmentKit.Common;
 
+/// <summary>
+///   Payload for tasks
+/// </summary>
 [ProtoContract]
 public class ArmonikPayload
 {
+  /// <summary>
+  ///   Type of the request
+  /// </summary>
   [ProtoMember(1)]
   public ArmonikRequestType ArmonikRequestType { get; set; }
 
+  /// <summary>
+  ///   Name of the method to call
+  /// </summary>
   [ProtoMember(2)]
-  public string MethodName { get; set; }
+  public string MethodName { get; set; } = "";
 
+  /// <summary>
+  ///   Client data
+  /// </summary>
   [ProtoMember(3)]
-  public byte[] ClientPayload { get; set; }
+  public byte[] ClientPayload { get; set; } = Array.Empty<byte>();
 
+  /// <summary>
+  ///   Serialized
+  /// </summary>
   [ProtoMember(4)]
   public bool SerializedArguments { get; set; }
 
+  /// <summary>
+  ///   Serialize the payload
+  /// </summary>
+  /// <returns>Serialized payload</returns>
+  /// <exception cref="ArgumentNullException"></exception>
   public byte[] Serialize()
-  {
-    if (ClientPayload is null)
-    {
-      throw new ArgumentNullException(nameof(ClientPayload));
-    }
+    => ProtoSerializer.SerializeMessageObject(this);
 
-    var result = ProtoSerializer.SerializeMessageObject(this);
-
-    return result;
-  }
-
-  public static ArmonikPayload Deserialize(byte[] payload)
+  /// <summary>
+  ///   Deserialize a payload
+  /// </summary>
+  /// <param name="payload">Serialized payload</param>
+  /// <returns>Actual payload</returns>
+  public static ArmonikPayload? Deserialize(byte[]? payload)
   {
     if (payload == null || payload.Length == 0)
     {
-      return new ArmonikPayload();
+      return null;
     }
 
     return ProtoSerializer.Deserialize<ArmonikPayload>(payload);
   }
-
-  private static string StringToBase64(string serializedJson)
-  {
-    var serializedJsonBytes       = Encoding.UTF8.GetBytes(serializedJson);
-    var serializedJsonBytesBase64 = Convert.ToBase64String(serializedJsonBytes);
-    return serializedJsonBytesBase64;
-  }
-
-  private static string Base64ToString(string base64)
-  {
-    var c = Convert.FromBase64String(base64);
-    return Encoding.ASCII.GetString(c);
-  }
 }
 
+/// <summary>
+///   Request Type
+/// </summary>
 public enum ArmonikRequestType
 {
+  /// <summary>Execute</summary>
   Execute,
+
+  /// <summary>Upload</summary>
   Upload,
+
+  /// <summary>Register</summary>
   Register,
+
+  /// <summary>ListResources</summary>
   ListResources,
+
+  /// <summary>DeleteResources</summary>
   DeleteResources,
+
+  /// <summary>GetServiceInvocation</summary>
   GetServiceInvocation,
 }

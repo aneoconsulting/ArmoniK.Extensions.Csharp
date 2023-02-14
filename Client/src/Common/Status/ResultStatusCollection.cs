@@ -23,6 +23,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ArmoniK.DevelopmentKit.Client.Common.Status;
 
@@ -34,25 +35,25 @@ public class ResultStatusCollection
   /// <summary>
   ///   List of completed task where the result is ready to be retrieved
   /// </summary>
-  public IEnumerable<ResultStatusData> IdsReady { get; set; } = default;
+  public IEnumerable<ResultStatusData> IdsReady { get; set; } = Enumerable.Empty<ResultStatusData>();
 
   /// <summary>
   ///   List of task or task result in error
   /// </summary>
-  public IEnumerable<ResultStatusData> IdsResultError { get; set; } = default;
+  public IEnumerable<ResultStatusData> IdsResultError { get; set; } = Enumerable.Empty<ResultStatusData>();
 
   /// <summary>
   ///   List of Unknown TaskIds. There is a heavy error somewhere else in the execution when this list has element
   /// </summary>
-  public IEnumerable<string> IdsError { get; set; } = default;
+  public IEnumerable<string> IdsError { get; set; } = Enumerable.Empty<string>();
 
   /// <summary>
   ///   List of result not yet written in database
   /// </summary>
-  public IEnumerable<ResultStatusData> IdsNotReady { get; set; }
+  public IEnumerable<ResultStatusData> IdsNotReady { get; set; } = Enumerable.Empty<ResultStatusData>();
 
   /// <summary>
   ///   The list of canceled task
   /// </summary>
-  public IEnumerable<ResultStatusData> Canceled { get; set; }
+  public IEnumerable<ResultStatusData> Canceled { get; set; } = Enumerable.Empty<ResultStatusData>();
 }

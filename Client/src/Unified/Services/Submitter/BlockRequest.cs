@@ -28,16 +28,13 @@ using System.Threading;
 using ArmoniK.DevelopmentKit.Client.Common;
 using ArmoniK.DevelopmentKit.Common;
 
-using JetBrains.Annotations;
-
 namespace ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter;
 
 internal class BlockRequest
 {
   public IServiceInvocationHandler Handler;
 
-  [CanBeNull]
-  public ArmonikPayload Payload { get; set; }
+  public ArmonikPayload Payload { get; set; } = new();
 
   public SemaphoreSlim Lock     { get; set; }
   public Guid          ResultId { get; set; }

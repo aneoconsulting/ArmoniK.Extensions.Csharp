@@ -1,4 +1,4 @@
-﻿// This file is part of the ArmoniK project
+// This file is part of the ArmoniK project
 // 
 // Copyright (C) ANEO, 2021-2022.
 //   W. Kirschenmann   <wkirschenmann@aneo.fr>
@@ -23,11 +23,14 @@
 
 using System;
 
+using JetBrains.Annotations;
+
 namespace ArmoniK.DevelopmentKit.Common.Exceptions;
 
 /// <summary>
 ///   General Worker API Exception
 /// </summary>
+[PublicAPI]
 public class ClientApiException : Exception
 {
   private readonly string message_ = "ClientApi Exception during call function";
@@ -35,6 +38,7 @@ public class ClientApiException : Exception
   /// <summary>
   ///   The ctor of ClientApiException
   /// </summary>
+  [PublicAPI]
   public ClientApiException()
   {
   }
@@ -43,6 +47,7 @@ public class ClientApiException : Exception
   ///   Th ctor to instantiate new thrown Exception with message
   /// </summary>
   /// <param name="message">The message that will be print in the exception</param>
+  [PublicAPI]
   public ClientApiException(string message)
     => message_ = message;
 
@@ -50,6 +55,7 @@ public class ClientApiException : Exception
   ///   The ctor to instantiate new thrown Exception with previous exception
   /// </summary>
   /// <param name="e">The previous exception</param>
+  [PublicAPI]
   public ClientApiException(Exception e)
     : base(e.Message,
            e)
@@ -60,6 +66,7 @@ public class ClientApiException : Exception
   /// </summary>
   /// <param name="message">The new message that will override the one from the previous exception</param>
   /// <param name="e">The previous exception</param>
+  [PublicAPI]
   public ClientApiException(string            message,
                             ArgumentException e)
     : base(message,
@@ -71,6 +78,7 @@ public class ClientApiException : Exception
   /// </summary>
   /// <param name="message">The new message that will override the one from the previous exception</param>
   /// <param name="e">The previous exception</param>
+  [PublicAPI]
   public ClientApiException(string    message,
                             Exception e)
     : base(message,

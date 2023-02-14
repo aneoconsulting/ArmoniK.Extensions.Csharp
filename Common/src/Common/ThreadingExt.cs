@@ -26,16 +26,20 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
+using JetBrains.Annotations;
+
 namespace ArmoniK.DevelopmentKit.Common;
 
 /// <summary>
 ///   Threading extensions
 /// </summary>
+[PublicAPI]
 public static class ThreadingExt
 {
   /// <summary>
   ///   Lock the semaphore and return a lock guard that will unlock the semaphore when disposed
   /// </summary>
+  [PublicAPI]
   public static IDisposable LockGuard(this SemaphoreSlim sem)
   {
     sem.Wait();
@@ -45,6 +49,7 @@ public static class ThreadingExt
   /// <summary>
   ///   Lock the semaphore and return a lock guard that will unlock the semaphore when disposed
   /// </summary>
+  [PublicAPI]
   public static async Task<IDisposable> LockGuardAsync(this SemaphoreSlim sem)
   {
     await sem.WaitAsync();
@@ -55,6 +60,7 @@ public static class ThreadingExt
   ///   Acquire the semaphore before calling the function,
   ///   and release it after.
   /// </summary>
+  [PublicAPI]
   public static T LockedExecute<T>(this SemaphoreSlim sem,
                                    Func<T>            func)
   {
