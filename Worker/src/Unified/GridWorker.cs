@@ -157,7 +157,7 @@ public class GridWorker : IGridWorker
                                                    .ToArray());
     }
 
-    if (ServiceClass is ITaskSubmitterWorkerServiceConfiguration serviceContext)
+    if (ServiceClass is ITaskWorkerServiceConfiguration serviceContext)
     {
       var taskContext = new TaskContext
                         {
