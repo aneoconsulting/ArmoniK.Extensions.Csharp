@@ -34,7 +34,7 @@ using Microsoft.Extensions.Logging;
 
 namespace ArmoniK.EndToEndTests.Worker.Tests.CheckSubtaskingTreeUnifiedApi;
 
-public class SubtaskingTreeUnifiedApiWorker : TaskSubmitterWorkerService
+public class SubtaskingTreeUnifiedApiWorker : TaskWorkerService
 {
   public void CheckPayload(ClientPayload payload)
   {

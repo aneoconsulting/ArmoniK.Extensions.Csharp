@@ -30,7 +30,7 @@ using ArmoniK.DevelopmentKit.Worker.Unified.Exceptions;
 
 namespace ArmoniK.EndToEndTests.Worker.Tests.CheckUnifiedApi;
 
-public class CheckUnifiedApiWorker : TaskSubmitterWorkerService
+public class CheckUnifiedApiWorker : TaskWorkerService
 {
   private readonly Random rd = new();
 
@@ -52,6 +52,11 @@ public class CheckUnifiedApiWorker : TaskSubmitterWorkerService
 
   public string GetTaskOptionsFromWorker()
     => TaskOptions.ApplicationName;
+
+
+  public string GetSessionIdFromWorker()
+    => SessionId?.Id ?? "";
+
 
   public static double[] ComputeMadd(byte[] inputs1,
                                      byte[] inputs2,

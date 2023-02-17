@@ -51,11 +51,11 @@ namespace ArmoniK.DevelopmentKit.Worker.Unified;
 /// </summary>
 [PublicAPI]
 [MarkDownDoc]
-public abstract class TaskSubmitterWorkerService : ITaskSubmitterWorkerServiceConfiguration, ITaskOptionsConfiguration, ILoggerConfiguration
+public abstract class TaskWorkerService : ITaskWorkerServiceConfiguration, ITaskOptionsConfiguration, ILoggerConfiguration, ISessionConfiguration
 {
   /// <summary>
   /// </summary>
-  public TaskSubmitterWorkerService()
+  public TaskWorkerService()
   {
     Configuration = WorkerHelpers.GetDefaultConfiguration();
     Logger = WorkerHelpers.GetDefaultLoggerFactory(Configuration)
@@ -66,7 +66,7 @@ public abstract class TaskSubmitterWorkerService : ITaskSubmitterWorkerServiceCo
   /// <summary>
   /// </summary>
   /// <param name="loggerFactory">The factory logger to create logger</param>
-  public TaskSubmitterWorkerService(ILoggerFactory loggerFactory)
+  public TaskWorkerService(ILoggerFactory loggerFactory)
   {
     LoggerFactory = loggerFactory;
 
@@ -78,12 +78,6 @@ public abstract class TaskSubmitterWorkerService : ITaskSubmitterWorkerServiceCo
   ///   Get access to Logger with Logger.LoggingScope.
   /// </summary>
   public ILogger Logger { get; set; }
-
-  /// <summary>
-  ///   Get or Set SubSessionId object stored during the call of SubmitTask, SubmitSubTask,
-  ///   SubmitSubTaskWithDependencies or WaitForCompletion, WaitForSubTaskCompletion or GetResults
-  /// </summary>
-  public Session SessionId { get; set; }
 
   /// <summary>
   ///   Property to retrieve the sessionService previously created
@@ -130,6 +124,44 @@ public abstract class TaskSubmitterWorkerService : ITaskSubmitterWorkerServiceCo
     Logger = LoggerFactory.CreateLogger(GetType()
                                           .Name);
     Logger.LogInformation("Configuring ServiceContainerBase");
+  }
+
+  /// <inheritdoc />
+  public Session SessionId { get; set; }
+
+
+  /// <inheritdoc />
+  public virtual void OnCreateService(ServiceContext serviceContext)
+  {
+  }
+
+  /// <inheritdoc />
+  public virtual void OnDestroyService(ServiceContext serviceContext)
+  {
+  }
+
+  /// <inheritdoc />
+  public virtual void OnSessionEnter(SessionContext sessionContext)
+  {
+  }
+
+  /// <inheritdoc />
+  public virtual void OnSessionLeave(SessionContext sessionContext)
+  {
+  }
+
+  /// <summary>
+  ///   Prepare Session and create SessionService with the specific session
+  /// </summary>
+  /// <param name="sessionId">The ID of the current session</param>
+  /// <param name="requestTaskOptions">Default TaskOption for the current session</param>
+  public void ConfigureSession(Session     sessionId,
+                               TaskOptions requestTaskOptions)
+  {
+    SessionId = sessionId;
+
+    //Append or overwrite Dictionary Options in TaskOptions with one coming from client
+    TaskOptions = requestTaskOptions;
   }
 
   /// <summary>
@@ -274,18 +306,4 @@ public abstract class TaskSubmitterWorkerService : ITaskSubmitterWorkerServiceCo
   /// <returns>return the customer payload</returns>
   public byte[] GetDependenciesResult(string taskId)
     => SessionService.GetDependenciesResult(taskId);
-
-  /// <summary>
-  ///   Prepare Session and create SessionService with the specific session
-  /// </summary>
-  /// <param name="sessionId">The ID of the current session</param>
-  /// <param name="requestTaskOptions">The default <see cref="TaskOptions" /> used by tasks in the current session</param>
-  public void ConfigureSession(Session     sessionId,
-                               TaskOptions requestTaskOptions)
-  {
-    SessionId = sessionId;
-
-    //Append or overwrite Dictionary Options in TaskOptions with one coming from client
-    TaskOptions = requestTaskOptions;
-  }
 }

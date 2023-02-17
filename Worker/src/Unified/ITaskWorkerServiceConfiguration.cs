@@ -26,7 +26,7 @@ using ArmoniK.Api.Worker.Worker;
 
 namespace ArmoniK.DevelopmentKit.Worker.Unified;
 
-internal interface ITaskSubmitterWorkerServiceConfiguration
+internal interface ITaskWorkerServiceConfiguration
 {
   TaskContext TaskContext { get; set; }
   void        ConfigureSessionService(ITaskHandler taskHandler);
