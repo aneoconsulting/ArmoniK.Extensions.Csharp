@@ -44,7 +44,7 @@ namespace ArmoniK.DevelopmentKit.Worker.Unified;
 
 /// <summary>
 ///   This is an abstract class that have to be implemented
-///   by each class who needs tasks submission on worker side
+///   by each class who needs context or tasks submission on worker side
 ///   See an example in the project ArmoniK.Samples in the sub project
 ///   https://github.com/aneoconsulting/ArmoniK.Samples/tree/main/Samples/UnifiedAPI
 ///   ArmoniK.Samples.Worker/Services/ServiceApps.cs
@@ -107,11 +107,7 @@ public abstract class TaskWorkerService : ITaskWorkerServiceConfiguration, ITask
   /// </summary>
   public ILoggerFactory LoggerFactory { get; set; }
 
-  /// <summary>
-  ///   The configure method is an internal call to prepare the ServiceContainer.
-  ///   Its holds several configuration coming from the Client call
-  /// </summary>
-  /// <param name="configuration">The appSettings.json configuration prepared during the deployment</param>
+  /// <inheritdoc />
   public void ConfigureLogger(IConfiguration configuration)
   {
     Configuration = configuration;
@@ -172,15 +168,10 @@ public abstract class TaskWorkerService : ITaskWorkerServiceConfiguration, ITask
   public void ConfigureTaskOptions(TaskOptions clientOptions)
     => TaskOptions = clientOptions;
 
-  /// <summary>
-  ///   Provides the context for the task that is bound to the given service invocation
-  /// </summary>
+  /// <inheritdoc />
   public TaskContext TaskContext { get; set; }
 
-  /// <summary>
-  ///   Configure Service for actual session. Connect the worker to the current pollingAgent
-  /// </summary>
-  /// <param name="taskHandler">Low level object used for tasks submission by <see cref="SessionPollingService" /> </param>
+  /// <inheritdoc />
   public void ConfigureSessionService(ITaskHandler taskHandler)
     => SessionService = new SessionPollingService(LoggerFactory,
                                                   taskHandler);
@@ -306,4 +297,23 @@ public abstract class TaskWorkerService : ITaskWorkerServiceConfiguration, ITask
   /// <returns>return the customer payload</returns>
   public byte[] GetDependenciesResult(string taskId)
     => SessionService.GetDependenciesResult(taskId);
+}
+
+/// <summary>
+///   This is an abstract class that have to be implemented
+///   by each class who needs context or tasks submission on worker side
+///   See an example in the project ArmoniK.Samples in the sub project
+///   https://github.com/aneoconsulting/ArmoniK.Samples/tree/main/Samples/UnifiedAPI
+///   ArmoniK.Samples.Worker/Services/ServiceApps.cs
+/// </summary>
+/// <remarks>
+///   WARNING : TaskSubmitterWorkerService has been replaced by TaskWorkerService.
+///   This class will stay in 2.12 for compatibility reasons
+///   This class will be removed in armonik 2.13
+/// </remarks>
+[PublicAPI]
+[MarkDownDoc]
+[Obsolete("TaskSubmitterWorkerService has been replaced by TaskWorkerService")]
+public abstract class TaskSubmitterWorkerService : TaskWorkerService
+{
 }
