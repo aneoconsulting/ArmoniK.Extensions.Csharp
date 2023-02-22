@@ -53,6 +53,11 @@ public class CheckUnifiedApiWorker : TaskWorkerService
   public string GetTaskOptionsFromWorker()
     => TaskOptions.ApplicationName;
 
+
+  public string GetSessionIdFromWorker()
+    => SessionId?.Id ?? "";
+
+
   public static double[] ComputeMadd(byte[] inputs1,
                                      byte[] inputs2,
                                      double k)

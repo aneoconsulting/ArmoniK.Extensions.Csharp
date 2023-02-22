@@ -51,11 +51,11 @@ namespace ArmoniK.DevelopmentKit.Worker.Unified;
 /// </summary>
 [PublicAPI]
 [MarkDownDoc]
-public abstract class TaskWorkerService : ITaskWorkerServiceConfiguration, ITaskOptionsConfiguration, ILoggerConfiguration
+public abstract class TaskWorkerService : ITaskContextConfiguration, ISessionServiceConfiguration, ITaskOptionsConfiguration, ISessionConfiguration, ILoggerConfiguration
 {
   /// <summary>
   /// </summary>
-  protected TaskWorkerService()
+  public TaskWorkerService()
   {
     Configuration = WorkerHelpers.GetDefaultConfiguration();
     Logger = WorkerHelpers.GetDefaultLoggerFactory(Configuration)
@@ -66,7 +66,7 @@ public abstract class TaskWorkerService : ITaskWorkerServiceConfiguration, ITask
   /// <summary>
   /// </summary>
   /// <param name="loggerFactory">The factory logger to create logger</param>
-  protected TaskWorkerService(ILoggerFactory loggerFactory)
+  public TaskWorkerService(ILoggerFactory loggerFactory)
   {
     LoggerFactory = loggerFactory;
 
@@ -78,12 +78,6 @@ public abstract class TaskWorkerService : ITaskWorkerServiceConfiguration, ITask
   ///   Get access to Logger with Logger.LoggingScope.
   /// </summary>
   public ILogger Logger { get; set; }
-
-  /// <summary>
-  ///   Get or Set SubSessionId object stored during the call of SubmitTask, SubmitSubTask,
-  ///   SubmitSubTaskWithDependencies or WaitForCompletion, WaitForSubTaskCompletion or GetResults
-  /// </summary>
-  public Session SessionId { get; set; }
 
   /// <summary>
   ///   Property to retrieve the sessionService previously created
@@ -129,16 +123,58 @@ public abstract class TaskWorkerService : ITaskWorkerServiceConfiguration, ITask
   }
 
   /// <inheritdoc />
-  public void ConfigureTaskOptions(TaskOptions clientOptions)
-    => TaskOptions = clientOptions;
+  public Session SessionId { get; set; }
+
 
   /// <inheritdoc />
-  public TaskContext TaskContext { get; set; }
+  public virtual void OnCreateService(ServiceContext serviceContext)
+  {
+  }
+
+  /// <inheritdoc />
+  public virtual void OnDestroyService(ServiceContext serviceContext)
+  {
+  }
+
+  /// <inheritdoc />
+  public virtual void OnSessionEnter(SessionContext sessionContext)
+  {
+  }
+
+  /// <inheritdoc />
+  public virtual void OnSessionLeave(SessionContext sessionContext)
+  {
+  }
+
+  /// <summary>
+  ///   Prepare Session and create SessionService with the specific session
+  /// </summary>
+  /// <param name="sessionId">The ID of the current session</param>
+  /// <param name="requestTaskOptions">Default TaskOption for the current session</param>
+  public void ConfigureSession(Session     sessionId,
+                               TaskOptions requestTaskOptions)
+  {
+    SessionId = sessionId;
+
+    //Append or overwrite Dictionary Options in TaskOptions with one coming from client
+    TaskOptions = requestTaskOptions;
+  }
 
   /// <inheritdoc />
   public void ConfigureSessionService(ITaskHandler taskHandler)
     => SessionService = new SessionPollingService(LoggerFactory,
                                                   taskHandler);
+
+  /// <inheritdoc />
+  public TaskContext TaskContext { get; set; }
+
+  /// <summary>
+  ///   The configure method is an internal call to prepare the ServiceContainer.
+  ///   Its holds TaskOptions coming from the Client call
+  /// </summary>
+  /// <param name="clientOptions">All data coming from Client within TaskOptions </param>
+  public void ConfigureTaskOptions(TaskOptions clientOptions)
+    => TaskOptions = clientOptions;
 
   /// <summary>
   ///   User method to submit task from the service
@@ -261,20 +297,6 @@ public abstract class TaskWorkerService : ITaskWorkerServiceConfiguration, ITask
   /// <returns>return the customer payload</returns>
   public byte[] GetDependenciesResult(string taskId)
     => SessionService.GetDependenciesResult(taskId);
-
-  /// <summary>
-  ///   Prepare Session and create SessionService with the specific session
-  /// </summary>
-  /// <param name="sessionId">The ID of the current session</param>
-  /// <param name="requestTaskOptions">The default <see cref="TaskOptions" /> used by tasks in the current session</param>
-  public void ConfigureSession(Session     sessionId,
-                               TaskOptions requestTaskOptions)
-  {
-    SessionId = sessionId;
-
-    //Append or overwrite Dictionary Options in TaskOptions with one coming from client
-    TaskOptions = requestTaskOptions;
-  }
 }
 
 /// <summary>

@@ -24,6 +24,7 @@
 using System;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.Loader;
 
 using ArmoniK.Api.Common.Utils;
 using ArmoniK.Api.gRPC.V1;
@@ -45,6 +46,8 @@ namespace ArmoniK.DevelopmentKit.Worker.Unified;
 public class GridWorker : IGridWorker
 {
   private ServiceContext serviceContext_;
+  private SessionContext sessionContext_;
+
 
   public GridWorker(IConfiguration configuration,
                     ILoggerFactory factory)
@@ -73,6 +76,9 @@ public class GridWorker : IGridWorker
   public TaskOptions TaskOptions { get; set; }
 
   public IConfiguration Configurations { get; set; }
+
+  public Session SessionId { get; set; }
+
 
   public void Configure(IConfiguration configuration,
                         TaskOptions    clientOptions,
@@ -107,6 +113,10 @@ public class GridWorker : IGridWorker
     {
       iLoggerConfiguration.ConfigureLogger(configuration);
     }
+
+    Logger.LogDebug("Call OnCreateService");
+
+    OnCreateService();
   }
 
   public void InitializeSessionWorker(Session     session,
@@ -118,6 +128,28 @@ public class GridWorker : IGridWorker
     }
 
     Logger.BeginPropertyScope(("sessionId", session));
+
+    if (ServiceClass is ISessionConfiguration iSessionConfiguration)
+    {
+      if (SessionId == null || !session.Equals(SessionId))
+      {
+        if (SessionId == null)
+        {
+          SessionId = session;
+          iSessionConfiguration.ConfigureSession(SessionId,
+                                                 requestTaskOptions);
+          OnSessionEnter(session);
+        }
+        else
+        {
+          OnSessionLeave();
+          SessionId = session;
+          iSessionConfiguration.ConfigureSession(SessionId,
+                                                 requestTaskOptions);
+          OnSessionEnter(session);
+        }
+      }
+    }
   }
 
   public byte[] Execute(ITaskHandler taskHandler)
@@ -157,18 +189,21 @@ public class GridWorker : IGridWorker
                                                    .ToArray());
     }
 
-    if (ServiceClass is ITaskWorkerServiceConfiguration serviceContext)
+    if (ServiceClass is ITaskContextConfiguration taskContextConfiguration)
     {
-      var taskContext = new TaskContext
-                        {
-                          TaskId              = taskHandler.TaskId,
-                          TaskInput           = taskHandler.Payload,
-                          SessionId           = taskHandler.SessionId,
-                          DependenciesTaskIds = taskHandler.DataDependencies.Select(t => t.Key),
-                          DataDependencies    = taskHandler.DataDependencies,
-                        };
-      serviceContext.TaskContext = taskContext;
-      serviceContext.ConfigureSessionService(taskHandler);
+      taskContextConfiguration.TaskContext = new TaskContext
+                                             {
+                                               TaskId              = taskHandler.TaskId,
+                                               TaskInput           = taskHandler.Payload,
+                                               SessionId           = taskHandler.SessionId,
+                                               DependenciesTaskIds = taskHandler.DataDependencies.Select(t => t.Key),
+                                               DataDependencies    = taskHandler.DataDependencies,
+                                             };
+    }
+
+    if (ServiceClass is ISessionServiceConfiguration sessionServiceConfiguration)
+    {
+      sessionServiceConfiguration.ConfigureSessionService(taskHandler);
     }
 
     if (methodInfo == null)
@@ -223,16 +258,83 @@ public class GridWorker : IGridWorker
     return null;
   }
 
+
   public void SessionFinalize()
-  {
-  }
+    => OnSessionLeave();
 
   public void DestroyService()
-    => Dispose();
+  {
+    OnDestroyService();
+    Dispose();
+  }
 
   /// <summary>
   ///   Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources
   /// </summary>
   public void Dispose()
     => SessionFinalize();
+
+  public void OnCreateService()
+  {
+    if (ServiceClass is ISessionConfiguration iSessionConfiguration)
+    {
+      using (AssemblyLoadContext.EnterContextualReflection(ServiceClass.GetType()
+                                                                       .Assembly))
+      {
+        iSessionConfiguration.OnCreateService(serviceContext_);
+      }
+    }
+  }
+
+
+  /// <summary>
+  ///   The internal function onSessionEnter to openSession for clientService under GridWorker
+  /// </summary>
+  /// <param name="session"></param>
+  public void OnSessionEnter(Session session)
+  {
+    sessionContext_ = new SessionContext
+                      {
+                        ClientLibVersion = GridAppVersion,
+                        SessionId        = session.Id,
+                      };
+    SessionId = session;
+
+
+    if (ServiceClass is ISessionConfiguration iSessionConfiguration)
+    {
+      iSessionConfiguration.SessionId = session;
+      iSessionConfiguration.OnSessionEnter(sessionContext_);
+    }
+  }
+
+  public void OnSessionLeave()
+  {
+    if (sessionContext_ != null)
+    {
+      if (ServiceClass is ISessionConfiguration iSessionConfiguration)
+      {
+        iSessionConfiguration.OnSessionLeave(sessionContext_);
+      }
+
+      SessionId       = null;
+      sessionContext_ = null;
+    }
+  }
+
+  public void OnDestroyService()
+  {
+    OnSessionLeave();
+
+    if (serviceContext_ != null)
+    {
+      if (ServiceClass is ISessionConfiguration iSessionConfiguration)
+      {
+        iSessionConfiguration.OnDestroyService(serviceContext_);
+      }
+
+      serviceContext_ = null;
+      SessionId       = null;
+    }
+  }
 }
