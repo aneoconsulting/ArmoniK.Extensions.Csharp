@@ -51,7 +51,7 @@ namespace ArmoniK.DevelopmentKit.Worker.Unified;
 /// </summary>
 [PublicAPI]
 [MarkDownDoc]
-public abstract class TaskWorkerService : ITaskWorkerServiceConfiguration, ITaskOptionsConfiguration, ILoggerConfiguration, ISessionConfiguration
+public abstract class TaskWorkerService : ITaskContextConfiguration, ISubTaskingServiceConfiguration, ITaskOptionsConfiguration, ISessionConfiguration, ILoggerConfiguration
 {
   /// <summary>
   /// </summary>
@@ -172,7 +172,7 @@ public abstract class TaskWorkerService : ITaskWorkerServiceConfiguration, ITask
   public TaskContext TaskContext { get; set; }
 
   /// <inheritdoc />
-  public void ConfigureSessionService(ITaskHandler taskHandler)
+  public void ConfigureSubTasking(ITaskHandler taskHandler)
     => SessionService = new SessionPollingService(LoggerFactory,
                                                   taskHandler);
 

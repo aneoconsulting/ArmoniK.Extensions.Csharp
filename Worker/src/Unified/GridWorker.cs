@@ -189,18 +189,21 @@ public class GridWorker : IGridWorker
                                                    .ToArray());
     }
 
-    if (ServiceClass is ITaskWorkerServiceConfiguration serviceContext)
+    if (ServiceClass is ITaskContextConfiguration taskContextConfiguration)
     {
-      var taskContext = new TaskContext
-                        {
-                          TaskId              = taskHandler.TaskId,
-                          TaskInput           = taskHandler.Payload,
-                          SessionId           = taskHandler.SessionId,
-                          DependenciesTaskIds = taskHandler.DataDependencies.Select(t => t.Key),
-                          DataDependencies    = taskHandler.DataDependencies,
-                        };
-      serviceContext.TaskContext = taskContext;
-      serviceContext.ConfigureSessionService(taskHandler);
+      taskContextConfiguration.TaskContext = new TaskContext
+                                             {
+                                               TaskId              = taskHandler.TaskId,
+                                               TaskInput           = taskHandler.Payload,
+                                               SessionId           = taskHandler.SessionId,
+                                               DependenciesTaskIds = taskHandler.DataDependencies.Select(t => t.Key),
+                                               DataDependencies    = taskHandler.DataDependencies,
+                                             };
+    }
+
+    if (ServiceClass is ISubTaskingServiceConfiguration subTaskingServiceConfiguration)
+    {
+      subTaskingServiceConfiguration.ConfigureSubTasking(taskHandler);
     }
 
     if (methodInfo == null)

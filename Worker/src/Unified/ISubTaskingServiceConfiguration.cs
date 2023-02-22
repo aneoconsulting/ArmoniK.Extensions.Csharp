@@ -26,8 +26,7 @@ using ArmoniK.Api.Worker.Worker;
 
 namespace ArmoniK.DevelopmentKit.Worker.Unified;
 
-internal interface ITaskWorkerServiceConfiguration
+internal interface ISubTaskingServiceConfiguration
 {
-  TaskContext TaskContext { get; set; }
-  void        ConfigureSessionService(ITaskHandler taskHandler);
+  void ConfigureSubTasking(ITaskHandler taskHandler);
 }
