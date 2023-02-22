@@ -30,7 +30,7 @@ namespace ArmoniK.DevelopmentKit.Worker.Unified;
 ///   implementation of this interface in <see cref="TaskWorkerService" /> or your own implementation allows to have the
 ///   <see cref="SessionPollingService" /> configured automatically by the <see cref="GridWorker" />
 /// </summary>
-internal interface ISessionServiceConfiguration
+public interface ISessionServiceConfiguration
 {
   /// <summary>
   ///   Allow the initialization of <see cref="SessionPollingService" />

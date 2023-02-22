@@ -303,13 +303,7 @@ public class GridWorker : IGridWorker
 
     if (ServiceClass is ISessionConfiguration iSessionConfiguration)
     {
-      if (iSessionConfiguration.SessionId == null || string.IsNullOrEmpty(iSessionConfiguration.SessionId.Id))
-      {
-        iSessionConfiguration.SessionId = session;
-      }
-
       iSessionConfiguration.SessionId = session;
-
       iSessionConfiguration.OnSessionEnter(sessionContext_);
     }
   }
