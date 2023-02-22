@@ -147,7 +147,9 @@ jobs:
     # find . -name "*.csproj" | xargs -I % echo dotnet pack % -c Release -o /tmp/packages -p:Version=\$GENVERSION
     - name: Pack the package VERSION
       run: |
-        dotnet pack ArmoniK.Extensions.Csharp.sln -c Release -o /tmp/packages -p:Version=$GENVERSION
+        dotnet pack ArmoniK.Extensions.Csharp.sln -c Release -p:Version=$GENVERSION
+        mkdir -p /tmp/packages
+        mv ./publish/*.* /tmp/packages/
 
     - name: Store the package VERSION
       uses: actions/upload-artifact@v3
@@ -159,7 +161,9 @@ jobs:
     - name: Pack the package RELEASE
       if: ${{ github.ref == 'refs/heads/release' }}
       run: |
-        dotnet pack ArmoniK.Extensions.Csharp.sln -c Release -o /tmp/releases -p:Version=$GENRELEASE
+        dotnet pack ArmoniK.Extensions.Csharp.sln -c Release -p:Version=$GENRELEASE
+        mkdir -p /tmp/releases
+        mv ./publish/*.* /tmp/releases/
 
     - name: Store the package RELEASE
       if: ${{ github.ref == 'refs/heads/release' }}
