@@ -51,7 +51,7 @@ namespace ArmoniK.DevelopmentKit.Worker.Unified;
 /// </summary>
 [PublicAPI]
 [MarkDownDoc]
-public abstract class TaskWorkerService : ITaskContextConfiguration, ISubTaskingServiceConfiguration, ITaskOptionsConfiguration, ISessionConfiguration, ILoggerConfiguration
+public abstract class TaskWorkerService : ITaskContextConfiguration, ISessionServiceConfiguration, ITaskOptionsConfiguration, ISessionConfiguration, ILoggerConfiguration
 {
   /// <summary>
   /// </summary>
@@ -160,6 +160,14 @@ public abstract class TaskWorkerService : ITaskContextConfiguration, ISubTasking
     TaskOptions = requestTaskOptions;
   }
 
+  /// <inheritdoc />
+  public void ConfigureSessionService(ITaskHandler taskHandler)
+    => SessionService = new SessionPollingService(LoggerFactory,
+                                                  taskHandler);
+
+  /// <inheritdoc />
+  public TaskContext TaskContext { get; set; }
+
   /// <summary>
   ///   The configure method is an internal call to prepare the ServiceContainer.
   ///   Its holds TaskOptions coming from the Client call
@@ -167,14 +175,6 @@ public abstract class TaskWorkerService : ITaskContextConfiguration, ISubTasking
   /// <param name="clientOptions">All data coming from Client within TaskOptions </param>
   public void ConfigureTaskOptions(TaskOptions clientOptions)
     => TaskOptions = clientOptions;
-
-  /// <inheritdoc />
-  public TaskContext TaskContext { get; set; }
-
-  /// <inheritdoc />
-  public void ConfigureSubTasking(ITaskHandler taskHandler)
-    => SessionService = new SessionPollingService(LoggerFactory,
-                                                  taskHandler);
 
   /// <summary>
   ///   User method to submit task from the service

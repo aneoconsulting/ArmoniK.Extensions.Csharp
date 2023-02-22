@@ -22,8 +22,6 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using ArmoniK.Api.Worker.Worker;
-
 namespace ArmoniK.DevelopmentKit.Worker.Unified;
 
 /// <summary>
@@ -32,5 +30,8 @@ namespace ArmoniK.DevelopmentKit.Worker.Unified;
 /// </summary>
 public interface ITaskContextConfiguration
 {
+  /// <summary>
+  ///   Allow the initialization of <see cref="TaskContext" />
+  /// </summary>
   TaskContext TaskContext { get; set; }
 }

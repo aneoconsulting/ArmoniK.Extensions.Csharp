@@ -26,7 +26,15 @@ using ArmoniK.Api.Worker.Worker;
 
 namespace ArmoniK.DevelopmentKit.Worker.Unified;
 
-internal interface ISubTaskingServiceConfiguration
+/// <summary>
+///   implementation of this interface in <see cref="TaskWorkerService" /> or your own implementation allows to have the
+///   <see cref="SessionPollingService" /> configured automatically by the <see cref="GridWorker" />
+/// </summary>
+internal interface ISessionServiceConfiguration
 {
-  void ConfigureSubTasking(ITaskHandler taskHandler);
+  /// <summary>
+  ///   Allow the initialization of <see cref="SessionPollingService" />
+  /// </summary>
+  /// <param name="taskHandler"></param>
+  void ConfigureSessionService(ITaskHandler taskHandler);
 }

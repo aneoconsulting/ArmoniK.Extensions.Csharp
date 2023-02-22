@@ -201,9 +201,9 @@ public class GridWorker : IGridWorker
                                              };
     }
 
-    if (ServiceClass is ISubTaskingServiceConfiguration subTaskingServiceConfiguration)
+    if (ServiceClass is ISessionServiceConfiguration sessionServiceConfiguration)
     {
-      subTaskingServiceConfiguration.ConfigureSubTasking(taskHandler);
+      sessionServiceConfiguration.ConfigureSessionService(taskHandler);
     }
 
     if (methodInfo == null)
