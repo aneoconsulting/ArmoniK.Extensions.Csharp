@@ -26,7 +26,16 @@ using ArmoniK.Api.gRPC.V1;
 
 namespace ArmoniK.DevelopmentKit.Worker.Unified;
 
-internal interface ITaskOptionsConfiguration
+/// <summary>
+///   implementation of this interface in <see cref="TaskWorkerService" /> or your own implementation allows to have the
+///   <see cref="TaskOptions" /> configured automatically by the <see cref="GridWorker" />
+/// </summary>
+public interface ITaskOptionsConfiguration
 {
+  /// <summary>
+  ///   The configure method is an internal call to prepare the ServiceContainer.
+  ///   Its holds TaskOptions coming from the Client call
+  /// </summary>
+  /// <param name="clientOptions">All data coming from Client within TaskOptions </param>
   void ConfigureTaskOptions(TaskOptions clientOptions);
 }

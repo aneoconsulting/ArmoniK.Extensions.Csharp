@@ -30,7 +30,7 @@ using ArmoniK.DevelopmentKit.Worker.Unified.Exceptions;
 
 namespace ArmoniK.EndToEndTests.Worker.Tests.CheckUnifiedApi;
 
-public class CheckUnifiedApiWorker : TaskSubmitterWorkerService
+public class CheckUnifiedApiWorker : TaskWorkerService
 {
   private readonly Random rd = new();
 

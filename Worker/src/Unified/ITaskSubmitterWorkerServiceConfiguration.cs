@@ -26,8 +26,20 @@ using ArmoniK.Api.Worker.Worker;
 
 namespace ArmoniK.DevelopmentKit.Worker.Unified;
 
-internal interface ITaskSubmitterWorkerServiceConfiguration
+/// <summary>
+///   implementation of this interface in <see cref="TaskWorkerService" /> or your own implementation allows to have the
+///   <see cref="ITaskHandler" /> configured automatically by the <see cref="GridWorker" />
+/// </summary>
+public interface ITaskWorkerServiceConfiguration
 {
+  /// <summary>
+  ///   Provides the context for the task that is bound to the given service invocation
+  /// </summary>
   TaskContext TaskContext { get; set; }
-  void        ConfigureSessionService(ITaskHandler taskHandler);
+
+  /// <summary>
+  ///   Configure Service for actual session. Connect the worker to the current pollingAgent
+  /// </summary>
+  /// <param name="taskHandler">Low level object used for tasks submission by <see cref="SessionPollingService" /> </param>
+  void ConfigureSessionService(ITaskHandler taskHandler);
 }

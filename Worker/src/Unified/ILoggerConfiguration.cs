@@ -26,7 +26,16 @@ using Microsoft.Extensions.Configuration;
 
 namespace ArmoniK.DevelopmentKit.Worker.Unified;
 
-internal interface ILoggerConfiguration
+/// <summary>
+///   implementation of this interface in <see cref="TaskWorkerService" /> or your own implementation allows to have a
+///   logger configured automatically by the <see cref="GridWorker" />
+/// </summary>
+public interface ILoggerConfiguration
 {
+  /// <summary>
+  ///   The configure method is an internal call to prepare the ServiceContainer.
+  ///   Its holds several configuration coming from the Client call
+  /// </summary>
+  /// <param name="configuration">The appSettings.json configuration prepared during the deployment</param>
   void ConfigureLogger(IConfiguration configuration);
 }
