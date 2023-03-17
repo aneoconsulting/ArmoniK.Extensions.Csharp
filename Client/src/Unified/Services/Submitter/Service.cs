@@ -39,6 +39,8 @@ using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.Common.Exceptions;
 using ArmoniK.DevelopmentKit.Common.Extensions;
 
+using Grpc.Core;
+
 using JetBrains.Annotations;
 
 using Microsoft.Extensions.Logging;
@@ -176,7 +178,8 @@ public class Service : AbstractClientService, ISubmitterService
   /// <summary>
   ///   Property Get the SessionId
   /// </summary>
-  private SessionService SessionService { get; set; }
+  [PublicAPI]
+  public SessionService SessionService { get; set; }
 
   [CanBeNull]
   private ILogger Logger { get; }
@@ -721,6 +724,13 @@ public class Service : AbstractClientService, ISubmitterService
     }
   }
 
+
+  /// <summary>
+  ///   Get new channel to communicate with with controlPlane
+  /// </summary>
+  /// <returns></returns>
+  public ChannelBase GetChannel()
+    => SessionService.ChannelPool.GetChannel();
 
   /// <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
   public override void Dispose()
