@@ -605,6 +605,25 @@ public class Service : AbstractClientService, ISubmitterService
 
         missing.ExceptWith(resultStatusCollection.IdsResultError.Select(x => x.TaskId));
 
+        foreach (var resultStatusData in resultStatusCollection.Canceled)
+        {
+          try
+          {
+            errorHandler(resultStatusData.TaskId,
+                         TaskStatus.Unspecified,
+                         "Task is missing");
+          }
+          catch (Exception e)
+          {
+            Logger?.LogError(e,
+                             "An error occured while handling a Task error {status}: {details}",
+                             TaskStatus.Unspecified,
+                             "Task is missing");
+          }
+        }
+
+        missing.ExceptWith(resultStatusCollection.Canceled.Select(x => x.TaskId));
+
         if (holdPrev == missing.Count)
         {
           idx = idx >= waitInSeconds.Count - 1
