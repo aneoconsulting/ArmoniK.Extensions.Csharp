@@ -12,7 +12,7 @@
  ">
     
       <link rel="shortcut icon" href="../favicon.ico">
-      <link rel="stylesheet" href="../styles/docfx.vendor.css">
+      <link rel="stylesheet" href="../styles/docfx.vendor.min.css">
       <link rel="stylesheet" href="../styles/docfx.css">
       <link rel="stylesheet" href="../styles/main.css">
       <meta property="docfx:navrel" content="../toc.html">
@@ -85,6 +85,30 @@ The ssl mTLS certificate if needed to connect to the control plane</li>
     <div class="level0"><span class="xref">object</span></div>
     <div class="level1"><span class="xref">Properties</span></div>
   </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <span class="xref">object.ToString()</span>
+    </div>
+    <div>
+      <span class="xref">object.Equals(object)</span>
+    </div>
+    <div>
+      <span class="xref">object.Equals(object, object)</span>
+    </div>
+    <div>
+      <span class="xref">object.ReferenceEquals(object, object)</span>
+    </div>
+    <div>
+      <span class="xref">object.GetHashCode()</span>
+    </div>
+    <div>
+      <span class="xref">object.GetType()</span>
+    </div>
+    <div>
+      <span class="xref">object.MemberwiseClone()</span>
+    </div>
+  </div>
   <h6><strong>Namespace</strong>: <span class="xref">ArmoniK</span>.<span class="xref">DevelopmentKit</span>.<span class="xref">Client</span>.<a class="xref" href="ArmoniK.DevelopmentKit.Client.Common.html">Common</a></h6>
   <h6><strong>Assembly</strong>: ArmoniK.DevelopmentKit.Client.Common.dll</h6>
   <h5 id="ArmoniK_DevelopmentKit_Client_Common_Properties_syntax">Syntax</h5>
@@ -95,13 +119,89 @@ The ssl mTLS certificate if needed to connect to the control plane</li>
 </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/main/apiSpec/new?filename=ArmoniK_DevelopmentKit_Client_Common_Properties__ctor_IConfiguration_TaskOptions_System_String_System_Int32_System_String_System_String_System_String_System_String_System_Boolean_.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Client.Common.Properties.%23ctor(IConfiguration%2CTaskOptions%2CSystem.String%2CSystem.Int32%2CSystem.String%2CSystem.String%2CSystem.String%2CSystem.String%2CSystem.Boolean)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/main/apiSpec/new?filename=ArmoniK_DevelopmentKit_Client_Common_Properties__ctor_ArmoniK_Api_gRPC_V1_TaskOptions_System_String_System_Int32_System_String_System_String_System_String_System_String_System_Boolean_.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Client.Common.Properties.%23ctor(ArmoniK.Api.gRPC.V1.TaskOptions%2CSystem.String%2CSystem.Int32%2CSystem.String%2CSystem.String%2CSystem.String%2CSystem.String%2CSystem.Boolean)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Properties.cs/#L69">View Source</a>
+  </span>
+  <a id="ArmoniK_DevelopmentKit_Client_Common_Properties__ctor_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Properties.#ctor*"></a>
+  <h4 id="ArmoniK_DevelopmentKit_Client_Common_Properties__ctor_ArmoniK_Api_gRPC_V1_TaskOptions_System_String_System_Int32_System_String_System_String_System_String_System_String_System_Boolean_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Properties.#ctor(ArmoniK.Api.gRPC.V1.TaskOptions,System.String,System.Int32,System.String,System.String,System.String,System.String,System.Boolean)">Properties(TaskOptions, string, int, string, string, string, string, bool)</h4>
+  <div class="markdown level1 summary"><p>The constructor to instantiate Properties object</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Properties(TaskOptions options, string connectionAddress, int connectionPort = 0, string protocol = null, string clientCertPem = null, string clientKeyPem = null, string caCertPem = null, bool sslValidation = true)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">TaskOptions</span></td>
+        <td><span class="parametername">options</span></td>
+        <td><p>The taskOptions to set to a session</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">string</span></td>
+        <td><span class="parametername">connectionAddress</span></td>
+        <td><p>The control plane address to connect</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">int</span></td>
+        <td><span class="parametername">connectionPort</span></td>
+        <td><p>The optional port to connect to the control plane</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">string</span></td>
+        <td><span class="parametername">protocol</span></td>
+        <td><p>the protocol https or http</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">string</span></td>
+        <td><span class="parametername">clientCertPem</span></td>
+        <td><p>The client certificate fil in a pem format</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">string</span></td>
+        <td><span class="parametername">clientKeyPem</span></td>
+        <td><p>The client key file in a pem format</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">string</span></td>
+        <td><span class="parametername">caCertPem</span></td>
+        <td><p>The Server certificate file to validate mTLS</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">bool</span></td>
+        <td><span class="parametername">sslValidation</span></td>
+        <td><p>Disable the ssl strong validation of ssl certificate (default : enable =&gt; true)</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/main/apiSpec/new?filename=ArmoniK_DevelopmentKit_Client_Common_Properties__ctor_Microsoft_Extensions_Configuration_IConfiguration_ArmoniK_Api_gRPC_V1_TaskOptions_System_String_System_Int32_System_String_System_String_System_String_System_String_System_Boolean_.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Client.Common.Properties.%23ctor(Microsoft.Extensions.Configuration.IConfiguration%2CArmoniK.Api.gRPC.V1.TaskOptions%2CSystem.String%2CSystem.Int32%2CSystem.String%2CSystem.String%2CSystem.String%2CSystem.String%2CSystem.Boolean)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Properties.cs/#L103">View Source</a>
   </span>
   <a id="ArmoniK_DevelopmentKit_Client_Common_Properties__ctor_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Properties.#ctor*"></a>
-  <h4 id="ArmoniK_DevelopmentKit_Client_Common_Properties__ctor_IConfiguration_TaskOptions_System_String_System_Int32_System_String_System_String_System_String_System_String_System_Boolean_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Properties.#ctor(IConfiguration,TaskOptions,System.String,System.Int32,System.String,System.String,System.String,System.String,System.Boolean)">Properties(IConfiguration, TaskOptions, string, int, string, string, string, string, bool)</h4>
+  <h4 id="ArmoniK_DevelopmentKit_Client_Common_Properties__ctor_Microsoft_Extensions_Configuration_IConfiguration_ArmoniK_Api_gRPC_V1_TaskOptions_System_String_System_Int32_System_String_System_String_System_String_System_String_System_Boolean_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Properties.#ctor(Microsoft.Extensions.Configuration.IConfiguration,ArmoniK.Api.gRPC.V1.TaskOptions,System.String,System.Int32,System.String,System.String,System.String,System.String,System.Boolean)">Properties(IConfiguration, TaskOptions, string, int, string, string, string, string, bool)</h4>
   <div class="markdown level1 summary"><p>The constructor to instantiate Properties object</p>
 </div>
   <div class="markdown level1 conceptual"></div>
@@ -110,7 +210,7 @@ The ssl mTLS certificate if needed to connect to the control plane</li>
     <pre><code class="lang-csharp hljs">public Properties(IConfiguration configuration, TaskOptions options, string connectionAddress = null, int connectionPort = 0, string protocol = null, string clientCertFilePem = null, string clientKeyFilePem = null, string caCertPem = null, bool sslValidation = true)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -175,79 +275,18 @@ The ssl mTLS certificate if needed to connect to the control plane</li>
       </tr>
     </tbody>
   </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/main/apiSpec/new?filename=ArmoniK_DevelopmentKit_Client_Common_Properties__ctor_TaskOptions_System_String_System_Int32_System_String_System_String_System_String_System_String_System_Boolean_.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Client.Common.Properties.%23ctor(TaskOptions%2CSystem.String%2CSystem.Int32%2CSystem.String%2CSystem.String%2CSystem.String%2CSystem.String%2CSystem.Boolean)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Properties.cs/#L69">View Source</a>
-  </span>
-  <a id="ArmoniK_DevelopmentKit_Client_Common_Properties__ctor_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Properties.#ctor*"></a>
-  <h4 id="ArmoniK_DevelopmentKit_Client_Common_Properties__ctor_TaskOptions_System_String_System_Int32_System_String_System_String_System_String_System_String_System_Boolean_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Properties.#ctor(TaskOptions,System.String,System.Int32,System.String,System.String,System.String,System.String,System.Boolean)">Properties(TaskOptions, string, int, string, string, string, string, bool)</h4>
-  <div class="markdown level1 summary"><p>The constructor to instantiate Properties object</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Properties(TaskOptions options, string connectionAddress, int connectionPort = 0, string protocol = null, string clientCertPem = null, string clientKeyPem = null, string caCertPem = null, bool sslValidation = true)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
+        <th>Condition</th>
       </tr>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">TaskOptions</span></td>
-        <td><span class="parametername">options</span></td>
-        <td><p>The taskOptions to set to a session</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">string</span></td>
-        <td><span class="parametername">connectionAddress</span></td>
-        <td><p>The control plane address to connect</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">int</span></td>
-        <td><span class="parametername">connectionPort</span></td>
-        <td><p>The optional port to connect to the control plane</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">string</span></td>
-        <td><span class="parametername">protocol</span></td>
-        <td><p>the protocol https or http</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">string</span></td>
-        <td><span class="parametername">clientCertPem</span></td>
-        <td><p>The client certificate fil in a pem format</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">string</span></td>
-        <td><span class="parametername">clientKeyPem</span></td>
-        <td><p>The client key file in a pem format</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">string</span></td>
-        <td><span class="parametername">caCertPem</span></td>
-        <td><p>The Server certificate file to validate mTLS</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">bool</span></td>
-        <td><span class="parametername">sslValidation</span></td>
-        <td><p>Disable the ssl strong validation of ssl certificate (default : enable =&gt; true)</p>
-</td>
+        <td><span class="xref">ArgumentException</span></td>
+        <td></td>
       </tr>
     </tbody>
   </table>
@@ -269,7 +308,7 @@ The ssl mTLS certificate if needed to connect to the control plane</li>
     <pre><code class="lang-csharp hljs">public static TaskOptions DefaultTaskOptions</code></pre>
   </div>
   <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -302,7 +341,7 @@ The ssl mTLS certificate if needed to connect to the control plane</li>
     <pre><code class="lang-csharp hljs">public string CaCertFilePem { get; set; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -333,7 +372,7 @@ The ssl mTLS certificate if needed to connect to the control plane</li>
     <pre><code class="lang-csharp hljs">public string ClientCertFilePem { get; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -364,7 +403,7 @@ The ssl mTLS certificate if needed to connect to the control plane</li>
     <pre><code class="lang-csharp hljs">public string ClientKeyFilePem { get; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -395,7 +434,7 @@ The ssl mTLS certificate if needed to connect to the control plane</li>
     <pre><code class="lang-csharp hljs">public IConfiguration Configuration { get; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -426,7 +465,7 @@ The ssl mTLS certificate if needed to connect to the control plane</li>
     <pre><code class="lang-csharp hljs">public bool ConfSSLValidation { get; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -457,7 +496,7 @@ The ssl mTLS certificate if needed to connect to the control plane</li>
     <pre><code class="lang-csharp hljs">public string ConnectionAddress { get; set; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -488,7 +527,7 @@ The ssl mTLS certificate if needed to connect to the control plane</li>
     <pre><code class="lang-csharp hljs">public int ConnectionPort { get; set; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -519,7 +558,7 @@ The ssl mTLS certificate if needed to connect to the control plane</li>
     <pre><code class="lang-csharp hljs">public string ConnectionString { get; set; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -550,7 +589,7 @@ The ssl mTLS certificate if needed to connect to the control plane</li>
     <pre><code class="lang-csharp hljs">public Uri ControlPlaneUri { get; set; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -581,7 +620,7 @@ The ssl mTLS certificate if needed to connect to the control plane</li>
     <pre><code class="lang-csharp hljs">public int MaxConcurrentBuffers { get; set; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -612,7 +651,7 @@ The ssl mTLS certificate if needed to connect to the control plane</li>
     <pre><code class="lang-csharp hljs">public int MaxParallelChannels { get; set; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -643,7 +682,7 @@ The ssl mTLS certificate if needed to connect to the control plane</li>
     <pre><code class="lang-csharp hljs">public int MaxTasksPerBuffer { get; set; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -674,7 +713,7 @@ The ssl mTLS certificate if needed to connect to the control plane</li>
     <pre><code class="lang-csharp hljs">public string Protocol { get; set; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -705,7 +744,7 @@ The ssl mTLS certificate if needed to connect to the control plane</li>
     <pre><code class="lang-csharp hljs">public string SectionMTls { get; set; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -736,7 +775,7 @@ The ssl mTLS certificate if needed to connect to the control plane</li>
     <pre><code class="lang-csharp hljs">public TaskOptions TaskOptions { get; set; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -767,7 +806,7 @@ The ssl mTLS certificate if needed to connect to the control plane</li>
     <pre><code class="lang-csharp hljs">public TimeSpan? TimeTriggerBuffer { get; set; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>

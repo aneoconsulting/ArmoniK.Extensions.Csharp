@@ -12,7 +12,7 @@
  ">
     
       <link rel="shortcut icon" href="../favicon.ico">
-      <link rel="stylesheet" href="../styles/docfx.vendor.css">
+      <link rel="stylesheet" href="../styles/docfx.vendor.min.css">
       <link rel="stylesheet" href="../styles/docfx.css">
       <link rel="stylesheet" href="../styles/main.css">
       <meta property="docfx:navrel" content="../toc.html">
@@ -128,13 +128,13 @@
       <a class="xref" href="ArmoniK.DevelopmentKit.Worker.Symphony.ServiceContainerBase.html#ArmoniK_DevelopmentKit_Worker_Symphony_ServiceContainerBase_GetDependenciesResult_System_String_">ServiceContainerBase.GetDependenciesResult(string)</a>
     </div>
     <div>
-      <a class="xref" href="ArmoniK.DevelopmentKit.Worker.Symphony.ServiceContainerBase.html#ArmoniK_DevelopmentKit_Worker_Symphony_ServiceContainerBase_Configure_IConfiguration_TaskOptions_">ServiceContainerBase.Configure(IConfiguration, TaskOptions)</a>
+      <a class="xref" href="ArmoniK.DevelopmentKit.Worker.Symphony.ServiceContainerBase.html#ArmoniK_DevelopmentKit_Worker_Symphony_ServiceContainerBase_Configure_Microsoft_Extensions_Configuration_IConfiguration_ArmoniK_Api_gRPC_V1_TaskOptions_">ServiceContainerBase.Configure(IConfiguration, TaskOptions)</a>
     </div>
     <div>
-      <a class="xref" href="ArmoniK.DevelopmentKit.Worker.Symphony.ServiceContainerBase.html#ArmoniK_DevelopmentKit_Worker_Symphony_ServiceContainerBase_ConfigureSession_Session_TaskOptions_">ServiceContainerBase.ConfigureSession(Session, TaskOptions)</a>
+      <a class="xref" href="ArmoniK.DevelopmentKit.Worker.Symphony.ServiceContainerBase.html#ArmoniK_DevelopmentKit_Worker_Symphony_ServiceContainerBase_ConfigureSession_ArmoniK_Api_gRPC_V1_Session_ArmoniK_Api_gRPC_V1_TaskOptions_">ServiceContainerBase.ConfigureSession(Session, TaskOptions)</a>
     </div>
     <div>
-      <a class="xref" href="ArmoniK.DevelopmentKit.Worker.Symphony.ServiceContainerBase.html#ArmoniK_DevelopmentKit_Worker_Symphony_ServiceContainerBase_ConfigureSessionService_ITaskHandler_">ServiceContainerBase.ConfigureSessionService(ITaskHandler)</a>
+      <a class="xref" href="ArmoniK.DevelopmentKit.Worker.Symphony.ServiceContainerBase.html#ArmoniK_DevelopmentKit_Worker_Symphony_ServiceContainerBase_ConfigureSessionService_ArmoniK_Api_Worker_Worker_ITaskHandler_">ServiceContainerBase.ConfigureSessionService(ITaskHandler)</a>
     </div>
     <div>
       <span class="xref">object.Equals(object)</span>
@@ -162,7 +162,8 @@
   <h6><strong>Assembly</strong>: ArmoniK.EndToEndTests.Worker.dll</h6>
   <h5 id="ArmoniK_EndToEndTests_Worker_Tests_CheckMultipleTasks_ServiceContainer_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public class ServiceContainer : ServiceContainerBase</code></pre>
+    <pre><code class="lang-csharp hljs">[PublicAPI]
+public class ServiceContainer : ServiceContainerBase</code></pre>
   </div>
   <h3 id="methods">Methods
 </h3>
@@ -182,7 +183,7 @@
     <pre><code class="lang-csharp hljs">public override void OnCreateService(ServiceContext serviceContext)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -216,7 +217,7 @@
     <pre><code class="lang-csharp hljs">public override void OnDestroyService(ServiceContext serviceContext)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -250,7 +251,7 @@
     <pre><code class="lang-csharp hljs">public override byte[] OnInvoke(SessionContext sessionContext, TaskContext taskContext)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -272,7 +273,7 @@
     </tbody>
   </table>
   <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -304,7 +305,7 @@
     <pre><code class="lang-csharp hljs">public override void OnSessionEnter(SessionContext sessionContext)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -338,7 +339,7 @@
     <pre><code class="lang-csharp hljs">public override void OnSessionLeave(SessionContext sessionContext)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -356,6 +357,13 @@
   </table>
   <h5 class="overrides">Overrides</h5>
   <div><a class="xref" href="ArmoniK.DevelopmentKit.Worker.Symphony.ServiceContainerBase.html#ArmoniK_DevelopmentKit_Worker_Symphony_ServiceContainerBase_OnSessionLeave_ArmoniK_DevelopmentKit_Worker_Symphony_SessionContext_">ServiceContainerBase.OnSessionLeave(SessionContext)</a></div>
+  <h3 id="extensionmethods">Extension Methods</h3>
+  <div>
+      <a class="xref" href="ArmoniK.DevelopmentKit.Worker.Symphony.ServiceContainerBaseExt.html#ArmoniK_DevelopmentKit_Worker_Symphony_ServiceContainerBaseExt_SubmitTask_ArmoniK_DevelopmentKit_Worker_Symphony_ServiceContainerBase_System_Byte___">ServiceContainerBaseExt.SubmitTask(ServiceContainerBase, byte[])</a>
+  </div>
+  <div>
+      <a class="xref" href="ArmoniK.DevelopmentKit.Worker.Symphony.ServiceContainerBaseExt.html#ArmoniK_DevelopmentKit_Worker_Symphony_ServiceContainerBaseExt_SubmitTaskWithDependencies_ArmoniK_DevelopmentKit_Worker_Symphony_ServiceContainerBase_System_Byte___System_Collections_Generic_IList_System_String__System_Boolean_">ServiceContainerBaseExt.SubmitTaskWithDependencies(ServiceContainerBase, byte[], IList&lt;string&gt;, bool)</a>
+  </div>
 </article>
           </div>
 

@@ -12,7 +12,7 @@
  ">
     
       <link rel="shortcut icon" href="../favicon.ico">
-      <link rel="stylesheet" href="../styles/docfx.vendor.css">
+      <link rel="stylesheet" href="../styles/docfx.vendor.min.css">
       <link rel="stylesheet" href="../styles/docfx.css">
       <link rel="stylesheet" href="../styles/main.css">
       <meta property="docfx:navrel" content="../toc.html">
@@ -73,7 +73,7 @@
   <h1 id="ArmoniK_DevelopmentKit_Worker_Unified_TaskSubmitterWorkerService" data-uid="ArmoniK.DevelopmentKit.Worker.Unified.TaskSubmitterWorkerService" class="text-break">Class TaskSubmitterWorkerService
 </h1>
   <div class="markdown level0 summary"><p>This is an abstract class that have to be implemented
-by each class who needs tasks submission on worker side
+by each class who needs context or tasks submission on worker side
 See an example in the project ArmoniK.Samples in the sub project
 <a href="https://github.com/aneoconsulting/ArmoniK.Samples/tree/main/Samples/UnifiedAPI">https://github.com/aneoconsulting/ArmoniK.Samples/tree/main/Samples/UnifiedAPI</a>
 ArmoniK.Samples.Worker/Services/ServiceApps.cs</p>
@@ -82,13 +82,85 @@ ArmoniK.Samples.Worker/Services/ServiceApps.cs</p>
   <div class="inheritance">
     <h5>Inheritance</h5>
     <div class="level0"><span class="xref">object</span></div>
-    <div class="level1"><span class="xref">TaskSubmitterWorkerService</span></div>
-      <div class="level2"><a class="xref" href="ArmoniK.EndToEndTests.Worker.Tests.CheckSubtaskingTreeUnifiedApi.SubtaskingTreeUnifiedApiWorker.html">SubtaskingTreeUnifiedApiWorker</a></div>
-      <div class="level2"><a class="xref" href="ArmoniK.EndToEndTests.Worker.Tests.CheckUnifiedApi.CheckUnifiedApiWorker.html">CheckUnifiedApiWorker</a></div>
-      <div class="level2"><a class="xref" href="ArmoniK.EndToEndTests.Worker.Tests.PayloadIntegrityTestWorker.Services.ServiceApps.html">ServiceApps</a></div>
+    <div class="level1"><a class="xref" href="ArmoniK.DevelopmentKit.Worker.Unified.TaskWorkerService.html">TaskWorkerService</a></div>
+    <div class="level2"><span class="xref">TaskSubmitterWorkerService</span></div>
+  </div>
+  <div class="implements">
+    <h5>Implements</h5>
+    <div><a class="xref" href="ArmoniK.DevelopmentKit.Worker.Unified.ITaskContextConfiguration.html">ITaskContextConfiguration</a></div>
+    <div><a class="xref" href="ArmoniK.DevelopmentKit.Worker.Unified.ISessionServiceConfiguration.html">ISessionServiceConfiguration</a></div>
+    <div><a class="xref" href="ArmoniK.DevelopmentKit.Worker.Unified.ITaskOptionsConfiguration.html">ITaskOptionsConfiguration</a></div>
+    <div><a class="xref" href="ArmoniK.DevelopmentKit.Worker.Unified.ISessionConfiguration.html">ISessionConfiguration</a></div>
+    <div><a class="xref" href="ArmoniK.DevelopmentKit.Worker.Unified.ILoggerConfiguration.html">ILoggerConfiguration</a></div>
   </div>
   <div class="inheritedMembers">
     <h5>Inherited Members</h5>
+    <div>
+      <a class="xref" href="ArmoniK.DevelopmentKit.Worker.Unified.TaskWorkerService.html#ArmoniK_DevelopmentKit_Worker_Unified_TaskWorkerService_Logger">TaskWorkerService.Logger</a>
+    </div>
+    <div>
+      <a class="xref" href="ArmoniK.DevelopmentKit.Worker.Unified.TaskWorkerService.html#ArmoniK_DevelopmentKit_Worker_Unified_TaskWorkerService_TaskId2OutputId">TaskWorkerService.TaskId2OutputId</a>
+    </div>
+    <div>
+      <a class="xref" href="ArmoniK.DevelopmentKit.Worker.Unified.TaskWorkerService.html#ArmoniK_DevelopmentKit_Worker_Unified_TaskWorkerService_TaskOptions">TaskWorkerService.TaskOptions</a>
+    </div>
+    <div>
+      <a class="xref" href="ArmoniK.DevelopmentKit.Worker.Unified.TaskWorkerService.html#ArmoniK_DevelopmentKit_Worker_Unified_TaskWorkerService_Configuration">TaskWorkerService.Configuration</a>
+    </div>
+    <div>
+      <a class="xref" href="ArmoniK.DevelopmentKit.Worker.Unified.TaskWorkerService.html#ArmoniK_DevelopmentKit_Worker_Unified_TaskWorkerService_LoggerFactory">TaskWorkerService.LoggerFactory</a>
+    </div>
+    <div>
+      <a class="xref" href="ArmoniK.DevelopmentKit.Worker.Unified.TaskWorkerService.html#ArmoniK_DevelopmentKit_Worker_Unified_TaskWorkerService_ConfigureLogger_Microsoft_Extensions_Configuration_IConfiguration_">TaskWorkerService.ConfigureLogger(IConfiguration)</a>
+    </div>
+    <div>
+      <a class="xref" href="ArmoniK.DevelopmentKit.Worker.Unified.TaskWorkerService.html#ArmoniK_DevelopmentKit_Worker_Unified_TaskWorkerService_SessionId">TaskWorkerService.SessionId</a>
+    </div>
+    <div>
+      <a class="xref" href="ArmoniK.DevelopmentKit.Worker.Unified.TaskWorkerService.html#ArmoniK_DevelopmentKit_Worker_Unified_TaskWorkerService_OnCreateService_ArmoniK_DevelopmentKit_Worker_Unified_ServiceContext_">TaskWorkerService.OnCreateService(ServiceContext)</a>
+    </div>
+    <div>
+      <a class="xref" href="ArmoniK.DevelopmentKit.Worker.Unified.TaskWorkerService.html#ArmoniK_DevelopmentKit_Worker_Unified_TaskWorkerService_OnDestroyService_ArmoniK_DevelopmentKit_Worker_Unified_ServiceContext_">TaskWorkerService.OnDestroyService(ServiceContext)</a>
+    </div>
+    <div>
+      <a class="xref" href="ArmoniK.DevelopmentKit.Worker.Unified.TaskWorkerService.html#ArmoniK_DevelopmentKit_Worker_Unified_TaskWorkerService_OnSessionEnter_ArmoniK_DevelopmentKit_Worker_Unified_SessionContext_">TaskWorkerService.OnSessionEnter(SessionContext)</a>
+    </div>
+    <div>
+      <a class="xref" href="ArmoniK.DevelopmentKit.Worker.Unified.TaskWorkerService.html#ArmoniK_DevelopmentKit_Worker_Unified_TaskWorkerService_OnSessionLeave_ArmoniK_DevelopmentKit_Worker_Unified_SessionContext_">TaskWorkerService.OnSessionLeave(SessionContext)</a>
+    </div>
+    <div>
+      <a class="xref" href="ArmoniK.DevelopmentKit.Worker.Unified.TaskWorkerService.html#ArmoniK_DevelopmentKit_Worker_Unified_TaskWorkerService_ConfigureSession_ArmoniK_Api_gRPC_V1_Session_ArmoniK_Api_gRPC_V1_TaskOptions_">TaskWorkerService.ConfigureSession(Session, TaskOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="ArmoniK.DevelopmentKit.Worker.Unified.TaskWorkerService.html#ArmoniK_DevelopmentKit_Worker_Unified_TaskWorkerService_ConfigureSessionService_ArmoniK_Api_Worker_Worker_ITaskHandler_">TaskWorkerService.ConfigureSessionService(ITaskHandler)</a>
+    </div>
+    <div>
+      <a class="xref" href="ArmoniK.DevelopmentKit.Worker.Unified.TaskWorkerService.html#ArmoniK_DevelopmentKit_Worker_Unified_TaskWorkerService_TaskContext">TaskWorkerService.TaskContext</a>
+    </div>
+    <div>
+      <a class="xref" href="ArmoniK.DevelopmentKit.Worker.Unified.TaskWorkerService.html#ArmoniK_DevelopmentKit_Worker_Unified_TaskWorkerService_ConfigureTaskOptions_ArmoniK_Api_gRPC_V1_TaskOptions_">TaskWorkerService.ConfigureTaskOptions(TaskOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="ArmoniK.DevelopmentKit.Worker.Unified.TaskWorkerService.html#ArmoniK_DevelopmentKit_Worker_Unified_TaskWorkerService_SubmitTasks_System_Collections_Generic_IEnumerable_System_Byte____">TaskWorkerService.SubmitTasks(IEnumerable&lt;byte[]&gt;)</a>
+    </div>
+    <div>
+      <a class="xref" href="ArmoniK.DevelopmentKit.Worker.Unified.TaskWorkerService.html#ArmoniK_DevelopmentKit_Worker_Unified_TaskWorkerService_SubmitTasksWithDependencies_System_Collections_Generic_IEnumerable_System_Tuple_System_Byte___System_Collections_Generic_IList_System_String____System_Boolean_">TaskWorkerService.SubmitTasksWithDependencies(IEnumerable&lt;Tuple&lt;byte[], IList&lt;string&gt;&gt;&gt;, bool)</a>
+    </div>
+    <div>
+      <a class="xref" href="ArmoniK.DevelopmentKit.Worker.Unified.TaskWorkerService.html#ArmoniK_DevelopmentKit_Worker_Unified_TaskWorkerService_SubmitTask_System_Byte___">TaskWorkerService.SubmitTask(byte[])</a>
+    </div>
+    <div>
+      <a class="xref" href="ArmoniK.DevelopmentKit.Worker.Unified.TaskWorkerService.html#ArmoniK_DevelopmentKit_Worker_Unified_TaskWorkerService_SubmitTask_System_String_System_Object___">TaskWorkerService.SubmitTask(string, object[])</a>
+    </div>
+    <div>
+      <a class="xref" href="ArmoniK.DevelopmentKit.Worker.Unified.TaskWorkerService.html#ArmoniK_DevelopmentKit_Worker_Unified_TaskWorkerService_SubmitTaskWithDependencie_System_Byte___System_Collections_Generic_IList_System_String__System_Boolean_">TaskWorkerService.SubmitTaskWithDependencie(byte[], IList&lt;string&gt;, bool)</a>
+    </div>
+    <div>
+      <a class="xref" href="ArmoniK.DevelopmentKit.Worker.Unified.TaskWorkerService.html#ArmoniK_DevelopmentKit_Worker_Unified_TaskWorkerService_SubmitTaskWithDependencies_System_String_System_Object___System_Collections_Generic_IList_System_String__System_Boolean_">TaskWorkerService.SubmitTaskWithDependencies(string, object[], IList&lt;string&gt;, bool)</a>
+    </div>
+    <div>
+      <a class="xref" href="ArmoniK.DevelopmentKit.Worker.Unified.TaskWorkerService.html#ArmoniK_DevelopmentKit_Worker_Unified_TaskWorkerService_GetDependenciesResult_System_String_">TaskWorkerService.GetDependenciesResult(string)</a>
+    </div>
     <div>
       <span class="xref">object.Equals(object)</span>
     </div>
@@ -115,814 +187,31 @@ ArmoniK.Samples.Worker/Services/ServiceApps.cs</p>
   <h6><strong>Assembly</strong>: ArmoniK.DevelopmentKit.Worker.Unified.dll</h6>
   <h5 id="ArmoniK_DevelopmentKit_Worker_Unified_TaskSubmitterWorkerService_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public abstract class TaskSubmitterWorkerService</code></pre>
+    <pre><code class="lang-csharp hljs">[PublicAPI]
+[Obsolete(&quot;TaskSubmitterWorkerService has been replaced by TaskWorkerService&quot;)]
+public abstract class TaskSubmitterWorkerService : TaskWorkerService, ITaskContextConfiguration, ISessionServiceConfiguration, ITaskOptionsConfiguration, ISessionConfiguration, ILoggerConfiguration</code></pre>
   </div>
-  <h3 id="constructors">Constructors
-</h3>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/main/apiSpec/new?filename=ArmoniK_DevelopmentKit_Worker_Unified_TaskSubmitterWorkerService__ctor.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Worker.Unified.TaskSubmitterWorkerService.%23ctor%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Worker/src/Unified/TaskSubmitterWorkerService.cs/#L58">View Source</a>
-  </span>
-  <a id="ArmoniK_DevelopmentKit_Worker_Unified_TaskSubmitterWorkerService__ctor_" data-uid="ArmoniK.DevelopmentKit.Worker.Unified.TaskSubmitterWorkerService.#ctor*"></a>
-  <h4 id="ArmoniK_DevelopmentKit_Worker_Unified_TaskSubmitterWorkerService__ctor" data-uid="ArmoniK.DevelopmentKit.Worker.Unified.TaskSubmitterWorkerService.#ctor">TaskSubmitterWorkerService()</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public TaskSubmitterWorkerService()</code></pre>
-  </div>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/main/apiSpec/new?filename=ArmoniK_DevelopmentKit_Worker_Unified_TaskSubmitterWorkerService__ctor_ILoggerFactory_.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Worker.Unified.TaskSubmitterWorkerService.%23ctor(ILoggerFactory)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Worker/src/Unified/TaskSubmitterWorkerService.cs/#L69">View Source</a>
-  </span>
-  <a id="ArmoniK_DevelopmentKit_Worker_Unified_TaskSubmitterWorkerService__ctor_" data-uid="ArmoniK.DevelopmentKit.Worker.Unified.TaskSubmitterWorkerService.#ctor*"></a>
-  <h4 id="ArmoniK_DevelopmentKit_Worker_Unified_TaskSubmitterWorkerService__ctor_ILoggerFactory_" data-uid="ArmoniK.DevelopmentKit.Worker.Unified.TaskSubmitterWorkerService.#ctor(ILoggerFactory)">TaskSubmitterWorkerService(ILoggerFactory)</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public TaskSubmitterWorkerService(ILoggerFactory loggerFactory)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">ILoggerFactory</span></td>
-        <td><span class="parametername">loggerFactory</span></td>
-        <td><p>The factory logger to create logger</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h3 id="properties">Properties
-</h3>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/main/apiSpec/new?filename=ArmoniK_DevelopmentKit_Worker_Unified_TaskSubmitterWorkerService_Configuration.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Worker.Unified.TaskSubmitterWorkerService.Configuration%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Worker/src/Unified/TaskSubmitterWorkerService.cs/#L109">View Source</a>
-  </span>
-  <a id="ArmoniK_DevelopmentKit_Worker_Unified_TaskSubmitterWorkerService_Configuration_" data-uid="ArmoniK.DevelopmentKit.Worker.Unified.TaskSubmitterWorkerService.Configuration*"></a>
-  <h4 id="ArmoniK_DevelopmentKit_Worker_Unified_TaskSubmitterWorkerService_Configuration" data-uid="ArmoniK.DevelopmentKit.Worker.Unified.TaskSubmitterWorkerService.Configuration">Configuration</h4>
-  <div class="markdown level1 summary"><p>Get or Set Configuration</p>
+  <h5 id="ArmoniK_DevelopmentKit_Worker_Unified_TaskSubmitterWorkerService_remarks"><strong>Remarks</strong></h5>
+  <div class="markdown level0 remarks"><p>WARNING : TaskSubmitterWorkerService has been replaced by TaskWorkerService.
+This class will stay in 2.12 for compatibility reasons
+This class will be removed in armonik 2.13</p>
 </div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public IConfiguration Configuration { get; set; }</code></pre>
+  <h3 id="implements">Implements</h3>
+  <div>
+      <a class="xref" href="ArmoniK.DevelopmentKit.Worker.Unified.ITaskContextConfiguration.html">ITaskContextConfiguration</a>
   </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">IConfiguration</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/main/apiSpec/new?filename=ArmoniK_DevelopmentKit_Worker_Unified_TaskSubmitterWorkerService_Logger.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Worker.Unified.TaskSubmitterWorkerService.Logger%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Worker/src/Unified/TaskSubmitterWorkerService.cs/#L80">View Source</a>
-  </span>
-  <a id="ArmoniK_DevelopmentKit_Worker_Unified_TaskSubmitterWorkerService_Logger_" data-uid="ArmoniK.DevelopmentKit.Worker.Unified.TaskSubmitterWorkerService.Logger*"></a>
-  <h4 id="ArmoniK_DevelopmentKit_Worker_Unified_TaskSubmitterWorkerService_Logger" data-uid="ArmoniK.DevelopmentKit.Worker.Unified.TaskSubmitterWorkerService.Logger">Logger</h4>
-  <div class="markdown level1 summary"><p>Get access to Logger with Logger.LoggingScope.</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Extensions.Logging.ILogger Logger { get; set; }</code></pre>
+  <div>
+      <a class="xref" href="ArmoniK.DevelopmentKit.Worker.Unified.ISessionServiceConfiguration.html">ISessionServiceConfiguration</a>
   </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">Microsoft.Extensions.Logging.ILogger</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/main/apiSpec/new?filename=ArmoniK_DevelopmentKit_Worker_Unified_TaskSubmitterWorkerService_LoggerFactory.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Worker.Unified.TaskSubmitterWorkerService.LoggerFactory%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Worker/src/Unified/TaskSubmitterWorkerService.cs/#L114">View Source</a>
-  </span>
-  <a id="ArmoniK_DevelopmentKit_Worker_Unified_TaskSubmitterWorkerService_LoggerFactory_" data-uid="ArmoniK.DevelopmentKit.Worker.Unified.TaskSubmitterWorkerService.LoggerFactory*"></a>
-  <h4 id="ArmoniK_DevelopmentKit_Worker_Unified_TaskSubmitterWorkerService_LoggerFactory" data-uid="ArmoniK.DevelopmentKit.Worker.Unified.TaskSubmitterWorkerService.LoggerFactory">LoggerFactory</h4>
-  <div class="markdown level1 summary"><p>The logger factory to create new Logger in sub class caller</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public ILoggerFactory LoggerFactory { get; set; }</code></pre>
+  <div>
+      <a class="xref" href="ArmoniK.DevelopmentKit.Worker.Unified.ITaskOptionsConfiguration.html">ITaskOptionsConfiguration</a>
   </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">ILoggerFactory</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/main/apiSpec/new?filename=ArmoniK_DevelopmentKit_Worker_Unified_TaskSubmitterWorkerService_SessionId.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Worker.Unified.TaskSubmitterWorkerService.SessionId%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Worker/src/Unified/TaskSubmitterWorkerService.cs/#L86">View Source</a>
-  </span>
-  <a id="ArmoniK_DevelopmentKit_Worker_Unified_TaskSubmitterWorkerService_SessionId_" data-uid="ArmoniK.DevelopmentKit.Worker.Unified.TaskSubmitterWorkerService.SessionId*"></a>
-  <h4 id="ArmoniK_DevelopmentKit_Worker_Unified_TaskSubmitterWorkerService_SessionId" data-uid="ArmoniK.DevelopmentKit.Worker.Unified.TaskSubmitterWorkerService.SessionId">SessionId</h4>
-  <div class="markdown level1 summary"><p>Get or Set SubSessionId object stored during the call of SubmitTask, SubmitSubTask,
-SubmitSubTaskWithDependencies or WaitForCompletion, WaitForSubTaskCompletion or GetResults</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Session SessionId { get; set; }</code></pre>
+  <div>
+      <a class="xref" href="ArmoniK.DevelopmentKit.Worker.Unified.ISessionConfiguration.html">ISessionConfiguration</a>
   </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">Session</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/main/apiSpec/new?filename=ArmoniK_DevelopmentKit_Worker_Unified_TaskSubmitterWorkerService_TaskContext.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Worker.Unified.TaskSubmitterWorkerService.TaskContext%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Worker/src/Unified/TaskSubmitterWorkerService.cs/#L146">View Source</a>
-  </span>
-  <a id="ArmoniK_DevelopmentKit_Worker_Unified_TaskSubmitterWorkerService_TaskContext_" data-uid="ArmoniK.DevelopmentKit.Worker.Unified.TaskSubmitterWorkerService.TaskContext*"></a>
-  <h4 id="ArmoniK_DevelopmentKit_Worker_Unified_TaskSubmitterWorkerService_TaskContext" data-uid="ArmoniK.DevelopmentKit.Worker.Unified.TaskSubmitterWorkerService.TaskContext">TaskContext</h4>
-  <div class="markdown level1 summary"><p>Provides the context for the task that is bound to the given service invocation</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public TaskContext TaskContext { get; set; }</code></pre>
+  <div>
+      <a class="xref" href="ArmoniK.DevelopmentKit.Worker.Unified.ILoggerConfiguration.html">ILoggerConfiguration</a>
   </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="ArmoniK.DevelopmentKit.Worker.Unified.TaskContext.html">TaskContext</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/main/apiSpec/new?filename=ArmoniK_DevelopmentKit_Worker_Unified_TaskSubmitterWorkerService_TaskId2OutputId.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Worker.Unified.TaskSubmitterWorkerService.TaskId2OutputId%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Worker/src/Unified/TaskSubmitterWorkerService.cs/#L96">View Source</a>
-  </span>
-  <a id="ArmoniK_DevelopmentKit_Worker_Unified_TaskSubmitterWorkerService_TaskId2OutputId_" data-uid="ArmoniK.DevelopmentKit.Worker.Unified.TaskSubmitterWorkerService.TaskId2OutputId*"></a>
-  <h4 id="ArmoniK_DevelopmentKit_Worker_Unified_TaskSubmitterWorkerService_TaskId2OutputId" data-uid="ArmoniK.DevelopmentKit.Worker.Unified.TaskSubmitterWorkerService.TaskId2OutputId">TaskId2OutputId</h4>
-  <div class="markdown level1 summary"><p>Map between ids of task and their results id after task submission</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Dictionary&lt;string, string&gt; TaskId2OutputId { get; }</code></pre>
-  </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Collections.Generic.Dictionary&lt;TKey, TValue&gt;</span>&lt;<span class="xref">string</span>, <span class="xref">string</span>&gt;</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/main/apiSpec/new?filename=ArmoniK_DevelopmentKit_Worker_Unified_TaskSubmitterWorkerService_TaskOptions.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Worker.Unified.TaskSubmitterWorkerService.TaskOptions%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Worker/src/Unified/TaskSubmitterWorkerService.cs/#L104">View Source</a>
-  </span>
-  <a id="ArmoniK_DevelopmentKit_Worker_Unified_TaskSubmitterWorkerService_TaskOptions_" data-uid="ArmoniK.DevelopmentKit.Worker.Unified.TaskSubmitterWorkerService.TaskOptions*"></a>
-  <h4 id="ArmoniK_DevelopmentKit_Worker_Unified_TaskSubmitterWorkerService_TaskOptions" data-uid="ArmoniK.DevelopmentKit.Worker.Unified.TaskSubmitterWorkerService.TaskOptions">TaskOptions</h4>
-  <div class="markdown level1 summary"><p>Return TaskOption coming from Client side</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public TaskOptions TaskOptions { get; set; }</code></pre>
-  </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">TaskOptions</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h3 id="methods">Methods
-</h3>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/main/apiSpec/new?filename=ArmoniK_DevelopmentKit_Worker_Unified_TaskSubmitterWorkerService_ConfigureLogger_IConfiguration_.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Worker.Unified.TaskSubmitterWorkerService.ConfigureLogger(IConfiguration)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Worker/src/Unified/TaskSubmitterWorkerService.cs/#L121">View Source</a>
-  </span>
-  <a id="ArmoniK_DevelopmentKit_Worker_Unified_TaskSubmitterWorkerService_ConfigureLogger_" data-uid="ArmoniK.DevelopmentKit.Worker.Unified.TaskSubmitterWorkerService.ConfigureLogger*"></a>
-  <h4 id="ArmoniK_DevelopmentKit_Worker_Unified_TaskSubmitterWorkerService_ConfigureLogger_IConfiguration_" data-uid="ArmoniK.DevelopmentKit.Worker.Unified.TaskSubmitterWorkerService.ConfigureLogger(IConfiguration)">ConfigureLogger(IConfiguration)</h4>
-  <div class="markdown level1 summary"><p>The configure method is an internal call to prepare the ServiceContainer.
-Its holds several configuration coming from the Client call</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public void ConfigureLogger(IConfiguration configuration)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">IConfiguration</span></td>
-        <td><span class="parametername">configuration</span></td>
-        <td><p>The appSettings.json configuration prepared during the deployment</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/main/apiSpec/new?filename=ArmoniK_DevelopmentKit_Worker_Unified_TaskSubmitterWorkerService_ConfigureSession_Session_TaskOptions_.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Worker.Unified.TaskSubmitterWorkerService.ConfigureSession(Session%2CTaskOptions)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Worker/src/Unified/TaskSubmitterWorkerService.cs/#L283">View Source</a>
-  </span>
-  <a id="ArmoniK_DevelopmentKit_Worker_Unified_TaskSubmitterWorkerService_ConfigureSession_" data-uid="ArmoniK.DevelopmentKit.Worker.Unified.TaskSubmitterWorkerService.ConfigureSession*"></a>
-  <h4 id="ArmoniK_DevelopmentKit_Worker_Unified_TaskSubmitterWorkerService_ConfigureSession_Session_TaskOptions_" data-uid="ArmoniK.DevelopmentKit.Worker.Unified.TaskSubmitterWorkerService.ConfigureSession(Session,TaskOptions)">ConfigureSession(Session, TaskOptions)</h4>
-  <div class="markdown level1 summary"><p>Prepare Session and create SessionService with the specific session</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public void ConfigureSession(Session sessionId, TaskOptions requestTaskOptions)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">Session</span></td>
-        <td><span class="parametername">sessionId</span></td>
-        <td><p>The ID of the current session</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">TaskOptions</span></td>
-        <td><span class="parametername">requestTaskOptions</span></td>
-        <td><p>The default <a class="xref" href="ArmoniK.DevelopmentKit.Worker.Unified.TaskSubmitterWorkerService.html#ArmoniK_DevelopmentKit_Worker_Unified_TaskSubmitterWorkerService_TaskOptions">TaskOptions</a> used by tasks in the current session</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/main/apiSpec/new?filename=ArmoniK_DevelopmentKit_Worker_Unified_TaskSubmitterWorkerService_ConfigureSessionService_ITaskHandler_.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Worker.Unified.TaskSubmitterWorkerService.ConfigureSessionService(ITaskHandler)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Worker/src/Unified/TaskSubmitterWorkerService.cs/#L152">View Source</a>
-  </span>
-  <a id="ArmoniK_DevelopmentKit_Worker_Unified_TaskSubmitterWorkerService_ConfigureSessionService_" data-uid="ArmoniK.DevelopmentKit.Worker.Unified.TaskSubmitterWorkerService.ConfigureSessionService*"></a>
-  <h4 id="ArmoniK_DevelopmentKit_Worker_Unified_TaskSubmitterWorkerService_ConfigureSessionService_ITaskHandler_" data-uid="ArmoniK.DevelopmentKit.Worker.Unified.TaskSubmitterWorkerService.ConfigureSessionService(ITaskHandler)">ConfigureSessionService(ITaskHandler)</h4>
-  <div class="markdown level1 summary"><p>Configure Service for actual session. Connect the worker to the current pollingAgent</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public void ConfigureSessionService(ITaskHandler taskHandler)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">ITaskHandler</span></td>
-        <td><span class="parametername">taskHandler</span></td>
-        <td><p>Low level object used for tasks submission by <a class="xref" href="ArmoniK.DevelopmentKit.Worker.Unified.SessionPollingService.html">SessionPollingService</a></p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/main/apiSpec/new?filename=ArmoniK_DevelopmentKit_Worker_Unified_TaskSubmitterWorkerService_ConfigureTaskOptions_TaskOptions_.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Worker.Unified.TaskSubmitterWorkerService.ConfigureTaskOptions(TaskOptions)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Worker/src/Unified/TaskSubmitterWorkerService.cs/#L140">View Source</a>
-  </span>
-  <a id="ArmoniK_DevelopmentKit_Worker_Unified_TaskSubmitterWorkerService_ConfigureTaskOptions_" data-uid="ArmoniK.DevelopmentKit.Worker.Unified.TaskSubmitterWorkerService.ConfigureTaskOptions*"></a>
-  <h4 id="ArmoniK_DevelopmentKit_Worker_Unified_TaskSubmitterWorkerService_ConfigureTaskOptions_TaskOptions_" data-uid="ArmoniK.DevelopmentKit.Worker.Unified.TaskSubmitterWorkerService.ConfigureTaskOptions(TaskOptions)">ConfigureTaskOptions(TaskOptions)</h4>
-  <div class="markdown level1 summary"><p>The configure method is an internal call to prepare the ServiceContainer.
-Its holds TaskOptions coming from the Client call</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public void ConfigureTaskOptions(TaskOptions clientOptions)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">TaskOptions</span></td>
-        <td><span class="parametername">clientOptions</span></td>
-        <td><p>All data coming from Client within TaskOptions</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/main/apiSpec/new?filename=ArmoniK_DevelopmentKit_Worker_Unified_TaskSubmitterWorkerService_GetDependenciesResult_System_String_.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Worker.Unified.TaskSubmitterWorkerService.GetDependenciesResult(System.String)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Worker/src/Unified/TaskSubmitterWorkerService.cs/#L275">View Source</a>
-  </span>
-  <a id="ArmoniK_DevelopmentKit_Worker_Unified_TaskSubmitterWorkerService_GetDependenciesResult_" data-uid="ArmoniK.DevelopmentKit.Worker.Unified.TaskSubmitterWorkerService.GetDependenciesResult*"></a>
-  <h4 id="ArmoniK_DevelopmentKit_Worker_Unified_TaskSubmitterWorkerService_GetDependenciesResult_System_String_" data-uid="ArmoniK.DevelopmentKit.Worker.Unified.TaskSubmitterWorkerService.GetDependenciesResult(System.String)">GetDependenciesResult(string)</h4>
-  <div class="markdown level1 summary"><p>Get Result from compute reply</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public byte[] GetDependenciesResult(string taskId)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">string</span></td>
-        <td><span class="parametername">taskId</span></td>
-        <td><p>The task Id to get the result</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">byte</span>[]</td>
-        <td><p>return the customer payload</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/main/apiSpec/new?filename=ArmoniK_DevelopmentKit_Worker_Unified_TaskSubmitterWorkerService_SubmitTask_System_Byte___.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Worker.Unified.TaskSubmitterWorkerService.SubmitTask(System.Byte%5B%5D)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Worker/src/Unified/TaskSubmitterWorkerService.cs/#L185">View Source</a>
-  </span>
-  <a id="ArmoniK_DevelopmentKit_Worker_Unified_TaskSubmitterWorkerService_SubmitTask_" data-uid="ArmoniK.DevelopmentKit.Worker.Unified.TaskSubmitterWorkerService.SubmitTask*"></a>
-  <h4 id="ArmoniK_DevelopmentKit_Worker_Unified_TaskSubmitterWorkerService_SubmitTask_System_Byte___" data-uid="ArmoniK.DevelopmentKit.Worker.Unified.TaskSubmitterWorkerService.SubmitTask(System.Byte[])">SubmitTask(byte[])</h4>
-  <div class="markdown level1 summary"><p>User method to submit task from the service</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public string SubmitTask(byte[] payload)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">byte</span>[]</td>
-        <td><span class="parametername">payload</span></td>
-        <td><p>The user payload to execute. Generally used for subtasking.</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">string</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/main/apiSpec/new?filename=ArmoniK_DevelopmentKit_Worker_Unified_TaskSubmitterWorkerService_SubmitTask_System_String_System_Object___.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Worker.Unified.TaskSubmitterWorkerService.SubmitTask(System.String%2CSystem.Object%5B%5D)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Worker/src/Unified/TaskSubmitterWorkerService.cs/#L201">View Source</a>
-  </span>
-  <a id="ArmoniK_DevelopmentKit_Worker_Unified_TaskSubmitterWorkerService_SubmitTask_" data-uid="ArmoniK.DevelopmentKit.Worker.Unified.TaskSubmitterWorkerService.SubmitTask*"></a>
-  <h4 id="ArmoniK_DevelopmentKit_Worker_Unified_TaskSubmitterWorkerService_SubmitTask_System_String_System_Object___" data-uid="ArmoniK.DevelopmentKit.Worker.Unified.TaskSubmitterWorkerService.SubmitTask(System.String,System.Object[])">SubmitTask(string, object[])</h4>
-  <div class="markdown level1 summary"><p>User method to submit task from the service</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public string SubmitTask(string methodName, object[] arguments)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">string</span></td>
-        <td><span class="parametername">methodName</span></td>
-        <td><p>The name of the method you want to call
-<remarks>It is case sensitive</remarks></p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">object</span>[]</td>
-        <td><span class="parametername">arguments</span></td>
-        <td><p>The arguments of the method to call</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">string</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/main/apiSpec/new?filename=ArmoniK_DevelopmentKit_Worker_Unified_TaskSubmitterWorkerService_SubmitTasks_System_Collections_Generic_IEnumerable_System_Byte____.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Worker.Unified.TaskSubmitterWorkerService.SubmitTasks(System.Collections.Generic.IEnumerable%7BSystem.Byte%5B%5D%7D)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Worker/src/Unified/TaskSubmitterWorkerService.cs/#L162">View Source</a>
-  </span>
-  <a id="ArmoniK_DevelopmentKit_Worker_Unified_TaskSubmitterWorkerService_SubmitTasks_" data-uid="ArmoniK.DevelopmentKit.Worker.Unified.TaskSubmitterWorkerService.SubmitTasks*"></a>
-  <h4 id="ArmoniK_DevelopmentKit_Worker_Unified_TaskSubmitterWorkerService_SubmitTasks_System_Collections_Generic_IEnumerable_System_Byte____" data-uid="ArmoniK.DevelopmentKit.Worker.Unified.TaskSubmitterWorkerService.SubmitTasks(System.Collections.Generic.IEnumerable{System.Byte[]})">SubmitTasks(IEnumerable&lt;byte[]&gt;)</h4>
-  <div class="markdown level1 summary"><p>User method to submit task from the service</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public IEnumerable&lt;string&gt; SubmitTasks(IEnumerable&lt;byte[]&gt; payloads)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Collections.Generic.IEnumerable&lt;T&gt;</span>&lt;<span class="xref">byte</span>[]&gt;</td>
-        <td><span class="parametername">payloads</span></td>
-        <td><p>The user payload list to execute. Generally used for subTasking.</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Collections.Generic.IEnumerable&lt;T&gt;</span>&lt;<span class="xref">string</span>&gt;</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/main/apiSpec/new?filename=ArmoniK_DevelopmentKit_Worker_Unified_TaskSubmitterWorkerService_SubmitTasksWithDependencies_System_Collections_Generic_IEnumerable_System_Tuple_System_Byte___System_Collections_Generic_IList_System_String____System_Boolean_.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Worker.Unified.TaskSubmitterWorkerService.SubmitTasksWithDependencies(System.Collections.Generic.IEnumerable%7BSystem.Tuple%7BSystem.Byte%5B%5D%2CSystem.Collections.Generic.IList%7BSystem.String%7D%7D%7D%2CSystem.Boolean)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Worker/src/Unified/TaskSubmitterWorkerService.cs/#L173">View Source</a>
-  </span>
-  <a id="ArmoniK_DevelopmentKit_Worker_Unified_TaskSubmitterWorkerService_SubmitTasksWithDependencies_" data-uid="ArmoniK.DevelopmentKit.Worker.Unified.TaskSubmitterWorkerService.SubmitTasksWithDependencies*"></a>
-  <h4 id="ArmoniK_DevelopmentKit_Worker_Unified_TaskSubmitterWorkerService_SubmitTasksWithDependencies_System_Collections_Generic_IEnumerable_System_Tuple_System_Byte___System_Collections_Generic_IList_System_String____System_Boolean_" data-uid="ArmoniK.DevelopmentKit.Worker.Unified.TaskSubmitterWorkerService.SubmitTasksWithDependencies(System.Collections.Generic.IEnumerable{System.Tuple{System.Byte[],System.Collections.Generic.IList{System.String}}},System.Boolean)">SubmitTasksWithDependencies(IEnumerable&lt;Tuple&lt;byte[], IList&lt;string&gt;&gt;&gt;, bool)</h4>
-  <div class="markdown level1 summary"><p>The method to submit several tasks with dependencies tasks. This task will wait
-until all dependencies are completed successfully before starting</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public IEnumerable&lt;string&gt; SubmitTasksWithDependencies(IEnumerable&lt;Tuple&lt;byte[], IList&lt;string&gt;&gt;&gt; payloadWithDependencies, bool resultForParent = false)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Collections.Generic.IEnumerable&lt;T&gt;</span>&lt;<span class="xref">Tuple</span>&lt;<span class="xref">byte</span>[], <span class="xref">System.Collections.Generic.IList&lt;T&gt;</span>&lt;<span class="xref">string</span>&gt;&gt;&gt;</td>
-        <td><span class="parametername">payloadWithDependencies</span></td>
-        <td><p>A list of Tuple(taskId, Payload) in dependence of those created tasks</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">bool</span></td>
-        <td><span class="parametername">resultForParent</span></td>
-        <td><p>Transmit the result to parent task if true</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Collections.Generic.IEnumerable&lt;T&gt;</span>&lt;<span class="xref">string</span>&gt;</td>
-        <td><p>return a list of taskIds of the created tasks</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/main/apiSpec/new?filename=ArmoniK_DevelopmentKit_Worker_Unified_TaskSubmitterWorkerService_SubmitTaskWithDependencie_System_Byte___System_Collections_Generic_IList_System_String__System_Boolean_.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Worker.Unified.TaskSubmitterWorkerService.SubmitTaskWithDependencie(System.Byte%5B%5D%2CSystem.Collections.Generic.IList%7BSystem.String%7D%2CSystem.Boolean)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Worker/src/Unified/TaskSubmitterWorkerService.cs/#L228">View Source</a>
-  </span>
-  <a id="ArmoniK_DevelopmentKit_Worker_Unified_TaskSubmitterWorkerService_SubmitTaskWithDependencie_" data-uid="ArmoniK.DevelopmentKit.Worker.Unified.TaskSubmitterWorkerService.SubmitTaskWithDependencie*"></a>
-  <h4 id="ArmoniK_DevelopmentKit_Worker_Unified_TaskSubmitterWorkerService_SubmitTaskWithDependencie_System_Byte___System_Collections_Generic_IList_System_String__System_Boolean_" data-uid="ArmoniK.DevelopmentKit.Worker.Unified.TaskSubmitterWorkerService.SubmitTaskWithDependencie(System.Byte[],System.Collections.Generic.IList{System.String},System.Boolean)">SubmitTaskWithDependencie(byte[], IList&lt;string&gt;, bool)</h4>
-  <div class="markdown level1 summary"><p>The method to submit One task with dependencies tasks. This task will wait for
-to start until all dependencies are completed successfully</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public string SubmitTaskWithDependencie(byte[] payload, IList&lt;string&gt; dependencies, bool resultForParent = false)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">byte</span>[]</td>
-        <td><span class="parametername">payload</span></td>
-        <td><p>The payload to submit</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.Collections.Generic.IList&lt;T&gt;</span>&lt;<span class="xref">string</span>&gt;</td>
-        <td><span class="parametername">dependencies</span></td>
-        <td><p>A list of task Id in dependence of this created task</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">bool</span></td>
-        <td><span class="parametername">resultForParent</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">string</span></td>
-        <td><p>return the taskId of the created task</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/main/apiSpec/new?filename=ArmoniK_DevelopmentKit_Worker_Unified_TaskSubmitterWorkerService_SubmitTaskWithDependencies_System_String_System_Object___System_Collections_Generic_IList_System_String__System_Boolean_.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Worker.Unified.TaskSubmitterWorkerService.SubmitTaskWithDependencies(System.String%2CSystem.Object%5B%5D%2CSystem.Collections.Generic.IList%7BSystem.String%7D%2CSystem.Boolean)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Worker/src/Unified/TaskSubmitterWorkerService.cs/#L248">View Source</a>
-  </span>
-  <a id="ArmoniK_DevelopmentKit_Worker_Unified_TaskSubmitterWorkerService_SubmitTaskWithDependencies_" data-uid="ArmoniK.DevelopmentKit.Worker.Unified.TaskSubmitterWorkerService.SubmitTaskWithDependencies*"></a>
-  <h4 id="ArmoniK_DevelopmentKit_Worker_Unified_TaskSubmitterWorkerService_SubmitTaskWithDependencies_System_String_System_Object___System_Collections_Generic_IList_System_String__System_Boolean_" data-uid="ArmoniK.DevelopmentKit.Worker.Unified.TaskSubmitterWorkerService.SubmitTaskWithDependencies(System.String,System.Object[],System.Collections.Generic.IList{System.String},System.Boolean)">SubmitTaskWithDependencies(string, object[], IList&lt;string&gt;, bool)</h4>
-  <div class="markdown level1 summary"><p>The method to submit One task with dependencies tasks. This task will wait for
-to start until all dependencies are completed successfully</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public string SubmitTaskWithDependencies(string methodName, object[] arguments, IList&lt;string&gt; dependencies, bool resultForParent = false)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">string</span></td>
-        <td><span class="parametername">methodName</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><span class="xref">object</span>[]</td>
-        <td><span class="parametername">arguments</span></td>
-        <td><p>The arguments to submit</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.Collections.Generic.IList&lt;T&gt;</span>&lt;<span class="xref">string</span>&gt;</td>
-        <td><span class="parametername">dependencies</span></td>
-        <td><p>A list of task Id in dependence of this created task</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">bool</span></td>
-        <td><span class="parametername">resultForParent</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">string</span></td>
-        <td><p>return the taskId of the created task</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
 </article>
           </div>
 
@@ -934,7 +223,7 @@ to start until all dependencies are completed successfully</p>
                     <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/main/apiSpec/new?filename=ArmoniK_DevelopmentKit_Worker_Unified_TaskSubmitterWorkerService.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Worker.Unified.TaskSubmitterWorkerService%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Worker/src/Unified/TaskSubmitterWorkerService.cs/#L52" class="contribution-link">View Source</a>
+                    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Worker/src/Unified/TaskWorkerService.cs/#L314" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>

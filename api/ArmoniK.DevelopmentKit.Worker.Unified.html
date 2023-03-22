@@ -12,7 +12,7 @@
  ">
     
       <link rel="shortcut icon" href="../favicon.ico">
-      <link rel="stylesheet" href="../styles/docfx.vendor.css">
+      <link rel="stylesheet" href="../styles/docfx.vendor.min.css">
       <link rel="stylesheet" href="../styles/docfx.css">
       <link rel="stylesheet" href="../styles/main.css">
       <meta property="docfx:navrel" content="../toc.html">
@@ -106,10 +106,39 @@ be called by client or by the worker.</p>
 </section>
       <h4><a class="xref" href="ArmoniK.DevelopmentKit.Worker.Unified.TaskSubmitterWorkerService.html">TaskSubmitterWorkerService</a></h4>
       <section><p>This is an abstract class that have to be implemented
-by each class who needs tasks submission on worker side
+by each class who needs context or tasks submission on worker side
 See an example in the project ArmoniK.Samples in the sub project
 <a href="https://github.com/aneoconsulting/ArmoniK.Samples/tree/main/Samples/UnifiedAPI">https://github.com/aneoconsulting/ArmoniK.Samples/tree/main/Samples/UnifiedAPI</a>
 ArmoniK.Samples.Worker/Services/ServiceApps.cs</p>
+</section>
+      <h4><a class="xref" href="ArmoniK.DevelopmentKit.Worker.Unified.TaskWorkerService.html">TaskWorkerService</a></h4>
+      <section><p>This is an abstract class that have to be implemented
+by each class who needs context or tasks submission on worker side
+See an example in the project ArmoniK.Samples in the sub project
+<a href="https://github.com/aneoconsulting/ArmoniK.Samples/tree/main/Samples/UnifiedAPI">https://github.com/aneoconsulting/ArmoniK.Samples/tree/main/Samples/UnifiedAPI</a>
+ArmoniK.Samples.Worker/Services/ServiceApps.cs</p>
+</section>
+    <h3 id="interfaces">Interfaces
+</h3>
+      <h4><a class="xref" href="ArmoniK.DevelopmentKit.Worker.Unified.ILoggerConfiguration.html">ILoggerConfiguration</a></h4>
+      <section><p>implementation of this interface in <a class="xref" href="ArmoniK.DevelopmentKit.Worker.Unified.TaskWorkerService.html">TaskWorkerService</a> or your own implementation allows to have a
+logger configured automatically by the <a class="xref" href="ArmoniK.DevelopmentKit.Worker.Unified.GridWorker.html">GridWorker</a></p>
+</section>
+      <h4><a class="xref" href="ArmoniK.DevelopmentKit.Worker.Unified.ISessionConfiguration.html">ISessionConfiguration</a></h4>
+      <section><p>implementation of this interface in <a class="xref" href="ArmoniK.DevelopmentKit.Worker.Unified.TaskWorkerService.html">TaskWorkerService</a> or your own implementation allows to have the
+<span class="xref">ArmoniK.Api.gRPC.V1.TaskOptions</span> configured automatically by the <a class="xref" href="ArmoniK.DevelopmentKit.Worker.Unified.GridWorker.html">GridWorker</a></p>
+</section>
+      <h4><a class="xref" href="ArmoniK.DevelopmentKit.Worker.Unified.ISessionServiceConfiguration.html">ISessionServiceConfiguration</a></h4>
+      <section><p>implementation of this interface in <a class="xref" href="ArmoniK.DevelopmentKit.Worker.Unified.TaskWorkerService.html">TaskWorkerService</a> or your own implementation allows to have the
+<a class="xref" href="ArmoniK.DevelopmentKit.Worker.Unified.SessionPollingService.html">SessionPollingService</a> configured automatically by the <a class="xref" href="ArmoniK.DevelopmentKit.Worker.Unified.GridWorker.html">GridWorker</a></p>
+</section>
+      <h4><a class="xref" href="ArmoniK.DevelopmentKit.Worker.Unified.ITaskContextConfiguration.html">ITaskContextConfiguration</a></h4>
+      <section><p>implementation of this interface in <a class="xref" href="ArmoniK.DevelopmentKit.Worker.Unified.TaskWorkerService.html">TaskWorkerService</a> or your own implementation allows to have the
+<a class="xref" href="ArmoniK.DevelopmentKit.Worker.Unified.ITaskContextConfiguration.html#ArmoniK_DevelopmentKit_Worker_Unified_ITaskContextConfiguration_TaskContext">TaskContext</a> configured automatically by the <a class="xref" href="ArmoniK.DevelopmentKit.Worker.Unified.GridWorker.html">GridWorker</a></p>
+</section>
+      <h4><a class="xref" href="ArmoniK.DevelopmentKit.Worker.Unified.ITaskOptionsConfiguration.html">ITaskOptionsConfiguration</a></h4>
+      <section><p>implementation of this interface in <a class="xref" href="ArmoniK.DevelopmentKit.Worker.Unified.TaskWorkerService.html">TaskWorkerService</a> or your own implementation allows to have the
+<span class="xref">ArmoniK.Api.gRPC.V1.TaskOptions</span> configured automatically by the <a class="xref" href="ArmoniK.DevelopmentKit.Worker.Unified.GridWorker.html">GridWorker</a></p>
 </section>
 </article>
           </div>

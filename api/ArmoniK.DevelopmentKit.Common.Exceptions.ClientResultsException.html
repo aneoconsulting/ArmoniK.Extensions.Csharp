@@ -12,7 +12,7 @@
  ">
     
       <link rel="shortcut icon" href="../favicon.ico">
-      <link rel="stylesheet" href="../styles/docfx.vendor.css">
+      <link rel="stylesheet" href="../styles/docfx.vendor.min.css">
       <link rel="stylesheet" href="../styles/docfx.css">
       <link rel="stylesheet" href="../styles/main.css">
       <meta property="docfx:navrel" content="../toc.html">
@@ -78,25 +78,88 @@
   <div class="inheritance">
     <h5>Inheritance</h5>
     <div class="level0"><span class="xref">object</span></div>
-    <div class="level1"><span class="xref">ClientResultsException</span></div>
+    <div class="level1"><span class="xref">Exception</span></div>
+    <div class="level2"><span class="xref">ClientResultsException</span></div>
+  </div>
+  <div class="implements">
+    <h5>Implements</h5>
+    <div><span class="xref">ISerializable</span></div>
+    <div><span class="xref">_Exception</span></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <span class="xref">Exception.GetBaseException()</span>
+    </div>
+    <div>
+      <span class="xref">Exception.ToString()</span>
+    </div>
+    <div>
+      <span class="xref">Exception.GetObjectData(SerializationInfo, StreamingContext)</span>
+    </div>
+    <div>
+      <span class="xref">Exception.GetType()</span>
+    </div>
+    <div>
+      <span class="xref">Exception.Message</span>
+    </div>
+    <div>
+      <span class="xref">Exception.Data</span>
+    </div>
+    <div>
+      <span class="xref">Exception.InnerException</span>
+    </div>
+    <div>
+      <span class="xref">Exception.TargetSite</span>
+    </div>
+    <div>
+      <span class="xref">Exception.StackTrace</span>
+    </div>
+    <div>
+      <span class="xref">Exception.HelpLink</span>
+    </div>
+    <div>
+      <span class="xref">Exception.Source</span>
+    </div>
+    <div>
+      <span class="xref">Exception.HResult</span>
+    </div>
+    <div>
+      <span class="xref">Exception.SerializeObjectState</span>
+    </div>
+    <div>
+      <span class="xref">object.Equals(object)</span>
+    </div>
+    <div>
+      <span class="xref">object.Equals(object, object)</span>
+    </div>
+    <div>
+      <span class="xref">object.ReferenceEquals(object, object)</span>
+    </div>
+    <div>
+      <span class="xref">object.GetHashCode()</span>
+    </div>
+    <div>
+      <span class="xref">object.MemberwiseClone()</span>
+    </div>
   </div>
   <h6><strong>Namespace</strong>: <span class="xref">ArmoniK</span>.<span class="xref">DevelopmentKit</span>.<a class="xref" href="ArmoniK.DevelopmentKit.Common.html">Common</a>.<a class="xref" href="ArmoniK.DevelopmentKit.Common.Exceptions.html">Exceptions</a></h6>
   <h6><strong>Assembly</strong>: ArmoniK.DevelopmentKit.Common.dll</h6>
   <h5 id="ArmoniK_DevelopmentKit_Common_Exceptions_ClientResultsException_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public class ClientResultsException : Exception</code></pre>
+    <pre><code class="lang-csharp hljs">public class ClientResultsException : Exception, ISerializable, _Exception</code></pre>
   </div>
   <h3 id="constructors">Constructors
 </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/main/apiSpec/new?filename=ArmoniK_DevelopmentKit_Common_Exceptions_ClientResultsException__ctor_System_String_IEnumerable_System_String__.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Common.Exceptions.ClientResultsException.%23ctor(System.String%2CIEnumerable%7BSystem.String%7D)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/main/apiSpec/new?filename=ArmoniK_DevelopmentKit_Common_Exceptions_ClientResultsException__ctor_System_String_System_Collections_Generic_IEnumerable_System_String__.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Common.Exceptions.ClientResultsException.%23ctor(System.String%2CSystem.Collections.Generic.IEnumerable%7BSystem.String%7D)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Common/src/Common/Exceptions/ClientResultsException.cs/#L35">View Source</a>
   </span>
   <a id="ArmoniK_DevelopmentKit_Common_Exceptions_ClientResultsException__ctor_" data-uid="ArmoniK.DevelopmentKit.Common.Exceptions.ClientResultsException.#ctor*"></a>
-  <h4 id="ArmoniK_DevelopmentKit_Common_Exceptions_ClientResultsException__ctor_System_String_IEnumerable_System_String__" data-uid="ArmoniK.DevelopmentKit.Common.Exceptions.ClientResultsException.#ctor(System.String,IEnumerable{System.String})">ClientResultsException(string, IEnumerable&lt;string&gt;)</h4>
+  <h4 id="ArmoniK_DevelopmentKit_Common_Exceptions_ClientResultsException__ctor_System_String_System_Collections_Generic_IEnumerable_System_String__" data-uid="ArmoniK.DevelopmentKit.Common.Exceptions.ClientResultsException.#ctor(System.String,System.Collections.Generic.IEnumerable{System.String})">ClientResultsException(string, IEnumerable&lt;string&gt;)</h4>
   <div class="markdown level1 summary"><p>The default constructor to refer the list of task in error</p>
 </div>
   <div class="markdown level1 conceptual"></div>
@@ -105,7 +168,7 @@
     <pre><code class="lang-csharp hljs">public ClientResultsException(string message, IEnumerable&lt;string&gt; taskIds)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -121,7 +184,7 @@
 </td>
       </tr>
       <tr>
-        <td><span class="xref">IEnumerable&lt;&gt;</span>&lt;<span class="xref">string</span>&gt;</td>
+        <td><span class="xref">IEnumerable</span>&lt;<span class="xref">string</span>&gt;</td>
         <td><span class="parametername">taskIds</span></td>
         <td></td>
       </tr>
@@ -144,7 +207,7 @@
     <pre><code class="lang-csharp hljs">public ClientResultsException(string message, params string[] taskIds)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -184,7 +247,7 @@
     <pre><code class="lang-csharp hljs">public ClientResultsException(params string[] taskIds)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -220,7 +283,7 @@
     <pre><code class="lang-csharp hljs">public IEnumerable&lt;string&gt; TaskIds { get; set; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -229,11 +292,18 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">IEnumerable&lt;&gt;</span>&lt;<span class="xref">string</span>&gt;</td>
+        <td><span class="xref">IEnumerable</span>&lt;<span class="xref">string</span>&gt;</td>
         <td></td>
       </tr>
     </tbody>
   </table>
+  <h3 id="implements">Implements</h3>
+  <div>
+      <span class="xref">System.Runtime.Serialization.ISerializable</span>
+  </div>
+  <div>
+      <span class="xref">System.Runtime.InteropServices._Exception</span>
+  </div>
 </article>
           </div>
 

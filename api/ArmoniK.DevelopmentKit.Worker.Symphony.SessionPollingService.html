@@ -12,7 +12,7 @@
  ">
     
       <link rel="shortcut icon" href="../favicon.ico">
-      <link rel="stylesheet" href="../styles/docfx.vendor.css">
+      <link rel="stylesheet" href="../styles/docfx.vendor.min.css">
       <link rel="stylesheet" href="../styles/docfx.css">
       <link rel="stylesheet" href="../styles/main.css">
       <meta property="docfx:navrel" content="../toc.html">
@@ -112,13 +112,13 @@ be called by client or by the worker.</p>
 </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/main/apiSpec/new?filename=ArmoniK_DevelopmentKit_Worker_Symphony_SessionPollingService__ctor_ILoggerFactory_ITaskHandler_.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Worker.Symphony.SessionPollingService.%23ctor(ILoggerFactory%2CITaskHandler)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/main/apiSpec/new?filename=ArmoniK_DevelopmentKit_Worker_Symphony_SessionPollingService__ctor_Microsoft_Extensions_Logging_ILoggerFactory_ArmoniK_Api_Worker_Worker_ITaskHandler_.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Worker.Symphony.SessionPollingService.%23ctor(Microsoft.Extensions.Logging.ILoggerFactory%2CArmoniK.Api.Worker.Worker.ITaskHandler)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Worker/src/Symphony/SessionPollingService.cs/#L58">View Source</a>
   </span>
   <a id="ArmoniK_DevelopmentKit_Worker_Symphony_SessionPollingService__ctor_" data-uid="ArmoniK.DevelopmentKit.Worker.Symphony.SessionPollingService.#ctor*"></a>
-  <h4 id="ArmoniK_DevelopmentKit_Worker_Symphony_SessionPollingService__ctor_ILoggerFactory_ITaskHandler_" data-uid="ArmoniK.DevelopmentKit.Worker.Symphony.SessionPollingService.#ctor(ILoggerFactory,ITaskHandler)">SessionPollingService(ILoggerFactory, ITaskHandler)</h4>
+  <h4 id="ArmoniK_DevelopmentKit_Worker_Symphony_SessionPollingService__ctor_Microsoft_Extensions_Logging_ILoggerFactory_ArmoniK_Api_Worker_Worker_ITaskHandler_" data-uid="ArmoniK.DevelopmentKit.Worker.Symphony.SessionPollingService.#ctor(Microsoft.Extensions.Logging.ILoggerFactory,ArmoniK.Api.Worker.Worker.ITaskHandler)">SessionPollingService(ILoggerFactory, ITaskHandler)</h4>
   <div class="markdown level1 summary"><p>Ctor to instantiate a new SessionService
 This is an object to send task or get Results from a session</p>
 </div>
@@ -128,7 +128,7 @@ This is an object to send task or get Results from a session</p>
     <pre><code class="lang-csharp hljs">public SessionPollingService(ILoggerFactory loggerFactory, ITaskHandler taskHandler)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -167,7 +167,7 @@ This is an object to send task or get Results from a session</p>
     <pre><code class="lang-csharp hljs">public readonly Dictionary&lt;string, string&gt; TaskId2OutputId</code></pre>
   </div>
   <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -176,7 +176,7 @@ This is an object to send task or get Results from a session</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Collections.Generic.Dictionary&lt;TKey, TValue&gt;</span>&lt;<span class="xref">string</span>, <span class="xref">string</span>&gt;</td>
+        <td><span class="xref">Dictionary</span>&lt;<span class="xref">string</span>, <span class="xref">string</span>&gt;</td>
         <td></td>
       </tr>
     </tbody>
@@ -202,7 +202,7 @@ SubmitSubTaskWithDependencies or WaitForCompletion, WaitForSubTaskCompletion or 
     <pre><code class="lang-csharp hljs">public Session SessionId { get; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -233,7 +233,7 @@ SubmitSubTaskWithDependencies or WaitForCompletion, WaitForSubTaskCompletion or 
     <pre><code class="lang-csharp hljs">public ITaskHandler TaskHandler { get; set; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -264,7 +264,7 @@ SubmitSubTaskWithDependencies or WaitForCompletion, WaitForSubTaskCompletion or 
     <pre><code class="lang-csharp hljs">public TaskOptions TaskOptions { get; set; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -297,7 +297,7 @@ SubmitSubTaskWithDependencies or WaitForCompletion, WaitForSubTaskCompletion or 
     <pre><code class="lang-csharp hljs">public byte[] GetDependenciesResult(string id)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -314,7 +314,7 @@ SubmitSubTaskWithDependencies or WaitForCompletion, WaitForSubTaskCompletion or 
     </tbody>
   </table>
   <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -345,7 +345,7 @@ SubmitSubTaskWithDependencies or WaitForCompletion, WaitForSubTaskCompletion or 
     <pre><code class="lang-csharp hljs">public IDictionary&lt;string, byte[]&gt; GetDependenciesResults()</code></pre>
   </div>
   <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -354,7 +354,7 @@ SubmitSubTaskWithDependencies or WaitForCompletion, WaitForSubTaskCompletion or 
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Collections.Generic.IDictionary&lt;TKey, TValue&gt;</span>&lt;<span class="xref">string</span>, <span class="xref">byte</span>[]&gt;</td>
+        <td><span class="xref">IDictionary</span>&lt;<span class="xref">string</span>, <span class="xref">byte</span>[]&gt;</td>
         <td></td>
       </tr>
     </tbody>
@@ -378,7 +378,7 @@ pollingAgentService can be null until the OpenSession is called</p>
     <pre><code class="lang-csharp hljs">public IEnumerable&lt;string&gt; SubmitTasks(IEnumerable&lt;byte[]&gt; payloads)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -388,7 +388,7 @@ pollingAgentService can be null until the OpenSession is called</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Collections.Generic.IEnumerable&lt;T&gt;</span>&lt;<span class="xref">byte</span>[]&gt;</td>
+        <td><span class="xref">IEnumerable</span>&lt;<span class="xref">byte</span>[]&gt;</td>
         <td><span class="parametername">payloads</span></td>
         <td><p>The user payload list to execute. General used for subTasking.</p>
 </td>
@@ -396,7 +396,7 @@ pollingAgentService can be null until the OpenSession is called</p>
     </tbody>
   </table>
   <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -405,7 +405,7 @@ pollingAgentService can be null until the OpenSession is called</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Collections.Generic.IEnumerable&lt;T&gt;</span>&lt;<span class="xref">string</span>&gt;</td>
+        <td><span class="xref">IEnumerable</span>&lt;<span class="xref">string</span>&gt;</td>
         <td></td>
       </tr>
     </tbody>
@@ -428,7 +428,7 @@ to start until all dependencies are completed successfully</p>
     <pre><code class="lang-csharp hljs">public IEnumerable&lt;string&gt; SubmitTasksWithDependencies(IEnumerable&lt;Tuple&lt;byte[], IList&lt;string&gt;&gt;&gt; payloadsWithDependencies, bool resultForParent = false)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -438,7 +438,7 @@ to start until all dependencies are completed successfully</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Collections.Generic.IEnumerable&lt;T&gt;</span>&lt;<span class="xref">Tuple</span>&lt;<span class="xref">byte</span>[], <span class="xref">System.Collections.Generic.IList&lt;T&gt;</span>&lt;<span class="xref">string</span>&gt;&gt;&gt;</td>
+        <td><span class="xref">IEnumerable</span>&lt;<span class="xref">Tuple</span>&lt;<span class="xref">byte</span>[], <span class="xref">IList</span>&lt;<span class="xref">string</span>&gt;&gt;&gt;</td>
         <td><span class="parametername">payloadsWithDependencies</span></td>
         <td><p>A list of Tuple(taskId, Payload) in dependence of those created tasks</p>
 </td>
@@ -451,7 +451,7 @@ to start until all dependencies are completed successfully</p>
     </tbody>
   </table>
   <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -460,7 +460,7 @@ to start until all dependencies are completed successfully</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Collections.Generic.IEnumerable&lt;T&gt;</span>&lt;<span class="xref">string</span>&gt;</td>
+        <td><span class="xref">IEnumerable</span>&lt;<span class="xref">string</span>&gt;</td>
         <td><p>return a list of taskIds of the created tasks</p>
 </td>
       </tr>
@@ -483,7 +483,7 @@ to start until all dependencies are completed successfully</p>
     <pre><code class="lang-csharp hljs">public override string ToString()</code></pre>
   </div>
   <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>

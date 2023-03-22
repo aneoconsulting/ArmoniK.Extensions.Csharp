@@ -12,7 +12,7 @@
  ">
     
       <link rel="shortcut icon" href="../favicon.ico">
-      <link rel="stylesheet" href="../styles/docfx.vendor.css">
+      <link rel="stylesheet" href="../styles/docfx.vendor.min.css">
       <link rel="stylesheet" href="../styles/docfx.css">
       <link rel="stylesheet" href="../styles/main.css">
       <meta property="docfx:navrel" content="../toc.html">
@@ -100,7 +100,7 @@
     <pre><code class="lang-csharp hljs">string SessionId { get; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -118,13 +118,13 @@
 </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/main/apiSpec/new?filename=ArmoniK_DevelopmentKit_Client_Common_Submitter_ISubmitterService_Submit_System_String_IEnumerable_System_Object____ArmoniK_DevelopmentKit_Client_Common_IServiceInvocationHandler_.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Client.Common.Submitter.ISubmitterService.Submit(System.String%2CIEnumerable%7BSystem.Object%5B%5D%7D%2CArmoniK.DevelopmentKit.Client.Common.IServiceInvocationHandler)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/main/apiSpec/new?filename=ArmoniK_DevelopmentKit_Client_Common_Submitter_ISubmitterService_Submit_System_String_System_Collections_Generic_IEnumerable_System_Object____ArmoniK_DevelopmentKit_Client_Common_IServiceInvocationHandler_.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Client.Common.Submitter.ISubmitterService.Submit(System.String%2CSystem.Collections.Generic.IEnumerable%7BSystem.Object%5B%5D%7D%2CArmoniK.DevelopmentKit.Client.Common.IServiceInvocationHandler)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/ISubmitterService.cs/#L59">View Source</a>
   </span>
   <a id="ArmoniK_DevelopmentKit_Client_Common_Submitter_ISubmitterService_Submit_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.ISubmitterService.Submit*"></a>
-  <h4 id="ArmoniK_DevelopmentKit_Client_Common_Submitter_ISubmitterService_Submit_System_String_IEnumerable_System_Object____ArmoniK_DevelopmentKit_Client_Common_IServiceInvocationHandler_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.ISubmitterService.Submit(System.String,IEnumerable{System.Object[]},ArmoniK.DevelopmentKit.Client.Common.IServiceInvocationHandler)">Submit(string, IEnumerable&lt;object[]&gt;, IServiceInvocationHandler)</h4>
+  <h4 id="ArmoniK_DevelopmentKit_Client_Common_Submitter_ISubmitterService_Submit_System_String_System_Collections_Generic_IEnumerable_System_Object____ArmoniK_DevelopmentKit_Client_Common_IServiceInvocationHandler_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.ISubmitterService.Submit(System.String,System.Collections.Generic.IEnumerable{System.Object[]},ArmoniK.DevelopmentKit.Client.Common.IServiceInvocationHandler)">Submit(string, IEnumerable&lt;object[]&gt;, IServiceInvocationHandler)</h4>
   <div class="markdown level1 summary"><p>The method submits a list of task with a list of arguments for each task which will be serialized into a byte[] for
 each call
 MethodName(byte[] argument)</p>
@@ -135,7 +135,7 @@ MethodName(byte[] argument)</p>
     <pre><code class="lang-csharp hljs">IEnumerable&lt;string&gt; Submit(string methodName, IEnumerable&lt;object[]&gt; arguments, IServiceInvocationHandler handler)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -151,7 +151,7 @@ MethodName(byte[] argument)</p>
 </td>
       </tr>
       <tr>
-        <td><span class="xref">IEnumerable&lt;&gt;</span>&lt;<span class="xref">object</span>[]&gt;</td>
+        <td><span class="xref">IEnumerable</span>&lt;<span class="xref">object</span>[]&gt;</td>
         <td><span class="parametername">arguments</span></td>
         <td><p>A list of parameters that can be passed in parameters of the each call of function</p>
 </td>
@@ -165,7 +165,7 @@ MethodName(byte[] argument)</p>
     </tbody>
   </table>
   <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -174,7 +174,7 @@ MethodName(byte[] argument)</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">IEnumerable&lt;&gt;</span>&lt;<span class="xref">string</span>&gt;</td>
+        <td><span class="xref">IEnumerable</span>&lt;<span class="xref">string</span>&gt;</td>
         <td><p>Return the list of created taskIds</p>
 </td>
       </tr>
@@ -197,7 +197,7 @@ MethodName(byte[] argument)</p>
     <pre><code class="lang-csharp hljs">string Submit(string methodName, object[] arguments, IServiceInvocationHandler handler)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -227,7 +227,7 @@ MethodName(byte[] argument)</p>
     </tbody>
   </table>
   <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>

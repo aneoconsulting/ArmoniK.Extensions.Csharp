@@ -12,7 +12,7 @@
  ">
     
       <link rel="shortcut icon" href="../favicon.ico">
-      <link rel="stylesheet" href="../styles/docfx.vendor.css">
+      <link rel="stylesheet" href="../styles/docfx.vendor.min.css">
       <link rel="stylesheet" href="../styles/docfx.css">
       <link rel="stylesheet" href="../styles/main.css">
       <meta property="docfx:navrel" content="../toc.html">
@@ -129,7 +129,7 @@
     <pre><code class="lang-csharp hljs">public static byte[] GetResult(this ArmonikDataSynapsePollingService client, string taskId)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -153,7 +153,7 @@
     </tbody>
   </table>
   <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -185,7 +185,7 @@
     <pre><code class="lang-csharp hljs">public static string SubmitTask(this ArmonikDataSynapsePollingService client, byte[] payload)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -209,7 +209,7 @@
     </tbody>
   </table>
   <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -241,7 +241,7 @@ to start until all dependencies are completed successfully</p>
     <pre><code class="lang-csharp hljs">public static string SubmitTaskWithDependencies(this ArmonikDataSynapsePollingService client, byte[] payload, IList&lt;string&gt; dependencies)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -263,7 +263,7 @@ to start until all dependencies are completed successfully</p>
 </td>
       </tr>
       <tr>
-        <td><span class="xref">System.Collections.Generic.IList&lt;T&gt;</span>&lt;<span class="xref">string</span>&gt;</td>
+        <td><span class="xref">IList</span>&lt;<span class="xref">string</span>&gt;</td>
         <td><span class="parametername">dependencies</span></td>
         <td><p>A list of task Id in dependence of this created task</p>
 </td>
@@ -271,7 +271,7 @@ to start until all dependencies are completed successfully</p>
     </tbody>
   </table>
   <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>

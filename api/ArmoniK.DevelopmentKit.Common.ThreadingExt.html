@@ -12,7 +12,7 @@
  ">
     
       <link rel="shortcut icon" href="../favicon.ico">
-      <link rel="stylesheet" href="../styles/docfx.vendor.css">
+      <link rel="stylesheet" href="../styles/docfx.vendor.min.css">
       <link rel="stylesheet" href="../styles/docfx.css">
       <link rel="stylesheet" href="../styles/main.css">
       <meta property="docfx:navrel" content="../toc.html">
@@ -80,6 +80,30 @@
     <div class="level0"><span class="xref">object</span></div>
     <div class="level1"><span class="xref">ThreadingExt</span></div>
   </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <span class="xref">object.ToString()</span>
+    </div>
+    <div>
+      <span class="xref">object.Equals(object)</span>
+    </div>
+    <div>
+      <span class="xref">object.Equals(object, object)</span>
+    </div>
+    <div>
+      <span class="xref">object.ReferenceEquals(object, object)</span>
+    </div>
+    <div>
+      <span class="xref">object.GetHashCode()</span>
+    </div>
+    <div>
+      <span class="xref">object.GetType()</span>
+    </div>
+    <div>
+      <span class="xref">object.MemberwiseClone()</span>
+    </div>
+  </div>
   <h6><strong>Namespace</strong>: <span class="xref">ArmoniK</span>.<span class="xref">DevelopmentKit</span>.<a class="xref" href="ArmoniK.DevelopmentKit.Common.html">Common</a></h6>
   <h6><strong>Assembly</strong>: ArmoniK.DevelopmentKit.Common.dll</h6>
   <h5 id="ArmoniK_DevelopmentKit_Common_ThreadingExt_syntax">Syntax</h5>
@@ -90,13 +114,13 @@
 </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/main/apiSpec/new?filename=ArmoniK_DevelopmentKit_Common_ThreadingExt_LockedExecute__1_SemaphoreSlim_Func___0__.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Common.ThreadingExt.LockedExecute%60%601(SemaphoreSlim%2CFunc%7B%60%600%7D)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/main/apiSpec/new?filename=ArmoniK_DevelopmentKit_Common_ThreadingExt_LockedExecute__1_System_Threading_SemaphoreSlim_System_Func___0__.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Common.ThreadingExt.LockedExecute%60%601(System.Threading.SemaphoreSlim%2CSystem.Func%7B%60%600%7D)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Common/src/Common/ThreadingExt.cs/#L58">View Source</a>
   </span>
   <a id="ArmoniK_DevelopmentKit_Common_ThreadingExt_LockedExecute_" data-uid="ArmoniK.DevelopmentKit.Common.ThreadingExt.LockedExecute*"></a>
-  <h4 id="ArmoniK_DevelopmentKit_Common_ThreadingExt_LockedExecute__1_SemaphoreSlim_Func___0__" data-uid="ArmoniK.DevelopmentKit.Common.ThreadingExt.LockedExecute``1(SemaphoreSlim,Func{``0})">LockedExecute&lt;T&gt;(SemaphoreSlim, Func&lt;T&gt;)</h4>
+  <h4 id="ArmoniK_DevelopmentKit_Common_ThreadingExt_LockedExecute__1_System_Threading_SemaphoreSlim_System_Func___0__" data-uid="ArmoniK.DevelopmentKit.Common.ThreadingExt.LockedExecute``1(System.Threading.SemaphoreSlim,System.Func{``0})">LockedExecute&lt;T&gt;(SemaphoreSlim, Func&lt;T&gt;)</h4>
   <div class="markdown level1 summary"><p>Acquire the semaphore before calling the function,
 and release it after.</p>
 </div>
@@ -106,7 +130,7 @@ and release it after.</p>
     <pre><code class="lang-csharp hljs">public static T LockedExecute&lt;T&gt;(this SemaphoreSlim sem, Func&lt;T&gt; func)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -121,14 +145,14 @@ and release it after.</p>
         <td></td>
       </tr>
       <tr>
-        <td><span class="xref">Func&lt;&gt;</span>&lt;T&gt;</td>
+        <td><span class="xref">Func</span>&lt;T&gt;</td>
         <td><span class="parametername">func</span></td>
         <td></td>
       </tr>
     </tbody>
   </table>
   <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -143,7 +167,7 @@ and release it after.</p>
     </tbody>
   </table>
   <h5 class="typeParameters">Type Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Name</th>
@@ -159,13 +183,13 @@ and release it after.</p>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/main/apiSpec/new?filename=ArmoniK_DevelopmentKit_Common_ThreadingExt_LockGuard_SemaphoreSlim_.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Common.ThreadingExt.LockGuard(SemaphoreSlim)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/main/apiSpec/new?filename=ArmoniK_DevelopmentKit_Common_ThreadingExt_LockGuard_System_Threading_SemaphoreSlim_.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Common.ThreadingExt.LockGuard(System.Threading.SemaphoreSlim)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Common/src/Common/ThreadingExt.cs/#L39">View Source</a>
   </span>
   <a id="ArmoniK_DevelopmentKit_Common_ThreadingExt_LockGuard_" data-uid="ArmoniK.DevelopmentKit.Common.ThreadingExt.LockGuard*"></a>
-  <h4 id="ArmoniK_DevelopmentKit_Common_ThreadingExt_LockGuard_SemaphoreSlim_" data-uid="ArmoniK.DevelopmentKit.Common.ThreadingExt.LockGuard(SemaphoreSlim)">LockGuard(SemaphoreSlim)</h4>
+  <h4 id="ArmoniK_DevelopmentKit_Common_ThreadingExt_LockGuard_System_Threading_SemaphoreSlim_" data-uid="ArmoniK.DevelopmentKit.Common.ThreadingExt.LockGuard(System.Threading.SemaphoreSlim)">LockGuard(SemaphoreSlim)</h4>
   <div class="markdown level1 summary"><p>Lock the semaphore and return a lock guard that will unlock the semaphore when disposed</p>
 </div>
   <div class="markdown level1 conceptual"></div>
@@ -174,7 +198,7 @@ and release it after.</p>
     <pre><code class="lang-csharp hljs">public static IDisposable LockGuard(this SemaphoreSlim sem)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -191,7 +215,7 @@ and release it after.</p>
     </tbody>
   </table>
   <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -207,13 +231,13 @@ and release it after.</p>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/main/apiSpec/new?filename=ArmoniK_DevelopmentKit_Common_ThreadingExt_LockGuardAsync_SemaphoreSlim_.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Common.ThreadingExt.LockGuardAsync(SemaphoreSlim)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/main/apiSpec/new?filename=ArmoniK_DevelopmentKit_Common_ThreadingExt_LockGuardAsync_System_Threading_SemaphoreSlim_.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Common.ThreadingExt.LockGuardAsync(System.Threading.SemaphoreSlim)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Common/src/Common/ThreadingExt.cs/#L48">View Source</a>
   </span>
   <a id="ArmoniK_DevelopmentKit_Common_ThreadingExt_LockGuardAsync_" data-uid="ArmoniK.DevelopmentKit.Common.ThreadingExt.LockGuardAsync*"></a>
-  <h4 id="ArmoniK_DevelopmentKit_Common_ThreadingExt_LockGuardAsync_SemaphoreSlim_" data-uid="ArmoniK.DevelopmentKit.Common.ThreadingExt.LockGuardAsync(SemaphoreSlim)">LockGuardAsync(SemaphoreSlim)</h4>
+  <h4 id="ArmoniK_DevelopmentKit_Common_ThreadingExt_LockGuardAsync_System_Threading_SemaphoreSlim_" data-uid="ArmoniK.DevelopmentKit.Common.ThreadingExt.LockGuardAsync(System.Threading.SemaphoreSlim)">LockGuardAsync(SemaphoreSlim)</h4>
   <div class="markdown level1 summary"><p>Lock the semaphore and return a lock guard that will unlock the semaphore when disposed</p>
 </div>
   <div class="markdown level1 conceptual"></div>
@@ -222,7 +246,7 @@ and release it after.</p>
     <pre><code class="lang-csharp hljs">public static Task&lt;IDisposable&gt; LockGuardAsync(this SemaphoreSlim sem)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -239,7 +263,7 @@ and release it after.</p>
     </tbody>
   </table>
   <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -248,7 +272,7 @@ and release it after.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">Task&lt;&gt;</span>&lt;<span class="xref">IDisposable</span>&gt;</td>
+        <td><span class="xref">Task</span>&lt;<span class="xref">IDisposable</span>&gt;</td>
         <td></td>
       </tr>
     </tbody>

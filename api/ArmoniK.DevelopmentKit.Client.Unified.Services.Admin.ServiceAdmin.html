@@ -12,7 +12,7 @@
  ">
     
       <link rel="shortcut icon" href="../favicon.ico">
-      <link rel="stylesheet" href="../styles/docfx.vendor.css">
+      <link rel="stylesheet" href="../styles/docfx.vendor.min.css">
       <link rel="stylesheet" href="../styles/docfx.css">
       <link rel="stylesheet" href="../styles/main.css">
       <meta property="docfx:navrel" content="../toc.html">
@@ -81,6 +81,10 @@
     <div class="level1"><a class="xref" href="ArmoniK.DevelopmentKit.Client.Unified.Services.Common.AbstractClientService.html">AbstractClientService</a></div>
     <div class="level2"><span class="xref">ServiceAdmin</span></div>
   </div>
+  <div class="implements">
+    <h5>Implements</h5>
+    <div><span class="xref">IDisposable</span></div>
+  </div>
   <div class="inheritedMembers">
     <h5>Inherited Members</h5>
     <div>
@@ -89,24 +93,45 @@
     <div>
       <a class="xref" href="ArmoniK.DevelopmentKit.Client.Unified.Services.Common.AbstractClientService.html#ArmoniK_DevelopmentKit_Client_Unified_Services_Common_AbstractClientService_LoggerFactory">AbstractClientService.LoggerFactory</a>
     </div>
+    <div>
+      <span class="xref">object.ToString()</span>
+    </div>
+    <div>
+      <span class="xref">object.Equals(object)</span>
+    </div>
+    <div>
+      <span class="xref">object.Equals(object, object)</span>
+    </div>
+    <div>
+      <span class="xref">object.ReferenceEquals(object, object)</span>
+    </div>
+    <div>
+      <span class="xref">object.GetHashCode()</span>
+    </div>
+    <div>
+      <span class="xref">object.GetType()</span>
+    </div>
+    <div>
+      <span class="xref">object.MemberwiseClone()</span>
+    </div>
   </div>
   <h6><strong>Namespace</strong>: <span class="xref">ArmoniK</span>.<span class="xref">DevelopmentKit</span>.<span class="xref">Client</span>.<span class="xref">Unified</span>.<a class="xref" href="ArmoniK.DevelopmentKit.Client.Unified.Services.html">Services</a>.<a class="xref" href="ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.html">Admin</a></h6>
   <h6><strong>Assembly</strong>: ArmoniK.DevelopmentKit.Client.Unified.dll</h6>
   <h5 id="ArmoniK_DevelopmentKit_Client_Unified_Services_Admin_ServiceAdmin_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public class ServiceAdmin : AbstractClientService</code></pre>
+    <pre><code class="lang-csharp hljs">public class ServiceAdmin : AbstractClientService, IDisposable</code></pre>
   </div>
   <h3 id="constructors">Constructors
 </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/main/apiSpec/new?filename=ArmoniK_DevelopmentKit_Client_Unified_Services_Admin_ServiceAdmin__ctor_ArmoniK_DevelopmentKit_Client_Common_Properties_ILoggerFactory_.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.ServiceAdmin.%23ctor(ArmoniK.DevelopmentKit.Client.Common.Properties%2CILoggerFactory)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/main/apiSpec/new?filename=ArmoniK_DevelopmentKit_Client_Unified_Services_Admin_ServiceAdmin__ctor_ArmoniK_DevelopmentKit_Client_Common_Properties_Microsoft_Extensions_Logging_ILoggerFactory_.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.ServiceAdmin.%23ctor(ArmoniK.DevelopmentKit.Client.Common.Properties%2CMicrosoft.Extensions.Logging.ILoggerFactory)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Unified/Services/Admin/ServiceAdmin.cs/#L42">View Source</a>
   </span>
   <a id="ArmoniK_DevelopmentKit_Client_Unified_Services_Admin_ServiceAdmin__ctor_" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.ServiceAdmin.#ctor*"></a>
-  <h4 id="ArmoniK_DevelopmentKit_Client_Unified_Services_Admin_ServiceAdmin__ctor_ArmoniK_DevelopmentKit_Client_Common_Properties_ILoggerFactory_" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.ServiceAdmin.#ctor(ArmoniK.DevelopmentKit.Client.Common.Properties,ILoggerFactory)">ServiceAdmin(Properties, ILoggerFactory)</h4>
+  <h4 id="ArmoniK_DevelopmentKit_Client_Unified_Services_Admin_ServiceAdmin__ctor_ArmoniK_DevelopmentKit_Client_Common_Properties_Microsoft_Extensions_Logging_ILoggerFactory_" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.ServiceAdmin.#ctor(ArmoniK.DevelopmentKit.Client.Common.Properties,Microsoft.Extensions.Logging.ILoggerFactory)">ServiceAdmin(Properties, ILoggerFactory)</h4>
   <div class="markdown level1 summary"><p>The constructor of the service Admin class</p>
 </div>
   <div class="markdown level1 conceptual"></div>
@@ -115,7 +140,7 @@
     <pre><code class="lang-csharp hljs">public ServiceAdmin(Properties properties, ILoggerFactory loggerFactory)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -156,7 +181,7 @@
     <pre><code class="lang-csharp hljs">public AdminMonitoringService AdminMonitoringService { get; set; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -190,6 +215,10 @@
   </div>
   <h5 class="overrides">Overrides</h5>
   <div><a class="xref" href="ArmoniK.DevelopmentKit.Client.Unified.Services.Common.AbstractClientService.html#ArmoniK_DevelopmentKit_Client_Unified_Services_Common_AbstractClientService_Dispose">AbstractClientService.Dispose()</a></div>
+  <h3 id="implements">Implements</h3>
+  <div>
+      <span class="xref">System.IDisposable</span>
+  </div>
 </article>
           </div>
 

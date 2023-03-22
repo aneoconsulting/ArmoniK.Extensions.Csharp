@@ -12,7 +12,7 @@
  ">
     
       <link rel="shortcut icon" href="../favicon.ico">
-      <link rel="stylesheet" href="../styles/docfx.vendor.css">
+      <link rel="stylesheet" href="../styles/docfx.vendor.min.css">
       <link rel="stylesheet" href="../styles/docfx.css">
       <link rel="stylesheet" href="../styles/main.css">
       <meta property="docfx:navrel" content="../toc.html">
@@ -113,10 +113,11 @@ Samples.ArmoniK.Sample.SymphonyPackages</p>
   <h6><strong>Assembly</strong>: ArmoniK.DevelopmentKit.Worker.Unified.dll</h6>
   <h5 id="ArmoniK_DevelopmentKit_Worker_Unified_BaseService_1_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public abstract class BaseService&lt;T&gt;</code></pre>
+    <pre><code class="lang-csharp hljs">[PublicAPI]
+public abstract class BaseService&lt;T&gt;</code></pre>
   </div>
   <h5 class="typeParameters">Type Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Name</th>
@@ -149,13 +150,13 @@ Samples.ArmoniK.Sample.SymphonyPackages</p>
   </div>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/main/apiSpec/new?filename=ArmoniK_DevelopmentKit_Worker_Unified_BaseService_1__ctor_ILoggerFactory_.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Worker.Unified.BaseService%601.%23ctor(ILoggerFactory)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/main/apiSpec/new?filename=ArmoniK_DevelopmentKit_Worker_Unified_BaseService_1__ctor_Microsoft_Extensions_Logging_ILoggerFactory_.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Worker.Unified.BaseService%601.%23ctor(Microsoft.Extensions.Logging.ILoggerFactory)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Worker/src/Unified/BaseService.cs/#L66">View Source</a>
   </span>
   <a id="ArmoniK_DevelopmentKit_Worker_Unified_BaseService_1__ctor_" data-uid="ArmoniK.DevelopmentKit.Worker.Unified.BaseService`1.#ctor*"></a>
-  <h4 id="ArmoniK_DevelopmentKit_Worker_Unified_BaseService_1__ctor_ILoggerFactory_" data-uid="ArmoniK.DevelopmentKit.Worker.Unified.BaseService`1.#ctor(ILoggerFactory)">BaseService(ILoggerFactory)</h4>
+  <h4 id="ArmoniK_DevelopmentKit_Worker_Unified_BaseService_1__ctor_Microsoft_Extensions_Logging_ILoggerFactory_" data-uid="ArmoniK.DevelopmentKit.Worker.Unified.BaseService`1.#ctor(Microsoft.Extensions.Logging.ILoggerFactory)">BaseService(ILoggerFactory)</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="declaration">Declaration</h5>
@@ -163,7 +164,7 @@ Samples.ArmoniK.Sample.SymphonyPackages</p>
     <pre><code class="lang-csharp hljs">public BaseService(ILoggerFactory loggerFactory)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -198,7 +199,7 @@ Samples.ArmoniK.Sample.SymphonyPackages</p>
     <pre><code class="lang-csharp hljs">public IConfiguration Configuration { get; set; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -230,7 +231,7 @@ Get access to Logger with Logger.Lo.</p>
     <pre><code class="lang-csharp hljs">public ILogger&lt;T&gt; Logger { get; set; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -239,7 +240,7 @@ Get access to Logger with Logger.Lo.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">ILogger&lt;&gt;</span>&lt;T&gt;</td>
+        <td><span class="xref">ILogger</span>&lt;T&gt;</td>
         <td></td>
       </tr>
     </tbody>
@@ -261,7 +262,7 @@ Get access to Logger with Logger.Lo.</p>
     <pre><code class="lang-csharp hljs">public ILoggerFactory LoggerFactory { get; set; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -293,7 +294,7 @@ SubmitSubTaskWithDependencies or WaitForCompletion, WaitForSubTaskCompletion or 
     <pre><code class="lang-csharp hljs">public Session SessionId { get; set; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -324,7 +325,7 @@ SubmitSubTaskWithDependencies or WaitForCompletion, WaitForSubTaskCompletion or 
     <pre><code class="lang-csharp hljs">public TaskId TaskId { get; set; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -355,7 +356,7 @@ SubmitSubTaskWithDependencies or WaitForCompletion, WaitForSubTaskCompletion or 
     <pre><code class="lang-csharp hljs">public Dictionary&lt;string, string&gt; TaskId2OutputId { get; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -364,7 +365,7 @@ SubmitSubTaskWithDependencies or WaitForCompletion, WaitForSubTaskCompletion or 
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Collections.Generic.Dictionary&lt;TKey, TValue&gt;</span>&lt;<span class="xref">string</span>, <span class="xref">string</span>&gt;</td>
+        <td><span class="xref">Dictionary</span>&lt;<span class="xref">string</span>, <span class="xref">string</span>&gt;</td>
         <td></td>
       </tr>
     </tbody>
@@ -386,7 +387,7 @@ SubmitSubTaskWithDependencies or WaitForCompletion, WaitForSubTaskCompletion or 
     <pre><code class="lang-csharp hljs">public TaskOptions TaskOptions { get; set; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -404,13 +405,13 @@ SubmitSubTaskWithDependencies or WaitForCompletion, WaitForSubTaskCompletion or 
 </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/main/apiSpec/new?filename=ArmoniK_DevelopmentKit_Worker_Unified_BaseService_1_Configure_IConfiguration_TaskOptions_.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Worker.Unified.BaseService%601.Configure(IConfiguration%2CTaskOptions)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/main/apiSpec/new?filename=ArmoniK_DevelopmentKit_Worker_Unified_BaseService_1_Configure_Microsoft_Extensions_Configuration_IConfiguration_ArmoniK_Api_gRPC_V1_TaskOptions_.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Worker.Unified.BaseService%601.Configure(Microsoft.Extensions.Configuration.IConfiguration%2CArmoniK.Api.gRPC.V1.TaskOptions)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Worker/src/Unified/BaseService.cs/#L248">View Source</a>
   </span>
   <a id="ArmoniK_DevelopmentKit_Worker_Unified_BaseService_1_Configure_" data-uid="ArmoniK.DevelopmentKit.Worker.Unified.BaseService`1.Configure*"></a>
-  <h4 id="ArmoniK_DevelopmentKit_Worker_Unified_BaseService_1_Configure_IConfiguration_TaskOptions_" data-uid="ArmoniK.DevelopmentKit.Worker.Unified.BaseService`1.Configure(IConfiguration,TaskOptions)">Configure(IConfiguration, TaskOptions)</h4>
+  <h4 id="ArmoniK_DevelopmentKit_Worker_Unified_BaseService_1_Configure_Microsoft_Extensions_Configuration_IConfiguration_ArmoniK_Api_gRPC_V1_TaskOptions_" data-uid="ArmoniK.DevelopmentKit.Worker.Unified.BaseService`1.Configure(Microsoft.Extensions.Configuration.IConfiguration,ArmoniK.Api.gRPC.V1.TaskOptions)">Configure(IConfiguration, TaskOptions)</h4>
   <div class="markdown level1 summary"><p>The configure method is an internal call to prepare the ServiceContainer.
 Its holds several configuration coming from the Client call</p>
 </div>
@@ -420,7 +421,7 @@ Its holds several configuration coming from the Client call</p>
     <pre><code class="lang-csharp hljs">public void Configure(IConfiguration configuration, TaskOptions clientOptions)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -445,13 +446,13 @@ Its holds several configuration coming from the Client call</p>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/main/apiSpec/new?filename=ArmoniK_DevelopmentKit_Worker_Unified_BaseService_1_ConfigureSession_Session_TaskOptions_.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Worker.Unified.BaseService%601.ConfigureSession(Session%2CTaskOptions)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/main/apiSpec/new?filename=ArmoniK_DevelopmentKit_Worker_Unified_BaseService_1_ConfigureSession_ArmoniK_Api_gRPC_V1_Session_ArmoniK_Api_gRPC_V1_TaskOptions_.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Worker.Unified.BaseService%601.ConfigureSession(ArmoniK.Api.gRPC.V1.Session%2CArmoniK.Api.gRPC.V1.TaskOptions)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Worker/src/Unified/BaseService.cs/#L267">View Source</a>
   </span>
   <a id="ArmoniK_DevelopmentKit_Worker_Unified_BaseService_1_ConfigureSession_" data-uid="ArmoniK.DevelopmentKit.Worker.Unified.BaseService`1.ConfigureSession*"></a>
-  <h4 id="ArmoniK_DevelopmentKit_Worker_Unified_BaseService_1_ConfigureSession_Session_TaskOptions_" data-uid="ArmoniK.DevelopmentKit.Worker.Unified.BaseService`1.ConfigureSession(Session,TaskOptions)">ConfigureSession(Session, TaskOptions)</h4>
+  <h4 id="ArmoniK_DevelopmentKit_Worker_Unified_BaseService_1_ConfigureSession_ArmoniK_Api_gRPC_V1_Session_ArmoniK_Api_gRPC_V1_TaskOptions_" data-uid="ArmoniK.DevelopmentKit.Worker.Unified.BaseService`1.ConfigureSession(ArmoniK.Api.gRPC.V1.Session,ArmoniK.Api.gRPC.V1.TaskOptions)">ConfigureSession(Session, TaskOptions)</h4>
   <div class="markdown level1 summary"><p>Prepare Session and create SessionService with the specific session</p>
 </div>
   <div class="markdown level1 conceptual"></div>
@@ -460,7 +461,7 @@ Its holds several configuration coming from the Client call</p>
     <pre><code class="lang-csharp hljs">public void ConfigureSession(Session sessionId, TaskOptions requestTaskOptions)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -483,13 +484,13 @@ Its holds several configuration coming from the Client call</p>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/main/apiSpec/new?filename=ArmoniK_DevelopmentKit_Worker_Unified_BaseService_1_ConfigureSessionService_ITaskHandler_.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Worker.Unified.BaseService%601.ConfigureSessionService(ITaskHandler)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/main/apiSpec/new?filename=ArmoniK_DevelopmentKit_Worker_Unified_BaseService_1_ConfigureSessionService_ArmoniK_Api_Worker_Worker_ITaskHandler_.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Worker.Unified.BaseService%601.ConfigureSessionService(ArmoniK.Api.Worker.Worker.ITaskHandler)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Worker/src/Unified/BaseService.cs/#L280">View Source</a>
   </span>
   <a id="ArmoniK_DevelopmentKit_Worker_Unified_BaseService_1_ConfigureSessionService_" data-uid="ArmoniK.DevelopmentKit.Worker.Unified.BaseService`1.ConfigureSessionService*"></a>
-  <h4 id="ArmoniK_DevelopmentKit_Worker_Unified_BaseService_1_ConfigureSessionService_ITaskHandler_" data-uid="ArmoniK.DevelopmentKit.Worker.Unified.BaseService`1.ConfigureSessionService(ITaskHandler)">ConfigureSessionService(ITaskHandler)</h4>
+  <h4 id="ArmoniK_DevelopmentKit_Worker_Unified_BaseService_1_ConfigureSessionService_ArmoniK_Api_Worker_Worker_ITaskHandler_" data-uid="ArmoniK.DevelopmentKit.Worker.Unified.BaseService`1.ConfigureSessionService(ArmoniK.Api.Worker.Worker.ITaskHandler)">ConfigureSessionService(ITaskHandler)</h4>
   <div class="markdown level1 summary"><p>Configure Service for actual session. Connect the worker to the current pollingAgent</p>
 </div>
   <div class="markdown level1 conceptual"></div>
@@ -498,7 +499,7 @@ Its holds several configuration coming from the Client call</p>
     <pre><code class="lang-csharp hljs">public void ConfigureSessionService(ITaskHandler taskHandler)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -531,7 +532,7 @@ Its holds several configuration coming from the Client call</p>
     <pre><code class="lang-csharp hljs">public byte[] GetDependenciesResult(string taskId)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -549,7 +550,7 @@ Its holds several configuration coming from the Client call</p>
     </tbody>
   </table>
   <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -583,7 +584,7 @@ Default implementation does nothing.</p>
     <pre><code class="lang-csharp hljs">public void OnCreateService(ServiceContext serviceContext)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -618,7 +619,7 @@ This handler should do any cleanup for any resources that were used in the onCre
     <pre><code class="lang-csharp hljs">public void OnDestroyService(ServiceContext serviceContext)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -655,7 +656,7 @@ method that is mandatory for the application developer to implement.</p>
     <pre><code class="lang-csharp hljs">public byte[] OnInvoke(SessionContext sessionContext, TaskContext taskContext)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -679,7 +680,7 @@ method that is mandatory for the application developer to implement.</p>
     </tbody>
   </table>
   <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -710,7 +711,7 @@ method that is mandatory for the application developer to implement.</p>
     <pre><code class="lang-csharp hljs">public void OnSessionEnter(SessionContext sessionContext)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -745,7 +746,7 @@ This handler should do any cleanup for any resources that were used in the onSes
     <pre><code class="lang-csharp hljs">public void OnSessionLeave(SessionContext sessionContext)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -779,7 +780,7 @@ This handler should do any cleanup for any resources that were used in the onSes
     <pre><code class="lang-csharp hljs">public IEnumerable&lt;string&gt; SubmitTasks(IEnumerable&lt;byte[]&gt; payloads)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -789,7 +790,7 @@ This handler should do any cleanup for any resources that were used in the onSes
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Collections.Generic.IEnumerable&lt;T&gt;</span>&lt;<span class="xref">byte</span>[]&gt;</td>
+        <td><span class="xref">IEnumerable</span>&lt;<span class="xref">byte</span>[]&gt;</td>
         <td><span class="parametername">payloads</span></td>
         <td><p>The user payload list to execute. Generally used for subTasking.</p>
 </td>
@@ -797,7 +798,7 @@ This handler should do any cleanup for any resources that were used in the onSes
     </tbody>
   </table>
   <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -806,7 +807,7 @@ This handler should do any cleanup for any resources that were used in the onSes
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Collections.Generic.IEnumerable&lt;T&gt;</span>&lt;<span class="xref">string</span>&gt;</td>
+        <td><span class="xref">IEnumerable</span>&lt;<span class="xref">string</span>&gt;</td>
         <td></td>
       </tr>
     </tbody>
@@ -829,7 +830,7 @@ to start until all dependencies are completed successfully</p>
     <pre><code class="lang-csharp hljs">public IEnumerable&lt;string&gt; SubmitTasksWithDependencies(IEnumerable&lt;Tuple&lt;byte[], IList&lt;string&gt;&gt;&gt; payloadWithDependencies, bool resultForParent = false)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -839,7 +840,7 @@ to start until all dependencies are completed successfully</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Collections.Generic.IEnumerable&lt;T&gt;</span>&lt;<span class="xref">Tuple</span>&lt;<span class="xref">byte</span>[], <span class="xref">System.Collections.Generic.IList&lt;T&gt;</span>&lt;<span class="xref">string</span>&gt;&gt;&gt;</td>
+        <td><span class="xref">IEnumerable</span>&lt;<span class="xref">Tuple</span>&lt;<span class="xref">byte</span>[], <span class="xref">IList</span>&lt;<span class="xref">string</span>&gt;&gt;&gt;</td>
         <td><span class="parametername">payloadWithDependencies</span></td>
         <td><p>A list of Tuple(taskId, Payload) in dependence of those created tasks</p>
 </td>
@@ -853,7 +854,7 @@ to start until all dependencies are completed successfully</p>
     </tbody>
   </table>
   <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -862,7 +863,7 @@ to start until all dependencies are completed successfully</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Collections.Generic.IEnumerable&lt;T&gt;</span>&lt;<span class="xref">string</span>&gt;</td>
+        <td><span class="xref">IEnumerable</span>&lt;<span class="xref">string</span>&gt;</td>
         <td><p>return a list of taskIds of the created tasks</p>
 </td>
       </tr>
@@ -886,7 +887,7 @@ to start until all dependencies are completed successfully</p>
 public void WaitForSubTasksCompletion(string taskId)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -921,7 +922,7 @@ public void WaitForSubTasksCompletion(string taskId)</code></pre>
 public void WaitForTaskCompletion(string taskId)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -955,7 +956,7 @@ public void WaitForTaskCompletion(string taskId)</code></pre>
 public void WaitForTasksCompletion(IEnumerable&lt;string&gt; taskIds)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -965,7 +966,7 @@ public void WaitForTasksCompletion(IEnumerable&lt;string&gt; taskIds)</code></pr
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Collections.Generic.IEnumerable&lt;T&gt;</span>&lt;<span class="xref">string</span>&gt;</td>
+        <td><span class="xref">IEnumerable</span>&lt;<span class="xref">string</span>&gt;</td>
         <td><span class="parametername">taskIds</span></td>
         <td><p>List of tasks to wait for</p>
 </td>

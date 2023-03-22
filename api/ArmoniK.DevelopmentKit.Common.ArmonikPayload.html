@@ -12,7 +12,7 @@
  ">
     
       <link rel="shortcut icon" href="../favicon.ico">
-      <link rel="stylesheet" href="../styles/docfx.vendor.css">
+      <link rel="stylesheet" href="../styles/docfx.vendor.min.css">
       <link rel="stylesheet" href="../styles/docfx.css">
       <link rel="stylesheet" href="../styles/main.css">
       <meta property="docfx:navrel" content="../toc.html">
@@ -79,11 +79,36 @@
     <div class="level0"><span class="xref">object</span></div>
     <div class="level1"><span class="xref">ArmonikPayload</span></div>
   </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <span class="xref">object.ToString()</span>
+    </div>
+    <div>
+      <span class="xref">object.Equals(object)</span>
+    </div>
+    <div>
+      <span class="xref">object.Equals(object, object)</span>
+    </div>
+    <div>
+      <span class="xref">object.ReferenceEquals(object, object)</span>
+    </div>
+    <div>
+      <span class="xref">object.GetHashCode()</span>
+    </div>
+    <div>
+      <span class="xref">object.GetType()</span>
+    </div>
+    <div>
+      <span class="xref">object.MemberwiseClone()</span>
+    </div>
+  </div>
   <h6><strong>Namespace</strong>: <span class="xref">ArmoniK</span>.<span class="xref">DevelopmentKit</span>.<a class="xref" href="ArmoniK.DevelopmentKit.Common.html">Common</a></h6>
   <h6><strong>Assembly</strong>: ArmoniK.DevelopmentKit.Common.dll</h6>
   <h5 id="ArmoniK_DevelopmentKit_Common_ArmonikPayload_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public class ArmonikPayload</code></pre>
+    <pre><code class="lang-csharp hljs">[ProtoContract]
+public class ArmonikPayload</code></pre>
   </div>
   <h3 id="properties">Properties
 </h3>
@@ -100,10 +125,11 @@
   <div class="markdown level1 conceptual"></div>
   <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public ArmonikRequestType ArmonikRequestType { get; set; }</code></pre>
+    <pre><code class="lang-csharp hljs">[ProtoMember(1)]
+public ArmonikRequestType ArmonikRequestType { get; set; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -130,10 +156,11 @@
   <div class="markdown level1 conceptual"></div>
   <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public byte[] ClientPayload { get; set; }</code></pre>
+    <pre><code class="lang-csharp hljs">[ProtoMember(3)]
+public byte[] ClientPayload { get; set; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -160,10 +187,11 @@
   <div class="markdown level1 conceptual"></div>
   <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public string MethodName { get; set; }</code></pre>
+    <pre><code class="lang-csharp hljs">[ProtoMember(2)]
+public string MethodName { get; set; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -190,10 +218,11 @@
   <div class="markdown level1 conceptual"></div>
   <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public bool SerializedArguments { get; set; }</code></pre>
+    <pre><code class="lang-csharp hljs">[ProtoMember(4)]
+public bool SerializedArguments { get; set; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -225,7 +254,7 @@
     <pre><code class="lang-csharp hljs">public static ArmonikPayload Deserialize(byte[] payload)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -242,7 +271,7 @@
     </tbody>
   </table>
   <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -272,7 +301,7 @@
     <pre><code class="lang-csharp hljs">public byte[] Serialize()</code></pre>
   </div>
   <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>

@@ -12,7 +12,7 @@
  ">
     
       <link rel="shortcut icon" href="../favicon.ico">
-      <link rel="stylesheet" href="../styles/docfx.vendor.css">
+      <link rel="stylesheet" href="../styles/docfx.vendor.min.css">
       <link rel="stylesheet" href="../styles/docfx.css">
       <link rel="stylesheet" href="../styles/main.css">
       <meta property="docfx:navrel" content="../toc.html">
@@ -81,6 +81,30 @@ like address,port, insecure connection, TLS, and mTLS</p>
     <div class="level0"><span class="xref">object</span></div>
     <div class="level1"><span class="xref">ClientServiceConnector</span></div>
   </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <span class="xref">object.ToString()</span>
+    </div>
+    <div>
+      <span class="xref">object.Equals(object)</span>
+    </div>
+    <div>
+      <span class="xref">object.Equals(object, object)</span>
+    </div>
+    <div>
+      <span class="xref">object.ReferenceEquals(object, object)</span>
+    </div>
+    <div>
+      <span class="xref">object.GetHashCode()</span>
+    </div>
+    <div>
+      <span class="xref">object.GetType()</span>
+    </div>
+    <div>
+      <span class="xref">object.MemberwiseClone()</span>
+    </div>
+  </div>
   <h6><strong>Namespace</strong>: <span class="xref">ArmoniK</span>.<span class="xref">DevelopmentKit</span>.<span class="xref">Client</span>.<a class="xref" href="ArmoniK.DevelopmentKit.Client.Common.html">Common</a>.<a class="xref" href="ArmoniK.DevelopmentKit.Client.Common.Submitter.html">Submitter</a></h6>
   <h6><strong>Assembly</strong>: ArmoniK.DevelopmentKit.Client.Common.dll</h6>
   <h5 id="ArmoniK_DevelopmentKit_Client_Common_Submitter_ClientServiceConnector_syntax">Syntax</h5>
@@ -91,13 +115,13 @@ like address,port, insecure connection, TLS, and mTLS</p>
 </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/main/apiSpec/new?filename=ArmoniK_DevelopmentKit_Client_Common_Submitter_ClientServiceConnector_ControlPlaneConnectionPool_System_String_System_Boolean_ILoggerFactory_.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Client.Common.Submitter.ClientServiceConnector.ControlPlaneConnectionPool(System.String%2CSystem.Boolean%2CILoggerFactory)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/main/apiSpec/new?filename=ArmoniK_DevelopmentKit_Client_Common_Submitter_ClientServiceConnector_ControlPlaneConnectionPool_System_String_System_Boolean_Microsoft_Extensions_Logging_ILoggerFactory_.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Client.Common.Submitter.ClientServiceConnector.ControlPlaneConnectionPool(System.String%2CSystem.Boolean%2CMicrosoft.Extensions.Logging.ILoggerFactory)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/ClientServiceConnector.cs/#L178">View Source</a>
   </span>
   <a id="ArmoniK_DevelopmentKit_Client_Common_Submitter_ClientServiceConnector_ControlPlaneConnectionPool_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.ClientServiceConnector.ControlPlaneConnectionPool*"></a>
-  <h4 id="ArmoniK_DevelopmentKit_Client_Common_Submitter_ClientServiceConnector_ControlPlaneConnectionPool_System_String_System_Boolean_ILoggerFactory_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.ClientServiceConnector.ControlPlaneConnectionPool(System.String,System.Boolean,ILoggerFactory)">ControlPlaneConnectionPool(string, bool, ILoggerFactory)</h4>
+  <h4 id="ArmoniK_DevelopmentKit_Client_Common_Submitter_ClientServiceConnector_ControlPlaneConnectionPool_System_String_System_Boolean_Microsoft_Extensions_Logging_ILoggerFactory_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.ClientServiceConnector.ControlPlaneConnectionPool(System.String,System.Boolean,Microsoft.Extensions.Logging.ILoggerFactory)">ControlPlaneConnectionPool(string, bool, ILoggerFactory)</h4>
   <div class="markdown level1 summary"><p>Create a connection pool to the control plane with or without SSL and no mTLS</p>
 </div>
   <div class="markdown level1 conceptual"></div>
@@ -106,7 +130,7 @@ like address,port, insecure connection, TLS, and mTLS</p>
     <pre><code class="lang-csharp hljs">public static ChannelPool ControlPlaneConnectionPool(string endPoint, bool sslValidation = true, ILoggerFactory loggerFactory = null)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -136,7 +160,7 @@ like address,port, insecure connection, TLS, and mTLS</p>
     </tbody>
   </table>
   <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -152,13 +176,13 @@ like address,port, insecure connection, TLS, and mTLS</p>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/main/apiSpec/new?filename=ArmoniK_DevelopmentKit_Client_Common_Submitter_ClientServiceConnector_ControlPlaneConnectionPool_System_String_System_String_System_String_System_Boolean_ILoggerFactory_.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Client.Common.Submitter.ClientServiceConnector.ControlPlaneConnectionPool(System.String%2CSystem.String%2CSystem.String%2CSystem.Boolean%2CILoggerFactory)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/main/apiSpec/new?filename=ArmoniK_DevelopmentKit_Client_Common_Submitter_ClientServiceConnector_ControlPlaneConnectionPool_System_String_System_String_System_String_System_Boolean_Microsoft_Extensions_Logging_ILoggerFactory_.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Client.Common.Submitter.ClientServiceConnector.ControlPlaneConnectionPool(System.String%2CSystem.String%2CSystem.String%2CSystem.Boolean%2CMicrosoft.Extensions.Logging.ILoggerFactory)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/ClientServiceConnector.cs/#L196">View Source</a>
   </span>
   <a id="ArmoniK_DevelopmentKit_Client_Common_Submitter_ClientServiceConnector_ControlPlaneConnectionPool_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.ClientServiceConnector.ControlPlaneConnectionPool*"></a>
-  <h4 id="ArmoniK_DevelopmentKit_Client_Common_Submitter_ClientServiceConnector_ControlPlaneConnectionPool_System_String_System_String_System_String_System_Boolean_ILoggerFactory_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.ClientServiceConnector.ControlPlaneConnectionPool(System.String,System.String,System.String,System.Boolean,ILoggerFactory)">ControlPlaneConnectionPool(string, string, string, bool, ILoggerFactory)</h4>
+  <h4 id="ArmoniK_DevelopmentKit_Client_Common_Submitter_ClientServiceConnector_ControlPlaneConnectionPool_System_String_System_String_System_String_System_Boolean_Microsoft_Extensions_Logging_ILoggerFactory_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.ClientServiceConnector.ControlPlaneConnectionPool(System.String,System.String,System.String,System.Boolean,Microsoft.Extensions.Logging.ILoggerFactory)">ControlPlaneConnectionPool(string, string, string, bool, ILoggerFactory)</h4>
   <div class="markdown level1 summary"><p>Create a connection pool to the control plane with mTLS authentication</p>
 </div>
   <div class="markdown level1 conceptual"></div>
@@ -167,7 +191,7 @@ like address,port, insecure connection, TLS, and mTLS</p>
     <pre><code class="lang-csharp hljs">public static ChannelPool ControlPlaneConnectionPool(string endPoint, string clientCertFilename, string clientKeyFilename, bool sslValidation = true, ILoggerFactory loggerFactory = null)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -209,7 +233,7 @@ like address,port, insecure connection, TLS, and mTLS</p>
     </tbody>
   </table>
   <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -225,13 +249,13 @@ like address,port, insecure connection, TLS, and mTLS</p>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/main/apiSpec/new?filename=ArmoniK_DevelopmentKit_Client_Common_Submitter_ClientServiceConnector_ControlPlaneConnectionPool_System_String_Tuple_System_String_System_String__System_Boolean_ILoggerFactory_.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Client.Common.Submitter.ClientServiceConnector.ControlPlaneConnectionPool(System.String%2CTuple%7BSystem.String%2CSystem.String%7D%2CSystem.Boolean%2CILoggerFactory)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/main/apiSpec/new?filename=ArmoniK_DevelopmentKit_Client_Common_Submitter_ClientServiceConnector_ControlPlaneConnectionPool_System_String_System_Tuple_System_String_System_String__System_Boolean_Microsoft_Extensions_Logging_ILoggerFactory_.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Client.Common.Submitter.ClientServiceConnector.ControlPlaneConnectionPool(System.String%2CSystem.Tuple%7BSystem.String%2CSystem.String%7D%2CSystem.Boolean%2CMicrosoft.Extensions.Logging.ILoggerFactory)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/ClientServiceConnector.cs/#L216">View Source</a>
   </span>
   <a id="ArmoniK_DevelopmentKit_Client_Common_Submitter_ClientServiceConnector_ControlPlaneConnectionPool_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.ClientServiceConnector.ControlPlaneConnectionPool*"></a>
-  <h4 id="ArmoniK_DevelopmentKit_Client_Common_Submitter_ClientServiceConnector_ControlPlaneConnectionPool_System_String_Tuple_System_String_System_String__System_Boolean_ILoggerFactory_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.ClientServiceConnector.ControlPlaneConnectionPool(System.String,Tuple{System.String,System.String},System.Boolean,ILoggerFactory)">ControlPlaneConnectionPool(string, Tuple&lt;string, string&gt;, bool, ILoggerFactory)</h4>
+  <h4 id="ArmoniK_DevelopmentKit_Client_Common_Submitter_ClientServiceConnector_ControlPlaneConnectionPool_System_String_System_Tuple_System_String_System_String__System_Boolean_Microsoft_Extensions_Logging_ILoggerFactory_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.ClientServiceConnector.ControlPlaneConnectionPool(System.String,System.Tuple{System.String,System.String},System.Boolean,Microsoft.Extensions.Logging.ILoggerFactory)">ControlPlaneConnectionPool(string, Tuple&lt;string, string&gt;, bool, ILoggerFactory)</h4>
   <div class="markdown level1 summary"><p>Create a connection pool to the control plane with mTLS authentication</p>
 </div>
   <div class="markdown level1 conceptual"></div>
@@ -240,7 +264,7 @@ like address,port, insecure connection, TLS, and mTLS</p>
     <pre><code class="lang-csharp hljs">public static ChannelPool ControlPlaneConnectionPool(string endPoint, Tuple&lt;string, string&gt; clientPem = null, bool sslValidation = true, ILoggerFactory loggerFactory = null)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -256,7 +280,7 @@ like address,port, insecure connection, TLS, and mTLS</p>
 </td>
       </tr>
       <tr>
-        <td><span class="xref">Tuple&lt;, &gt;</span>&lt;<span class="xref">string</span>, <span class="xref">string</span>&gt;</td>
+        <td><span class="xref">Tuple</span>&lt;<span class="xref">string</span>, <span class="xref">string</span>&gt;</td>
         <td><span class="parametername">clientPem</span></td>
         <td><p>The pair certificate + key data in a pem format</p>
 </td>
@@ -276,7 +300,7 @@ like address,port, insecure connection, TLS, and mTLS</p>
     </tbody>
   </table>
   <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>

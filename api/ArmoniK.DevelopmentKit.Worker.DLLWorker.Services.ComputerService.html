@@ -12,7 +12,7 @@
  ">
     
       <link rel="shortcut icon" href="../favicon.ico">
-      <link rel="stylesheet" href="../styles/docfx.vendor.css">
+      <link rel="stylesheet" href="../styles/docfx.vendor.min.css">
       <link rel="stylesheet" href="../styles/docfx.css">
       <link rel="stylesheet" href="../styles/main.css">
       <meta property="docfx:navrel" content="../toc.html">
@@ -77,25 +77,67 @@
   <div class="inheritance">
     <h5>Inheritance</h5>
     <div class="level0"><span class="xref">object</span></div>
-    <div class="level1"><span class="xref">ComputerService</span></div>
+    <div class="level1"><span class="xref">Worker</span>.<span class="xref">WorkerBase</span></div>
+    <div class="level2"><span class="xref">WorkerStreamWrapper</span></div>
+    <div class="level3"><span class="xref">ComputerService</span></div>
+  </div>
+  <div class="implements">
+    <h5>Implements</h5>
+    <div><span class="xref">IAsyncDisposable</span></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <span class="xref">WorkerStreamWrapper.logger_</span>
+    </div>
+    <div>
+      <span class="xref">WorkerStreamWrapper.DisposeAsync()</span>
+    </div>
+    <div>
+      <span class="xref">WorkerStreamWrapper.Process(IAsyncStreamReader&lt;ProcessRequest&gt;, ServerCallContext)</span>
+    </div>
+    <div>
+      <span class="xref">WorkerStreamWrapper.HealthCheck(Empty, ServerCallContext)</span>
+    </div>
+    <div>
+      <span class="xref">object.Equals(object)</span>
+    </div>
+    <div>
+      <span class="xref">object.Equals(object, object)</span>
+    </div>
+    <div>
+      <span class="xref">object.GetHashCode()</span>
+    </div>
+    <div>
+      <span class="xref">object.GetType()</span>
+    </div>
+    <div>
+      <span class="xref">object.MemberwiseClone()</span>
+    </div>
+    <div>
+      <span class="xref">object.ReferenceEquals(object, object)</span>
+    </div>
+    <div>
+      <span class="xref">object.ToString()</span>
+    </div>
   </div>
   <h6><strong>Namespace</strong>: <span class="xref">ArmoniK</span>.<span class="xref">DevelopmentKit</span>.<span class="xref">Worker</span>.<a class="xref" href="ArmoniK.DevelopmentKit.Worker.DLLWorker.html">DLLWorker</a>.<a class="xref" href="ArmoniK.DevelopmentKit.Worker.DLLWorker.Services.html">Services</a></h6>
   <h6><strong>Assembly</strong>: ArmoniK.DevelopmentKit.Worker.DLLWorker.dll</h6>
   <h5 id="ArmoniK_DevelopmentKit_Worker_DLLWorker_Services_ComputerService_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public class ComputerService : WorkerStreamWrapper</code></pre>
+    <pre><code class="lang-csharp hljs">public class ComputerService : WorkerStreamWrapper, IAsyncDisposable</code></pre>
   </div>
   <h3 id="constructors">Constructors
 </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/main/apiSpec/new?filename=ArmoniK_DevelopmentKit_Worker_DLLWorker_Services_ComputerService__ctor_Microsoft_Extensions_Configuration_IConfiguration_GrpcChannelProvider_ArmoniK_DevelopmentKit_Worker_DLLWorker_ServiceRequestContext_.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Worker.DLLWorker.Services.ComputerService.%23ctor(Microsoft.Extensions.Configuration.IConfiguration%2CGrpcChannelProvider%2CArmoniK.DevelopmentKit.Worker.DLLWorker.ServiceRequestContext)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/main/apiSpec/new?filename=ArmoniK_DevelopmentKit_Worker_DLLWorker_Services_ComputerService__ctor_Microsoft_Extensions_Configuration_IConfiguration_ArmoniK_Api_Common_Channel_Utils_GrpcChannelProvider_ArmoniK_DevelopmentKit_Worker_DLLWorker_ServiceRequestContext_.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Worker.DLLWorker.Services.ComputerService.%23ctor(Microsoft.Extensions.Configuration.IConfiguration%2CArmoniK.Api.Common.Channel.Utils.GrpcChannelProvider%2CArmoniK.DevelopmentKit.Worker.DLLWorker.ServiceRequestContext)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Worker/src/DLLWorker/Services/ComputerService.cs/#L46">View Source</a>
   </span>
   <a id="ArmoniK_DevelopmentKit_Worker_DLLWorker_Services_ComputerService__ctor_" data-uid="ArmoniK.DevelopmentKit.Worker.DLLWorker.Services.ComputerService.#ctor*"></a>
-  <h4 id="ArmoniK_DevelopmentKit_Worker_DLLWorker_Services_ComputerService__ctor_Microsoft_Extensions_Configuration_IConfiguration_GrpcChannelProvider_ArmoniK_DevelopmentKit_Worker_DLLWorker_ServiceRequestContext_" data-uid="ArmoniK.DevelopmentKit.Worker.DLLWorker.Services.ComputerService.#ctor(Microsoft.Extensions.Configuration.IConfiguration,GrpcChannelProvider,ArmoniK.DevelopmentKit.Worker.DLLWorker.ServiceRequestContext)">ComputerService(IConfiguration, GrpcChannelProvider, ServiceRequestContext)</h4>
+  <h4 id="ArmoniK_DevelopmentKit_Worker_DLLWorker_Services_ComputerService__ctor_Microsoft_Extensions_Configuration_IConfiguration_ArmoniK_Api_Common_Channel_Utils_GrpcChannelProvider_ArmoniK_DevelopmentKit_Worker_DLLWorker_ServiceRequestContext_" data-uid="ArmoniK.DevelopmentKit.Worker.DLLWorker.Services.ComputerService.#ctor(Microsoft.Extensions.Configuration.IConfiguration,ArmoniK.Api.Common.Channel.Utils.GrpcChannelProvider,ArmoniK.DevelopmentKit.Worker.DLLWorker.ServiceRequestContext)">ComputerService(IConfiguration, GrpcChannelProvider, ServiceRequestContext)</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="declaration">Declaration</h5>
@@ -103,7 +145,7 @@
     <pre><code class="lang-csharp hljs">public ComputerService(IConfiguration configuration, GrpcChannelProvider provider, ServiceRequestContext serviceRequestContext)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -113,7 +155,7 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">Microsoft.Extensions.Configuration.IConfiguration</span></td>
+        <td><span class="xref">IConfiguration</span></td>
         <td><span class="parametername">configuration</span></td>
         <td></td>
       </tr>
@@ -147,7 +189,7 @@
     <pre><code class="lang-csharp hljs">public IConfiguration Configuration { get; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -156,7 +198,7 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">Microsoft.Extensions.Configuration.IConfiguration</span></td>
+        <td><span class="xref">IConfiguration</span></td>
         <td></td>
       </tr>
     </tbody>
@@ -177,7 +219,7 @@
     <pre><code class="lang-csharp hljs">public ServiceRequestContext ServiceRequestContext { get; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -195,13 +237,13 @@
 </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/main/apiSpec/new?filename=ArmoniK_DevelopmentKit_Worker_DLLWorker_Services_ComputerService_Process_ITaskHandler_.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Worker.DLLWorker.Services.ComputerService.Process(ITaskHandler)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/main/apiSpec/new?filename=ArmoniK_DevelopmentKit_Worker_DLLWorker_Services_ComputerService_Process_ArmoniK_Api_Worker_Worker_ITaskHandler_.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Worker.DLLWorker.Services.ComputerService.Process(ArmoniK.Api.Worker.Worker.ITaskHandler)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Worker/src/DLLWorker/Services/ComputerService.cs/#L64">View Source</a>
   </span>
   <a id="ArmoniK_DevelopmentKit_Worker_DLLWorker_Services_ComputerService_Process_" data-uid="ArmoniK.DevelopmentKit.Worker.DLLWorker.Services.ComputerService.Process*"></a>
-  <h4 id="ArmoniK_DevelopmentKit_Worker_DLLWorker_Services_ComputerService_Process_ITaskHandler_" data-uid="ArmoniK.DevelopmentKit.Worker.DLLWorker.Services.ComputerService.Process(ITaskHandler)">Process(ITaskHandler)</h4>
+  <h4 id="ArmoniK_DevelopmentKit_Worker_DLLWorker_Services_ComputerService_Process_ArmoniK_Api_Worker_Worker_ITaskHandler_" data-uid="ArmoniK.DevelopmentKit.Worker.DLLWorker.Services.ComputerService.Process(ArmoniK.Api.Worker.Worker.ITaskHandler)">Process(ITaskHandler)</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="declaration">Declaration</h5>
@@ -209,7 +251,7 @@
     <pre><code class="lang-csharp hljs">public override Task&lt;Output&gt; Process(ITaskHandler taskHandler)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -226,7 +268,7 @@
     </tbody>
   </table>
   <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -235,11 +277,17 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Threading.Tasks.Task&lt;TResult&gt;</span>&lt;<span class="xref">Output</span>&gt;</td>
+        <td><span class="xref">Task</span>&lt;<span class="xref">Output</span>&gt;</td>
         <td></td>
       </tr>
     </tbody>
   </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><span class="xref">ArmoniK.Api.Worker.Worker.WorkerStreamWrapper.Process(ArmoniK.Api.Worker.Worker.ITaskHandler)</span></div>
+  <h3 id="implements">Implements</h3>
+  <div>
+      <span class="xref">System.IAsyncDisposable</span>
+  </div>
 </article>
           </div>
 
