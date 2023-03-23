@@ -38,11 +38,11 @@ namespace ArmoniK.DevelopmentKit.Worker.DLLWorker;
 
 public class AppsLoader : IAppsLoader
 {
-  private readonly Assembly   assemblyGridWorker_;
   private readonly EngineType engineType_;
 
   private readonly ILogger<AppsLoader> logger_;
   private          Assembly            assembly_;
+  private          Assembly            assemblyGridWorker_;
 
   public AppsLoader(IConfiguration configuration,
                     ILoggerFactory loggerFactory,
@@ -177,14 +177,29 @@ public class AppsLoader : IAppsLoader
 
   public void Dispose()
   {
-    assembly_ = null;
-    if (UserAssemblyLoadContext != null)
-      // Unload the context.
+    assembly_           = null;
+    assemblyGridWorker_ = null;
+    if (UserAssemblyLoadContext == null)
     {
-      UserAssemblyLoadContext.Unload();
+      return;
     }
 
+    UserAssemblyLoadContext.Unload();
+    var weakReference = new WeakReference(UserAssemblyLoadContext);
     UserAssemblyLoadContext = null;
+    // Possibly multiple passes if the AssemblyLoadContext has multiple layers of loading
+    var       i         = 0;
+    const int maxPasses = 10;
+    for (; weakReference.IsAlive && i < maxPasses; i++)
+    {
+      GC.Collect();
+      GC.WaitForPendingFinalizers();
+    }
+
+    if (i >= maxPasses)
+    {
+      logger_.LogWarning($"More than {maxPasses} to unload assembly context");
+    }
   }
 
   public IGridWorker GetGridWorkerInstance(IConfiguration configuration,
