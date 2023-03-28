@@ -184,6 +184,10 @@ public class ArmonikServiceWorker : IDisposable
     }
   }
 
+
+  /// <summary>
+  /// Call the GridWorker callback to let the user know when the service will be unloaded
+  /// </summary>
   public void DestroyService()
   {
     using (AppsLoader.UserAssemblyLoadContext.EnterContextualReflection())
