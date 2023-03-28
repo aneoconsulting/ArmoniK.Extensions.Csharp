@@ -22,12 +22,16 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using ArmoniK.Api.Worker.Worker;
-
 namespace ArmoniK.DevelopmentKit.Worker.Unified;
 
-internal interface ITaskSubmitterWorkerServiceConfiguration
+/// <summary>
+///   implementation of this interface in <see cref="TaskWorkerService" /> or your own implementation allows to have the
+///   <see cref="TaskContext" /> configured automatically by the <see cref="GridWorker" />
+/// </summary>
+public interface ITaskContextConfiguration
 {
+  /// <summary>
+  ///   Allow the initialization of <see cref="TaskContext" />
+  /// </summary>
   TaskContext TaskContext { get; set; }
-  void        ConfigureSessionService(ITaskHandler taskHandler);
 }

@@ -44,18 +44,18 @@ namespace ArmoniK.DevelopmentKit.Worker.Unified;
 
 /// <summary>
 ///   This is an abstract class that have to be implemented
-///   by each class who needs tasks submission on worker side
+///   by each class who needs context or tasks submission on worker side
 ///   See an example in the project ArmoniK.Samples in the sub project
 ///   https://github.com/aneoconsulting/ArmoniK.Samples/tree/main/Samples/UnifiedAPI
 ///   ArmoniK.Samples.Worker/Services/ServiceApps.cs
 /// </summary>
 [PublicAPI]
 [MarkDownDoc]
-public abstract class TaskSubmitterWorkerService : ITaskSubmitterWorkerServiceConfiguration, ITaskOptionsConfiguration, ILoggerConfiguration
+public abstract class TaskWorkerService : ITaskContextConfiguration, ISessionServiceConfiguration, ITaskOptionsConfiguration, ISessionConfiguration, ILoggerConfiguration
 {
   /// <summary>
   /// </summary>
-  public TaskSubmitterWorkerService()
+  public TaskWorkerService()
   {
     Configuration = WorkerHelpers.GetDefaultConfiguration();
     Logger = WorkerHelpers.GetDefaultLoggerFactory(Configuration)
@@ -66,7 +66,7 @@ public abstract class TaskSubmitterWorkerService : ITaskSubmitterWorkerServiceCo
   /// <summary>
   /// </summary>
   /// <param name="loggerFactory">The factory logger to create logger</param>
-  public TaskSubmitterWorkerService(ILoggerFactory loggerFactory)
+  public TaskWorkerService(ILoggerFactory loggerFactory)
   {
     LoggerFactory = loggerFactory;
 
@@ -78,12 +78,6 @@ public abstract class TaskSubmitterWorkerService : ITaskSubmitterWorkerServiceCo
   ///   Get access to Logger with Logger.LoggingScope.
   /// </summary>
   public ILogger Logger { get; set; }
-
-  /// <summary>
-  ///   Get or Set SubSessionId object stored during the call of SubmitTask, SubmitSubTask,
-  ///   SubmitSubTaskWithDependencies or WaitForCompletion, WaitForSubTaskCompletion or GetResults
-  /// </summary>
-  public Session SessionId { get; set; }
 
   /// <summary>
   ///   Property to retrieve the sessionService previously created
@@ -113,11 +107,7 @@ public abstract class TaskSubmitterWorkerService : ITaskSubmitterWorkerServiceCo
   /// </summary>
   public ILoggerFactory LoggerFactory { get; set; }
 
-  /// <summary>
-  ///   The configure method is an internal call to prepare the ServiceContainer.
-  ///   Its holds several configuration coming from the Client call
-  /// </summary>
-  /// <param name="configuration">The appSettings.json configuration prepared during the deployment</param>
+  /// <inheritdoc />
   public void ConfigureLogger(IConfiguration configuration)
   {
     Configuration = configuration;
@@ -132,6 +122,52 @@ public abstract class TaskSubmitterWorkerService : ITaskSubmitterWorkerServiceCo
     Logger.LogInformation("Configuring ServiceContainerBase");
   }
 
+  /// <inheritdoc />
+  public Session SessionId { get; set; }
+
+
+  /// <inheritdoc />
+  public virtual void OnCreateService(ServiceContext serviceContext)
+  {
+  }
+
+  /// <inheritdoc />
+  public virtual void OnDestroyService(ServiceContext serviceContext)
+  {
+  }
+
+  /// <inheritdoc />
+  public virtual void OnSessionEnter(SessionContext sessionContext)
+  {
+  }
+
+  /// <inheritdoc />
+  public virtual void OnSessionLeave(SessionContext sessionContext)
+  {
+  }
+
+  /// <summary>
+  ///   Prepare Session and create SessionService with the specific session
+  /// </summary>
+  /// <param name="sessionId">The ID of the current session</param>
+  /// <param name="requestTaskOptions">Default TaskOption for the current session</param>
+  public void ConfigureSession(Session     sessionId,
+                               TaskOptions requestTaskOptions)
+  {
+    SessionId = sessionId;
+
+    //Append or overwrite Dictionary Options in TaskOptions with one coming from client
+    TaskOptions = requestTaskOptions;
+  }
+
+  /// <inheritdoc />
+  public void ConfigureSessionService(ITaskHandler taskHandler)
+    => SessionService = new SessionPollingService(LoggerFactory,
+                                                  taskHandler);
+
+  /// <inheritdoc />
+  public TaskContext TaskContext { get; set; }
+
   /// <summary>
   ///   The configure method is an internal call to prepare the ServiceContainer.
   ///   Its holds TaskOptions coming from the Client call
@@ -139,19 +175,6 @@ public abstract class TaskSubmitterWorkerService : ITaskSubmitterWorkerServiceCo
   /// <param name="clientOptions">All data coming from Client within TaskOptions </param>
   public void ConfigureTaskOptions(TaskOptions clientOptions)
     => TaskOptions = clientOptions;
-
-  /// <summary>
-  ///   Provides the context for the task that is bound to the given service invocation
-  /// </summary>
-  public TaskContext TaskContext { get; set; }
-
-  /// <summary>
-  ///   Configure Service for actual session. Connect the worker to the current pollingAgent
-  /// </summary>
-  /// <param name="taskHandler">Low level object used for tasks submission by <see cref="SessionPollingService" /> </param>
-  public void ConfigureSessionService(ITaskHandler taskHandler)
-    => SessionService = new SessionPollingService(LoggerFactory,
-                                                  taskHandler);
 
   /// <summary>
   ///   User method to submit task from the service
@@ -274,18 +297,23 @@ public abstract class TaskSubmitterWorkerService : ITaskSubmitterWorkerServiceCo
   /// <returns>return the customer payload</returns>
   public byte[] GetDependenciesResult(string taskId)
     => SessionService.GetDependenciesResult(taskId);
+}
 
-  /// <summary>
-  ///   Prepare Session and create SessionService with the specific session
-  /// </summary>
-  /// <param name="sessionId">The ID of the current session</param>
-  /// <param name="requestTaskOptions">The default <see cref="TaskOptions" /> used by tasks in the current session</param>
-  public void ConfigureSession(Session     sessionId,
-                               TaskOptions requestTaskOptions)
-  {
-    SessionId = sessionId;
-
-    //Append or overwrite Dictionary Options in TaskOptions with one coming from client
-    TaskOptions = requestTaskOptions;
-  }
+/// <summary>
+///   This is an abstract class that have to be implemented
+///   by each class who needs context or tasks submission on worker side
+///   See an example in the project ArmoniK.Samples in the sub project
+///   https://github.com/aneoconsulting/ArmoniK.Samples/tree/main/Samples/UnifiedAPI
+///   ArmoniK.Samples.Worker/Services/ServiceApps.cs
+/// </summary>
+/// <remarks>
+///   WARNING : TaskSubmitterWorkerService has been replaced by TaskWorkerService.
+///   This class will stay in 2.12 for compatibility reasons
+///   This class will be removed in armonik 2.13
+/// </remarks>
+[PublicAPI]
+[MarkDownDoc]
+[Obsolete("TaskSubmitterWorkerService has been replaced by TaskWorkerService")]
+public abstract class TaskSubmitterWorkerService : TaskWorkerService
+{
 }

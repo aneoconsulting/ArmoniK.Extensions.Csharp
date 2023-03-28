@@ -22,20 +22,19 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using Microsoft.Extensions.Configuration;
+using ArmoniK.Api.Worker.Worker;
 
 namespace ArmoniK.DevelopmentKit.Worker.Unified;
 
 /// <summary>
-///   implementation of this interface in <see cref="TaskWorkerService" /> or your own implementation allows to have a
-///   logger configured automatically by the <see cref="GridWorker" />
+///   implementation of this interface in <see cref="TaskWorkerService" /> or your own implementation allows to have the
+///   <see cref="SessionPollingService" /> configured automatically by the <see cref="GridWorker" />
 /// </summary>
-public interface ILoggerConfiguration
+public interface ISessionServiceConfiguration
 {
   /// <summary>
-  ///   The configure method is an internal call to prepare the ServiceContainer.
-  ///   Its holds several configuration coming from the Client call
+  ///   Allow the initialization of <see cref="SessionPollingService" />
   /// </summary>
-  /// <param name="configuration">The appSettings.json configuration prepared during the deployment</param>
-  void ConfigureLogger(IConfiguration configuration);
+  /// <param name="taskHandler"></param>
+  void ConfigureSessionService(ITaskHandler taskHandler);
 }

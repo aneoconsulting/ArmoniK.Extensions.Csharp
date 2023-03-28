@@ -417,10 +417,18 @@ public class BaseClientSubmitter<T>
   public ResultStatusCollection GetResultStatus(IEnumerable<string> taskIds,
                                                 CancellationToken   cancellationToken = default)
   {
-    var mapTaskResults = GetResultIds(taskIds);
+    var taskList       = taskIds.ToList();
+    var mapTaskResults = GetResultIds(taskList);
 
     var result2TaskDic = mapTaskResults.ToDictionary(result => result.ResultIds.Single(),
                                                      result => result.TaskId);
+
+    var missingTasks = taskList.Count > mapTaskResults.Count
+                         ? taskList.Except(result2TaskDic.Values)
+                                   .Select(tid => new ResultStatusData(string.Empty,
+                                                                       tid,
+                                                                       ResultStatus.Notfound))
+                         : Array.Empty<ResultStatusData>();
 
     using var channel          = channelPool_.GetChannel();
     var       submitterService = new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel);
@@ -485,6 +493,7 @@ public class BaseClientSubmitter<T>
                              IdsError       = result2TaskDic.Values,
                              IdsReady       = idsReady,
                              IdsNotReady    = idsNotReady,
+                             Canceled       = missingTasks,
                            };
 
     return resultStatusList;

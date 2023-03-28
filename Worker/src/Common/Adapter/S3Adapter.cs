@@ -39,11 +39,13 @@ public class S3Adapter : IFileAdapter
                    string awsAccessKeyId,
                    string awsSecretAccessKey,
                    string remoteS3Path,
-                   string localZipDir = "/tmp/packages/zip")
+                   bool   mustForcePathStyle = false,
+                   string localZipDir        = "/tmp/packages/zip")
   {
     var config = new AmazonS3Config
                  {
-                   ServiceURL = endPointRegion,
+                   ServiceURL     = endPointRegion,
+                   ForcePathStyle = mustForcePathStyle,
                  };
 
     BucketName   = bucketName;

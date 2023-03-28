@@ -52,7 +52,7 @@ public class SimpleUnifiedApiClientTest
   }
 
   [Test]
-  public void Check_That_Task_Options_Are_Well_Initialized_In_Worker_Size()
+  public void Check_That_Task_Options_Are_Well_Initialized_In_Worker_Side()
   {
     var expectedResult = numbers_.Select(elem => elem * elem * elem)
                                  .ToArray();
@@ -70,6 +70,24 @@ public class SimpleUnifiedApiClientTest
     Assert.That(resultStr,
                 Is.EqualTo(unifiedTestHelper_.TaskOptions.ApplicationName));
   }
+
+  [Test]
+  public void Check_That_Session_ID_Is_Well_Initialized_In_Worker_Side()
+  {
+    var taskId = unifiedTestHelper_.Service.Submit("GetSessionIdFromWorker",
+                                                   UnitTestHelperBase.ParamsHelper(),
+                                                   unifiedTestHelper_);
+
+    var result = unifiedTestHelper_.WaitForResultcompletion(taskId);
+    Assert.IsNotNull(result);
+    Assert.IsInstanceOf(typeof(string),
+                        result);
+    var resultStr = result as string;
+
+    Assert.That(resultStr,
+                Is.EqualTo(unifiedTestHelper_.Service.SessionId));
+  }
+
 
   [Test]
   public void Check_That_Method_Overload_As_Int_Is_Working()
