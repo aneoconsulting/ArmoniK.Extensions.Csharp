@@ -183,6 +183,18 @@ public class ArmonikServiceWorker : IDisposable
       return GridWorker.Execute(taskHandler);
     }
   }
+
+
+  /// <summary>
+  ///   Call the GridWorker callback to let the user know when the service will be unloaded
+  /// </summary>
+  public void DestroyService()
+  {
+    using (AppsLoader.UserAssemblyLoadContext.EnterContextualReflection())
+    {
+      GridWorker.DestroyService();
+    }
+  }
 }
 
 public class ServiceRequestContext
@@ -256,6 +268,7 @@ public class ServiceRequestContext
 
     logger_.LogInformation($"Worker needs to load new context, from {currentService_?.ServiceId?.ToString() ?? "null"} to {serviceId}");
 
+    currentService_?.DestroyService();
     currentService_?.Dispose();
     currentService_ = null;
 
