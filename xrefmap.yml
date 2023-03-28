@@ -5057,6 +5057,19 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.Worker.DLLWorker.ArmonikServiceWorker.Configure
   nameWithType: ArmonikServiceWorker.Configure
+- uid: ArmoniK.DevelopmentKit.Worker.DLLWorker.ArmonikServiceWorker.DestroyService
+  name: DestroyService()
+  href: api/ArmoniK.DevelopmentKit.Worker.DLLWorker.ArmonikServiceWorker.html#ArmoniK_DevelopmentKit_Worker_DLLWorker_ArmonikServiceWorker_DestroyService
+  commentId: M:ArmoniK.DevelopmentKit.Worker.DLLWorker.ArmonikServiceWorker.DestroyService
+  fullName: ArmoniK.DevelopmentKit.Worker.DLLWorker.ArmonikServiceWorker.DestroyService()
+  nameWithType: ArmonikServiceWorker.DestroyService()
+- uid: ArmoniK.DevelopmentKit.Worker.DLLWorker.ArmonikServiceWorker.DestroyService*
+  name: DestroyService
+  href: api/ArmoniK.DevelopmentKit.Worker.DLLWorker.ArmonikServiceWorker.html#ArmoniK_DevelopmentKit_Worker_DLLWorker_ArmonikServiceWorker_DestroyService_
+  commentId: Overload:ArmoniK.DevelopmentKit.Worker.DLLWorker.ArmonikServiceWorker.DestroyService
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Worker.DLLWorker.ArmonikServiceWorker.DestroyService
+  nameWithType: ArmonikServiceWorker.DestroyService
 - uid: ArmoniK.DevelopmentKit.Worker.DLLWorker.ArmonikServiceWorker.Dispose
   name: Dispose()
   href: api/ArmoniK.DevelopmentKit.Worker.DLLWorker.ArmonikServiceWorker.html#ArmoniK_DevelopmentKit_Worker_DLLWorker_ArmonikServiceWorker_Dispose
