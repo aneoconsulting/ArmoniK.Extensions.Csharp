@@ -4418,15 +4418,15 @@ references:
   commentId: T:ArmoniK.DevelopmentKit.Worker.Common.Adapter.S3Adapter
   fullName: ArmoniK.DevelopmentKit.Worker.Common.Adapter.S3Adapter
   nameWithType: S3Adapter
-- uid: ArmoniK.DevelopmentKit.Worker.Common.Adapter.S3Adapter.#ctor(System.String,System.String,System.String,System.String,System.String,System.String)
-  name: S3Adapter(string, string, string, string, string, string)
-  href: api/ArmoniK.DevelopmentKit.Worker.Common.Adapter.S3Adapter.html#ArmoniK_DevelopmentKit_Worker_Common_Adapter_S3Adapter__ctor_System_String_System_String_System_String_System_String_System_String_System_String_
-  commentId: M:ArmoniK.DevelopmentKit.Worker.Common.Adapter.S3Adapter.#ctor(System.String,System.String,System.String,System.String,System.String,System.String)
-  name.vb: New(String, String, String, String, String, String)
-  fullName: ArmoniK.DevelopmentKit.Worker.Common.Adapter.S3Adapter.S3Adapter(string, string, string, string, string, string)
-  fullName.vb: ArmoniK.DevelopmentKit.Worker.Common.Adapter.S3Adapter.New(String, String, String, String, String, String)
-  nameWithType: S3Adapter.S3Adapter(string, string, string, string, string, string)
-  nameWithType.vb: S3Adapter.New(String, String, String, String, String, String)
+- uid: ArmoniK.DevelopmentKit.Worker.Common.Adapter.S3Adapter.#ctor(System.String,System.String,System.String,System.String,System.String,System.Boolean,System.String)
+  name: S3Adapter(string, string, string, string, string, bool, string)
+  href: api/ArmoniK.DevelopmentKit.Worker.Common.Adapter.S3Adapter.html#ArmoniK_DevelopmentKit_Worker_Common_Adapter_S3Adapter__ctor_System_String_System_String_System_String_System_String_System_String_System_Boolean_System_String_
+  commentId: M:ArmoniK.DevelopmentKit.Worker.Common.Adapter.S3Adapter.#ctor(System.String,System.String,System.String,System.String,System.String,System.Boolean,System.String)
+  name.vb: New(String, String, String, String, String, Boolean, String)
+  fullName: ArmoniK.DevelopmentKit.Worker.Common.Adapter.S3Adapter.S3Adapter(string, string, string, string, string, bool, string)
+  fullName.vb: ArmoniK.DevelopmentKit.Worker.Common.Adapter.S3Adapter.New(String, String, String, String, String, Boolean, String)
+  nameWithType: S3Adapter.S3Adapter(string, string, string, string, string, bool, string)
+  nameWithType.vb: S3Adapter.New(String, String, String, String, String, Boolean, String)
 - uid: ArmoniK.DevelopmentKit.Worker.Common.Adapter.S3Adapter.#ctor*
   name: S3Adapter
   href: api/ArmoniK.DevelopmentKit.Worker.Common.Adapter.S3Adapter.html#ArmoniK_DevelopmentKit_Worker_Common_Adapter_S3Adapter__ctor_
