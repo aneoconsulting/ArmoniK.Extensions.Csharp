@@ -747,7 +747,7 @@ public class Service : AbstractClientService, ISubmitterService
   /// <summary>
   ///   Get a new channel to communicate with the control plane
   /// </summary>
-  /// <returns></returns>
+  /// <returns>gRPC channel</returns>
   public ChannelBase GetChannel()
     => SessionService.ChannelPool.GetChannel();
 
