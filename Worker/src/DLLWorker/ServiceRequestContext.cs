@@ -191,7 +191,6 @@ public class ArmonikServiceWorker : IDisposable
       GridWorker.DestroyService();
     }
   }
-
 }
 
 public class ServiceRequestContext
