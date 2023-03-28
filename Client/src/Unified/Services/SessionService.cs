@@ -70,6 +70,12 @@ public class SessionService : BaseClientSubmitter<SessionService>
     Logger?.LogDebug($"Session Created {SessionId}");
   }
 
+  /// <summary>
+  ///   Return the Grpc channel pool
+  /// </summary>
+  public ChannelPool ChannelPool
+    => channelPool_;
+
   /// <summary>Returns a string that represents the current object.</summary>
   /// <returns>A string that represents the current object.</returns>
   public override string ToString()
