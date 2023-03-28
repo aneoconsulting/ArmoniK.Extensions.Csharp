@@ -307,11 +307,14 @@ public class ServiceRequestContext
 
     if ((sectionStorage.Exists() && configuration["FileStorageType"] == "S3") || !sectionStorage.Exists())
     {
-      return new S3Adapter(configuration.GetSection("S3Storage")["ServiceURL"],
-                           configuration.GetSection("S3Storage")["BucketName"],
-                           configuration.GetSection("S3Storage")["AccessKeyId"],
-                           configuration.GetSection("S3Storage")["SecretAccessKey"],
-                           "");
+      var configurationSection = configuration.GetSection("S3Storage");
+      return new S3Adapter(configurationSection["ServiceURL"],
+                           configurationSection["BucketName"],
+                           configurationSection["AccessKeyId"],
+                           configurationSection["SecretAccessKey"],
+                           "",
+                           configurationSection.GetValue("MustForcePathStyle",
+                                                         false));
     }
 
     throw new WorkerApiException("Cannot find the FileStorageType in the IConfiguration. Please make sure you have properly set the field [FileStorageType]");
