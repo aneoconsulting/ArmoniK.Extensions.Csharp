@@ -745,7 +745,7 @@ public class Service : AbstractClientService, ISubmitterService
 
 
   /// <summary>
-  ///   Get new channel to communicate with with controlPlane
+  ///   Get a new channel to communicate with the control plane
   /// </summary>
   /// <returns></returns>
   public ChannelBase GetChannel()
