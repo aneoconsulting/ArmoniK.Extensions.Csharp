@@ -10,6 +10,7 @@
  <ItemGroup>
     <PackageReference Include="ArmoniK.Api.Worker" Version="3.6.0" />
     <PackageReference Include="AWSSDK.S3" Version="3.7.9.65" />
+    <PackageReference Include="AWSSDK.SecurityToken" Version="3.7.101.36" />
     <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.17.0" />
     <PackageReference Include="Grpc.Tools" Version="2.49.1">
