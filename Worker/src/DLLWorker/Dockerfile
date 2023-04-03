@@ -13,8 +13,8 @@ COPY ["Worker/src/Common/ArmoniK.DevelopmentKit.Worker.Common.csproj", "Worker/s
 RUN dotnet restore "Worker/src/DLLWorker/ArmoniK.DevelopmentKit.Worker.DLLWorker.csproj"
 COPY . .
 WORKDIR "/src/Worker/src/DLLWorker"
-ARG CONFIGURATION=Release
-RUN dotnet build "ArmoniK.DevelopmentKit.Worker.DLLWorker.csproj" -c $CONFIGURATION -f net6.0 -o /app/build
+ARG DLL_BUILD_CONFIG=Release
+RUN dotnet build "ArmoniK.DevelopmentKit.Worker.DLLWorker.csproj" -c $DLL_BUILD_CONFIG -f net6.0 -o /app/build
 
 FROM build AS publish
 RUN case "$TARGETARCH" in \
@@ -27,7 +27,7 @@ RUN case "$TARGETARCH" in \
         esac ;; \
         *) exit 1 ;; \
     esac ; \
-    dotnet publish "ArmoniK.DevelopmentKit.Worker.DLLWorker.csproj" -c $CONFIGURATION -f net6.0 -o /app/publish -r "${DOTNET_ARCH}" --self-contained true
+    dotnet publish "ArmoniK.DevelopmentKit.Worker.DLLWorker.csproj" -c $DLL_BUILD_CONFIG -f net6.0 -o /app/publish -r "${DOTNET_ARCH}" --self-contained true
 
 FROM base AS final
 WORKDIR /app
