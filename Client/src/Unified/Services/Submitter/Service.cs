@@ -422,13 +422,13 @@ public class Service : AbstractClientService, ISubmitterService
   public ServiceResult Execute(string   methodName,
                                object[] arguments)
   {
-    ArmonikPayload dataSynapsePayload = new()
+    ArmonikPayload unifiedPayload = new()
                                         {
                                           MethodName         = methodName,
                                           ClientPayload      = ProtoSerializer.SerializeMessageObjectArray(arguments),
                                         };
 
-    var taskId = SessionService.SubmitTask(dataSynapsePayload.Serialize());
+    var taskId = SessionService.SubmitTask(unifiedPayload.Serialize());
 
     var result = ProtoSerializer.DeSerializeMessageObjectArray(SessionService.GetResult(taskId));
 
@@ -449,7 +449,7 @@ public class Service : AbstractClientService, ISubmitterService
   public ServiceResult Execute(string methodName,
                                byte[] dataArg)
   {
-    ArmonikPayload dataSynapsePayload = new()
+    ArmonikPayload unifiedPayload = new()
                                         {
                                           MethodName          = methodName,
                                           ClientPayload       = dataArg,
@@ -461,7 +461,7 @@ public class Service : AbstractClientService, ISubmitterService
 
     try
     {
-      taskId = SessionService.SubmitTask(dataSynapsePayload.Serialize());
+      taskId = SessionService.SubmitTask(unifiedPayload.Serialize());
 
       result = ProtoSerializer.DeSerializeMessageObjectArray(SessionService.GetResult(taskId));
     }

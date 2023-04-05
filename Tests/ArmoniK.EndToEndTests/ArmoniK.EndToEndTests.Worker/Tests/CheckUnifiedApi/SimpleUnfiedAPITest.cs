@@ -93,7 +93,7 @@ public class CheckUnifiedApiWorker : TaskWorkerService
     var randNum = rd.NextDouble();
     if (randNum < percentageOfFailure / 100)
     {
-      throw new GridServerException("An expected failure in this random call");
+      throw new UnifiedException("An expected failure in this random call");
     }
 
     return new[]

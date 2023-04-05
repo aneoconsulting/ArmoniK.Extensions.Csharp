@@ -4,7 +4,7 @@ set -e
 export MODE="All"
 export SERVER_NFS_IP=""
 export STORAGE_TYPE="HostPath"
-configuration=Release
+configuration="Release"
 FRAMEWORK=net6.0
 OUTPUT_JSON="nofile"
 TO_BUCKET=false
@@ -43,6 +43,11 @@ export Grpc__CaCert=""
 export Grpc__ClientCert=""
 export Grpc__ClientKey=""
 export Grpc__mTLS="false"
+if [[ "$ARMONIK_SHARED_HOST_PATH" == "" ]]; then
+  export ARMONIK_SHARED_HOST_PATH=`kubectl get secret -n armonik shared-storage -o jsonpath="{.data.host_path}" 2>/dev/null | base64 -d`
+else
+  export ARMONIK_SHARED_HOST_PATH="$ARMONIK_SHARED_HOST_PATH"
+fi
 export ARMONIK_SHARED_HOST_PATH=${ARMONIK_SHARED_HOST_PATH:="${HOME}/data"}
 
 nuget_cache=$(dotnet nuget locals global-packages --list | awk '{ print $2 }')

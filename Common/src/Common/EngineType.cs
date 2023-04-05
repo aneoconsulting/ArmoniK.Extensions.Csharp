@@ -34,14 +34,9 @@ public enum EngineType
   /// </summary>
   Symphony = 0,
 
-
   /// <summary>
   /// </summary>
-  DataSynapse = 1,
-
-  /// <summary>
-  /// </summary>
-  Unified = 2,
+  Unified = 1,
 }
 
 /// <summary>
@@ -59,7 +54,6 @@ public static class EngineTypeHelper
     => enumName switch
        {
          "Symphony"    => EngineType.Symphony,
-         "DataSynapse" => EngineType.DataSynapse,
          "Unified"     => EngineType.Unified,
          _             => throw new KeyNotFoundException($"enumName, possible choice are [{string.Join(", ", typeof(EngineType).GetEnumNames())}]"),
        };
@@ -74,10 +68,6 @@ public class EngineTypes
                                                                  {
                                                                    {
                                                                      EngineType.Symphony, "ArmoniK.DevelopmentKit.Worker.Symphony"
-                                                                   },
-
-                                                                   {
-                                                                     EngineType.DataSynapse, "ArmoniK.DevelopmentKit.Worker.GridServer"
                                                                    },
 
                                                                    {
