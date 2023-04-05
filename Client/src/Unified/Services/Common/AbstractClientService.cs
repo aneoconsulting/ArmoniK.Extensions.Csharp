@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 
 using ArmoniK.DevelopmentKit.Client.Common;
 
@@ -26,6 +27,14 @@ public abstract class AbstractClientService : IDisposable
 
     ResultHandlerDictionary = new ConcurrentDictionary<string, IServiceInvocationHandler>();
   }
+
+  /// <summary>
+  ///   Instant view of currently handled task ids.
+  ///   The list is only valid at the time of access.
+  ///   The actual list may differ due to background processes.
+  /// </summary>
+  public ICollection<string> CurrentlyHandledTaskIds
+    => ResultHandlerDictionary.Keys;
 
   /// <summary>
   ///   The result dictionary to return result
