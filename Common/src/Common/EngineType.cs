@@ -53,9 +53,9 @@ public static class EngineTypeHelper
   public static EngineType ToEnum(string enumName)
     => enumName switch
        {
-         "Symphony"    => EngineType.Symphony,
-         "Unified"     => EngineType.Unified,
-         _             => throw new KeyNotFoundException($"enumName, possible choice are [{string.Join(", ", typeof(EngineType).GetEnumNames())}]"),
+         "Symphony" => EngineType.Symphony,
+         "Unified"  => EngineType.Unified,
+         _          => throw new KeyNotFoundException($"enumName, possible choice are [{string.Join(", ", typeof(EngineType).GetEnumNames())}]"),
        };
 }
 

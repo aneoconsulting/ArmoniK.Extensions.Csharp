@@ -34,18 +34,21 @@ public static class ArmoniKPayloadSerialization
   {
     var payload = new ArmonikPayload
                   {
-                    MethodName = "Test",
-                    ClientPayload = "Payload"u8.ToArray(),
+                    MethodName          = "Test",
+                    ClientPayload       = "Payload"u8.ToArray(),
                     SerializedArguments = true,
                   };
     var serialize = payload.Serialize();
 
     var deserialize = ProtoSerializer.Deserialize<ArmonikPayload>(serialize);
     Assert.Multiple(() =>
-    {
-      Assert.That(deserialize.MethodName,          Is.EqualTo(payload.MethodName));
-      Assert.That(deserialize.ClientPayload,       Is.EqualTo(payload.ClientPayload));
-      Assert.That(deserialize.SerializedArguments, Is.EqualTo(payload.SerializedArguments));
-    });
+                    {
+                      Assert.That(deserialize.MethodName,
+                                  Is.EqualTo(payload.MethodName));
+                      Assert.That(deserialize.ClientPayload,
+                                  Is.EqualTo(payload.ClientPayload));
+                      Assert.That(deserialize.SerializedArguments,
+                                  Is.EqualTo(payload.SerializedArguments));
+                    });
   }
 }

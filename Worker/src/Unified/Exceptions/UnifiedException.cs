@@ -45,7 +45,7 @@ public class UnifiedException : Exception
   /// <param name="message">The string message in the new exception</param>
   /// <param name="e">the inner exception</param>
   public UnifiedException(string    message,
-                             Exception e)
+                          Exception e)
     : base(message,
            e)
   {

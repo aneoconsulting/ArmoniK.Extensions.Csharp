@@ -215,8 +215,8 @@ public class Service : AbstractClientService, ISubmitterService
   {
     ArmonikPayload payload = new()
                              {
-                               MethodName         = methodName,
-                               ClientPayload      = ProtoSerializer.SerializeMessageObjectArray(arguments),
+                               MethodName    = methodName,
+                               ClientPayload = ProtoSerializer.SerializeMessageObjectArray(arguments),
                              };
     var taskId = SessionService.SubmitTask(payload.Serialize());
     ResultHandlerDictionary[taskId] = handler;
@@ -423,10 +423,10 @@ public class Service : AbstractClientService, ISubmitterService
                                object[] arguments)
   {
     ArmonikPayload unifiedPayload = new()
-                                        {
-                                          MethodName         = methodName,
-                                          ClientPayload      = ProtoSerializer.SerializeMessageObjectArray(arguments),
-                                        };
+                                    {
+                                      MethodName    = methodName,
+                                      ClientPayload = ProtoSerializer.SerializeMessageObjectArray(arguments),
+                                    };
 
     var taskId = SessionService.SubmitTask(unifiedPayload.Serialize());
 
@@ -450,11 +450,11 @@ public class Service : AbstractClientService, ISubmitterService
                                byte[] dataArg)
   {
     ArmonikPayload unifiedPayload = new()
-                                        {
-                                          MethodName          = methodName,
-                                          ClientPayload       = dataArg,
-                                          SerializedArguments = true,
-                                        };
+                                    {
+                                      MethodName          = methodName,
+                                      ClientPayload       = dataArg,
+                                      SerializedArguments = true,
+                                    };
 
     var      taskId = "not-TaskId";
     object[] result;

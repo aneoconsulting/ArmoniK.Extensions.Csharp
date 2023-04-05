@@ -30,7 +30,6 @@ namespace ArmoniK.DevelopmentKit.Common;
 [ProtoContract]
 public class ArmonikPayload
 {
-
   [ProtoMember(1)]
   public string MethodName { get; set; }
 
