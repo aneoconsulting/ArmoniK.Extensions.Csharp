@@ -93,47 +93,45 @@ jobs:
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: 6.x
-        source-url: https://pkgs.dev.azure.com/aneofr/ArmoniK/_packaging/ArmoniKPackages/nuget/v3/index.json
-      env:
-        NUGET_AUTH_TOKEN: ${{secrets.PAT_AZURE}}
+      #   source-url: https://pkgs.dev.azure.com/aneofr/ArmoniK/_packaging/ArmoniKPackages/nuget/v3/index.json
+      # env:
+      #   NUGET_AUTH_TOKEN: ${{secrets.PAT_AZURE}}
 
-    # find . -name "*.csproj" | xargs -I % echo dotnet build % -c Release
     - name: Build the package
       run: |
         dotnet build ArmoniK.Extensions.Csharp.sln -c Release -p:Version=$GENVERSION
 
-    # find . -name "*.csproj" | xargs -I % echo dotnet pack % -c Release -o /tmp/packages -p:Version=\$GENVERSION
     - name: Pack the package VERSION
       run: |
         dotnet pack ArmoniK.Extensions.Csharp.sln -c Release -p:Version=$GENVERSION
-        mkdir -p /tmp/packages
-        mv ./publish/*.* /tmp/packages/
+    #     mkdir -p /tmp/packages
+    #     mv ./publish/*.* /tmp/packages/
 
-    - name: Store the package VERSION
-      uses: actions/upload-artifact@v3
-      with:
-        name: prerelease-nugets
-        path: /tmp/packages/*.nupkg
-        retention-days: 5
+    # - name: Store the package VERSION
+    #   uses: actions/upload-artifact@v3
+    #   with:
+    #     name: prerelease-nugets
+    #     path: /tmp/packages/*.nupkg
+    #     retention-days: 5
 
-    - name: Pack the package RELEASE
-      if: ${{ github.ref == 'refs/heads/release' }}
-      run: |
-        dotnet pack ArmoniK.Extensions.Csharp.sln -c Release -p:Version=$GENRELEASE
-        mkdir -p /tmp/releases
-        mv ./publish/*.* /tmp/releases/
+    # - name: Pack the package RELEASE
+    #   if: ${{ github.ref == 'refs/heads/release' }}
+    #   run: |
+    #     dotnet pack ArmoniK.Extensions.Csharp.sln -c Release -p:Version=$GENRELEASE
+    #     mkdir -p /tmp/releases
+    #     mv ./publish/*.* /tmp/releases/
 
-    - name: Store the package RELEASE
-      if: ${{ github.ref == 'refs/heads/release' }}
-      uses: actions/upload-artifact@v3
-      with:
-        name: release-nugets
-        path: /tmp/releases/*.nupkg
-        retention-days: 5
+    # - name: Store the package RELEASE
+    #   if: ${{ github.ref == 'refs/heads/release' }}
+    #   uses: actions/upload-artifact@v3
+    #   with:
+    #     name: release-nugets
+    #     path: /tmp/releases/*.nupkg
+    #     retention-days: 5
 
     - name: Push the package
       run: |
-        dotnet nuget push /tmp/packages/ArmoniK.*.nupkg -k ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
+        dotnet nuget push /tmp/packages/ArmoniK.*.nupkg -k ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate --no-symbols --exclude "/tmp/packages/ArmoniK.*test*.nupkg"
 
   buildWorkerEnd2End:
     runs-on: ubuntu-latest
