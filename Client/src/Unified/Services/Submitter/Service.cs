@@ -215,7 +215,6 @@ public class Service : AbstractClientService, ISubmitterService
   {
     ArmonikPayload payload = new()
                              {
-                               ArmonikRequestType = ArmonikRequestType.Execute,
                                MethodName         = methodName,
                                ClientPayload      = ProtoSerializer.SerializeMessageObjectArray(arguments),
                              };
@@ -238,7 +237,6 @@ public class Service : AbstractClientService, ISubmitterService
   {
     var armonikPayloads = arguments.Select(args => new ArmonikPayload
                                                    {
-                                                     ArmonikRequestType  = ArmonikRequestType.Execute,
                                                      MethodName          = methodName,
                                                      ClientPayload       = ProtoSerializer.SerializeMessageObjectArray(args),
                                                      SerializedArguments = false,
@@ -268,7 +266,6 @@ public class Service : AbstractClientService, ISubmitterService
   {
     ArmonikPayload payload = new()
                              {
-                               ArmonikRequestType  = ArmonikRequestType.Execute,
                                MethodName          = methodName,
                                ClientPayload       = argument,
                                SerializedArguments = true,
@@ -293,7 +290,6 @@ public class Service : AbstractClientService, ISubmitterService
   {
     var armonikPayloads = arguments.Select(args => new ArmonikPayload
                                                    {
-                                                     ArmonikRequestType  = ArmonikRequestType.Execute,
                                                      MethodName          = methodName,
                                                      ClientPayload       = args,
                                                      SerializedArguments = true,
@@ -330,7 +326,6 @@ public class Service : AbstractClientService, ISubmitterService
                          ResultId = Guid.NewGuid(),
                          Payload = new ArmonikPayload
                                    {
-                                     ArmonikRequestType  = ArmonikRequestType.Execute,
                                      MethodName          = methodName,
                                      ClientPayload       = ProtoSerializer.SerializeMessageObjectArray(argument),
                                      SerializedArguments = false,
@@ -363,7 +358,6 @@ public class Service : AbstractClientService, ISubmitterService
                                ResultId = Guid.NewGuid(),
                                Payload = new ArmonikPayload
                                          {
-                                           ArmonikRequestType  = ArmonikRequestType.Execute,
                                            MethodName          = methodName,
                                            ClientPayload       = argument,
                                            SerializedArguments = true,
@@ -430,7 +424,6 @@ public class Service : AbstractClientService, ISubmitterService
   {
     ArmonikPayload dataSynapsePayload = new()
                                         {
-                                          ArmonikRequestType = ArmonikRequestType.Execute,
                                           MethodName         = methodName,
                                           ClientPayload      = ProtoSerializer.SerializeMessageObjectArray(arguments),
                                         };
@@ -458,7 +451,6 @@ public class Service : AbstractClientService, ISubmitterService
   {
     ArmonikPayload dataSynapsePayload = new()
                                         {
-                                          ArmonikRequestType  = ArmonikRequestType.Execute,
                                           MethodName          = methodName,
                                           ClientPayload       = dataArg,
                                           SerializedArguments = true,

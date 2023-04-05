@@ -227,7 +227,6 @@ public abstract class TaskWorkerService : ITaskContextConfiguration, ISessionSer
     var protoSerializer = new ProtoSerializer();
     ArmonikPayload armonikPayload = new()
                                     {
-                                      ArmonikRequestType  = ArmonikRequestType.Execute,
                                       MethodName          = methodName,
                                       ClientPayload       = protoSerializer.SerializeMessageObjectArray(arguments),
                                       SerializedArguments = false,
@@ -276,7 +275,6 @@ public abstract class TaskWorkerService : ITaskContextConfiguration, ISessionSer
     var protoSerializer = new ProtoSerializer();
     ArmonikPayload armonikPayload = new()
                                     {
-                                      ArmonikRequestType  = ArmonikRequestType.Execute,
                                       MethodName          = methodName,
                                       ClientPayload       = protoSerializer.SerializeMessageObjectArray(arguments),
                                       SerializedArguments = false,
