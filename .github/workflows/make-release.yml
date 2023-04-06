@@ -22,12 +22,10 @@ jobs:
         fetch-depth: 0
 
     - name: Remove tag locally
-    # This is done so that codacy/git-version can compute the version of the images deployed on docker hub
       run: |
         git tag -d ${{ github.ref_name }}
 
     - name: Compute branch for codacy
-    # This is the branch to give to codacy to compute the snapshot version
       id: rev
       run: |
         export CURRENT_BRANCH=$(git describe --tags)
@@ -78,44 +76,19 @@ jobs:
     - name: Build the package
       run: |
         dotnet build ArmoniK.Extensions.Csharp.sln -c Release -p:Version=$GENVERSION
-
     - name: Pack the package VERSION
       run: |
-        dotnet pack ArmoniK.Extensions.Csharp.sln -c Release -p:Version=$GENVERSION
-    #   mkdir -p /tmp/packages
-    #   mv ./publish/*.* /tmp/packages/
-
-    # - name: Store the package VERSION
-    #   uses: actions/upload-artifact@v3
-    #   with:
-    #     name: prerelease-nugets
-    #     path: /tmp/packages/*.nupkg
-    #     retention-days: 5
-
-    # - name: Pack the package RELEASE
-    #   if: ${{ github.ref == 'refs/heads/release' }}
-    #   run: |
-    #     dotnet pack ArmoniK.Extensions.Csharp.sln -c Release -p:Version=$GENRELEASE
-    #     mkdir -p /tmp/releases
-    #     mv ./publish/*.* /tmp/releases/
-
-    # - name: Store the package RELEASE
-    #   if: ${{ github.ref == 'refs/heads/release' }}
-    #   uses: actions/upload-artifact@v3
-    #   with:
-    #     name: release-nugets
-    #     path: /tmp/releases/*.nupkg
-    #     retention-days: 5
+        dotnet pack ArmoniK.Extensions.Csharp.sln -c Release -o /tmp/packages -p:Version=$GENVERSION
     - name: Push the package
       run: |
-        dotnet nuget push /tmp/packages/ArmoniK.*.nupkg -k ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
+        dotnet nuget push /tmp/packages/ArmoniK.*.nupkg -k ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate  --no-symbols --exclude "/tmp/packages/ArmoniK.*test*.nupkg"
 
   buildImages:
     runs-on: ubuntu-latest
     needs:
       - versionning
-    #  env:
-    #   VERSION: ${{ needs.versionning.outputs.version }}
+    env:
+      VERSION: ${{ needs.versionning.outputs.version }}
     steps:
     - name: Checkout
       uses: actions/checkout@v3
