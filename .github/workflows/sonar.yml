@@ -49,4 +49,3 @@ jobs:
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"aneoconsulting_ArmoniK.Extensions.Csharp" /o:"aneoconsulting" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
           dotnet build ArmoniK.Extensions.Csharp.sln
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
-

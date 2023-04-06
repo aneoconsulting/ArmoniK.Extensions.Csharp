@@ -64,7 +64,6 @@ jobs:
     needs:
       - versionning
     env:
-      GENVERSION: ${{ needs.versionning.outputs.version }}
       GENRELEASE: ${{ needs.versionning.outputs.release }}
     steps:
     - name: Checkout
@@ -75,10 +74,10 @@ jobs:
 
     - name: Build the package
       run: |
-        dotnet build ArmoniK.Extensions.Csharp.sln -c Release -p:Version=$GENVERSION
+        dotnet build ArmoniK.Extensions.Csharp.sln -c Release -p:Version=$GENRELEASE
     - name: Pack the package VERSION
       run: |
-        dotnet pack ArmoniK.Extensions.Csharp.sln -c Release -o /tmp/packages -p:Version=$GENVERSION
+        dotnet pack ArmoniK.Extensions.Csharp.sln -c Release -o /tmp/packages -p:Version=$GENRELEASE
     - name: Push the package
       run: |
         find /tmp/packages -name 'ArmoniK*.nupkg' ! -name '*test*.nupkg' -exec dotnet nuget push {} -k ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate --no-symbols \;
@@ -87,8 +86,6 @@ jobs:
     runs-on: ubuntu-latest
     needs:
       - versionning
-    env:
-      VERSION: ${{ needs.versionning.outputs.version }}
     steps:
     - name: Checkout
       uses: actions/checkout@v3
@@ -124,20 +121,3 @@ jobs:
         tags: |
             dockerhubaneo/armonik_worker_dll:${{ needs.versionning.outputs.release }}
             dockerhubaneo/armonik_worker_dll:latest
-  update-changelog:
-    runs-on: ubuntu-latest
-    needs:
-      - versionning
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-
-      - name: Set node
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18
-
-      - run: npx changelogithub
-        env:
-          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
