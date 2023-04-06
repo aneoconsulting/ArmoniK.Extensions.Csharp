@@ -81,7 +81,7 @@ jobs:
         dotnet pack ArmoniK.Extensions.Csharp.sln -c Release -o /tmp/packages -p:Version=$GENVERSION
     - name: Push the package
       run: |
-        dotnet nuget push /tmp/packages/ArmoniK.*.nupkg -k ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate  --no-symbols --exclude "/tmp/packages/ArmoniK.*test*.nupkg"
+        dotnet nuget push /tmp/packages/ArmoniK.*.nupkg -k ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate  --no-symbols --no-service-index --filter "!**/*test*.nupkg"
 
   buildImages:
     runs-on: ubuntu-latest
