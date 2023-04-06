@@ -33,7 +33,7 @@ public abstract class AbstractClientService : IDisposable
   ///   The list is only valid at the time of access.
   ///   The actual list may differ due to background processes.
   /// </summary>
-  public ICollection<string> CurrentlyHandledTaskIds
+  public IReadOnlyCollection<string> CurrentlyHandledTaskIds
     => ResultHandlerDictionary.Keys;
 
   /// <summary>
