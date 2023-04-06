@@ -94,7 +94,7 @@ jobs:
         
     - name: Push the package
       run: |
-        find /tmp/packages -name 'ArmoniK*.nupkg' ! -name '*test*.nupkg' -exec dotnet nuget push {} -k *** --source https://api.nuget.org/v3/index.json --skip-duplicate --no-symbols \;
+        find /tmp/packages -name 'ArmoniK*.nupkg' ! -name '*test*.nupkg' -exec dotnet nuget push {} -k ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate --no-symbols \;
 
   buildWorkerEnd2End:
     runs-on: ubuntu-latest
