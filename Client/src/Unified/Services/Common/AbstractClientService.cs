@@ -34,7 +34,7 @@ public abstract class AbstractClientService : IDisposable
   ///   The actual list may differ due to background processes.
   /// </summary>
   public IReadOnlyCollection<string> CurrentlyHandledTaskIds
-    => ResultHandlerDictionary.Keys;
+    => (IReadOnlyCollection<string>)ResultHandlerDictionary.Keys;
 
   /// <summary>
   ///   The result dictionary to return result
