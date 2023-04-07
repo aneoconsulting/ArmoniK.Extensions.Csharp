@@ -177,7 +177,10 @@ public class ServiceContainer : ServiceContainerBase</code></pre>
   </span>
   <a id="ArmoniK_EndToEndTests_Worker_Tests_CheckTypeOfSubmission_ServiceContainer_OnCreateService_" data-uid="ArmoniK.EndToEndTests.Worker.Tests.CheckTypeOfSubmission.ServiceContainer.OnCreateService*"></a>
   <h4 id="ArmoniK_EndToEndTests_Worker_Tests_CheckTypeOfSubmission_ServiceContainer_OnCreateService_ArmoniK_DevelopmentKit_Worker_Symphony_ServiceContext_" data-uid="ArmoniK.EndToEndTests.Worker.Tests.CheckTypeOfSubmission.ServiceContainer.OnCreateService(ArmoniK.DevelopmentKit.Worker.Symphony.ServiceContext)">OnCreateService(ServiceContext)</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>The middleware triggers the invocation of this handler just after a Service Instance is started.
+The application developer must put any service initialization into this handler.
+Default implementation does nothing.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
@@ -196,7 +199,8 @@ public class ServiceContainer : ServiceContainerBase</code></pre>
       <tr>
         <td><a class="xref" href="ArmoniK.DevelopmentKit.Worker.Symphony.ServiceContext.html">ServiceContext</a></td>
         <td><span class="parametername">serviceContext</span></td>
-        <td></td>
+        <td><p>Holds all information on the state of the service at the start of the execution.</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -211,7 +215,9 @@ public class ServiceContainer : ServiceContainerBase</code></pre>
   </span>
   <a id="ArmoniK_EndToEndTests_Worker_Tests_CheckTypeOfSubmission_ServiceContainer_OnDestroyService_" data-uid="ArmoniK.EndToEndTests.Worker.Tests.CheckTypeOfSubmission.ServiceContainer.OnDestroyService*"></a>
   <h4 id="ArmoniK_EndToEndTests_Worker_Tests_CheckTypeOfSubmission_ServiceContainer_OnDestroyService_ArmoniK_DevelopmentKit_Worker_Symphony_ServiceContext_" data-uid="ArmoniK.EndToEndTests.Worker.Tests.CheckTypeOfSubmission.ServiceContainer.OnDestroyService(ArmoniK.DevelopmentKit.Worker.Symphony.ServiceContext)">OnDestroyService(ServiceContext)</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>The middleware triggers the invocation of this handler just before a Service Instance is destroyed.
+This handler should do any cleanup for any resources that were used in the onCreateService() method.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
@@ -230,7 +236,8 @@ public class ServiceContainer : ServiceContainerBase</code></pre>
       <tr>
         <td><a class="xref" href="ArmoniK.DevelopmentKit.Worker.Symphony.ServiceContext.html">ServiceContext</a></td>
         <td><span class="parametername">serviceContext</span></td>
-        <td></td>
+        <td><p>Holds all information on the state of the service at the start of the execution.</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -245,7 +252,11 @@ public class ServiceContainer : ServiceContainerBase</code></pre>
   </span>
   <a id="ArmoniK_EndToEndTests_Worker_Tests_CheckTypeOfSubmission_ServiceContainer_OnInvoke_" data-uid="ArmoniK.EndToEndTests.Worker.Tests.CheckTypeOfSubmission.ServiceContainer.OnInvoke*"></a>
   <h4 id="ArmoniK_EndToEndTests_Worker_Tests_CheckTypeOfSubmission_ServiceContainer_OnInvoke_ArmoniK_DevelopmentKit_Worker_Symphony_SessionContext_ArmoniK_DevelopmentKit_Worker_Symphony_TaskContext_" data-uid="ArmoniK.EndToEndTests.Worker.Tests.CheckTypeOfSubmission.ServiceContainer.OnInvoke(ArmoniK.DevelopmentKit.Worker.Symphony.SessionContext,ArmoniK.DevelopmentKit.Worker.Symphony.TaskContext)">OnInvoke(SessionContext, TaskContext)</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>The middleware triggers the invocation of this handler every time a task input is
+sent to the service to be processed.
+The actual service logic should be implemented in this method. This is the only
+method that is mandatory for the application developer to implement.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
@@ -264,12 +275,14 @@ public class ServiceContainer : ServiceContainerBase</code></pre>
       <tr>
         <td><a class="xref" href="ArmoniK.DevelopmentKit.Worker.Symphony.SessionContext.html">SessionContext</a></td>
         <td><span class="parametername">sessionContext</span></td>
-        <td></td>
+        <td><p>Holds all information on the state of the session at the start of the execution such as session ID.</p>
+</td>
       </tr>
       <tr>
         <td><a class="xref" href="ArmoniK.DevelopmentKit.Worker.Symphony.TaskContext.html">TaskContext</a></td>
         <td><span class="parametername">taskContext</span></td>
-        <td></td>
+        <td><p>Holds all information on the state of the task such as the task ID and the payload.</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -299,7 +312,8 @@ public class ServiceContainer : ServiceContainerBase</code></pre>
   </span>
   <a id="ArmoniK_EndToEndTests_Worker_Tests_CheckTypeOfSubmission_ServiceContainer_OnSessionEnter_" data-uid="ArmoniK.EndToEndTests.Worker.Tests.CheckTypeOfSubmission.ServiceContainer.OnSessionEnter*"></a>
   <h4 id="ArmoniK_EndToEndTests_Worker_Tests_CheckTypeOfSubmission_ServiceContainer_OnSessionEnter_ArmoniK_DevelopmentKit_Worker_Symphony_SessionContext_" data-uid="ArmoniK.EndToEndTests.Worker.Tests.CheckTypeOfSubmission.ServiceContainer.OnSessionEnter(ArmoniK.DevelopmentKit.Worker.Symphony.SessionContext)">OnSessionEnter(SessionContext)</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>This handler is executed once after the callback OnCreateService and before the OnInvoke</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
@@ -318,7 +332,8 @@ public class ServiceContainer : ServiceContainerBase</code></pre>
       <tr>
         <td><a class="xref" href="ArmoniK.DevelopmentKit.Worker.Symphony.SessionContext.html">SessionContext</a></td>
         <td><span class="parametername">sessionContext</span></td>
-        <td></td>
+        <td><p>Holds all information on the state of the session at the start of the execution.</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -333,7 +348,9 @@ public class ServiceContainer : ServiceContainerBase</code></pre>
   </span>
   <a id="ArmoniK_EndToEndTests_Worker_Tests_CheckTypeOfSubmission_ServiceContainer_OnSessionLeave_" data-uid="ArmoniK.EndToEndTests.Worker.Tests.CheckTypeOfSubmission.ServiceContainer.OnSessionLeave*"></a>
   <h4 id="ArmoniK_EndToEndTests_Worker_Tests_CheckTypeOfSubmission_ServiceContainer_OnSessionLeave_ArmoniK_DevelopmentKit_Worker_Symphony_SessionContext_" data-uid="ArmoniK.EndToEndTests.Worker.Tests.CheckTypeOfSubmission.ServiceContainer.OnSessionLeave(ArmoniK.DevelopmentKit.Worker.Symphony.SessionContext)">OnSessionLeave(SessionContext)</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>The middleware triggers the invocation of this handler to unbind the Service Instance from its owning Session.
+This handler should do any cleanup for any resources that were used in the onSessionEnter() method.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
@@ -352,7 +369,8 @@ public class ServiceContainer : ServiceContainerBase</code></pre>
       <tr>
         <td><a class="xref" href="ArmoniK.DevelopmentKit.Worker.Symphony.SessionContext.html">SessionContext</a></td>
         <td><span class="parametername">sessionContext</span></td>
-        <td></td>
+        <td><p>Holds all information on the state of the session at the start of the execution such as session ID.</p>
+</td>
       </tr>
     </tbody>
   </table>
