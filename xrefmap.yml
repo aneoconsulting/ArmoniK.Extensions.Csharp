@@ -2056,6 +2056,19 @@ references:
   fullName.vb: ArmoniK.DevelopmentKit.Client.Unified.Services.Common.AbstractClientService.New
   nameWithType: AbstractClientService.AbstractClientService
   nameWithType.vb: AbstractClientService.New
+- uid: ArmoniK.DevelopmentKit.Client.Unified.Services.Common.AbstractClientService.CurrentlyHandledTaskIds
+  name: CurrentlyHandledTaskIds
+  href: api/ArmoniK.DevelopmentKit.Client.Unified.Services.Common.AbstractClientService.html#ArmoniK_DevelopmentKit_Client_Unified_Services_Common_AbstractClientService_CurrentlyHandledTaskIds
+  commentId: P:ArmoniK.DevelopmentKit.Client.Unified.Services.Common.AbstractClientService.CurrentlyHandledTaskIds
+  fullName: ArmoniK.DevelopmentKit.Client.Unified.Services.Common.AbstractClientService.CurrentlyHandledTaskIds
+  nameWithType: AbstractClientService.CurrentlyHandledTaskIds
+- uid: ArmoniK.DevelopmentKit.Client.Unified.Services.Common.AbstractClientService.CurrentlyHandledTaskIds*
+  name: CurrentlyHandledTaskIds
+  href: api/ArmoniK.DevelopmentKit.Client.Unified.Services.Common.AbstractClientService.html#ArmoniK_DevelopmentKit_Client_Unified_Services_Common_AbstractClientService_CurrentlyHandledTaskIds_
+  commentId: Overload:ArmoniK.DevelopmentKit.Client.Unified.Services.Common.AbstractClientService.CurrentlyHandledTaskIds
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Client.Unified.Services.Common.AbstractClientService.CurrentlyHandledTaskIds
+  nameWithType: AbstractClientService.CurrentlyHandledTaskIds
 - uid: ArmoniK.DevelopmentKit.Client.Unified.Services.Common.AbstractClientService.Dispose
   name: Dispose()
   href: api/ArmoniK.DevelopmentKit.Client.Unified.Services.Common.AbstractClientService.html#ArmoniK_DevelopmentKit_Client_Unified_Services_Common_AbstractClientService_Dispose
@@ -8179,6 +8192,19 @@ references:
   commentId: T:ArmoniK.EndToEndTests.Client.Tests.CheckUnifiedApi.SimpleUnifiedApiAdminClientTest
   fullName: ArmoniK.EndToEndTests.Client.Tests.CheckUnifiedApi.SimpleUnifiedApiAdminClientTest
   nameWithType: SimpleUnifiedApiAdminClientTest
+- uid: ArmoniK.EndToEndTests.Client.Tests.CheckUnifiedApi.SimpleUnifiedApiAdminClientTest.Check_TaskIdListing
+  name: Check_TaskIdListing()
+  href: api/ArmoniK.EndToEndTests.Client.Tests.CheckUnifiedApi.SimpleUnifiedApiAdminClientTest.html#ArmoniK_EndToEndTests_Client_Tests_CheckUnifiedApi_SimpleUnifiedApiAdminClientTest_Check_TaskIdListing
+  commentId: M:ArmoniK.EndToEndTests.Client.Tests.CheckUnifiedApi.SimpleUnifiedApiAdminClientTest.Check_TaskIdListing
+  fullName: ArmoniK.EndToEndTests.Client.Tests.CheckUnifiedApi.SimpleUnifiedApiAdminClientTest.Check_TaskIdListing()
+  nameWithType: SimpleUnifiedApiAdminClientTest.Check_TaskIdListing()
+- uid: ArmoniK.EndToEndTests.Client.Tests.CheckUnifiedApi.SimpleUnifiedApiAdminClientTest.Check_TaskIdListing*
+  name: Check_TaskIdListing
+  href: api/ArmoniK.EndToEndTests.Client.Tests.CheckUnifiedApi.SimpleUnifiedApiAdminClientTest.html#ArmoniK_EndToEndTests_Client_Tests_CheckUnifiedApi_SimpleUnifiedApiAdminClientTest_Check_TaskIdListing_
+  commentId: Overload:ArmoniK.EndToEndTests.Client.Tests.CheckUnifiedApi.SimpleUnifiedApiAdminClientTest.Check_TaskIdListing
+  isSpec: "True"
+  fullName: ArmoniK.EndToEndTests.Client.Tests.CheckUnifiedApi.SimpleUnifiedApiAdminClientTest.Check_TaskIdListing
+  nameWithType: SimpleUnifiedApiAdminClientTest.Check_TaskIdListing
 - uid: ArmoniK.EndToEndTests.Client.Tests.CheckUnifiedApi.SimpleUnifiedApiAdminClientTest.Check_That_CancelSession_Is_Working
   name: Check_That_CancelSession_Is_Working()
   href: api/ArmoniK.EndToEndTests.Client.Tests.CheckUnifiedApi.SimpleUnifiedApiAdminClientTest.html#ArmoniK_EndToEndTests_Client_Tests_CheckUnifiedApi_SimpleUnifiedApiAdminClientTest_Check_That_CancelSession_Is_Working
