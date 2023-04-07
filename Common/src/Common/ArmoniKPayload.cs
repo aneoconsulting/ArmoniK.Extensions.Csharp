@@ -21,10 +21,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-//TODO : remove pragma
-
 using System;
-using System.Text;
 
 using ProtoBuf;
 
@@ -34,15 +31,12 @@ namespace ArmoniK.DevelopmentKit.Common;
 public class ArmonikPayload
 {
   [ProtoMember(1)]
-  public ArmonikRequestType ArmonikRequestType { get; set; }
-
-  [ProtoMember(2)]
   public string MethodName { get; set; }
 
-  [ProtoMember(3)]
+  [ProtoMember(2)]
   public byte[] ClientPayload { get; set; }
 
-  [ProtoMember(4)]
+  [ProtoMember(3)]
   public bool SerializedArguments { get; set; }
 
   public byte[] Serialize()
@@ -66,27 +60,4 @@ public class ArmonikPayload
 
     return ProtoSerializer.Deserialize<ArmonikPayload>(payload);
   }
-
-  private static string StringToBase64(string serializedJson)
-  {
-    var serializedJsonBytes       = Encoding.UTF8.GetBytes(serializedJson);
-    var serializedJsonBytesBase64 = Convert.ToBase64String(serializedJsonBytes);
-    return serializedJsonBytesBase64;
-  }
-
-  private static string Base64ToString(string base64)
-  {
-    var c = Convert.FromBase64String(base64);
-    return Encoding.ASCII.GetString(c);
-  }
-}
-
-public enum ArmonikRequestType
-{
-  Execute,
-  Upload,
-  Register,
-  ListResources,
-  DeleteResources,
-  GetServiceInvocation,
 }

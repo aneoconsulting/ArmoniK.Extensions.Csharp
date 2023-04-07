@@ -1,4 +1,4 @@
-﻿// This file is part of the ArmoniK project
+// This file is part of the ArmoniK project
 // 
 // Copyright (C) ANEO, 2021-2022.
 //   W. Kirschenmann   <wkirschenmann@aneo.fr>
@@ -23,20 +23,18 @@
 
 using System;
 
-#pragma warning disable CS1591
-
-namespace ArmoniK.DevelopmentKit.Client.GridServer;
+namespace ArmoniK.DevelopmentKit.Worker.Unified.Exceptions;
 
 /// <summary>
 ///   The exception class for Server side reporting Grid Error
 /// </summary>
-public class GridServerException : Exception
+public class UnifiedException : Exception
 {
   /// <summary>
   ///   The constructor in string message in parameters
   /// </summary>
   /// <param name="message">the message to include in the exception</param>
-  public GridServerException(string message)
+  public UnifiedException(string message)
     : base(message)
   {
   }
@@ -46,8 +44,8 @@ public class GridServerException : Exception
   /// </summary>
   /// <param name="message">The string message in the new exception</param>
   /// <param name="e">the inner exception</param>
-  public GridServerException(string    message,
-                             Exception e)
+  public UnifiedException(string    message,
+                          Exception e)
     : base(message,
            e)
   {

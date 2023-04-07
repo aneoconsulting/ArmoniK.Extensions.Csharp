@@ -215,9 +215,8 @@ public class Service : AbstractClientService, ISubmitterService
   {
     ArmonikPayload payload = new()
                              {
-                               ArmonikRequestType = ArmonikRequestType.Execute,
-                               MethodName         = methodName,
-                               ClientPayload      = ProtoSerializer.SerializeMessageObjectArray(arguments),
+                               MethodName    = methodName,
+                               ClientPayload = ProtoSerializer.SerializeMessageObjectArray(arguments),
                              };
     var taskId = SessionService.SubmitTask(payload.Serialize());
     ResultHandlerDictionary[taskId] = handler;
@@ -238,7 +237,6 @@ public class Service : AbstractClientService, ISubmitterService
   {
     var armonikPayloads = arguments.Select(args => new ArmonikPayload
                                                    {
-                                                     ArmonikRequestType  = ArmonikRequestType.Execute,
                                                      MethodName          = methodName,
                                                      ClientPayload       = ProtoSerializer.SerializeMessageObjectArray(args),
                                                      SerializedArguments = false,
@@ -268,7 +266,6 @@ public class Service : AbstractClientService, ISubmitterService
   {
     ArmonikPayload payload = new()
                              {
-                               ArmonikRequestType  = ArmonikRequestType.Execute,
                                MethodName          = methodName,
                                ClientPayload       = argument,
                                SerializedArguments = true,
@@ -293,7 +290,6 @@ public class Service : AbstractClientService, ISubmitterService
   {
     var armonikPayloads = arguments.Select(args => new ArmonikPayload
                                                    {
-                                                     ArmonikRequestType  = ArmonikRequestType.Execute,
                                                      MethodName          = methodName,
                                                      ClientPayload       = args,
                                                      SerializedArguments = true,
@@ -330,7 +326,6 @@ public class Service : AbstractClientService, ISubmitterService
                          ResultId = Guid.NewGuid(),
                          Payload = new ArmonikPayload
                                    {
-                                     ArmonikRequestType  = ArmonikRequestType.Execute,
                                      MethodName          = methodName,
                                      ClientPayload       = ProtoSerializer.SerializeMessageObjectArray(argument),
                                      SerializedArguments = false,
@@ -363,7 +358,6 @@ public class Service : AbstractClientService, ISubmitterService
                                ResultId = Guid.NewGuid(),
                                Payload = new ArmonikPayload
                                          {
-                                           ArmonikRequestType  = ArmonikRequestType.Execute,
                                            MethodName          = methodName,
                                            ClientPayload       = argument,
                                            SerializedArguments = true,
@@ -428,14 +422,13 @@ public class Service : AbstractClientService, ISubmitterService
   public ServiceResult Execute(string   methodName,
                                object[] arguments)
   {
-    ArmonikPayload dataSynapsePayload = new()
-                                        {
-                                          ArmonikRequestType = ArmonikRequestType.Execute,
-                                          MethodName         = methodName,
-                                          ClientPayload      = ProtoSerializer.SerializeMessageObjectArray(arguments),
-                                        };
+    ArmonikPayload unifiedPayload = new()
+                                    {
+                                      MethodName    = methodName,
+                                      ClientPayload = ProtoSerializer.SerializeMessageObjectArray(arguments),
+                                    };
 
-    var taskId = SessionService.SubmitTask(dataSynapsePayload.Serialize());
+    var taskId = SessionService.SubmitTask(unifiedPayload.Serialize());
 
     var result = ProtoSerializer.DeSerializeMessageObjectArray(SessionService.GetResult(taskId));
 
@@ -456,20 +449,19 @@ public class Service : AbstractClientService, ISubmitterService
   public ServiceResult Execute(string methodName,
                                byte[] dataArg)
   {
-    ArmonikPayload dataSynapsePayload = new()
-                                        {
-                                          ArmonikRequestType  = ArmonikRequestType.Execute,
-                                          MethodName          = methodName,
-                                          ClientPayload       = dataArg,
-                                          SerializedArguments = true,
-                                        };
+    ArmonikPayload unifiedPayload = new()
+                                    {
+                                      MethodName          = methodName,
+                                      ClientPayload       = dataArg,
+                                      SerializedArguments = true,
+                                    };
 
     var      taskId = "not-TaskId";
     object[] result;
 
     try
     {
-      taskId = SessionService.SubmitTask(dataSynapsePayload.Serialize());
+      taskId = SessionService.SubmitTask(unifiedPayload.Serialize());
 
       result = ProtoSerializer.DeSerializeMessageObjectArray(SessionService.GetResult(taskId));
     }
