@@ -172,7 +172,7 @@ Original source code : <a href="https://github.com/dotnet/runtime/blob/main/src/
   </span>
   <a id="ArmoniK_DevelopmentKit_Common_Extensions_IEnumerableExt_ToChunk_" data-uid="ArmoniK.DevelopmentKit.Common.Extensions.IEnumerableExt.ToChunk*"></a>
   <h4 id="ArmoniK_DevelopmentKit_Common_Extensions_IEnumerableExt_ToChunk__1_System_Collections_Generic_IEnumerable___0__System_Int32_" data-uid="ArmoniK.DevelopmentKit.Common.Extensions.IEnumerableExt.ToChunk``1(System.Collections.Generic.IEnumerable{``0},System.Int32)">ToChunk&lt;TSource&gt;(IEnumerable&lt;TSource&gt;, int)</h4>
-  <div class="markdown level1 summary"><p>Split the elements of a sequence into chunks of size at most <code data-dev-comment-type="paramref" class="paramref">size</code>.</p>
+  <div class="markdown level1 summary"><p>Split the elements of a sequence into chunks of size at most <code class="paramref">size</code>.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="declaration">Declaration</h5>
@@ -215,7 +215,7 @@ Original source code : <a href="https://github.com/dotnet/runtime/blob/main/src/
       <tr>
         <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;TSource[]&gt;</td>
         <td><p>An <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable&lt;T&gt;</a> that contains the elements the input sequence split into chunks of size
-<code data-dev-comment-type="paramref" class="paramref">size</code>.</p>
+<code class="paramref">size</code>.</p>
 </td>
       </tr>
     </tbody>
@@ -237,7 +237,7 @@ Original source code : <a href="https://github.com/dotnet/runtime/blob/main/src/
     </tbody>
   </table>
   <h5 id="ArmoniK_DevelopmentKit_Common_Extensions_IEnumerableExt_ToChunk__1_System_Collections_Generic_IEnumerable___0__System_Int32__remarks">Remarks</h5>
-  <div class="markdown level1 remarks"><p>Every chunk except the last will be of size <code data-dev-comment-type="paramref" class="paramref">size</code>.
+  <div class="markdown level1 remarks"><p>Every chunk except the last will be of size <code class="paramref">size</code>.
 The last chunk will contain the remaining elements and may be of a smaller size.</p>
 </div>
   <h5 class="exceptions">Exceptions</h5>
@@ -251,12 +251,12 @@ The last chunk will contain the remaining elements and may be of a smaller size.
     <tbody>
       <tr>
         <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.argumentnullexception">ArgumentNullException</a></td>
-        <td><p><code data-dev-comment-type="paramref" class="paramref">source</code> is null.</p>
+        <td><p><code class="paramref">source</code> is null.</p>
 </td>
       </tr>
       <tr>
         <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.argumentoutofrangeexception">ArgumentOutOfRangeException</a></td>
-        <td><p><code data-dev-comment-type="paramref" class="paramref">size</code> is below 1.</p>
+        <td><p><code class="paramref">size</code> is below 1.</p>
 </td>
       </tr>
     </tbody>
