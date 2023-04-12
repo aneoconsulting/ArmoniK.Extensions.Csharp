@@ -120,8 +120,8 @@ public class SessionServiceFactory
 
   /// <summary>
   ///   This method is creating a default taskOptions initialization where
-  ///   MaxDuration is 40 seconds, MaxRetries = 2 The app name is ArmoniK.DevelopmentKit.GridServer
-  ///   The version is 1.0.0 the namespace ArmoniK.DevelopmentKit.GridServer and simple service FallBackServerAdder
+  ///   MaxDuration is 40 seconds, MaxRetries = 2 The app name is ArmoniK.DevelopmentKit.Unified
+  ///   The version is 1.0.0 the namespace ArmoniK.DevelopmentKit.Unified and simple service FallBackServerAdder
   /// </summary>
   /// <returns>Return the default taskOptions</returns>
   public static TaskOptions InitDefaultSessionOptions()
@@ -134,10 +134,10 @@ public class SessionServiceFactory
                                               },
                                 MaxRetries           = 2,
                                 Priority             = 1,
-                                EngineType           = EngineType.DataSynapse.ToString(),
-                                ApplicationName      = "ArmoniK.DevelopmentKit.Worker.GridServer",
+                                EngineType           = EngineType.Unified.ToString(),
+                                ApplicationName      = "ArmoniK.DevelopmentKit.Worker.Unified",
                                 ApplicationVersion   = "1.X.X",
-                                ApplicationNamespace = "ArmoniK.DevelopmentKit.Worker.GridServer",
+                                ApplicationNamespace = "ArmoniK.DevelopmentKit.Worker.Unified",
                                 ApplicationService   = "FallBackServerAdder",
                               };
 

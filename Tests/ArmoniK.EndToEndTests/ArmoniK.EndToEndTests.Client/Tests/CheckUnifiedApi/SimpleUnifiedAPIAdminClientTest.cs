@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 
 using ArmoniK.Api.gRPC.V1;
+using ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter;
 using ArmoniK.DevelopmentKit.Common;
 
 using NUnit.Framework;
@@ -54,5 +55,29 @@ public class SimpleUnifiedApiAdminClientTest
 
     Assert.That(cancelledTaskCount,
                 Is.GreaterThan(0));
+  }
+
+  [Test]
+  public void Check_TaskIdListing()
+  {
+    const int wantedCount = 100;
+    var tasks = unifiedTestHelper_.Service.Submit("ComputeBasicArrayCube",
+                                                  Enumerable.Range(1,
+                                                                   wantedCount)
+                                                            .Select(_ => UnitTestHelperBase.ParamsHelper(numbers_)),
+                                                  unifiedTestHelper_);
+    if (tasks.Count() is var count && count != wantedCount)
+    {
+      throw new ApplicationException($"Expected {wantedCount} submitted tasks, got {count}");
+    }
+
+    Assert.That(((Service)unifiedTestHelper_.Service).CurrentlyHandledTaskIds,
+                Is.Not.Null);
+
+    unifiedTestHelper_.ServiceAdmin.AdminMonitoringService.CancelSession(unifiedTestHelper_.Service.SessionId);
+
+    unifiedTestHelper_.WaitForResultcompletion(tasks);
+    var cancelledTaskCount = unifiedTestHelper_.ServiceAdmin.AdminMonitoringService.CountTaskBySession(unifiedTestHelper_.Service.SessionId,
+                                                                                                       TaskStatus.Cancelled);
   }
 }

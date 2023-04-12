@@ -4,6 +4,7 @@ FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
 WORKDIR /app
 ARG TARGETARCH
 
+
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
 COPY ["Worker/src/DLLWorker/ArmoniK.DevelopmentKit.Worker.DLLWorker.csproj", "Worker/src/DLLWorker/"]
@@ -13,9 +14,11 @@ COPY ["Worker/src/Common/ArmoniK.DevelopmentKit.Worker.Common.csproj", "Worker/s
 RUN dotnet restore "Worker/src/DLLWorker/ArmoniK.DevelopmentKit.Worker.DLLWorker.csproj"
 COPY . .
 WORKDIR "/src/Worker/src/DLLWorker"
-RUN dotnet build "ArmoniK.DevelopmentKit.Worker.DLLWorker.csproj" -c Debug -f net6.0 -o /app/build
+ARG BUILD_CONFIG=Release
+RUN dotnet build "ArmoniK.DevelopmentKit.Worker.DLLWorker.csproj" -c "${BUILD_CONFIG}" -f net6.0 -o /app/build
 
 FROM build AS publish
+ARG BUILD_CONFIG=Release
 RUN case "$TARGETARCH" in \
         amd64) DOTNET_ARCH=linux-x64 ;; \
         arm64) DOTNET_ARCH=linux-arm64 ;; \
@@ -26,7 +29,7 @@ RUN case "$TARGETARCH" in \
         esac ;; \
         *) exit 1 ;; \
     esac ; \
-    dotnet publish "ArmoniK.DevelopmentKit.Worker.DLLWorker.csproj" -c Debug -f net6.0 -o /app/publish -r "${DOTNET_ARCH}" --self-contained true
+    dotnet publish "ArmoniK.DevelopmentKit.Worker.DLLWorker.csproj" -c "${BUILD_CONFIG}" -f net6.0 -o /app/publish -r "${DOTNET_ARCH}" --self-contained true
 
 FROM base AS final
 WORKDIR /app
