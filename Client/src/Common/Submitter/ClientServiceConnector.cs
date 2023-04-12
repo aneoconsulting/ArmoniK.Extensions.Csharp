@@ -37,7 +37,8 @@ public class ClientServiceConnector
   ///   Open Connection with the control plane with mTLS authentication
   /// </summary>
   /// <param name="endPoint">The address and port of control plane</param>
-  /// <param name="clientPem">The pair certificate + key data in a pem format</param>
+  /// <param name="clientCertKeyPemPair">The pair certificate + key data in a pem format</param>
+  /// <param name="clientP12">The certificate and key in P12/Pkcs12/PFX format</param>
   /// <param name="sslValidation">Check if the ssl must have a strong validation</param>
   /// <param name="loggerFactory">Optional logger factory</param>
   /// <returns></returns>
@@ -82,6 +83,7 @@ public class ClientServiceConnector
   /// </summary>
   /// <param name="endPoint">The address and port of control plane</param>
   /// <param name="clientPem">The pair certificate + key data in a pem format</param>
+  /// <param name="clientP12">The certificate and key in P12/Pkcs12/PFX format</param>
   /// <param name="sslValidation">Check if the ssl must have a strong validation</param>
   /// <param name="loggerFactory">Optional logger factory</param>
   /// <returns>The connection pool</returns>
