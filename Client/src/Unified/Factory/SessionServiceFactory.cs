@@ -22,6 +22,8 @@
 // limitations under the License.
 
 
+using System;
+
 using ArmoniK.Api.gRPC.V1;
 using ArmoniK.DevelopmentKit.Client.Common;
 using ArmoniK.DevelopmentKit.Client.Common.Submitter;
@@ -91,8 +93,9 @@ public class SessionServiceFactory
 
 
     GrpcPool = ClientServiceConnector.ControlPlaneConnectionPool(properties.ConnectionString,
-                                                                 properties.ClientCertFilePem,
-                                                                 properties.ClientKeyFilePem,
+                                                                 new Tuple<string, string>(properties.ClientCertFilePem,
+                                                                                           properties.ClientKeyFilePem),
+                                                                 properties.ClientP12File,
                                                                  properties.ConfSSLValidation,
                                                                  LoggerFactory);
   }

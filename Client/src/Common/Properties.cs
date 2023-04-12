@@ -64,6 +64,7 @@ public class Properties
   /// <param name="protocol">the protocol https or http</param>
   /// <param name="clientCertPem">The client certificate fil in a pem format</param>
   /// <param name="clientKeyPem">The client key file in a pem format</param>
+  /// <param name="clientP12">The client certificate in a P12/Pkcs12/PFX format</param>
   /// <param name="caCertPem">The Server certificate file to validate mTLS</param>
   /// <param name="sslValidation">Disable the ssl strong validation of ssl certificate (default : enable => true)</param>
   public Properties(TaskOptions options,
@@ -72,6 +73,7 @@ public class Properties
                     string      protocol       = null,
                     string      clientCertPem  = null,
                     string      clientKeyPem   = null,
+                    string      clientP12      = null,
                     string      caCertPem      = null,
                     bool        sslValidation  = true)
     : this(new ConfigurationBuilder().AddEnvironmentVariables()
@@ -82,6 +84,7 @@ public class Properties
            protocol,
            clientCertPem,
            clientKeyPem,
+           clientP12,
            caCertPem,
            sslValidation)
   {
@@ -98,6 +101,7 @@ public class Properties
   /// <param name="caCertPem">The Server certificate file to validate mTLS</param>
   /// <param name="clientCertFilePem">The client certificate fil in a pem format</param>
   /// <param name="clientKeyFilePem">The client key file in a pem format</param>
+  /// <param name="clientP12">The client certificate in a P12/Pkcs12/PFX format</param>
   /// <param name="sslValidation">Disable the ssl strong validation of ssl certificate (default : enable => true)</param>
   /// <exception cref="ArgumentException"></exception>
   public Properties(IConfiguration configuration,
@@ -107,6 +111,7 @@ public class Properties
                     string         protocol          = null,
                     string         clientCertFilePem = null,
                     string         clientKeyFilePem  = null,
+                    string         clientP12         = null,
                     string         caCertPem         = null,
                     bool           sslValidation     = true)
   {
@@ -144,6 +149,10 @@ public class Properties
                                       .Exists()
                              ? sectionGrpc[SectionClientKey]
                              : null;
+        ClientP12File = sectionGrpc.GetSection(SectionClientCertP12)
+                                   .Exists()
+                          ? sectionGrpc[SectionClientCertP12]
+                          : null;
       }
     }
 
@@ -155,6 +164,11 @@ public class Properties
     if (clientKeyFilePem != null)
     {
       ClientKeyFilePem = clientKeyFilePem;
+    }
+
+    if (clientP12 != null)
+    {
+      ClientP12File = clientP12;
     }
 
     if (caCertPem != null)
@@ -240,6 +254,8 @@ public class Properties
   private static string SectionClientCert    { get; } = "ClientCert";
   private static string SectionClientKey     { get; } = "ClientKey";
 
+  private static string SectionClientCertP12 { get; } = "ClientP12";
+
   /// <summary>
   ///   The key to select mTls in configuration
   /// </summary>
@@ -259,6 +275,11 @@ public class Properties
   ///   the property to get the path of the key certificate
   /// </summary>
   public string ClientKeyFilePem { get; }
+
+  /// <summary>
+  ///   the property to get the path of the certificate in P12/Pkcs12/PFX format
+  /// </summary>
+  public string ClientP12File { get; }
 
   /// <summary>
   ///   The SSL validation property to disable SSL strong verification

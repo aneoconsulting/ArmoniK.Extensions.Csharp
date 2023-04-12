@@ -21,6 +21,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System;
+
 using ArmoniK.Api.gRPC.V1;
 using ArmoniK.DevelopmentKit.Client.Common.Submitter;
 using ArmoniK.DevelopmentKit.Common;
@@ -76,9 +78,17 @@ public class ArmonikSymphonyClient
   /// </summary>
   public string SectionMTLS { get; set; } = "mTLS";
 
-  private static string SectionSSlValidation  { get; } = "SSLValidation";
-  private static string SectionClientCertFile { get; } = "ClientCert";
-  private static string SectionClientKeyFile  { get; } = "ClientKey";
+  private static string SectionSSlValidation
+    => "SSLValidation";
+
+  private static string SectionClientCertFile
+    => "ClientCert";
+
+  private static string SectionClientKeyFile
+    => "ClientKey";
+
+  private static string SectionClientP12File
+    => "ClientP12";
 
   private ChannelPool GrpcPool { get; set; }
 
@@ -124,9 +134,10 @@ public class ArmonikSymphonyClient
     }
 
 
-    string clientCertFilename = null;
-    string clientKeyFilename  = null;
-    var    sslValidation      = true;
+    string clientCertFilename    = null;
+    string clientKeyFilename     = null;
+    string clientCertP12Filename = null;
+    var    sslValidation         = true;
 
     if (controlPlanSection_!.GetSection(SectionMTLS)
                             .Exists() && controlPlanSection_[SectionMTLS]
@@ -143,6 +154,12 @@ public class ArmonikSymphonyClient
       {
         clientKeyFilename = controlPlanSection_[SectionClientKeyFile];
       }
+
+      if (controlPlanSection_!.GetSection(SectionClientP12File)
+                              .Exists())
+      {
+        clientCertP12Filename = controlPlanSection_[SectionClientP12File];
+      }
     }
 
     if (controlPlanSection_!.GetSection(SectionSSlValidation)
@@ -152,8 +169,9 @@ public class ArmonikSymphonyClient
     }
 
     GrpcPool = ClientServiceConnector.ControlPlaneConnectionPool(controlPlanSection_[SectionEndPoint],
-                                                                 clientCertFilename,
-                                                                 clientKeyFilename,
+                                                                 new Tuple<string, string>(clientCertFilename,
+                                                                                           clientKeyFilename),
+                                                                 clientCertP12Filename,
                                                                  sslValidation,
                                                                  LoggerFactory);
   }
