@@ -72,8 +72,6 @@ public class GridWorker : IGridWorker
 
   public IConfiguration Configurations { get; set; }
 
-  public ServiceAdminWorker ServiceAdminWorker { get; set; }
-
   public ServiceInvocationContext ServiceInvocationContext { get; set; }
 
   public void Configure(IConfiguration configuration,
@@ -128,11 +126,6 @@ public class GridWorker : IGridWorker
     var payload = taskHandler.Payload;
 
     var dataSynapsePayload = ArmonikPayload.Deserialize(payload);
-
-    if (dataSynapsePayload.ArmonikRequestType != ArmonikRequestType.Execute)
-    {
-      return RequestTypeBalancer(dataSynapsePayload);
-    }
 
     var methodName = dataSynapsePayload.MethodName;
     if (methodName == null)
@@ -219,19 +212,5 @@ public class GridWorker : IGridWorker
   public void Dispose()
   {
     SessionFinalize();
-    ServiceAdminWorker?.Dispose();
-  }
-
-  private byte[] RequestTypeBalancer(ArmonikPayload dataSynapsePayload)
-  {
-    switch (dataSynapsePayload.ArmonikRequestType)
-    {
-      case ArmonikRequestType.Upload:
-        return ServiceAdminWorker.UploadResources("TODO");
-      default:
-        return new byte[]
-               {
-               };
-    }
   }
 }

@@ -23,41 +23,31 @@
 
 using System;
 
-using ProtoBuf;
+namespace ArmoniK.DevelopmentKit.Worker.Unified.Exceptions;
 
-namespace ArmoniK.DevelopmentKit.Common;
-
-[ProtoContract]
-public class ArmonikPayload
+/// <summary>
+///   The exception class for Server side reporting Grid Error
+/// </summary>
+public class UnifiedException : Exception
 {
-  [ProtoMember(1)]
-  public string MethodName { get; set; }
-
-  [ProtoMember(2)]
-  public byte[] ClientPayload { get; set; }
-
-  [ProtoMember(3)]
-  public bool SerializedArguments { get; set; }
-
-  public byte[] Serialize()
+  /// <summary>
+  ///   The constructor in string message in parameters
+  /// </summary>
+  /// <param name="message">the message to include in the exception</param>
+  public UnifiedException(string message)
+    : base(message)
   {
-    if (ClientPayload is null)
-    {
-      throw new ArgumentNullException(nameof(ClientPayload));
-    }
-
-    var result = ProtoSerializer.SerializeMessageObject(this);
-
-    return result;
   }
 
-  public static ArmonikPayload Deserialize(byte[] payload)
+  /// <summary>
+  ///   The constructor with Message and Exception
+  /// </summary>
+  /// <param name="message">The string message in the new exception</param>
+  /// <param name="e">the inner exception</param>
+  public UnifiedException(string    message,
+                          Exception e)
+    : base(message,
+           e)
   {
-    if (payload == null || payload.Length == 0)
-    {
-      return new ArmonikPayload();
-    }
-
-    return ProtoSerializer.Deserialize<ArmonikPayload>(payload);
   }
 }

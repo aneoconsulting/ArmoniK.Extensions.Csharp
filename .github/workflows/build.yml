@@ -52,7 +52,7 @@ jobs:
     name: Versionning
     runs-on: ubuntu-latest
     outputs:
-      version: ${{ steps.genver.outputs.version }}
+      version: ${{ steps.genver.outputs.version }}.1
       release: ${{ steps.genver.outputs.release }}
     steps:
     - name: Checkout

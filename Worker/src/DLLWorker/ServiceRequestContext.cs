@@ -183,6 +183,18 @@ public class ArmonikServiceWorker : IDisposable
       return GridWorker.Execute(taskHandler);
     }
   }
+
+
+  /// <summary>
+  ///   Call the GridWorker callback to let the user know when the service will be unloaded
+  /// </summary>
+  public void DestroyService()
+  {
+    using (AppsLoader.UserAssemblyLoadContext.EnterContextualReflection())
+    {
+      GridWorker.DestroyService();
+    }
+  }
 }
 
 public class ServiceRequestContext
@@ -256,6 +268,7 @@ public class ServiceRequestContext
 
     logger_.LogInformation($"Worker needs to load new context, from {currentService_?.ServiceId?.ToString() ?? "null"} to {serviceId}");
 
+    currentService_?.DestroyService();
     currentService_?.Dispose();
     currentService_ = null;
 
@@ -297,11 +310,14 @@ public class ServiceRequestContext
 
     if ((sectionStorage.Exists() && configuration["FileStorageType"] == "S3") || !sectionStorage.Exists())
     {
-      return new S3Adapter(configuration.GetSection("S3Storage")["ServiceURL"],
-                           configuration.GetSection("S3Storage")["BucketName"],
-                           configuration.GetSection("S3Storage")["AccessKeyId"],
-                           configuration.GetSection("S3Storage")["SecretAccessKey"],
-                           "");
+      var configurationSection = configuration.GetSection("S3Storage");
+      return new S3Adapter(configurationSection["ServiceURL"],
+                           configurationSection["BucketName"],
+                           configurationSection["AccessKeyId"],
+                           configurationSection["SecretAccessKey"],
+                           "",
+                           configurationSection.GetValue("MustForcePathStyle",
+                                                         false));
     }
 
     throw new WorkerApiException("Cannot find the FileStorageType in the IConfiguration. Please make sure you have properly set the field [FileStorageType]");

@@ -39,6 +39,8 @@ using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.Common.Exceptions;
 using ArmoniK.DevelopmentKit.Common.Extensions;
 
+using Grpc.Core;
+
 using JetBrains.Annotations;
 
 using Microsoft.Extensions.Logging;
@@ -54,6 +56,8 @@ namespace ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter;
 [MarkDownDoc]
 public class Service : AbstractClientService, ISubmitterService
 {
+  private const int MaxRetries = 5;
+
   // *** you need some mechanism to map types to fields
   private static readonly IDictionary<TaskStatus, ArmonikStatusCode> StatusCodesLookUp = new List<Tuple<TaskStatus, ArmonikStatusCode>>
                                                                                          {
@@ -137,34 +141,91 @@ public class Service : AbstractClientService, ISubmitterService
                                   return;
                                 }
 
-                                Logger?.LogInformation("Submitting buffer of {count} task...",
-                                                       blockRequestList.Count);
-
-                                var taskIds =
-                                  SessionService.SubmitTasksWithDependencies(blockRequestList.Select(x => new Tuple<string, byte[], IList<string>>(x.ResultId.ToString(),
-                                                                                                                                                   x.Payload!
-                                                                                                                                                    .Serialize(),
-                                                                                                                                                   null)));
-                                var taskIdsResultIds = SessionService.GetResultIds(taskIds);
-
-                                foreach (var pairTaskIdResultId in taskIdsResultIds)
+                                try
                                 {
-                                  var blockRequest = blockRequestList.FirstOrDefault(x => x.ResultId.ToString() == pairTaskIdResultId.ResultIds.First());
-                                  if (blockRequest == null)
+                                  Logger?.LogInformation("Submitting buffer of {count} task...",
+                                                         blockRequestList.Count);
+
+
+                                  for (var retry = 0; retry < MaxRetries; retry++)
                                   {
-                                    throw new InvalidOperationException($"Cannot find BlockRequest with result id {pairTaskIdResultId.TaskId}");
+                                    //Generate resultId
+                                    foreach (var x in blockRequestList)
+                                    {
+                                      x.ResultId = Guid.NewGuid();
+                                    }
+
+                                    try
+                                    {
+                                      var taskIds =
+                                        SessionService.SubmitTasksWithDependencies(blockRequestList.Select(x => new
+                                                                                                             Tuple<string, byte[], IList<string>>(x.ResultId.ToString(),
+                                                                                                                                                  x.Payload!.Serialize(),
+                                                                                                                                                  null)),
+                                                                                   1);
+
+                                      var ids            = taskIds.ToList();
+                                      var mapTaskResults = SessionService.GetResultIds(ids);
+                                      var taskIdsResultIds = mapTaskResults.ToDictionary(result => result.ResultIds.Single(),
+                                                                                         result => result.TaskId);
+
+
+                                      foreach (var pairTaskIdResultId in taskIdsResultIds)
+                                      {
+                                        var blockRequest = blockRequestList.FirstOrDefault(x => x.ResultId.ToString() == pairTaskIdResultId.Key);
+                                        if (blockRequest == null)
+                                        {
+                                          throw new InvalidOperationException($"Cannot find BlockRequest with result id {pairTaskIdResultId.Value}");
+                                        }
+
+                                        ResultHandlerDictionary[pairTaskIdResultId.Value] = blockRequest.Handler;
+
+                                        requestTaskMap_.PutResponse(blockRequest.SubmitId,
+                                                                    pairTaskIdResultId.Value);
+                                      }
+
+                                      if (ids.Count() > taskIdsResultIds.Count)
+                                      {
+                                        Logger?.LogWarning("Fail to submit all tasks in once, retry with missing tasks");
+
+                                        throw new Exception("Fail to submit all tasks in once. Retrying...");
+                                      }
+
+                                      break;
+                                    }
+                                    catch (Exception e)
+                                    {
+                                      if (retry >= MaxRetries - 1)
+                                      {
+                                        Logger?.LogError(e,
+                                                         "Fail to retry {count} times of submission. Stop trying to submit",
+                                                         MaxRetries);
+                                        throw;
+                                      }
+
+                                      Logger?.LogWarning(e,
+                                                         "Fail to submit, {retry}/{maxRetries} retrying",
+                                                         retry,
+                                                         MaxRetries);
+
+                                      //Delay before submission
+                                      Task.Delay(TimeSpan.FromMilliseconds(100));
+                                    }
                                   }
 
-                                  ResultHandlerDictionary[pairTaskIdResultId.TaskId] = blockRequest.Handler;
 
-                                  requestTaskMap_.PutResponse(blockRequest.ResultId,
-                                                              pairTaskIdResultId.TaskId);
+                                  blockRequestList.ForEach(x =>
+                                                           {
+                                                             x.Lock?.Release();
+                                                           });
                                 }
-
-                                blockRequestList.ForEach(x =>
-                                                         {
-                                                           x.Lock?.Release();
-                                                         });
+                                catch (Exception e)
+                                {
+                                  Logger?.LogError(e,
+                                                   "Fail to submit buffer with {count} tasks inside",
+                                                   blockRequestList.Count);
+                                  BufferSubmit.Fault(e);
+                                }
                               });
   }
 
@@ -176,7 +237,8 @@ public class Service : AbstractClientService, ISubmitterService
   /// <summary>
   ///   Property Get the SessionId
   /// </summary>
-  private SessionService SessionService { get; set; }
+  [PublicAPI]
+  public SessionService SessionService { get; set; }
 
   [CanBeNull]
   private ILogger Logger { get; }
@@ -212,9 +274,8 @@ public class Service : AbstractClientService, ISubmitterService
   {
     ArmonikPayload payload = new()
                              {
-                               ArmonikRequestType = ArmonikRequestType.Execute,
-                               MethodName         = methodName,
-                               ClientPayload      = ProtoSerializer.SerializeMessageObjectArray(arguments),
+                               MethodName    = methodName,
+                               ClientPayload = ProtoSerializer.SerializeMessageObjectArray(arguments),
                              };
     var taskId = SessionService.SubmitTask(payload.Serialize());
     ResultHandlerDictionary[taskId] = handler;
@@ -235,7 +296,6 @@ public class Service : AbstractClientService, ISubmitterService
   {
     var armonikPayloads = arguments.Select(args => new ArmonikPayload
                                                    {
-                                                     ArmonikRequestType  = ArmonikRequestType.Execute,
                                                      MethodName          = methodName,
                                                      ClientPayload       = ProtoSerializer.SerializeMessageObjectArray(args),
                                                      SerializedArguments = false,
@@ -265,7 +325,6 @@ public class Service : AbstractClientService, ISubmitterService
   {
     ArmonikPayload payload = new()
                              {
-                               ArmonikRequestType  = ArmonikRequestType.Execute,
                                MethodName          = methodName,
                                ClientPayload       = argument,
                                SerializedArguments = true,
@@ -290,7 +349,6 @@ public class Service : AbstractClientService, ISubmitterService
   {
     var armonikPayloads = arguments.Select(args => new ArmonikPayload
                                                    {
-                                                     ArmonikRequestType  = ArmonikRequestType.Execute,
                                                      MethodName          = methodName,
                                                      ClientPayload       = args,
                                                      SerializedArguments = true,
@@ -324,10 +382,9 @@ public class Service : AbstractClientService, ISubmitterService
 
     var blockRequest = new BlockRequest
                        {
-                         ResultId = Guid.NewGuid(),
+                         SubmitId = Guid.NewGuid(),
                          Payload = new ArmonikPayload
                                    {
-                                     ArmonikRequestType  = ArmonikRequestType.Execute,
                                      MethodName          = methodName,
                                      ClientPayload       = ProtoSerializer.SerializeMessageObjectArray(argument),
                                      SerializedArguments = false,
@@ -357,10 +414,9 @@ public class Service : AbstractClientService, ISubmitterService
 
     return await SubmitAsync(new BlockRequest
                              {
-                               ResultId = Guid.NewGuid(),
+                               SubmitId = Guid.NewGuid(),
                                Payload = new ArmonikPayload
                                          {
-                                           ArmonikRequestType  = ArmonikRequestType.Execute,
                                            MethodName          = methodName,
                                            ClientPayload       = argument,
                                            SerializedArguments = true,
@@ -379,7 +435,7 @@ public class Service : AbstractClientService, ISubmitterService
                                  token)
                       .ConfigureAwait(false);
 
-    return await requestTaskMap_.GetResponseAsync(blockRequest.ResultId);
+    return await requestTaskMap_.GetResponseAsync(blockRequest.SubmitId);
   }
 
   /// <summary>
@@ -425,14 +481,13 @@ public class Service : AbstractClientService, ISubmitterService
   public ServiceResult Execute(string   methodName,
                                object[] arguments)
   {
-    ArmonikPayload dataSynapsePayload = new()
-                                        {
-                                          ArmonikRequestType = ArmonikRequestType.Execute,
-                                          MethodName         = methodName,
-                                          ClientPayload      = ProtoSerializer.SerializeMessageObjectArray(arguments),
-                                        };
+    ArmonikPayload unifiedPayload = new()
+                                    {
+                                      MethodName    = methodName,
+                                      ClientPayload = ProtoSerializer.SerializeMessageObjectArray(arguments),
+                                    };
 
-    var taskId = SessionService.SubmitTask(dataSynapsePayload.Serialize());
+    var taskId = SessionService.SubmitTask(unifiedPayload.Serialize());
 
     var result = ProtoSerializer.DeSerializeMessageObjectArray(SessionService.GetResult(taskId));
 
@@ -453,20 +508,19 @@ public class Service : AbstractClientService, ISubmitterService
   public ServiceResult Execute(string methodName,
                                byte[] dataArg)
   {
-    ArmonikPayload dataSynapsePayload = new()
-                                        {
-                                          ArmonikRequestType  = ArmonikRequestType.Execute,
-                                          MethodName          = methodName,
-                                          ClientPayload       = dataArg,
-                                          SerializedArguments = true,
-                                        };
+    ArmonikPayload unifiedPayload = new()
+                                    {
+                                      MethodName          = methodName,
+                                      ClientPayload       = dataArg,
+                                      SerializedArguments = true,
+                                    };
 
     var      taskId = "not-TaskId";
     object[] result;
 
     try
     {
-      taskId = SessionService.SubmitTask(dataSynapsePayload.Serialize());
+      taskId = SessionService.SubmitTask(unifiedPayload.Serialize());
 
       result = ProtoSerializer.DeSerializeMessageObjectArray(SessionService.GetResult(taskId));
     }
@@ -605,6 +659,25 @@ public class Service : AbstractClientService, ISubmitterService
 
         missing.ExceptWith(resultStatusCollection.IdsResultError.Select(x => x.TaskId));
 
+        foreach (var resultStatusData in resultStatusCollection.Canceled)
+        {
+          try
+          {
+            errorHandler(resultStatusData.TaskId,
+                         TaskStatus.Unspecified,
+                         "Task is missing");
+          }
+          catch (Exception e)
+          {
+            Logger?.LogError(e,
+                             "An error occured while handling a Task error {status}: {details}",
+                             TaskStatus.Unspecified,
+                             "Task is missing");
+          }
+        }
+
+        missing.ExceptWith(resultStatusCollection.Canceled.Select(x => x.TaskId));
+
         if (holdPrev == missing.Count)
         {
           idx = idx >= waitInSeconds.Count - 1
@@ -721,6 +794,13 @@ public class Service : AbstractClientService, ISubmitterService
     }
   }
 
+
+  /// <summary>
+  ///   Get a new channel to communicate with the control plane
+  /// </summary>
+  /// <returns>gRPC channel</returns>
+  public ChannelBase GetChannel()
+    => SessionService.ChannelPool.GetChannel();
 
   /// <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
   public override void Dispose()

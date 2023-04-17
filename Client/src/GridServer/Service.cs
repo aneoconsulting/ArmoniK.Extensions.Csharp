@@ -114,7 +114,6 @@ public class Service : ISubmitterService, IDisposable
   {
     ArmonikPayload dataSynapsePayload = new()
                                         {
-                                          ArmonikRequestType = ArmonikRequestType.Execute,
                                           MethodName         = methodName,
                                           ClientPayload      = ProtoSerializer.SerializeMessageObjectArray(arguments),
                                         };
@@ -130,7 +129,6 @@ public class Service : ISubmitterService, IDisposable
   {
     var dataSynapsePayloads = arguments.Select(args => new ArmonikPayload
                                                        {
-                                                         ArmonikRequestType  = ArmonikRequestType.Execute,
                                                          MethodName          = methodName,
                                                          ClientPayload       = ProtoSerializer.SerializeMessageObjectArray(args),
                                                          SerializedArguments = false,
@@ -191,7 +189,6 @@ public class Service : ISubmitterService, IDisposable
   {
     ArmonikPayload dataSynapsePayload = new()
                                         {
-                                          ArmonikRequestType = ArmonikRequestType.Execute,
                                           MethodName         = methodName,
                                           ClientPayload      = ProtoSerializer.SerializeMessageObjectArray(arguments),
                                         };
@@ -219,7 +216,6 @@ public class Service : ISubmitterService, IDisposable
   {
     ArmonikPayload dataSynapsePayload = new()
                                         {
-                                          ArmonikRequestType  = ArmonikRequestType.Execute,
                                           MethodName          = methodName,
                                           ClientPayload       = dataArg,
                                           SerializedArguments = true,
@@ -297,7 +293,6 @@ public class Service : ISubmitterService, IDisposable
   {
     ArmonikPayload dataSynapsePayload = new()
                                         {
-                                          ArmonikRequestType  = ArmonikRequestType.Execute,
                                           MethodName          = methodName,
                                           ClientPayload       = argument,
                                           SerializedArguments = true,
