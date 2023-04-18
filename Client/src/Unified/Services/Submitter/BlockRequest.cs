@@ -40,5 +40,7 @@ internal class BlockRequest
   public ArmonikPayload Payload { get; set; }
 
   public SemaphoreSlim Lock     { get; set; }
-  public Guid          ResultId { get; set; }
+  public Guid          SubmitId { get; set; }
+
+  public Guid ResultId { get; set; }
 }
