@@ -93,10 +93,12 @@ public class SessionServiceFactory
 
 
     GrpcPool = ClientServiceConnector.ControlPlaneConnectionPool(properties.ConnectionString,
+                                                                 properties.CaCertFilePem,
                                                                  new Tuple<string, string>(properties.ClientCertFilePem,
                                                                                            properties.ClientKeyFilePem),
                                                                  properties.ClientP12File,
                                                                  properties.ConfSSLValidation,
+                                                                 properties.mTLS,
                                                                  LoggerFactory);
   }
 

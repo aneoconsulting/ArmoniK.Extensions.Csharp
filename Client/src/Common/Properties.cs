@@ -133,27 +133,26 @@ public class Properties
       ConfSSLValidation = !sectionGrpc.GetSection(SectionSSlValidation)
                                       .Exists() || sectionGrpc[SectionSSlValidation] != "disable";
 
-      if (sectionGrpc.GetSection(SectionMTls)
-                     .Exists() && sectionGrpc[SectionMTls]
-            .ToLower() == "true")
-      {
-        CaCertFilePem = sectionGrpc.GetSection(SectionCaCert)
-                                   .Exists()
-                          ? sectionGrpc[SectionCaCert]
-                          : null;
-        ClientCertFilePem = sectionGrpc.GetSection(SectionClientCert)
-                                       .Exists()
-                              ? sectionGrpc[SectionClientCert]
-                              : null;
-        ClientKeyFilePem = sectionGrpc.GetSection(SectionClientKey)
-                                      .Exists()
-                             ? sectionGrpc[SectionClientKey]
-                             : null;
-        ClientP12File = sectionGrpc.GetSection(SectionClientCertP12)
-                                   .Exists()
-                          ? sectionGrpc[SectionClientCertP12]
-                          : null;
-      }
+      mTLS = sectionGrpc.GetSection(SectionMTls)
+                        .Exists() && sectionGrpc[SectionMTls]
+               .ToLower() == "true";
+
+      CaCertFilePem = sectionGrpc.GetSection(SectionCaCert)
+                                 .Exists()
+                        ? sectionGrpc[SectionCaCert]
+                        : null;
+      ClientCertFilePem = sectionGrpc.GetSection(SectionClientCert)
+                                     .Exists()
+                            ? sectionGrpc[SectionClientCert]
+                            : null;
+      ClientKeyFilePem = sectionGrpc.GetSection(SectionClientKey)
+                                    .Exists()
+                           ? sectionGrpc[SectionClientKey]
+                           : null;
+      ClientP12File = sectionGrpc.GetSection(SectionClientCertP12)
+                                 .Exists()
+                        ? sectionGrpc[SectionClientCertP12]
+                        : null;
     }
 
     if (clientCertFilePem != null)
@@ -335,6 +334,11 @@ public class Properties
   ///   The option connection port to connect to control plane (Default : 5001)
   /// </summary>
   public int ConnectionPort { get; set; } = 5001;
+
+  /// <summary>
+  ///   True if mTLS should be activated
+  /// </summary>
+  public bool mTLS { get; set; }
 
   /// <summary>
   ///   The TaskOptions to pass to the session or the submission session

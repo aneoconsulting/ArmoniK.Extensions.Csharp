@@ -90,6 +90,9 @@ public class ArmonikSymphonyClient
   private static string SectionClientP12File
     => "ClientP12";
 
+  private static string SectionCaFile
+    => "CaCert";
+
   private ChannelPool GrpcPool { get; set; }
 
 
@@ -137,29 +140,34 @@ public class ArmonikSymphonyClient
     string clientCertFilename    = null;
     string clientKeyFilename     = null;
     string clientCertP12Filename = null;
+    string caPemFilename         = null;
     var    sslValidation         = true;
 
-    if (controlPlanSection_!.GetSection(SectionMTLS)
-                            .Exists() && controlPlanSection_[SectionMTLS]
-          .ToLower() == "true")
+    var mTLS = controlPlanSection_!.GetSection(SectionMTLS)
+                                   .Exists() && controlPlanSection_[SectionMTLS]
+                 .ToLower() == "true";
+    if (controlPlanSection_!.GetSection(SectionCaFile)
+                            .Exists())
     {
-      if (controlPlanSection_!.GetSection(SectionClientCertFile)
-                              .Exists())
-      {
-        clientCertFilename = controlPlanSection_[SectionClientCertFile];
-      }
+      caPemFilename = controlPlanSection_[SectionCaFile];
+    }
 
-      if (controlPlanSection_!.GetSection(SectionClientKeyFile)
-                              .Exists())
-      {
-        clientKeyFilename = controlPlanSection_[SectionClientKeyFile];
-      }
+    if (controlPlanSection_!.GetSection(SectionClientCertFile)
+                            .Exists())
+    {
+      clientCertFilename = controlPlanSection_[SectionClientCertFile];
+    }
 
-      if (controlPlanSection_!.GetSection(SectionClientP12File)
-                              .Exists())
-      {
-        clientCertP12Filename = controlPlanSection_[SectionClientP12File];
-      }
+    if (controlPlanSection_!.GetSection(SectionClientKeyFile)
+                            .Exists())
+    {
+      clientKeyFilename = controlPlanSection_[SectionClientKeyFile];
+    }
+
+    if (controlPlanSection_!.GetSection(SectionClientP12File)
+                            .Exists())
+    {
+      clientCertP12Filename = controlPlanSection_[SectionClientP12File];
     }
 
     if (controlPlanSection_!.GetSection(SectionSSlValidation)
@@ -169,10 +177,12 @@ public class ArmonikSymphonyClient
     }
 
     GrpcPool = ClientServiceConnector.ControlPlaneConnectionPool(controlPlanSection_[SectionEndPoint],
+                                                                 caPemFilename,
                                                                  new Tuple<string, string>(clientCertFilename,
                                                                                            clientKeyFilename),
                                                                  clientCertP12Filename,
                                                                  sslValidation,
+                                                                 mTLS,
                                                                  LoggerFactory);
   }
 }
