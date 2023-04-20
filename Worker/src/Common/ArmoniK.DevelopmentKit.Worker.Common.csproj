@@ -8,7 +8,7 @@
   </PropertyGroup>
 
  <ItemGroup>
-    <PackageReference Include="ArmoniK.Api.Worker" Version="3.8.1-38010g51bd689.10.51bd689" />
+    <PackageReference Include="ArmoniK.Api.Worker" Version="3.8.1-38013gec966ee.13.ec966ee" />
     <PackageReference Include="AWSSDK.S3" Version="3.7.9.65" />
     <PackageReference Include="AWSSDK.SecurityToken" Version="3.7.101.36" />
     <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" PrivateAssets="All" />

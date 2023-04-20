@@ -21,9 +21,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
-
 using ArmoniK.Api.gRPC.V1;
+using ArmoniK.DevelopmentKit.Client.Common;
 using ArmoniK.DevelopmentKit.Client.Common.Submitter;
 using ArmoniK.DevelopmentKit.Common;
 
@@ -71,28 +70,6 @@ public class ArmonikSymphonyClient
   /// </summary>
   public string SectionGrpc { get; set; } = "Grpc";
 
-  private static string SectionEndPoint { get; } = "Endpoint";
-
-  /// <summary>
-  ///   The key to to select option in configuration
-  /// </summary>
-  public string SectionMTLS { get; set; } = "mTLS";
-
-  private static string SectionSSlValidation
-    => "SSLValidation";
-
-  private static string SectionClientCertFile
-    => "ClientCert";
-
-  private static string SectionClientKeyFile
-    => "ClientKey";
-
-  private static string SectionClientP12File
-    => "ClientP12";
-
-  private static string SectionCaFile
-    => "CaCert";
-
   private ChannelPool GrpcPool { get; set; }
 
 
@@ -136,53 +113,10 @@ public class ArmonikSymphonyClient
       return;
     }
 
+    var properties = new Properties(Configuration,
+                                    new TaskOptions());
 
-    string clientCertFilename    = null;
-    string clientKeyFilename     = null;
-    string clientCertP12Filename = null;
-    string caPemFilename         = null;
-    var    sslValidation         = true;
-
-    var mTLS = controlPlanSection_!.GetSection(SectionMTLS)
-                                   .Exists() && controlPlanSection_[SectionMTLS]
-                 .ToLower() == "true";
-    if (controlPlanSection_!.GetSection(SectionCaFile)
-                            .Exists())
-    {
-      caPemFilename = controlPlanSection_[SectionCaFile];
-    }
-
-    if (controlPlanSection_!.GetSection(SectionClientCertFile)
-                            .Exists())
-    {
-      clientCertFilename = controlPlanSection_[SectionClientCertFile];
-    }
-
-    if (controlPlanSection_!.GetSection(SectionClientKeyFile)
-                            .Exists())
-    {
-      clientKeyFilename = controlPlanSection_[SectionClientKeyFile];
-    }
-
-    if (controlPlanSection_!.GetSection(SectionClientP12File)
-                            .Exists())
-    {
-      clientCertP12Filename = controlPlanSection_[SectionClientP12File];
-    }
-
-    if (controlPlanSection_!.GetSection(SectionSSlValidation)
-                            .Exists() && controlPlanSection_![SectionSSlValidation] == "disable")
-    {
-      sslValidation = false;
-    }
-
-    GrpcPool = ClientServiceConnector.ControlPlaneConnectionPool(controlPlanSection_[SectionEndPoint],
-                                                                 caPemFilename,
-                                                                 new Tuple<string, string>(clientCertFilename,
-                                                                                           clientKeyFilename),
-                                                                 clientCertP12Filename,
-                                                                 sslValidation,
-                                                                 mTLS,
+    GrpcPool = ClientServiceConnector.ControlPlaneConnectionPool(properties,
                                                                  LoggerFactory);
   }
 }

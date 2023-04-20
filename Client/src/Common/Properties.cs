@@ -42,6 +42,19 @@ namespace ArmoniK.DevelopmentKit.Client.Common;
 public class Properties
 {
   /// <summary>
+  ///   Returns the section key Grpc from appSettings.json
+  /// </summary>
+  private const string SectionGrpc = "Grpc";
+
+  private const string SectionEndPoint           = "EndPoint";
+  private const string SectionSSlValidation      = "SSLValidation";
+  private const string SectionCaCert             = "CaCert";
+  private const string SectionClientCert         = "ClientCert";
+  private const string SectionClientKey          = "ClientKey";
+  private const string SectionClientCertP12      = "ClientP12";
+  private const string SectionTargetNameOverride = "EndpointNameOverride";
+
+  /// <summary>
   ///   The default configuration to submit task in a Session
   /// </summary>
   public static TaskOptions DefaultTaskOptions = new()
@@ -133,9 +146,10 @@ public class Properties
       ConfSSLValidation = !sectionGrpc.GetSection(SectionSSlValidation)
                                       .Exists() || sectionGrpc[SectionSSlValidation] != "disable";
 
-      mTLS = sectionGrpc.GetSection(SectionMTls)
-                        .Exists() && sectionGrpc[SectionMTls]
-               .ToLower() == "true";
+      TargetNameOverride = sectionGrpc.GetSection(SectionTargetNameOverride)
+                                      .Exists()
+                             ? sectionGrpc[TargetNameOverride]
+                             : null;
 
       CaCertFilePem = sectionGrpc.GetSection(SectionCaCert)
                                  .Exists()
@@ -243,24 +257,6 @@ public class Properties
   public Uri ControlPlaneUri { get; set; }
 
   /// <summary>
-  ///   Returns the section key Grpc from appSettings.json
-  /// </summary>
-  private static string SectionGrpc { get; } = "Grpc";
-
-  private static string SectionEndPoint      { get; } = "EndPoint";
-  private static string SectionSSlValidation { get; } = "SSLValidation";
-  private static string SectionCaCert        { get; } = "CaCert";
-  private static string SectionClientCert    { get; } = "ClientCert";
-  private static string SectionClientKey     { get; } = "ClientKey";
-
-  private static string SectionClientCertP12 { get; } = "ClientP12";
-
-  /// <summary>
-  ///   The key to select mTls in configuration
-  /// </summary>
-  public string SectionMTls { get; set; } = "mTLS";
-
-  /// <summary>
   ///   The path to the CA Root file name
   /// </summary>
   public string CaCertFilePem { get; set; }
@@ -336,12 +332,12 @@ public class Properties
   public int ConnectionPort { get; set; } = 5001;
 
   /// <summary>
-  ///   True if mTLS should be activated
-  /// </summary>
-  public bool mTLS { get; set; }
-
-  /// <summary>
   ///   The TaskOptions to pass to the session or the submission session
   /// </summary>
   public TaskOptions TaskOptions { get; set; }
+
+  /// <summary>
+  ///   The target name of the endpoint when ssl validation is disabled. Automatic if not set.
+  /// </summary>
+  public string TargetNameOverride { get; set; } = "";
 }
