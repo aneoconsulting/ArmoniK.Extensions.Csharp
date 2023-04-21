@@ -185,9 +185,9 @@ public class Service : AbstractClientService, ISubmitterService
 
                                       if (ids.Count() > taskIdsResultIds.Count)
                                       {
-                                        Logger?.LogWarning("Fail to submit all tasks in once, retry with missing tasks");
+                                        Logger?.LogWarning("Fail to submit all tasks at once, retry with missing tasks");
 
-                                        throw new Exception("Fail to submit all tasks in once. Retrying...");
+                                        throw new Exception("Fail to submit all tasks at once. Retrying...");
                                       }
 
                                       break;
