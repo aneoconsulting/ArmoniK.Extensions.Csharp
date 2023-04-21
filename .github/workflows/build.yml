@@ -191,7 +191,6 @@ jobs:
 
       - uses: aneoconsulting/ArmoniK@main
         id: deploy-infra
-        working-directory: ./infra
         with:
           worker-image: dockerhubaneo/armonik_worker_dll
           worker-tag: ${{ needs.versionning.outputs.version }}
@@ -212,16 +211,16 @@ jobs:
       
       - name: Run tests
         run: |
-         WORKDIR=$(pwd)
+         INFRA="/home/runner/work/_actions/aneoconsulting/ArmoniK/main"
          kubectl get svc -n armonik -o wide
          export CPPort=$(kubectl get svc ingress -n armonik -o custom-columns="PORT:.spec.ports[1].port" --no-headers=true)
          export Grpc__Endpoint=http://armonik.local:$CPPort
          export Grpc__SSLValidation=${{ matrix.sslvalidation }}
          if [ "${{ matrix.useca }}" = "true" ]; then
-          export Grpc__CaCert="$WORKDIR/infra/infrastructure/quick-deploy/localhost/armonik/generated/certificates/ingress/ca.crt"
+          export Grpc__CaCert="$INFRA/infrastructure/quick-deploy/localhost/armonik/generated/certificates/ingress/ca.crt"
          fi
          if [ "${{ matrix.mtls }}" = "true" ]; then
-          export Grpc__ClientP12="$WORKDIR/infra/infrastructure/quick-deploy/localhost/armonik/generated/certificates/ingress/client.submitter.p12"
+          export Grpc__ClientP12="$INFRA/infrastructure/quick-deploy/localhost/armonik/generated/certificates/ingress/client.submitter.p12"
          fi
          echo "Grpc__Endpoint=$Grpc__Endpoint"
          echo "Grpc__SSLValidation=$Grpc__SSLValidation"
