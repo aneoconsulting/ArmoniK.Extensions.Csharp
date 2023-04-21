@@ -162,7 +162,6 @@ jobs:
     - name: Create multi-arch manifest
       run: docker buildx imagetools create dockerhubaneo/armonik_worker_dll:${VERSION} --tag dockerhubaneo/armonik_worker_dll:${VERSION} --append dockerhubaneo/armonik_worker_dll:${VERSION}-arm
 
-
   testEndToEnd:
     needs:
       - versionning
@@ -182,7 +181,7 @@ jobs:
             mtls: true
           - useca: true 
             sslvalidation : disable
-    name: "End2End $(if [ "${{ matrix.mtls }}" = true ]; then echo "mTLS"; elif [ "${{ matrix.tls }}" = true ]; then echo "TLS"; else echo "Insecure"; fi) val:${{ matrix.sslvalidation }} ca:${{ matrix.useca }}"
+    name: "End2End tls:${{ matrix.tls }} mtls:${{ matrix.mtls }} val:${{ matrix.sslvalidation }} ca:${{ matrix.useca }}"
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
