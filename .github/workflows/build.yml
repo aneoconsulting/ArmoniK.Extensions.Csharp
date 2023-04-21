@@ -168,6 +168,20 @@ jobs:
       - versionning
       - buildProjects
       - buildWorkerEnd2End
+    strategy:
+      matrix:
+        tls: [true, false]
+        mtls: [true, false]
+        sslvalidation : [enable, disable]
+        useca : [true, false]
+        exclude: 
+          - sslvalidation : enable
+            tls : false
+          - tls: false
+            mtls: true
+          - useca: true 
+            sslvalidation : disable
+          
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -177,12 +191,18 @@ jobs:
 
       - uses: aneoconsulting/ArmoniK@main
         id: deploy-infra
+        working-directory: ./infra
         with:
           worker-image: dockerhubaneo/armonik_worker_dll
           worker-tag: ${{ needs.versionning.outputs.version }}
           ingress: 'None'
+          tls: ${{ matrix.tls }}
+          mtls: ${{ matrix.mtls }}
 
-      - name: Run EndToEnd.Tests
+      - name: Setup hosts file
+        run : echo -e "$(kubectl get svc ingress -n armonik -o jsonpath={.status.loadBalancer.ingress[0].ip})\tarmonik.local" | sudo tee -a /etc/hosts
+
+      - name: Build and deploy EndToEnd.Tests
         timeout-minutes: 15
         run: |
          cd Tests
@@ -192,12 +212,21 @@ jobs:
       
       - name: Run tests
         run: |
+         WORKDIR=$(pwd)
          kubectl get svc -n armonik -o wide
-         export CPIP=$(kubectl get svc ingress -n armonik -o jsonpath="{.status.loadBalancer.ingress[0]."ip"}")
-         export CPHOST=$(kubectl get svc ingress -n armonik -o jsonpath="{.status.loadBalancer.ingress[0]."hostname"}")
-         export CPIP=${CPHOST:-$CPIP}
          export CPPort=$(kubectl get svc ingress -n armonik -o custom-columns="PORT:.spec.ports[1].port" --no-headers=true)
-         export Grpc__Endpoint=http://$CPIP:$CPPort
+         export Grpc__Endpoint=http://armonik.local:$CPPort
+         export Grpc__SSLValidation=${{ matrix.sslvalidation }}
+         if [ "${{ matrix.useca }}" = "true" ]; then
+          export Grpc__CaCert="$WORKDIR/infra/infrastructure/quick-deploy/localhost/armonik/generated/certificates/ingress/ca.crt"
+         fi
+         if [ "${{ matrix.mtls }}" = "true" ]; then
+          export Grpc__ClientP12="$WORKDIR/infra/infrastructure/quick-deploy/localhost/armonik/generated/certificates/ingress/client.submitter.p12"
+         fi
+         echo "Grpc__Endpoint=$Grpc__Endpoint"
+         echo "Grpc__SSLValidation=$Grpc__SSLValidation"
+         echo "Grpc__CaCert=$Grpc__CaCert"
+         echo "Grpc__ClientP12=$Grpc__ClientP12"
          dotnet test --runtime linux-x64 -f net6.0 --logger "trx;LogFileName=test-results.trx"
          
       - name: Test Report
