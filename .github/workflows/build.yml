@@ -202,7 +202,7 @@ jobs:
         run : echo -e "$(kubectl get svc ingress -n armonik -o jsonpath={.status.loadBalancer.ingress[0].ip})\tarmonik.local" | sudo tee -a /etc/hosts
 
       - name: Add CA to store
-        if: "${{ matrix.sslvalidation }}" == "true" && "${{ matrix.useca }}" == "false"
+        if: ${{ (matrix.sslvalidation == "enable") && (matrix.useca == false) }}
         run: |
          sudo apt install ca-certificates
          sudo mkdir -p /usr/local/share/ca-certificates/
