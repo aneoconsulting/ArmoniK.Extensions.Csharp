@@ -24,39 +24,86 @@
 
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace ArmoniK.DevelopmentKit.Client.Common.Submitter;
 
 /// <summary>
-///   The class to map ResultId to taskId when submit is done asynchronously
+///   The class to map submitId to taskId when submit is done asynchronously
 /// </summary>
 public class RequestTaskMap
 {
-  private const    int                                WaitTime    = 100;
-  private readonly ConcurrentDictionary<Guid, string> dictionary_ = new();
+  private const    int                                         WaitTime    = 100;
+  private readonly ConcurrentDictionary<Guid, RequestMapValue> dictionary_ = new();
 
-  /// <summary>
-  ///   Push the resultId and taskId in the concurrentDictionary
-  /// </summary>
-  /// <param name="resultId">The result Id push during the submission</param>
-  /// <param name="taskId">the taskId was given by the control Plane</param>
-  public void PutResponse(Guid   resultId,
-                          string taskId)
-    => dictionary_[resultId] = taskId;
-
-  /// <summary>
-  ///   Get the correct taskId based on the resultId
-  /// </summary>
-  /// <param name="resultId">The result Id push during the submission</param>
-  /// <returns>the async taskId</returns>
-  public async Task<string> GetResponseAsync(Guid resultId)
+  private struct RequestMapValue
   {
-    while (!dictionary_.ContainsKey(resultId))
+    public readonly string    TaskId;
+    public readonly Exception Exception;
+
+    public RequestMapValue(string taskId)
+    {
+      TaskId    = taskId;
+      Exception = null;
+    }
+
+    public RequestMapValue(Exception exception)
+    {
+      TaskId    = null;
+      Exception = exception;
+    }
+
+  }
+
+  /// <summary>
+  ///   Push the SubmitId and taskId in the concurrentDictionary
+  /// </summary>
+  /// <param name="SubmitId">The submit Id push during the submission</param>
+  /// <param name="taskId">the taskId was given by the control Plane</param>
+  public void PutResponse(Guid   SubmitId,
+                          string taskId)
+  {
+
+    dictionary_[SubmitId] = new RequestMapValue(taskId);
+  }
+
+  /// <summary>
+  ///   Get the correct taskId based on the SubmitId
+  /// </summary>
+  /// <param name="submitId">The submit Id push during the submission</param>
+  /// <returns>the async taskId</returns>
+  public async Task<string> GetResponseAsync(Guid submitId)
+  {
+    while (!dictionary_.ContainsKey(submitId))
     {
       await Task.Delay(WaitTime);
     }
 
-    return dictionary_[resultId];
+    if (dictionary_[submitId]
+          .TaskId == null && dictionary_[submitId]
+          .Exception != null)
+    {
+
+      throw dictionary_[submitId]
+        .Exception;
+    }
+
+    return dictionary_[submitId].TaskId;
+  }
+
+
+  /// <summary>
+  /// Notice user that there was at least one error during the submission of buffer
+  /// </summary>
+  /// <param name="submitIds"></param>
+  /// <param name="exception">exception occurring the submission</param>
+  /// <exception cref="NotImplementedException"></exception>
+  public void BufferFailures(IEnumerable<Guid> submitIds, Exception exception)
+  {
+    foreach (var submitId in submitIds)
+    {
+      dictionary_[submitId] = new RequestMapValue(exception);
+    }
   }
 }

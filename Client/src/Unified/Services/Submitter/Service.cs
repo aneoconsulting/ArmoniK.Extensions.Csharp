@@ -136,16 +136,15 @@ public class Service : AbstractClientService, ISubmitterService
                               {
                                 var blockRequestList = blockRequests.ToList();
 
-                                if (blockRequestList.Count == 0)
-                                {
-                                  return;
-                                }
-
                                 try
                                 {
+                                  if (blockRequestList.Count == 0)
+                                  {
+                                    return;
+                                  }
+
                                   Logger?.LogInformation("Submitting buffer of {count} task...",
                                                          blockRequestList.Count);
-
 
                                   for (var retry = 0; retry < MaxRetries; retry++)
                                   {
@@ -223,7 +222,11 @@ public class Service : AbstractClientService, ISubmitterService
                                 {
                                   Logger?.LogError(e,
                                                    "Fail to submit buffer with {count} tasks inside",
-                                                   blockRequestList.Count);
+                                                   blockRequestList?.Count);
+
+                                  requestTaskMap_.BufferFailures(blockRequestList.Select(block => block.SubmitId),
+                                                                 e);
+
                                   BufferSubmit.Fault(e);
                                 }
                               });

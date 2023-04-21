@@ -78,10 +78,6 @@ public class BatchUntilInactiveBlock<T> : IPropagatorBlock<T, T[]>, IReceivableS
     timer_ = new Timer(_ =>
                        {
                          source_.TriggerBatch();
-                         if (source_.Completion.IsFaulted)
-                         {
-                           throw new ClientApiException(source_.Completion.Exception);
-                         }
                        },
                        null,
                        timeout,

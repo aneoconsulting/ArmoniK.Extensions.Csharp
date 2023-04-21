@@ -22,6 +22,10 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+using System.ComponentModel;
+using System.Linq;
+using System.Text;
+
 using ArmoniK.DevelopmentKit.Common;
 
 using NUnit.Framework;
@@ -35,7 +39,7 @@ public static class ArmoniKPayloadSerialization
     var payload = new ArmonikPayload
                   {
                     MethodName          = "Test",
-                    ClientPayload       = "Payload"u8.ToArray(),
+                    ClientPayload       = Encoding.ASCII.GetBytes("Payload"),
                     SerializedArguments = true,
                   };
     var serialize = payload.Serialize();
