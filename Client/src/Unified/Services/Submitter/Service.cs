@@ -163,6 +163,7 @@ public class Service : AbstractClientService, ISubmitterService
                                                                                                                                                   null)),
                                                                                    1);
 
+
                                       var ids            = taskIds.ToList();
                                       var mapTaskResults = SessionService.GetResultIds(ids);
                                       var taskIdsResultIds = mapTaskResults.ToDictionary(result => result.ResultIds.Single(),

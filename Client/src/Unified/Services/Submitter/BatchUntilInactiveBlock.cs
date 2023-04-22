@@ -28,8 +28,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
 
-using ArmoniK.DevelopmentKit.Common.Exceptions;
-
 using JetBrains.Annotations;
 
 namespace ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter;

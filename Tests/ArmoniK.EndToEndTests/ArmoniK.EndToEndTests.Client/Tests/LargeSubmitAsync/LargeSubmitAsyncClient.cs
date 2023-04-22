@@ -208,19 +208,30 @@ public class LargeSubmitAsyncClient : ClientBaseTest<LargeSubmitAsyncClient>, IS
                                                  int                 workloadTimeInMs,
                                                  CancellationToken   token = default)
   {
-    var result = Enumerable.Range(0,
-                                  nbTasks)
-                           .Batch(nbTasks / Props.MaxParallelChannels)
-                           .AsParallel()
-                           .Select(bucket => bucket.Select(_ => service.SubmitAsync("ComputeSum",
-                                                                                    ParamsHelper(numbers,
-                                                                                                 workloadTimeInMs),
-                                                                                    this,
-                                                                                    token)));
+    var resultQueries = Enumerable.Range(0,
+                                         nbTasks)
+                                  .Batch(nbTasks / Props.MaxParallelChannels)
+                                  .AsParallel();
+    var resultTask = new List<Task<string>>();
+    var taskIds    = new List<string>();
 
-    var taskIds = result.SelectMany(t => Task.WhenAll(t)
-                                             .Result);
-    return taskIds.ToList();
+    resultQueries.ForAll(bucket =>
+                         {
+                           resultTask.AddRange(bucket.Select(async _ =>
+                                                             {
+                                                               return await service.SubmitAsync("ComputeSum",
+                                                                                                ParamsHelper(numbers,
+                                                                                                             workloadTimeInMs),
+                                                                                                this,
+                                                                                                token)
+                                                                                   .ConfigureAwait(false);
+                                                             }));
+
+                           taskIds = resultTask.Select(t => t.Result)
+                                               .ToList();
+                         });
+
+    return taskIds;
   }
 
   private static void OverrideTaskOptions(TaskOptions taskOptions)
