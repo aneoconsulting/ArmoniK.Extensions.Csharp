@@ -8,6 +8,7 @@
   </PropertyGroup>
 
  <ItemGroup>
+    <PackageReference Include="ArmoniK.Utils" Version="0.0.1-SNAPSHOT.89.3c250f5" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.2" />
     <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" PrivateAssets="All" />
     <PackageReference Include="protobuf-net" Version="3.1.22" />
