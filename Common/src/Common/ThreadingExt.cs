@@ -26,6 +26,8 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
+using ArmoniK.Utils;
+
 namespace ArmoniK.DevelopmentKit.Common;
 
 /// <summary>
@@ -39,7 +41,7 @@ public static class ThreadingExt
   public static IDisposable LockGuard(this SemaphoreSlim sem)
   {
     sem.Wait();
-    return Disposable.Create(() => sem.Release());
+    return new Deferrer(() => sem.Release());
   }
 
   /// <summary>
@@ -48,7 +50,7 @@ public static class ThreadingExt
   public static async Task<IDisposable> LockGuardAsync(this SemaphoreSlim sem)
   {
     await sem.WaitAsync();
-    return Disposable.Create(() => sem.Release());
+    return new Deferrer(() => sem.Release());
   }
 
   /// <summary>
