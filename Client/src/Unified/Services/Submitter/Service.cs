@@ -227,8 +227,6 @@ public class Service : AbstractClientService, ISubmitterService
 
                                   requestTaskMap_.BufferFailures(blockRequestList.Select(block => block.SubmitId),
                                                                  e);
-
-                                  BufferSubmit.Fault(e);
                                 }
                               });
   }
