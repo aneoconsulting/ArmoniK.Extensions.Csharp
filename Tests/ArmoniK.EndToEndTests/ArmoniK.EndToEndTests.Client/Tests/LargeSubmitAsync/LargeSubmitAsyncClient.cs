@@ -233,7 +233,6 @@ public class LargeSubmitAsyncClient : ClientBaseTest<LargeSubmitAsyncClient>, IS
                            {
                              resultTask.Add(task.Result);
                            }
-
                          });
 
     return resultTask.ToList();
