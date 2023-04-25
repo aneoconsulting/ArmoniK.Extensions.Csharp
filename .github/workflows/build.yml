@@ -210,7 +210,7 @@ jobs:
         with:
           ref: ${{ github.ref }}
 
-      - uses: aneoconsulting/ArmoniK@main
+      - uses: aneoconsulting/ArmoniK@v2.10.2
         id: deploy-infra
         with:
           worker-image: dockerhubaneo/armonik_worker_dll

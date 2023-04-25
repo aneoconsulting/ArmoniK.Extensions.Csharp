@@ -136,16 +136,15 @@ public class Service : AbstractClientService, ISubmitterService
                               {
                                 var blockRequestList = blockRequests.ToList();
 
-                                if (blockRequestList.Count == 0)
-                                {
-                                  return;
-                                }
-
                                 try
                                 {
+                                  if (blockRequestList.Count == 0)
+                                  {
+                                    return;
+                                  }
+
                                   Logger?.LogInformation("Submitting buffer of {count} task...",
                                                          blockRequestList.Count);
-
 
                                   for (var retry = 0; retry < MaxRetries; retry++)
                                   {
@@ -163,6 +162,7 @@ public class Service : AbstractClientService, ISubmitterService
                                                                                                                                                   x.Payload!.Serialize(),
                                                                                                                                                   null)),
                                                                                    1);
+
 
                                       var ids            = taskIds.ToList();
                                       var mapTaskResults = SessionService.GetResultIds(ids);
@@ -186,9 +186,9 @@ public class Service : AbstractClientService, ISubmitterService
 
                                       if (ids.Count() > taskIdsResultIds.Count)
                                       {
-                                        Logger?.LogWarning("Fail to submit all tasks in once, retry with missing tasks");
+                                        Logger?.LogWarning("Fail to submit all tasks at once, retry with missing tasks");
 
-                                        throw new Exception("Fail to submit all tasks in once. Retrying...");
+                                        throw new Exception("Fail to submit all tasks at once. Retrying...");
                                       }
 
                                       break;
@@ -223,8 +223,10 @@ public class Service : AbstractClientService, ISubmitterService
                                 {
                                   Logger?.LogError(e,
                                                    "Fail to submit buffer with {count} tasks inside",
-                                                   blockRequestList.Count);
-                                  BufferSubmit.Fault(e);
+                                                   blockRequestList?.Count);
+
+                                  requestTaskMap_.BufferFailures(blockRequestList.Select(block => block.SubmitId),
+                                                                 e);
                                 }
                               });
   }

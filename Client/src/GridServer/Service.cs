@@ -114,8 +114,8 @@ public class Service : ISubmitterService, IDisposable
   {
     ArmonikPayload dataSynapsePayload = new()
                                         {
-                                          MethodName         = methodName,
-                                          ClientPayload      = ProtoSerializer.SerializeMessageObjectArray(arguments),
+                                          MethodName    = methodName,
+                                          ClientPayload = ProtoSerializer.SerializeMessageObjectArray(arguments),
                                         };
 
     return Submit(dataSynapsePayload,
@@ -189,8 +189,8 @@ public class Service : ISubmitterService, IDisposable
   {
     ArmonikPayload dataSynapsePayload = new()
                                         {
-                                          MethodName         = methodName,
-                                          ClientPayload      = ProtoSerializer.SerializeMessageObjectArray(arguments),
+                                          MethodName    = methodName,
+                                          ClientPayload = ProtoSerializer.SerializeMessageObjectArray(arguments),
                                         };
 
     var taskId = SessionService.SubmitTask(dataSynapsePayload.Serialize());
