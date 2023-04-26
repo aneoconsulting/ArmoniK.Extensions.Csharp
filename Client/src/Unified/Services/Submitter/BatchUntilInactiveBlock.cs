@@ -28,8 +28,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
 
-using ArmoniK.DevelopmentKit.Common.Exceptions;
-
 using JetBrains.Annotations;
 
 namespace ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter;
@@ -78,10 +76,6 @@ public class BatchUntilInactiveBlock<T> : IPropagatorBlock<T, T[]>, IReceivableS
     timer_ = new Timer(_ =>
                        {
                          source_.TriggerBatch();
-                         if (source_.Completion.IsFaulted)
-                         {
-                           throw new ClientApiException(source_.Completion.Exception);
-                         }
                        },
                        null,
                        timeout,
