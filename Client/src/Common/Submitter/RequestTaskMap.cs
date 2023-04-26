@@ -24,39 +24,61 @@
 
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+
+using LanguageExt;
 
 namespace ArmoniK.DevelopmentKit.Client.Common.Submitter;
 
 /// <summary>
-///   The class to map ResultId to taskId when submit is done asynchronously
+///   The class to map submitId to taskId when submit is done asynchronously
 /// </summary>
 public class RequestTaskMap
 {
-  private const    int                                WaitTime    = 100;
-  private readonly ConcurrentDictionary<Guid, string> dictionary_ = new();
+  private const    int                                                   WaitTime    = 100;
+  private readonly ConcurrentDictionary<Guid, Either<string, Exception>> dictionary_ = new();
 
   /// <summary>
-  ///   Push the resultId and taskId in the concurrentDictionary
+  ///   Push the SubmitId and taskId in the concurrentDictionary
   /// </summary>
-  /// <param name="resultId">The result Id push during the submission</param>
+  /// <param name="SubmitId">The submit Id push during the submission</param>
   /// <param name="taskId">the taskId was given by the control Plane</param>
-  public void PutResponse(Guid   resultId,
+  public void PutResponse(Guid   SubmitId,
                           string taskId)
-    => dictionary_[resultId] = taskId;
+    => dictionary_[SubmitId] = taskId;
 
   /// <summary>
-  ///   Get the correct taskId based on the resultId
+  ///   Get the correct taskId based on the SubmitId
   /// </summary>
-  /// <param name="resultId">The result Id push during the submission</param>
+  /// <param name="submitId">The submit Id push during the submission</param>
   /// <returns>the async taskId</returns>
-  public async Task<string> GetResponseAsync(Guid resultId)
+  public async Task<string> GetResponseAsync(Guid submitId)
   {
-    while (!dictionary_.ContainsKey(resultId))
+    while (!dictionary_.ContainsKey(submitId))
     {
       await Task.Delay(WaitTime);
     }
 
-    return dictionary_[resultId];
+    return dictionary_[submitId]
+      .IfRight(e =>
+               {
+                 throw e;
+               });
+  }
+
+
+  /// <summary>
+  ///   Notice user that there was at least one error during the submission of buffer
+  /// </summary>
+  /// <param name="submitIds"></param>
+  /// <param name="exception">exception occurring the submission</param>
+  public void BufferFailures(IEnumerable<Guid> submitIds,
+                             Exception         exception)
+  {
+    foreach (var submitId in submitIds)
+    {
+      dictionary_[submitId] = exception;
+    }
   }
 }

@@ -22,6 +22,7 @@
 // limitations under the License.
 
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -122,7 +123,7 @@ public class LargeSubmitAsyncClient : ClientBaseTest<LargeSubmitAsyncClient>, IS
     var taskOptions = InitializeTaskOptions();
     OverrideTaskOptions(taskOptions);
 
-    taskOptions.MaxRetries = 3;
+    taskOptions.MaxRetries = 1;
 
     Props = new Properties(Configuration,
                            taskOptions,
@@ -208,19 +209,33 @@ public class LargeSubmitAsyncClient : ClientBaseTest<LargeSubmitAsyncClient>, IS
                                                  int                 workloadTimeInMs,
                                                  CancellationToken   token = default)
   {
-    var result = Enumerable.Range(0,
-                                  nbTasks)
-                           .Batch(nbTasks / Props.MaxParallelChannels)
-                           .AsParallel()
-                           .Select(bucket => bucket.Select(_ => service.SubmitAsync("ComputeSum",
-                                                                                    ParamsHelper(numbers,
-                                                                                                 workloadTimeInMs),
-                                                                                    this,
-                                                                                    token)));
+    var resultQueries = Enumerable.Range(0,
+                                         nbTasks)
+                                  .Batch(nbTasks / Props.MaxParallelChannels)
+                                  .AsParallel();
 
-    var taskIds = result.SelectMany(t => Task.WhenAll(t)
-                                             .Result);
-    return taskIds.ToList();
+    var resultTask = new ConcurrentBag<string>();
+
+    resultQueries.ForAll(bucket =>
+                         {
+                           var tasksInBucket = bucket.Select(async _ =>
+                                                             {
+                                                               var result = await service.SubmitAsync("ComputeSum",
+                                                                                                      ParamsHelper(numbers,
+                                                                                                                   workloadTimeInMs),
+                                                                                                      this,
+                                                                                                      token);
+
+                                                               return result;
+                                                             });
+
+                           foreach (var task in tasksInBucket)
+                           {
+                             resultTask.Add(task.Result);
+                           }
+                         });
+
+    return resultTask.ToList();
   }
 
   private static void OverrideTaskOptions(TaskOptions taskOptions)
