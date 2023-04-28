@@ -339,12 +339,21 @@ public class BaseClientSubmitter<T>
                                "IOException Failure to submit");
             break;
           default:
+            Logger.LogError(e,
+                            "Unknown failure :");
             throw;
         }
       }
+
+      if (nbRetry > 0)
+      {
+        Logger?.LogWarning("{retry}/{maxRetries} nbRetry to submit batch of task",
+                           nbRetry,
+                           maxRetries);
+      }
     }
 
-    throw new Exception("Should not pass there");
+    throw new Exception("Max retry to send has been reached");
   }
 
   /// <summary>

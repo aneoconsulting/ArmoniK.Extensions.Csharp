@@ -60,25 +60,10 @@ internal class UnifiedTestHelper : UnitTestHelperBase, IServiceInvocationHandler
     Props.MaxParallelChannels  = maxParallelChannels;
     Props.TimeTriggerBuffer    = timeOut ?? Props.TimeTriggerBuffer;
 
-    switch (engineType)
-    {
-      case EngineType.Unified:
-      {
-        Service = ServiceFactory.CreateService(Props,
-                                               LoggerFactory);
-        ServiceAdmin = ServiceFactory.GetServiceAdmin(Props,
-                                                      LoggerFactory);
-        break;
-      }
-      case EngineType.DataSynapse:
-      {
-        Service = DevelopmentKit.Client.GridServer.ServiceFactory.GetInstance()
-                                .CreateService(TaskOptions.ApplicationName,
-                                               Props);
-        ServiceAdmin = null;
-        break;
-      }
-    }
+    Service = ServiceFactory.CreateService(Props,
+                                           LoggerFactory);
+    ServiceAdmin = ServiceFactory.GetServiceAdmin(Props,
+                                                  LoggerFactory);
 
     Log.LogInformation($"New session created : {Service.SessionId}");
   }

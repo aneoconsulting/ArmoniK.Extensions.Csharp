@@ -90,7 +90,11 @@ public class BatchUntilInactiveBlock<T> : IPropagatorBlock<T, T[]>, IReceivableS
                                                           },
                                                           executionDataFlowBlockOptions_);
 
-    source_.LinkTo(timeoutTransformBlock_);
+    source_.LinkTo(timeoutTransformBlock_,
+                   new DataflowLinkOptions
+                   {
+                     PropagateCompletion = true,
+                   });
 
     Timeout = timeout;
   }

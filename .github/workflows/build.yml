@@ -6,48 +6,6 @@ on:
     tags-ignore: [ '**' ]
 
 jobs:
-  SonarCloud:
-    runs-on: windows-latest
-    steps:
-      - name: Set up JDK 11
-        uses: actions/setup-java@v3
-        with:
-          distribution: 'zulu'
-          java-version: '11'
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
-          submodules: true
-      - name: Cache SonarCloud packages
-        uses: actions/cache@v3
-        with:
-          path: ~\sonar\cache
-          key: ${{ runner.os }}-sonar
-          restore-keys: ${{ runner.os }}-sonar
-      - name: Cache SonarCloud scanner
-        id: cache-sonar-scanner
-        uses: actions/cache@v3
-        with:
-          path: .\.sonar\scanner
-          key: ${{ runner.os }}-sonar-scanner
-          restore-keys: ${{ runner.os }}-sonar-scanner
-      - name: Install SonarCloud scanner
-        if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
-        shell: powershell
-        run: |
-          New-Item -Path .\.sonar\scanner -ItemType Directory
-          dotnet tool update dotnet-sonarscanner --tool-path .\.sonar\scanner
-      - name: Build and analyze
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        shell: powershell
-        run: |
-          .\.sonar\scanner\dotnet-sonarscanner begin /k:"aneoconsulting_ArmoniK.Extensions.Csharp" /o:"aneoconsulting" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
-          dotnet build ArmoniK.Extensions.Csharp.sln
-          .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
-
-
   versionning:
     name: Versionning
     runs-on: ubuntu-latest
@@ -86,11 +44,6 @@ jobs:
         fetch-depth: 0
         submodules: true
 
-    - name: Install .NET Core
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: 6.x
-
     - name: Install ReSharper
       run: |
         dotnet tool install -g JetBrains.ReSharper.GlobalTools --version 2022.2.2
@@ -123,7 +76,6 @@ jobs:
       - versionning
     env:
       GENVERSION: ${{ needs.versionning.outputs.version }}
-      GENRELEASE: ${{ needs.versionning.outputs.release }}
     steps:
     - name: Checkout
       uses: actions/checkout@v3
@@ -131,51 +83,17 @@ jobs:
         ref: ${{ github.ref }}
         submodules: true
 
-    - name: Install .NET Core
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: 6.x
-        source-url: https://pkgs.dev.azure.com/aneofr/ArmoniK/_packaging/ArmoniKPackages/nuget/v3/index.json
-      env:
-        NUGET_AUTH_TOKEN: ${{secrets.PAT_AZURE}}
-
-    # find . -name "*.csproj" | xargs -I % echo dotnet build % -c Release
     - name: Build the package
       run: |
         dotnet build ArmoniK.Extensions.Csharp.sln -c Release -p:Version=$GENVERSION
 
-    # find . -name "*.csproj" | xargs -I % echo dotnet pack % -c Release -o /tmp/packages -p:Version=\$GENVERSION
     - name: Pack the package VERSION
       run: |
-        dotnet pack ArmoniK.Extensions.Csharp.sln -c Release -p:Version=$GENVERSION
-        mkdir -p /tmp/packages
-        mv ./publish/*.* /tmp/packages/
-
-    - name: Store the package VERSION
-      uses: actions/upload-artifact@v3
-      with:
-        name: prerelease-nugets
-        path: /tmp/packages/*.nupkg
-        retention-days: 5
-
-    - name: Pack the package RELEASE
-      if: ${{ github.ref == 'refs/heads/release' }}
-      run: |
-        dotnet pack ArmoniK.Extensions.Csharp.sln -c Release -p:Version=$GENRELEASE
-        mkdir -p /tmp/releases
-        mv ./publish/*.* /tmp/releases/
-
-    - name: Store the package RELEASE
-      if: ${{ github.ref == 'refs/heads/release' }}
-      uses: actions/upload-artifact@v3
-      with:
-        name: release-nugets
-        path: /tmp/releases/*.nupkg
-        retention-days: 5
-
+        dotnet pack ArmoniK.Extensions.Csharp.sln -c Release -o /tmp/packages -p:Version=$GENVERSION
+        
     - name: Push the package
       run: |
-        dotnet nuget push /tmp/packages/ArmoniK.*.nupkg -k ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
+        find /tmp/packages -name 'ArmoniK*.nupkg' ! -name '*test*.nupkg' -exec dotnet nuget push {} -k ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate --no-symbols \;
 
   buildWorkerEnd2End:
     runs-on: ubuntu-latest
@@ -244,12 +162,26 @@ jobs:
     - name: Create multi-arch manifest
       run: docker buildx imagetools create dockerhubaneo/armonik_worker_dll:${VERSION} --tag dockerhubaneo/armonik_worker_dll:${VERSION} --append dockerhubaneo/armonik_worker_dll:${VERSION}-arm
 
-
   testEndToEnd:
     needs:
       - versionning
       - buildProjects
       - buildWorkerEnd2End
+    strategy:
+      fail-fast: false
+      matrix:
+        tls: [true, false]
+        mtls: [true, false]
+        sslvalidation : [enable, disable]
+        useca : [true, false]
+        exclude: 
+          - sslvalidation : enable
+            tls : false
+          - tls: false
+            mtls: true
+          - useca: true 
+            sslvalidation : disable
+    name: "End2End tls:${{ matrix.tls }} mtls:${{ matrix.mtls }} val:${{ matrix.sslvalidation }} ca:${{ matrix.useca }}"
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -263,8 +195,21 @@ jobs:
           worker-image: dockerhubaneo/armonik_worker_dll
           worker-tag: ${{ needs.versionning.outputs.version }}
           ingress: 'None'
+          tls: ${{ matrix.tls }}
+          mtls: ${{ matrix.mtls }}
 
-      - name: Run EndToEnd.Tests
+      - name: Setup hosts file
+        run : echo -e "$(kubectl get svc ingress -n armonik -o jsonpath={.status.loadBalancer.ingress[0].ip})\tarmonik.local" | sudo tee -a /etc/hosts
+
+      - name: Add CA to store
+        if: ${{ (matrix.sslvalidation == 'enable') && (matrix.useca == false) }}
+        run: |
+         sudo apt install ca-certificates
+         sudo mkdir -p /usr/local/share/ca-certificates/
+         sudo cp /home/runner/work/_actions/aneoconsulting/ArmoniK/main/infrastructure/quick-deploy/localhost/armonik/generated/certificates/ingress/ca.crt /usr/local/share/ca-certificates/ca.crt
+         sudo update-ca-certificates
+
+      - name: Build and deploy EndToEnd.Tests
         timeout-minutes: 15
         run: |
          cd Tests
@@ -274,12 +219,25 @@ jobs:
       
       - name: Run tests
         run: |
+         INFRA="/home/runner/work/_actions/aneoconsulting/ArmoniK/main"
          kubectl get svc -n armonik -o wide
-         export CPIP=$(kubectl get svc ingress -n armonik -o jsonpath="{.status.loadBalancer.ingress[0]."ip"}")
-         export CPHOST=$(kubectl get svc ingress -n armonik -o jsonpath="{.status.loadBalancer.ingress[0]."hostname"}")
-         export CPIP=${CPHOST:-$CPIP}
          export CPPort=$(kubectl get svc ingress -n armonik -o custom-columns="PORT:.spec.ports[1].port" --no-headers=true)
-         export Grpc__Endpoint=http://$CPIP:$CPPort
+         if [ "${{ matrix.tls }}" = "true" ]; then
+          export Grpc__Endpoint=https://armonik.local:$CPPort
+         else
+          export Grpc__Endpoint=http://armonik.local:$CPPort
+         fi
+         export Grpc__SSLValidation=${{ matrix.sslvalidation }}
+         if [ "${{ matrix.useca }}" = "true" ]; then
+          export Grpc__CaCert="$INFRA/infrastructure/quick-deploy/localhost/armonik/generated/certificates/ingress/ca.crt"
+         fi
+         if [ "${{ matrix.mtls }}" = "true" ]; then
+          export Grpc__ClientP12="$INFRA/infrastructure/quick-deploy/localhost/armonik/generated/certificates/ingress/client.submitter.p12"
+         fi
+         echo "Grpc__Endpoint=$Grpc__Endpoint"
+         echo "Grpc__SSLValidation=$Grpc__SSLValidation"
+         echo "Grpc__CaCert=$Grpc__CaCert"
+         echo "Grpc__ClientP12=$Grpc__ClientP12"
          dotnet test --runtime linux-x64 -f net6.0 --logger "trx;LogFileName=test-results.trx"
          
       - name: Test Report
@@ -290,66 +248,3 @@ jobs:
           path: ./Tests/ArmoniK.EndToEndTests/ArmoniK.EndToEndTests.Client/TestResults/test-results.trx
           reporter: dotnet-trx
 
-  release-packages:
-    runs-on: ubuntu-latest
-    if: ${{ github.ref == 'refs/heads/release' }}
-    needs:
-      - versionning
-      - testEndToEnd
-    steps:
-      - name: Download a single artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: release-nugets
-
-      - name: Push the package
-        run: dotnet nuget push ./ArmoniK.*.nupkg -k ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
-
-  release-images:
-    runs-on: ubuntu-latest
-    if: ${{ github.ref == 'refs/heads/release' }}
-    needs:
-      - versionning
-      - testEndToEnd
-    env:
-      VERSION: ${{ needs.versionning.outputs.version }}
-      RELEASE: ${{ needs.versionning.outputs.release }}
-    strategy:
-      matrix:
-        image:
-          - dockerhubaneo/armonik_worker_dll
-    steps:
-      - name: login
-        run: |
-          echo ${{ secrets.DOCKER_HUB_TOKEN }} | docker login -u dhaneo1 --password-stdin
-
-      - name: pull
-        run: |
-          docker pull ${{ matrix.image }}:$VERSION
-
-      - name: tag
-        run: |
-          docker tag ${{ matrix.image }}:$VERSION ${{ matrix.image }}:$RELEASE
-
-      - name: push
-        run: |
-          docker push ${{ matrix.image }}:$RELEASE
-
-  tag:
-    runs-on: ubuntu-latest
-    if: ${{ github.ref == 'refs/heads/release' }}
-    needs:
-      - versionning
-      - release-packages
-    env:
-      RELEASE: ${{ needs.versionning.outputs.release }}
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v3
-      with:
-        ref: ${{ github.ref }}
-
-    - name: tag
-      run: |
-        git tag $RELEASE
-        git push origin $RELEASE
