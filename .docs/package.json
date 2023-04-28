@@ -1,6 +1,5 @@
 {
   "name": "armonik-extensions-csharp",
-  "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "nuxi dev",
@@ -10,11 +9,10 @@
     "lint": "eslint ."
   },
   "devDependencies": {
-    "@aneoconsultingfr/armonik-docs-theme": "^0.6.3",
+    "@aneoconsultingfr/armonik-docs-theme": "^0.6.4",
     "@nuxt/eslint-config": "^0.1.1",
-    "eslint": "^8.35.0",
-    "nuxt": "^3.2.2",
-    "rollup": "3.18.0"
+    "eslint": "^8.39.0",
+    "nuxt": "^3.4.2"
   },
-  "packageManager": "pnpm@8.1.0"
+  "packageManager": "pnpm@8.3.1"
 }
