@@ -90,10 +90,7 @@ public class SessionServiceFactory
     }
 
 
-    GrpcPool = ClientServiceConnector.ControlPlaneConnectionPool(properties.ConnectionString,
-                                                                 properties.ClientCertFilePem,
-                                                                 properties.ClientKeyFilePem,
-                                                                 properties.ConfSSLValidation,
+    GrpcPool = ClientServiceConnector.ControlPlaneConnectionPool(properties,
                                                                  LoggerFactory);
   }
 

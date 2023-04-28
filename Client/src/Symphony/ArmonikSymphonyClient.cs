@@ -22,6 +22,7 @@
 // limitations under the License.
 
 using ArmoniK.Api.gRPC.V1;
+using ArmoniK.DevelopmentKit.Client.Common;
 using ArmoniK.DevelopmentKit.Client.Common.Submitter;
 using ArmoniK.DevelopmentKit.Common;
 
@@ -69,17 +70,6 @@ public class ArmonikSymphonyClient
   /// </summary>
   public string SectionGrpc { get; set; } = "Grpc";
 
-  private static string SectionEndPoint { get; } = "Endpoint";
-
-  /// <summary>
-  ///   The key to to select option in configuration
-  /// </summary>
-  public string SectionMTLS { get; set; } = "mTLS";
-
-  private static string SectionSSlValidation  { get; } = "SSLValidation";
-  private static string SectionClientCertFile { get; } = "ClientCert";
-  private static string SectionClientKeyFile  { get; } = "ClientKey";
-
   private ChannelPool GrpcPool { get; set; }
 
 
@@ -123,38 +113,10 @@ public class ArmonikSymphonyClient
       return;
     }
 
+    var properties = new Properties(Configuration,
+                                    new TaskOptions());
 
-    string clientCertFilename = null;
-    string clientKeyFilename  = null;
-    var    sslValidation      = true;
-
-    if (controlPlanSection_!.GetSection(SectionMTLS)
-                            .Exists() && controlPlanSection_[SectionMTLS]
-          .ToLower() == "true")
-    {
-      if (controlPlanSection_!.GetSection(SectionClientCertFile)
-                              .Exists())
-      {
-        clientCertFilename = controlPlanSection_[SectionClientCertFile];
-      }
-
-      if (controlPlanSection_!.GetSection(SectionClientKeyFile)
-                              .Exists())
-      {
-        clientKeyFilename = controlPlanSection_[SectionClientKeyFile];
-      }
-    }
-
-    if (controlPlanSection_!.GetSection(SectionSSlValidation)
-                            .Exists() && controlPlanSection_![SectionSSlValidation] == "disable")
-    {
-      sslValidation = false;
-    }
-
-    GrpcPool = ClientServiceConnector.ControlPlaneConnectionPool(controlPlanSection_[SectionEndPoint],
-                                                                 clientCertFilename,
-                                                                 clientKeyFilename,
-                                                                 sslValidation,
+    GrpcPool = ClientServiceConnector.ControlPlaneConnectionPool(properties,
                                                                  LoggerFactory);
   }
 }
