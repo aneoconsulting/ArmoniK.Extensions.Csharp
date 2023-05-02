@@ -199,12 +199,20 @@ jobs:
            k3s: true
            aws: true
 
+      - name: Checkout Infra
+        uses: actions/checkout@v3
+        with:
+          repository: aneoconsulting/ArmoniK
+          path: infra
+
       - name: Deploy
         uses: aneoconsulting/ArmoniK.Action.Deploy/deploy@main
         with:
+          working-directory: $GITHUB_WORKSPACE/infra
           type: localhost
           tls: ${{ matrix.tls }}
           mtls: ${{ matrix.mtls }}
+          ext-csharp-version: ${{ needs.versionning.outputs.version }}
 
       - name: Setup hosts file
         run : echo -e "$(kubectl get svc ingress -n armonik -o jsonpath={.status.loadBalancer.ingress[0].ip})\tarmonik.local" | sudo tee -a /etc/hosts
@@ -214,7 +222,7 @@ jobs:
         run: |
          sudo apt install ca-certificates
          sudo mkdir -p /usr/local/share/ca-certificates/
-         sudo cp /home/runner/work/_actions/aneoconsulting/ArmoniK/main/infrastructure/quick-deploy/localhost/armonik/generated/certificates/ingress/ca.crt /usr/local/share/ca-certificates/ca.crt
+         sudo cp $GITHUB_WORKSPACE/infra/infrastructure/quick-deploy/localhost/armonik/generated/certificates/ingress/ca.crt /usr/local/share/ca-certificates/ca.crt
          sudo update-ca-certificates
 
       - name: Build and deploy EndToEnd.Tests
