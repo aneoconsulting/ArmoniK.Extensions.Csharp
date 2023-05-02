@@ -208,7 +208,7 @@ jobs:
       - name: Deploy
         uses: aneoconsulting/ArmoniK.Action.Deploy/deploy@db/addworkingdirectory 
         with:
-          working-directory: $GITHUB_WORKSPACE/infra
+          working-directory: ${{ github.workspace }}/infra
           type: localhost
           tls: ${{ matrix.tls }}
           mtls: ${{ matrix.mtls }}
@@ -222,7 +222,7 @@ jobs:
         run: |
          sudo apt install ca-certificates
          sudo mkdir -p /usr/local/share/ca-certificates/
-         sudo cp $GITHUB_WORKSPACE/infra/infrastructure/quick-deploy/localhost/armonik/generated/certificates/ingress/ca.crt /usr/local/share/ca-certificates/ca.crt
+         sudo cp ${{ github.workspace }}/infra/infrastructure/quick-deploy/localhost/armonik/generated/certificates/ingress/ca.crt /usr/local/share/ca-certificates/ca.crt
          sudo update-ca-certificates
 
       - name: Build and deploy EndToEnd.Tests
@@ -265,9 +265,10 @@ jobs:
           reporter: dotnet-trx
     
       - name: Destroy deployment
+        if: success() || failure()
         uses: aneoconsulting/ArmoniK.Action.Deploy/destroy@db/addworkingdirectory 
         with:
-          working-directory: $GITHUB_WORKSPACE/infra
+          working-directory: ${{ github.workspace }}/infra
           type: localhost
 
   canMerge:
