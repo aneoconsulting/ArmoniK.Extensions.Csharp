@@ -192,7 +192,7 @@ jobs:
           ref: ${{ github.ref }}
 
       - name: Install Dependencies
-        uses: aneoconsulting/ArmoniK.Action.Deploy/dependencies@main
+        uses: aneoconsulting/ArmoniK.Action.Deploy/dependencies@db/addworkingdirectory 
         with:
            docker: true
            terraform: true
@@ -206,7 +206,7 @@ jobs:
           path: infra
 
       - name: Deploy
-        uses: aneoconsulting/ArmoniK.Action.Deploy/deploy@main
+        uses: aneoconsulting/ArmoniK.Action.Deploy/deploy@db/addworkingdirectory 
         with:
           working-directory: $GITHUB_WORKSPACE/infra
           type: localhost
@@ -263,6 +263,12 @@ jobs:
           name: "IntegrationTests tls:${{ matrix.tls }} mtls:${{ matrix.mtls }} val:${{ matrix.sslvalidation }} ca:${{ matrix.useca }}"
           path: ./Tests/ArmoniK.EndToEndTests/ArmoniK.EndToEndTests.Client/TestResults/test-results.trx
           reporter: dotnet-trx
+    
+      - name: Destroy deployment
+        uses: aneoconsulting/ArmoniK.Action.Deploy/destroy@db/addworkingdirectory 
+        with:
+          working-directory: $GITHUB_WORKSPACE/infra
+          type: localhost
 
   canMerge:
     needs: 
