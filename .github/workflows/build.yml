@@ -33,7 +33,7 @@ jobs:
         echo "Version :" >> $GITHUB_STEP_SUMMARY
         echo "$VERSION" >> $GITHUB_STEP_SUMMARY
         echo "Release :" >> $GITHUB_STEP_SUMMARY
-        echo "$RELEASE :" >> $GITHUB_STEP_SUMMARY
+        echo "$RELEASE" >> $GITHUB_STEP_SUMMARY
 
   format:
     runs-on: ubuntu-latest
@@ -192,7 +192,7 @@ jobs:
           ref: ${{ github.ref }}
 
       - name: Install Dependencies
-        uses: aneoconsulting/ArmoniK.Action.Deploy/dependencies@db/addworkingdirectory 
+        uses: aneoconsulting/ArmoniK.Action.Deploy/dependencies@main
         with:
            docker: true
            terraform: true
@@ -207,7 +207,7 @@ jobs:
 
       - id: deploy
         name: Deploy
-        uses: aneoconsulting/ArmoniK.Action.Deploy/deploy@db/addworkingdirectory
+        uses: aneoconsulting/ArmoniK.Action.Deploy/deploy@main
         with:
           working-directory: ${{ github.workspace }}/infra
           type: localhost
@@ -263,7 +263,7 @@ jobs:
     
       - name: Destroy deployment
         if: success() || failure()
-        uses: aneoconsulting/ArmoniK.Action.Deploy/destroy@db/addworkingdirectory 
+        uses: aneoconsulting/ArmoniK.Action.Deploy/destroy@main
         with:
           working-directory: ${{ github.workspace }}/infra
           type: localhost
