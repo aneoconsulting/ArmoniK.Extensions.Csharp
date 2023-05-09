@@ -1,9 +1,12 @@
 name: DeployTest
 
 on:
+  pull_request:
+    branches:
+      - main
   push:
-    branches: [ '**' ]
-    tags-ignore: [ '**' ]
+    branches:
+      - main
 
 jobs:
   versionning:
@@ -90,7 +93,7 @@ jobs:
     - name: Pack the package VERSION
       run: |
         dotnet pack ArmoniK.Extensions.Csharp.sln -c Release -o /tmp/packages -p:Version=$GENVERSION
-        
+
     - name: Push the package
       run: |
         find /tmp/packages -name 'ArmoniK*.nupkg' ! -name '*test*.nupkg' -exec dotnet nuget push {} -k ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate --no-symbols \;
@@ -174,12 +177,12 @@ jobs:
         mtls: [true, false]
         sslvalidation : [enable, disable]
         useca : [true, false]
-        exclude: 
+        exclude:
           - sslvalidation : enable
             tls : false
           - tls: false
             mtls: true
-          - useca: true 
+          - useca: true
             sslvalidation : disable
     name: "End2End tls:${{ matrix.tls }} mtls:${{ matrix.mtls }} val:${{ matrix.sslvalidation }} ca:${{ matrix.useca }}"
     runs-on: ubuntu-latest
@@ -216,7 +219,7 @@ jobs:
          mkdir -p ${HOME}/data
          bash -x ./endToEndTests.sh -b -d
          cd -
-      
+
       - name: Run tests
         run: |
          INFRA="/home/runner/work/_actions/aneoconsulting/ArmoniK/main"
@@ -239,7 +242,7 @@ jobs:
          echo "Grpc__CaCert=$Grpc__CaCert"
          echo "Grpc__ClientP12=$Grpc__ClientP12"
          dotnet test --runtime linux-x64 -f net6.0 --logger "trx;LogFileName=test-results.trx"
-         
+
       - name: Test Report
         uses: dorny/test-reporter@v1
         if: success() || failure()
@@ -247,4 +250,3 @@ jobs:
           name: IntegrationTests
           path: ./Tests/ArmoniK.EndToEndTests/ArmoniK.EndToEndTests.Client/TestResults/test-results.trx
           reporter: dotnet-trx
-
