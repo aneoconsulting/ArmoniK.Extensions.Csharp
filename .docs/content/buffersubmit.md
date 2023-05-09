@@ -1,18 +1,22 @@
+<!-- @case-police-ignore Grpc -->
+
 # Buffering submission
 
 ## Introduction
+
 A feature in Armonik.Extensions.Csharp allows buffered submission of tasks even if the submission calls are made iteratively. It is possible for the client to buffer task submissions when sending them.
 
-In the situation where a client cannot control its iterative task submission calls, two function calls named ```public async Task<string> SubmitAsync(...)``` have been made available in ArmoniK.DevelopmentKit.Client.Unified. 
+In the situation where a client cannot control its iterative task submission calls, two function calls named ```public async Task<string> SubmitAsync(...)``` have been made available in ArmoniK.DevelopmentKit.Client.Unified.
 
-The asynchronous methods SubmitAsync allows first to iteratively submit tasks without waiting for the taskId results. 
+The asynchronous methods SubmitAsync allows first to iteratively submit tasks without waiting for the taskId results.
 The buffer is submitted when it is full, or after a specified time, whichever comes first. When it is sent after the specified time, the buffer might not be full.
 A new buffer will then be made available to create a new batch of sends
 
 ## Buffer configuration
 
 The buffering can be set from the object `Properties` provided when the Service is created
-Here below an example of configuration : 
+Here below an example of configuration :
+
 ```csharp
 var props = new Properties(TaskOptions,
                              configuration.GetSection("Grpc")["EndPoint"])
@@ -23,6 +27,7 @@ var props = new Properties(TaskOptions,
                 TimeTriggerBuffer   = TimeSpan.FromSeconds(10),
               };
 ```
+
 where :
 `MaxConcurrentBuffer` is the number of buffers that can be filled in asynchronous submitAsync calls
 
@@ -35,9 +40,11 @@ where :
 In this example there are 10 buffers of 50 tasks each that will be sent over 5 Grpc channels in parallel. In other words, 2 buffers of 50 tasks will be prepared per Grpc channel
 
 ## Submission method
+
 The functions are the following:
 
 The method below will asynchronously send the task without arguments serialization
+
 ```csharp
 public async Task<string> SubmitAsync(string                    methodName,
                                       byte[]                    argument,
@@ -45,8 +52,8 @@ public async Task<string> SubmitAsync(string                    methodName,
                                       CancellationToken         token = default)
 ```
 
-
 The method below will asynchronously send the task and serialize arguments objects
+
 ```csharp
 public async Task<string> SubmitAsync(string                    methodName,
                                         object[]                  argument,
@@ -54,15 +61,14 @@ public async Task<string> SubmitAsync(string                    methodName,
                                         CancellationToken         token = default)
 ```
 
-
-
-
 ## Example
-Find below an example to configure and send tasks iteratively with buffering 
+
+Find below an example to configure and send tasks iteratively with buffering
 
 ### Creation and configuration Unified service
 
 This is the instanciation and configuration of Unified service
+
 ```csharp
   public class StressTests
   {
@@ -103,8 +109,10 @@ This is the instanciation and configuration of Unified service
       ResultHandle = new ResultForStressTestsHandler(Logger);
     }
 ```
+
 ### Example of execution tasks
-Here is the complete code to send a list of tasks : 
+
+Here is the complete code to send a list of tasks :
 
 ```csharp
     /// <summary>
@@ -161,7 +169,8 @@ Here is the complete code to send a list of tasks :
 
 ```
 
-### Result task handler 
+### Result task handler
+
 ```csharp
     private class ResultForStressTestsHandler : IServiceInvocationHandler
     {
@@ -218,8 +227,8 @@ Here is the complete code to send a list of tasks :
     }
 ```
 
+### Result output will be
 
-### Result output will be 
 <details><summary>Uncollapse output</summary>
 <p>
 
@@ -259,5 +268,6 @@ Here is the complete code to send a list of tasks :
 [11:07:46 INF] Got 224 results. All tasks submitted ? True
 [11:07:46 INF] Total result is 9407.98365779803
 ```
+
 </p>
 </details>
