@@ -4,6 +4,7 @@ on:
   push:
     branches: [ '**' ]
     tags-ignore: [ '**' ]
+  pull_request: 
 
 jobs:
   versionning:
@@ -31,7 +32,7 @@ jobs:
         echo "Version :" >> $GITHUB_STEP_SUMMARY
         echo "$VERSION" >> $GITHUB_STEP_SUMMARY
         echo "Release :" >> $GITHUB_STEP_SUMMARY
-        echo "$RELEASE :" >> $GITHUB_STEP_SUMMARY
+        echo "$RELEASE" >> $GITHUB_STEP_SUMMARY
 
   format:
     runs-on: ubuntu-latest
@@ -189,14 +190,29 @@ jobs:
         with:
           ref: ${{ github.ref }}
 
-      - uses: aneoconsulting/ArmoniK@main
-        id: deploy-infra
+      - name: Install Dependencies
+        uses: aneoconsulting/ArmoniK.Action.Deploy/dependencies@main
         with:
-          worker-image: dockerhubaneo/armonik_worker_dll
-          worker-tag: ${{ needs.versionning.outputs.version }}
-          ingress: 'None'
+           docker: true
+           terraform: true
+           k3s: true
+           aws: true
+
+      - name: Checkout Infra
+        uses: actions/checkout@v3
+        with:
+          repository: aneoconsulting/ArmoniK
+          path: infra
+
+      - id: deploy
+        name: Deploy
+        uses: aneoconsulting/ArmoniK.Action.Deploy/deploy@main
+        with:
+          working-directory: ${{ github.workspace }}/infra
+          type: localhost
           tls: ${{ matrix.tls }}
           mtls: ${{ matrix.mtls }}
+          ext-csharp-version: ${{ needs.versionning.outputs.version }}
 
       - name: Setup hosts file
         run : echo -e "$(kubectl get svc ingress -n armonik -o jsonpath={.status.loadBalancer.ingress[0].ip})\tarmonik.local" | sudo tee -a /etc/hosts
@@ -206,7 +222,7 @@ jobs:
         run: |
          sudo apt install ca-certificates
          sudo mkdir -p /usr/local/share/ca-certificates/
-         sudo cp /home/runner/work/_actions/aneoconsulting/ArmoniK/main/infrastructure/quick-deploy/localhost/armonik/generated/certificates/ingress/ca.crt /usr/local/share/ca-certificates/ca.crt
+         sudo cp ${{ steps.deploy.outputs.generated-folder }}/certificates/ingress/ca.crt /usr/local/share/ca-certificates/ca.crt
          sudo update-ca-certificates
 
       - name: Build and deploy EndToEnd.Tests
@@ -219,7 +235,7 @@ jobs:
       
       - name: Run tests
         run: |
-         INFRA="/home/runner/work/_actions/aneoconsulting/ArmoniK/main"
+         set -ex
          kubectl get svc -n armonik -o wide
          export CPPort=$(kubectl get svc ingress -n armonik -o custom-columns="PORT:.spec.ports[1].port" --no-headers=true)
          if [ "${{ matrix.tls }}" = "true" ]; then
@@ -229,22 +245,33 @@ jobs:
          fi
          export Grpc__SSLValidation=${{ matrix.sslvalidation }}
          if [ "${{ matrix.useca }}" = "true" ]; then
-          export Grpc__CaCert="$INFRA/infrastructure/quick-deploy/localhost/armonik/generated/certificates/ingress/ca.crt"
+          export Grpc__CaCert="${{ steps.deploy.outputs.generated-folder }}/certificates/ingress/ca.crt"
          fi
          if [ "${{ matrix.mtls }}" = "true" ]; then
-          export Grpc__ClientP12="$INFRA/infrastructure/quick-deploy/localhost/armonik/generated/certificates/ingress/client.submitter.p12"
+          export Grpc__ClientP12="${{ steps.deploy.outputs.generated-folder }}/certificates/ingress/client.submitter.p12"
          fi
-         echo "Grpc__Endpoint=$Grpc__Endpoint"
-         echo "Grpc__SSLValidation=$Grpc__SSLValidation"
-         echo "Grpc__CaCert=$Grpc__CaCert"
-         echo "Grpc__ClientP12=$Grpc__ClientP12"
          dotnet test --runtime linux-x64 -f net6.0 --logger "trx;LogFileName=test-results.trx"
          
       - name: Test Report
         uses: dorny/test-reporter@v1
         if: success() || failure()
         with:
-          name: IntegrationTests
+          name: "IntegrationTests tls:${{ matrix.tls }} mtls:${{ matrix.mtls }} val:${{ matrix.sslvalidation }} ca:${{ matrix.useca }}"
           path: ./Tests/ArmoniK.EndToEndTests/ArmoniK.EndToEndTests.Client/TestResults/test-results.trx
           reporter: dotnet-trx
+    
+      - name: Destroy deployment
+        if: success() || failure()
+        uses: aneoconsulting/ArmoniK.Action.Deploy/destroy@main
+        with:
+          working-directory: ${{ github.workspace }}/infra
+          type: localhost
 
+  canMerge:
+    needs: 
+      - testEndToEnd
+      - format
+    runs-on: ubuntu-latest
+    steps:
+      - name: Echo OK
+        run: echo OK
