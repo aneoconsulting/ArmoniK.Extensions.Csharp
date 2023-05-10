@@ -37,7 +37,7 @@ using ArmoniK.Api.gRPC.V1.Tasks;
 using ArmoniK.DevelopmentKit.Client.Common.Status;
 using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.Common.Exceptions;
-using ArmoniK.DevelopmentKit.Common.Extensions;
+using ArmoniK.Utils;
 
 using Google.Protobuf;
 
@@ -168,7 +168,7 @@ public class BaseClientSubmitter<T>
   [PublicAPI]
   public IEnumerable<string> SubmitTasksWithDependencies(IEnumerable<Tuple<string, byte[], IList<string>>> payloadsWithDependencies,
                                                          int                                               maxRetries = 5)
-    => payloadsWithDependencies.ToChunk(chunkSubmitSize_)
+    => payloadsWithDependencies.ToChunks(chunkSubmitSize_)
                                .SelectMany(chunk => ChunkSubmitTasksWithDependencies(chunk,
                                                                                      maxRetries));
 
@@ -185,7 +185,7 @@ public class BaseClientSubmitter<T>
   [PublicAPI]
   public IEnumerable<string> SubmitTasksWithDependencies(IEnumerable<Tuple<byte[], IList<string>>> payloadsWithDependencies,
                                                          int                                       maxRetries = 5)
-    => payloadsWithDependencies.ToChunk(chunkSubmitSize_)
+    => payloadsWithDependencies.ToChunks(chunkSubmitSize_)
                                .SelectMany(chunk =>
                                            {
                                              return ChunkSubmitTasksWithDependencies(chunk.Select(subPayloadWithDependencies => Tuple.Create(Guid.NewGuid()

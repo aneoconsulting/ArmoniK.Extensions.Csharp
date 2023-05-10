@@ -37,7 +37,7 @@ using ArmoniK.DevelopmentKit.Client.Unified.Factory;
 using ArmoniK.DevelopmentKit.Client.Unified.Services.Common;
 using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.Common.Exceptions;
-using ArmoniK.DevelopmentKit.Common.Extensions;
+using ArmoniK.Utils;
 
 using Grpc.Core;
 
@@ -579,7 +579,7 @@ public class Service : AbstractClientService, ISubmitterService
     while (missing.Count != 0)
     {
       foreach (var bucket in missing.ToList()
-                                    .ToChunk(chunkResultSize))
+                                    .ToChunks(chunkResultSize))
       {
         var resultStatusCollection = SessionService.GetResultStatus(bucket);
 
