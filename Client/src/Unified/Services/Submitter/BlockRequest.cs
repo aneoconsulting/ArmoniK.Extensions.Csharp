@@ -25,6 +25,7 @@
 using System;
 using System.Threading;
 
+using ArmoniK.Api.gRPC.V1;
 using ArmoniK.DevelopmentKit.Client.Common;
 using ArmoniK.DevelopmentKit.Common;
 
@@ -42,5 +43,7 @@ internal class BlockRequest
   public SemaphoreSlim Lock     { get; set; }
   public Guid          SubmitId { get; set; }
 
-  public Guid ResultId { get; set; }
+  public Guid        ResultId    { get; set; }
+  public int         MaxRetries  { get; set; } = 5;
+  public TaskOptions TaskOptions { get; set; }
 }

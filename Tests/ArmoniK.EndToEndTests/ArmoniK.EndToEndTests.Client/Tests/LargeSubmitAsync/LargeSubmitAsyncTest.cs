@@ -81,7 +81,7 @@ public class LargeSubmitAsyncTest
                                       UnitTestHelperBase.ParamsHelper(numbers,
                                                                       workloadTimeInMs),
                                       localUnifiedTestHelper,
-                                      cancellationSource.Token));
+                                      token: cancellationSource.Token));
     }
     //System.Threading.Thread.Sleep(10000);
 

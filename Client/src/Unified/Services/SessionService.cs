@@ -153,9 +153,18 @@ public class SessionService : BaseClientSubmitter<SessionService>
   /// <param name="payloads">
   ///   The user payload list to execute. General used for subTasking.
   /// </param>
-  public IEnumerable<string> SubmitTasks(IEnumerable<byte[]> payloads)
+  /// <param name="maxRetries">The number of retry before fail to submit task. Default = 5 retries</param>
+  /// <param name="taskOptions">
+  ///   TaskOptions argument to override default taskOptions in Session.
+  ///   If non null it will override the default taskOptions in SessionService for client or given by taskHandler for worker
+  /// </param>
+  public IEnumerable<string> SubmitTasks(IEnumerable<byte[]> payloads,
+                                         int                 maxRetries  = 5,
+                                         TaskOptions         taskOptions = null)
     => SubmitTasksWithDependencies(payloads.Select(payload => new Tuple<byte[], IList<string>>(payload,
-                                                                                               null)));
+                                                                                               null)),
+                                   maxRetries,
+                                   taskOptions);
 
   /// <summary>
   ///   User method to submit task from the client
@@ -164,14 +173,23 @@ public class SessionService : BaseClientSubmitter<SessionService>
   ///   The user payload to execute.
   /// </param>
   /// <param name="waitTimeBeforeNextSubmit">The time to wait before 2 single submitTask</param>
-  public string SubmitTask(byte[] payload,
-                           int    waitTimeBeforeNextSubmit = 2)
+  /// <param name="maxRetries">The number of retry before fail to submit task. Default = 5 retries</param>
+  /// <param name="taskOptions">
+  ///   TaskOptions argument to override default taskOptions in Session.
+  ///   If non null it will override the default taskOptions in SessionService for client or given by taskHandler for worker
+  /// </param>
+  public string SubmitTask(byte[]      payload,
+                           int         waitTimeBeforeNextSubmit = 2,
+                           int         maxRetries               = 5,
+                           TaskOptions taskOptions              = null)
   {
     Thread.Sleep(waitTimeBeforeNextSubmit); // Twice the keep alive
     return SubmitTasks(new[]
                        {
                          payload,
-                       })
+                       },
+                       maxRetries,
+                       taskOptions)
       .Single();
   }
 
@@ -182,14 +200,23 @@ public class SessionService : BaseClientSubmitter<SessionService>
   /// </summary>
   /// <param name="payload">The payload to submit</param>
   /// <param name="dependencies">A list of task Id in dependence of this created task</param>
+  /// <param name="maxRetries">The number of retry before fail to submit task. Default = 5 retries</param>
+  /// <param name="taskOptions">
+  ///   TaskOptions argument to override default taskOptions in Session.
+  ///   If non null it will override the default taskOptions in SessionService for client or given by taskHandler for worker
+  /// </param>
   /// <returns>return the taskId of the created task </returns>
   public string SubmitTaskWithDependencies(byte[]        payload,
-                                           IList<string> dependencies)
+                                           IList<string> dependencies,
+                                           int           maxRetries  = 5,
+                                           TaskOptions   taskOptions = null)
     => SubmitTasksWithDependencies(new[]
                                    {
                                      Tuple.Create(payload,
                                                   dependencies),
-                                   })
+                                   },
+                                   maxRetries,
+                                   taskOptions)
       .Single();
 #pragma warning restore CS1591
 }

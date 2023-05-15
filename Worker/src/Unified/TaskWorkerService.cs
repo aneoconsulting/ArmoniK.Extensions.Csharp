@@ -182,8 +182,17 @@ public abstract class TaskWorkerService : ITaskContextConfiguration, ISessionSer
   /// <param name="payloads">
   ///   The user payload list to execute. Generally used for subTasking.
   /// </param>
-  public IEnumerable<string> SubmitTasks(IEnumerable<byte[]> payloads)
-    => SessionService.SubmitTasks(payloads);
+  /// <param name="maxRetries">The number of retry before fail to submit task. Default = 5 retries</param>
+  /// <param name="taskOptions">
+  ///   TaskOptions argument to override default taskOptions in Session.
+  ///   If non null it will override the default taskOptions in SessionService for client or given by taskHandler for worker
+  /// </param>
+  public IEnumerable<string> SubmitTasks(IEnumerable<byte[]> payloads,
+                                         int                 maxRetries  = 5,
+                                         TaskOptions         taskOptions = null)
+    => SessionService.SubmitTasks(payloads,
+                                  maxRetries,
+                                  taskOptions);
 
 
   /// <summary>
@@ -192,11 +201,17 @@ public abstract class TaskWorkerService : ITaskContextConfiguration, ISessionSer
   /// </summary>
   /// <param name="payloadWithDependencies">A list of Tuple(taskId, Payload) in dependence of those created tasks</param>
   /// <param name="resultForParent">Transmit the result to parent task if true</param>
+  /// <param name="maxRetries">The number of retry before fail to submit task</param>
+  /// <param name="taskOptions">TaskOptions overrides if non null override default in Sessions</param>
   /// <returns>return a list of taskIds of the created tasks </returns>
   public IEnumerable<string> SubmitTasksWithDependencies(IEnumerable<Tuple<byte[], IList<string>>> payloadWithDependencies,
-                                                         bool                                      resultForParent = false)
+                                                         bool                                      resultForParent = false,
+                                                         int                                       maxRetries      = 5,
+                                                         TaskOptions                               taskOptions     = null)
     => SessionService.SubmitTasksWithDependencies(payloadWithDependencies,
-                                                  resultForParent);
+                                                  resultForParent,
+                                                  maxRetries,
+                                                  taskOptions);
 
 
   /// <summary>
@@ -205,11 +220,20 @@ public abstract class TaskWorkerService : ITaskContextConfiguration, ISessionSer
   /// <param name="payload">
   ///   The user payload to execute. Generally used for subtasking.
   /// </param>
-  public string SubmitTask(byte[] payload)
+  /// <param name="maxRetries">The number of retry before fail to submit task. Default = 5 retries</param>
+  /// <param name="taskOptions">
+  ///   TaskOptions argument to override default taskOptions in Session.
+  ///   If non null it will override the default taskOptions in SessionService for client or given by taskHandler for worker
+  /// </param>
+  public string SubmitTask(byte[]      payload,
+                           int         maxRetries  = 5,
+                           TaskOptions taskOptions = null)
     => SessionService.SubmitTasks(new[]
                                   {
                                     payload,
-                                  })
+                                  },
+                                  maxRetries,
+                                  taskOptions)
                      .Single();
 
 
@@ -221,8 +245,15 @@ public abstract class TaskWorkerService : ITaskContextConfiguration, ISessionSer
   ///   <remarks>It is case sensitive</remarks>
   /// </param>
   /// <param name="arguments">The arguments of the method to call </param>
-  public string SubmitTask(string   methodName,
-                           object[] arguments)
+  /// <param name="maxRetries">The number of retry before fail to submit task. Default = 5 retries</param>
+  /// <param name="taskOptions">
+  ///   TaskOptions argument to override default taskOptions in Session.
+  ///   If non null it will override the default taskOptions in SessionService for client or given by taskHandler for worker
+  /// </param>
+  public string SubmitTask(string      methodName,
+                           object[]    arguments,
+                           int         maxRetries  = 5,
+                           TaskOptions taskOptions = null)
   {
     var protoSerializer = new ProtoSerializer();
     ArmonikPayload armonikPayload = new()
@@ -234,7 +265,9 @@ public abstract class TaskWorkerService : ITaskContextConfiguration, ISessionSer
     return SessionService.SubmitTasks(new[]
                                       {
                                         armonikPayload.Serialize(),
-                                      })
+                                      },
+                                      maxRetries,
+                                      taskOptions)
                          .Single();
   }
 
@@ -246,16 +279,25 @@ public abstract class TaskWorkerService : ITaskContextConfiguration, ISessionSer
   /// <param name="payload">The payload to submit</param>
   /// <param name="dependencies">A list of task Id in dependence of this created task</param>
   /// <param name="resultForParent"></param>
+  /// <param name="maxRetries">The number of retry before fail to submit task. Default = 5 retries</param>
+  /// <param name="taskOptions">
+  ///   TaskOptions argument to override default taskOptions in Session.
+  ///   If non null it will override the default taskOptions in SessionService for client or given by taskHandler for worker
+  /// </param>
   /// <returns>return the taskId of the created task </returns>
   public string SubmitTaskWithDependencie(byte[]        payload,
                                           IList<string> dependencies,
-                                          bool          resultForParent = false)
+                                          bool          resultForParent = false,
+                                          int           maxRetries      = 5,
+                                          TaskOptions   taskOptions     = null)
     => SessionService.SubmitTasksWithDependencies(new[]
                                                   {
                                                     Tuple.Create(payload,
                                                                  dependencies),
                                                   },
-                                                  resultForParent)
+                                                  resultForParent,
+                                                  maxRetries,
+                                                  taskOptions)
                      .Single();
 
   /// <summary>
@@ -266,11 +308,18 @@ public abstract class TaskWorkerService : ITaskContextConfiguration, ISessionSer
   /// <param name="arguments">The arguments to submit</param>
   /// <param name="dependencies">A list of task Id in dependence of this created task</param>
   /// <param name="resultForParent"></param>
+  /// <param name="maxRetries">The number of retry before fail to submit task. Default = 5 retries</param>
+  /// <param name="taskOptions">
+  ///   TaskOptions argument to override default taskOptions in Session.
+  ///   If non null it will override the default taskOptions in SessionService for client or given by taskHandler for worker
+  /// </param>
   /// <returns>return the taskId of the created task </returns>
   public string SubmitTaskWithDependencies(string        methodName,
                                            object[]      arguments,
                                            IList<string> dependencies,
-                                           bool          resultForParent = false)
+                                           bool          resultForParent = false,
+                                           int           maxRetries      = 5,
+                                           TaskOptions   taskOptions     = null)
   {
     var protoSerializer = new ProtoSerializer();
     ArmonikPayload armonikPayload = new()
@@ -284,7 +333,9 @@ public abstract class TaskWorkerService : ITaskContextConfiguration, ISessionSer
                                                         Tuple.Create(armonikPayload.Serialize(),
                                                                      dependencies),
                                                       },
-                                                      resultForParent)
+                                                      resultForParent,
+                                                      maxRetries,
+                                                      taskOptions)
                          .Single();
   }
 

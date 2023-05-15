@@ -143,6 +143,25 @@ public class Service : AbstractClientService, ISubmitterService
                                     return;
                                   }
 
+                                  var distinctRetry = blockRequestList.Select(x => x.TaskOptions.MaxRetries)
+                                                                      .Distinct()
+                                                                      .Count();
+                                  var distinctPriority = blockRequestList.Select(x => x.TaskOptions.Priority)
+                                                                         .Distinct()
+                                                                         .Count();
+
+                                  if (distinctRetry > 1)
+                                  {
+                                    throw new
+                                      InvalidOperationException("The taskOptions maxRetries in AsyncBuffer has at least one different value. Please bundle tasks with same maxRetries");
+                                  }
+
+                                  if (distinctPriority > 1)
+                                  {
+                                    throw new
+                                      InvalidOperationException("The taskOptions priority in AsyncBuffer has at least one different value. Please bundle tasks with same Priority");
+                                  }
+
                                   Logger?.LogInformation("Submitting buffer of {count} task...",
                                                          blockRequestList.Count);
 
@@ -161,7 +180,10 @@ public class Service : AbstractClientService, ISubmitterService
                                                                                                              Tuple<string, byte[], IList<string>>(x.ResultId.ToString(),
                                                                                                                                                   x.Payload!.Serialize(),
                                                                                                                                                   null)),
-                                                                                   1);
+                                                                                   blockRequestList.First()
+                                                                                                   .MaxRetries,
+                                                                                   blockRequestList.First()
+                                                                                                   .TaskOptions);
 
 
                                       var ids            = taskIds.ToList();
@@ -320,10 +342,17 @@ public class Service : AbstractClientService, ISubmitterService
   /// <param name="methodName">The name of the method inside the service</param>
   /// <param name="argument">One serialized argument that will already serialize for MethodName.</param>
   /// <param name="handler">The handler callBack implemented as IServiceInvocationHandler to get response or result or error</param>
+  /// <param name="maxRetries">The number of retry before fail to submit task. Default = 5 retries</param>
+  /// <param name="taskOptions">
+  ///   TaskOptions argument to override default taskOptions in Session.
+  ///   If non null it will override the default taskOptions in SessionService for client or given by taskHandler for worker
+  /// </param>
   /// <returns>Returns the taskId string</returns>
   public string Submit(string                    methodName,
                        byte[]                    argument,
-                       IServiceInvocationHandler handler)
+                       IServiceInvocationHandler handler,
+                       int                       maxRetries  = 5,
+                       TaskOptions               taskOptions = null)
   {
     ArmonikPayload payload = new()
                              {
@@ -332,7 +361,9 @@ public class Service : AbstractClientService, ISubmitterService
                                SerializedArguments = true,
                              };
 
-    var taskId = SessionService.SubmitTask(payload.Serialize());
+    var taskId = SessionService.SubmitTask(payload.Serialize(),
+                                           maxRetries: maxRetries,
+                                           taskOptions: taskOptions);
     ResultHandlerDictionary[taskId] = handler;
     return taskId;
   }
@@ -344,10 +375,17 @@ public class Service : AbstractClientService, ISubmitterService
   /// <param name="methodName">The name of the method inside the service</param>
   /// <param name="arguments">List of serialized arguments that will already serialize for MethodName.</param>
   /// <param name="handler">The handler callBack implemented as IServiceInvocationHandler to get response or result or error</param>
+  /// <param name="maxRetries">The number of retry before fail to submit task. Default = 5 retries</param>
+  /// <param name="taskOptions">
+  ///   TaskOptions argument to override default taskOptions in Session.
+  ///   If non null it will override the default taskOptions in SessionService for client or given by taskHandler for worker
+  /// </param>
   /// <returns>Return the taskId string</returns>
   public IEnumerable<string> Submit(string                    methodName,
                                     IEnumerable<byte[]>       arguments,
-                                    IServiceInvocationHandler handler)
+                                    IServiceInvocationHandler handler,
+                                    int                       maxRetries  = 5,
+                                    TaskOptions               taskOptions = null)
   {
     var armonikPayloads = arguments.Select(args => new ArmonikPayload
                                                    {
@@ -356,7 +394,9 @@ public class Service : AbstractClientService, ISubmitterService
                                                      SerializedArguments = true,
                                                    });
 
-    var taskIds   = SessionService.SubmitTasks(armonikPayloads.Select(p => p.Serialize()));
+    var taskIds = SessionService.SubmitTasks(armonikPayloads.Select(p => p.Serialize()),
+                                             maxRetries,
+                                             taskOptions);
     var submitted = taskIds as string[] ?? taskIds.ToArray();
     foreach (var taskid in submitted)
     {
@@ -373,12 +413,19 @@ public class Service : AbstractClientService, ISubmitterService
   /// <param name="methodName">The name of the method inside the service</param>
   /// <param name="argument">One serialized argument that will already serialize for MethodName.</param>
   /// <param name="handler">The handler callBack implemented as IServiceInvocationHandler to get response or result or error</param>
+  /// <param name="maxRetries">The number of retry before fail to submit task. Default = 5 retries</param>
+  /// <param name="taskOptions">
+  ///   TaskOptions argument to override default taskOptions in Session.
+  ///   If non null it will override the default taskOptions in SessionService for client or given by taskHandler for worker
+  /// </param>
   /// <param name="token">The cancellation token</param>
   /// <returns>Returns the taskId string</returns>
   public async Task<string> SubmitAsync(string                    methodName,
                                         object[]                  argument,
                                         IServiceInvocationHandler handler,
-                                        CancellationToken         token = default)
+                                        int                       maxRetries  = 5,
+                                        TaskOptions               taskOptions = null,
+                                        CancellationToken         token       = default)
   {
     await semaphoreSlim_.WaitAsync(token);
 
@@ -391,8 +438,10 @@ public class Service : AbstractClientService, ISubmitterService
                                      ClientPayload       = ProtoSerializer.SerializeMessageObjectArray(argument),
                                      SerializedArguments = false,
                                    },
-                         Handler = handler,
-                         Lock    = semaphoreSlim_,
+                         Handler     = handler,
+                         MaxRetries  = maxRetries,
+                         TaskOptions = taskOptions,
+                         Lock        = semaphoreSlim_,
                        };
 
     return await SubmitAsync(blockRequest,
@@ -406,11 +455,18 @@ public class Service : AbstractClientService, ISubmitterService
   /// <param name="argument">One serialized argument that will already serialize for MethodName.</param>
   /// <param name="handler">The handler callBack implemented as IServiceInvocationHandler to get response or result or error</param>
   /// <param name="token">The cancellation token to set to cancel the async task</param>
+  /// <param name="maxRetries">The number of retry before fail to submit task. Default = 5 retries</param>
+  /// <param name="taskOptions">
+  ///   TaskOptions argument to override default taskOptions in Session.
+  ///   If non null it will override the default taskOptions in SessionService for client or given by taskHandler for worker
+  /// </param>
   /// <returns>Return the taskId string</returns>
   public async Task<string> SubmitAsync(string                    methodName,
                                         byte[]                    argument,
                                         IServiceInvocationHandler handler,
-                                        CancellationToken         token = default)
+                                        int                       maxRetries  = 5,
+                                        TaskOptions               taskOptions = null,
+                                        CancellationToken         token       = default)
   {
     await semaphoreSlim_.WaitAsync(token);
 
@@ -423,8 +479,10 @@ public class Service : AbstractClientService, ISubmitterService
                                            ClientPayload       = argument,
                                            SerializedArguments = true,
                                          },
-                               Handler = handler,
-                               Lock    = semaphoreSlim_,
+                               Handler     = handler,
+                               MaxRetries  = maxRetries,
+                               TaskOptions = taskOptions,
+                               Lock        = semaphoreSlim_,
                              },
                              token)
              .ConfigureAwait(false);
@@ -479,9 +537,16 @@ public class Service : AbstractClientService, ISubmitterService
   /// </summary>
   /// <param name="methodName">The string name of the method</param>
   /// <param name="arguments">the array of object to pass as arguments for the method</param>
+  /// <param name="maxRetries">The number of retry before fail to submit task. Default = 5 retries</param>
+  /// <param name="taskOptions">
+  ///   TaskOptions argument to override default taskOptions in Session.
+  ///   If non null it will override the default taskOptions in SessionService for client or given by taskHandler for worker
+  /// </param>
   /// <returns>Returns a tuple with the taskId string and an object as result of the method call</returns>
-  public ServiceResult Execute(string   methodName,
-                               object[] arguments)
+  public ServiceResult Execute(string      methodName,
+                               object[]    arguments,
+                               int         maxRetries  = 5,
+                               TaskOptions taskOptions = null)
   {
     ArmonikPayload unifiedPayload = new()
                                     {
@@ -489,7 +554,9 @@ public class Service : AbstractClientService, ISubmitterService
                                       ClientPayload = ProtoSerializer.SerializeMessageObjectArray(arguments),
                                     };
 
-    var taskId = SessionService.SubmitTask(unifiedPayload.Serialize());
+    var taskId = SessionService.SubmitTask(unifiedPayload.Serialize(),
+                                           maxRetries: maxRetries,
+                                           taskOptions: taskOptions);
 
     var result = ProtoSerializer.DeSerializeMessageObjectArray(SessionService.GetResult(taskId));
 
@@ -506,9 +573,16 @@ public class Service : AbstractClientService, ISubmitterService
   /// </summary>
   /// <param name="methodName">The string name of the method</param>
   /// <param name="dataArg">the array of byte to pass as argument for the methodName(byte[] dataArg)</param>
+  /// <param name="maxRetries">The number of retry before fail to submit task. Default = 5 retries</param>
+  /// <param name="taskOptions">
+  ///   TaskOptions argument to override default taskOptions in Session.
+  ///   If non null it will override the default taskOptions in SessionService for client or given by taskHandler for worker
+  /// </param>
   /// <returns>Returns a tuple with the taskId string and an object as result of the method call</returns>
-  public ServiceResult Execute(string methodName,
-                               byte[] dataArg)
+  public ServiceResult Execute(string      methodName,
+                               byte[]      dataArg,
+                               int         maxRetries  = 5,
+                               TaskOptions taskOptions = null)
   {
     ArmonikPayload unifiedPayload = new()
                                     {
@@ -522,7 +596,9 @@ public class Service : AbstractClientService, ISubmitterService
 
     try
     {
-      taskId = SessionService.SubmitTask(unifiedPayload.Serialize());
+      taskId = SessionService.SubmitTask(unifiedPayload.Serialize(),
+                                         maxRetries: maxRetries,
+                                         taskOptions: taskOptions);
 
       result = ProtoSerializer.DeSerializeMessageObjectArray(SessionService.GetResult(taskId));
     }

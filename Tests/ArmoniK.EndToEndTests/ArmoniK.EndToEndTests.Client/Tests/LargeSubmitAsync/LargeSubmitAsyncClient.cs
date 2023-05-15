@@ -224,7 +224,7 @@ public class LargeSubmitAsyncClient : ClientBaseTest<LargeSubmitAsyncClient>, IS
                                                                                                       ParamsHelper(numbers,
                                                                                                                    workloadTimeInMs),
                                                                                                       this,
-                                                                                                      token);
+                                                                                                      token: token);
 
                                                                return result;
                                                              });

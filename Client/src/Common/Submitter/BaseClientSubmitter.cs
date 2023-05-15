@@ -163,14 +163,17 @@ public class BaseClientSubmitter<T>
   ///   A list of Tuple(resultId, payload, parent dependencies) in dependence of those
   ///   created tasks
   /// </param>
-  /// <param name="maxRetries">The number of retry before fail to submit task</param>
+  /// <param name="maxRetries">The number of retry before fail to submit task. Default = 5 retries</param>
+  /// <param name="taskOptions">TaskOptions overrides if non null override default in Session</param>
   /// <returns>return a list of taskIds of the created tasks </returns>
   [PublicAPI]
   public IEnumerable<string> SubmitTasksWithDependencies(IEnumerable<Tuple<string, byte[], IList<string>>> payloadsWithDependencies,
-                                                         int                                               maxRetries = 5)
+                                                         int                                               maxRetries  = 5,
+                                                         TaskOptions                                       taskOptions = null)
     => payloadsWithDependencies.ToChunks(chunkSubmitSize_)
                                .SelectMany(chunk => ChunkSubmitTasksWithDependencies(chunk,
-                                                                                     maxRetries));
+                                                                                     maxRetries,
+                                                                                     taskOptions));
 
   /// <summary>
   ///   The method to submit several tasks with dependencies tasks. This task will wait for
@@ -180,11 +183,16 @@ public class BaseClientSubmitter<T>
   ///   A list of Tuple(Payload, parent dependencies) in dependence of those created
   ///   tasks
   /// </param>
-  /// <param name="maxRetries">The number of retry before fail to submit task</param>
+  /// <param name="maxRetries">The number of retry before fail to submit task. Default = 5 retries</param>
+  /// <param name="taskOptions">
+  ///   TaskOptions argument to override default taskOptions in Session.
+  ///   If non null it will override the default taskOptions in SessionService for client or given by taskHandler for worker
+  /// </param>
   /// <returns>return a list of taskIds of the created tasks </returns>
   [PublicAPI]
   public IEnumerable<string> SubmitTasksWithDependencies(IEnumerable<Tuple<byte[], IList<string>>> payloadsWithDependencies,
-                                                         int                                       maxRetries = 5)
+                                                         int                                       maxRetries  = 5,
+                                                         TaskOptions                               taskOptions = null)
     => payloadsWithDependencies.ToChunks(chunkSubmitSize_)
                                .SelectMany(chunk =>
                                            {
@@ -194,7 +202,8 @@ public class BaseClientSubmitter<T>
                                                                                                                                                .Item1,
                                                                                                                                              subPayloadWithDependencies
                                                                                                                                                .Item2)),
-                                                                                     maxRetries);
+                                                                                     maxRetries,
+                                                                                     taskOptions);
                                            });
 
 
@@ -204,10 +213,15 @@ public class BaseClientSubmitter<T>
   /// </summary>
   /// <param name="payloadsWithDependencies">A list of Tuple(resultId, Payload) in dependence of those created tasks</param>
   /// <param name="maxRetries">Set the number of retries Default Value 5</param>
+  /// <param name="taskOptions">
+  ///   TaskOptions argument to override default taskOptions in Session.
+  ///   If non null it will override the default taskOptions in SessionService for client or given by taskHandler for worker
+  /// </param>
   /// <returns>return the ids of the created tasks</returns>
   [PublicAPI]
   private IEnumerable<string> ChunkSubmitTasksWithDependencies(IEnumerable<Tuple<string, byte[], IList<string>>> payloadsWithDependencies,
-                                                               int                                               maxRetries)
+                                                               int                                               maxRetries,
+                                                               TaskOptions                                       taskOptions = null)
   {
     using var _ = Logger?.LogFunction();
 
@@ -228,7 +242,7 @@ public class BaseClientSubmitter<T>
                                                             InitRequest = new CreateLargeTaskRequest.Types.InitRequest
                                                                           {
                                                                             SessionId   = SessionId.Id,
-                                                                            TaskOptions = TaskOptions,
+                                                                            TaskOptions = taskOptions ?? TaskOptions,
                                                                           },
                                                           })
                                 .Wait();

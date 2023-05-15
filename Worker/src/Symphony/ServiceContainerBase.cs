@@ -156,8 +156,17 @@ public abstract class ServiceContainerBase
   /// <param name="payloads">
   ///   The user payload list to execute. Generally used for subTasking.
   /// </param>
-  public IEnumerable<string> SubmitTasks(IEnumerable<byte[]> payloads)
-    => SessionService.SubmitTasks(payloads);
+  /// <param name="maxRetries">The number of retry before fail to submit task. Default = 5 retries</param>
+  /// <param name="taskOptions">
+  ///   TaskOptions argument to override default taskOptions in Session.
+  ///   If non null it will override the default taskOptions in SessionService for client or given by taskHandler for worker
+  /// </param>
+  public IEnumerable<string> SubmitTasks(IEnumerable<byte[]> payloads,
+                                         int                 maxRetries  = 5,
+                                         TaskOptions         taskOptions = null)
+    => SessionService.SubmitTasks(payloads,
+                                  maxRetries,
+                                  taskOptions);
 
 
   /// <summary>
@@ -166,11 +175,20 @@ public abstract class ServiceContainerBase
   /// </summary>
   /// <param name="payloadWithDependencies">A list of Tuple(taskId, Payload) in dependence of those created tasks</param>
   /// <param name="resultForParent">Up result to parent task</param>
+  /// <param name="maxRetries">The number of retry before fail to submit task. Default = 5 retries</param>
+  /// <param name="taskOptions">
+  ///   TaskOptions argument to override default taskOptions in Session.
+  ///   If non null it will override the default taskOptions in SessionService for client or given by taskHandler for worker
+  /// </param>
   /// <returns>return a list of taskIds of the created tasks </returns>
   public IEnumerable<string> SubmitTasksWithDependencies(IEnumerable<Tuple<byte[], IList<string>>> payloadWithDependencies,
-                                                         bool                                      resultForParent = false)
+                                                         bool                                      resultForParent = false,
+                                                         int                                       maxRetries      = 5,
+                                                         TaskOptions                               taskOptions     = null)
     => SessionService.SubmitTasksWithDependencies(payloadWithDependencies,
-                                                  resultForParent);
+                                                  resultForParent,
+                                                  maxRetries,
+                                                  taskOptions);
 
   /// <summary>
   ///   The method to submit one subtask with dependencies tasks. This task will wait for
@@ -178,15 +196,24 @@ public abstract class ServiceContainerBase
   /// </summary>
   /// <param name="payload">The payload to submit</param>
   /// <param name="dependencies">A list of task Id in dependence of this created SubTask</param>
+  /// <param name="maxRetries">The number of retry before fail to submit task. Default = 5 retries</param>
+  /// <param name="taskOptions">
+  ///   TaskOptions argument to override default taskOptions in Session.
+  ///   If non null it will override the default taskOptions in SessionService for client or given by taskHandler for worker
+  /// </param>
   /// <returns>return the taskId of the created SubTask </returns>
   [Obsolete]
   public string SubmitSubtaskWithDependencies(byte[]        payload,
-                                              IList<string> dependencies)
+                                              IList<string> dependencies,
+                                              int           maxRetries  = 5,
+                                              TaskOptions   taskOptions = null)
     => SubmitSubtasksWithDependencies(new[]
                                       {
                                         Tuple.Create(payload,
                                                      dependencies),
-                                      })
+                                      },
+                                      maxRetries,
+                                      taskOptions)
       .Single();
 
   /// <summary>
@@ -194,10 +221,19 @@ public abstract class ServiceContainerBase
   ///   to start until all dependencies are completed successfully
   /// </summary>
   /// <param name="payloadWithDependencies">A list of Tuple(taskId, Payload) in dependence of those created Subtasks</param>
+  /// <param name="maxRetries">The number of retry before fail to submit task. Default = 5 retries</param>
+  /// <param name="taskOptions">
+  ///   TaskOptions argument to override default taskOptions in Session.
+  ///   If non null it will override the default taskOptions in SessionService for client or given by taskHandler for worker
+  /// </param>
   /// <returns>return a list of taskIds of the created subtasks </returns>
   [Obsolete]
-  public IEnumerable<string> SubmitSubtasksWithDependencies(IEnumerable<Tuple<byte[], IList<string>>> payloadWithDependencies)
-    => SessionService.SubmitTasksWithDependencies(payloadWithDependencies);
+  public IEnumerable<string> SubmitSubtasksWithDependencies(IEnumerable<Tuple<byte[], IList<string>>> payloadWithDependencies,
+                                                            int                                       maxRetries  = 5,
+                                                            TaskOptions                               taskOptions = null)
+    => SessionService.SubmitTasksWithDependencies(payloadWithDependencies,
+                                                  maxRetries: maxRetries,
+                                                  taskOptions: taskOptions);
 
   /// <summary>
   ///   User method to wait for only the parent task from the client
@@ -292,12 +328,21 @@ public static class ServiceContainerBaseExt
   /// <param name="payload">
   ///   The user payload to execute. Generally used for subtasking.
   /// </param>
+  /// <param name="maxRetries">The number of retry before fail to submit task. Default = 5 retries</param>
+  /// <param name="taskOptions">
+  ///   TaskOptions argument to override default taskOptions in Session.
+  ///   If non null it will override the default taskOptions in SessionService for client or given by taskHandler for worker
+  /// </param>
   public static string SubmitTask(this ServiceContainerBase serviceContainerBase,
-                                  byte[]                    payload)
+                                  byte[]                    payload,
+                                  int                       maxRetries  = 5,
+                                  TaskOptions               taskOptions = null)
     => serviceContainerBase.SessionService.SubmitTasks(new[]
                                                        {
                                                          payload,
-                                                       })
+                                                       },
+                                                       maxRetries,
+                                                       taskOptions)
                            .Single();
 
   /// <summary>
@@ -308,17 +353,26 @@ public static class ServiceContainerBaseExt
   /// <param name="payload">The payload to submit</param>
   /// <param name="dependencies">A list of task Id in dependence of this created task</param>
   /// <param name="resultForParent"></param>
+  /// <param name="maxRetries">The number of retry before fail to submit task. Default = 5 retries</param>
+  /// <param name="taskOptions">
+  ///   TaskOptions argument to override default taskOptions in Session.
+  ///   If non null it will override the default taskOptions in SessionService for client or given by taskHandler for worker
+  /// </param>
   /// <returns>return the taskId of the created task </returns>
   public static string SubmitTaskWithDependencies(this ServiceContainerBase serviceContainerBase,
                                                   byte[]                    payload,
                                                   IList<string>             dependencies,
-                                                  bool                      resultForParent = false)
+                                                  bool                      resultForParent = false,
+                                                  int                       maxRetries      = 5,
+                                                  TaskOptions               taskOptions     = null)
     => serviceContainerBase.SubmitTasksWithDependencies(new[]
                                                         {
                                                           Tuple.Create(payload,
                                                                        dependencies),
                                                         },
-                                                        resultForParent)
+                                                        resultForParent,
+                                                        maxRetries,
+                                                        taskOptions)
                            .Single();
 
 
