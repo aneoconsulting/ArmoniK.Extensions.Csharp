@@ -29,7 +29,6 @@ using System.Threading.Tasks;
 
 using ArmoniK.DevelopmentKit.Common.Utils;
 
-
 namespace ArmoniK.DevelopmentKit.Client.Common.Submitter;
 
 /// <summary>
