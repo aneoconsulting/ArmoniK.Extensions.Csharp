@@ -56,8 +56,6 @@ namespace ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter;
 [MarkDownDoc]
 public class Service : AbstractClientService, ISubmitterService
 {
-  private const int MaxRetries = 5;
-
   // *** you need some mechanism to map types to fields
   private static readonly IDictionary<TaskStatus, ArmonikStatusCode> StatusCodesLookUp = new List<Tuple<TaskStatus, ArmonikStatusCode>>
                                                                                          {
@@ -165,7 +163,9 @@ public class Service : AbstractClientService, ISubmitterService
                                   Logger?.LogInformation("Submitting buffer of {count} task...",
                                                          blockRequestList.Count);
 
-                                  for (var retry = 0; retry < MaxRetries; retry++)
+                                  var maxRetries = blockRequestList.First()
+                                                                   .MaxRetries;
+                                  for (var retry = 0; retry < maxRetries; retry++)
                                   {
                                     //Generate resultId
                                     foreach (var x in blockRequestList)
@@ -180,8 +180,7 @@ public class Service : AbstractClientService, ISubmitterService
                                                                                                              Tuple<string, byte[], IList<string>>(x.ResultId.ToString(),
                                                                                                                                                   x.Payload!.Serialize(),
                                                                                                                                                   null)),
-                                                                                   blockRequestList.First()
-                                                                                                   .MaxRetries,
+                                                                                   1,
                                                                                    blockRequestList.First()
                                                                                                    .TaskOptions);
 
@@ -217,18 +216,18 @@ public class Service : AbstractClientService, ISubmitterService
                                     }
                                     catch (Exception e)
                                     {
-                                      if (retry >= MaxRetries - 1)
+                                      if (retry >= maxRetries - 1)
                                       {
                                         Logger?.LogError(e,
                                                          "Fail to retry {count} times of submission. Stop trying to submit",
-                                                         MaxRetries);
+                                                         maxRetries);
                                         throw;
                                       }
 
                                       Logger?.LogWarning(e,
                                                          "Fail to submit, {retry}/{maxRetries} retrying",
                                                          retry,
-                                                         MaxRetries);
+                                                         maxRetries);
 
                                       //Delay before submission
                                       Task.Delay(TimeSpan.FromMilliseconds(100));
@@ -481,7 +480,7 @@ public class Service : AbstractClientService, ISubmitterService
                                          },
                                Handler     = handler,
                                MaxRetries  = maxRetries,
-                               TaskOptions = taskOptions,
+                               TaskOptions = taskOptions ?? SessionService.TaskOptions,
                                Lock        = semaphoreSlim_,
                              },
                              token)
