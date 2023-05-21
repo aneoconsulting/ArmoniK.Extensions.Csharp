@@ -35,7 +35,7 @@ jobs:
         VNUM3=$((VNUM3 + 1))
         VERSION=$VNUM0.$VNUM1.$VNUM2.$VNUM3-$VERSION_HASH
         RELEASE=$VNUM0.$VNUM1.$VNUM2.$VNUM3
-        echo "version=$version" >> $GITHUB_OUTPUT
+        echo "version=$VERSION" >> $GITHUB_OUTPUT
         echo "release=$RELEASE" >> $GITHUB_OUTPUT
         echo "RELEASE : $RELEASE"
         echo "Version :" >> $GITHUB_STEP_SUMMARY
