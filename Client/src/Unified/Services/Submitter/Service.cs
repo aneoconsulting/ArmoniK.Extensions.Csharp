@@ -439,7 +439,7 @@ public class Service : AbstractClientService, ISubmitterService
                                    },
                          Handler     = handler,
                          MaxRetries  = maxRetries,
-                         TaskOptions = taskOptions,
+                         TaskOptions = taskOptions ?? SessionService.TaskOptions,
                          Lock        = semaphoreSlim_,
                        };
 
