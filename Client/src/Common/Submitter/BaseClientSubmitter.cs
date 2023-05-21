@@ -40,7 +40,6 @@ using ArmoniK.DevelopmentKit.Common.Exceptions;
 using ArmoniK.DevelopmentKit.Common.Extensions;
 
 using Google.Protobuf;
-using Google.Protobuf.Collections;
 
 using Grpc.Core;
 
@@ -443,27 +442,26 @@ public class BaseClientSubmitter<T>
     using var channel          = channelPool_.GetChannel();
     var       submitterService = new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel);
 
-    var idStatus = Retry.WhileException<RepeatedField<GetResultStatusReply.Types.IdStatus>>(5,
-                                                                                            200,
-                                                                                            retry =>
-                                                                                            {
-                                                                                              Logger?.LogDebug("Try {try} for {funcName}",
-                                                                                                               retry,
-                                                                                                               nameof(submitterService.GetResultStatus));
-                                                                                              var resultStatusReply =
-                                                                                                submitterService.GetResultStatus(new GetResultStatusRequest
-                                                                                                                                 {
-                                                                                                                                   ResultIds =
-                                                                                                                                   {
-                                                                                                                                     result2TaskDic.Keys,
-                                                                                                                                   },
-                                                                                                                                   SessionId = SessionId.Id,
-                                                                                                                                 });
-                                                                                              return resultStatusReply.IdStatuses;
-                                                                                            },
-                                                                                            true,
-                                                                                            typeof(IOException),
-                                                                                            typeof(RpcException));
+    var idStatus = Retry.WhileException(5,
+                                        200,
+                                        retry =>
+                                        {
+                                          Logger?.LogDebug("Try {try} for {funcName}",
+                                                           retry,
+                                                           nameof(submitterService.GetResultStatus));
+                                          var resultStatusReply = submitterService.GetResultStatus(new GetResultStatusRequest
+                                                                                                   {
+                                                                                                     ResultIds =
+                                                                                                     {
+                                                                                                       result2TaskDic.Keys,
+                                                                                                     },
+                                                                                                     SessionId = SessionId.Id,
+                                                                                                   });
+                                          return resultStatusReply.IdStatuses;
+                                        },
+                                        true,
+                                        typeof(IOException),
+                                        typeof(RpcException));
 
     var idsResultError = new List<ResultStatusData>();
     var idsReady       = new List<ResultStatusData>();

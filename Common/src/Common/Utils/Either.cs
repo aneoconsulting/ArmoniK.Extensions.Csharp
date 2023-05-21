@@ -54,7 +54,7 @@ public class Either<L, R>
   public Either()
   {
     status_ = EitherStatus.None;
-    obj_ = default;
+    obj_    = default;
   }
 
   /// <summary>
@@ -63,9 +63,9 @@ public class Either<L, R>
   /// <param name="obj">The object to be stored in the Either.</param>
   public Either(L obj)
   {
-    obj_ = obj;
+    obj_       = obj;
     exception_ = default;
-    status_ = EitherStatus.Left;
+    status_    = EitherStatus.Left;
   }
 
   /// <summary>
@@ -75,8 +75,8 @@ public class Either<L, R>
   public Either(R exception)
   {
     exception_ = exception;
-    obj_ = default;
-    status_ = EitherStatus.Right;
+    obj_       = default;
+    status_    = EitherStatus.Right;
   }
 
   /// <summary>
@@ -135,8 +135,8 @@ public class Either<L, R>
   /// </summary>
   private enum EitherStatus
   {
-    None = 0,
-    Left = 1,
+    None  = 0,
+    Left  = 1,
     Right = 2,
   }
 }
