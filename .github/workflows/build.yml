@@ -206,7 +206,7 @@ jobs:
 
       - id: deploy
         name: Deploy
-        uses: aneoconsulting/ArmoniK.Action.Deploy/deploy@main
+        uses: aneoconsulting/ArmoniK.Action.Deploy/deploy@dd/fixUploadArtifact
         with:
           working-directory: ${{ github.workspace }}/infra
           type: localhost
