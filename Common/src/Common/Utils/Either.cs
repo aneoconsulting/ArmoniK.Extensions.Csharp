@@ -27,83 +27,95 @@ using System;
 namespace ArmoniK.DevelopmentKit.Common.Utils;
 
 /// <summary>
-///   Implement simple either to manage Object L or Exception R
+///   Represents a simple Either type to manage an object of type L or an exception of type R.
 /// </summary>
-/// <typeparam name="L">The object in Either</typeparam>
-/// <typeparam name="R">The Exception if it exists one in the object</typeparam>
+/// <typeparam name="L">The object in the Either.</typeparam>
+/// <typeparam name="R">The exception in the Either.</typeparam>
 public class Either<L, R>
 {
+  /// <summary>
+  ///   The exception in the Either.
+  /// </summary>
   private readonly R exception_;
+
+  /// <summary>
+  ///   The object in the Either.
+  /// </summary>
   private readonly L obj_;
 
+  /// <summary>
+  ///   The status of the Either.
+  /// </summary>
   private readonly EitherStatus status_;
 
+  /// <summary>
+  ///   Constructs an Either with no object or exception.
+  /// </summary>
   public Either()
   {
     status_ = EitherStatus.None;
-    obj_    = default;
+    obj_ = default;
   }
 
   /// <summary>
-  ///   Default constructor to build either with Left value
+  ///   Constructs an Either with an object.
   /// </summary>
-  /// <param name="obj">the object to set in Either</param>
+  /// <param name="obj">The object to be stored in the Either.</param>
   public Either(L obj)
   {
-    obj_       = obj;
+    obj_ = obj;
     exception_ = default;
-    status_    = EitherStatus.Left;
+    status_ = EitherStatus.Left;
   }
 
   /// <summary>
-  ///   Default constructor to build either with Left value
+  ///   Constructs an Either with an exception.
   /// </summary>
-  /// <param name="exception">The exception object to set in Either object</param>
+  /// <param name="exception">The exception to be stored in the Either.</param>
   public Either(R exception)
   {
     exception_ = exception;
-    obj_       = default;
-    status_    = EitherStatus.Right;
+    obj_ = default;
+    status_ = EitherStatus.Right;
   }
 
   /// <summary>
-  ///   The operator to build R if the Right object is set
+  ///   Implicitly converts the Either to an exception.
   /// </summary>
-  /// <param name="ma"></param>
-  /// <returns>return the object R</returns>
+  /// <param name="ma">The Either to be converted.</param>
+  /// <returns>The exception stored in the Either.</returns>
   public static explicit operator R(Either<L, R> ma)
     => ma.exception_;
 
   /// <summary>
-  ///   The operator to build L if the Left object is set
+  ///   Implicitly converts the Either to an object.
   /// </summary>
-  /// <param name="ma"></param>
-  /// <returns>the object L</returns>
+  /// <param name="ma">The Either to be converted.</param>
+  /// <returns>The object stored in the Either.</returns>
   public static explicit operator L(Either<L, R> ma)
     => ma.obj_;
 
   /// <summary>
-  ///   The operator to build Either if the Left object is set
+  ///   Implicitly converts an object to an Either.
   /// </summary>
-  /// <param name="ma"></param>
-  /// <returns>the object L</returns>
+  /// <param name="ma">The object to be converted.</param>
+  /// <returns>An Either containing the object.</returns>
   public static implicit operator Either<L, R>(L ma)
     => new(ma);
 
   /// <summary>
-  ///   The operator to build Either if the Right object is set
+  ///   Implicitly converts an exception to an Either.
   /// </summary>
-  /// <param name="ma"></param>
-  /// <returns>the object L</returns>
+  /// <param name="ma">The exception to be converted.</param>
+  /// <returns>An Either containing the exception.</returns>
   public static implicit operator Either<L, R>(R ma)
     => new(ma);
 
-
   /// <summary>
-  ///   If right apply action otherwise return the Left object
+  ///   Executes an action on the exception if the Either contains an exception.
   /// </summary>
-  /// <param name="action">action to apply</param>
-  /// <returns>return left otherwise</returns>
+  /// <param name="action">The action to be executed.</param>
+  /// <returns>The object stored in the Either.</returns>
   public L IfRight(Action<R> action)
   {
     if (status_ == EitherStatus.Right)
@@ -118,10 +130,13 @@ public class Either<L, R>
     return default;
   }
 
+  /// <summary>
+  ///   An enum to represent the status of the Either.
+  /// </summary>
   private enum EitherStatus
   {
-    None  = 0,
-    Left  = 1,
+    None = 0,
+    Left = 1,
     Right = 2,
   }
 }
