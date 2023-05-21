@@ -38,7 +38,7 @@ public class ClientServiceConnector
 #if NET5_0_OR_GREATER
       var doOverride = !string.IsNullOrEmpty(options.CaCert);
 #else
-      var doOverride = true;
+      var doOverride = properties.ControlPlaneUri.Scheme.Contains("https");
 #endif
       if (doOverride)
       {
