@@ -22,6 +22,9 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+// This is a simplified implementation of Either from LanguageExt:
+// https://github.com/louthy/language-ext/blob/main/LanguageExt.Core/Monads/Alternative%20Value%20Monads/Either/Either/Either.cs
+
 using System;
 
 namespace ArmoniK.DevelopmentKit.Common.Utils;
