@@ -210,7 +210,7 @@ public class Service : AbstractClientService, ISubmitterService
                                                          MaxRetries);
 
                                       //Delay before submission
-                                      Task.Delay(TimeSpan.FromMilliseconds(1000));
+                                      Task.Delay(TimeSpan.FromMilliseconds(Properties.TimeIntervalRetriesInMs));
                                     }
                                   }
 
@@ -598,8 +598,8 @@ public class Service : AbstractClientService, ISubmitterService
             Logger?.LogTrace("Response handler for {taskId}",
                              resultStatusData.TaskId);
             responseHandler(resultStatusData.TaskId,
-                            Retry.WhileException(5,
-                                                 2000,
+                            Retry.WhileException(Properties.MaxRetries,
+                                                 Properties.TimeIntervalRetriesInMs,
                                                  retry =>
                                                  {
                                                    if (retry > 1)

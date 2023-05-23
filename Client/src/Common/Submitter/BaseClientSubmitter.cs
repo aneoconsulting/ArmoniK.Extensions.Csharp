@@ -388,8 +388,8 @@ public class BaseClientSubmitter<T>
     using var channel          = channelPool_.GetChannel();
     var       submitterService = new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel);
 
-    Retry.WhileException(5,
-                         2000,
+    Retry.WhileException(Properties.MaxRetries,
+                         Properties.TimeIntervalRetriesInMs,
                          retry =>
                          {
                            if (retry > 1)
@@ -445,8 +445,8 @@ public class BaseClientSubmitter<T>
     using var channel          = channelPool_.GetChannel();
     var       submitterService = new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel);
 
-    var idStatus = Retry.WhileException(5,
-                                        2000,
+    var idStatus = Retry.WhileException(Properties.MaxRetries,
+                                        Properties.TimeIntervalRetriesInMs,
                                         retry =>
                                         {
                                           Logger?.LogDebug("Try {try} for {funcName}",
@@ -517,8 +517,8 @@ public class BaseClientSubmitter<T>
   /// <param name="taskIds">The list of task ids.</param>
   /// <returns>A collection of map task results.</returns>
   public ICollection<GetResultIdsResponse.Types.MapTaskResult> GetResultIds(IEnumerable<string> taskIds)
-    => Retry.WhileException(5,
-                            2000,
+    => Retry.WhileException(Properties.MaxRetries,
+                            Properties.TimeIntervalRetriesInMs,
                             retry =>
                             {
                               if (retry > 1)
@@ -569,8 +569,8 @@ public class BaseClientSubmitter<T>
     using var channel          = channelPool_.GetChannel();
     var       submitterService = new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel);
 
-    Retry.WhileException(5,
-                         2000,
+    Retry.WhileException(Properties.MaxRetries,
+                         Properties.TimeIntervalRetriesInMs,
                          retry =>
                          {
                            Logger?.LogDebug("Try {try} for {funcName}",
@@ -737,8 +737,8 @@ public class BaseClientSubmitter<T>
                           Session  = SessionId.Id,
                         };
 
-    var resultReply = Retry.WhileException(5,
-                                           2000,
+    var resultReply = Retry.WhileException(Properties.MaxRetries,
+                                           Properties.TimeIntervalRetriesInMs,
                                            retry =>
                                            {
                                              if (retry > 1)
