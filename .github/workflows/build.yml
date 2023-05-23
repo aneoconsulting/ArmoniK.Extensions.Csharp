@@ -22,16 +22,26 @@ jobs:
     - name: Generate Version
       id: genver
       run: |
-        VERSION=$(docker run --rm -v $(pwd):/repo codacy/git-version /bin/git-version --folder=/repo --release-branch=${{ github.ref_name }}-pre --dev-branch=main)
+        CURRENT_VERSION=$(docker run --rm -v $(pwd):/repo codacy/git-version /bin/git-version --folder=/repo --previous-version)
+        NEXT_VERSION=$(docker run --rm -v $(pwd):/repo codacy/git-version /bin/git-version --folder=/repo)
+        VERSION_HASH=(${NEXT_VERSION//-/ })
+        VERSION_HASH=${VERSION_HASH[1]}
+        CURRENT_VERSION=$(git tag | grep ${CURRENT_VERSION} | sort -r --version-sort | head -n1)
+        VERSION_BITS=(${CURRENT_VERSION//./ })
+        VNUM0=${VERSION_BITS[0]}
+        VNUM1=${VERSION_BITS[1]}
+        VNUM2=${VERSION_BITS[2]}
+        VNUM3=${VERSION_BITS[3]:=0}
+        VNUM3=$((VNUM3 + 1))
+        VERSION=$VNUM0.$VNUM1.$VNUM2.$VNUM3-$VERSION_HASH
+        RELEASE=$VNUM0.$VNUM1.$VNUM2.$VNUM3
         echo "version=$VERSION" >> $GITHUB_OUTPUT
-        echo "VERSION : $VERSION"
-        RELEASE=$(docker run --rm -v $(pwd):/repo codacy/git-version /bin/git-version --folder=/repo --release-branch=${{ github.ref_name }} --dev-branch=main)
         echo "release=$RELEASE" >> $GITHUB_OUTPUT
         echo "RELEASE : $RELEASE"
         echo "Version :" >> $GITHUB_STEP_SUMMARY
         echo "$VERSION" >> $GITHUB_STEP_SUMMARY
         echo "Release :" >> $GITHUB_STEP_SUMMARY
-        echo "$RELEASE :" >> $GITHUB_STEP_SUMMARY
+        echo "$RELEASE" >> $GITHUB_STEP_SUMMARY
 
   format:
     runs-on: ubuntu-latest
