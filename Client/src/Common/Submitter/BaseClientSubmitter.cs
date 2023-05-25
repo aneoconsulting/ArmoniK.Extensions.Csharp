@@ -543,12 +543,21 @@ public class BaseClientSubmitter<T>
   {
     using var _ = Logger?.LogFunction(taskId);
 
-    var resultId = GetResultIds(new[]
-                                {
-                                  taskId,
-                                })
-                   .Single()
-                   .ResultIds.Single();
+    var resultId = Retry.WhileException(5,
+                                        2000,
+                                        retry =>
+                                        {
+                                          return GetResultIds(new[]
+                                                              {
+                                                                taskId,
+                                                              })
+                                                 .Single()
+                                                 .ResultIds.Single();
+                                        },
+                                        true,
+                                        typeof(IOException),
+                                        typeof(RpcException));
+
 
     var resultRequest = new ResultRequest
                         {
@@ -589,9 +598,14 @@ public class BaseClientSubmitter<T>
                          typeof(IOException),
                          typeof(RpcException));
 
-    var res = TryGetResultAsync(resultRequest,
-                                cancellationToken)
-      .Result;
+    var res = Retry.WhileException(5,
+                                   200,
+                                   retry => TryGetResultAsync(resultRequest,
+                                                              cancellationToken)
+                                     .Result,
+                                   true,
+                                   typeof(IOException),
+                                   typeof(RpcException));
 
     if (res != null)
     {
