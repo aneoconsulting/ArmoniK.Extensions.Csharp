@@ -273,7 +273,7 @@ public class AggregationPriorityTest
   /// This method checks that the result of a matrix computation has the expected value.
   /// </summary>
   /// <param name="squareMatrixSize">The size of the square matrix.</param>
-  [TestCase(2)]
+  [TestCase(20)]
   public void Check_That_Result_has_expected_value(int squareMatrixSize)
   {
     unifiedTestHelper_.Log.LogInformation($"Compute square matrix with n =  {squareMatrixSize}");
