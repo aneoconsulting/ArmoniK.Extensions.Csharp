@@ -1,3 +1,5 @@
+using System;
+
 using ArmoniK.Api.Client.Options;
 using ArmoniK.Api.Client.Submitter;
 
@@ -33,12 +35,12 @@ public class ClientServiceConnector
                     OverrideTargetName    = properties.TargetNameOverride,
                   };
 
-    if (options.AllowUnsafeConnection && string.IsNullOrEmpty(options.OverrideTargetName))
+    if (properties.ControlPlaneUri.Scheme == Uri.UriSchemeHttps && options.AllowUnsafeConnection && string.IsNullOrEmpty(options.OverrideTargetName))
     {
 #if NET5_0_OR_GREATER
       var doOverride = !string.IsNullOrEmpty(options.CaCert);
 #else
-      var doOverride = properties.ControlPlaneUri.Scheme.Contains("https");
+      var doOverride = true;
 #endif
       if (doOverride)
       {
