@@ -22,16 +22,11 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
-using System.Text;
+namespace ArmoniK.EndToEndTests.Common;
 
-namespace ArmoniK.EndToEndTests.Common
+public class TaskPayload
 {
-  public class TaskPayload
-  {
-    public int[] Vector           { get; set; }
-    public int      WorkloadTimeInMs { get; set; }
-    public int   Scalar           { get; set; }
-  }
+  public int[] Vector           { get; set; }
+  public int   WorkloadTimeInMs { get; set; }
+  public int   Scalar           { get; set; }
 }
