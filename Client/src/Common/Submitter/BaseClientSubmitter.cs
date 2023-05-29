@@ -403,12 +403,15 @@ public class BaseClientSubmitter<T>
     var       submitterService = new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel);
 
     Retry.WhileException(5,
-                         200,
+                         2000,
                          retry =>
                          {
-                           Logger?.LogDebug("Try {try} for {funcName}",
-                                            retry,
-                                            nameof(submitterService.WaitForCompletion));
+                           if (retry > 1)
+                           {
+                             Logger?.LogWarning("Try {try} for {funcName}",
+                                                retry,
+                                                nameof(submitterService.WaitForCompletion));
+                           }
 
                            var __ = submitterService.WaitForCompletion(new WaitRequest
                                                                        {
@@ -457,7 +460,7 @@ public class BaseClientSubmitter<T>
     var       submitterService = new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel);
 
     var idStatus = Retry.WhileException(5,
-                                        200,
+                                        2000,
                                         retry =>
                                         {
                                           Logger?.LogDebug("Try {try} for {funcName}",
@@ -522,15 +525,36 @@ public class BaseClientSubmitter<T>
     return resultStatusList;
   }
 
+  /// <summary>
+  ///   Gets the result ids for a given list of task ids.
+  /// </summary>
+  /// <param name="taskIds">The list of task ids.</param>
+  /// <returns>A collection of map task results.</returns>
   public ICollection<GetResultIdsResponse.Types.MapTaskResult> GetResultIds(IEnumerable<string> taskIds)
-    => channelPool_.WithChannel(channel => new Tasks.TasksClient(channel).GetResultIds(new GetResultIdsRequest
-                                                                                       {
-                                                                                         TaskId =
-                                                                                         {
-                                                                                           taskIds,
-                                                                                         },
-                                                                                       })
-                                                                         .TaskResults);
+    => Retry.WhileException(5,
+                            2000,
+                            retry =>
+                            {
+                              if (retry > 1)
+                              {
+                                Logger?.LogWarning("Try {try} for {funcName}",
+                                                   retry,
+                                                   nameof(GetResultIds));
+                              }
+
+                              return channelPool_.WithChannel(channel => new Tasks.TasksClient(channel).GetResultIds(new GetResultIdsRequest
+                                                                                                                     {
+                                                                                                                       TaskId =
+                                                                                                                       {
+                                                                                                                         taskIds,
+                                                                                                                       },
+                                                                                                                     })
+                                                                                                       .TaskResults);
+                            },
+                            true,
+                            typeof(IOException),
+                            typeof(RpcException));
+
 
   /// <summary>
   ///   Try to find the result of One task. If there no result, the function return byte[0]
@@ -561,7 +585,7 @@ public class BaseClientSubmitter<T>
     var       submitterService = new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel);
 
     Retry.WhileException(5,
-                         200,
+                         2000,
                          retry =>
                          {
                            Logger?.LogDebug("Try {try} for {funcName}",
@@ -734,12 +758,16 @@ public class BaseClientSubmitter<T>
                         };
 
     var resultReply = Retry.WhileException(5,
-                                           200,
+                                           2000,
                                            retry =>
                                            {
-                                             Logger?.LogDebug("Try {try} for {funcName}",
-                                                              retry,
-                                                              "SubmitterService.TryGetResultAsync");
+                                             if (retry > 1)
+                                             {
+                                               Logger?.LogWarning("Try {try} for {funcName}",
+                                                                  retry,
+                                                                  "SubmitterService.TryGetResultAsync");
+                                             }
+
                                              try
                                              {
                                                var response = TryGetResultAsync(resultRequest,
