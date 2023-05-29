@@ -113,23 +113,25 @@ public class GridWorker : IGridWorker
 
     serviceContainerBase_.Logger.BeginPropertyScope(("SessionId", sessionId));
 
-    if (SessionId == null || !sessionId.Equals(SessionId))
+    if (SessionId == null)
     {
-      if (SessionId == null)
-      {
-        SessionId = sessionId;
-        serviceContainerBase_.ConfigureSession(SessionId,
-                                               requestTaskOptions);
-        OnSessionEnter(sessionId);
-      }
-      else
-      {
-        OnSessionLeave();
-        SessionId = sessionId;
-        serviceContainerBase_.ConfigureSession(SessionId,
-                                               requestTaskOptions);
-        OnSessionEnter(sessionId);
-      }
+      SessionId = sessionId;
+      serviceContainerBase_.ConfigureSession(SessionId,
+                                             requestTaskOptions);
+      OnSessionEnter(sessionId);
+    }
+    else if (!sessionId.Equals(SessionId))
+    {
+      OnSessionLeave();
+      SessionId = sessionId;
+      serviceContainerBase_.ConfigureSession(SessionId,
+                                             requestTaskOptions);
+      OnSessionEnter(sessionId);
+    }
+    else
+    {
+      serviceContainerBase_.ConfigureSession(SessionId,
+                                             requestTaskOptions);
     }
   }
 

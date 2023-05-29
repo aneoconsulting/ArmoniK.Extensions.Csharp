@@ -121,10 +121,10 @@ public class ComputerService : WorkerStreamWrapper
         ServiceRequestContext.SessionId = sessionIdCaller;
 
         serviceWorker.CloseSession();
-
-        serviceWorker.InitializeSessionWorker(ServiceRequestContext.SessionId,
-                                              taskHandler.TaskOptions);
       }
+
+      serviceWorker.InitializeSessionWorker(ServiceRequestContext.SessionId,
+                                            taskHandler.TaskOptions);
 
       ServiceRequestContext.SessionId = sessionIdCaller;
 
