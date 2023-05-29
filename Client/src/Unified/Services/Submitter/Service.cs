@@ -146,12 +146,7 @@ public class Service : AbstractClientService, ISubmitterService
 
                                   Logger?.LogInformation("Submitting buffer of {count} task...",
                                                          blockRequestList.Count);
-
-                                  var query = blockRequestList.GroupBy(blockRequest => new
-                                                                                       {
-                                                                                         blockRequest.TaskOptions.MaxRetries,
-                                                                                         blockRequest.TaskOptions.Priority,
-                                                                                       });
+                                  var query = blockRequestList.GroupBy(blockRequest => blockRequest.TaskOptions);
 
                                   foreach (var groupBlockRequest in query)
                                   {
@@ -222,10 +217,10 @@ public class Service : AbstractClientService, ISubmitterService
                                                            retry,
                                                            maxRetries);
 
-                                      //Delay before submission
-                                      Task.Delay(TimeSpan.FromMilliseconds(1000));
+                                        //Delay before submission
+                                        Task.Delay(TimeSpan.FromMilliseconds(1000));
+                                      }
                                     }
-                                  }
 
                                     foreach (var blockRequest in groupBlockRequest)
                                     {
