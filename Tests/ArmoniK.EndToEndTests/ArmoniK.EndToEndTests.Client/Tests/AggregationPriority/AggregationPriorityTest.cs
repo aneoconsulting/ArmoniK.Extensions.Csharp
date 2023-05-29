@@ -2,8 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net;
-using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -57,31 +55,9 @@ public class AggregationPriorityTest
   /// </summary>
   [SetUp]
   public void Setup()
-  {
-    var uri = new Uri(Environment.GetEnvironmentVariable("Grpc__EndPoint") ?? throw new Exception("Fail to get adress"));
-
-
-    var address = Retry.WhileException(10,
-                                       2000,
-                                       retry =>
-                                       {
-                                         return Dns.GetHostAddresses(uri.Host)
-                                                   .First(address => address.AddressFamily == AddressFamily.InterNetwork)
-                                                   .ToString();
-                                       },
-                                       true,
-                                       typeof(IOException),
-                                       typeof(RpcException));
-
-    var newUri = new Uri($"{uri.Scheme}://{address}:{uri.Port}");
-
-    Environment.SetEnvironmentVariable("Grpc__EndPoint",
-                                       newUri.ToString());
-
-    unifiedTestHelper_ = new UnifiedTestHelper(EngineType.Unified,
-                                               ApplicationNamespace,
-                                               ApplicationService);
-  }
+    => unifiedTestHelper_ = new UnifiedTestHelper(EngineType.Unified,
+                                                  ApplicationNamespace,
+                                                  ApplicationService);
 
   /// <summary>
   ///   Cleanup is a method that cleans up after the test.

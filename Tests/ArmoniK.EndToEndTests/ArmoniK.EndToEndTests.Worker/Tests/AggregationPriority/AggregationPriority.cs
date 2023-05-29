@@ -244,8 +244,11 @@ public class AggregationPriority : TaskWorkerService
     var prio       = 9;
     for (var i = 0; i < matrixLength; i++)
     {
-      prio = (i) % ((matrixLength) / 8) == 0 ? prio-- < 1 ? 1 : prio : prio;
-      prio = 1;
+      prio = i % (matrixLength / 8) == 0
+               ? prio-- < 1
+                   ? 1
+                   : prio
+               : prio;
 
       priorities.Add(prio);
     }
