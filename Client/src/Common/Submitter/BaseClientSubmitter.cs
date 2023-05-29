@@ -543,20 +543,12 @@ public class BaseClientSubmitter<T>
   {
     using var _ = Logger?.LogFunction(taskId);
 
-    var resultId = Retry.WhileException(5,
-                                        2000,
-                                        retry =>
-                                        {
-                                          return GetResultIds(new[]
-                                                              {
-                                                                taskId,
-                                                              })
-                                                 .Single()
-                                                 .ResultIds.Single();
-                                        },
-                                        true,
-                                        typeof(IOException),
-                                        typeof(RpcException));
+    var resultId = GetResultIds(new[]
+                                {
+                                  taskId,
+                                })
+                   .Single()
+                   .ResultIds.Single();
 
 
     var resultRequest = new ResultRequest
