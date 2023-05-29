@@ -131,23 +131,25 @@ public class GridWorker : IGridWorker
 
     if (ServiceClass is ISessionConfiguration iSessionConfiguration)
     {
-      if (SessionId == null || !session.Equals(SessionId))
+      if (SessionId == null)
       {
-        if (SessionId == null)
-        {
-          SessionId = session;
-          iSessionConfiguration.ConfigureSession(SessionId,
-                                                 requestTaskOptions);
-          OnSessionEnter(session);
-        }
-        else
-        {
-          OnSessionLeave();
-          SessionId = session;
-          iSessionConfiguration.ConfigureSession(SessionId,
-                                                 requestTaskOptions);
-          OnSessionEnter(session);
-        }
+        SessionId = session;
+        iSessionConfiguration.ConfigureSession(SessionId,
+                                               requestTaskOptions);
+        OnSessionEnter(session);
+      }
+      else if (!session.Equals(SessionId))
+      {
+        OnSessionLeave();
+        SessionId = session;
+        iSessionConfiguration.ConfigureSession(SessionId,
+                                               requestTaskOptions);
+        OnSessionEnter(session);
+      }
+      else
+      {
+        iSessionConfiguration.ConfigureSession(SessionId,
+                                               requestTaskOptions);
       }
     }
   }
