@@ -22,61 +22,57 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Text;
-using System.Text.Json;
-
-using ArmoniK.DevelopmentKit.Common;
-
 using ProtoBuf;
 
-namespace ArmoniK.EndToEndTests.Common
+namespace ArmoniK.EndToEndTests.Common;
+
+[ProtoContract]
+public class TaskResult
 {
-  [ProtoContract]
-  public class TaskResult
+  [ProtoMember(1)]
+  public string ResultString { get; set; } = "scalar";
+
+  [ProtoMember(2)]
+  public int Result { get; set; }
+
+  [ProtoMember(3)]
+  public int Priority { get; set; } = 1;
+
+  [ProtoMember(4)]
+  public string CompletedAt { get; set; } = DateTime.UtcNow.ToUniversalTime()
+                                                    .ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fff'Z'");
+
+  public byte[] Serialize()
   {
-    [ProtoMember(1)]
-    public string ResultString { get; set; } = "scalar";
+    using var stream = new MemoryStream();
 
-    [ProtoMember(2)]
-    public int Result { get; set; }
+    Serializer.NonGeneric.SerializeWithLengthPrefix(stream,
+                                                    this,
+                                                    PrefixStyle.Base128,
+                                                    1);
 
+    ResultString = Result.ToString();
 
-    public byte[] Serialize()
+    return stream.ToArray();
+  }
+
+  public static TaskResult Deserialize(byte[] payload)
+  {
+    if (payload == null || payload.Length == 0)
     {
-      using var stream = new MemoryStream();
-
-      Serializer.NonGeneric.SerializeWithLengthPrefix(stream,
-                                                      this,
-                                                      PrefixStyle.Base128,
-                                                      1);
-
-      ResultString = Result.ToString();
-
-      return stream.ToArray();
+      throw new Exception("payload is null or empty");
     }
 
-    public static TaskResult Deserialize(byte[] payload)
+    using var stream = new MemoryStream(payload);
+
+    if (!Serializer.NonGeneric.TryDeserializeWithLengthPrefix(stream,
+                                                              PrefixStyle.Base128,
+                                                              _ => typeof(TaskResult),
+                                                              out var obj))
     {
-      if (payload == null || payload.Length == 0)
-      {
-        throw new Exception("payload is null or empty");
-      }
-
-      using var stream = new MemoryStream(payload);
-
-      if (!Serializer.NonGeneric.TryDeserializeWithLengthPrefix(stream,
-                                                                PrefixStyle.Base128,
-                                                                _ => typeof(TaskResult),
-                                                                out var obj))
-      {
-        throw new Exception("Fail to deserialize");
-      }
-
-      return (TaskResult)obj;
+      throw new Exception("Fail to deserialize");
     }
+
+    return (TaskResult)obj;
   }
 }

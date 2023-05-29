@@ -1,19 +1,18 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text.Json;
+using System.Net;
+using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
 
-using ArmoniK.Api.gRPC.V1.Agent;
 using ArmoniK.Api.gRPC.V1.Tasks;
-using ArmoniK.DevelopmentKit.Client.Common.Exceptions;
+using ArmoniK.DevelopmentKit.Client.Common.Status;
 using ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter;
 using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.EndToEndTests.Common;
-
-using MathNet.Numerics.Statistics;
+using ArmoniK.Utils;
 
 using Grpc.Core;
 
@@ -23,31 +22,25 @@ using NUnit.Framework;
 
 using Assert = NUnit.Framework.Assert;
 
-using ArmoniK.Api.gRPC.V1;
-using ArmoniK.DevelopmentKit.Client.Common.Status;
-using ArmoniK.Utils;
-
-using Org.BouncyCastle.Bcpg;
-
-namespace ArmoniK.EndToEndTests.Client.Tests.CheckUnifiedApi;
+namespace ArmoniK.EndToEndTests.Client.Tests.AggregationPriority;
 
 /// <summary>
-/// AggregationPriorityTest is a class that tests the AggregationPriority application.
+///   AggregationPriorityTest is a class that tests the AggregationPriority application.
 /// </summary>
 public class AggregationPriorityTest
 {
   /// <summary>
-  /// ApplicationNamespace is the namespace of the AggregationPriority application.
+  ///   ApplicationNamespace is the namespace of the AggregationPriority application.
   /// </summary>
   private const string ApplicationNamespace = "ArmoniK.EndToEndTests.Worker.Tests.AggregationPriority";
 
   /// <summary>
-  /// ApplicationService is the name of the AggregationPriority application.
+  ///   ApplicationService is the name of the AggregationPriority application.
   /// </summary>
   private const string ApplicationService = "AggregationPriority";
 
   /// <summary>
-  /// numbers_ is an array of double values.
+  ///   numbers_ is an array of double values.
   /// </summary>
   private readonly double[] numbers_ = Enumerable.Range(0,
                                                         10)
@@ -55,21 +48,43 @@ public class AggregationPriorityTest
                                                  .ToArray();
 
   /// <summary>
-  /// unifiedTestHelper_ is an instance of UnifiedTestHelper class.
+  ///   unifiedTestHelper_ is an instance of UnifiedTestHelper class.
   /// </summary>
   private UnifiedTestHelper unifiedTestHelper_;
 
   /// <summary>
-  /// Setup is a method that sets up the test.
+  ///   Setup is a method that sets up the test.
   /// </summary>
   [SetUp]
   public void Setup()
-    => unifiedTestHelper_ = new UnifiedTestHelper(EngineType.Unified,
-                                                  ApplicationNamespace,
-                                                  ApplicationService);
+  {
+    var uri = new Uri(Environment.GetEnvironmentVariable("Grpc__EndPoint") ?? throw new Exception("Fail to get adress"));
+
+
+    var address = Retry.WhileException(10,
+                                       2000,
+                                       retry =>
+                                       {
+                                         return Dns.GetHostAddresses(uri.Host)
+                                                   .First(address => address.AddressFamily == AddressFamily.InterNetwork)
+                                                   .ToString();
+                                       },
+                                       true,
+                                       typeof(IOException),
+                                       typeof(RpcException));
+
+    var newUri = new Uri($"{uri.Scheme}://{address}:{uri.Port}");
+
+    Environment.SetEnvironmentVariable("Grpc__EndPoint",
+                                       newUri.ToString());
+
+    unifiedTestHelper_ = new UnifiedTestHelper(EngineType.Unified,
+                                               ApplicationNamespace,
+                                               ApplicationService);
+  }
 
   /// <summary>
-  /// Cleanup is a method that cleans up after the test.
+  ///   Cleanup is a method that cleans up after the test.
   /// </summary>
   [TearDown]
   public void Cleanup()
@@ -77,16 +92,16 @@ public class AggregationPriorityTest
   }
 
   /// <summary>
-  /// Check_That_serialazation_is_ok is a method that tests the serialization of TaskResult.
+  ///   Check_That_serialazation_is_ok is a method that tests the serialization of TaskResult.
   /// </summary>
   [Test]
   public void Check_That_serialazation_is_ok()
   {
-    unifiedTestHelper_.Log.LogInformation($"Test TaskResult serialization");
+    unifiedTestHelper_.Log.LogInformation("Test TaskResult serialization");
 
-    var byteArray = new TaskResult()
+    var byteArray = new TaskResult
                     {
-                      Result = 15
+                      Result = 15,
                     }.Serialize();
 
     var taskResult = TaskResult.Deserialize(byteArray);
@@ -97,7 +112,7 @@ public class AggregationPriorityTest
   }
 
   /// <summary>
-  /// RetrieveAllTasksStats is a method that retrieves all tasks stats.
+  ///   RetrieveAllTasksStats is a method that retrieves all tasks stats.
   /// </summary>
   /// <param name="channel">The channel.</param>
   /// <param name="filter">The filter.</param>
@@ -137,10 +152,10 @@ public class AggregationPriorityTest
   }
 
   /// <summary>
-  /// Work in progress. GetDistribution is a method that gets the repartition between scalar and agg tasks.
+  ///   Work in progress. GetDistribution is a method that gets the repartition between scalar and agg tasks.
   /// </summary>
   /// <returns>A Task of IEnumerable of TaskRaw.</returns>
-  private async Task<IEnumerable<TaskRaw>> GetDistribution()
+  private async Task<IEnumerable<TaskRaw>> GetDistribution(int nRows)
   {
     var service = unifiedTestHelper_.Service as Service;
     service.GetChannel();
@@ -165,11 +180,40 @@ public class AggregationPriorityTest
     var intermediateResultType = GetIntermediateResultInfo(service.SessionId,
                                                            taskRawData);
 
-    foreach (var taskData in intermediateResultType)
+    var orderedTasks = intermediateResultType.OrderBy(t => t.Item3.CompletedAt);
+
+    var idealGap          = nRows; // theoretical gap between agg and scalar
+    var currentGap        = 0;
+    var totalGapDeviation = 0;
+
+    foreach (var task in orderedTasks)
     {
-      unifiedTestHelper_.Log.LogInformation("TaskId : {id} starting at {start} Type of task : {type}",
+      switch (task.Item3.ResultString)
+      {
+        case "scalar":
+          currentGap++;
+          break;
+        case "agg":
+        {
+          var gapDeviation = currentGap - idealGap;
+          totalGapDeviation += gapDeviation;
+
+          currentGap = 0;
+          break;
+        }
+      }
+    }
+
+    unifiedTestHelper_.Log.LogInformation("Total Gap Deviation = {0}",
+                                          totalGapDeviation / nRows);
+
+
+    foreach (var taskData in intermediateResultType.OrderBy(t => t.Item3.CompletedAt))
+    {
+      unifiedTestHelper_.Log.LogInformation("TaskId : {id} completed at {completeAt} Priority : {prio} Type of task : {type}",
                                             taskData.Item1,
-                                            taskData.Item2.StartedAt,
+                                            taskData.Item3.CompletedAt,
+                                            taskData.Item3.Priority,
                                             taskData.Item3.ResultString);
     }
 
@@ -177,11 +221,11 @@ public class AggregationPriorityTest
   }
 
   /// <summary>
-  /// Waits for the results of the given taskIds in the specified sessionId.
+  ///   Waits for the results of the given taskIds in the specified sessionId.
   /// </summary>
   /// <param name="sessionId">The sessionId to retrieve the results from.</param>
   /// <param name="taskIds">The taskIds to retrieve the results for.</param>
-  /// <returns>A <see cref="IEnumerable{Tuple{string, byte[]}}"/> of the results.</returns>
+  /// <returns>A <see cref="IEnumerable{Tuple{string, byte[]}}" /> of the results.</returns>
   private IEnumerable<Tuple<string, byte[]>> WaitForResults(string              sessionId,
                                                             IEnumerable<string> taskIds)
   {
@@ -223,11 +267,19 @@ public class AggregationPriorityTest
           completeList.AddRange(bucketResultData);
           missingTaskId = missingTaskId.Except(bucketResultData.Select(l => l.TaskId))
                                        .ToList();
-          Thread.Sleep(1000);
+          Thread.Sleep(100);
         }
 
-        return completeList.ToChunks(200)
-                           .SelectMany(bucket => service.SessionService.GetResults(bucket.Select(t => t.TaskId)));
+        return Retry.WhileException(10,
+                                    2000,
+                                    retry =>
+                                    {
+                                      return completeList.ToChunks(200)
+                                                         .SelectMany(bucket => service.SessionService.GetResults(bucket.Select(t => t.TaskId)));
+                                    },
+                                    true,
+                                    typeof(IOException),
+                                    typeof(RpcException));
       }
       catch (Exception e)
       {
@@ -235,6 +287,7 @@ public class AggregationPriorityTest
         {
           unifiedTestHelper_.Log.LogWarning(e,
                                             "GetResults Method threw an error");
+          Thread.Sleep(2000);
         }
         else
         {
@@ -247,7 +300,7 @@ public class AggregationPriorityTest
   }
 
   /// <summary>
-  /// Gets the intermediate result info for the given sessionId and taskDataIds.
+  ///   Gets the intermediate result info for the given sessionId and taskDataIds.
   /// </summary>
   /// <param name="sessionId">The sessionId for which the intermediate result info is to be retrieved.</param>
   /// <param name="taskDataIds">The taskDataIds for which the intermediate result info is to be retrieved.</param>
@@ -270,7 +323,7 @@ public class AggregationPriorityTest
   }
 
   /// <summary>
-  /// This method checks that the result of a matrix computation has the expected value.
+  ///   This method checks that the result of a matrix computation has the expected value.
   /// </summary>
   /// <param name="squareMatrixSize">The size of the square matrix.</param>
   [TestCase(20)]
@@ -286,7 +339,7 @@ public class AggregationPriorityTest
     var result = WaitForResults(unifiedTestHelper_.Service.SessionId,
                                 new List<string>
                                 {
-                                  taskId
+                                  taskId,
                                 })
       .Single();
 
@@ -305,7 +358,7 @@ public class AggregationPriorityTest
     Assert.That(sum * squareMatrixSize,
                 Is.EqualTo(taskResult.Result));
 
-    var _ = GetDistribution()
+    var _ = GetDistribution(squareMatrixSize)
       .Result;
   }
 }

@@ -141,104 +141,94 @@ public class Service : AbstractClientService, ISubmitterService
                                     return;
                                   }
 
-                                  var distinctRetry = blockRequestList.Select(x => x.TaskOptions.MaxRetries)
-                                                                      .Distinct()
-                                                                      .Count();
-                                  var distinctPriority = blockRequestList.Select(x => x.TaskOptions.Priority)
-                                                                         .Distinct()
-                                                                         .Count();
-
-                                  if (distinctRetry > 1)
-                                  {
-                                    throw new
-                                      InvalidOperationException("The taskOptions maxRetries in AsyncBuffer has at least one different value. Please bundle tasks with same maxRetries");
-                                  }
-
-                                  if (distinctPriority > 1)
-                                  {
-                                    throw new
-                                      InvalidOperationException("The taskOptions priority in AsyncBuffer has at least one different value. Please bundle tasks with same Priority");
-                                  }
-
                                   Logger?.LogInformation("Submitting buffer of {count} task...",
                                                          blockRequestList.Count);
 
-                                  var maxRetries = blockRequestList.First()
-                                                                   .MaxRetries;
-                                  for (var retry = 0; retry < maxRetries; retry++)
+                                  var query = blockRequestList.GroupBy(blockRequest => new
+                                                                                       {
+                                                                                         blockRequest.TaskOptions.MaxRetries,
+                                                                                         blockRequest.TaskOptions.Priority,
+                                                                                       });
+
+                                  foreach (var groupBlockRequest in query)
                                   {
-                                    //Generate resultId
-                                    foreach (var x in blockRequestList)
+                                    var maxRetries = groupBlockRequest.First()
+                                                                      .MaxRetries;
+                                    for (var retry = 0; retry < maxRetries; retry++)
                                     {
-                                      x.ResultId = Guid.NewGuid();
-                                    }
-
-                                    try
-                                    {
-                                      var taskIds =
-                                        SessionService.SubmitTasksWithDependencies(blockRequestList.Select(x => new
-                                                                                                             Tuple<string, byte[], IList<string>>(x.ResultId.ToString(),
-                                                                                                                                                  x.Payload!.Serialize(),
-                                                                                                                                                  null)),
-                                                                                   1,
-                                                                                   blockRequestList.First()
-                                                                                                   .TaskOptions);
-
-
-                                      var ids            = taskIds.ToList();
-                                      var mapTaskResults = SessionService.GetResultIds(ids);
-                                      var taskIdsResultIds = mapTaskResults.ToDictionary(result => result.ResultIds.Single(),
-                                                                                         result => result.TaskId);
-
-
-                                      foreach (var pairTaskIdResultId in taskIdsResultIds)
+                                      //Generate resultId
+                                      foreach (var x in groupBlockRequest)
                                       {
-                                        var blockRequest = blockRequestList.FirstOrDefault(x => x.ResultId.ToString() == pairTaskIdResultId.Key);
-                                        if (blockRequest == null)
+                                        x.ResultId = Guid.NewGuid();
+                                      }
+
+                                      try
+                                      {
+                                        var taskIds =
+                                          SessionService.SubmitTasksWithDependencies(groupBlockRequest.Select(x => new
+                                                                                                                Tuple<string, byte[],
+                                                                                                                  IList<string>>(x.ResultId.ToString(),
+                                                                                                                                 x.Payload!.Serialize(),
+                                                                                                                                 null)),
+                                                                                     1,
+                                                                                     groupBlockRequest.First()
+                                                                                                      .TaskOptions);
+
+
+                                        var ids            = taskIds.ToList();
+                                        var mapTaskResults = SessionService.GetResultIds(ids);
+                                        var taskIdsResultIds = mapTaskResults.ToDictionary(result => result.ResultIds.Single(),
+                                                                                           result => result.TaskId);
+
+
+                                        foreach (var pairTaskIdResultId in taskIdsResultIds)
                                         {
-                                          throw new InvalidOperationException($"Cannot find BlockRequest with result id {pairTaskIdResultId.Value}");
+                                          var blockRequest = groupBlockRequest.FirstOrDefault(x => x.ResultId.ToString() == pairTaskIdResultId.Key);
+                                          if (blockRequest == null)
+                                          {
+                                            throw new InvalidOperationException($"Cannot find BlockRequest with result id {pairTaskIdResultId.Value}");
+                                          }
+
+                                          ResultHandlerDictionary[pairTaskIdResultId.Value] = blockRequest.Handler;
+
+                                          requestTaskMap_.PutResponse(blockRequest.SubmitId,
+                                                                      pairTaskIdResultId.Value);
                                         }
 
-                                        ResultHandlerDictionary[pairTaskIdResultId.Value] = blockRequest.Handler;
+                                        if (ids.Count() > taskIdsResultIds.Count)
+                                        {
+                                          Logger?.LogWarning("Fail to submit all tasks at once, retry with missing tasks");
 
-                                        requestTaskMap_.PutResponse(blockRequest.SubmitId,
-                                                                    pairTaskIdResultId.Value);
+                                          throw new Exception("Fail to submit all tasks at once. Retrying...");
+                                        }
+
+                                        break;
                                       }
-
-                                      if (ids.Count() > taskIdsResultIds.Count)
+                                      catch (Exception e)
                                       {
-                                        Logger?.LogWarning("Fail to submit all tasks at once, retry with missing tasks");
+                                        if (retry >= maxRetries - 1)
+                                        {
+                                          Logger?.LogError(e,
+                                                           "Fail to retry {count} times of submission. Stop trying to submit",
+                                                           maxRetries);
+                                          throw;
+                                        }
 
-                                        throw new Exception("Fail to submit all tasks at once. Retrying...");
+                                        Logger?.LogWarning(e,
+                                                           "Fail to submit, {retry}/{maxRetries} retrying",
+                                                           retry,
+                                                           maxRetries);
+
+                                        //Delay before submission
+                                        Task.Delay(TimeSpan.FromMilliseconds(100));
                                       }
-
-                                      break;
                                     }
-                                    catch (Exception e)
+
+                                    foreach (var blockRequest in groupBlockRequest)
                                     {
-                                      if (retry >= maxRetries - 1)
-                                      {
-                                        Logger?.LogError(e,
-                                                         "Fail to retry {count} times of submission. Stop trying to submit",
-                                                         maxRetries);
-                                        throw;
-                                      }
-
-                                      Logger?.LogWarning(e,
-                                                         "Fail to submit, {retry}/{maxRetries} retrying",
-                                                         retry,
-                                                         maxRetries);
-
-                                      //Delay before submission
-                                      Task.Delay(TimeSpan.FromMilliseconds(100));
+                                      blockRequest.Lock?.Release();
                                     }
                                   }
-
-
-                                  blockRequestList.ForEach(x =>
-                                                           {
-                                                             x.Lock?.Release();
-                                                           });
                                 }
                                 catch (Exception e)
                                 {
