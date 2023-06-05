@@ -234,6 +234,7 @@ jobs:
          cd -
       
       - name: Run tests
+        timeout-minutes: 18
         run: |
          set -ex
          kubectl get svc -n armonik -o wide

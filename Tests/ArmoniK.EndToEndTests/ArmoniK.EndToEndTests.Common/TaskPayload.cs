@@ -1,6 +1,6 @@
 // This file is part of the ArmoniK project
 //
-// Copyright (C) ANEO, 2021-2022. All rights reserved.
+// Copyright (C) ANEO, 2021-$CURRENT_YEAR$. All rights reserved.
 //   W. Kirschenmann   <wkirschenmann@aneo.fr>
 //   J. Gurhem         <jgurhem@aneo.fr>
 //   D. Dubuc          <ddubuc@aneo.fr>
@@ -22,28 +22,11 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Threading;
+namespace ArmoniK.EndToEndTests.Common;
 
-using ArmoniK.Api.gRPC.V1;
-using ArmoniK.DevelopmentKit.Client.Common;
-using ArmoniK.DevelopmentKit.Common;
-
-using JetBrains.Annotations;
-
-namespace ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter;
-
-internal class BlockRequest
+public class TaskPayload
 {
-  public IServiceInvocationHandler Handler;
-
-  [CanBeNull]
-  public ArmonikPayload Payload { get; set; }
-
-  public SemaphoreSlim Lock     { get; set; }
-  public Guid          SubmitId { get; set; }
-
-  public Guid        ResultId    { get; set; }
-  public int         MaxRetries  { get; set; } = 5;
-  public TaskOptions TaskOptions { get; set; }
+  public int[] Vector           { get; set; }
+  public int   WorkloadTimeInMs { get; set; }
+  public int   Scalar           { get; set; }
 }

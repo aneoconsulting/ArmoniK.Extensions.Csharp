@@ -149,7 +149,7 @@ public class CheckAllSubmissionsClient : ClientBaseTest<CheckAllSubmissionsClien
     IEnumerable<string> taskIds;
     if (submissionType == SubmissionType.Sequential)
     {
-      taskIds = listOfPayload.Select(sessionService.SubmitTask)
+      taskIds = listOfPayload.Select(x => sessionService.SubmitTask(x))
                              .ToArray();
     }
     else // (submissionType == SubmissionType.Batch)

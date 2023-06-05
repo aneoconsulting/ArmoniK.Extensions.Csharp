@@ -131,7 +131,14 @@ public class SessionPollingService
   /// <param name="payloads">
   ///   The user payload list to execute. General used for subTasking.
   /// </param>
-  public IEnumerable<string> SubmitTasks(IEnumerable<byte[]> payloads)
+  /// <param name="maxRetries">The number of retry before fail to submit task. Default = 5 retries</param>
+  /// <param name="taskOptions">
+  ///   TaskOptions argument to override default taskOptions in Session.
+  ///   If non null it will override the default taskOptions in SessionService for client or given by taskHandler for worker
+  /// </param>
+  public IEnumerable<string> SubmitTasks(IEnumerable<byte[]> payloads,
+                                         int                 maxRetries  = 5,
+                                         TaskOptions         taskOptions = null)
   {
     using var _ = Logger.LogFunction();
 
@@ -154,7 +161,7 @@ public class SessionPollingService
                                        });
 
     var createTaskReply = TaskHandler.CreateTasksAsync(taskRequests,
-                                                       TaskOptions)
+                                                       taskOptions ?? TaskOptions)
                                      .Result;
 
     switch (createTaskReply.ResponseCase)
@@ -183,9 +190,16 @@ public class SessionPollingService
   /// </summary>
   /// <param name="payloadsWithDependencies">A list of Tuple(taskId, Payload) in dependence of those created tasks</param>
   /// <param name="resultForParent"></param>
+  /// <param name="maxRetries">The number of retry before fail to submit task. Default = 5 retries</param>
+  /// <param name="taskOptions">
+  ///   TaskOptions argument to override default taskOptions in Session.
+  ///   If non null it will override the default taskOptions in SessionService for client or given by taskHandler for worker
+  /// </param>
   /// <returns>return a list of taskIds of the created tasks </returns>
   public IEnumerable<string> SubmitTasksWithDependencies(IEnumerable<Tuple<byte[], IList<string>>> payloadsWithDependencies,
-                                                         bool                                      resultForParent = false)
+                                                         bool                                      resultForParent = false,
+                                                         int                                       maxRetries      = 5,
+                                                         TaskOptions                               taskOptions     = null)
   {
     using var _            = Logger.LogFunction();
     var       taskRequests = new List<TaskRequest>();
@@ -231,7 +245,7 @@ public class SessionPollingService
     }
 
     var createTaskReply = TaskHandler.CreateTasksAsync(taskRequests,
-                                                       TaskOptions)
+                                                       taskOptions ?? TaskOptions)
                                      .Result;
 
     switch (createTaskReply.ResponseCase)
@@ -289,12 +303,21 @@ public static class SessionServiceExt
   /// <param name="payload">
   ///   The user payload to execute.
   /// </param>
+  /// <param name="maxRetries">The number of retry before fail to submit task. Default = 5 retries</param>
+  /// <param name="taskOptions">
+  ///   TaskOptions argument to override default taskOptions in Session.
+  ///   If non null it will override the default taskOptions in SessionService for client or given by taskHandler for worker
+  /// </param>
   public static string SubmitTask(this SessionPollingService client,
-                                  byte[]                     payload)
+                                  byte[]                     payload,
+                                  int                        maxRetries  = 5,
+                                  TaskOptions                taskOptions = null)
     => client.SubmitTasks(new[]
                           {
                             payload,
-                          })
+                          },
+                          maxRetries,
+                          taskOptions)
              .Single();
 
   /// <summary>
@@ -304,14 +327,23 @@ public static class SessionServiceExt
   /// <param name="client">The client instance for extension</param>
   /// <param name="payload">The payload to submit</param>
   /// <param name="dependencies">A list of task Id in dependence of this created task</param>
+  /// <param name="maxRetries">The number of retry before fail to submit task. Default = 5 retries</param>
+  /// <param name="taskOptions">
+  ///   TaskOptions argument to override default taskOptions in Session.
+  ///   If non null it will override the default taskOptions in SessionService for client or given by taskHandler for worker
+  /// </param>
   /// <returns>return the taskId of the created task </returns>
   public static string SubmitTaskWithDependencies(this SessionPollingService client,
                                                   byte[]                     payload,
-                                                  IList<string>              dependencies)
+                                                  IList<string>              dependencies,
+                                                  int                        maxRetries  = 5,
+                                                  TaskOptions                taskOptions = null)
     => client.SubmitTasksWithDependencies(new[]
                                           {
                                             Tuple.Create(payload,
                                                          dependencies),
-                                          })
+                                          },
+                                          maxRetries: maxRetries,
+                                          taskOptions: taskOptions)
              .Single();
 }

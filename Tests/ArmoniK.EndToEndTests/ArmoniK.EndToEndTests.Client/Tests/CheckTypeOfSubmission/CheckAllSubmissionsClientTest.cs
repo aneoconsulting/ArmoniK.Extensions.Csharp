@@ -107,7 +107,7 @@ public class CheckAllSubmissionsClientTest
     IEnumerable<string> taskIds;
     if (submissionType == SubmissionType.Sequential)
     {
-      taskIds = listOfPayload.Select(symphonyTestHelper_.SessionService.SubmitTask)
+      taskIds = listOfPayload.Select(x => symphonyTestHelper_.SessionService.SubmitTask(x))
                              .ToArray();
     }
     else // (submissionType == SubmissionType.Batch)
