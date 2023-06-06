@@ -5,6 +5,8 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
+using Armonik.Api.Grpc.V1.SortDirection;
+
 using ArmoniK.Api.gRPC.V1.Tasks;
 using ArmoniK.DevelopmentKit.Client.Common.Status;
 using ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter;
@@ -145,8 +147,11 @@ public class AggregationPriorityTest
                                                         },
                                                         new ListTasksRequest.Types.Sort
                                                         {
-                                                          Direction = ListTasksRequest.Types.OrderDirection.Asc,
-                                                          Field     = ListTasksRequest.Types.OrderByField.TaskId,
+                                                          Direction = SortDirection.Asc,
+                                                          Field = new TaskField
+                                                                  {
+                                                                    TaskSummaryField = TaskSummaryField.TaskId,
+                                                                  },
                                                         })
                      .ConfigureAwait(false))
     {

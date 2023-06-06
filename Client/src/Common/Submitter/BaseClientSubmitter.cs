@@ -165,6 +165,7 @@ public class BaseClientSubmitter<T>
   /// </param>
   /// <param name="maxRetries">The number of retry before fail to submit task. Default = 5 retries</param>
   /// <param name="taskOptions">TaskOptions overrides if non null override default in Session</param>
+  /// <remarks>The result ids must first be created using <see cref="CreateResultsMetadata" /></remarks>
   /// <returns>return a list of taskIds of the created tasks </returns>
   [PublicAPI]
   public IEnumerable<string> SubmitTasksWithDependencies(IEnumerable<Tuple<string, byte[], IList<string>>> payloadsWithDependencies,
@@ -196,12 +197,16 @@ public class BaseClientSubmitter<T>
     => payloadsWithDependencies.ToChunks(chunkSubmitSize_)
                                .SelectMany(chunk =>
                                            {
-                                             return ChunkSubmitTasksWithDependencies(chunk.Select(subPayloadWithDependencies => Tuple.Create(Guid.NewGuid()
-                                                                                                                                                 .ToString(),
-                                                                                                                                             subPayloadWithDependencies
-                                                                                                                                               .Item1,
-                                                                                                                                             subPayloadWithDependencies
-                                                                                                                                               .Item2)),
+                                             return ChunkSubmitTasksWithDependencies(chunk.Zip(CreateResultsMetadata(Enumerable.Range(0,
+                                                                                                                                      chunk.Length)
+                                                                                                                               .Select(_ => Guid.NewGuid()
+                                                                                                                                                .ToString()))
+                                                                                                 .Values,
+                                                                                               (subPayloadWithDependencies,
+                                                                                                rid) => Tuple.Create(rid,
+                                                                                                                     subPayloadWithDependencies.Item1,
+                                                                                                                     subPayloadWithDependencies.Item2))
+                                                                                          .ToList(),
                                                                                      maxRetries,
                                                                                      taskOptions);
                                            });
@@ -878,4 +883,25 @@ public class BaseClientSubmitter<T>
                        .Where(el => el != null)
                        .ToList();
   }
+
+  /// <summary>
+  ///   Creates the results metadata
+  /// </summary>
+  /// <param name="resultNames">Results names</param>
+  /// <returns>Dictionary where each result name is associated with its result id</returns>
+  public Dictionary<string, string> CreateResultsMetadata(IEnumerable<string> resultNames)
+    => channelPool_.WithChannel(c => new Results.ResultsClient(c).CreateResultsMetaData(new CreateResultsMetaDataRequest
+                                                                                        {
+                                                                                          SessionId = SessionId.Id,
+                                                                                          Results =
+                                                                                          {
+                                                                                            resultNames.Select(name
+                                                                                                                 => new CreateResultsMetaDataRequest.Types.ResultCreate
+                                                                                                                    {
+                                                                                                                      Name = name,
+                                                                                                                    }),
+                                                                                          },
+                                                                                        }))
+                   .Results.ToDictionary(r => r.Name,
+                                         r => r.ResultId);
 }

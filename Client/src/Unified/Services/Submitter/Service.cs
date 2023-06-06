@@ -38,6 +38,7 @@ using ArmoniK.DevelopmentKit.Client.Unified.Factory;
 using ArmoniK.DevelopmentKit.Client.Unified.Services.Common;
 using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.Common.Exceptions;
+using ArmoniK.DevelopmentKit.Common.Extensions;
 using ArmoniK.Utils;
 
 using Grpc.Core;
@@ -91,6 +92,12 @@ public class Service : AbstractClientService, ISubmitterService
 
 
   private readonly SemaphoreSlim semaphoreSlim_;
+
+  /// <summary>
+  ///   Property Get the SessionId
+  /// </summary>
+  [PublicAPI]
+  public SessionService SessionService;
 
   /// <summary>
   ///   The default constructor to open connection with the control plane
@@ -152,22 +159,25 @@ public class Service : AbstractClientService, ISubmitterService
                                   {
                                     var maxRetries = groupBlockRequest.First()
                                                                       .MaxRetries;
+                                    //Generate resultId
+                                    var results_ids = SessionService.CreateResultsMetadata(groupBlockRequest.Select(_ => Guid.NewGuid()
+                                                                                                                             .ToString()))
+                                                                    .Values.ToList();
+
+                                    foreach (var (request, index) in groupBlockRequest.WithIndex())
+                                    {
+                                      request.ResultId = results_ids[index];
+                                    }
+
                                     for (var retry = 0; retry < maxRetries; retry++)
                                     {
-                                      //Generate resultId
-                                      foreach (var x in groupBlockRequest)
-                                      {
-                                        x.ResultId = Guid.NewGuid();
-                                      }
-
                                       try
                                       {
                                         var taskIds =
-                                          SessionService.SubmitTasksWithDependencies(groupBlockRequest.Select(x => new
-                                                                                                                Tuple<string, byte[],
-                                                                                                                  IList<string>>(x.ResultId.ToString(),
-                                                                                                                                 x.Payload!.Serialize(),
-                                                                                                                                 null)),
+                                          SessionService.SubmitTasksWithDependencies(groupBlockRequest.Select(x => new Tuple<string, byte[], IList<string>>(x.ResultId,
+                                                                                                                                                            x.Payload!
+                                                                                                                                                             .Serialize(),
+                                                                                                                                                            null)),
                                                                                      1,
                                                                                      groupBlockRequest.First()
                                                                                                       .TaskOptions);
@@ -181,11 +191,8 @@ public class Service : AbstractClientService, ISubmitterService
 
                                         foreach (var pairTaskIdResultId in taskIdsResultIds)
                                         {
-                                          var blockRequest = groupBlockRequest.FirstOrDefault(x => x.ResultId.ToString() == pairTaskIdResultId.Key);
-                                          if (blockRequest == null)
-                                          {
-                                            throw new InvalidOperationException($"Cannot find BlockRequest with result id {pairTaskIdResultId.Value}");
-                                          }
+                                          var blockRequest = groupBlockRequest.FirstOrDefault(x => x.ResultId == pairTaskIdResultId.Key) ??
+                                                             throw new InvalidOperationException($"Cannot find BlockRequest with result id {pairTaskIdResultId.Value}");
 
                                           ResultHandlerDictionary[pairTaskIdResultId.Value] = blockRequest.Handler;
 
@@ -193,7 +200,7 @@ public class Service : AbstractClientService, ISubmitterService
                                                                       pairTaskIdResultId.Value);
                                         }
 
-                                        if (ids.Count() > taskIdsResultIds.Count)
+                                        if (ids.Count > taskIdsResultIds.Count)
                                         {
                                           Logger?.LogWarning("Fail to submit all tasks at once, retry with missing tasks");
 
@@ -244,12 +251,6 @@ public class Service : AbstractClientService, ISubmitterService
 
 
   private BatchUntilInactiveBlock<BlockRequest> BufferSubmit { get; }
-
-  /// <summary>
-  ///   Property Get the SessionId
-  /// </summary>
-  [PublicAPI]
-  public SessionService SessionService { get; set; }
 
   [CanBeNull]
   private ILogger Logger { get; }

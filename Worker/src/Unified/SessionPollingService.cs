@@ -144,10 +144,6 @@ public class SessionPollingService
 
     var taskRequests = payloads.Select(bytes =>
                                        {
-                                         var resultId = Guid.NewGuid()
-                                                            .ToString();
-                                         Logger.LogDebug("Create task {task}",
-                                                         resultId);
                                          return new TaskRequest
                                                 {
                                                   Payload = UnsafeByteOperations.UnsafeWrap(bytes.AsMemory(0,
@@ -155,7 +151,16 @@ public class SessionPollingService
 
                                                   ExpectedOutputKeys =
                                                   {
-                                                    resultId,
+                                                    TaskHandler.CreateResultsMetaDataAsync(new[]
+                                                                                           {
+                                                                                             new CreateResultsMetaDataRequest.Types.ResultCreate
+                                                                                             {
+                                                                                               Name = Guid.NewGuid()
+                                                                                                          .ToString(),
+                                                                                             },
+                                                                                           })
+                                                               .Result.Results.Single()
+                                                               .ResultId,
                                                   },
                                                 };
                                        });
@@ -206,10 +211,6 @@ public class SessionPollingService
 
     foreach (var (payload, dependencies) in payloadsWithDependencies)
     {
-      var resultId = Guid.NewGuid()
-                         .ToString();
-      Logger.LogDebug("Create task {task}",
-                      resultId);
       var taskRequest = new TaskRequest
                         {
                           Payload = UnsafeByteOperations.UnsafeWrap(payload.AsMemory(0,
@@ -220,7 +221,16 @@ public class SessionPollingService
                                                 ? TaskHandler.ExpectedResults
                                                 : new[]
                                                   {
-                                                    resultId,
+                                                    TaskHandler.CreateResultsMetaDataAsync(new[]
+                                                                                           {
+                                                                                             new CreateResultsMetaDataRequest.Types.ResultCreate
+                                                                                             {
+                                                                                               Name = Guid.NewGuid()
+                                                                                                          .ToString(),
+                                                                                             },
+                                                                                           })
+                                                               .Result.Results.Single()
+                                                               .ResultId,
                                                   });
 
       if (dependencies != null && dependencies.Count != 0)
@@ -228,7 +238,7 @@ public class SessionPollingService
         foreach (var dependency in dependencies)
         {
           if (!TaskId2OutputId.TryGetValue(dependency,
-                                           out resultId))
+                                           out var resultId))
           {
             throw new WorkerApiException($"Dependency {dependency} has no corresponding result id.");
           }
