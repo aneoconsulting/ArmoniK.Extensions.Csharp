@@ -889,6 +889,7 @@ public class BaseClientSubmitter<T>
   /// </summary>
   /// <param name="resultNames">Results names</param>
   /// <returns>Dictionary where each result name is associated with its result id</returns>
+  [PublicAPI]
   public Dictionary<string, string> CreateResultsMetadata(IEnumerable<string> resultNames)
     => channelPool_.WithChannel(c => new Results.ResultsClient(c).CreateResultsMetaData(new CreateResultsMetaDataRequest
                                                                                         {

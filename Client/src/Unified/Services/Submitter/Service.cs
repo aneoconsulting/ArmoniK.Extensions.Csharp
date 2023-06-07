@@ -38,7 +38,6 @@ using ArmoniK.DevelopmentKit.Client.Unified.Factory;
 using ArmoniK.DevelopmentKit.Client.Unified.Services.Common;
 using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.Common.Exceptions;
-using ArmoniK.DevelopmentKit.Common.Extensions;
 using ArmoniK.Utils;
 
 using Grpc.Core;
@@ -164,7 +163,8 @@ public class Service : AbstractClientService, ISubmitterService
                                                                                                                              .ToString()))
                                                                     .Values.ToList();
 
-                                    foreach (var (request, index) in groupBlockRequest.WithIndex())
+                                    foreach (var (request, index) in groupBlockRequest.Select((r,
+                                                                                               i) => (r, i)))
                                     {
                                       request.ResultId = results_ids[index];
                                     }

@@ -124,6 +124,54 @@ public class SessionPollingService
   }
 
   /// <summary>
+  ///   Create the results metadata
+  /// </summary>
+  /// <param name="count">Number of results to create, defaults to -1, meaning a potentially infinite number of results</param>
+  /// <returns></returns>
+  private IEnumerable<string> CreateResultsMetadata(int count = -1)
+  {
+    switch (count)
+    {
+      case 0:
+        yield break;
+      case > 0:
+      {
+        foreach (var resultId in TaskHandler.CreateResultsMetaDataAsync(Enumerable.Range(0,
+                                                                                         count)
+                                                                                  .Select(_ => new CreateResultsMetaDataRequest.Types.ResultCreate
+                                                                                               {
+                                                                                                 Name = Guid.NewGuid()
+                                                                                                            .ToString(),
+                                                                                               }))
+                                            .Result.Results.Select(r => r.ResultId))
+        {
+          yield return resultId;
+        }
+
+        break;
+      }
+      default:
+      {
+        Logger.LogDebug("Creating result metadata one at a time as the number of results cannot be determined");
+
+        while (true)
+        {
+          yield return TaskHandler.CreateResultsMetaDataAsync(new[]
+                                                              {
+                                                                new CreateResultsMetaDataRequest.Types.ResultCreate
+                                                                {
+                                                                  Name = Guid.NewGuid()
+                                                                             .ToString(),
+                                                                },
+                                                              })
+                                  .Result.Results.Single()
+                                  .ResultId;
+        }
+      }
+    }
+  }
+
+  /// <summary>
   ///   User method to submit task from the client
   ///   Need a client Service. In case of ServiceContainer
   ///   pollingAgentService can be null until the OpenSession is called
@@ -142,28 +190,22 @@ public class SessionPollingService
   {
     using var _ = Logger.LogFunction();
 
-    var taskRequests = payloads.Select(bytes =>
-                                       {
-                                         return new TaskRequest
-                                                {
-                                                  Payload = UnsafeByteOperations.UnsafeWrap(bytes.AsMemory(0,
-                                                                                                           bytes.Length)),
+    var resultIds = payloads.TryGetNonEnumeratedCount(out var count)
+                      ? CreateResultsMetadata(count)
+                      : CreateResultsMetadata();
 
-                                                  ExpectedOutputKeys =
+    var taskRequests = payloads.Zip(resultIds,
+                                    (bytes,
+                                     resultId) => new TaskRequest
                                                   {
-                                                    TaskHandler.CreateResultsMetaDataAsync(new[]
-                                                                                           {
-                                                                                             new CreateResultsMetaDataRequest.Types.ResultCreate
-                                                                                             {
-                                                                                               Name = Guid.NewGuid()
-                                                                                                          .ToString(),
-                                                                                             },
-                                                                                           })
-                                                               .Result.Results.Single()
-                                                               .ResultId,
-                                                  },
-                                                };
-                                       });
+                                                    Payload = UnsafeByteOperations.UnsafeWrap(bytes.AsMemory(0,
+                                                                                                             bytes.Length)),
+
+                                                    ExpectedOutputKeys =
+                                                    {
+                                                      resultId,
+                                                    },
+                                                  });
 
     var createTaskReply = TaskHandler.CreateTasksAsync(taskRequests,
                                                        taskOptions ?? TaskOptions)
@@ -217,21 +259,10 @@ public class SessionPollingService
                                                                                      payload.Length)),
                         };
 
-      taskRequest.ExpectedOutputKeys.AddRange(resultForParent
-                                                ? TaskHandler.ExpectedResults
-                                                : new[]
-                                                  {
-                                                    TaskHandler.CreateResultsMetaDataAsync(new[]
-                                                                                           {
-                                                                                             new CreateResultsMetaDataRequest.Types.ResultCreate
-                                                                                             {
-                                                                                               Name = Guid.NewGuid()
-                                                                                                          .ToString(),
-                                                                                             },
-                                                                                           })
-                                                               .Result.Results.Single()
-                                                               .ResultId,
-                                                  });
+      if (resultForParent)
+      {
+        taskRequest.ExpectedOutputKeys.AddRange(TaskHandler.ExpectedResults);
+      }
 
       if (dependencies != null && dependencies.Count != 0)
       {
@@ -253,6 +284,15 @@ public class SessionPollingService
 
       taskRequests.Add(taskRequest);
     }
+
+    if (!resultForParent)
+    {
+      foreach (var (taskRequest, resultId) in taskRequests.Zip(CreateResultsMetadata(taskRequests.Count)))
+      {
+        taskRequest.ExpectedOutputKeys.Add(resultId);
+      }
+    }
+
 
     var createTaskReply = TaskHandler.CreateTasksAsync(taskRequests,
                                                        taskOptions ?? TaskOptions)
