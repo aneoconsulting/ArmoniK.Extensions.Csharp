@@ -1,15 +1,8 @@
 ﻿// This file is part of the ArmoniK project
 // 
-// Copyright (C) ANEO, 2021-2022.
-//   W. Kirschenmann   <wkirschenmann@aneo.fr>
-//   J. Gurhem         <jgurhem@aneo.fr>
-//   D. Dubuc          <ddubuc@aneo.fr>
-//   L. Ziane Khodja   <lzianekhodja@aneo.fr>
-//   F. Lemaitre       <flemaitre@aneo.fr>
-//   S. Djebbar        <sdjebbar@aneo.fr>
-//   J. Fonseca        <jfonseca@aneo.fr>
+// Copyright (C) ANEO, 2021-2023.All rights reserved.
 // 
-// Licensed under the Apache License, Version 2.0 (the "License");
+// Licensed under the Apache License, Version 2.0 (the "License")
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 // 
