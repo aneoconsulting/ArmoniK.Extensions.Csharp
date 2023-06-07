@@ -153,7 +153,7 @@ jobs:
       run: echo ${{ steps.buildx.outputs.platforms }}
 
     - name: Build and push
-      uses: docker/build-push-action@v3
+      uses: docker/build-push-action@v4
       with:
         file: Worker/src/DLLWorker/Dockerfile
         context: .
