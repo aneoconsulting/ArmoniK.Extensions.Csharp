@@ -31,6 +31,7 @@ using ArmoniK.Api.gRPC.V1.Agent;
 using ArmoniK.Api.Worker.Worker;
 using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.Common.Exceptions;
+using ArmoniK.DevelopmentKit.Worker.Common;
 
 using Google.Protobuf;
 using Google.Protobuf.WellKnownTypes;
@@ -129,54 +130,6 @@ public class SessionPollingService
   }
 
   /// <summary>
-  ///   Create the results metadata
-  /// </summary>
-  /// <param name="count">Number of results to create, defaults to -1, meaning a potentially infinite number of results</param>
-  /// <returns></returns>
-  private IEnumerable<string> CreateResultsMetadata(int count = -1)
-  {
-    switch (count)
-    {
-      case 0:
-        yield break;
-      case > 0:
-      {
-        foreach (var resultId in TaskHandler.CreateResultsMetaDataAsync(Enumerable.Range(0,
-                                                                                         count)
-                                                                                  .Select(_ => new CreateResultsMetaDataRequest.Types.ResultCreate
-                                                                                               {
-                                                                                                 Name = Guid.NewGuid()
-                                                                                                            .ToString(),
-                                                                                               }))
-                                            .Result.Results.Select(r => r.ResultId))
-        {
-          yield return resultId;
-        }
-
-        break;
-      }
-      default:
-      {
-        Logger.LogDebug("Creating result metadata one at a time as the number of results cannot be determined");
-
-        while (true)
-        {
-          yield return TaskHandler.CreateResultsMetaDataAsync(new[]
-                                                              {
-                                                                new CreateResultsMetaDataRequest.Types.ResultCreate
-                                                                {
-                                                                  Name = Guid.NewGuid()
-                                                                             .ToString(),
-                                                                },
-                                                              })
-                                  .Result.Results.Single()
-                                  .ResultId;
-        }
-      }
-    }
-  }
-
-  /// <summary>
   ///   User method to submit task from the client
   ///   Need a client Service. In case of ServiceContainer
   ///   pollingAgentService can be null until the OpenSession is called
@@ -195,8 +148,10 @@ public class SessionPollingService
   {
     using var _ = Logger.LogFunction();
     var resultIds = payloads.TryGetNonEnumeratedCount(out var count)
-                      ? CreateResultsMetadata(count)
-                      : CreateResultsMetadata();
+                      ? new ResultIdEnumerable(TaskHandler,
+                                               count,
+                                               true)
+                      : new ResultIdEnumerable(TaskHandler);
 
     var taskRequests = payloads.Zip(resultIds,
                                     (bytes,
@@ -290,7 +245,9 @@ public class SessionPollingService
 
     if (!resultForParent)
     {
-      foreach (var (taskRequest, resultId) in taskRequests.Zip(CreateResultsMetadata(taskRequests.Count)))
+      foreach (var (taskRequest, resultId) in taskRequests.Zip(new ResultIdEnumerable(TaskHandler,
+                                                                                      taskRequests.Count,
+                                                                                      true)))
       {
         taskRequest.ExpectedOutputKeys.Add(resultId);
       }
