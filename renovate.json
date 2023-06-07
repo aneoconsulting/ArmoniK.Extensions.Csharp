@@ -9,6 +9,13 @@
   "rangeStrategy": "bump",
   "packageRules": [
     {
+      "groupName": "npm packages",
+      "groupSlug": "npm",
+      "matchDatasources": [
+        "npm"
+      ]
+    },
+    {
       "groupName": "nuget packages",
       "groupSlug": "nuget",
       "matchDatasources": [
