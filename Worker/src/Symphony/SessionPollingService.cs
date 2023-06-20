@@ -24,6 +24,7 @@ using ArmoniK.Api.gRPC.V1.Agent;
 using ArmoniK.Api.Worker.Worker;
 using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.Common.Exceptions;
+using ArmoniK.DevelopmentKit.Worker.Common;
 
 using Google.Protobuf;
 using Google.Protobuf.WellKnownTypes;
@@ -139,24 +140,24 @@ public class SessionPollingService
                                          TaskOptions         taskOptions = null)
   {
     using var _ = Logger.LogFunction();
+    var resultIds = payloads.TryGetNonEnumeratedCount(out var count)
+                      ? new ResultIdEnumerable(TaskHandler,
+                                               count,
+                                               true)
+                      : new ResultIdEnumerable(TaskHandler);
 
-    var taskRequests = payloads.Select(bytes =>
-                                       {
-                                         var resultId = Guid.NewGuid()
-                                                            .ToString();
-                                         Logger.LogDebug("Create task {task}",
-                                                         resultId);
-                                         return new TaskRequest
-                                                {
-                                                  Payload = UnsafeByteOperations.UnsafeWrap(bytes.AsMemory(0,
-                                                                                                           bytes.Length)),
-
-                                                  ExpectedOutputKeys =
+    var taskRequests = payloads.Zip(resultIds,
+                                    (bytes,
+                                     resultId) => new TaskRequest
                                                   {
-                                                    resultId,
-                                                  },
-                                                };
-                                       });
+                                                    Payload = UnsafeByteOperations.UnsafeWrap(bytes.AsMemory(0,
+                                                                                                             bytes.Length)),
+
+                                                    ExpectedOutputKeys =
+                                                    {
+                                                      resultId,
+                                                    },
+                                                  });
 
     var createTaskReply = TaskHandler.CreateTasksAsync(taskRequests,
                                                        taskOptions ?? TaskOptions)
@@ -203,29 +204,23 @@ public class SessionPollingService
 
     foreach (var (payload, dependencies) in payloadsWithDependencies)
     {
-      var resultId = Guid.NewGuid()
-                         .ToString();
-      Logger.LogDebug("Create task {task}",
-                      resultId);
       var taskRequest = new TaskRequest
                         {
                           Payload = UnsafeByteOperations.UnsafeWrap(payload.AsMemory(0,
                                                                                      payload.Length)),
                         };
 
-      taskRequest.ExpectedOutputKeys.AddRange(resultForParent
-                                                ? TaskHandler.ExpectedResults
-                                                : new[]
-                                                  {
-                                                    resultId,
-                                                  });
+      if (resultForParent)
+      {
+        taskRequest.ExpectedOutputKeys.AddRange(TaskHandler.ExpectedResults);
+      }
 
       if (dependencies != null && dependencies.Count != 0)
       {
         foreach (var dependency in dependencies)
         {
           if (!TaskId2OutputId.TryGetValue(dependency,
-                                           out resultId))
+                                           out var resultId))
           {
             throw new WorkerApiException($"Dependency {dependency} has no corresponding result id.");
           }
@@ -239,6 +234,16 @@ public class SessionPollingService
       }
 
       taskRequests.Add(taskRequest);
+    }
+
+    if (!resultForParent)
+    {
+      foreach (var (taskRequest, resultId) in taskRequests.Zip(new ResultIdEnumerable(TaskHandler,
+                                                                                      taskRequests.Count,
+                                                                                      true)))
+      {
+        taskRequest.ExpectedOutputKeys.Add(resultId);
+      }
     }
 
     var createTaskReply = TaskHandler.CreateTasksAsync(taskRequests,
