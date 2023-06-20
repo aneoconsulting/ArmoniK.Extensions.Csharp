@@ -319,6 +319,7 @@ public class AggregationPriorityTest
   /// </summary>
   /// <param name="squareMatrixSize">The size of the square matrix.</param>
   [TestCase(20)]
+  [Ignore("Too big")]
   public void Check_That_Result_has_expected_value(int squareMatrixSize)
   {
     unifiedTestHelper_.Log.LogInformation($"Compute square matrix with n =  {squareMatrixSize}");

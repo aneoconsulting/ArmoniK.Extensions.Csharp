@@ -101,9 +101,8 @@ internal abstract class UnitTestHelperBase
                                         applicationNamespace,
                                         applicationService);
 
-    Props = new Properties(TaskOptions,
-                           Configuration.GetSection("Grpc")["EndPoint"],
-                           5001);
+    Props = new Properties(Configuration,
+                           TaskOptions);
   }
 
   public static object[] ParamsHelper(params object[] elements)
