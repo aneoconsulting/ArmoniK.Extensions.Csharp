@@ -22,7 +22,6 @@ using System.Runtime.Loader;
 using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.Common.Exceptions;
 using ArmoniK.DevelopmentKit.Worker.Common;
-using ArmoniK.DevelopmentKit.Worker.Common.Archive;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -34,14 +33,15 @@ public class AppsLoader : IAppsLoader
   private readonly Assembly   assemblyGridWorker_;
   private readonly EngineType engineType_;
 
-  private readonly ILogger<AppsLoader> logger_;
-  private          Assembly            assembly_;
+  private readonly ILogger<AppsLoader>       logger_;
+  private readonly ApplicationPackageManager packageManager_;
+  private          Assembly                  assembly_;
 
   public AppsLoader(IConfiguration configuration,
                     ILoggerFactory loggerFactory,
                     string         engineTypeAssemblyName,
                     IFileAdapter   fileAdapter,
-                    string         fileName)
+                    PackageId      packageId)
   {
     engineType_ = EngineTypeHelper.ToEnum(engineTypeAssemblyName);
 
@@ -51,20 +51,16 @@ public class AppsLoader : IAppsLoader
 
     logger_ = loggerFactory.CreateLogger<AppsLoader>();
 
-    var archiver = new ZipArchiver();
+    packageManager_ = new ApplicationPackageManager(configuration);
 
-    if (!archiver.ArchiveAlreadyExtracted(fileAdapter,
-                                          fileName))
-    {
-      archiver.DownloadArchive(fileAdapter,
-                               fileName);
-      archiver.ExtractArchive(fileAdapter,
-                              fileName);
-    }
+    var localAssemblySearchPath = packageManager_.LoadApplicationPackage(packageId);
 
-
-    var localPathToAssembly = ZipArchiver.GetLocalPathToAssembly(Path.Combine(fileAdapter.DestinationDirPath,
-                                                                              fileName));
+    var localPathToAssembly = packageManager_.GetApplicationAssemblyFile(packageId,
+                                                                         packageId.MainAssemblyFileName,
+                                                                         new[]
+                                                                         {
+                                                                           localAssemblySearchPath,
+                                                                         });
 
     UserAssemblyLoadContext = new AddonsAssemblyLoadContext(localPathToAssembly);
 
@@ -80,7 +76,14 @@ public class AppsLoader : IAppsLoader
 
     PathToAssembly = localPathToAssembly;
 
-    var localPathToAssemblyGridWorker = $"{Path.GetDirectoryName(localPathToAssembly)}/{ArmoniKDevelopmentKitServerApi}.dll";
+    var localPathToAssemblyGridWorker = packageManager_.GetApplicationAssemblyFile(packageId,
+                                                                                   $"{
+                                                                                     ArmoniKDevelopmentKitServerApi
+                                                                                   }.dll",
+                                                                                   new[]
+                                                                                   {
+                                                                                     localAssemblySearchPath,
+                                                                                   });
 
     try
     {

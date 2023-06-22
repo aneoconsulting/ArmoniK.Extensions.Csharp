@@ -15,72 +15,51 @@
 // limitations under the License.
 
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading;
 
-using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.Common.Exceptions;
+using ArmoniK.DevelopmentKit.Common.Utils;
 
 namespace ArmoniK.DevelopmentKit.Worker.Common.Archive;
 
 public class ZipArchiver : IArchiver
 {
-  private const string RootAppPath = "/tmp/packages";
+  private readonly string rootAppPath_;
 
-  /// <inheritdoc cref="IArchiver" />
-  /// <exception cref="FileNotFoundException">Thrown if the dll and the lockfile don't exist</exception>
-  /// <exception cref="WorkerApiException">Thrown when it has waited too long for the lock file to be liberated</exception>
-  public bool ArchiveAlreadyExtracted(IFileAdapter fileAdapter,
-                                      string       fileName,
-                                      int          waitForArchiver = 300)
+  public ZipArchiver(string assembliesBasePath)
+    => rootAppPath_ = assembliesBasePath;
+
+  /// <inheritdoc />
+  public bool ArchiveAlreadyExtracted(PackageId packageId,
+                                      int       waitForExtraction = 60000,
+                                      int       spinInterval      = 1000)
   {
-    var assemblyInfo = ExtractNameAndVersion(Path.Combine(fileAdapter.DestinationDirPath,
-                                                          fileName));
-    var info            = assemblyInfo as string[] ?? assemblyInfo.ToArray();
-    var assemblyName    = info.ElementAt(0);
-    var assemblyVersion = info.ElementAt(1);
-    var basePath        = $"{RootAppPath}/{assemblyName}/{assemblyVersion}";
+    var pathToAssemblyDir = $"{rootAppPath_}/{packageId.ApplicationName}/{packageId.ApplicationVersion}";
 
-    if (!Directory.Exists($"{RootAppPath}/{assemblyName}/{assemblyVersion}"))
+    if (!Directory.Exists(pathToAssemblyDir))
     {
       return false;
     }
 
-    //Now at least if dll exists or if a lock file exists and wait for unlock
-    if (File.Exists($"{basePath}/{assemblyName}.dll"))
+    var mainAssembly = $"{pathToAssemblyDir}/{packageId.ApplicationName}.dll";
+
+    if (File.Exists(mainAssembly))
     {
       return true;
     }
 
-    if (!File.Exists($"{basePath}/{assemblyName}.lock"))
+    var lockFileName = $"{pathToAssemblyDir}/{packageId.ApplicationName}.lock";
+
+    while (File.Exists(lockFileName) && waitForExtraction > 0)
     {
-      throw new FileNotFoundException($"Cannot find Service. Assembly name {basePath}/{assemblyName}.dll");
+      Thread.Sleep(Math.Min(spinInterval,
+                            waitForExtraction));
+      waitForExtraction -= spinInterval;
     }
 
-    var       retry       = 0;
-    const int loopingWait = 2; // 2 secs
-
-    if (waitForArchiver == 0)
-    {
-      return true;
-    }
-
-    while (!File.Exists($"{basePath}/{assemblyName}.lock"))
-    {
-      Thread.Sleep(loopingWait * 1000);
-      retry++;
-      if (retry > waitForArchiver >> 2)
-      {
-        throw new WorkerApiException($"Wait for unlock unzip was timeout after {waitForArchiver * loopingWait} seconds");
-      }
-    }
-
-    return false;
+    return File.Exists(mainAssembly);
   }
 
   /// <inheritdoc cref="IArchiver" />
@@ -88,113 +67,58 @@ public class ZipArchiver : IArchiver
   ///   Thrown if the file isn't a zip archive or if the lock file isn't lockable when the
   ///   archive is being extracted by another process
   /// </exception>
-  public string ExtractArchive(IFileAdapter fileAdapter,
-                               string       filename)
+  public string ExtractArchive(string    filename,
+                               PackageId packageId,
+                               bool      overwrite = false)
   {
     if (!IsZipFile(filename))
     {
       throw new WorkerApiException("Cannot yet extract or manage raw data other than zip archive");
     }
 
-    var assemblyInfo    = ExtractNameAndVersion(filename);
-    var info            = assemblyInfo as string[] ?? assemblyInfo.ToArray();
-    var assemblyVersion = info.ElementAt(1);
-    var assemblyName    = info.ElementAt(0);
-
-
-    var pathToAssembly    = $"{RootAppPath}/{assemblyName}/{assemblyVersion}/{assemblyName}.dll";
-    var pathToAssemblyDir = $"{RootAppPath}/{assemblyName}/{assemblyVersion}";
-
-    if (ArchiveAlreadyExtracted(fileAdapter,
-                                filename,
-                                20))
-    {
-      return pathToAssembly;
-    }
+    var pathToAssemblyDir = $"{rootAppPath_}/{packageId.ApplicationName}/{packageId.ApplicationVersion}";
+    var mainAssembly      = $"{rootAppPath_}/{packageId.ApplicationName}/{packageId.ApplicationVersion}/{packageId.ApplicationName}.dll";
 
     if (!Directory.Exists(pathToAssemblyDir))
     {
       Directory.CreateDirectory(pathToAssemblyDir);
     }
 
-    var lockFileName = $"{pathToAssemblyDir}/{assemblyName}.lock";
+    var lockFileName = $"{pathToAssemblyDir}/{packageId.ApplicationName}.lock";
 
-
-    using (var fileStream = new FileStream(lockFileName,
-                                           FileMode.OpenOrCreate,
-                                           FileAccess.ReadWrite,
-                                           FileShare.ReadWrite))
+    using (var spinLock = new FileSpinLock(lockFileName,
+                                           timeoutMs: 60000))
     {
-      var lockfileForExtractionString = "Lockfile for extraction";
-
-      var unicodeEncoding = new UnicodeEncoding();
-      var textLength      = unicodeEncoding.GetByteCount(lockfileForExtractionString);
-
-      if (fileStream.Length == 0)
-        //Try to lock file to protect extraction
+      if (spinLock.HasLock)
       {
-        fileStream.Write(new UnicodeEncoding().GetBytes(lockfileForExtractionString),
-                         0,
-                         unicodeEncoding.GetByteCount(lockfileForExtractionString));
+        if (overwrite || !File.Exists(mainAssembly))
+        {
+          try
+          {
+            ZipFile.ExtractToDirectory(filename,
+                                       rootAppPath_);
+          }
+          catch (Exception e)
+          {
+            throw new WorkerApiException($"Could not extract zip file {filename}",
+                                         e);
+          }
+        }
       }
-
-      try
+      else
       {
-        fileStream.Lock(0,
-                        textLength);
-      }
-      catch (IOException)
-      {
-        return pathToAssembly;
-      }
-      catch (Exception e)
-      {
-        throw new WorkerApiException(e);
-      }
-
-
-      try
-      {
-        ZipFile.ExtractToDirectory(Path.Combine(fileAdapter.DestinationDirPath,
-                                                filename),
-                                   RootAppPath);
-      }
-      catch (Exception e)
-      {
-        throw new WorkerApiException(e);
-      }
-      finally
-      {
-        fileStream.Unlock(0,
-                          textLength);
+        throw new WorkerApiException($"Could not lock file to extract zip {filename}");
       }
     }
-
-    File.Delete(lockFileName);
 
     //Check now if the assembly is present
-    if (!File.Exists(pathToAssembly))
+    if (!File.Exists(mainAssembly))
     {
-      throw new WorkerApiException($"Fail to find assembly {pathToAssembly}. Something went wrong during the extraction. " +
-                                   $"Please sure that tree folder inside is {assemblyName}/{assemblyVersion}/*.dll");
+      throw new WorkerApiException($"Fail to find assembly {mainAssembly}. Something went wrong during the extraction. " +
+                                   $"Please make sure that the folder tree inside the zip file is {packageId.ApplicationName}/{packageId.ApplicationVersion}/*.dll");
     }
 
-    return pathToAssembly;
-  }
-
-  /// <inheritdoc />
-  public string DownloadArchive(IFileAdapter fileAdapter,
-                                string       fileName,
-                                bool         skipIfExists = true)
-  {
-    if (!skipIfExists || !File.Exists(Path.Combine(fileAdapter.DestinationDirPath,
-                                                   fileName)))
-    {
-      return fileAdapter.DownloadFile(fileName);
-    }
-
-    return Path.Combine(fileAdapter.DestinationDirPath,
-                        fileName);
+    return pathToAssemblyDir;
   }
 
   /// <summary>
@@ -207,46 +131,5 @@ public class ZipArchiver : IArchiver
 
     var extension = Path.GetExtension(assemblyNameFilePath);
     return extension?.ToLower() == ".zip";
-  }
-
-  /// <summary>
-  /// </summary>
-  /// <param name="assemblyNameFilePath"></param>
-  /// <returns></returns>
-  /// <exception cref="WorkerApiException"></exception>
-  public static IEnumerable<string> ExtractNameAndVersion(string assemblyNameFilePath)
-  {
-    string filePathNoExt;
-
-    try
-    {
-      filePathNoExt = Path.GetFileNameWithoutExtension(assemblyNameFilePath);
-    }
-    catch (ArgumentException e)
-    {
-      throw new WorkerApiException(e);
-    }
-
-    var groups = Regex.Split(filePathNoExt,
-                             "-v",
-                             RegexOptions.IgnoreCase);
-
-    if (groups.Length == 2)
-    {
-      return groups;
-    }
-
-    throw new WorkerApiException($"File name \"{filePathNoExt}\" format doesn't match: {(groups.Length > 2 ? "too many versions." : "no version specified.")}");
-  }
-
-  public static string GetLocalPathToAssembly(string pathToZip)
-  {
-    var assemblyInfo    = ExtractNameAndVersion(pathToZip);
-    var info            = assemblyInfo as string[] ?? assemblyInfo.ToArray();
-    var assemblyName    = info.ElementAt(0);
-    var assemblyVersion = info.ElementAt(1);
-    var basePath        = $"{RootAppPath}/{assemblyName}/{assemblyVersion}";
-
-    return $"{basePath}/{assemblyName}.dll";
   }
 }

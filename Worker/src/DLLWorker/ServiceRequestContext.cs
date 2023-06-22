@@ -15,7 +15,6 @@
 // limitations under the License.
 
 using System;
-using System.IO;
 
 using ArmoniK.Api.gRPC.V1;
 using ArmoniK.Api.Worker.Worker;
@@ -30,82 +29,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
 namespace ArmoniK.DevelopmentKit.Worker.DLLWorker;
-
-public class ServiceId : IEquatable<ServiceId>
-{
-  public ServiceId(string engineTypeName,
-                   string pathToZipFile,
-                   string namespaceService)
-    => Key = $"{engineTypeName}#{pathToZipFile}#{namespaceService}".ToLower();
-
-  public string Key { get; }
-
-  /// <inheritdoc />
-  public bool Equals(ServiceId other)
-  {
-    if (other is null)
-    {
-      return false;
-    }
-
-    if (ReferenceEquals(this,
-                        other))
-    {
-      return true;
-    }
-
-    return Key == other.Key;
-  }
-
-  /// <summary>Returns a string that represents the current object.</summary>
-  /// <returns>A string that represents the current object.</returns>
-  public override string ToString()
-    => Key;
-
-  /// <inheritdoc />
-  public override bool Equals(object obj)
-  {
-    if (obj is null)
-    {
-      return false;
-    }
-
-    if (ReferenceEquals(this,
-                        obj))
-    {
-      return true;
-    }
-
-    return obj.GetType() == GetType() && Equals((ServiceId)obj);
-  }
-
-  /// <inheritdoc />
-  public override int GetHashCode()
-    => Key != null
-         ? Key.GetHashCode()
-         : 0;
-
-
-  /// <summary>
-  ///   Checks if both ServiceIds are equal
-  /// </summary>
-  /// <param name="a">ServiceId a</param>
-  /// <param name="b">ServiceId b</param>
-  /// <returns>Same as a.Equals(b)</returns>
-  public static bool operator ==(ServiceId a,
-                                 ServiceId b)
-    => a?.Equals(b) ?? false;
-
-  /// <summary>
-  ///   Checks if both ServiceIds are different
-  /// </summary>
-  /// <param name="a">ServiceId a</param>
-  /// <param name="b">ServiceId b</param>
-  /// <returns>Same as !a.Equals(b)</returns>
-  public static bool operator !=(ServiceId a,
-                                 ServiceId b)
-    => !(a == b);
-}
 
 public class ArmonikServiceWorker : IDisposable
 {
@@ -241,7 +164,7 @@ public class ServiceRequestContext
   public ArmonikServiceWorker CreateOrGetArmonikService(IConfiguration configuration,
                                                         string         engineTypeName,
                                                         IFileAdapter   fileAdapter,
-                                                        string         fileName,
+                                                        PackageId      packageId,
                                                         TaskOptions    requestTaskOptions)
   {
     if (string.IsNullOrEmpty(requestTaskOptions.ApplicationNamespace))
@@ -249,10 +172,9 @@ public class ServiceRequestContext
       throw new WorkerApiException("Cannot find namespace service in TaskOptions. Please set the namespace");
     }
 
-    var serviceId = GenerateServiceId(engineTypeName,
-                                      Path.Combine(fileAdapter.DestinationDirPath,
-                                                   fileName),
-                                      requestTaskOptions.ApplicationNamespace);
+    var serviceId = new ServiceId(packageId,
+                                  requestTaskOptions.ApplicationNamespace,
+                                  EngineTypeHelper.ToEnum(engineTypeName));
 
     if (currentService_?.ServiceId == serviceId)
     {
@@ -265,11 +187,12 @@ public class ServiceRequestContext
     currentService_?.Dispose();
     currentService_ = null;
 
+
     var appsLoader = new AppsLoader(configuration,
                                     LoggerFactory,
                                     engineTypeName,
                                     fileAdapter,
-                                    fileName);
+                                    packageId);
 
     currentService_ = new ArmonikServiceWorker
                       {
@@ -284,13 +207,6 @@ public class ServiceRequestContext
 
     return currentService_;
   }
-
-  public static ServiceId GenerateServiceId(string engineTypeName,
-                                            string uniqueKey,
-                                            string namespaceService)
-    => new(engineTypeName,
-           uniqueKey,
-           namespaceService);
 
   public static IFileAdapter CreateOrGetFileAdapter(IConfiguration configuration,
                                                     string         localDirectoryZip)

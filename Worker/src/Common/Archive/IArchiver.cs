@@ -14,8 +14,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using ArmoniK.DevelopmentKit.Common;
-
 namespace ArmoniK.DevelopmentKit.Worker.Common.Archive;
 
 /// <summary>
@@ -26,31 +24,22 @@ public interface IArchiver
   /// <summary>
   ///   Extracts an archive file
   /// </summary>
-  /// <param name="fileAdapter">File adapter to fetch the file</param>
   /// <param name="filename">File name</param>
-  /// <returns>Path to assembly file</returns>
-  public string ExtractArchive(IFileAdapter fileAdapter,
-                               string       filename);
+  /// <param name="packageId">Package Id</param>
+  /// <param name="overwrite">Overwrite the files if they have been already extracted</param>
+  /// <returns>Path to extracted package folder</returns>
+  public string ExtractArchive(string    filename,
+                               PackageId packageId,
+                               bool      overwrite = false);
 
   /// <summary>
   ///   Checks if the archive has already been extracted
   /// </summary>
-  /// <param name="fileAdapter">File adapter to fetch the file</param>
-  /// <param name="fileName">File name</param>
-  /// <param name="waitForArchiver">Number of 2 seconds intervals to wait for the lock file to be </param>
+  /// <param name="packageId">Package Id</param>
+  /// <param name="waitExtractionTimeoutMs">If the file is being extracted by another process, wait until this timeout</param>
+  /// <param name="waitSpinIntervalMs">Interval between file checks while waiting for extraction</param>
   /// <returns>True if the archive has already been extracted, false otherwise</returns>
-  public bool ArchiveAlreadyExtracted(IFileAdapter fileAdapter,
-                                      string       fileName,
-                                      int          waitForArchiver);
-
-  /// <summary>
-  ///   Download the archive from the fileAdapter
-  /// </summary>
-  /// <param name="fileAdapter">File adapter to fetch the file</param>
-  /// <param name="filename">File name</param>
-  /// <param name="skipIfExists">If set to true, doesn't download if the file already exists</param>
-  /// <returns>Path to the download archive</returns>
-  public string DownloadArchive(IFileAdapter fileAdapter,
-                                string       filename,
-                                bool         skipIfExists);
+  public bool ArchiveAlreadyExtracted(PackageId packageId,
+                                      int       waitExtractionTimeoutMs = 60000,
+                                      int       waitSpinIntervalMs      = 1000);
 }

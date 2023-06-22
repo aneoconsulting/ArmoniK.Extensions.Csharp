@@ -26,6 +26,7 @@ using ArmoniK.Api.gRPC.V1;
 using ArmoniK.Api.Worker.Worker;
 using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.Common.Exceptions;
+using ArmoniK.DevelopmentKit.Worker.Common;
 
 using Grpc.Core;
 
@@ -91,7 +92,8 @@ public class ComputerService : WorkerStreamWrapper
         throw new WorkerApiException($"Error in TaskOptions : One of Keys is missing [{string.Join(";", missingKeys.Select(el => $"{el.Item1} => {el.Item2}"))}]");
       }
 
-      var fileName          = $"{taskHandler.TaskOptions.ApplicationName}-v{taskHandler.TaskOptions.ApplicationVersion}.zip";
+      var packageId = new PackageId(taskHandler.TaskOptions.ApplicationName,
+                                    taskHandler.TaskOptions.ApplicationVersion);
       var localDirectoryZip = $"{Configuration[AppsOptions.GridDataVolumesKey]}";
 
       var engineTypeName = string.IsNullOrEmpty(taskHandler.TaskOptions.EngineType)
@@ -105,7 +107,7 @@ public class ComputerService : WorkerStreamWrapper
       var serviceWorker = ServiceRequestContext.CreateOrGetArmonikService(Configuration,
                                                                           engineTypeName,
                                                                           fileAdapter,
-                                                                          fileName,
+                                                                          packageId,
                                                                           taskHandler.TaskOptions);
 
 
