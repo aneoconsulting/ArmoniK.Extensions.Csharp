@@ -24,10 +24,17 @@ using ArmoniK.DevelopmentKit.Common.Utils;
 
 namespace ArmoniK.DevelopmentKit.Worker.Common.Archive;
 
+/// <summary>
+///   Class used do handle zip archives
+/// </summary>
 public class ZipArchiver : IArchiver
 {
   private readonly string rootAppPath_;
 
+  /// <summary>
+  ///   Creates a zip archive handler
+  /// </summary>
+  /// <param name="assembliesBasePath">Base path to extract zip files</param>
   public ZipArchiver(string assembliesBasePath)
     => rootAppPath_ = assembliesBasePath;
 
@@ -36,21 +43,24 @@ public class ZipArchiver : IArchiver
                                       int       waitForExtraction = 60000,
                                       int       spinInterval      = 1000)
   {
-    var pathToAssemblyDir = $"{rootAppPath_}/{packageId.ApplicationName}/{packageId.ApplicationVersion}";
+    var pathToAssemblyDir = Path.Combine(rootAppPath_,
+                                         packageId.PackageSubpath);
 
     if (!Directory.Exists(pathToAssemblyDir))
     {
       return false;
     }
 
-    var mainAssembly = $"{pathToAssemblyDir}/{packageId.ApplicationName}.dll";
+    var mainAssembly = Path.Combine(pathToAssemblyDir,
+                                    packageId.MainAssemblyFileName);
 
     if (File.Exists(mainAssembly))
     {
       return true;
     }
 
-    var lockFileName = $"{pathToAssemblyDir}/{packageId.ApplicationName}.lock";
+    var lockFileName = Path.Combine(pathToAssemblyDir,
+                                    $"{packageId.ApplicationName}.lock");
 
     while (File.Exists(lockFileName) && waitForExtraction > 0)
     {
@@ -59,7 +69,7 @@ public class ZipArchiver : IArchiver
       waitForExtraction -= spinInterval;
     }
 
-    return File.Exists(mainAssembly);
+    return File.Exists(mainAssembly) && !File.Exists(lockFileName);
   }
 
   /// <inheritdoc cref="IArchiver" />
@@ -76,15 +86,18 @@ public class ZipArchiver : IArchiver
       throw new WorkerApiException("Cannot yet extract or manage raw data other than zip archive");
     }
 
-    var pathToAssemblyDir = $"{rootAppPath_}/{packageId.ApplicationName}/{packageId.ApplicationVersion}";
-    var mainAssembly      = $"{rootAppPath_}/{packageId.ApplicationName}/{packageId.ApplicationVersion}/{packageId.ApplicationName}.dll";
+    var pathToAssemblyDir = Path.Combine(rootAppPath_,
+                                         packageId.PackageSubpath);
+    var mainAssembly = Path.Combine(pathToAssemblyDir,
+                                    packageId.MainAssemblyFileName);
 
     if (!Directory.Exists(pathToAssemblyDir))
     {
       Directory.CreateDirectory(pathToAssemblyDir);
     }
 
-    var lockFileName = $"{pathToAssemblyDir}/{packageId.ApplicationName}.lock";
+    var lockFileName = Path.Combine(pathToAssemblyDir,
+                                    $"{packageId.ApplicationName}.lock");
 
     using (var spinLock = new FileSpinLock(lockFileName,
                                            timeoutMs: 60000))

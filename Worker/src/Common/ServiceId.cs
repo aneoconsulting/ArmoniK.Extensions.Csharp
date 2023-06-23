@@ -81,21 +81,35 @@ public readonly struct PackageId : IEquatable<PackageId>
     => HashCode.Combine(ApplicationName,
                         ApplicationVersion);
 
+  /// <summary>
+  ///   Name of this package's main assembly file
+  /// </summary>
   public string MainAssemblyFileName
     => $"{ApplicationName}.dll";
 
+  /// <summary>
+  ///   Subpath of this package
+  /// </summary>
   public string PackageSubpath
     => Path.Combine(ApplicationName,
                     ApplicationVersion);
 
+  /// <summary>
+  ///   Name of the zip file for that package
+  /// </summary>
   public string ZipFileName
     => $"{ApplicationName}-v{ApplicationVersion}.zip";
+
+
+  /// <inheritdoc />
+  public override string ToString()
+    => $"{ApplicationName}-v{ApplicationVersion}";
 }
 
 /// <summary>
 ///   Identifier for a Service
 /// </summary>
-public class ServiceId : IEquatable<ServiceId>
+public readonly struct ServiceId : IEquatable<ServiceId>
 {
   /// <summary>
   ///   Creates a ServiceId
@@ -130,20 +144,7 @@ public class ServiceId : IEquatable<ServiceId>
 
   /// <inheritdoc />
   public bool Equals(ServiceId other)
-  {
-    if (other is null)
-    {
-      return false;
-    }
-
-    if (ReferenceEquals(this,
-                        other))
-    {
-      return true;
-    }
-
-    return EngineType == other.EngineType && ApplicationNamespace == other.ApplicationNamespace && PackageId.Equals(other.PackageId);
-  }
+    => EngineType == other.EngineType && ApplicationNamespace == other.ApplicationNamespace && PackageId.Equals(other.PackageId);
 
   /// <summary>
   ///   Indicates whether the objects are equal.
@@ -153,7 +154,7 @@ public class ServiceId : IEquatable<ServiceId>
   /// <returns>true if the objects are equal, false otherwise</returns>
   public static bool operator ==(ServiceId a,
                                  ServiceId b)
-    => a?.Equals(b) ?? false;
+    => a.Equals(b);
 
   /// <summary>
   ///   Indicates whether the objects are not equal.
@@ -167,11 +168,15 @@ public class ServiceId : IEquatable<ServiceId>
 
   /// <inheritdoc />
   public override bool Equals(object obj)
-    => Equals(obj as ServiceId);
+    => obj is ServiceId && Equals(obj);
 
   /// <inheritdoc />
   public override int GetHashCode()
     => HashCode.Combine(PackageId,
                         ApplicationNamespace,
                         (int)EngineType);
+
+  /// <inheritdoc />
+  public override string ToString()
+    => $"{PackageId}#{EngineType}#{ApplicationNamespace}";
 }

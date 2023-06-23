@@ -29,6 +29,9 @@ using Microsoft.Extensions.Configuration;
 
 namespace ArmoniK.DevelopmentKit.Worker.DLLWorker;
 
+/// <summary>
+///   Manages application packages
+/// </summary>
 public class ApplicationPackageManager
 {
   private readonly string       archivePath_;
@@ -36,10 +39,15 @@ public class ApplicationPackageManager
   private readonly string       assembliesSearchPath_;
   private readonly IFileAdapter fileAdapter_;
 
+  /// <summary>
+  ///   Creates an application package manager
+  /// </summary>
+  /// <param name="configuration">DLLWorker configuration</param>
+  /// <exception cref="WorkerApiException">Thrown when the FileStorageType is unspecified in the configuration</exception>
   public ApplicationPackageManager(IConfiguration configuration)
   {
     assembliesSearchPath_ = configuration[AppsOptions.GridAssemblyPathKey] ?? "/tmp/assemblies";
-    archivePath_          = "/tmp/zip";
+    archivePath_          = configuration[AppsOptions.GridZipVolumePath]   ?? "/data";
     switch (configuration["FileStorageType"])
     {
       case "FS":
@@ -66,49 +74,66 @@ public class ApplicationPackageManager
     archiver_ = new ZipArchiver(assembliesSearchPath_);
   }
 
+  /// <summary>
+  ///   Loads the application package. If the package is already loaded just returns its base path.
+  /// </summary>
+  /// <param name="packageId">Package Id</param>
+  /// <returns>Path to the application package</returns>
   [CanBeNull]
   public string LoadApplicationPackage(PackageId packageId)
   {
     var localFile = GetApplicationAssemblyFile(packageId,
-                                               packageId.ApplicationName);
+                                               packageId.MainAssemblyFileName);
     if (localFile != null)
     {
+      // Package is already loaded
       return Path.GetDirectoryName(localFile);
     }
 
-    var localZip = GetLocalApplicationZip(packageId);
-    if (localZip != null && !archiver_.ArchiveAlreadyExtracted(packageId))
-    {
-      archiver_.ExtractArchive(localZip,
-                               packageId);
-      return Path.GetDirectoryName(GetApplicationAssemblyFile(packageId,
-                                                              packageId.ApplicationName));
-    }
+    // Try to get the local zip, download it if it doesn't exist
+    var localZip = GetLocalApplicationZip(packageId) ?? fileAdapter_.DownloadFile(packageId.ZipFileName);
 
-    var destinationZip = fileAdapter_.DownloadFile(packageId.ZipFileName);
     if (!archiver_.ArchiveAlreadyExtracted(packageId))
     {
-      archiver_.ExtractArchive(destinationZip,
-                               packageId);
+      return archiver_.ExtractArchive(localZip,
+                                      packageId);
     }
 
+    // Get the directory where the main assembly is located
     return Path.GetDirectoryName(GetApplicationAssemblyFile(packageId,
-                                                            packageId.ApplicationName));
+                                                            packageId.MainAssemblyFileName));
   }
 
+  /// <summary>
+  ///   Get the path to the given assembly of the package
+  /// </summary>
+  /// <param name="packageId">PackageId</param>
+  /// <param name="assemblyName">Name of the assembly</param>
+  /// <param name="searchPaths">
+  ///   List of search paths for the assembly, defaults to the usual package location if not
+  ///   specified
+  /// </param>
+  /// <returns>Path to the assembly in the package, null if it cannot be found</returns>
   [CanBeNull]
   public string GetApplicationAssemblyFile(PackageId            packageId,
                                            string               assemblyName,
                                            [CanBeNull] string[] searchPaths = null)
-    => (searchPaths ?? new[]
-                       {
-                         Path.Combine(assembliesSearchPath_,
-                                      assemblyName),
-                         Path.Combine(assembliesSearchPath_,
-                                      packageId.PackageSubpath,
-                                      assemblyName),
-                       }).FirstOrDefault(File.Exists);
+    => (searchPaths?.AsEnumerable()
+                   .Select(path => Path.Combine(path,
+                                                assemblyName)) ?? new[]
+                                                                  {
+                                                                    Path.Combine(assembliesSearchPath_,
+                                                                                 assemblyName),
+                                                                    Path.Combine(assembliesSearchPath_,
+                                                                                 packageId.PackageSubpath,
+                                                                                 assemblyName),
+                                                                  }).FirstOrDefault(File.Exists);
 
+  /// <summary>
+  ///   Get the path to the local zip file for the package
+  /// </summary>
+  /// <param name="packageId">PackageId</param>
+  /// <returns>Path to the zip file, null if it cannot be found</returns>
   [CanBeNull]
   private string GetLocalApplicationZip(PackageId packageId)
   {

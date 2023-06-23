@@ -33,7 +33,8 @@ public interface IArchiver
                                bool      overwrite = false);
 
   /// <summary>
-  ///   Checks if the archive has already been extracted
+  ///   Checks if the archive has already been extracted. If the file is being extracted by another process, waits for its
+  ///   completion to return an answer
   /// </summary>
   /// <param name="packageId">Package Id</param>
   /// <param name="waitExtractionTimeoutMs">If the file is being extracted by another process, wait until this timeout</param>

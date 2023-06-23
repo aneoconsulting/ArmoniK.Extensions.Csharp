@@ -21,7 +21,6 @@ using ArmoniK.Api.Worker.Worker;
 using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.Common.Exceptions;
 using ArmoniK.DevelopmentKit.Worker.Common;
-using ArmoniK.DevelopmentKit.Worker.Common.Adapter;
 
 using JetBrains.Annotations;
 
@@ -161,11 +160,11 @@ public class ServiceRequestContext
     return IsNewSessionId(currentSessionId);
   }
 
-  public ArmonikServiceWorker CreateOrGetArmonikService(IConfiguration configuration,
-                                                        string         engineTypeName,
-                                                        IFileAdapter   fileAdapter,
-                                                        PackageId      packageId,
-                                                        TaskOptions    requestTaskOptions)
+  public ArmonikServiceWorker CreateOrGetArmonikService(IConfiguration            configuration,
+                                                        ApplicationPackageManager appPackageManager,
+                                                        string                    engineTypeName,
+                                                        PackageId                 packageId,
+                                                        TaskOptions               requestTaskOptions)
   {
     if (string.IsNullOrEmpty(requestTaskOptions.ApplicationNamespace))
     {
@@ -181,17 +180,16 @@ public class ServiceRequestContext
       return currentService_;
     }
 
-    logger_.LogInformation($"Worker needs to load new context, from {currentService_?.ServiceId?.ToString() ?? "null"} to {serviceId}");
+    logger_.LogInformation($"Worker needs to load new context, from {currentService_?.ServiceId.ToString() ?? "null"} to {serviceId}");
 
     currentService_?.DestroyService();
     currentService_?.Dispose();
     currentService_ = null;
 
 
-    var appsLoader = new AppsLoader(configuration,
+    var appsLoader = new AppsLoader(appPackageManager,
                                     LoggerFactory,
                                     engineTypeName,
-                                    fileAdapter,
                                     packageId);
 
     currentService_ = new ArmonikServiceWorker
@@ -206,29 +204,5 @@ public class ServiceRequestContext
                               requestTaskOptions);
 
     return currentService_;
-  }
-
-  public static IFileAdapter CreateOrGetFileAdapter(IConfiguration configuration,
-                                                    string         localDirectoryZip)
-  {
-    var sectionStorage = configuration.GetSection("FileStorageType");
-    if (sectionStorage.Exists() && configuration["FileStorageType"] == "FS")
-    {
-      return new FsAdapter(localDirectoryZip);
-    }
-
-    if ((sectionStorage.Exists() && configuration["FileStorageType"] == "S3") || !sectionStorage.Exists())
-    {
-      var configurationSection = configuration.GetSection("S3Storage");
-      return new S3Adapter(configurationSection["ServiceURL"],
-                           configurationSection["BucketName"],
-                           configurationSection["AccessKeyId"],
-                           configurationSection["SecretAccessKey"],
-                           "",
-                           configurationSection.GetValue("MustForcePathStyle",
-                                                         false));
-    }
-
-    throw new WorkerApiException("Cannot find the FileStorageType in the IConfiguration. Please make sure you have properly set the field [FileStorageType]");
   }
 }

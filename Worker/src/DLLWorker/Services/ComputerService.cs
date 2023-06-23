@@ -37,6 +37,8 @@ namespace ArmoniK.DevelopmentKit.Worker.DLLWorker.Services;
 
 public class ComputerService : WorkerStreamWrapper
 {
+  private readonly ApplicationPackageManager appPackageManager_;
+
   public ComputerService(IConfiguration        configuration,
                          GrpcChannelProvider   provider,
                          ServiceRequestContext serviceRequestContext)
@@ -46,6 +48,7 @@ public class ComputerService : WorkerStreamWrapper
     Configuration         = configuration;
     Logger                = serviceRequestContext.LoggerFactory.CreateLogger<ComputerService>();
     ServiceRequestContext = serviceRequestContext;
+    appPackageManager_    = new ApplicationPackageManager(configuration);
     Logger.LogDebug("Starting worker...OK");
   }
 
@@ -94,19 +97,15 @@ public class ComputerService : WorkerStreamWrapper
 
       var packageId = new PackageId(taskHandler.TaskOptions.ApplicationName,
                                     taskHandler.TaskOptions.ApplicationVersion);
-      var localDirectoryZip = $"{Configuration[AppsOptions.GridDataVolumesKey]}";
 
       var engineTypeName = string.IsNullOrEmpty(taskHandler.TaskOptions.EngineType)
                              ? EngineType.Symphony.ToString()
                              : taskHandler.TaskOptions.EngineType;
 
-      var fileAdapter = ServiceRequestContext.CreateOrGetFileAdapter(Configuration,
-                                                                     localDirectoryZip);
-
 
       var serviceWorker = ServiceRequestContext.CreateOrGetArmonikService(Configuration,
+                                                                          appPackageManager_,
                                                                           engineTypeName,
-                                                                          fileAdapter,
                                                                           packageId,
                                                                           taskHandler.TaskOptions);
 
