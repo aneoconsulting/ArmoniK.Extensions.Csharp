@@ -48,7 +48,8 @@ public class ComputerService : WorkerStreamWrapper
     Configuration         = configuration;
     Logger                = serviceRequestContext.LoggerFactory.CreateLogger<ComputerService>();
     ServiceRequestContext = serviceRequestContext;
-    appPackageManager_    = new ApplicationPackageManager(configuration);
+    appPackageManager_ = new ApplicationPackageManager(configuration,
+                                                       serviceRequestContext.LoggerFactory);
     Logger.LogDebug("Starting worker...OK");
   }
 

@@ -26,6 +26,7 @@ using ArmoniK.DevelopmentKit.Worker.Common.Archive;
 using JetBrains.Annotations;
 
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
 namespace ArmoniK.DevelopmentKit.Worker.DLLWorker;
 
@@ -38,13 +39,16 @@ public class ApplicationPackageManager
   private readonly IArchiver    archiver_;
   private readonly string       assembliesSearchPath_;
   private readonly IFileAdapter fileAdapter_;
+  private readonly ILogger      logger_;
 
   /// <summary>
   ///   Creates an application package manager
   /// </summary>
   /// <param name="configuration">DLLWorker configuration</param>
+  /// <param name="loggerFactory">Logger factory</param>
   /// <exception cref="WorkerApiException">Thrown when the FileStorageType is unspecified in the configuration</exception>
-  public ApplicationPackageManager(IConfiguration configuration)
+  public ApplicationPackageManager(IConfiguration configuration,
+                                   ILoggerFactory loggerFactory)
   {
     assembliesSearchPath_ = configuration[AppsOptions.GridAssemblyPathKey] ?? "/tmp/assemblies";
     archivePath_          = configuration[AppsOptions.GridZipVolumePath]   ?? "/data";
@@ -72,6 +76,7 @@ public class ApplicationPackageManager
     }
 
     archiver_ = new ZipArchiver(assembliesSearchPath_);
+    logger_   = loggerFactory.CreateLogger<ApplicationPackageManager>();
   }
 
   /// <summary>
@@ -86,6 +91,8 @@ public class ApplicationPackageManager
                                                packageId.MainAssemblyFileName);
     if (localFile != null)
     {
+      logger_.LogDebug("Package {packageId} is already loaded",
+                       packageId);
       // Package is already loaded
       return Path.GetDirectoryName(localFile);
     }
@@ -95,8 +102,15 @@ public class ApplicationPackageManager
 
     if (!archiver_.ArchiveAlreadyExtracted(packageId))
     {
-      return archiver_.ExtractArchive(localZip,
-                                      packageId);
+      logger_.LogInformation("Extracting {packageId} from archive {localZip}",
+                             packageId,
+                             localZip);
+      var extractedPath = archiver_.ExtractArchive(localZip,
+                                                   packageId);
+      logger_.LogInformation("Package {packageId} successfully extracted from {localZip}",
+                             packageId,
+                             localZip);
+      return extractedPath;
     }
 
     // Get the directory where the main assembly is located
