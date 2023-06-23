@@ -18,7 +18,6 @@ using System;
 using System.IO;
 
 using ArmoniK.DevelopmentKit.Common;
-using ArmoniK.DevelopmentKit.Worker.Common;
 
 namespace ArmoniK.DevelopmentKit.Worker.Common;
 
@@ -33,7 +32,7 @@ public readonly struct PackageId : IEquatable<PackageId>
   /// <param name="applicationName">Application name</param>
   /// <param name="applicationVersion">Application version</param>
   public PackageId(string applicationName,
-                    string applicationVersion)
+                   string applicationVersion)
   {
     ApplicationName    = applicationName;
     ApplicationVersion = applicationVersion;
@@ -51,7 +50,7 @@ public readonly struct PackageId : IEquatable<PackageId>
 
   /// <inheritdoc />
   public bool Equals(PackageId other)
-  => ApplicationName == other.ApplicationName && ApplicationVersion == other.ApplicationVersion;
+    => ApplicationName == other.ApplicationName && ApplicationVersion == other.ApplicationVersion;
 
   /// <summary>
   ///   Indicates whether the objects are equal.
@@ -83,14 +82,14 @@ public readonly struct PackageId : IEquatable<PackageId>
                         ApplicationVersion);
 
   public string MainAssemblyFileName
-  => $"{ApplicationName}.dll";
+    => $"{ApplicationName}.dll";
 
   public string PackageSubpath
-    => Path.Combine(ApplicationName, ApplicationVersion);
+    => Path.Combine(ApplicationName,
+                    ApplicationVersion);
 
   public string ZipFileName
     => $"{ApplicationName}-v{ApplicationVersion}.zip";
-
 }
 
 /// <summary>
@@ -104,11 +103,11 @@ public class ServiceId : IEquatable<ServiceId>
   /// <param name="packageId">PackageId</param>
   /// <param name="applicationNamespace">Namespace</param>
   /// <param name="engineType">Engine type</param>
-  public ServiceId(PackageId packageId,
+  public ServiceId(PackageId  packageId,
                    string     applicationNamespace,
                    EngineType engineType)
   {
-    PackageId           = packageId;
+    PackageId            = packageId;
     ApplicationNamespace = applicationNamespace;
     EngineType           = engineType;
   }

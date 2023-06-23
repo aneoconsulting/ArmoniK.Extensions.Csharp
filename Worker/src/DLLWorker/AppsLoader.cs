@@ -77,9 +77,7 @@ public class AppsLoader : IAppsLoader
     PathToAssembly = localPathToAssembly;
 
     var localPathToAssemblyGridWorker = packageManager_.GetApplicationAssemblyFile(packageId,
-                                                                                   $"{
-                                                                                     ArmoniKDevelopmentKitServerApi
-                                                                                   }.dll",
+                                                                                   $"{ArmoniKDevelopmentKitServerApi}.dll",
                                                                                    new[]
                                                                                    {
                                                                                      localAssemblySearchPath,

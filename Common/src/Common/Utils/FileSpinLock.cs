@@ -16,20 +16,20 @@
 
 using System;
 using System.IO;
+using System.Text;
 using System.Threading;
 
 using JetBrains.Annotations;
 
 namespace ArmoniK.DevelopmentKit.Common.Utils;
 
-#pragma warning disable CA1416
 /// <summary>
 ///   Spin lock on a file
 /// </summary>
 [PublicAPI]
 public sealed class FileSpinLock : IDisposable
 {
-  private static readonly byte[] LockBytes = "locked"u8.ToArray();
+  private static readonly byte[] LockBytes = Encoding.ASCII.GetBytes("locked");
 
   [CanBeNull]
   private readonly FileStream fileStream_;
@@ -107,5 +107,3 @@ public sealed class FileSpinLock : IDisposable
     fileStream_?.Dispose();
   }
 }
-
-#pragma warning restore CA1416
