@@ -30,6 +30,9 @@ using Grpc.Core;
 using JetBrains.Annotations;
 
 using Microsoft.Extensions.Logging;
+#if NET5_0_OR_GREATER
+using Grpc.Net.Client;
+#endif
 
 namespace ArmoniK.DevelopmentKit.Client.Common.Submitter;
 
@@ -66,9 +69,17 @@ public sealed class ChannelPool
   {
     if (pool_.TryTake(out var channel))
     {
-      logger_?.LogDebug("Acquired already existing channel {channel} from pool",
-                        channel);
-      return channel;
+      if (ShutdownOnFailure(channel))
+      {
+        logger_?.LogDebug("Got an invalid channel {channel} from pool",
+                          channel);
+      }
+      else
+      {
+        logger_?.LogDebug("Acquired already existing channel {channel} from pool",
+                          channel);
+        return channel;
+      }
     }
 
     channel = channelFactory_();
@@ -83,9 +94,70 @@ public sealed class ChannelPool
   /// <param name="channel">Channel to release</param>
   private void ReleaseChannel(ChannelBase channel)
   {
-    logger_?.LogDebug("Released channel {channel} to pool",
-                      channel);
-    pool_.Add(channel);
+    if (ShutdownOnFailure(channel))
+    {
+      logger_?.LogDebug("Shutdown unhealthy channel {channel}",
+                        channel);
+    }
+    else
+    {
+      logger_?.LogDebug("Released channel {channel} to pool",
+                        channel);
+      pool_.Add(channel);
+    }
+  }
+
+  /// <summary>
+  ///   Check the state of a channel and shutdown it in case of failure
+  /// </summary>
+  /// <param name="channel">Channel to check the state</param>
+  /// <returns>True if the channel has been shut down</returns>
+  private static bool ShutdownOnFailure(ChannelBase channel)
+  {
+    try
+    {
+      switch (channel)
+      {
+        case Channel chan:
+          switch (chan.State)
+          {
+            case ChannelState.TransientFailure:
+              chan.ShutdownAsync()
+                  .Wait();
+              return true;
+            case ChannelState.Shutdown:
+              return true;
+            case ChannelState.Idle:
+            case ChannelState.Connecting:
+            case ChannelState.Ready:
+            default:
+              return false;
+          }
+#if NET5_0_OR_GREATER
+        case GrpcChannel chan:
+          switch (chan.State)
+          {
+            case ConnectivityState.TransientFailure:
+              chan.ShutdownAsync()
+                  .Wait();
+              return true;
+            case ConnectivityState.Shutdown:
+              return true;
+            case ConnectivityState.Idle:
+            case ConnectivityState.Connecting:
+            case ConnectivityState.Ready:
+            default:
+              return false;
+          }
+#endif
+        default:
+          return false;
+      }
+    }
+    catch (InvalidOperationException)
+    {
+      return false;
+    }
   }
 
   /// <summary>
