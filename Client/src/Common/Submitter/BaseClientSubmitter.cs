@@ -242,7 +242,7 @@ public class BaseClientSubmitter<T>
       {
         using var channel          = channelPool_.GetChannel();
         var       submitterService = new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel);
-        
+
         var response = submitterService.CreateTasksAsync(SessionId.Id,
                                                          taskOptions ?? TaskOptions,
                                                          requests)
