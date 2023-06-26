@@ -224,33 +224,38 @@ public class BaseClientSubmitter<T>
   {
     using var _ = Logger?.LogFunction();
 
+    var requests = payloadsWithDependencies.Select(pwd =>
+                                                   {
+                                                     var taskRequest = new TaskRequest
+                                                                       {
+                                                                         Payload = UnsafeByteOperations.UnsafeWrap(pwd.Item2),
+                                                                       };
+                                                     taskRequest.DataDependencies.AddRange(pwd.Item3 ?? Enumerable.Empty<string>());
+                                                     taskRequest.ExpectedOutputKeys.Add(pwd.Item1);
+                                                     return taskRequest;
+                                                   })
+                                           .ToList();
+
     for (var nbRetry = 0; nbRetry < maxRetries; nbRetry++)
     {
       try
       {
         using var channel          = channelPool_.GetChannel();
         var       submitterService = new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel);
-
-        // Multiple enumeration only on retries
+        
         var response = submitterService.CreateTasksAsync(SessionId.Id,
                                                          taskOptions ?? TaskOptions,
-                                                         payloadsWithDependencies.Select(pwd =>
-                                                                                         {
-                                                                                           var taskRequest = new TaskRequest
-                                                                                                             {
-                                                                                                               Payload = UnsafeByteOperations.UnsafeWrap(pwd.Item2),
-                                                                                                             };
-                                                                                           taskRequest.DataDependencies.AddRange(pwd.Item3);
-                                                                                           taskRequest.ExpectedOutputKeys.Add(pwd.Item1);
-                                                                                           return taskRequest;
-                                                                                         }))
-                                       .Result;
+                                                         requests)
+                                       .ConfigureAwait(false)
+                                       .GetAwaiter()
+                                       .GetResult();
         return response.ResponseCase switch
                {
-                 CreateTaskReply.ResponseOneofCase.CreationStatusList => response.CreationStatusList.CreationStatuses.Select(status => status.TaskInfo.TaskId),
-                 CreateTaskReply.ResponseOneofCase.None               => throw new Exception("Issue with Server !"),
-                 CreateTaskReply.ResponseOneofCase.Error              => throw new Exception("Error while creating tasks !"),
-                 _                                                    => throw new ArgumentOutOfRangeException(),
+                 CreateTaskReply.ResponseOneofCase.CreationStatusList => response.CreationStatusList.CreationStatuses.Select(status => status.TaskInfo.TaskId)
+                                                                                 .ToList(),
+                 CreateTaskReply.ResponseOneofCase.None  => throw new Exception("Issue with Server !"),
+                 CreateTaskReply.ResponseOneofCase.Error => throw new Exception("Error while creating tasks !"),
+                 _                                       => throw new ArgumentOutOfRangeException(),
                };
       }
       catch (Exception e)
