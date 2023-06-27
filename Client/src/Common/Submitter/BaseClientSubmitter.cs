@@ -224,18 +224,6 @@ public class BaseClientSubmitter<T>
   {
     using var _ = Logger?.LogFunction();
 
-    var requests = payloadsWithDependencies.Select(pwd =>
-                                                   {
-                                                     var taskRequest = new TaskRequest
-                                                                       {
-                                                                         Payload = UnsafeByteOperations.UnsafeWrap(pwd.Item2),
-                                                                       };
-                                                     taskRequest.DataDependencies.AddRange(pwd.Item3 ?? Enumerable.Empty<string>());
-                                                     taskRequest.ExpectedOutputKeys.Add(pwd.Item1);
-                                                     return taskRequest;
-                                                   })
-                                           .ToList();
-
     for (var nbRetry = 0; nbRetry < maxRetries; nbRetry++)
     {
       try
@@ -243,9 +231,20 @@ public class BaseClientSubmitter<T>
         using var channel          = channelPool_.GetChannel();
         var       submitterService = new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel);
 
+        //Multiple enumeration occurs on a retry
         var response = submitterService.CreateTasksAsync(SessionId.Id,
                                                          taskOptions ?? TaskOptions,
-                                                         requests)
+                                                         payloadsWithDependencies.Select(pwd =>
+                                                                                         {
+                                                                                           var taskRequest = new TaskRequest
+                                                                                                             {
+                                                                                                               Payload = UnsafeByteOperations.UnsafeWrap(pwd.Item2),
+                                                                                                             };
+                                                                                           taskRequest.DataDependencies
+                                                                                                      .AddRange(pwd.Item3 ?? Enumerable.Empty<string>());
+                                                                                           taskRequest.ExpectedOutputKeys.Add(pwd.Item1);
+                                                                                           return taskRequest;
+                                                                                         }))
                                        .ConfigureAwait(false)
                                        .GetAwaiter()
                                        .GetResult();
