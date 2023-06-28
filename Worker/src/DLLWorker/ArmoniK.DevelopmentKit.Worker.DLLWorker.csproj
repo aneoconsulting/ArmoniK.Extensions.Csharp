@@ -24,10 +24,6 @@
     <ProjectReference Include="../Common/ArmoniK.DevelopmentKit.Worker.Common.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Update="Microsoft.CodeAnalysis.NetAnalyzers" Version="7.0.3" />
-  </ItemGroup>
-
   <Target Name="DeleteLocalCache" BeforeTargets="Pack">
     <RemoveDir Directories="$(NugetPackageRoot)/$(PackageId.ToLower())/" />
   </Target>
