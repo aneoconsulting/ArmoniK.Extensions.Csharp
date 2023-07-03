@@ -88,7 +88,7 @@ public class Properties
                     string      clientKeyPem   = null,
                     string      clientP12      = null,
                     string      caCertPem      = null,
-                    bool        sslValidation  = true)
+                    bool?       sslValidation  = null)
     : this(new ConfigurationBuilder().AddEnvironmentVariables()
                                      .Build(),
            options,
@@ -126,7 +126,7 @@ public class Properties
                     string         clientKeyFilePem  = null,
                     string         clientP12         = null,
                     string         caCertPem         = null,
-                    bool           sslValidation     = true)
+                    bool?          sslValidation     = null)
   {
     TaskOptions   = options;
     Configuration = configuration;
@@ -143,6 +143,7 @@ public class Properties
                                     .Exists()
                            ? sectionGrpc[SectionEndPoint]
                            : null;
+
       ConfSSLValidation = !sectionGrpc.GetSection(SectionSSlValidation)
                                       .Exists() || sectionGrpc[SectionSSlValidation] != "disable";
 
@@ -168,6 +169,10 @@ public class Properties
                         ? sectionGrpc[SectionClientCertP12]
                         : null;
     }
+    else
+    {
+      ConfSSLValidation = true;
+    }
 
     if (clientCertFilePem != null)
     {
@@ -189,7 +194,10 @@ public class Properties
       CaCertFilePem = caCertPem;
     }
 
-    ConfSSLValidation = sslValidation && ConfSSLValidation;
+    if (sslValidation.HasValue)
+    {
+      ConfSSLValidation = sslValidation.Value;
+    }
 
     //Console.WriteLine($"Parameters coming from Properties :\n" +
     //                  $"ConnectionString  = {ConnectionString}\n" +
