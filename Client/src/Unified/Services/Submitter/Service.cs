@@ -343,8 +343,8 @@ public class Service : AbstractClientService, ISubmitterService
                              };
 
     var taskId = SessionService.SubmitTask(payload.Serialize(),
-                                           maxRetries: maxRetries,
-                                           taskOptions: taskOptions);
+                                           maxRetries,
+                                           taskOptions);
     ResultHandlerDictionary[taskId] = handler;
     return taskId;
   }
@@ -536,8 +536,8 @@ public class Service : AbstractClientService, ISubmitterService
                                     };
 
     var taskId = SessionService.SubmitTask(unifiedPayload.Serialize(),
-                                           maxRetries: maxRetries,
-                                           taskOptions: taskOptions);
+                                           maxRetries,
+                                           taskOptions);
 
     var result = ProtoSerializer.DeSerializeMessageObjectArray(SessionService.GetResult(taskId));
 
@@ -578,8 +578,8 @@ public class Service : AbstractClientService, ISubmitterService
     try
     {
       taskId = SessionService.SubmitTask(unifiedPayload.Serialize(),
-                                         maxRetries: maxRetries,
-                                         taskOptions: taskOptions);
+                                         maxRetries,
+                                         taskOptions);
 
       result = ProtoSerializer.DeSerializeMessageObjectArray(SessionService.GetResult(taskId));
     }

@@ -17,7 +17,6 @@
 using ArmoniK.Api.gRPC.V1;
 using ArmoniK.DevelopmentKit.Client.Common;
 using ArmoniK.DevelopmentKit.Client.Common.Submitter;
-using ArmoniK.DevelopmentKit.Client.Unified.Services;
 using ArmoniK.DevelopmentKit.Client.Unified.Services.Admin;
 using ArmoniK.DevelopmentKit.Common;
 
@@ -70,8 +69,8 @@ public class SessionServiceFactory
     Logger?.LogDebug("Creating Session... ");
 
     return new SessionService(GrpcPool,
-                              LoggerFactory,
-                              properties.TaskOptions);
+                              properties.TaskOptions,
+                              LoggerFactory);
   }
 
   private void ControlPlaneConnection(Properties properties)
@@ -92,15 +91,15 @@ public class SessionServiceFactory
   /// <param name="properties">The properties setting for the session</param>
   /// <param name="sessionId">SessionId previously opened</param>
   /// <param name="clientOptions"></param>
-  public SessionService OpenSession(Properties  properties,
-                                    string      sessionId,
-                                    TaskOptions clientOptions = null)
+  public SessionService OpenSession(Properties              properties,
+                                    string                  sessionId,
+                                    [CanBeNull] TaskOptions clientOptions = null)
   {
     ControlPlaneConnection(properties);
 
     return new SessionService(GrpcPool,
+                              clientOptions ?? SessionService.GetDefaultTaskOptions(EngineType.Unified),
                               LoggerFactory,
-                              clientOptions,
                               new Session
                               {
                                 Id = sessionId,

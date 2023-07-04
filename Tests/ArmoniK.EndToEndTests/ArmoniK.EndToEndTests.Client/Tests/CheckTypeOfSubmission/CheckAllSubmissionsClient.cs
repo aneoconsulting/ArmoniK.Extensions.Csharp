@@ -21,6 +21,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
+using ArmoniK.DevelopmentKit.Client.Common.Submitter;
 using ArmoniK.DevelopmentKit.Client.Symphony;
 using ArmoniK.DevelopmentKit.Common.Extensions;
 using ArmoniK.EndToEndTests.Common;
