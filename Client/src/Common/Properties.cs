@@ -143,7 +143,7 @@ public class Properties
 
       if (!string.IsNullOrEmpty(uri.Scheme))
       {
-        Protocol = protocol ?? uri.Scheme;
+        Protocol = uri.Scheme;
       }
     }
     else
@@ -151,7 +151,7 @@ public class Properties
       ConnectionString = sectionGrpc?[SectionEndPoint];
     }
 
-    Protocol ??= protocol;
+    Protocol = protocol ?? Protocol;
 
     ConfSSLValidation  = sslValidation ?? sectionGrpc?[SectionSSlValidation] != "disable";
     TargetNameOverride = sectionGrpc?[SectionTargetNameOverride];
@@ -171,7 +171,7 @@ public class Properties
       throw new ArgumentException($"Issue with the connection point : {ConnectionString}");
     }
 
-    ControlPlaneUri = new Uri(ConnectionString);
+    ControlPlaneUri = new Uri(ConnectionString!);
   }
 
   /// <summary>
