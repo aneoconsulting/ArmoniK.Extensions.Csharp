@@ -81,7 +81,7 @@ public class Properties
                     string      clientKeyPem   = null,
                     string      clientP12      = null,
                     string      caCertPem      = null,
-                    bool        sslValidation  = true)
+                    bool?       sslValidation  = null)
     : this(new ConfigurationBuilder().AddEnvironmentVariables()
                                      .Build(),
            options,
@@ -119,7 +119,7 @@ public class Properties
                     string         clientKeyFilePem  = null,
                     string         clientP12         = null,
                     string         caCertPem         = null,
-                    bool           sslValidation     = true)
+                    bool?          sslValidation     = null)
   {
     TaskOptions   = options;
     Configuration = configuration;
@@ -128,69 +128,6 @@ public class Properties
                                    .Exists()
                         ? configuration.GetSection(SectionGrpc)
                         : null;
-
-
-    if (sectionGrpc != null)
-    {
-      ConnectionString = sectionGrpc.GetSection(SectionEndPoint)
-                                    .Exists()
-                           ? sectionGrpc[SectionEndPoint]
-                           : null;
-      ConfSSLValidation = !sectionGrpc.GetSection(SectionSSlValidation)
-                                      .Exists() || sectionGrpc[SectionSSlValidation] != "disable";
-
-      TargetNameOverride = sectionGrpc.GetSection(SectionTargetNameOverride)
-                                      .Exists()
-                             ? sectionGrpc[TargetNameOverride]
-                             : null;
-
-      CaCertFilePem = sectionGrpc.GetSection(SectionCaCert)
-                                 .Exists()
-                        ? sectionGrpc[SectionCaCert]
-                        : null;
-      ClientCertFilePem = sectionGrpc.GetSection(SectionClientCert)
-                                     .Exists()
-                            ? sectionGrpc[SectionClientCert]
-                            : null;
-      ClientKeyFilePem = sectionGrpc.GetSection(SectionClientKey)
-                                    .Exists()
-                           ? sectionGrpc[SectionClientKey]
-                           : null;
-      ClientP12File = sectionGrpc.GetSection(SectionClientCertP12)
-                                 .Exists()
-                        ? sectionGrpc[SectionClientCertP12]
-                        : null;
-    }
-
-    if (clientCertFilePem != null)
-    {
-      ClientCertFilePem = clientCertFilePem;
-    }
-
-    if (clientKeyFilePem != null)
-    {
-      ClientKeyFilePem = clientKeyFilePem;
-    }
-
-    if (clientP12 != null)
-    {
-      ClientP12File = clientP12;
-    }
-
-    if (caCertPem != null)
-    {
-      CaCertFilePem = caCertPem;
-    }
-
-    ConfSSLValidation = sslValidation && ConfSSLValidation;
-
-    //Console.WriteLine($"Parameters coming from Properties :\n" +
-    //                  $"ConnectionString  = {ConnectionString}\n" +
-    //                  $"ConfSSLValidation = {ConfSSLValidation}\n" +
-    //                  $"CaCertFilePem     = {CaCertFilePem}\n" +
-    //                  $"ClientCertFilePem = {ClientCertFilePem}\n" +
-    //                  $"ClientKeyFilePem  = {ClientKeyFilePem}\n"
-    //                  );
 
     if (connectionAddress != null)
     {
@@ -202,24 +139,32 @@ public class Properties
         Protocol = uri.Scheme;
       }
     }
+    else
+    {
+      ConnectionString = sectionGrpc?[SectionEndPoint];
+    }
+
+    Protocol = protocol ?? Protocol;
+
+    ConfSSLValidation  = sslValidation ?? sectionGrpc?[SectionSSlValidation] != "disable";
+    TargetNameOverride = sectionGrpc?[SectionTargetNameOverride];
+    CaCertFilePem      = caCertPem         ?? sectionGrpc?[SectionCaCert];
+    ClientCertFilePem  = clientCertFilePem ?? sectionGrpc?[SectionClientCert];
+    ClientKeyFilePem   = clientKeyFilePem  ?? sectionGrpc?[SectionClientKey];
+    ClientP12File      = clientP12         ?? sectionGrpc?[SectionClientCertP12];
 
     if (connectionPort != 0)
     {
       ConnectionPort = connectionPort;
     }
 
-    if (protocol != null)
-    {
-      Protocol = protocol;
-    }
-
     //Check if Uri is correct
-    if (Protocol == "err://" || ConnectionAddress == "NoEndPoint" || ConnectionPort == 0)
+    if (string.IsNullOrEmpty(Protocol) || string.IsNullOrEmpty(ConnectionAddress) || ConnectionPort == 0)
     {
       throw new ArgumentException($"Issue with the connection point : {ConnectionString}");
     }
 
-    ControlPlaneUri = new Uri(ConnectionString);
+    ControlPlaneUri = new Uri(ConnectionString!);
   }
 
   /// <summary>
