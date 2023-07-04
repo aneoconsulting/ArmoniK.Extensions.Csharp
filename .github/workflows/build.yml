@@ -275,6 +275,28 @@ jobs:
           name: "IntegrationTests tls:${{ matrix.tls }} mtls:${{ matrix.mtls }} val:${{ matrix.sslvalidation }} ca:${{ matrix.useca }}"
           path: ./Tests/ArmoniK.EndToEndTests/ArmoniK.EndToEndTests.Client/TestResults/test-results.trx
           reporter: dotnet-trx
+          
+      - name: Show logs
+        if: always()
+        run: |
+          set -e
+          mkdir -p end2end/infra/generated \
+            end2end/infra/tfstates \
+            end2end/app  
+          if [ -e infrastructure/quick-deploy/localhost/all/generated/armonik-output.json ] ; then
+           cp infrastructure/quick-deploy/localhost/all/generated/armonik-output.json end2end/infra/generated
+          fi
+          cp infrastructure/quick-deploy/localhost/all/generated/armonik-terraform.tfstate end2end/infra/tfstates
+          sudo cp -rL /var/log/pods/armonik_* end2end/app
+          sudo chown $USER -R end2end
+          tar -czf end2end-${{ matrix.tls }}-${{ matrix.mtls }}-${{ matrix.sslvalidation }}-${{ matrix.useca }}.tar.gz end2end
+
+      - name: 'Upload Artifact'
+        uses: actions/upload-artifact@v3
+        with:
+          name: end2end-${{ matrix.tls }}-${{ matrix.mtls }}-${{ matrix.sslvalidation }}-${{ matrix.useca }}.tar.gz
+          path: end2end-${{ matrix.tls }}-${{ matrix.mtls }}-${{ matrix.sslvalidation }}-${{ matrix.useca }}.tar.gz
+          retention-days: 2
     
       - name: Destroy deployment
         if: success() || failure()
