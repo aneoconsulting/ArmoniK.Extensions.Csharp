@@ -12,11 +12,13 @@ RUN dotnet build "Tests/ArmoniK.EndToEndTests/ArmoniK.EndToEndTests.Worker/Armon
 
 WORKDIR "/src/Tests/ArmoniK.EndToEndTests/ArmoniK.EndToEndTests.Worker"
 
-RUN dotnet publish "ArmoniK.EndToEndTests.Worker.csproj" -c Release -f net6.0 -o /app/publish --self-contained true
+#RUN dotnet publish "ArmoniK.EndToEndTests.Worker.csproj" -c Release -f net6.0 -o /app/publish --self-contained true
+RUN dotnet publish --self-contained -c Release -r linux-x64 -f net6.0 .
 
 
 FROM dockerhubaneo/armonik_worker_dll:0.11.2-011133g422dad9.33.422dad9 AS final
 
 WORKDIR /guest
 
-COPY --from=build /app/publish .
+#COPY --from=build /app/publish .
+COPY --from=build /src/Tests/ArmoniK.EndToEndTests/publish/ArmoniK.EndToEndTests.Worker/1.0.0-700/ .

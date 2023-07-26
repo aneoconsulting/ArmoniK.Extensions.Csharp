@@ -37,13 +37,13 @@
   </ItemGroup>
 
 
-  <!--<Target Name="CreateDirectories" AfterTargets="AfterPublish">
+<Target Name="CreateDirectories" AfterTargets="AfterPublish">
     <MakeDir Directories="../packages/" />
   </Target>
 
   <Target Name="ZipOutputPath" AfterTargets="CreateDirectories">
     <ZipDirectory SourceDirectory="../publish/" DestinationFile="../packages/$(MSBuildProjectName)-v$(Version).zip"
                   Overwrite="true" />
-  </Target>-->
+  </Target>
 
 </Project>
