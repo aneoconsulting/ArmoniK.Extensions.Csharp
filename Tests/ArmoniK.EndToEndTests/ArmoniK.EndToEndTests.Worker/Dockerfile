@@ -15,8 +15,9 @@ WORKDIR "/src/Tests/ArmoniK.EndToEndTests/ArmoniK.EndToEndTests.Worker"
 #RUN dotnet publish "ArmoniK.EndToEndTests.Worker.csproj" -c Release -f net6.0 -o /app/publish --self-contained true
 RUN dotnet publish --self-contained -c Release -r linux-x64 -f net6.0 .
 
+ARG WORKER_DLL_IMAGE="dockerhubaneo/armonik_worker_dll:0.11.2-011133g422dad9.33.422dad9"
 
-FROM dockerhubaneo/armonik_worker_dll:0.11.2-011133g422dad9.33.422dad9 AS final
+FROM "${WORKER_DLL_IMAGE}" AS final
 
 ENV ServiceAssemblyPath=/guest
 
