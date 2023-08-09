@@ -1,4 +1,4 @@
-ARG WORKER_DLL_IMAGE=dockerhubaneo/armonik_worker_dll:0.11.2-011133g422dad9.33.422dad9
+ARG WORKER_DLL_IMAGE=dockerhubaneo/armonik_worker_dll:0.12.2-SNAPSHOT.6.53d5bb3
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
 COPY . .
