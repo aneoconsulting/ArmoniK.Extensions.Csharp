@@ -37,7 +37,7 @@
   </ItemGroup>
 
 
-<Target Name="CreateDirectories" AfterTargets="AfterPublish">
+  <Target Name="CreateDirectories" AfterTargets="AfterPublish">
     <MakeDir Directories="../packages/" />
   </Target>
 
