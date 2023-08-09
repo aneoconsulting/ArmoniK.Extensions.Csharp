@@ -22,7 +22,6 @@ using System.Runtime.Loader;
 using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.Common.Exceptions;
 using ArmoniK.DevelopmentKit.Worker.Common;
-using ArmoniK.DevelopmentKit.Worker.Common.Archive;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -37,34 +36,25 @@ public class AppsLoader : IAppsLoader
   private readonly ILogger<AppsLoader> logger_;
   private          Assembly            assembly_;
 
-  public AppsLoader(IConfiguration configuration,
-                    ILoggerFactory loggerFactory,
-                    string         engineTypeAssemblyName,
-                    IFileAdapter   fileAdapter,
-                    string         fileName)
+  public AppsLoader(ApplicationPackageManager packageManager,
+                    ILoggerFactory            loggerFactory,
+                    string                    engineTypeAssemblyName,
+                    PackageId                 packageId)
   {
     engineType_ = EngineTypeHelper.ToEnum(engineTypeAssemblyName);
-
-    FileAdapter = fileAdapter;
 
     ArmoniKDevelopmentKitServerApi = new EngineTypes()[engineType_];
 
     logger_ = loggerFactory.CreateLogger<AppsLoader>();
 
-    var archiver = new ZipArchiver();
-
-    if (!archiver.ArchiveAlreadyExtracted(fileAdapter,
-                                          fileName))
-    {
-      archiver.DownloadArchive(fileAdapter,
-                               fileName);
-      archiver.ExtractArchive(fileAdapter,
-                              fileName);
-    }
-
-
-    var localPathToAssembly = ZipArchiver.GetLocalPathToAssembly(Path.Combine(fileAdapter.DestinationDirPath,
-                                                                              fileName));
+    var localAssemblySearchPath = packageManager.LoadApplicationPackage(packageId) ?? throw new WorkerApiException($"Could not load package {packageId.PackageSubpath}");
+    var localPathToAssembly = packageManager.GetApplicationAssemblyFile(packageId,
+                                                                        packageId.MainAssemblyFileName,
+                                                                        new[]
+                                                                        {
+                                                                          localAssemblySearchPath,
+                                                                        }) ??
+                              throw new WorkerApiException($"Could not find main assembly {localAssemblySearchPath}/{packageId.MainAssemblyFileName}");
 
     UserAssemblyLoadContext = new AddonsAssemblyLoadContext(localPathToAssembly);
 
@@ -80,7 +70,12 @@ public class AppsLoader : IAppsLoader
 
     PathToAssembly = localPathToAssembly;
 
-    var localPathToAssemblyGridWorker = $"{Path.GetDirectoryName(localPathToAssembly)}/{ArmoniKDevelopmentKitServerApi}.dll";
+    var localPathToAssemblyGridWorker = packageManager.GetApplicationAssemblyFile(packageId,
+                                                                                  $"{ArmoniKDevelopmentKitServerApi}.dll",
+                                                                                  new[]
+                                                                                  {
+                                                                                    localAssemblySearchPath,
+                                                                                  });
 
     try
     {
@@ -142,8 +137,6 @@ public class AppsLoader : IAppsLoader
   public AssemblyLoadContext UserAssemblyLoadContext { get; private set; }
 
   public IConfiguration Configuration { get; }
-
-  public IFileAdapter FileAdapter { get; set; }
 
   public string PathToAssembly { get; set; }
 
@@ -239,16 +232,4 @@ public class AppsLoader : IAppsLoader
 
   ~AppsLoader()
     => Dispose();
-
-  public bool RequestNewAssembly(string engineType,
-                                 string pathToZipFile)
-  {
-    if (pathToZipFile == null)
-    {
-      throw new ArgumentNullException(nameof(pathToZipFile),
-                                      "pathToZipFile is a null argument");
-    }
-
-    return engineType == null || engineType_ != EngineTypeHelper.ToEnum(engineType) || FileAdapter == null || !pathToZipFile.Equals(FileAdapter);
-  }
 }
