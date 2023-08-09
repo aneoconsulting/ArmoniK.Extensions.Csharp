@@ -22,6 +22,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
+using ArmoniK.Api.Client.Submitter;
 using ArmoniK.Api.Common.Utils;
 using ArmoniK.Api.gRPC.V1;
 using ArmoniK.Api.gRPC.V1.Results;
@@ -223,105 +224,38 @@ public class BaseClientSubmitter<T>
   {
     using var _ = Logger?.LogFunction();
 
-    using var channel          = channelPool_.GetChannel();
-    var       submitterService = new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel);
-
-    var serviceConfiguration = submitterService.GetServiceConfigurationAsync(new Empty())
-                                               .ResponseAsync.Result;
-
     for (var nbRetry = 0; nbRetry < maxRetries; nbRetry++)
     {
       try
       {
-        using var asyncClientStreamingCall = submitterService.CreateLargeTasks();
+        using var channel          = channelPool_.GetChannel();
+        var       submitterService = new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel);
 
-        asyncClientStreamingCall.RequestStream.WriteAsync(new CreateLargeTaskRequest
-                                                          {
-                                                            InitRequest = new CreateLargeTaskRequest.Types.InitRequest
-                                                                          {
-                                                                            SessionId   = SessionId.Id,
-                                                                            TaskOptions = taskOptions ?? TaskOptions,
-                                                                          },
-                                                          })
-                                .Wait();
-
-        //
-        // Here the payloadsWithDependencies can have multiple enumeration
-        // It will happen only during a retry to submit tasks
-        // Loosing a little bit of perf in case of retry is not a big deal : in the usual case, it should not happen.
-        //
-        foreach (var (resultId, payload, dependencies) in payloadsWithDependencies)
-        {
-          asyncClientStreamingCall.RequestStream.WriteAsync(new CreateLargeTaskRequest
-                                                            {
-                                                              InitTask = new InitTaskRequest
-                                                                         {
-                                                                           Header = new TaskRequestHeader
-                                                                                    {
-                                                                                      ExpectedOutputKeys =
-                                                                                      {
-                                                                                        resultId,
-                                                                                      },
-                                                                                      DataDependencies =
-                                                                                      {
-                                                                                        dependencies ?? new List<string>(),
-                                                                                      },
-                                                                                    },
-                                                                         },
-                                                            })
-                                  .Wait();
-
-          for (var j = 0; j < payload.Length; j += serviceConfiguration.DataChunkMaxSize)
-          {
-            var chunkSize = Math.Min(serviceConfiguration.DataChunkMaxSize,
-                                     payload.Length - j);
-
-            asyncClientStreamingCall.RequestStream.WriteAsync(new CreateLargeTaskRequest
-                                                              {
-                                                                TaskPayload = new DataChunk
-                                                                              {
-                                                                                Data = UnsafeByteOperations.UnsafeWrap(payload.AsMemory(j,
-                                                                                                                                        chunkSize)),
-                                                                              },
-                                                              })
-                                    .Wait();
-          }
-
-          asyncClientStreamingCall.RequestStream.WriteAsync(new CreateLargeTaskRequest
-                                                            {
-                                                              TaskPayload = new DataChunk
-                                                                            {
-                                                                              DataComplete = true,
-                                                                            },
-                                                            })
-                                  .Wait();
-        }
-
-        asyncClientStreamingCall.RequestStream.WriteAsync(new CreateLargeTaskRequest
-                                                          {
-                                                            InitTask = new InitTaskRequest
-                                                                       {
-                                                                         LastTask = true,
-                                                                       },
-                                                          })
-                                .Wait();
-
-        asyncClientStreamingCall.RequestStream.CompleteAsync()
-                                .Wait();
-
-        var createTaskReply = asyncClientStreamingCall.ResponseAsync.Result;
-
-        switch (createTaskReply.ResponseCase)
-        {
-          case CreateTaskReply.ResponseOneofCase.None:
-            throw new Exception("Issue with Server !");
-          case CreateTaskReply.ResponseOneofCase.CreationStatusList:
-            return createTaskReply.CreationStatusList.CreationStatuses.Select(status => status.TaskInfo.TaskId);
-          case CreateTaskReply.ResponseOneofCase.Error:
-            throw new Exception("Error while creating tasks !");
-          default:
-            throw new ArgumentOutOfRangeException();
-        }
+        //Multiple enumeration occurs on a retry
+        var response = submitterService.CreateTasksAsync(SessionId.Id,
+                                                         taskOptions ?? TaskOptions,
+                                                         payloadsWithDependencies.Select(pwd =>
+                                                                                         {
+                                                                                           var taskRequest = new TaskRequest
+                                                                                                             {
+                                                                                                               Payload = UnsafeByteOperations.UnsafeWrap(pwd.Item2),
+                                                                                                             };
+                                                                                           taskRequest.DataDependencies
+                                                                                                      .AddRange(pwd.Item3 ?? Enumerable.Empty<string>());
+                                                                                           taskRequest.ExpectedOutputKeys.Add(pwd.Item1);
+                                                                                           return taskRequest;
+                                                                                         }))
+                                       .ConfigureAwait(false)
+                                       .GetAwaiter()
+                                       .GetResult();
+        return response.ResponseCase switch
+               {
+                 CreateTaskReply.ResponseOneofCase.CreationStatusList => response.CreationStatusList.CreationStatuses.Select(status => status.TaskInfo.TaskId)
+                                                                                 .ToList(),
+                 CreateTaskReply.ResponseOneofCase.None  => throw new Exception("Issue with Server !"),
+                 CreateTaskReply.ResponseOneofCase.Error => throw new Exception("Error while creating tasks !"),
+                 _                                       => throw new ArgumentOutOfRangeException(),
+               };
       }
       catch (Exception e)
       {
@@ -351,8 +285,8 @@ public class BaseClientSubmitter<T>
                                "IOException Failure to submit");
             break;
           default:
-            Logger.LogError(e,
-                            "Unknown failure :");
+            Logger?.LogError(e,
+                             "Unknown failure :");
             throw;
         }
       }
@@ -397,13 +331,13 @@ public class BaseClientSubmitter<T>
   {
     using var _ = Logger?.LogFunction();
 
-    using var channel          = channelPool_.GetChannel();
-    var       submitterService = new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel);
-
     Retry.WhileException(5,
                          2000,
                          retry =>
                          {
+                           using var channel          = channelPool_.GetChannel();
+                           var       submitterService = new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel);
+
                            if (retry > 1)
                            {
                              Logger?.LogWarning("Try {try} for {funcName}",
@@ -454,13 +388,13 @@ public class BaseClientSubmitter<T>
                                                                        ResultStatus.Notfound))
                          : Array.Empty<ResultStatusData>();
 
-    using var channel          = channelPool_.GetChannel();
-    var       submitterService = new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel);
-
     var idStatus = Retry.WhileException(5,
                                         2000,
                                         retry =>
                                         {
+                                          using var channel          = channelPool_.GetChannel();
+                                          var       submitterService = new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel);
+
                                           Logger?.LogDebug("Try {try} for {funcName}",
                                                            retry,
                                                            nameof(submitterService.GetResultStatus));
@@ -579,13 +513,13 @@ public class BaseClientSubmitter<T>
                           Session  = SessionId.Id,
                         };
 
-    using var channel          = channelPool_.GetChannel();
-    var       submitterService = new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel);
-
     Retry.WhileException(5,
                          2000,
                          retry =>
                          {
+                           using var channel          = channelPool_.GetChannel();
+                           var       submitterService = new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel);
+
                            Logger?.LogDebug("Try {try} for {funcName}",
                                             retry,
                                             nameof(submitterService.WaitForAvailability));
