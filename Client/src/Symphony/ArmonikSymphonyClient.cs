@@ -19,6 +19,8 @@ using ArmoniK.DevelopmentKit.Client.Common;
 using ArmoniK.DevelopmentKit.Client.Common.Submitter;
 using ArmoniK.DevelopmentKit.Common;
 
+using JetBrains.Annotations;
+
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
@@ -35,7 +37,6 @@ namespace ArmoniK.DevelopmentKit.Client.Symphony;
 [MarkDownDoc]
 public class ArmonikSymphonyClient
 {
-  private readonly IConfigurationSection          controlPlanSection_;
   private readonly ILogger<ArmonikSymphonyClient> Logger;
 
 
@@ -48,23 +49,13 @@ public class ArmonikSymphonyClient
                                ILoggerFactory loggerFactory)
   {
     Configuration = configuration;
-    controlPlanSection_ = configuration.GetSection(SectionGrpc)
-                                       .Exists()
-                            ? configuration.GetSection(SectionGrpc)
-                            : null;
     LoggerFactory = loggerFactory;
     Logger        = loggerFactory.CreateLogger<ArmonikSymphonyClient>();
   }
 
   private ILoggerFactory LoggerFactory { get; }
 
-  /// <summary>
-  ///   Returns the section key Grpc from appSettings.json
-  /// </summary>
-  public string SectionGrpc { get; set; } = "Grpc";
-
   private ChannelPool GrpcPool { get; set; }
-
 
   private IConfiguration Configuration { get; }
 
@@ -73,13 +64,14 @@ public class ArmonikSymphonyClient
   /// </summary>
   /// <param name="taskOptions">Optional parameter to set TaskOptions during the Session creation</param>
   /// <returns>Returns the SessionService to submit, wait or get result</returns>
+  [PublicAPI]
   public SessionService CreateSession(TaskOptions taskOptions = null)
   {
     ControlPlaneConnection();
 
     return new SessionService(GrpcPool,
-                              LoggerFactory,
-                              taskOptions);
+                              taskOptions ?? SessionService.GetDefaultTaskOptions(EngineType.Symphony),
+                              LoggerFactory);
   }
 
   /// <summary>
@@ -88,14 +80,15 @@ public class ArmonikSymphonyClient
   /// <param name="sessionId">The sessionId string which will opened</param>
   /// <param name="clientOptions">the customer taskOptions send to the server by the client</param>
   /// <returns>Returns the SessionService to submit, wait or get result</returns>
+  [PublicAPI]
   public SessionService OpenSession(Session     sessionId,
                                     TaskOptions clientOptions = null)
   {
     ControlPlaneConnection();
 
     return new SessionService(GrpcPool,
+                              clientOptions ?? SessionService.GetDefaultTaskOptions(EngineType.Symphony),
                               LoggerFactory,
-                              clientOptions ?? SessionService.InitializeDefaultTaskOptions(),
                               sessionId);
   }
 
