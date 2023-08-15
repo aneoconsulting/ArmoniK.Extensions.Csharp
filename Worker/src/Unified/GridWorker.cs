@@ -213,10 +213,10 @@ public class GridWorker : IGridWorker
                                      arguments);
       if (result != null)
       {
-        return new ProtoSerializer().SerializeMessageObjectArray(new[]
-                                                                 {
-                                                                   result,
-                                                                 });
+        return ProtoSerializer.SerializeMessageObjectArray(new[]
+                                                           {
+                                                             result,
+                                                           });
       }
     }
     // Catch all exceptions from MethodBase.Invoke except TargetInvocationException (triggered by an exception in the invoked code)

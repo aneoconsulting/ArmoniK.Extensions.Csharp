@@ -112,8 +112,6 @@ public class Service : AbstractClientService, ISubmitterService
 
     SessionService = SessionServiceFactory.CreateSession(properties);
 
-    ProtoSerializer = new ProtoSerializer();
-
     CancellationResultTaskSource = new CancellationTokenSource();
     CancellationQueueTaskSource  = new CancellationTokenSource();
 
@@ -247,8 +245,6 @@ public class Service : AbstractClientService, ISubmitterService
 
   [CanBeNull]
   private ILogger Logger { get; }
-
-  private ProtoSerializer ProtoSerializer { get; }
 
   private SessionServiceFactory SessionServiceFactory { get; set; }
 

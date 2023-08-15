@@ -248,11 +248,10 @@ public abstract class TaskWorkerService : ITaskContextConfiguration, ISessionSer
                            int         maxRetries  = 5,
                            TaskOptions taskOptions = null)
   {
-    var protoSerializer = new ProtoSerializer();
     ArmonikPayload armonikPayload = new()
                                     {
                                       MethodName          = methodName,
-                                      ClientPayload       = protoSerializer.SerializeMessageObjectArray(arguments),
+                                      ClientPayload       = ProtoSerializer.SerializeMessageObjectArray(arguments),
                                       SerializedArguments = false,
                                     };
     return SessionService.SubmitTasks(new[]
@@ -314,11 +313,10 @@ public abstract class TaskWorkerService : ITaskContextConfiguration, ISessionSer
                                            int           maxRetries      = 5,
                                            TaskOptions   taskOptions     = null)
   {
-    var protoSerializer = new ProtoSerializer();
     ArmonikPayload armonikPayload = new()
                                     {
                                       MethodName          = methodName,
-                                      ClientPayload       = protoSerializer.SerializeMessageObjectArray(arguments),
+                                      ClientPayload       = ProtoSerializer.SerializeMessageObjectArray(arguments),
                                       SerializedArguments = false,
                                     };
     return SessionService.SubmitTasksWithDependencies(new[]

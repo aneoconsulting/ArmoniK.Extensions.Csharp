@@ -19,56 +19,48 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.Serialization;
 
 using ArmoniK.DevelopmentKit.Common.Exceptions;
 
+using JetBrains.Annotations;
+
 using ProtoBuf;
-
-#pragma warning disable CS1591
-
 
 namespace ArmoniK.DevelopmentKit.Common;
 
-public class ProtoSerializer
+public static class ProtoSerializer
 {
 // *** you need some mechanism to map types to fields
-  private static readonly IDictionary<int, Type> typeLookup = new List<Type>
-                                                              {
-                                                                typeof(ProtoNative<int>),
-                                                                typeof(int),
-                                                                typeof(uint),
-                                                                typeof(long),
-                                                                typeof(ulong),
-                                                                typeof(double),
-                                                                typeof(float),
-                                                                typeof(short),
-                                                                typeof(byte),
-                                                                typeof(string),
-                                                                typeof(int[]),
-                                                                typeof(uint[]),
-                                                                typeof(long[]),
-                                                                typeof(ulong[]),
-                                                                typeof(double[]),
-                                                                typeof(float[]),
-                                                                typeof(short[]),
-                                                                typeof(byte[]),
-                                                                typeof(string[]),
-                                                                typeof(Nullable),
-                                                                typeof(ProtoArray),
-                                                                typeof(IEnumerable),
-                                                                typeof(IDictionary),
-                                                                typeof(Array),
-                                                                typeof(ArmonikPayload),
-                                                              }.Select((t,
-                                                                        idx) => new
-                                                                                {
-                                                                                  idx,
-                                                                                  t,
-                                                                                })
-                                                               .ToDictionary(x => x.idx,
-                                                                             x => x.t);
+  private static readonly List<Type> TypeLookup = new()
+                                                  {
+                                                    typeof(int),
+                                                    typeof(uint),
+                                                    typeof(long),
+                                                    typeof(ulong),
+                                                    typeof(double),
+                                                    typeof(float),
+                                                    typeof(short),
+                                                    typeof(byte),
+                                                    typeof(string),
+                                                    typeof(int[]),
+                                                    typeof(uint[]),
+                                                    typeof(long[]),
+                                                    typeof(ulong[]),
+                                                    typeof(double[]),
+                                                    typeof(float[]),
+                                                    typeof(short[]),
+                                                    typeof(byte[]),
+                                                    typeof(string[]),
+                                                    typeof(Nullable),
+                                                    typeof(ProtoArray),
+                                                    typeof(IEnumerable),
+                                                    typeof(IDictionary),
+                                                    typeof(Array),
+                                                    typeof(ArmonikPayload),
+                                                  };
 
-  public byte[] SerializeMessageObjectArray(object[] values)
+  public static byte[] SerializeMessageObjectArray(object?[] values)
   {
     using var ms = new MemoryStream();
     foreach (var obj in values)
@@ -81,7 +73,7 @@ public class ProtoSerializer
     return data;
   }
 
-  public static byte[] SerializeMessageObject(object value)
+  public static byte[] SerializeMessageObject(object? value)
   {
     using var ms = new MemoryStream();
 
@@ -93,9 +85,9 @@ public class ProtoSerializer
     return data;
   }
 
-  public static object[] DeSerializeMessageObjectArray(byte[] data)
+  public static object?[] DeSerializeMessageObjectArray(byte[] data)
   {
-    var result = new List<object>();
+    var result = new List<object?>();
 
     using var ms = new MemoryStream(data);
     while (ReadNext(ms,
@@ -104,34 +96,40 @@ public class ProtoSerializer
       result.Add(obj);
     }
 
-    return result.Count == 0
-             ? null
-             : result.ToArray();
+    return result.ToArray();
   }
 
-  public static object DeSerializeMessageObject(byte[] data)
+  private static object? DeSerializeMessageObject(byte[] data)
   {
     using var ms = new MemoryStream(data);
 
-    ReadNext(ms,
-             out var obj);
+    if (!ReadNext(ms,
+                  out var obj))
+    {
+      throw new SerializationException("Error while deserializing object.");
+    }
     return obj;
   }
 
-  public static void RegisterClass(Type classType)
+  [UsedImplicitly]
+  public static void RegisterClass(Type type)
   {
-    var max = typeLookup.Keys.Max();
-    typeLookup[max + 1] = classType;
+    if (TypeLookup.Contains(type))
+    {
+      throw new ArgumentException("Type already registered",
+                                  nameof(type));
+    }
+    TypeLookup.Add(type);
   }
 
   private static void WriteNext(Stream stream,
-                                object obj)
+                                object? obj)
   {
     obj ??= new Nullable();
 
     var type = obj.GetType();
 
-    if (type.IsArray && typeLookup.All(pair => pair.Value.Name != type.Name))
+    if (type.IsArray && TypeLookup.All(t => t.Name != type.Name))
     {
       WriteNext(stream,
                 new ProtoArray
@@ -157,8 +155,7 @@ public class ProtoSerializer
                                       object obj,
                                       Type   type)
   {
-    var field = typeLookup.Single(pair => pair.Value == type)
-                          .Key;
+    var field = TypeLookup.IndexOf(type);
 
     Serializer.NonGeneric.SerializeWithLengthPrefix(stream,
                                                     obj,
@@ -167,73 +164,65 @@ public class ProtoSerializer
   }
 
   private static bool ReadNext(Stream     stream,
-                               out object obj)
+                               out object? obj)
   {
     if (!Serializer.NonGeneric.TryDeserializeWithLengthPrefix(stream,
                                                               PrefixStyle.Base128,
-                                                              field =>
-                                                              {
-                                                                return typeLookup[field];
-                                                              },
+                                                              field => TypeLookup[field],
                                                               out obj))
     {
       return false;
     }
 
-    if (obj is Nullable)
+    switch (obj)
     {
-      obj = null;
-    }
+      case Nullable:
+        obj = null;
+        break;
 
-    if (obj is ProtoArray)
-    {
-      var finalObj = new List<object>();
-      var arrInfo  = (ProtoArray)obj;
-      if (arrInfo.NbElement < 0)
+      case ProtoArray arrInfo:
       {
-        throw new WorkerApiException($"ProtoArray failure number of element [{arrInfo.NbElement}] < 0 ");
-      }
-
-      for (var i = 0; i < arrInfo.NbElement; i++)
-      {
-        if (!ReadNext(stream,
-                      out var subObj))
+        var finalObj = new List<object?>();
+        if (arrInfo.NbElement < 0)
         {
-          throw new WorkerApiException($"Fail to iterate over ProtoArray with Element {arrInfo.NbElement} at index [{i}]");
+          throw new WorkerApiException($"ProtoArray failure number of element [{arrInfo.NbElement}] < 0 ");
         }
 
-        finalObj.Add(subObj);
-      }
+        for (var i = 0; i < arrInfo.NbElement; i++)
+        {
+          if (!ReadNext(stream,
+                        out var subObj))
+          {
+            throw new WorkerApiException($"Fail to iterate over ProtoArray with Element {arrInfo.NbElement} at index [{i}]");
+          }
 
-      obj = finalObj.ToArray();
+          finalObj.Add(subObj);
+        }
+
+        obj = finalObj.ToArray();
+        break;
+      }
     }
 
     return true;
   }
 
-  public static T Deserialize<T>(byte[] dataPayloadInBytes)
+  public static T? Deserialize<T>(byte[] dataPayloadInBytes)
   {
     var obj = DeSerializeMessageObject(dataPayloadInBytes);
 
-    return (T)obj;
+    return (T?)obj;
   }
 
   [ProtoContract]
-  public class Nullable
+  private class Nullable
   {
   }
 
   [ProtoContract]
-  public class ProtoArray
+  private class ProtoArray
   {
     [ProtoMember(1)]
     public int NbElement;
-  }
-
-  [ProtoContract]
-  public class ProtoNative<T>
-  {
-    [ProtoMember(1)]
-    public T Element;
   }
 }
