@@ -20,37 +20,37 @@ using System.Runtime.Loader;
 
 namespace ArmoniK.DevelopmentKit.Worker.DLLWorker;
 
-internal class AddonsAssemblyLoadContext : AssemblyLoadContext
+internal class AddOnAssemblyLoadContext : AssemblyLoadContext
 {
-  private readonly AssemblyDependencyResolver _resolver;
-  private readonly AssemblyDependencyResolver _rootResolver;
+  private readonly AssemblyDependencyResolver resolver_;
+  private readonly AssemblyDependencyResolver rootResolver_;
 
-  public AddonsAssemblyLoadContext()
+  public AddOnAssemblyLoadContext()
     : base(Guid.NewGuid()
                .ToString(),
            true)
   {
   }
 
-  public AddonsAssemblyLoadContext(string mainAssemblyToLoadPath)
+  public AddOnAssemblyLoadContext(string mainAssemblyToLoadPath)
     : base(Guid.NewGuid()
                .ToString(),
            true)
   {
-    _rootResolver = new AssemblyDependencyResolver(Assembly.GetExecutingAssembly()
+    rootResolver_ = new AssemblyDependencyResolver(Assembly.GetExecutingAssembly()
                                                            .Location);
 
-    _resolver = new AssemblyDependencyResolver(mainAssemblyToLoadPath);
+    resolver_ = new AssemblyDependencyResolver(mainAssemblyToLoadPath);
   }
 
   protected override Assembly Load(AssemblyName name)
   {
-    if (_rootResolver.ResolveAssemblyToPath(name) != null)
+    if (rootResolver_.ResolveAssemblyToPath(name) != null)
     {
       return null;
     }
 
-    var assemblyPath = _resolver.ResolveAssemblyToPath(name);
+    var assemblyPath = resolver_.ResolveAssemblyToPath(name);
 
     return assemblyPath != null
              ? LoadFromAssemblyPath(assemblyPath)
@@ -65,7 +65,7 @@ internal class AddonsAssemblyLoadContext : AssemblyLoadContext
   /// <returns>A handle to the loaded library, or <see cref="F:System.IntPtr.Zero" />.</returns>
   protected override IntPtr LoadUnmanagedDll(string unmanagedDllName)
   {
-    var assemblyPath = _resolver.ResolveUnmanagedDllToPath(unmanagedDllName);
+    var assemblyPath = resolver_.ResolveUnmanagedDllToPath(unmanagedDllName);
     return assemblyPath != null
              ? LoadUnmanagedDllFromPath(assemblyPath)
              : IntPtr.Zero;
