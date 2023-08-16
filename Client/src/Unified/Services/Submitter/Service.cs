@@ -305,7 +305,8 @@ public class Service : AbstractClientService, ISubmitterService
               },
               handler,
               maxRetries,
-              taskOptions)
+              taskOptions,
+              false)
       .Single();
 
   /// <summary>
@@ -328,12 +329,39 @@ public class Service : AbstractClientService, ISubmitterService
                                     IServiceInvocationHandler handler,
                                     int                       maxRetries  = 5,
                                     TaskOptions?              taskOptions = null)
+    => Submit(methodName,
+              arguments,
+              handler,
+              maxRetries,
+              taskOptions,
+              true);
+
+  /// <summary>
+  ///   The method submit list of task with Enumerable list of serialized arguments that will be already serialized for
+  ///   byte[] MethodName(byte[] argument).
+  /// </summary>
+  /// <param name="methodName">The name of the method inside the service</param>
+  /// <param name="arguments">List of serialized arguments that will already serialize for MethodName.</param>
+  /// <param name="handler">The handler callBack implemented as IServiceInvocationHandler to get response or result or error</param>
+  /// <param name="maxRetries">The number of retry before fail to submit task. Default = 5 retries</param>
+  /// <param name="taskOptions">
+  ///   TaskOptions argument to override default taskOptions in Session.
+  ///   If non null it will override the default taskOptions in SessionService for client or given by taskHandler for worker
+  /// </param>
+  /// <param name="serializedArguments">defines whether the arguments should be passed as serialized to the compute function</param>
+  /// <returns>Return the taskId string</returns>
+  private IEnumerable<string> Submit(string                    methodName,
+                                     IEnumerable<byte[]>       arguments,
+                                     IServiceInvocationHandler handler,
+                                     int                       maxRetries  ,
+                                     TaskOptions?              taskOptions ,
+                                     bool serializedArguments)
   {
     var armonikPayloads = arguments.Select(args => new ArmonikPayload
                                                    {
                                                      MethodName          = methodName,
                                                      ClientPayload       = args,
-                                                     SerializedArguments = true,
+                                                     SerializedArguments = serializedArguments,
                                                    });
 
     var taskIds = SessionService.SubmitTasks(armonikPayloads.Select(p => p.Serialize()),
@@ -373,7 +401,8 @@ public class Service : AbstractClientService, ISubmitterService
                          handler,
                          maxRetries,
                          taskOptions,
-                         token).ConfigureAwait(false);
+                         token,
+                         false).ConfigureAwait(false);
 
   /// <summary>
   ///   The method submit with one serialized argument that will send as byte[] MethodName(byte[]   argument).
@@ -396,6 +425,36 @@ public class Service : AbstractClientService, ISubmitterService
                                         int                       maxRetries  = 5,
                                         TaskOptions?              taskOptions = null,
                                         CancellationToken         token       = default)
+    => await SubmitAsync(methodName,
+                         ProtoSerializer.Serialize(argument),
+                         handler,
+                         maxRetries,
+                         taskOptions,
+                         token,
+                         true)
+         .ConfigureAwait(false);
+
+  /// <summary>
+  ///   The method submit with one serialized argument that will send as byte[] MethodName(byte[]   argument).
+  /// </summary>
+  /// <param name="methodName">The name of the method inside the service</param>
+  /// <param name="argument">One serialized argument that will already serialize for MethodName.</param>
+  /// <param name="handler">The handler callBack implemented as IServiceInvocationHandler to get response or result or error</param>
+  /// <param name="token">The cancellation token to set to cancel the async task</param>
+  /// <param name="maxRetries">The number of retry before fail to submit task. Default = 5 retries</param>
+  /// <param name="taskOptions">
+  ///   TaskOptions argument to override default taskOptions in Session.
+  ///   If non null it will override the default taskOptions in SessionService for client or given by taskHandler for worker
+  /// </param>
+  /// <param name="serializedArguments">defines whether the arguments should be passed as serialized to the compute function</param>
+  /// <returns>Return the taskId string</returns>
+  private async Task<string> SubmitAsync(string                    methodName,
+                                         byte[]                    argument,
+                                         IServiceInvocationHandler handler,
+                                         int                       maxRetries,
+                                         TaskOptions?              taskOptions,
+                                         CancellationToken         token,
+                                         bool                      serializedArguments)
   {
     await semaphoreSlim_.WaitAsync(token);
 
@@ -406,7 +465,7 @@ public class Service : AbstractClientService, ISubmitterService
                                          {
                                            MethodName          = methodName,
                                            ClientPayload       = argument,
-                                           SerializedArguments = true,
+                                           SerializedArguments = serializedArguments,
                                          },
                                Handler     = handler,
                                MaxRetries  = maxRetries,
@@ -742,9 +801,9 @@ public class Service : AbstractClientService, ISubmitterService
                              {
                                try
                                {
-                                 var result = ProtoSerializer.Deserialize<object[]>(byteResult);
+                                 var result = ProtoSerializer.Deserialize<object?[]>(byteResult);
                                  ResultHandlerDictionary[taskId]
-                                   .HandleResponse(result[0],
+                                   .HandleResponse(result![0],
                                                    taskId);
                                }
                                catch (Exception e)

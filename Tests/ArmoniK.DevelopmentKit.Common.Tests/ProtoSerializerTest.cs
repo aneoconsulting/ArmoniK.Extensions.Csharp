@@ -171,5 +171,31 @@ namespace ArmoniK.DevelopmentKit.Common.Tests
                                     Is.EqualTo("2,1"));
                       });
     }
+
+    [Test]
+    public void SerializeAndDeserializeMixedArray()
+    {
+      var list = new List<object>();
+      list.Add(5);
+      list.Add(new[]
+               {
+                 1.1,
+                 1.2,
+               });
+      var array = list.ToArray();
+
+
+      var serialized = ProtoSerializer.Serialize(array);
+      var result     = ProtoSerializer.Deserialize<object?[]>(serialized);
+
+      Assert.That(result, Is.Not.Null);
+      Assert.That(result, Is.Not.Empty);
+      Assert.That(result![0]!.GetType(), Is.EqualTo(typeof(int)));
+      Assert.That(result![0], Is.EqualTo(5));
+      Assert.That(result![1]!.GetType(), Is.EqualTo(typeof(double[])));
+      Assert.That((result![1] as double[])![0], Is.EqualTo(1.1));
+      Assert.That((result![1] as double[])![1], Is.EqualTo(1.2));
+
+    }
   }
 }
