@@ -599,7 +599,7 @@ public class BaseClientSubmitter<T>
                                     .Result,
                                   true,
                                   typeof(IOException),
-                                  typeof(RpcException));
+                                  typeof(RpcException))!;
     }
     catch (Exception ex)
     {
