@@ -43,8 +43,8 @@ public class SessionService : BaseClientSubmitter<SessionService>
   /// </summary>
   public SessionService(Properties     properties,
                         ILoggerFactory loggerFactory,
-                        TaskOptions? taskOptions   = null,
-                        Session?        session       = null)
+                        TaskOptions?   taskOptions = null,
+                        Session?       session     = null)
     : base(properties,
            loggerFactory,
            taskOptions ?? InitializeDefaultTaskOptions(),

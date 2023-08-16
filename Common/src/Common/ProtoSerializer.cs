@@ -77,10 +77,11 @@ public static class ProtoSerializer
       throw new ArgumentException("Type already registered",
                                   nameof(type));
     }
+
     TypeLookup.Add(type);
   }
 
-  private static void WriteNext(Stream stream,
+  private static void WriteNext(Stream  stream,
                                 object? obj)
   {
     obj ??= new Nullable();
@@ -113,7 +114,7 @@ public static class ProtoSerializer
                                       object obj,
                                       Type   type)
   {
-    var field = TypeLookup.IndexOf(type)+1;
+    var field = TypeLookup.IndexOf(type) + 1;
 
     Serializer.NonGeneric.SerializeWithLengthPrefix(stream,
                                                     obj,
@@ -121,12 +122,12 @@ public static class ProtoSerializer
                                                     field);
   }
 
-  private static bool ReadNext(Stream     stream,
+  private static bool ReadNext(Stream      stream,
                                out object? obj)
   {
     if (!Serializer.NonGeneric.TryDeserializeWithLengthPrefix(stream,
                                                               PrefixStyle.Base128,
-                                                              field => TypeLookup[field-1],
+                                                              field => TypeLookup[field - 1],
                                                               out obj))
     {
       return false;

@@ -68,7 +68,7 @@ public class Service : AbstractClientService, ISubmitterService
   /// </summary>
   /// <param name="properties">The properties containing TaskOptions and information to communicate with Control plane and </param>
   /// <param name="loggerFactory"></param>
-  public Service(Properties         properties,
+  public Service(Properties      properties,
                  ILoggerFactory? loggerFactory = null)
     : base(loggerFactory)
   {
@@ -89,7 +89,7 @@ public class Service : AbstractClientService, ISubmitterService
 
     Logger = LoggerFactory.CreateLogger<Service>();
     Logger.BeginPropertyScope(("SessionId", SessionService.SessionId),
-                               ("Class", "Service"));
+                              ("Class", "Service"));
 
     BufferSubmit = new BatchUntilInactiveBlock<BlockRequest>(maxTasksPerBuffer,
                                                              timeOutSending,
@@ -111,7 +111,7 @@ public class Service : AbstractClientService, ISubmitterService
                                   }
 
                                   Logger.LogInformation("Submitting buffer of {count} task...",
-                                                         blockRequestList.Count);
+                                                        blockRequestList.Count);
                                   var query = blockRequestList.GroupBy(blockRequest => blockRequest.TaskOptions);
 
                                   foreach (var groupBlockRequest in query)
@@ -120,8 +120,8 @@ public class Service : AbstractClientService, ISubmitterService
                                                                       .MaxRetries;
                                     //Generate resultId
                                     var resultsIds = SessionService.CreateResultsMetadata(groupBlockRequest.Select(_ => Guid.NewGuid()
-                                                                                                                             .ToString()))
-                                                                    .Values.ToList();
+                                                                                                                            .ToString()))
+                                                                   .Values.ToList();
 
                                     foreach (var (request, index) in groupBlockRequest.Select((r,
                                                                                                i) => (r, i)))
@@ -137,7 +137,9 @@ public class Service : AbstractClientService, ISubmitterService
                                           SessionService.SubmitTasksWithDependencies(groupBlockRequest.Select(x => new Tuple<string, byte[], IList<string>>(x.ResultId,
                                                                                                                                                             x.Payload!
                                                                                                                                                              .Serialize(),
-                                                                                                                                                            Array.Empty<string>())),
+                                                                                                                                                            Array
+                                                                                                                                                              .Empty<
+                                                                                                                                                                string>())),
                                                                                      1,
                                                                                      groupBlockRequest.First()
                                                                                                       .TaskOptions);
@@ -174,15 +176,15 @@ public class Service : AbstractClientService, ISubmitterService
                                         if (retry >= maxRetries - 1)
                                         {
                                           Logger.LogError(e,
-                                                           "Fail to retry {count} times of submission. Stop trying to submit",
-                                                           maxRetries);
+                                                          "Fail to retry {count} times of submission. Stop trying to submit",
+                                                          maxRetries);
                                           throw;
                                         }
 
                                         Logger.LogWarning(e,
-                                                           "Fail to submit, {retry}/{maxRetries} retrying",
-                                                           retry,
-                                                           maxRetries);
+                                                          "Fail to submit, {retry}/{maxRetries} retrying",
+                                                          retry,
+                                                          maxRetries);
 
                                         //Delay before submission
                                         Task.Delay(TimeSpan.FromMilliseconds(1000));
@@ -198,8 +200,8 @@ public class Service : AbstractClientService, ISubmitterService
                                 catch (Exception e)
                                 {
                                   Logger.LogError(e,
-                                                   "Fail to submit buffer with {count} tasks inside",
-                                                   blockRequestList.Count);
+                                                  "Fail to submit buffer with {count} tasks inside",
+                                                  blockRequestList.Count);
 
                                   requestTaskMap_.BufferFailures(blockRequestList.Select(block => block.SubmitId),
                                                                  e);
@@ -353,9 +355,9 @@ public class Service : AbstractClientService, ISubmitterService
   private IEnumerable<string> Submit(string                    methodName,
                                      IEnumerable<byte[]>       arguments,
                                      IServiceInvocationHandler handler,
-                                     int                       maxRetries  ,
-                                     TaskOptions?              taskOptions ,
-                                     bool serializedArguments)
+                                     int                       maxRetries,
+                                     TaskOptions?              taskOptions,
+                                     bool                      serializedArguments)
   {
     var armonikPayloads = arguments.Select(args => new ArmonikPayload
                                                    {
@@ -402,7 +404,8 @@ public class Service : AbstractClientService, ISubmitterService
                          maxRetries,
                          taskOptions,
                          token,
-                         false).ConfigureAwait(false);
+                         false)
+         .ConfigureAwait(false);
 
   /// <summary>
   ///   The method submit with one serialized argument that will send as byte[] MethodName(byte[]   argument).
@@ -576,7 +579,7 @@ public class Service : AbstractClientService, ISubmitterService
                                       SerializedArguments = true,
                                     };
 
-    var      taskId = "not-TaskId";
+    var       taskId = "not-TaskId";
     object?[] result;
 
     try
@@ -659,7 +662,7 @@ public class Service : AbstractClientService, ISubmitterService
           try
           {
             Logger.LogTrace("Response handler for {taskId}",
-                             resultStatusData.TaskId);
+                            resultStatusData.TaskId);
             responseHandler(resultStatusData.TaskId,
                             Retry.WhileException(5,
                                                  2000,
@@ -687,8 +690,8 @@ public class Service : AbstractClientService, ISubmitterService
           catch (Exception e)
           {
             Logger.LogWarning(e,
-                               "Response handler for {taskId} threw an error",
-                               resultStatusData.TaskId);
+                              "Response handler for {taskId} threw an error",
+                              resultStatusData.TaskId);
             try
             {
               errorHandler(resultStatusData.TaskId,
@@ -698,8 +701,8 @@ public class Service : AbstractClientService, ISubmitterService
             catch (Exception e2)
             {
               Logger.LogError(e2,
-                               "An error occurred while handling another error: {details}",
-                               e);
+                              "An error occurred while handling another error: {details}",
+                              e);
             }
           }
         }
@@ -727,9 +730,9 @@ public class Service : AbstractClientService, ISubmitterService
           }
 
           Logger.LogDebug("Error handler for {taskId}, {taskStatus}: {details}",
-                           resultStatusData.TaskId,
-                           taskStatus,
-                           details);
+                          resultStatusData.TaskId,
+                          taskStatus,
+                          details);
           try
           {
             errorHandler(resultStatusData.TaskId,
@@ -739,9 +742,9 @@ public class Service : AbstractClientService, ISubmitterService
           catch (Exception e)
           {
             Logger.LogError(e,
-                             "An error occurred while handling a Task error {status}: {details}",
-                             taskStatus,
-                             details);
+                            "An error occurred while handling a Task error {status}: {details}",
+                            taskStatus,
+                            details);
           }
         }
 
@@ -758,9 +761,9 @@ public class Service : AbstractClientService, ISubmitterService
           catch (Exception e)
           {
             Logger.LogError(e,
-                             "An error occurred while handling a Task error {status}: {details}",
-                             TaskStatus.Unspecified,
-                             "Task is missing");
+                            "An error occurred while handling a Task error {status}: {details}",
+                            TaskStatus.Unspecified,
+                            "Task is missing");
           }
         }
 
@@ -773,7 +776,7 @@ public class Service : AbstractClientService, ISubmitterService
                   : idx                 + 1;
 
           Logger.LogDebug("No Results are ready. Wait for {timeWait} seconds before new retry",
-                           waitInSeconds[idx] / 1000);
+                          waitInSeconds[idx] / 1000);
         }
         else
         {
@@ -868,15 +871,15 @@ public class Service : AbstractClientService, ISubmitterService
       catch (Exception e)
       {
         Logger.LogError("An error occurred while fetching results: {e}",
-                         e);
+                        e);
       }
     }
 
     if (!ResultHandlerDictionary.IsEmpty)
     {
       Logger.LogWarning("Results not processed : [{resultsNotProcessed}]",
-                         string.Join(", ",
-                                     ResultHandlerDictionary.Keys));
+                        string.Join(", ",
+                                    ResultHandlerDictionary.Keys));
     }
   }
 
@@ -912,7 +915,7 @@ public class Service : AbstractClientService, ISubmitterService
     public ServiceResult(string  taskId,
                          object? result)
     {
-      TaskId      = taskId;
+      TaskId = taskId;
       Result = result;
     }
 

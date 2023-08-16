@@ -37,7 +37,7 @@ public class ServiceFactory
   /// <param name="props">Properties for the service containing IConfiguration and TaskOptions</param>
   /// <param name="loggerFactory">Logger factory to create loggers for service</param>
   /// <returns>returns the new instantiated service</returns>
-  public static Service CreateService(Properties         props,
+  public static Service CreateService(Properties      props,
                                       ILoggerFactory? loggerFactory = null)
     => new(props,
            loggerFactory);
@@ -48,7 +48,7 @@ public class ServiceFactory
   /// <param name="props"></param>
   /// <param name="loggerFactory">Logger factory to create loggers for service</param>
   /// <returns></returns>
-  public static ServiceAdmin GetServiceAdmin(Properties         props,
+  public static ServiceAdmin GetServiceAdmin(Properties      props,
                                              ILoggerFactory? loggerFactory = null)
     => new(props,
            loggerFactory);

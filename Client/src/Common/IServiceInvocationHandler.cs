@@ -40,5 +40,5 @@ public interface IServiceInvocationHandler
   /// <param name="response">The object receive from the server as result the method called by the client</param>
   /// <param name="taskId">The task identifier which has invoke the response callBack</param>
   void HandleResponse(object? response,
-                      string taskId);
+                      string  taskId);
 }

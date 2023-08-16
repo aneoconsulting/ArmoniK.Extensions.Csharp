@@ -214,9 +214,9 @@ public class GridWorker : IGridWorker
       if (result != null)
       {
         return ProtoSerializer.Serialize(new[]
-                                                           {
-                                                             result,
-                                                           });
+                                         {
+                                           result,
+                                         });
       }
     }
     // Catch all exceptions from MethodBase.Invoke except TargetInvocationException (triggered by an exception in the invoked code)

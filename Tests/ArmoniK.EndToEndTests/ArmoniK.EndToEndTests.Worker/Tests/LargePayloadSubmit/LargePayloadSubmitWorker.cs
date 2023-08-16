@@ -35,7 +35,7 @@ public class LargePayloadSubmitWorker : BaseService<LargePayloadSubmitWorker>
   /// <param name="workloadTime">The second arguments from client call</param>
   /// <returns>The result to return</returns>
   public static double ComputeSum(double[] inputs,
-                                  int         workloadTime)
+                                  int      workloadTime)
   {
     if (inputs == null)
     {
