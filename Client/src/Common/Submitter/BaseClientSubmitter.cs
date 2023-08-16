@@ -52,62 +52,91 @@ namespace ArmoniK.DevelopmentKit.Client.Common.Submitter;
 [PublicAPI]
 public class BaseClientSubmitter<T>
 {
+  private ILoggerFactory LoggerFactory { get; }
+
   /// <summary>
   ///   Base Object for all Client submitter
   /// </summary>
-  /// <param name="channelPool">Channel used to create grpc clients</param>
+  /// <param name="properties">Properties used to create grpc clients</param>
   /// <param name="loggerFactory">the logger factory to pass for root object</param>
+  /// <param name="taskOptions"></param>
+  /// <param name="session"></param>
   /// <param name="chunkSubmitSize">The size of chunk to split the list of tasks</param>
-  public BaseClientSubmitter(ChannelPool                channelPool,
-                             [CanBeNull] ILoggerFactory loggerFactory   = null,
-                             int                        chunkSubmitSize = 500)
+  public BaseClientSubmitter(Properties     properties,
+                             ILoggerFactory loggerFactory,
+                             TaskOptions    taskOptions,
+                             Session?       session,
+                             int            chunkSubmitSize = 500)
   {
-    channelPool_     = channelPool;
-    Logger           = loggerFactory?.CreateLogger<T>();
+    LoggerFactory    = loggerFactory;
+    TaskOptions      = taskOptions;
+    properties_      = properties;
+    Logger           = loggerFactory.CreateLogger<T>();
     chunkSubmitSize_ = chunkSubmitSize;
+    SessionId = session ?? CreateSession(new[]
+                                         {
+                                           TaskOptions.PartitionId,
+                                         });
   }
 
   /// <summary>
   ///   Set or Get TaskOptions with inside MaxDuration, Priority, AppName, VersionName and AppNamespace
   /// </summary>
-  public TaskOptions TaskOptions { get; set; }
+  public TaskOptions TaskOptions { get; }
 
   /// <summary>
   ///   Get SessionId object stored during the call of SubmitTask, SubmitSubTask,
   ///   SubmitSubTaskWithDependencies or WaitForCompletion, WaitForSubTaskCompletion or GetResults
   /// </summary>
-  public Session SessionId { get; protected set; }
-
-
-#pragma warning restore CS1591
+  public Session SessionId { get; }
 
   /// <summary>
   ///   The channel pool to use for creating clients
   /// </summary>
-  protected ChannelPool channelPool_;
+  private ChannelPool? channelPool_;
 
+  private readonly Properties properties_;
+
+  /// <summary>
+  ///   The channel pool to use for creating clients
+  /// </summary>
+  public ChannelPool ChannelPool
+    => channelPool_ ??= ClientServiceConnector.ControlPlaneConnectionPool(properties_,
+                                                                          LoggerFactory);
+
+  private Session CreateSession(IEnumerable<string> partitionIds)
+  {
+    using var _ = Logger.LogFunction();
+    Logger.LogDebug("Creating Session... ");
+    var createSessionRequest = new CreateSessionRequest
+                               {
+                                 DefaultTaskOption = TaskOptions,
+                                 PartitionIds =
+                                 {
+                                   partitionIds,
+                                 },
+                               };
+    var session = ChannelPool.WithChannel(channel => new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel).CreateSession(createSessionRequest));
+
+    Logger.LogDebug("Session Created {SessionId}",
+                    SessionId);
+    return new Session
+           {
+             Id = session.SessionId,
+           };
+  }
 
   /// <summary>
   ///   The number of chunk to split the payloadsWithDependencies
   /// </summary>
-  private int chunkSubmitSize_;
+  private readonly int chunkSubmitSize_;
 
   /// <summary>
   ///   The logger to call the generate log in Seq
   /// </summary>
 
-  [CanBeNull]
-  protected ILogger<T> Logger { get; set; }
+  protected ILogger<T> Logger { get; }
 
-  /// <summary>
-  ///   Service for interacting with results
-  /// </summary>
-  protected Results.ResultsClient ResultService { get; set; }
-
-  /// <summary>
-  ///   Service for interacting with results
-  /// </summary>
-  protected Tasks.TasksClient TaskService { get; set; }
 
   /// <summary>
   ///   Returns the status of the task
@@ -127,7 +156,7 @@ public class BaseClientSubmitter<T>
   /// <param name="taskIds">The list of taskIds</param>
   /// <returns></returns>
   public IEnumerable<Tuple<string, TaskStatus>> GetTaskStatues(params string[] taskIds)
-    => channelPool_.WithChannel(channel => new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel).GetTaskStatus(new GetTaskStatusRequest
+    => ChannelPool.WithChannel(channel => new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel).GetTaskStatus(new GetTaskStatusRequest
                                                                                                                       {
                                                                                                                         TaskIds =
                                                                                                                         {
@@ -143,7 +172,7 @@ public class BaseClientSubmitter<T>
   /// <param name="taskId"></param>
   /// <returns></returns>
   public Output GetTaskOutputInfo(string taskId)
-    => channelPool_.WithChannel(channel => new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel).TryGetTaskOutput(new TaskOutputRequest
+    => ChannelPool.WithChannel(channel => new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel).TryGetTaskOutput(new TaskOutputRequest
                                                                                                                          {
                                                                                                                            TaskId  = taskId,
                                                                                                                            Session = SessionId.Id,
@@ -164,11 +193,11 @@ public class BaseClientSubmitter<T>
   [PublicAPI]
   public IEnumerable<string> SubmitTasksWithDependencies(IEnumerable<Tuple<string, byte[], IList<string>>> payloadsWithDependencies,
                                                          int                                               maxRetries  = 5,
-                                                         TaskOptions                                       taskOptions = null)
+                                                         TaskOptions?                                      taskOptions = null)
     => payloadsWithDependencies.ToChunks(chunkSubmitSize_)
                                .SelectMany(chunk => ChunkSubmitTasksWithDependencies(chunk,
                                                                                      maxRetries,
-                                                                                     taskOptions));
+                                                                                     taskOptions ?? TaskOptions));
 
   /// <summary>
   ///   The method to submit several tasks with dependencies tasks. This task will wait for
@@ -187,7 +216,7 @@ public class BaseClientSubmitter<T>
   [PublicAPI]
   public IEnumerable<string> SubmitTasksWithDependencies(IEnumerable<Tuple<byte[], IList<string>>> payloadsWithDependencies,
                                                          int                                       maxRetries  = 5,
-                                                         TaskOptions                               taskOptions = null)
+                                                         TaskOptions?                              taskOptions = null)
     => payloadsWithDependencies.ToChunks(chunkSubmitSize_)
                                .SelectMany(chunk =>
                                            {
@@ -202,7 +231,7 @@ public class BaseClientSubmitter<T>
                                                                                                                      subPayloadWithDependencies.Item2))
                                                                                           .ToList(),
                                                                                      maxRetries,
-                                                                                     taskOptions);
+                                                                                     taskOptions ?? TaskOptions);
                                            });
 
 
@@ -220,31 +249,43 @@ public class BaseClientSubmitter<T>
   [PublicAPI]
   private IEnumerable<string> ChunkSubmitTasksWithDependencies(IEnumerable<Tuple<string, byte[], IList<string>>> payloadsWithDependencies,
                                                                int                                               maxRetries,
-                                                               TaskOptions                                       taskOptions = null)
+                                                               TaskOptions?                                      taskOptions = null)
   {
-    using var _ = Logger?.LogFunction();
+    using var _ = Logger.LogFunction();
+
+    List<Tuple<string, byte[], IList<string>>> payloadsWithDependenciesList = new();
 
     for (var nbRetry = 0; nbRetry < maxRetries; nbRetry++)
     {
       try
       {
-        using var channel          = channelPool_.GetChannel();
+        using var channel          = ChannelPool.GetChannel();
         var       submitterService = new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel);
 
-        //Multiple enumeration occurs on a retry
+        var localPayloadsWithDependencies = nbRetry == 0
+                                              // ReSharper disable once PossibleMultipleEnumeration
+                                              // only iterated during first try
+                                              ? payloadsWithDependencies
+                                              : payloadsWithDependenciesList;
+
+        var retry = nbRetry;
         var response = submitterService.CreateTasksAsync(SessionId.Id,
                                                          taskOptions ?? TaskOptions,
-                                                         payloadsWithDependencies.Select(pwd =>
-                                                                                         {
-                                                                                           var taskRequest = new TaskRequest
-                                                                                                             {
-                                                                                                               Payload = UnsafeByteOperations.UnsafeWrap(pwd.Item2),
-                                                                                                             };
-                                                                                           taskRequest.DataDependencies
-                                                                                                      .AddRange(pwd.Item3 ?? Enumerable.Empty<string>());
-                                                                                           taskRequest.ExpectedOutputKeys.Add(pwd.Item1);
-                                                                                           return taskRequest;
-                                                                                         }))
+                                                         localPayloadsWithDependencies.Select(pwd =>
+                                                                                              {
+                                                                                                if (retry == 0)
+                                                                                                {
+                                                                                                  payloadsWithDependenciesList.Add(pwd);
+                                                                                                }
+                                                                                                var taskRequest = new TaskRequest
+                                                                                                                  {
+                                                                                                                    Payload = UnsafeByteOperations.UnsafeWrap(pwd.Item2),
+                                                                                                                  };
+                                                                                                taskRequest.DataDependencies
+                                                                                                           .AddRange(pwd.Item3);
+                                                                                                taskRequest.ExpectedOutputKeys.Add(pwd.Item1);
+                                                                                                return taskRequest;
+                                                                                              }))
                                        .ConfigureAwait(false)
                                        .GetAwaiter()
                                        .GetResult();
@@ -270,22 +311,22 @@ public class BaseClientSubmitter<T>
                {
                  InnerException: RpcException,
                } ex:
-            Logger?.LogWarning(ex.InnerException,
+            Logger.LogWarning(ex.InnerException,
                                "Failure to submit");
             break;
           case AggregateException
                {
                  InnerException: IOException,
                } ex:
-            Logger?.LogWarning(ex.InnerException,
+            Logger.LogWarning(ex.InnerException,
                                "IOException : Failure to submit, Retrying");
             break;
           case IOException ex:
-            Logger?.LogWarning(ex,
+            Logger.LogWarning(ex,
                                "IOException Failure to submit");
             break;
           default:
-            Logger?.LogError(e,
+            Logger.LogError(e,
                              "Unknown failure :");
             throw;
         }
@@ -293,7 +334,7 @@ public class BaseClientSubmitter<T>
 
       if (nbRetry > 0)
       {
-        Logger?.LogWarning("{retry}/{maxRetries} nbRetry to submit batch of task",
+        Logger.LogWarning("{retry}/{maxRetries} nbRetry to submit batch of task",
                            nbRetry,
                            maxRetries);
       }
@@ -308,16 +349,15 @@ public class BaseClientSubmitter<T>
   /// <param name="taskId">
   ///   The task taskId of the task to wait for
   /// </param>
-  /// <param name="retry">Option variable to set the number of retry (Default: 5)</param>
-  public void WaitForTaskCompletion(string taskId,
-                                    int    retry = 5)
+  public void WaitForTaskCompletion(string taskId)
   {
-    using var _ = Logger?.LogFunction(taskId);
+    using var _ = Logger.LogFunction(taskId);
 
     WaitForTasksCompletion(new[]
                            {
                              taskId,
-                           });
+                           },
+                           delayMs: 2000);
   }
 
   /// <summary>
@@ -326,21 +366,25 @@ public class BaseClientSubmitter<T>
   /// <param name="taskIds">
   ///   List of taskIds
   /// </param>
+  /// <param name="maxRetries">Max number of retries</param>
+  /// <param name="delayMs"></param>
   [PublicAPI]
-  public void WaitForTasksCompletion(IEnumerable<string> taskIds)
+  public void WaitForTasksCompletion(IEnumerable<string> taskIds,
+                                     int                 maxRetries = 5,
+                                     int                 delayMs    = 20000)
   {
-    using var _ = Logger?.LogFunction();
+    using var _ = Logger.LogFunction();
 
-    Retry.WhileException(5,
-                         2000,
+    Retry.WhileException(maxRetries,
+                         delayMs,
                          retry =>
                          {
-                           using var channel          = channelPool_.GetChannel();
+                           using var channel          = ChannelPool.GetChannel();
                            var       submitterService = new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel);
 
                            if (retry > 1)
                            {
-                             Logger?.LogWarning("Try {try} for {funcName}",
+                             Logger.LogWarning("Try {try} for {funcName}",
                                                 retry,
                                                 nameof(submitterService.WaitForCompletion));
                            }
@@ -392,12 +436,13 @@ public class BaseClientSubmitter<T>
                                         2000,
                                         retry =>
                                         {
-                                          using var channel          = channelPool_.GetChannel();
+                                          using var channel          = ChannelPool.GetChannel();
                                           var       submitterService = new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel);
 
-                                          Logger?.LogDebug("Try {try} for {funcName}",
+                                          Logger.LogDebug("Try {try} for {funcName}",
                                                            retry,
                                                            nameof(submitterService.GetResultStatus));
+                                          // TODO: replace with submitterService.TryGetResultStream() => Issue #
                                           var resultStatusReply = submitterService.GetResultStatus(new GetResultStatusRequest
                                                                                                    {
                                                                                                      ResultIds =
@@ -418,11 +463,8 @@ public class BaseClientSubmitter<T>
 
     foreach (var idStatusPair in idStatus)
     {
-      result2TaskDic.TryGetValue(idStatusPair.ResultId,
-                                 out var taskId);
-
       var resData = new ResultStatusData(idStatusPair.ResultId,
-                                         taskId,
+                                         result2TaskDic[idStatusPair.ResultId],
                                          idStatusPair.Status);
 
       switch (idStatusPair.Status)
@@ -469,12 +511,12 @@ public class BaseClientSubmitter<T>
                             {
                               if (retry > 1)
                               {
-                                Logger?.LogWarning("Try {try} for {funcName}",
+                                Logger.LogWarning("Try {try} for {funcName}",
                                                    retry,
                                                    nameof(GetResultIds));
                               }
 
-                              return channelPool_.WithChannel(channel => new Tasks.TasksClient(channel).GetResultIds(new GetResultIdsRequest
+                              return ChannelPool.WithChannel(channel => new Tasks.TasksClient(channel).GetResultIds(new GetResultIdsRequest
                                                                                                                      {
                                                                                                                        TaskId =
                                                                                                                        {
@@ -497,71 +539,74 @@ public class BaseClientSubmitter<T>
   public byte[] GetResult(string            taskId,
                           CancellationToken cancellationToken = default)
   {
-    using var _ = Logger?.LogFunction(taskId);
+    using var _ = Logger.LogFunction(taskId);
 
-    var resultId = GetResultIds(new[]
-                                {
-                                  taskId,
-                                })
-                   .Single()
-                   .ResultIds.Single();
-
-
-    var resultRequest = new ResultRequest
-                        {
-                          ResultId = resultId,
-                          Session  = SessionId.Id,
-                        };
-
-    Retry.WhileException(5,
-                         2000,
-                         retry =>
-                         {
-                           using var channel          = channelPool_.GetChannel();
-                           var       submitterService = new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel);
-
-                           Logger?.LogDebug("Try {try} for {funcName}",
-                                            retry,
-                                            nameof(submitterService.WaitForAvailability));
-                           var availabilityReply = submitterService.WaitForAvailability(resultRequest,
-                                                                                        cancellationToken: cancellationToken);
-
-                           switch (availabilityReply.TypeCase)
-                           {
-                             case AvailabilityReply.TypeOneofCase.None:
-                               throw new Exception("Issue with Server !");
-                             case AvailabilityReply.TypeOneofCase.Ok:
-                               break;
-                             case AvailabilityReply.TypeOneofCase.Error:
-                               throw new
-                                 ClientResultsException($"Result in Error - {resultId}\nMessage :\n{string.Join("Inner message:\n", availabilityReply.Error.Errors)}",
-                                                        resultId);
-                             case AvailabilityReply.TypeOneofCase.NotCompletedTask:
-                               throw new DataException($"Result {resultId} was not yet completed");
-                             default:
-                               throw new ArgumentOutOfRangeException();
-                           }
-                         },
-                         true,
-                         typeof(IOException),
-                         typeof(RpcException));
-
-    var res = Retry.WhileException(5,
-                                   200,
-                                   retry => TryGetResultAsync(resultRequest,
-                                                              cancellationToken)
-                                     .Result,
-                                   true,
-                                   typeof(IOException),
-                                   typeof(RpcException));
-
-    if (res != null)
+    try
     {
-      return res;
-    }
 
-    throw new ClientResultsException($"Cannot retrieve result for task : {taskId}",
-                                     taskId);
+      var resultId = GetResultIds(new[]
+                                  {
+                                    taskId,
+                                  })
+                     .Single()
+                     .ResultIds.Single();
+
+
+      var resultRequest = new ResultRequest
+                          {
+                            ResultId = resultId,
+                            Session  = SessionId.Id,
+                          };
+
+      Retry.WhileException(5,
+                           2000,
+                           retry =>
+                           {
+                             using var channel          = ChannelPool.GetChannel();
+                             var       submitterService = new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel);
+
+                             Logger.LogDebug("Try {try} for {funcName}",
+                                             retry,
+                                             nameof(submitterService.WaitForAvailability));
+                             // TODO: replace with submitterService.TryGetResultStream() => Issue #
+                             var availabilityReply = submitterService.WaitForAvailability(resultRequest,
+                                                                                          cancellationToken: cancellationToken);
+
+                             switch (availabilityReply.TypeCase)
+                             {
+                               case AvailabilityReply.TypeOneofCase.None:
+                                 throw new Exception("Issue with Server !");
+                               case AvailabilityReply.TypeOneofCase.Ok:
+                                 break;
+                               case AvailabilityReply.TypeOneofCase.Error:
+                                 throw new
+                                   ClientResultsException($"Result in Error - {resultId}\nMessage :\n{string.Join("Inner message:\n", availabilityReply.Error.Errors)}",
+                                                          resultId);
+                               case AvailabilityReply.TypeOneofCase.NotCompletedTask:
+                                 throw new DataException($"Result {resultId} was not yet completed");
+                               default:
+                                 throw new InvalidOperationException();
+                             }
+                           },
+                           true,
+                           typeof(IOException),
+                           typeof(RpcException));
+
+      return Retry.WhileException(5,
+                                  200,
+                                  _ => TryGetResultAsync(resultRequest,
+                                                             cancellationToken)
+                                    .Result,
+                                  true,
+                                  typeof(IOException),
+                                  typeof(RpcException));
+    }
+    catch (Exception ex)
+    {
+      throw new ClientResultsException($"Cannot retrieve result for task : {taskId}",
+                                       ex,
+                                       taskId);
+    }
   }
 
 
@@ -590,16 +635,17 @@ public class BaseClientSubmitter<T>
   /// </summary>
   /// <param name="resultRequest">Request specifying the result to fetch</param>
   /// <param name="cancellationToken">The token used to cancel the operation.</param>
-  /// <returns></returns>
+  /// <returns>Returns the result or byte[0] if there no result or null if task is not yet ready</returns>
   /// <exception cref="Exception"></exception>
   /// <exception cref="ArgumentOutOfRangeException"></exception>
-  public async Task<byte[]> TryGetResultAsync(ResultRequest     resultRequest,
+  // TODO: return a compound type to avoid having a nullable that holds the information and return an empty array.
+  public async Task<byte[]?> TryGetResultAsync(ResultRequest     resultRequest,
                                               CancellationToken cancellationToken = default)
   {
     List<ReadOnlyMemory<byte>> chunks;
     int                        len;
 
-    using var channel          = channelPool_.GetChannel();
+    using var channel          = ChannelPool.GetChannel();
     var       submitterService = new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel);
 
     {
@@ -639,8 +685,7 @@ public class BaseClientSubmitter<T>
             return null;
 
           default:
-            throw new ArgumentOutOfRangeException("Got a reply with an unexpected message type.",
-                                                  (Exception)null);
+            throw new InvalidOperationException("Got a reply with an unexpected message type.");
         }
       }
 
@@ -662,7 +707,6 @@ public class BaseClientSubmitter<T>
     return res;
   }
 
-
   /// <summary>
   ///   Try to find the result of One task. If there no result, the function return byte[0]
   /// </summary>
@@ -670,12 +714,28 @@ public class BaseClientSubmitter<T>
   /// <param name="checkOutput"></param>
   /// <param name="cancellationToken">The optional cancellationToken</param>
   /// <returns>Returns the result or byte[0] if there no result or null if task is not yet ready</returns>
+  // TODO: return a compound type to avoid having a nullable that holds the information and return an empty array.
   [PublicAPI]
-  public byte[] TryGetResult(string            taskId,
-                             bool              checkOutput       = true,
-                             CancellationToken cancellationToken = default)
+  [Obsolete($"Use version without the {nameof(checkOutput)} parameter.")]
+  public byte[]? TryGetResult(string            taskId,
+                              bool              checkOutput,
+                              CancellationToken cancellationToken = default)
+    => TryGetResult(taskId,
+                    cancellationToken);
+
+
+  /// <summary>
+  ///   Try to find the result of One task. If there no result, the function return byte[0]
+  /// </summary>
+  /// <param name="taskId">The Id of the task</param>
+  /// <param name="cancellationToken">The optional cancellationToken</param>
+  /// <returns>Returns the result or byte[0] if there no result or null if task is not yet ready</returns>
+  // TODO: return a compound type to avoid having a nullable that holds the information and return an empty array.
+  [PublicAPI]
+  public byte[]? TryGetResult(string            taskId,
+                              CancellationToken cancellationToken = default)
   {
-    using var _ = Logger?.LogFunction(taskId);
+    using var _ = Logger.LogFunction(taskId);
     var resultId = GetResultIds(new[]
                                 {
                                   taskId,
@@ -695,7 +755,7 @@ public class BaseClientSubmitter<T>
                                            {
                                              if (retry > 1)
                                              {
-                                               Logger?.LogWarning("Try {try} for {funcName}",
+                                               Logger.LogWarning("Try {try} for {funcName}",
                                                                   retry,
                                                                   "SubmitterService.TryGetResultAsync");
                                              }
@@ -737,7 +797,7 @@ public class BaseClientSubmitter<T>
                                                         StatusCode: StatusCode.Aborted or StatusCode.Cancelled,
                                                       }:
 
-                                                   Logger?.LogError(rpcException,
+                                                   Logger.LogError(rpcException,
                                                                     rpcException.Message);
                                                    return null;
                                                  default:
@@ -787,10 +847,10 @@ public class BaseClientSubmitter<T>
 
         msg += $"1st result id where the task which should create it is in error : {taskIdInError}";
 
-        Logger?.LogError(msg);
+        Logger.LogError(msg);
 
         throw new ClientResultsException(msg,
-                                         (resultStatus.IdsError ?? Enumerable.Empty<string>()).Concat(resultStatus.IdsResultError.Select(x => x.TaskId)));
+                                         resultStatus.IdsError.ToArray());
       }
     }
 
@@ -807,7 +867,8 @@ public class BaseClientSubmitter<T>
                                                    : new Tuple<string, byte[]>(resultStatusData.TaskId,
                                                                                res);
                                         })
-                       .Where(el => el != null)
+                       .Where(tuple => tuple is not null)
+                       .Select(tuple => tuple!)
                        .ToList();
   }
 
@@ -818,7 +879,7 @@ public class BaseClientSubmitter<T>
   /// <returns>Dictionary where each result name is associated with its result id</returns>
   [PublicAPI]
   public Dictionary<string, string> CreateResultsMetadata(IEnumerable<string> resultNames)
-    => channelPool_.WithChannel(c => new Results.ResultsClient(c).CreateResultsMetaData(new CreateResultsMetaDataRequest
+    => ChannelPool.WithChannel(c => new Results.ResultsClient(c).CreateResultsMetaData(new CreateResultsMetaDataRequest
                                                                                         {
                                                                                           SessionId = SessionId.Id,
                                                                                           Results =

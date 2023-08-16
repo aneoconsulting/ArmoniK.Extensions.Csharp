@@ -47,9 +47,9 @@ public class BatchUntilInactiveBlock<T> : IPropagatorBlock<T, T[]>, IReceivableS
   ///   Options to configure message.
   ///   https://learn.microsoft.com/fr-fr/dotnet/api/system.threading.tasks.dataflow.executiondataflowblockoptions?view=net-6.0
   /// </param>
-  public BatchUntilInactiveBlock(int                                       bufferRequestsSize,
-                                 TimeSpan                                  timeout,
-                                 [CanBeNull] ExecutionDataflowBlockOptions executionDataFlowBlockOptions = null)
+  public BatchUntilInactiveBlock(int                               bufferRequestsSize,
+                                 TimeSpan                          timeout,
+                                 ExecutionDataflowBlockOptions? executionDataFlowBlockOptions = null)
   {
     executionDataFlowBlockOptions_ = executionDataFlowBlockOptions ?? new ExecutionDataflowBlockOptions
                                                                       {

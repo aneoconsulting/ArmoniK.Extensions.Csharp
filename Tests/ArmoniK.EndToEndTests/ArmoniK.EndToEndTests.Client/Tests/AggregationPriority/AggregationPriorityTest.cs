@@ -152,7 +152,6 @@ public class AggregationPriorityTest
   private async Task<IEnumerable<TaskRaw>> GetDistribution(int nRows)
   {
     var service = unifiedTestHelper_.Service as Service;
-    service.GetChannel();
 
     var taskRawData = new List<TaskRaw>();
 

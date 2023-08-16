@@ -21,6 +21,7 @@ using System.Linq;
 using ArmoniK.Api.Common.Utils;
 using ArmoniK.Api.gRPC.V1;
 using ArmoniK.Api.gRPC.V1.Submitter;
+using ArmoniK.DevelopmentKit.Client.Common;
 using ArmoniK.DevelopmentKit.Client.Common.Submitter;
 using ArmoniK.DevelopmentKit.Common;
 
@@ -43,23 +44,15 @@ public class SessionService : BaseClientSubmitter<SessionService>
   ///   Ctor to instantiate a new SessionService
   ///   This is an object to send task or get Results from a session
   /// </summary>
-  public SessionService(ChannelPool                channelPool,
-                        [CanBeNull] ILoggerFactory loggerFactory = null,
-                        [CanBeNull] TaskOptions    taskOptions   = null,
-                        [CanBeNull] Session        session       = null)
-    : base(channelPool,
-           loggerFactory)
+  public SessionService(Properties     properties,
+                        ILoggerFactory loggerFactory = null,
+                        TaskOptions?    taskOptions   = null,
+                        Session?     session       = null)
+    : base(properties,
+           loggerFactory,
+           taskOptions ?? InitializeDefaultTaskOptions(),
+           session)
   {
-    TaskOptions = taskOptions ?? InitializeDefaultTaskOptions();
-
-    Logger?.LogDebug("Creating Session... ");
-
-    SessionId = session ?? CreateSession(new List<string>
-                                         {
-                                           TaskOptions.PartitionId,
-                                         });
-
-    Logger?.LogDebug($"Session Created {SessionId}");
   }
 
   /// <summary>Returns a string that represents the current object.</summary>
@@ -97,26 +90,12 @@ public class SessionService : BaseClientSubmitter<SessionService>
                                    partitionIds,
                                  },
                                };
-    var session = channelPool_.WithChannel(channel => new Submitter.SubmitterClient(channel).CreateSession(createSessionRequest));
+    var session = ChannelPool.WithChannel(channel => new Submitter.SubmitterClient(channel).CreateSession(createSessionRequest));
 
     return new Session
            {
              Id = session.SessionId,
            };
-  }
-
-  /// <summary>
-  ///   Set connection to an already opened Session
-  /// </summary>
-  /// <param name="session">SessionId previously opened</param>
-  public void OpenSession(Session session)
-  {
-    if (SessionId == null)
-    {
-      Logger?.LogDebug($"Open Session {session.Id}");
-    }
-
-    SessionId = session;
   }
 
   /// <summary>

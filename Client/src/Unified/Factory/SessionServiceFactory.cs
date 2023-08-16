@@ -23,9 +23,8 @@ using ArmoniK.DevelopmentKit.Common;
 
 using Google.Protobuf.WellKnownTypes;
 
-using JetBrains.Annotations;
-
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 
 namespace ArmoniK.DevelopmentKit.Client.Unified.Factory;
 
@@ -44,16 +43,15 @@ public class SessionServiceFactory
   ///   The ctor with IConfiguration and optional TaskOptions
   /// </summary>
   /// <param name="loggerFactory">The factory to create the logger for clientService</param>
-  public SessionServiceFactory([CanBeNull] ILoggerFactory loggerFactory = null)
+  public SessionServiceFactory(ILoggerFactory? loggerFactory = null)
   {
-    LoggerFactory = loggerFactory;
-    Logger        = loggerFactory?.CreateLogger<SessionServiceFactory>();
+    LoggerFactory = loggerFactory ?? new NullLoggerFactory();
+    Logger        = LoggerFactory.CreateLogger<SessionServiceFactory>();
   }
 
-  [CanBeNull]
   private ILogger<SessionServiceFactory> Logger { get; }
 
-  private ChannelPool GrpcPool { get; set; }
+  private ChannelPool? GrpcPool { get; set; }
 
 
   private ILoggerFactory LoggerFactory { get; }
@@ -69,7 +67,7 @@ public class SessionServiceFactory
 
     Logger?.LogDebug("Creating Session... ");
 
-    return new SessionService(GrpcPool,
+    return new SessionService(properties,
                               LoggerFactory,
                               properties.TaskOptions);
   }
@@ -92,13 +90,13 @@ public class SessionServiceFactory
   /// <param name="properties">The properties setting for the session</param>
   /// <param name="sessionId">SessionId previously opened</param>
   /// <param name="clientOptions"></param>
-  public SessionService OpenSession(Properties  properties,
-                                    string      sessionId,
-                                    TaskOptions clientOptions = null)
+  public SessionService OpenSession(Properties   properties,
+                                    string       sessionId,
+                                    TaskOptions? clientOptions = null)
   {
     ControlPlaneConnection(properties);
 
-    return new SessionService(GrpcPool,
+    return new SessionService(properties,
                               LoggerFactory,
                               clientOptions,
                               new Session

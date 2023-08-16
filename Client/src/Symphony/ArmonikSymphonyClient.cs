@@ -73,11 +73,15 @@ public class ArmonikSymphonyClient
   /// </summary>
   /// <param name="taskOptions">Optional parameter to set TaskOptions during the Session creation</param>
   /// <returns>Returns the SessionService to submit, wait or get result</returns>
-  public SessionService CreateSession(TaskOptions taskOptions = null)
+  public SessionService CreateSession(TaskOptions taskOptions)
   {
     ControlPlaneConnection();
 
-    return new SessionService(GrpcPool,
+
+    var properties = new Properties(Configuration,
+                                    taskOptions);
+
+    return new SessionService(properties,
                               LoggerFactory,
                               taskOptions);
   }
@@ -86,16 +90,19 @@ public class ArmonikSymphonyClient
   ///   Open the session already created to submit task
   /// </summary>
   /// <param name="sessionId">The sessionId string which will opened</param>
-  /// <param name="clientOptions">the customer taskOptions send to the server by the client</param>
+  /// <param name="taskOptions">the customer taskOptions send to the server by the client</param>
   /// <returns>Returns the SessionService to submit, wait or get result</returns>
   public SessionService OpenSession(Session     sessionId,
-                                    TaskOptions clientOptions = null)
+                                    TaskOptions taskOptions)
   {
     ControlPlaneConnection();
 
-    return new SessionService(GrpcPool,
+    var properties = new Properties(Configuration,
+                                    taskOptions);
+
+    return new SessionService(properties,
                               LoggerFactory,
-                              clientOptions ?? SessionService.InitializeDefaultTaskOptions(),
+                              taskOptions ?? SessionService.InitializeDefaultTaskOptions(),
                               sessionId);
   }
 

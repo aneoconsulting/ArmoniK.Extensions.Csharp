@@ -36,8 +36,8 @@ public abstract class AbstractClientService : IDisposable
   /// </summary>
   /// <param name="properties"></param>
   /// <param name="loggerFactory"></param>
-  public AbstractClientService(Properties                 properties,
-                               [CanBeNull] ILoggerFactory loggerFactory = null)
+  public AbstractClientService(Properties         properties,
+                               ILoggerFactory? loggerFactory = null)
   {
     LoggerFactory = loggerFactory;
 
@@ -60,8 +60,7 @@ public abstract class AbstractClientService : IDisposable
   /// <summary>
   ///   The properties to get LoggerFactory or to override it
   /// </summary>
-  [CanBeNull]
-  protected ILoggerFactory LoggerFactory { get; set; }
+  protected ILoggerFactory? LoggerFactory { get; set; }
 
   /// <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
   public abstract void Dispose();

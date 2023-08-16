@@ -50,15 +50,15 @@ public class Properties
   /// <summary>
   ///   The default configuration to submit task in a Session
   /// </summary>
-  public static TaskOptions DefaultTaskOptions = new()
-                                                 {
-                                                   MaxDuration = new Duration
-                                                                 {
-                                                                   Seconds = 300000,
-                                                                 },
-                                                   MaxRetries = 3,
-                                                   Priority   = 1,
-                                                 };
+  public static readonly TaskOptions DefaultTaskOptions = new()
+                                                          {
+                                                            MaxDuration = new Duration
+                                                                          {
+                                                                            Seconds = 300000,
+                                                                          },
+                                                            MaxRetries = 3,
+                                                            Priority   = 1,
+                                                          };
 
 
   /// <summary>

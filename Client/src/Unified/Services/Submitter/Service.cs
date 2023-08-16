@@ -97,8 +97,8 @@ public class Service : AbstractClientService, ISubmitterService
   /// </summary>
   /// <param name="properties">The properties containing TaskOptions and information to communicate with Control plane and </param>
   /// <param name="loggerFactory"></param>
-  public Service(Properties                 properties,
-                 [CanBeNull] ILoggerFactory loggerFactory = null)
+  public Service(Properties         properties,
+                 ILoggerFactory? loggerFactory = null)
     : base(properties,
            loggerFactory)
   {
@@ -243,8 +243,7 @@ public class Service : AbstractClientService, ISubmitterService
 
   private BatchUntilInactiveBlock<BlockRequest> BufferSubmit { get; }
 
-  [CanBeNull]
-  private ILogger Logger { get; }
+  private ILogger? Logger { get; }
 
   private SessionServiceFactory SessionServiceFactory { get; set; }
 
@@ -484,10 +483,9 @@ public class Service : AbstractClientService, ISubmitterService
   /// <param name="arguments">the array of object to pass as arguments for the method</param>
   /// <returns>Returns an object as result of the method call</returns>
   /// <exception cref="WorkerApiException"></exception>
-  [CanBeNull]
-  public ServiceResult LocalExecute(object   service,
-                                    string   methodName,
-                                    object[] arguments)
+  public ServiceResult? LocalExecute(object   service,
+                                     string   methodName,
+                                     object[] arguments)
   {
     var methodInfo = service.GetType()
                             .GetMethod(methodName);
@@ -885,10 +883,9 @@ public class Service : AbstractClientService, ISubmitterService
     CancellationResultTaskSource.Cancel();
     HandlerResponse?.Wait();
     HandlerResponse?.Dispose();
-
-    SessionService        = null;
-    SessionServiceFactory = null;
     semaphoreSlim_.Dispose();
+
+    GC.SuppressFinalize(this);
   }
 
   /// <summary>

@@ -19,15 +19,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 
-using ArmoniK.Api.Common.Utils;
 using ArmoniK.Api.gRPC.V1;
-using ArmoniK.Api.gRPC.V1.Submitter;
+using ArmoniK.DevelopmentKit.Client.Common;
 using ArmoniK.DevelopmentKit.Client.Common.Submitter;
 using ArmoniK.DevelopmentKit.Common;
 
 using Google.Protobuf.WellKnownTypes;
-
-using JetBrains.Annotations;
 
 using Microsoft.Extensions.Logging;
 
@@ -44,42 +41,21 @@ public class SessionService : BaseClientSubmitter<SessionService>
   ///   Ctor to instantiate a new SessionService
   ///   This is an object to send task or get Results from a session
   /// </summary>
-  public SessionService(ChannelPool                channelPool,
-                        [CanBeNull] ILoggerFactory loggerFactory = null,
-                        [CanBeNull] TaskOptions    taskOptions   = null,
-                        [CanBeNull] Session        session       = null)
-    : base(channelPool,
-           loggerFactory)
+  public SessionService(Properties     properties,
+                        ILoggerFactory loggerFactory,
+                        TaskOptions? taskOptions   = null,
+                        Session?        session       = null)
+    : base(properties,
+           loggerFactory,
+           taskOptions ?? InitializeDefaultTaskOptions(),
+           session)
   {
-    TaskOptions = taskOptions ?? InitializeDefaultTaskOptions();
-
-    Logger?.LogDebug("Creating Session... ");
-
-    SessionId = session ?? CreateSession(new List<string>
-                                         {
-                                           taskOptions.PartitionId,
-                                         });
-
-    Logger?.LogDebug($"Session Created {SessionId}");
   }
-
-  /// <summary>
-  ///   Return the Grpc channel pool
-  /// </summary>
-  public ChannelPool ChannelPool
-    => channelPool_;
 
   /// <summary>Returns a string that represents the current object.</summary>
   /// <returns>A string that represents the current object.</returns>
-  public override string ToString()
-  {
-    if (SessionId?.Id != null)
-    {
-      return SessionId?.Id;
-    }
-
-    return "Session_Not_ready";
-  }
+  public override string? ToString()
+    => SessionId.Id ?? "Session_Not_ready";
 
   /// <summary>
   ///   Supply a default TaskOptions
@@ -103,39 +79,6 @@ public class SessionService : BaseClientSubmitter<SessionService>
                               };
 
     return taskOptions;
-  }
-
-  private Session CreateSession(IEnumerable<string> partitionIds)
-  {
-    using var _ = Logger?.LogFunction();
-    var createSessionRequest = new CreateSessionRequest
-                               {
-                                 DefaultTaskOption = TaskOptions,
-                                 PartitionIds =
-                                 {
-                                   partitionIds,
-                                 },
-                               };
-    var session = channelPool_.WithChannel(channel => new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel).CreateSession(createSessionRequest));
-
-    return new Session
-           {
-             Id = session.SessionId,
-           };
-  }
-
-  /// <summary>
-  ///   Set connection to an already opened Session
-  /// </summary>
-  /// <param name="session">SessionId previously opened</param>
-  public void OpenSession(Session session)
-  {
-    if (SessionId == null)
-    {
-      Logger?.LogDebug($"Open Session {session.Id}");
-    }
-
-    SessionId = session;
   }
 
   /// <summary>
