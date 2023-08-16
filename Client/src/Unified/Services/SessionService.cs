@@ -52,15 +52,17 @@ public class SessionService : BaseClientSubmitter<SessionService>
   {
   }
 
-  /// <summary>Returns a string that represents the current object.</summary>
-  /// <returns>A string that represents the current object.</returns>
-  public override string? ToString()
+
+  /// <inheritdoc />
+  public override string ToString()
     => SessionId.Id ?? "Session_Not_ready";
 
   /// <summary>
   ///   Supply a default TaskOptions
   /// </summary>
   /// <returns>A default TaskOptions object</returns>
+  // TODO: mark with [PublicApi] ?
+  // ReSharper disable once MemberCanBePrivate.Global
   public static TaskOptions InitializeDefaultTaskOptions()
   {
     TaskOptions taskOptions = new()
@@ -96,9 +98,9 @@ public class SessionService : BaseClientSubmitter<SessionService>
   /// </param>
   public IEnumerable<string> SubmitTasks(IEnumerable<byte[]> payloads,
                                          int                 maxRetries  = 5,
-                                         TaskOptions         taskOptions = null)
+                                         TaskOptions?        taskOptions = null)
     => SubmitTasksWithDependencies(payloads.Select(payload => new Tuple<byte[], IList<string>>(payload,
-                                                                                               null)),
+                                                                                               Array.Empty<string>())),
                                    maxRetries,
                                    taskOptions);
 
@@ -114,10 +116,10 @@ public class SessionService : BaseClientSubmitter<SessionService>
   ///   TaskOptions argument to override default taskOptions in Session.
   ///   If non null it will override the default taskOptions in SessionService for client or given by taskHandler for worker
   /// </param>
-  public string SubmitTask(byte[]      payload,
-                           int         waitTimeBeforeNextSubmit = 2,
-                           int         maxRetries               = 5,
-                           TaskOptions taskOptions              = null)
+  public string SubmitTask(byte[]       payload,
+                           int          waitTimeBeforeNextSubmit = 2,
+                           int          maxRetries               = 5,
+                           TaskOptions? taskOptions              = null)
   {
     Thread.Sleep(waitTimeBeforeNextSubmit); // Twice the keep alive
     return SubmitTasks(new[]
@@ -142,10 +144,12 @@ public class SessionService : BaseClientSubmitter<SessionService>
   ///   If non null it will override the default taskOptions in SessionService for client or given by taskHandler for worker
   /// </param>
   /// <returns>return the taskId of the created task </returns>
+  // TODO: mark with [PublicApi] ?
+  // ReSharper disable once UnusedMember.Global
   public string SubmitTaskWithDependencies(byte[]        payload,
                                            IList<string> dependencies,
                                            int           maxRetries  = 5,
-                                           TaskOptions   taskOptions = null)
+                                           TaskOptions?  taskOptions = null)
     => SubmitTasksWithDependencies(new[]
                                    {
                                      Tuple.Create(payload,
@@ -154,5 +158,4 @@ public class SessionService : BaseClientSubmitter<SessionService>
                                    maxRetries,
                                    taskOptions)
       .Single();
-#pragma warning restore CS1591
 }

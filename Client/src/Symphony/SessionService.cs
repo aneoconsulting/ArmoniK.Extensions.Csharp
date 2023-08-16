@@ -18,16 +18,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-using ArmoniK.Api.Common.Utils;
 using ArmoniK.Api.gRPC.V1;
-using ArmoniK.Api.gRPC.V1.Submitter;
 using ArmoniK.DevelopmentKit.Client.Common;
 using ArmoniK.DevelopmentKit.Client.Common.Submitter;
 using ArmoniK.DevelopmentKit.Common;
 
 using Google.Protobuf.WellKnownTypes;
-
-using JetBrains.Annotations;
 
 using Microsoft.Extensions.Logging;
 
@@ -45,7 +41,7 @@ public class SessionService : BaseClientSubmitter<SessionService>
   ///   This is an object to send task or get Results from a session
   /// </summary>
   public SessionService(Properties     properties,
-                        ILoggerFactory loggerFactory = null,
+                        ILoggerFactory loggerFactory,
                         TaskOptions?    taskOptions   = null,
                         Session?     session       = null)
     : base(properties,
@@ -58,12 +54,14 @@ public class SessionService : BaseClientSubmitter<SessionService>
   /// <summary>Returns a string that represents the current object.</summary>
   /// <returns>A string that represents the current object.</returns>
   public override string ToString()
-    => SessionId?.Id ?? "Session_Not_ready";
+    => SessionId.Id ?? "Session_Not_ready";
 
   /// <summary>
   ///   Default task options
   /// </summary>
   /// <returns></returns>
+  // TODO: mark with [PublicApi] ?
+  // ReSharper disable once MemberCanBePrivate.Global
   public static TaskOptions InitializeDefaultTaskOptions()
     => new()
        {
@@ -78,25 +76,6 @@ public class SessionService : BaseClientSubmitter<SessionService>
          ApplicationVersion   = "1.X.X",
          ApplicationNamespace = "ArmoniK.Samples.Symphony.Packages",
        };
-
-  private Session CreateSession(IEnumerable<string> partitionIds)
-  {
-    using var _ = Logger?.LogFunction();
-    var createSessionRequest = new CreateSessionRequest
-                               {
-                                 DefaultTaskOption = TaskOptions,
-                                 PartitionIds =
-                                 {
-                                   partitionIds,
-                                 },
-                               };
-    var session = ChannelPool.WithChannel(channel => new Submitter.SubmitterClient(channel).CreateSession(createSessionRequest));
-
-    return new Session
-           {
-             Id = session.SessionId,
-           };
-  }
 
   /// <summary>
   ///   User method to submit task from the client
@@ -113,9 +92,9 @@ public class SessionService : BaseClientSubmitter<SessionService>
   /// </param>
   public IEnumerable<string> SubmitTasks(IEnumerable<byte[]> payloads,
                                          int                 maxRetries  = 5,
-                                         TaskOptions         taskOptions = null)
+                                         TaskOptions?        taskOptions = null)
     => SubmitTasksWithDependencies(payloads.Select(payload => new Tuple<byte[], IList<string>>(payload,
-                                                                                               null)),
+                                                                                               Array.Empty<string>())),
                                    maxRetries,
                                    taskOptions);
 
@@ -130,9 +109,9 @@ public class SessionService : BaseClientSubmitter<SessionService>
   ///   TaskOptions argument to override default taskOptions in Session.
   ///   If non null it will override the default taskOptions in SessionService for client or given by taskHandler for worker
   /// </param>
-  public string SubmitTask(byte[]      payload,
-                           int         maxRetries  = 5,
-                           TaskOptions taskOptions = null)
+  public string SubmitTask(byte[]       payload,
+                           int          maxRetries  = 5,
+                           TaskOptions? taskOptions = null)
     => SubmitTasks(new[]
                    {
                      payload,
@@ -154,10 +133,12 @@ public class SessionService : BaseClientSubmitter<SessionService>
   ///   If non null it will override the default taskOptions in SessionService for client or given by taskHandler for worker
   /// </param>
   /// <returns>return the taskId of the created task </returns>
+  // TODO: mark with [PublicApi] ?
+  // ReSharper disable once UnusedMember.Global
   public string SubmitTaskWithDependencies(byte[]        payload,
                                            IList<string> dependencies,
                                            int           maxRetries  = 5,
-                                           TaskOptions   taskOptions = null)
+                                           TaskOptions?  taskOptions = null)
     => SubmitTasksWithDependencies(new[]
                                    {
                                      Tuple.Create(payload,
