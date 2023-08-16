@@ -14,13 +14,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace ArmoniK.DevelopmentKit.Client.Common.Exceptions;
+namespace ArmoniK.DevelopmentKit.Client.Common.Status;
 
 /// <summary>
 ///   List of status for task and result in Armonik
 /// </summary>
 public enum ArmonikStatusCode
 {
+  /// <summary>
+  ///   Unknown status of task or result
+  /// </summary>
+  Unknown,
+
   /// <summary>
   ///   The task is completed but result could not be ready
   /// </summary>
@@ -55,9 +60,4 @@ public enum ArmonikStatusCode
   ///   The result is in error and the task could finished without no result
   /// </summary>
   ResultError,
-
-  /// <summary>
-  ///   Unknown status of task or result
-  /// </summary>
-  Unknown,
 }
