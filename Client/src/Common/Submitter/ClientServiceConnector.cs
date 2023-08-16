@@ -37,12 +37,12 @@ public class ClientServiceConnector
   /// <param name="properties">Configuration Properties</param>
   /// <param name="loggerFactory">Optional logger factory</param>
   /// <returns>The connection pool</returns>
-  public static ChannelPool ControlPlaneConnectionPool(Properties                 properties,
-                                                       [CanBeNull] ILoggerFactory loggerFactory = null)
+  public static ChannelPool ControlPlaneConnectionPool(Properties         properties,
+                                                       ILoggerFactory? loggerFactory = null)
   {
     var options = new GrpcClient
                   {
-                    AllowUnsafeConnection = !properties.ConfSSLValidation,
+                    AllowUnsafeConnection = !properties.ConfSslValidation,
                     CaCert                = properties.CaCertFilePem,
                     CertP12               = properties.ClientP12File,
                     CertPem               = properties.ClientCertFilePem,

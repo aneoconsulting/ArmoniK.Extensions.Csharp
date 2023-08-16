@@ -102,7 +102,7 @@ public class ArmonikSymphonyClient
 
     return new SessionService(properties,
                               LoggerFactory,
-                              taskOptions ?? SessionService.InitializeDefaultTaskOptions(),
+                              taskOptions,
                               sessionId);
   }
 

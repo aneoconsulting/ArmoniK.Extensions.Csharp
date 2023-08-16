@@ -253,7 +253,18 @@ public class BaseClientSubmitter<T>
   {
     using var _ = Logger.LogFunction();
 
-    List<Tuple<string, byte[], IList<string>>> payloadsWithDependenciesList = new();
+    List<TaskRequest> taskRequestList = new();
+    var localTaskRequest = payloadsWithDependencies.Select(pwd =>
+                                                           {
+                                                             var taskRequest = new TaskRequest
+                                                                               {
+                                                                                 Payload = UnsafeByteOperations.UnsafeWrap(pwd.Item2),
+                                                                               };
+                                                             taskRequest.DataDependencies.AddRange(pwd.Item3);
+                                                             taskRequest.ExpectedOutputKeys.Add(pwd.Item1);
+                                                             taskRequestList.Add(taskRequest);
+                                                             return taskRequest;
+                                                           });
 
     for (var nbRetry = 0; nbRetry < maxRetries; nbRetry++)
     {
@@ -262,44 +273,26 @@ public class BaseClientSubmitter<T>
         using var channel          = ChannelPool.GetChannel();
         var       submitterService = new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel);
 
-        var localPayloadsWithDependencies = nbRetry == 0
-                                              // ReSharper disable once PossibleMultipleEnumeration
-                                              // only iterated during first try
-                                              ? payloadsWithDependencies
-                                              : payloadsWithDependenciesList;
 
-        var retry = nbRetry;
+
+
         var response = submitterService.CreateTasksAsync(SessionId.Id,
                                                          taskOptions ?? TaskOptions,
-                                                         localPayloadsWithDependencies.Select(pwd =>
-                                                                                              {
-                                                                                                if (retry == 0)
-                                                                                                {
-                                                                                                  payloadsWithDependenciesList.Add(pwd);
-                                                                                                }
-                                                                                                var taskRequest = new TaskRequest
-                                                                                                                  {
-                                                                                                                    Payload = UnsafeByteOperations.UnsafeWrap(pwd.Item2),
-                                                                                                                  };
-                                                                                                taskRequest.DataDependencies
-                                                                                                           .AddRange(pwd.Item3);
-                                                                                                taskRequest.ExpectedOutputKeys.Add(pwd.Item1);
-                                                                                                return taskRequest;
-                                                                                              }))
+                                                         localTaskRequest)
                                        .ConfigureAwait(false)
                                        .GetAwaiter()
                                        .GetResult();
         return response.ResponseCase switch
                {
-                 CreateTaskReply.ResponseOneofCase.CreationStatusList => response.CreationStatusList.CreationStatuses.Select(status => status.TaskInfo.TaskId)
-                                                                                 .ToList(),
+                 CreateTaskReply.ResponseOneofCase.CreationStatusList => response.CreationStatusList.CreationStatuses.Select(status => status.TaskInfo.TaskId),
                  CreateTaskReply.ResponseOneofCase.None  => throw new Exception("Issue with Server !"),
                  CreateTaskReply.ResponseOneofCase.Error => throw new Exception("Error while creating tasks !"),
-                 _                                       => throw new ArgumentOutOfRangeException(),
+                 _                                       => throw new InvalidOperationException(),
                };
       }
       catch (Exception e)
       {
+        localTaskRequest = taskRequestList;
         if (nbRetry >= maxRetries - 1)
         {
           throw;
@@ -443,6 +436,7 @@ public class BaseClientSubmitter<T>
                                                            retry,
                                                            nameof(submitterService.GetResultStatus));
                                           // TODO: replace with submitterService.TryGetResultStream() => Issue #
+#pragma warning disable CS0612 // Type or member is obsolete
                                           var resultStatusReply = submitterService.GetResultStatus(new GetResultStatusRequest
                                                                                                    {
                                                                                                      ResultIds =
@@ -451,6 +445,7 @@ public class BaseClientSubmitter<T>
                                                                                                      },
                                                                                                      SessionId = SessionId.Id,
                                                                                                    });
+#pragma warning restore CS0612 // Type or member is obsolete
                                           return resultStatusReply.IdStatuses;
                                         },
                                         true,
@@ -569,8 +564,10 @@ public class BaseClientSubmitter<T>
                                              retry,
                                              nameof(submitterService.WaitForAvailability));
                              // TODO: replace with submitterService.TryGetResultStream() => Issue #
+#pragma warning disable CS0612 // Type or member is obsolete
                              var availabilityReply = submitterService.WaitForAvailability(resultRequest,
                                                                                           cancellationToken: cancellationToken);
+#pragma warning restore CS0612 // Type or member is obsolete
 
                              switch (availabilityReply.TypeCase)
                              {
