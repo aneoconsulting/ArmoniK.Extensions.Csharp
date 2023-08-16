@@ -220,10 +220,15 @@ public class BaseClientSubmitter<T>
     => payloadsWithDependencies.ToChunks(chunkSubmitSize_)
                                .SelectMany(chunk =>
                                            {
-                                             return ChunkSubmitTasksWithDependencies(chunk.Select(tuple => Tuple.Create(Guid.NewGuid()
-                                                                                                                            .ToString(),
-                                                                                                                        tuple.Item1,
-                                                                                                                        tuple.Item2)),
+                                             var resultsMetadata = CreateResultsMetadata(Enumerable.Range(0,
+                                                                                                   chunk.Length)
+                                                                                            .Select(_ => Guid.NewGuid()
+                                                                                                             .ToString()));
+                                             return ChunkSubmitTasksWithDependencies(chunk.Zip(resultsMetadata,
+                                                                                               (payloadWithDependencies,
+                                                                                                metadata) => Tuple.Create(metadata.Value,
+                                                                                                                     payloadWithDependencies.Item1,
+                                                                                                                     payloadWithDependencies.Item2)),
                                                                                      maxRetries,
                                                                                      taskOptions ?? TaskOptions);
                                            });
