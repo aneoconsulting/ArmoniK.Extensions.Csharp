@@ -310,7 +310,7 @@ public class AggregationPriorityTest
     Assert.IsNotNull(result);
     var taskResults = result.Select(tp =>
                                     {
-                                      var armonikPayload = ProtoSerializer.DeSerializeMessageObjectArray(tp.Item2);
+                                      var armonikPayload = ProtoSerializer.Deserialize<object[]>(tp.Item2);
                                       return (tp.Item1, taskDataIds.First(taskData => tp.Item1 == taskData.Id), TaskResult.Deserialize(armonikPayload[0] as byte[]));
                                     });
 
@@ -342,7 +342,7 @@ public class AggregationPriorityTest
 
     Assert.IsNotNull(result);
 
-    var deprot     = ProtoSerializer.DeSerializeMessageObjectArray(result.Item2);
+    var deprot     = ProtoSerializer.Deserialize<object[]>(result.Item2);
     var taskResult = TaskResult.Deserialize(deprot[0] as byte[]);
     unifiedTestHelper_.Log.LogInformation($"Result of Matrix formula : {taskResult.Result}");
 

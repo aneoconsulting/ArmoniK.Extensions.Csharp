@@ -39,7 +39,7 @@ public class ArmonikPayload
       throw new ArgumentNullException(nameof(ClientPayload));
     }
 
-    var result = ProtoSerializer.SerializeMessageObject(this);
+    var result = ProtoSerializer.Serialize(this);
 
     return result;
   }

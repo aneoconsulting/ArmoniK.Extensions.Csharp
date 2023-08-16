@@ -54,26 +54,10 @@ public static class ProtoSerializer
                                                     typeof(string[]),
                                                     typeof(Nullable),
                                                     typeof(ProtoArray),
-                                                    typeof(IEnumerable),
-                                                    typeof(IDictionary),
-                                                    typeof(Array),
                                                     typeof(ArmonikPayload),
                                                   };
 
-  public static byte[] SerializeMessageObjectArray(object?[] values)
-  {
-    using var ms = new MemoryStream();
-    foreach (var obj in values)
-    {
-      WriteNext(ms,
-                obj);
-    }
-
-    var data = ms.ToArray();
-    return data;
-  }
-
-  public static byte[] SerializeMessageObject(object? value)
+  public static byte[] Serialize(object? value)
   {
     using var ms = new MemoryStream();
 
@@ -83,32 +67,6 @@ public static class ProtoSerializer
 
     var data = ms.ToArray();
     return data;
-  }
-
-  public static object?[] DeSerializeMessageObjectArray(byte[] data)
-  {
-    var result = new List<object?>();
-
-    using var ms = new MemoryStream(data);
-    while (ReadNext(ms,
-                    out var obj))
-    {
-      result.Add(obj);
-    }
-
-    return result.ToArray();
-  }
-
-  private static object? DeSerializeMessageObject(byte[] data)
-  {
-    using var ms = new MemoryStream(data);
-
-    if (!ReadNext(ms,
-                  out var obj))
-    {
-      throw new SerializationException("Error while deserializing object.");
-    }
-    return obj;
   }
 
   [UsedImplicitly]
@@ -155,7 +113,7 @@ public static class ProtoSerializer
                                       object obj,
                                       Type   type)
   {
-    var field = TypeLookup.IndexOf(type);
+    var field = TypeLookup.IndexOf(type)+1;
 
     Serializer.NonGeneric.SerializeWithLengthPrefix(stream,
                                                     obj,
@@ -168,7 +126,7 @@ public static class ProtoSerializer
   {
     if (!Serializer.NonGeneric.TryDeserializeWithLengthPrefix(stream,
                                                               PrefixStyle.Base128,
-                                                              field => TypeLookup[field],
+                                                              field => TypeLookup[field-1],
                                                               out obj))
     {
       return false;
@@ -209,13 +167,18 @@ public static class ProtoSerializer
 
   public static T? Deserialize<T>(byte[] dataPayloadInBytes)
   {
-    var obj = DeSerializeMessageObject(dataPayloadInBytes);
+    using var ms = new MemoryStream(dataPayloadInBytes);
+    if (!ReadNext(ms,
+                  out var obj))
+    {
+      throw new SerializationException("Error while deserializing object.");
+    }
 
     return (T?)obj;
   }
 
   [ProtoContract]
-  private class Nullable
+  public class Nullable
   {
   }
 

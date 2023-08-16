@@ -173,7 +173,7 @@ public class AggregationPriority : TaskWorkerService
     return new ArmonikPayload
            {
              MethodName          = methodName,
-             ClientPayload       = ProtoSerializer.SerializeMessageObject(payload),
+             ClientPayload       = ProtoSerializer.Serialize(payload),
              SerializedArguments = false,
            }.Serialize();
   }
@@ -192,7 +192,7 @@ public class AggregationPriority : TaskWorkerService
                                   nameof(payload));
     }
 
-    var deprot     = ProtoSerializer.DeSerializeMessageObjectArray(payload);
+    var deprot     = ProtoSerializer.Deserialize<object[]>(payload);
     var taskResult = TaskResult.Deserialize(deprot[0] as byte[]);
 
     if (taskResult is null)

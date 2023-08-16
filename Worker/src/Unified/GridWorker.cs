@@ -168,7 +168,7 @@ public class GridWorker : IGridWorker
                         {
                           armonikPayload.ClientPayload,
                         }
-                      : ProtoSerializer.DeSerializeMessageObjectArray(armonikPayload.ClientPayload);
+                      : ProtoSerializer.Deserialize<object[]>(armonikPayload.ClientPayload);
 
     MethodInfo methodInfo;
     if (arguments == null || arguments.Any() == false)
@@ -213,7 +213,7 @@ public class GridWorker : IGridWorker
                                      arguments);
       if (result != null)
       {
-        return ProtoSerializer.SerializeMessageObjectArray(new[]
+        return ProtoSerializer.Serialize(new[]
                                                            {
                                                              result,
                                                            });

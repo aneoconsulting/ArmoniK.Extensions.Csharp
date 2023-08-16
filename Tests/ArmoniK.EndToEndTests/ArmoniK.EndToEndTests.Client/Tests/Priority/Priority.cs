@@ -130,7 +130,7 @@ public class Priority
 
     var results = new List<(string, int, int)>(service.GetResults(tasks.Keys)
                                                       .Select(tuple => (tuple.Item1, tasks[tuple.Item1],
-                                                                        BitConverter.ToInt32((ProtoSerializer.DeSerializeMessageObjectArray(tuple.Item2)[0] as byte[])!,
+                                                                        BitConverter.ToInt32((ProtoSerializer.Deserialize<object[]>(tuple.Item2)[0] as byte[])!,
                                                                                              0))));
 
     foreach (var (taskId, expected, actual) in results)

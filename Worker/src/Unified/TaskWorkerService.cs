@@ -251,7 +251,7 @@ public abstract class TaskWorkerService : ITaskContextConfiguration, ISessionSer
     ArmonikPayload armonikPayload = new()
                                     {
                                       MethodName          = methodName,
-                                      ClientPayload       = ProtoSerializer.SerializeMessageObjectArray(arguments),
+                                      ClientPayload       = ProtoSerializer.Serialize(arguments),
                                       SerializedArguments = false,
                                     };
     return SessionService.SubmitTasks(new[]
@@ -316,7 +316,7 @@ public abstract class TaskWorkerService : ITaskContextConfiguration, ISessionSer
     ArmonikPayload armonikPayload = new()
                                     {
                                       MethodName          = methodName,
-                                      ClientPayload       = ProtoSerializer.SerializeMessageObjectArray(arguments),
+                                      ClientPayload       = ProtoSerializer.Serialize(arguments),
                                       SerializedArguments = false,
                                     };
     return SessionService.SubmitTasksWithDependencies(new[]
