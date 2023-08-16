@@ -168,7 +168,7 @@ public class Service : AbstractClientService, ISubmitterService
                                           SessionService.SubmitTasksWithDependencies(groupBlockRequest.Select(x => new Tuple<string, byte[], IList<string>>(x.ResultId,
                                                                                                                                                             x.Payload!
                                                                                                                                                              .Serialize(),
-                                                                                                                                                            null)),
+                                                                                                                                                            Array.Empty<string>())),
                                                                                      1,
                                                                                      groupBlockRequest.First()
                                                                                                       .TaskOptions);

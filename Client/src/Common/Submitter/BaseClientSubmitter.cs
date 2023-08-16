@@ -220,16 +220,10 @@ public class BaseClientSubmitter<T>
     => payloadsWithDependencies.ToChunks(chunkSubmitSize_)
                                .SelectMany(chunk =>
                                            {
-                                             return ChunkSubmitTasksWithDependencies(chunk.Zip(CreateResultsMetadata(Enumerable.Range(0,
-                                                                                                                                      chunk.Length)
-                                                                                                                               .Select(_ => Guid.NewGuid()
-                                                                                                                                                .ToString()))
-                                                                                                 .Values,
-                                                                                               (subPayloadWithDependencies,
-                                                                                                rid) => Tuple.Create(rid,
-                                                                                                                     subPayloadWithDependencies.Item1,
-                                                                                                                     subPayloadWithDependencies.Item2))
-                                                                                          .ToList(),
+                                             return ChunkSubmitTasksWithDependencies(chunk.Select(tuple => Tuple.Create(Guid.NewGuid()
+                                                                                                                            .ToString(),
+                                                                                                                        tuple.Item1,
+                                                                                                                        tuple.Item2)),
                                                                                      maxRetries,
                                                                                      taskOptions ?? TaskOptions);
                                            });
@@ -272,9 +266,6 @@ public class BaseClientSubmitter<T>
       {
         using var channel          = ChannelPool.GetChannel();
         var       submitterService = new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel);
-
-
-
 
         var response = submitterService.CreateTasksAsync(SessionId.Id,
                                                          taskOptions ?? TaskOptions,
