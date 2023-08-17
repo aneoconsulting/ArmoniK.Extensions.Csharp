@@ -60,6 +60,7 @@ jobs:
         jb cleanupcode --exclude="**.props" ArmoniK.Extensions.Csharp.sln
 
     - name: Check Diff
+      id: check-diff
       run: |
         DIFF="$(git diff --name-only)"
 
