@@ -19,5 +19,7 @@
 // This type is required to use initializers when compiling to framework
 namespace System.Runtime.CompilerServices;
 
-internal static class IsExternalInit{}
+internal static class IsExternalInit
+{
+}
 #endif
