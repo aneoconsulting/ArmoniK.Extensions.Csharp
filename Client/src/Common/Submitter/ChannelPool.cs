@@ -19,8 +19,6 @@ using System.Collections.Concurrent;
 
 using Grpc.Core;
 
-using JetBrains.Annotations;
-
 using Microsoft.Extensions.Logging;
 #if NET5_0_OR_GREATER
 using Grpc.Net.Client;

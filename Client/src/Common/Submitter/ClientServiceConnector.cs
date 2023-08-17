@@ -19,8 +19,6 @@ using System;
 using ArmoniK.Api.Client.Options;
 using ArmoniK.Api.Client.Submitter;
 
-using JetBrains.Annotations;
-
 using Microsoft.Extensions.Logging;
 
 namespace ArmoniK.DevelopmentKit.Client.Common.Submitter;

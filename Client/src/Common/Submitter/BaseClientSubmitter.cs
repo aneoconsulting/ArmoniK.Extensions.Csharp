@@ -52,7 +52,17 @@ namespace ArmoniK.DevelopmentKit.Client.Common.Submitter;
 [PublicAPI]
 public class BaseClientSubmitter<T>
 {
-  private ILoggerFactory LoggerFactory { get; }
+  /// <summary>
+  ///   The number of chunk to split the payloadsWithDependencies
+  /// </summary>
+  private readonly int chunkSubmitSize_;
+
+  private readonly Properties properties_;
+
+  /// <summary>
+  ///   The channel pool to use for creating clients
+  /// </summary>
+  private ChannelPool? channelPool_;
 
   /// <summary>
   ///   Base Object for all Client submitter
@@ -79,6 +89,8 @@ public class BaseClientSubmitter<T>
                                          });
   }
 
+  private ILoggerFactory LoggerFactory { get; }
+
   /// <summary>
   ///   Set or Get TaskOptions with inside MaxDuration, Priority, AppName, VersionName and AppNamespace
   /// </summary>
@@ -93,16 +105,15 @@ public class BaseClientSubmitter<T>
   /// <summary>
   ///   The channel pool to use for creating clients
   /// </summary>
-  private ChannelPool? channelPool_;
-
-  private readonly Properties properties_;
-
-  /// <summary>
-  ///   The channel pool to use for creating clients
-  /// </summary>
   public ChannelPool ChannelPool
     => channelPool_ ??= ClientServiceConnector.ControlPlaneConnectionPool(properties_,
                                                                           LoggerFactory);
+
+  /// <summary>
+  ///   The logger to call the generate log in Seq
+  /// </summary>
+
+  protected ILogger<T> Logger { get; }
 
   private Session CreateSession(IEnumerable<string> partitionIds)
   {
@@ -125,17 +136,6 @@ public class BaseClientSubmitter<T>
              Id = session.SessionId,
            };
   }
-
-  /// <summary>
-  ///   The number of chunk to split the payloadsWithDependencies
-  /// </summary>
-  private readonly int chunkSubmitSize_;
-
-  /// <summary>
-  ///   The logger to call the generate log in Seq
-  /// </summary>
-
-  protected ILogger<T> Logger { get; }
 
 
   /// <summary>

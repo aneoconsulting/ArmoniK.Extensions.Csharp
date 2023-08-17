@@ -248,12 +248,9 @@ public abstract class TaskWorkerService : ITaskContextConfiguration, ISessionSer
                            int         maxRetries  = 5,
                            TaskOptions taskOptions = null)
   {
-    ArmonikPayload armonikPayload = new()
-                                    {
-                                      MethodName          = methodName,
-                                      ClientPayload       = ProtoSerializer.Serialize(arguments),
-                                      SerializedArguments = false,
-                                    };
+    ArmonikPayload armonikPayload = new(methodName,
+                                        ProtoSerializer.Serialize(arguments),
+                                        false);
     return SessionService.SubmitTasks(new[]
                                       {
                                         armonikPayload.Serialize(),
@@ -313,12 +310,9 @@ public abstract class TaskWorkerService : ITaskContextConfiguration, ISessionSer
                                            int           maxRetries      = 5,
                                            TaskOptions   taskOptions     = null)
   {
-    ArmonikPayload armonikPayload = new()
-                                    {
-                                      MethodName          = methodName,
-                                      ClientPayload       = ProtoSerializer.Serialize(arguments),
-                                      SerializedArguments = false,
-                                    };
+    ArmonikPayload armonikPayload = new(methodName,
+                                        ProtoSerializer.Serialize(arguments),
+                                        false);
     return SessionService.SubmitTasksWithDependencies(new[]
                                                       {
                                                         Tuple.Create(armonikPayload.Serialize(),

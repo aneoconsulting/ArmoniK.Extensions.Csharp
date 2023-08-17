@@ -20,8 +20,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
 
-using JetBrains.Annotations;
-
 namespace ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter;
 
 /// <summary>

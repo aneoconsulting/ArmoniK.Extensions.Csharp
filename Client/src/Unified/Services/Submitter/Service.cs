@@ -244,7 +244,7 @@ public class Service : AbstractClientService, ISubmitterService
               new List<object[]>
               {
                 arguments,
-              }, 
+              },
               handler)
       .Single();
 
@@ -559,11 +559,14 @@ public class Service : AbstractClientService, ISubmitterService
   /// <param name="serializedArguments">defines whether the arguments should be passed as serialized to the compute function</param>
   /// <returns>Returns a tuple with the taskId string and an object as result of the method call</returns>
   private ServiceResult Execute(string       methodName,
-                               byte[]       dataArg,
-                               int          maxRetries  ,
-                               TaskOptions? taskOptions, bool serializedArguments )
+                                byte[]       dataArg,
+                                int          maxRetries,
+                                TaskOptions? taskOptions,
+                                bool         serializedArguments)
   {
-    ArmonikPayload unifiedPayload = new(methodName,dataArg,serializedArguments);
+    ArmonikPayload unifiedPayload = new(methodName,
+                                        dataArg,
+                                        serializedArguments);
 
     var       taskId = "not-TaskId";
     object?[] result;
@@ -894,7 +897,7 @@ public class Service : AbstractClientService, ISubmitterService
   public class ServiceResult
   {
     /// <summary>
-    /// Constructor
+    ///   Constructor
     /// </summary>
     /// <param name="taskId"></param>
     /// <param name="result"></param>

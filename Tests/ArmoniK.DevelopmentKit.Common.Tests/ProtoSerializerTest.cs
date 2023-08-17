@@ -15,8 +15,6 @@
 // limitations under the License.
 //
 
-using System.Collections;
-
 using NUnit.Framework;
 
 namespace ArmoniK.DevelopmentKit.Common.Tests;
@@ -133,14 +131,14 @@ public class ProtoSerializerTest
   [Test]
   public void SerializeAndDeserializeArrayofArray()
   {
-    string[]?[] message = Enumerable.Range(0,
-                                           3)
-                                    .Select(i => Enumerable.Range(0,
-                                                                  2)
-                                                           .Select(i1 => $"{i},{i1}")
-                                                           .ToArray())
-                                    .Append(null)
-                                    .ToArray();
+    var message = Enumerable.Range(0,
+                                   3)
+                            .Select(i => Enumerable.Range(0,
+                                                          2)
+                                                   .Select(i1 => $"{i},{i1}")
+                                                   .ToArray())
+                            .Append(null)
+                            .ToArray();
     var serialized = ProtoSerializer.Serialize(message);
     var result     = ProtoSerializer.Deserialize<object?[]>(serialized);
     Assert.That(result,

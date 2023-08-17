@@ -19,12 +19,12 @@ using ArmoniK.Api.gRPC.V1;
 namespace ArmoniK.DevelopmentKit.Client.Common.Status;
 
 /// <summary>
-/// Extends the ArmoniK API TaskStatus type to provide some means for conversion.
+///   Extends the ArmoniK API TaskStatus type to provide some means for conversion.
 /// </summary>
 public static class TaskStatusExt
 {
   /// <summary>
-  /// Converts the status from native API representation to SDK representation
+  ///   Converts the status from native API representation to SDK representation
   /// </summary>
   /// <param name="taskStatus">the native API status to convert</param>
   /// <returns>the SDK status</returns>

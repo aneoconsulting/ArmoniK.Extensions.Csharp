@@ -21,8 +21,6 @@ using ArmoniK.Api.gRPC.V1;
 using ArmoniK.DevelopmentKit.Client.Common;
 using ArmoniK.DevelopmentKit.Common;
 
-using JetBrains.Annotations;
-
 namespace ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter;
 
 internal class BlockRequest
