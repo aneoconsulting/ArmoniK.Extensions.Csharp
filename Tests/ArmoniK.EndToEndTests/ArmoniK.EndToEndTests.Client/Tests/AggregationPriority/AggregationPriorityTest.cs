@@ -21,8 +21,8 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-using Armonik.Api.Grpc.V1.SortDirection;
-
+using ArmoniK.Api.gRPC.V1;
+using ArmoniK.Api.gRPC.V1.SortDirection;
 using ArmoniK.Api.gRPC.V1.Tasks;
 using ArmoniK.DevelopmentKit.Client.Common.Status;
 using ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter;
@@ -112,9 +112,9 @@ public class AggregationPriorityTest
   /// <param name="filter">The filter.</param>
   /// <param name="sort">The sort.</param>
   /// <returns>An IAsyncEnumerable of TaskRaw.</returns>
-  private async IAsyncEnumerable<TaskRaw> RetrieveAllTasksStats(ChannelBase                   channel,
-                                                                ListTasksRequest.Types.Filter filter,
-                                                                ListTasksRequest.Types.Sort   sort)
+  private async IAsyncEnumerable<TaskDetailed> RetrieveAllTasksStats(ChannelBase                 channel,
+                                                                     Filters                     filter,
+                                                                     ListTasksRequest.Types.Sort sort)
   {
     var               read       = 0;
     var               page       = 0;
@@ -123,7 +123,7 @@ public class AggregationPriorityTest
 
     while ((res = await taskClient.ListTasksAsync(new ListTasksRequest
                                                   {
-                                                    Filter   = filter,
+                                                    Filters  = filter,
                                                     Sort     = sort,
                                                     PageSize = 50,
                                                     Page     = page,
@@ -149,24 +149,50 @@ public class AggregationPriorityTest
   ///   Work in progress. GetDistribution is a method that gets the repartition between scalar and agg tasks.
   /// </summary>
   /// <returns>A Task of IEnumerable of TaskRaw.</returns>
-  private async Task<IEnumerable<TaskRaw>> GetDistribution(int nRows)
+  private async Task<IEnumerable<TaskDetailed>> GetDistribution(int nRows)
   {
     var service = unifiedTestHelper_.Service as Service;
     service.GetChannel();
 
-    var taskRawData = new List<TaskRaw>();
+    var taskRawData = new List<TaskDetailed>();
 
     await foreach (var taskRaw in RetrieveAllTasksStats(service.GetChannel(),
-                                                        new ListTasksRequest.Types.Filter
+                                                        new Filters
                                                         {
-                                                          SessionId = service.SessionId,
+                                                          Or =
+                                                          {
+                                                            new FiltersAnd
+                                                            {
+                                                              And =
+                                                              {
+                                                                new FilterField
+                                                                {
+                                                                  Field = new TaskField
+                                                                          {
+                                                                            TaskSummaryField = new TaskSummaryField
+                                                                                               {
+                                                                                                 Field = TaskSummaryEnumField.SessionId,
+                                                                                               },
+                                                                          },
+                                                                  FilterString = new FilterString
+                                                                                 {
+                                                                                   Operator = FilterStringOperator.Equal,
+                                                                                   Value    = service.SessionId,
+                                                                                 },
+                                                                },
+                                                              },
+                                                            },
+                                                          },
                                                         },
                                                         new ListTasksRequest.Types.Sort
                                                         {
                                                           Direction = SortDirection.Asc,
                                                           Field = new TaskField
                                                                   {
-                                                                    TaskSummaryField = TaskSummaryField.TaskId,
+                                                                    TaskSummaryField = new TaskSummaryField
+                                                                                       {
+                                                                                         Field = TaskSummaryEnumField.TaskId,
+                                                                                       },
                                                                   },
                                                         })
                      .ConfigureAwait(false))
@@ -302,8 +328,8 @@ public class AggregationPriorityTest
   /// <param name="sessionId">The sessionId for which the intermediate result info is to be retrieved.</param>
   /// <param name="taskDataIds">The taskDataIds for which the intermediate result info is to be retrieved.</param>
   /// <returns>An IEnumerable of tuples containing the sessionId, taskRaw, and taskResult.</returns>
-  private IEnumerable<(string, TaskRaw, TaskResult)> GetIntermediateResultInfo(string               sessionId,
-                                                                               IEnumerable<TaskRaw> taskDataIds)
+  private IEnumerable<(string, TaskDetailed, TaskResult)> GetIntermediateResultInfo(string                    sessionId,
+                                                                                    IEnumerable<TaskDetailed> taskDataIds)
   {
     var result = WaitForResults(sessionId,
                                 taskDataIds.Select(t => t.Id));
