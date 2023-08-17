@@ -49,8 +49,8 @@ public abstract class BaseService<T>
   public BaseService()
   {
     Configuration = WorkerHelpers.GetDefaultConfiguration();
-    Logger = WorkerHelpers.GetDefaultLoggerFactory(Configuration)
-                          .CreateLogger<T>();
+    LoggerFactory = WorkerHelpers.GetDefaultLoggerFactory(Configuration);
+    Logger        = LoggerFactory.CreateLogger<T>();
   }
 
   /// <summary>
@@ -185,7 +185,7 @@ public abstract class BaseService<T>
   /// </param>
   public IEnumerable<string> SubmitTasks(IEnumerable<byte[]> payloads,
                                          int                 maxRetries  = 5,
-                                         TaskOptions         taskOptions = null)
+                                         TaskOptions?        taskOptions = null)
     => SessionService.SubmitTasks(payloads,
                                   maxRetries,
                                   taskOptions);

@@ -240,16 +240,13 @@ public class Service : AbstractClientService, ISubmitterService
   public string Submit(string                    methodName,
                        object[]                  arguments,
                        IServiceInvocationHandler handler)
-  {
-    ArmonikPayload payload = new()
-                             {
-                               MethodName    = methodName,
-                               ClientPayload = ProtoSerializer.Serialize(arguments),
-                             };
-    var taskId = SessionService.SubmitTask(payload.Serialize());
-    ResultHandlerDictionary[taskId] = handler;
-    return taskId;
-  }
+    => Submit(methodName,
+              new List<object[]>
+              {
+                arguments,
+              }, 
+              handler)
+      .Single();
 
   /// <summary>
   ///   The method submit list of task with Enumerable list of arguments that will be serialized to each call of byte[]
@@ -262,23 +259,12 @@ public class Service : AbstractClientService, ISubmitterService
   public IEnumerable<string> Submit(string                    methodName,
                                     IEnumerable<object[]>     arguments,
                                     IServiceInvocationHandler handler)
-  {
-    var armonikPayloads = arguments.Select(args => new ArmonikPayload
-                                                   {
-                                                     MethodName          = methodName,
-                                                     ClientPayload       = ProtoSerializer.Serialize(args),
-                                                     SerializedArguments = false,
-                                                   });
-
-    var taskIds   = SessionService.SubmitTasks(armonikPayloads.Select(p => p.Serialize()));
-    var submitted = taskIds as string[] ?? taskIds.ToArray();
-    foreach (var taskId in submitted)
-    {
-      ResultHandlerDictionary[taskId] = handler;
-    }
-
-    return submitted;
-  }
+    => Submit(methodName,
+              arguments.Select(ProtoSerializer.Serialize),
+              handler,
+              5,
+              null,
+              false);
 
   /// <summary>
   ///   The method submit with One serialized argument that will be already serialized for byte[] MethodName(byte[]
@@ -307,8 +293,7 @@ public class Service : AbstractClientService, ISubmitterService
               },
               handler,
               maxRetries,
-              taskOptions,
-              false)
+              taskOptions)
       .Single();
 
   /// <summary>
@@ -359,12 +344,9 @@ public class Service : AbstractClientService, ISubmitterService
                                      TaskOptions?              taskOptions,
                                      bool                      serializedArguments)
   {
-    var armonikPayloads = arguments.Select(args => new ArmonikPayload
-                                                   {
-                                                     MethodName          = methodName,
-                                                     ClientPayload       = args,
-                                                     SerializedArguments = serializedArguments,
-                                                   });
+    var armonikPayloads = arguments.Select(args => new ArmonikPayload(methodName,
+                                                                      args,
+                                                                      serializedArguments));
 
     var taskIds = SessionService.SubmitTasks(armonikPayloads.Select(p => p.Serialize()),
                                              maxRetries,
@@ -464,12 +446,9 @@ public class Service : AbstractClientService, ISubmitterService
     return await SubmitAsync(new BlockRequest
                              {
                                SubmitId = Guid.NewGuid(),
-                               Payload = new ArmonikPayload
-                                         {
-                                           MethodName          = methodName,
-                                           ClientPayload       = argument,
-                                           SerializedArguments = serializedArguments,
-                                         },
+                               Payload = new ArmonikPayload(methodName,
+                                                            argument,
+                                                            serializedArguments),
                                Handler     = handler,
                                MaxRetries  = maxRetries,
                                TaskOptions = taskOptions ?? SessionService.TaskOptions,
@@ -536,22 +515,11 @@ public class Service : AbstractClientService, ISubmitterService
                                object[]     arguments,
                                int          maxRetries  = 5,
                                TaskOptions? taskOptions = null)
-  {
-    ArmonikPayload unifiedPayload = new()
-                                    {
-                                      MethodName    = methodName,
-                                      ClientPayload = ProtoSerializer.Serialize(arguments),
-                                    };
-
-    var taskId = SessionService.SubmitTask(unifiedPayload.Serialize(),
-                                           maxRetries: maxRetries,
-                                           taskOptions: taskOptions);
-
-    var result = ProtoSerializer.Deserialize<object[]>(SessionService.GetResult(taskId));
-
-    return new ServiceResult(taskId,
-                             result![0]);
-  }
+    => Execute(methodName,
+               ProtoSerializer.Serialize(arguments),
+               maxRetries,
+               taskOptions,
+               false);
 
   /// <summary>
   ///   This method is used to execute task and waiting after the result.
@@ -571,13 +539,31 @@ public class Service : AbstractClientService, ISubmitterService
                                byte[]       dataArg,
                                int          maxRetries  = 5,
                                TaskOptions? taskOptions = null)
+    => Execute(methodName,
+               dataArg,
+               maxRetries,
+               taskOptions,
+               true);
+
+  /// <summary>
+  ///   This method is used to execute task and waiting after the result.
+  ///   the method will return the result of the execution until the grid returns the task result
+  /// </summary>
+  /// <param name="methodName">The string name of the method</param>
+  /// <param name="dataArg">the array of byte to pass as argument for the methodName(byte[] dataArg)</param>
+  /// <param name="maxRetries">The number of retry before fail to submit task. Default = 5 retries</param>
+  /// <param name="taskOptions">
+  ///   TaskOptions argument to override default taskOptions in Session.
+  ///   If non null it will override the default taskOptions in SessionService for client or given by taskHandler for worker
+  /// </param>
+  /// <param name="serializedArguments">defines whether the arguments should be passed as serialized to the compute function</param>
+  /// <returns>Returns a tuple with the taskId string and an object as result of the method call</returns>
+  private ServiceResult Execute(string       methodName,
+                               byte[]       dataArg,
+                               int          maxRetries  ,
+                               TaskOptions? taskOptions, bool serializedArguments )
   {
-    ArmonikPayload unifiedPayload = new()
-                                    {
-                                      MethodName          = methodName,
-                                      ClientPayload       = dataArg,
-                                      SerializedArguments = true,
-                                    };
+    ArmonikPayload unifiedPayload = new(methodName,dataArg,serializedArguments);
 
     var       taskId = "not-TaskId";
     object?[] result;

@@ -20,37 +20,24 @@ using ProtoBuf;
 
 namespace ArmoniK.DevelopmentKit.Common;
 
-[ProtoContract]
-public class ArmonikPayload
+/// <summary>
+/// A class used to define the computation required from the worker
+/// </summary>
+/// <param name="MethodName">The name of the method to execute</param>
+/// <param name="ClientPayload">The arguments for the method</param>
+/// <param name="SerializedArguments">Defines whether the payload should be transmitted as is to the worker method.</param>
+[ProtoContract(SkipConstructor = true)]
+
+public record ArmonikPayload([property: ProtoMember(1)]
+                             string MethodName,
+                             [property: ProtoMember(2)]
+                             byte[] ClientPayload,
+                             [property: ProtoMember(3)]
+                             bool   SerializedArguments)
 {
-  [ProtoMember(1)]
-  public string MethodName { get; set; }
-
-  [ProtoMember(2)]
-  public byte[] ClientPayload { get; set; }
-
-  [ProtoMember(3)]
-  public bool SerializedArguments { get; set; }
-
   public byte[] Serialize()
-  {
-    if (ClientPayload is null)
-    {
-      throw new ArgumentNullException(nameof(ClientPayload));
-    }
-
-    var result = ProtoSerializer.Serialize(this);
-
-    return result;
-  }
+    => ProtoSerializer.Serialize(this);
 
   public static ArmonikPayload Deserialize(byte[] payload)
-  {
-    if (payload == null || payload.Length == 0)
-    {
-      return new ArmonikPayload();
-    }
-
-    return ProtoSerializer.Deserialize<ArmonikPayload>(payload);
-  }
+    => ProtoSerializer.Deserialize<ArmonikPayload>(payload)!;
 }

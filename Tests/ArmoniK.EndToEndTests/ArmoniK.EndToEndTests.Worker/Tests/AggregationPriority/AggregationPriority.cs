@@ -170,12 +170,9 @@ public class AggregationPriority : TaskWorkerService
                                          object argument)
   {
     var payload = JsonSerializer.SerializeToUtf8Bytes(argument);
-    return new ArmonikPayload
-           {
-             MethodName          = methodName,
-             ClientPayload       = ProtoSerializer.Serialize(payload),
-             SerializedArguments = false,
-           }.Serialize();
+    return new ArmonikPayload(methodName,
+                              ProtoSerializer.Serialize(payload),
+                              false).Serialize();
   }
 
   /// <summary>

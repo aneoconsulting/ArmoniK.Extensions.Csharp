@@ -101,16 +101,14 @@ public class ProtoSerializerTest
   [Test]
   public void SerializeAndDeserializeArmonikPayload()
   {
-    var message = new ArmonikPayload()
-                  {
-                    MethodName = "methodName",
-                    ClientPayload = new[]
-                                    {
-                                      (byte)0x01,
-                                      (byte)0x02,
-                                    },
-                    SerializedArguments = false,
-                  };
+    var message = new ArmonikPayload("methodName",
+                                     new[]
+                                     {
+                                       (byte)0x01,
+                                       (byte)0x02,
+                                     },
+                                     false);
+
     var serialized = ProtoSerializer.Serialize(message);
     var result     = ProtoSerializer.Deserialize<ArmonikPayload>(serialized);
     Assert.That(result,

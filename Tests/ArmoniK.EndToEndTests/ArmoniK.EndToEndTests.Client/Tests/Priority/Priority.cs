@@ -112,12 +112,9 @@ public class Priority
     {
       var options = properties.TaskOptions.Clone();
       options.Priority = t;
-      var payload = new ArmonikPayload
-                    {
-                      ClientPayload       = BitConverter.GetBytes(options.Priority),
-                      MethodName          = "GetPriority",
-                      SerializedArguments = true,
-                    }.Serialize();
+      var payload = new ArmonikPayload("GetPriority",
+                                       BitConverter.GetBytes(options.Priority),
+                                       true).Serialize();
       foreach (var submitTask in service.SubmitTasks(Enumerable.Repeat(payload,
                                                                        nTasksPerSessionPerPriority),
                                                      taskOptions: options))
