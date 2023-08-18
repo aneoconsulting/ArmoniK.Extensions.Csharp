@@ -113,8 +113,8 @@ public static class ProtoSerializer
                                       object obj,
                                       Type   type)
   {
-    var field = TypeLookup.IndexOf(type) + 1; // "+1" to have 1-based indexing instead of 0-based indexing. Required by protobuf.
-
+    // "+1" to have 1-based indexing instead of 0-based indexing. Required by protocol buffer.
+    var field = TypeLookup.IndexOf(type) + 1;
     Serializer.NonGeneric.SerializeWithLengthPrefix(stream,
                                                     obj,
                                                     PrefixStyle.Base128,
@@ -126,7 +126,8 @@ public static class ProtoSerializer
   {
     if (!Serializer.NonGeneric.TryDeserializeWithLengthPrefix(stream,
                                                               PrefixStyle.Base128,
-                                                              field => TypeLookup[field - 1],  // "-1" to have 1-based indexing instead of 0-based indexing. Required by protobuf.
+                                                              // "-1" to have 1-based indexing instead of 0-based indexing. Required by protocol buffer.
+                                                              field => TypeLookup[field - 1],
                                                               out obj))
     {
       return false;

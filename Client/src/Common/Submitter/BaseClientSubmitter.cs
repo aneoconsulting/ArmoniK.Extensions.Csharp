@@ -74,10 +74,10 @@ public abstract class BaseClientSubmitter<T>
   /// <param name="session"></param>
   /// <param name="chunkSubmitSize">The size of chunk to split the list of tasks</param>
   protected BaseClientSubmitter(Properties     properties,
-                             ILoggerFactory loggerFactory,
-                             TaskOptions    taskOptions,
-                             Session?       session,
-                             int            chunkSubmitSize = 500)
+                                ILoggerFactory loggerFactory,
+                                TaskOptions    taskOptions,
+                                Session?       session,
+                                int            chunkSubmitSize = 500)
   {
     LoggerFactory    = loggerFactory;
     TaskOptions      = taskOptions;

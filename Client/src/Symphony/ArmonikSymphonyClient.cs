@@ -92,7 +92,7 @@ public class ArmonikSymphonyClient
   /// <param name="sessionId">The sessionId string which will opened</param>
   /// <param name="taskOptions">the customer taskOptions send to the server by the client</param>
   /// <returns>Returns the SessionService to submit, wait or get result</returns>
-  public SessionService OpenSession(Session     sessionId,
+  public SessionService OpenSession(Session      sessionId,
                                     TaskOptions? taskOptions = null)
   {
     ControlPlaneConnection();

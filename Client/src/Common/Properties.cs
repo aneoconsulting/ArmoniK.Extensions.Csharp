@@ -236,8 +236,9 @@ public class Properties
   [PublicAPI]
   [Obsolete("Use ConfSslValidation instead")]
   // ReSharper disable once InconsistentNaming
-  public bool ConfSSLValidation => ConfSslValidation;
-  
+  public bool ConfSSLValidation
+    => ConfSslValidation;
+
   /// <summary>
   ///   The SSL validation property to disable SSL strong verification
   /// </summary>
