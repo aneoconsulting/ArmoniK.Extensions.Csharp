@@ -73,7 +73,7 @@ public class ArmonikSymphonyClient
   /// </summary>
   /// <param name="taskOptions">Optional parameter to set TaskOptions during the Session creation</param>
   /// <returns>Returns the SessionService to submit, wait or get result</returns>
-  public SessionService CreateSession(TaskOptions taskOptions)
+  public SessionService CreateSession(TaskOptions? taskOptions = null)
   {
     ControlPlaneConnection();
 
@@ -83,7 +83,7 @@ public class ArmonikSymphonyClient
 
     return new SessionService(properties,
                               LoggerFactory,
-                              taskOptions);
+                              taskOptions ?? SessionService.InitializeDefaultTaskOptions());
   }
 
   /// <summary>
@@ -93,7 +93,7 @@ public class ArmonikSymphonyClient
   /// <param name="taskOptions">the customer taskOptions send to the server by the client</param>
   /// <returns>Returns the SessionService to submit, wait or get result</returns>
   public SessionService OpenSession(Session     sessionId,
-                                    TaskOptions taskOptions)
+                                    TaskOptions? taskOptions = null)
   {
     ControlPlaneConnection();
 
@@ -102,7 +102,7 @@ public class ArmonikSymphonyClient
 
     return new SessionService(properties,
                               LoggerFactory,
-                              taskOptions,
+                              taskOptions ?? SessionService.InitializeDefaultTaskOptions(),
                               sessionId);
   }
 

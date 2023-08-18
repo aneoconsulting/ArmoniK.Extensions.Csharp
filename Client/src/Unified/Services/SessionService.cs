@@ -121,6 +121,7 @@ public class SessionService : BaseClientSubmitter<SessionService>
                            int          maxRetries               = 5,
                            TaskOptions? taskOptions              = null)
   {
+    // TODO: wtf?
     Thread.Sleep(waitTimeBeforeNextSubmit); // Twice the keep alive
     return SubmitTasks(new[]
                        {

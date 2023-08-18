@@ -50,7 +50,8 @@ namespace ArmoniK.DevelopmentKit.Client.Common.Submitter;
 ///   Need to pass the child object Class Type
 /// </summary>
 [PublicAPI]
-public class BaseClientSubmitter<T>
+// TODO: This should not be a public API. Public API should be defined in an interface.
+public abstract class BaseClientSubmitter<T>
 {
   /// <summary>
   ///   The number of chunk to split the payloadsWithDependencies
@@ -72,7 +73,7 @@ public class BaseClientSubmitter<T>
   /// <param name="taskOptions"></param>
   /// <param name="session"></param>
   /// <param name="chunkSubmitSize">The size of chunk to split the list of tasks</param>
-  public BaseClientSubmitter(Properties     properties,
+  protected BaseClientSubmitter(Properties     properties,
                              ILoggerFactory loggerFactory,
                              TaskOptions    taskOptions,
                              Session?       session,
@@ -220,6 +221,7 @@ public class BaseClientSubmitter<T>
     => payloadsWithDependencies.ToChunks(chunkSubmitSize_)
                                .SelectMany(chunk =>
                                            {
+                                             // Create the result metadata before sending the tasks.
                                              var resultsMetadata = CreateResultsMetadata(Enumerable.Range(0,
                                                                                                           chunk.Length)
                                                                                                    .Select(_ => Guid.NewGuid()
@@ -338,7 +340,9 @@ public class BaseClientSubmitter<T>
   /// <param name="taskId">
   ///   The task taskId of the task to wait for
   /// </param>
-  public void WaitForTaskCompletion(string taskId)
+  public void WaitForTaskCompletion(string taskId,
+                                    int    maxRetries = 5,
+                                    int    delayMs    = 20000)
   {
     using var _ = Logger.LogFunction(taskId);
 
@@ -346,7 +350,8 @@ public class BaseClientSubmitter<T>
                            {
                              taskId,
                            },
-                           delayMs: 2000);
+                           maxRetries,
+                           delayMs);
   }
 
   /// <summary>
