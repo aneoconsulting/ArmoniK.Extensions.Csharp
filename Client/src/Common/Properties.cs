@@ -21,6 +21,8 @@ using ArmoniK.DevelopmentKit.Common;
 
 using Google.Protobuf.WellKnownTypes;
 
+using JetBrains.Annotations;
+
 using Microsoft.Extensions.Configuration;
 
 namespace ArmoniK.DevelopmentKit.Client.Common;
@@ -231,7 +233,9 @@ public class Properties
   /// <summary>
   ///   The SSL validation property to disable SSL strong verification
   /// </summary>
-  [Obsolete("Use ConfSslValidation instead"] 
+  [PublicAPI]
+  [Obsolete("Use ConfSslValidation instead")]
+  // ReSharper disable once InconsistentNaming
   public bool ConfSSLValidation => ConfSslValidation;
   
   /// <summary>
