@@ -255,15 +255,15 @@ public abstract class BaseClientSubmitter<T>
     using var _ = Logger.LogFunction();
 
     var taskRequests = payloadsWithDependencies.Select(pwd =>
-                                                           {
-                                                             var taskRequest = new TaskRequest
-                                                                               {
-                                                                                 Payload = UnsafeByteOperations.UnsafeWrap(pwd.Item2),
-                                                                               };
-                                                             taskRequest.DataDependencies.AddRange(pwd.Item3);
-                                                             taskRequest.ExpectedOutputKeys.Add(pwd.Item1);
-                                                             return taskRequest;
-                                                           });
+                                                       {
+                                                         var taskRequest = new TaskRequest
+                                                                           {
+                                                                             Payload = UnsafeByteOperations.UnsafeWrap(pwd.Item2),
+                                                                           };
+                                                         taskRequest.DataDependencies.AddRange(pwd.Item3);
+                                                         taskRequest.ExpectedOutputKeys.Add(pwd.Item1);
+                                                         return taskRequest;
+                                                       });
 
     for (var nbRetry = 0; nbRetry < maxRetries; nbRetry++)
     {
