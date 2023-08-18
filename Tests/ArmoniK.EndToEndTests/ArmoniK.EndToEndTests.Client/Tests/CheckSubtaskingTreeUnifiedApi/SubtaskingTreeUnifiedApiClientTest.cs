@@ -16,6 +16,7 @@
 
 using System.Linq;
 
+using ArmoniK.DevelopmentKit.Client.Common.Submitter;
 using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.EndToEndTests.Common;
 

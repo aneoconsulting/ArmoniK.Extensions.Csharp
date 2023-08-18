@@ -482,14 +482,11 @@ public abstract class BaseClientSubmitter<T>
       result2TaskDic.Remove(idStatusPair.ResultId);
     }
 
-    var resultStatusList = new ResultStatusCollection
-                           {
-                             IdsResultError = idsResultError,
-                             IdsError       = result2TaskDic.Values,
-                             IdsReady       = idsReady,
-                             IdsNotReady    = idsNotReady,
-                             Canceled       = missingTasks,
-                           };
+    var resultStatusList = new ResultStatusCollection(idsReady,
+                                                      idsResultError,
+                                                      result2TaskDic.Values.ToList(),
+                                                      idsNotReady,
+                                                      missingTasks.ToList());
 
     return resultStatusList;
   }
@@ -792,6 +789,7 @@ public abstract class BaseClientSubmitter<T>
                                                       }:
 
                                                    Logger.LogError(rpcException,
+                                                                   "Error while trying to get a result: {error}",
                                                                    rpcException.Message);
                                                    return null;
                                                  default:
@@ -819,32 +817,37 @@ public abstract class BaseClientSubmitter<T>
     {
       if (resultStatus.IdsError.Any() || resultStatus.IdsResultError.Any())
       {
-        var msg =
-          $"The missing result is in error or canceled. Please check log for more information on Armonik grid server list of taskIds in Error : [ {string.Join(", ", resultStatus.IdsResultError.Select(x => x.TaskId))}";
+        var taskList = string.Join(", ",
+                                   resultStatus.IdsResultError.Select(x => x.TaskId));
 
         if (resultStatus.IdsError.Any())
         {
           if (resultStatus.IdsResultError.Any())
           {
-            msg += ", ";
+            taskList += ", ";
           }
 
-          msg += $"{string.Join(", ", resultStatus.IdsError)}";
+          taskList += string.Join(", ",
+                                  resultStatus.IdsError);
         }
 
-        msg += " ]\n";
-
         var taskIdInError = resultStatus.IdsError.Any()
-                              ? resultStatus.IdsError.First()
-                              : resultStatus.IdsResultError.First()
+                              ? resultStatus.IdsError[0]
+                              : resultStatus.IdsResultError[0]
                                             .TaskId;
 
-        msg += $"1st result id where the task which should create it is in error : {taskIdInError}";
+        const string message = "The missing result is in error or canceled. "                                                          +
+                               "Please check log for more information on Armonik grid server list of taskIds in Error: [{taskList}]\n" +
+                               "1st result id where the task which should create it is in error : {taskIdInError}";
 
-        Logger.LogError(msg);
+        Logger.LogError(message,
+                        taskList,
+                        taskIdInError);
 
-        throw new ClientResultsException(msg,
-                                         resultStatus.IdsError.ToArray());
+        throw new
+          ClientResultsException($"The missing result is in error or canceled. Please check log for more information on Armonik grid server list of taskIds in Error: [{taskList}]" +
+                                 $"1st result id where the task which should create it is in error : {taskIdInError}",
+                                 resultStatus.IdsError.ToArray());
       }
     }
 

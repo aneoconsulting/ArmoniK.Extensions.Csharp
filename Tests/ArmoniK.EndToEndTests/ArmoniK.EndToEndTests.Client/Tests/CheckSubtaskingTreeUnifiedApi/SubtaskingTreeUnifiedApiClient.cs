@@ -22,8 +22,8 @@ using System.Linq;
 using ArmoniK.Api.gRPC.V1;
 using ArmoniK.DevelopmentKit.Client.Common;
 using ArmoniK.DevelopmentKit.Client.Common.Exceptions;
+using ArmoniK.DevelopmentKit.Client.Common.Submitter;
 using ArmoniK.DevelopmentKit.Client.Unified.Factory;
-using ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter;
 using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.EndToEndTests.Common;
 
@@ -116,9 +116,9 @@ public class SubtaskingTreeUnifiedApiClient : ClientBaseTest<SubtaskingTreeUnifi
     => elements;
 
 
-  private void SumNumbersWithSubtasking(Service sessionService,
-                                        int     maxNumberToSum    = 16,
-                                        int     subtaskSplitCount = 2)
+  private void SumNumbersWithSubtasking(ISubmitterService sessionService,
+                                        int               maxNumberToSum    = 16,
+                                        int               subtaskSplitCount = 2)
   {
     Log.LogInformation($"Launching Sum of numbers 1 to {maxNumberToSum}");
     var numbers = Enumerable.Range(1,

@@ -57,12 +57,6 @@ public class Service : AbstractClientService, ISubmitterService
   private readonly SemaphoreSlim semaphoreSlim_;
 
   /// <summary>
-  ///   Property Get the SessionId
-  /// </summary>
-  [PublicAPI]
-  public SessionService SessionService;
-
-  /// <summary>
   ///   The default constructor to open connection with the control plane
   ///   and create the session to ArmoniK
   /// </summary>
@@ -209,6 +203,12 @@ public class Service : AbstractClientService, ISubmitterService
                               });
   }
 
+  /// <summary>
+  ///   Property Get the SessionId
+  /// </summary>
+  [PublicAPI]
+  public SessionService SessionService { get; }
+
 
   private BatchUntilInactiveBlock<BlockRequest> BufferSubmit { get; }
 
@@ -229,88 +229,22 @@ public class Service : AbstractClientService, ISubmitterService
   public string SessionId
     => SessionService.SessionId.Id;
 
-  /// <summary>
-  ///   The method submit will execute task asynchronously on the server and will serialize object[] for Service method
-  ///   MethodName(Object[] arguments)
-  /// </summary>
-  /// <param name="methodName">The name of the method inside the service</param>
-  /// <param name="arguments">A list of object that can be passed in parameters of the function</param>
-  /// <param name="handler">The handler callBack implemented as IServiceInvocationHandler to get response or result or error</param>
-  /// <returns>Return the taskId string</returns>
-  public string Submit(string                    methodName,
-                       object[]                  arguments,
-                       IServiceInvocationHandler handler)
-    => Submit(methodName,
-              new List<object[]>
-              {
-                arguments,
-              },
-              handler)
-      .Single();
 
-  /// <summary>
-  ///   The method submit list of task with Enumerable list of arguments that will be serialized to each call of byte[]
-  ///   MethodName(byte[] argument)
-  /// </summary>
-  /// <param name="methodName">The name of the method inside the service</param>
-  /// <param name="arguments">A list of parameters that can be passed in parameters of the each call of function</param>
-  /// <param name="handler">The handler callBack implemented as IServiceInvocationHandler to get response or result or error</param>
-  /// <returns>Return the list of created taskIds</returns>
+  /// <inheritdoc />
   public IEnumerable<string> Submit(string                    methodName,
                                     IEnumerable<object[]>     arguments,
-                                    IServiceInvocationHandler handler)
+                                    IServiceInvocationHandler handler,
+                                    int                       maxRetries  = 5,
+                                    TaskOptions?              taskOptions = null)
     => Submit(methodName,
               arguments.Select(ProtoSerializer.Serialize),
               handler,
-              5,
+              maxRetries,
               null,
               false);
 
-  /// <summary>
-  ///   The method submit with One serialized argument that will be already serialized for byte[] MethodName(byte[]
-  ///   argument).
-  /// </summary>
-  /// <param name="methodName">The name of the method inside the service</param>
-  /// <param name="argument">One serialized argument that will already serialize for MethodName.</param>
-  /// <param name="handler">The handler callBack implemented as IServiceInvocationHandler to get response or result or error</param>
-  /// <param name="maxRetries">The number of retry before fail to submit task. Default = 5 retries</param>
-  /// <param name="taskOptions">
-  ///   TaskOptions argument to override default taskOptions in Session.
-  ///   If non null it will override the default taskOptions in SessionService for client or given by taskHandler for worker
-  /// </param>
-  /// <returns>Returns the taskId string</returns>
-  // TODO: mark with [PublicApi] ?
-  // ReSharper disable once UnusedMember.Global
-  public string Submit(string                    methodName,
-                       byte[]                    argument,
-                       IServiceInvocationHandler handler,
-                       int                       maxRetries  = 5,
-                       TaskOptions?              taskOptions = null)
-    => Submit(methodName,
-              new[]
-              {
-                argument,
-              },
-              handler,
-              maxRetries,
-              taskOptions)
-      .Single();
 
-  /// <summary>
-  ///   The method submit list of task with Enumerable list of serialized arguments that will be already serialized for
-  ///   byte[] MethodName(byte[] argument).
-  /// </summary>
-  /// <param name="methodName">The name of the method inside the service</param>
-  /// <param name="arguments">List of serialized arguments that will already serialize for MethodName.</param>
-  /// <param name="handler">The handler callBack implemented as IServiceInvocationHandler to get response or result or error</param>
-  /// <param name="maxRetries">The number of retry before fail to submit task. Default = 5 retries</param>
-  /// <param name="taskOptions">
-  ///   TaskOptions argument to override default taskOptions in Session.
-  ///   If non null it will override the default taskOptions in SessionService for client or given by taskHandler for worker
-  /// </param>
-  /// <returns>Return the taskId string</returns>
-  // TODO: mark with [PublicApi] ?
-  // ReSharper disable once MemberCanBePrivate.Global
+  /// <inheritdoc />
   public IEnumerable<string> Submit(string                    methodName,
                                     IEnumerable<byte[]>       arguments,
                                     IServiceInvocationHandler handler,
@@ -322,6 +256,50 @@ public class Service : AbstractClientService, ISubmitterService
               maxRetries,
               taskOptions,
               true);
+
+  /// <inheritdoc />
+  public async Task<string> SubmitAsync(string                    methodName,
+                                        object[]                  argument,
+                                        IServiceInvocationHandler handler,
+                                        int                       maxRetries  = 5,
+                                        TaskOptions?              taskOptions = null,
+                                        CancellationToken         token       = default)
+    => await SubmitAsync(methodName,
+                         ProtoSerializer.Serialize(argument),
+                         handler,
+                         maxRetries,
+                         taskOptions,
+                         false,
+                         token)
+         .ConfigureAwait(false);
+
+
+  /// <inheritdoc />
+  public async Task<string> SubmitAsync(string                    methodName,
+                                        byte[]                    argument,
+                                        IServiceInvocationHandler handler,
+                                        int                       maxRetries  = 5,
+                                        TaskOptions?              taskOptions = null,
+                                        CancellationToken         token       = default)
+    => await SubmitAsync(methodName,
+                         ProtoSerializer.Serialize(argument),
+                         handler,
+                         maxRetries,
+                         taskOptions,
+                         true,
+                         token)
+         .ConfigureAwait(false);
+
+  /// <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
+  public override void Dispose()
+  {
+    CancellationResultTaskSource.Cancel();
+    HandlerResponse.Wait();
+    HandlerResponse.Dispose();
+    semaphoreSlim_.Dispose();
+
+    GC.SuppressFinalize(this);
+  }
 
   /// <summary>
   ///   The method submit list of task with Enumerable list of serialized arguments that will be already serialized for
@@ -359,68 +337,6 @@ public class Service : AbstractClientService, ISubmitterService
 
     return submitted;
   }
-
-
-  /// <summary>
-  ///   The method submitAsync will serialize argument in object[] MethodName(object[]  argument).
-  /// </summary>
-  /// <param name="methodName">The name of the method inside the service</param>
-  /// <param name="argument">One serialized argument that will already serialize for MethodName.</param>
-  /// <param name="handler">The handler callBack implemented as IServiceInvocationHandler to get response or result or error</param>
-  /// <param name="maxRetries">The number of retry before fail to submit task. Default = 5 retries</param>
-  /// <param name="taskOptions">
-  ///   TaskOptions argument to override default taskOptions in Session.
-  ///   If non null it will override the default taskOptions in SessionService for client or given by taskHandler for worker
-  /// </param>
-  /// <param name="token">The cancellation token</param>
-  /// <returns>Returns the taskId string</returns>
-  // TODO: [PublicAPI] ?
-  // ReSharper disable once UnusedMember.Global
-  public async Task<string> SubmitAsync(string                    methodName,
-                                        object[]                  argument,
-                                        IServiceInvocationHandler handler,
-                                        int                       maxRetries  = 5,
-                                        TaskOptions?              taskOptions = null,
-                                        CancellationToken         token       = default)
-    => await SubmitAsync(methodName,
-                         ProtoSerializer.Serialize(argument),
-                         handler,
-                         maxRetries,
-                         taskOptions,
-                         false,
-                         token)
-         .ConfigureAwait(false);
-
-  /// <summary>
-  ///   The method submit with one serialized argument that will send as byte[] MethodName(byte[]   argument).
-  /// </summary>
-  /// <param name="methodName">The name of the method inside the service</param>
-  /// <param name="argument">One serialized argument that will already serialize for MethodName.</param>
-  /// <param name="handler">The handler callBack implemented as IServiceInvocationHandler to get response or result or error</param>
-  /// <param name="token">The cancellation token to set to cancel the async task</param>
-  /// <param name="maxRetries">The number of retry before fail to submit task. Default = 5 retries</param>
-  /// <param name="taskOptions">
-  ///   TaskOptions argument to override default taskOptions in Session.
-  ///   If non null it will override the default taskOptions in SessionService for client or given by taskHandler for worker
-  /// </param>
-  /// <returns>Return the taskId string</returns>
-  // TODO: mark with [PublicApi] ?
-  // ReSharper disable once MemberCanBePrivate.Global
-  // ReSharper disable once UnusedMember.Global
-  public async Task<string> SubmitAsync(string                    methodName,
-                                        byte[]                    argument,
-                                        IServiceInvocationHandler handler,
-                                        int                       maxRetries  = 5,
-                                        TaskOptions?              taskOptions = null,
-                                        CancellationToken         token       = default)
-    => await SubmitAsync(methodName,
-                         ProtoSerializer.Serialize(argument),
-                         handler,
-                         maxRetries,
-                         taskOptions,
-                         true,
-                         token)
-         .ConfigureAwait(false);
 
   /// <summary>
   ///   The method submit with one serialized argument that will send as byte[] MethodName(byte[]   argument).
@@ -877,17 +793,6 @@ public class Service : AbstractClientService, ISubmitterService
   // ReSharper disable once UnusedMember.Global
   public ChannelBase GetChannel()
     => SessionService.ChannelPool.GetChannel();
-
-  /// <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
-  public override void Dispose()
-  {
-    CancellationResultTaskSource.Cancel();
-    HandlerResponse.Wait();
-    HandlerResponse.Dispose();
-    semaphoreSlim_.Dispose();
-
-    GC.SuppressFinalize(this);
-  }
 
   /// <summary>
   ///   Class to return TaskId and the result
