@@ -231,6 +231,12 @@ public class Properties
   /// <summary>
   ///   The SSL validation property to disable SSL strong verification
   /// </summary>
+  [Obsolete("Use ConfSslValidation instead"] 
+  public bool ConfSSLValidation => ConfSslValidation;
+  
+  /// <summary>
+  ///   The SSL validation property to disable SSL strong verification
+  /// </summary>
   public bool ConfSslValidation { get; }
 
   /// <summary>
