@@ -32,16 +32,16 @@ public class RequestTaskMap
   private readonly ConcurrentDictionary<Guid, Either<string, Exception>> dictionary_ = new();
 
   /// <summary>
-  ///   Push the SubmitId and taskId in the concurrentDictionary
+  ///   Push the submitId and taskId in the concurrentDictionary
   /// </summary>
-  /// <param name="SubmitId">The submit Id push during the submission</param>
+  /// <param name="submitId">The submit Id push during the submission</param>
   /// <param name="taskId">the taskId was given by the control Plane</param>
-  public void PutResponse(Guid   SubmitId,
+  public void PutResponse(Guid   submitId,
                           string taskId)
-    => dictionary_[SubmitId] = taskId;
+    => dictionary_[submitId] = taskId;
 
   /// <summary>
-  ///   Get the correct taskId based on the SubmitId
+  ///   Get the correct taskId based on the submitId
   /// </summary>
   /// <param name="submitId">The submit Id push during the submission</param>
   /// <returns>the async taskId</returns>

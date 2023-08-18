@@ -16,35 +16,24 @@
 
 using System.Collections.Generic;
 
+using JetBrains.Annotations;
+
 namespace ArmoniK.DevelopmentKit.Client.Common.Status;
 
 /// <summary>
 ///   List of result status that will be collected during the request GetResultStatus
 /// </summary>
-public class ResultStatusCollection
-{
-  /// <summary>
-  ///   List of completed task where the result is ready to be retrieved
-  /// </summary>
-  public IEnumerable<ResultStatusData> IdsReady { get; set; } = default;
-
-  /// <summary>
-  ///   List of task or task result in error
-  /// </summary>
-  public IEnumerable<ResultStatusData> IdsResultError { get; set; } = default;
-
-  /// <summary>
-  ///   List of Unknown TaskIds. There is a heavy error somewhere else in the execution when this list has element
-  /// </summary>
-  public IEnumerable<string> IdsError { get; set; } = default;
-
-  /// <summary>
-  ///   List of result not yet written in database
-  /// </summary>
-  public IEnumerable<ResultStatusData> IdsNotReady { get; set; }
-
-  /// <summary>
-  ///   The list of canceled task
-  /// </summary>
-  public IEnumerable<ResultStatusData> Canceled { get; set; }
-}
+/// <param name="IdsReady">List of completed task where the result is ready to be retrieved</param>
+/// <param name="IdsResultError">List of task or task result in error</param>
+/// <param name="IdsError">
+///   List of Unknown TaskIds. There is a heavy error somewhere else in the execution when this list
+///   has element
+/// </param>
+/// <param name="IdsNotReady">List of result not yet written in database</param>
+/// <param name="Canceled">List of canceled task</param>
+[PublicAPI]
+public sealed record ResultStatusCollection(IReadOnlyList<ResultStatusData> IdsReady,
+                                            IReadOnlyList<ResultStatusData> IdsResultError,
+                                            IReadOnlyList<string>           IdsError,
+                                            IReadOnlyList<ResultStatusData> IdsNotReady,
+                                            IReadOnlyList<ResultStatusData> Canceled);

@@ -14,11 +14,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System;
+
+using JetBrains.Annotations;
+
 namespace ArmoniK.DevelopmentKit.Client.Common.Status;
 
 /// <summary>
 ///   List of status for task and result in Armonik
 /// </summary>
+[PublicAPI]
 public enum ArmonikStatusCode
 {
   /// <summary>
@@ -29,6 +34,7 @@ public enum ArmonikStatusCode
   /// <summary>
   ///   The task is completed but result could not be ready
   /// </summary>
+  [Obsolete("unused")]
   TaskCompleted,
 
   /// <summary>
@@ -57,7 +63,8 @@ public enum ArmonikStatusCode
   ResultNotReady,
 
   /// <summary>
-  ///   The result is in error and the task could finished without no result
+  ///   The result is in error and the task could finished with no result
   /// </summary>
+  [Obsolete("unused")]
   ResultError,
 }

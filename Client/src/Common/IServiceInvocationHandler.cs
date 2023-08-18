@@ -17,6 +17,8 @@
 using ArmoniK.DevelopmentKit.Client.Common.Exceptions;
 using ArmoniK.DevelopmentKit.Common;
 
+using JetBrains.Annotations;
+
 namespace ArmoniK.DevelopmentKit.Client.Common;
 
 /// <summary>
@@ -24,6 +26,7 @@ namespace ArmoniK.DevelopmentKit.Client.Common;
 ///   in the method LocalExecute, Execute or Submit
 /// </summary>
 [MarkDownDoc]
+[PublicAPI]
 public interface IServiceInvocationHandler
 {
   /// <summary>

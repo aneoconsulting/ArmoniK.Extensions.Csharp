@@ -23,9 +23,9 @@ using ArmoniK.Api.gRPC.V1;
 using ArmoniK.DevelopmentKit.Client.Common;
 using ArmoniK.DevelopmentKit.Client.Common.Exceptions;
 using ArmoniK.DevelopmentKit.Client.Common.Status;
+using ArmoniK.DevelopmentKit.Client.Common.Submitter;
 using ArmoniK.DevelopmentKit.Client.Unified.Factory;
 using ArmoniK.DevelopmentKit.Client.Unified.Services.Admin;
-using ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter;
 using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.EndToEndTests.Common;
 
@@ -132,8 +132,8 @@ public class SimpleUnifiedApiAdminTestClient : ClientBaseTest<SimpleUnifiedApiTe
   /// </summary>
   /// <param name="sessionService"></param>
   /// <param name="serviceAdmin"></param>
-  private void RunningAndCancelSession(Service      sessionService,
-                                       ServiceAdmin serviceAdmin)
+  private void RunningAndCancelSession(ISubmitterService sessionService,
+                                       ServiceAdmin      serviceAdmin)
   {
     var numbers = new List<double>
                   {

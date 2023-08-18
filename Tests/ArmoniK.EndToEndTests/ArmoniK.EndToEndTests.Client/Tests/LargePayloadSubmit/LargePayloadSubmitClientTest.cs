@@ -19,6 +19,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 
+using ArmoniK.DevelopmentKit.Client.Common.Submitter;
 using ArmoniK.DevelopmentKit.Common;
 
 using Microsoft.Extensions.Configuration;

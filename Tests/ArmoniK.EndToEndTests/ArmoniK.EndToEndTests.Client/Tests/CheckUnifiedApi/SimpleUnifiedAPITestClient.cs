@@ -21,8 +21,8 @@ using System.Linq;
 using ArmoniK.Api.gRPC.V1;
 using ArmoniK.DevelopmentKit.Client.Common;
 using ArmoniK.DevelopmentKit.Client.Common.Exceptions;
+using ArmoniK.DevelopmentKit.Client.Common.Submitter;
 using ArmoniK.DevelopmentKit.Client.Unified.Factory;
-using ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter;
 using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.Common.Extensions;
 using ArmoniK.EndToEndTests.Common;
@@ -159,7 +159,7 @@ public class SimpleUnifiedApiTestClient : ClientBaseTest<SimpleUnifiedApiTestCli
   ///   The first test developed to validate dependencies subTasking
   /// </summary>
   /// <param name="sessionService"></param>
-  private void ClientStartup1(Service sessionService)
+  private void ClientStartup1(ISubmitterService sessionService)
   {
     var numbers = new List<double>
                   {
@@ -207,7 +207,7 @@ public class SimpleUnifiedApiTestClient : ClientBaseTest<SimpleUnifiedApiTestCli
   ///   The first test developed to validate dependencies subTasking
   /// </summary>
   /// <param name="sessionService"></param>
-  private void ClientStartup2(Service sessionService)
+  private void ClientStartup2(ISubmitterService sessionService)
   {
     var numbers = new List<double>
                   {
@@ -249,7 +249,7 @@ public class SimpleUnifiedApiTestClient : ClientBaseTest<SimpleUnifiedApiTestCli
   ///   The first test developed to validate dependencies subTasking
   /// </summary>
   /// <param name="sessionService"></param>
-  private void ClientStartup3(Service sessionService)
+  private void ClientStartup3(ISubmitterService sessionService)
   {
     var numbers = new List<double>
                   {

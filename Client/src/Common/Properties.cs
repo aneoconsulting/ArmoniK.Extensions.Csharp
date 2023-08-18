@@ -35,6 +35,7 @@ namespace ArmoniK.DevelopmentKit.Client.Common;
 /// </summary>
 [MarkDownDoc]
 // TODO: check all setter and mark the required as PublicApi
+// TODO: to be reworked to allow all options from API and add other elements.
 public class Properties
 {
   /// <summary>
@@ -145,24 +146,42 @@ public class Properties
     }
     else
     {
-      ConnectionString = sectionGrpc.GetValue<string>(SectionEndPoint);
+      ConnectionAddress = string.Empty; // to remove a compiler message for netstandard2.0
+      try
+      {
+        var connectionString = sectionGrpc.GetValue<string>(SectionEndPoint);
+        if (!string.IsNullOrEmpty(connectionString))
+        {
+          var uri = new Uri(connectionString);
+
+          Protocol = uri.Scheme;
+
+          ConnectionAddress = uri.Host;
+          ConnectionPort    = uri.Port;
+        }
+      }
+      catch (FormatException e)
+      {
+        Console.WriteLine(e);
+        ConnectionAddress = string.Empty;
+        ConnectionPort    = 0;
+      }
     }
 
     Protocol = protocol ?? Protocol;
 
-    ConfSslValidation  = sslValidation ?? sectionGrpc[SectionSSlValidation] != "disable";
-    TargetNameOverride = sectionGrpc[SectionTargetNameOverride];
-    CaCertFilePem      = caCertPem         ?? sectionGrpc[SectionCaCert];
-    ClientCertFilePem  = clientCertFilePem ?? sectionGrpc[SectionClientCert];
-    ClientKeyFilePem   = clientKeyFilePem  ?? sectionGrpc[SectionClientKey];
-    ClientP12File      = clientP12         ?? sectionGrpc[SectionClientCertP12];
+    ConfSslValidation  = sslValidation                          ?? sectionGrpc[SectionSSlValidation] != "disable";
+    TargetNameOverride = sectionGrpc[SectionTargetNameOverride] ?? string.Empty;
+    CaCertFilePem      = caCertPem                              ?? sectionGrpc[SectionCaCert]        ?? string.Empty;
+    ClientCertFilePem  = clientCertFilePem                      ?? sectionGrpc[SectionClientCert]    ?? string.Empty;
+    ClientKeyFilePem   = clientKeyFilePem                       ?? sectionGrpc[SectionClientKey]     ?? string.Empty;
+    ClientP12File      = clientP12                              ?? sectionGrpc[SectionClientCertP12] ?? string.Empty;
 
     if (connectionPort != 0)
     {
       ConnectionPort = connectionPort;
     }
 
-    //Check if Uri is correct
     if (string.IsNullOrEmpty(Protocol) || string.IsNullOrEmpty(ConnectionAddress) || ConnectionPort == 0)
     {
       throw new ArgumentException($"Issue with the connection point : {ConnectionString}");
@@ -213,22 +232,22 @@ public class Properties
   /// </summary>
   // TODO: mark as [PublicApi] for setter ?
   // ReSharper disable once AutoPropertyCanBeMadeGetOnly.Global
-  public string? CaCertFilePem { get; set; }
+  public string CaCertFilePem { get; set; }
 
   /// <summary>
   ///   The property to get the path of the certificate file
   /// </summary>
-  public string? ClientCertFilePem { get; }
+  public string ClientCertFilePem { get; }
 
   /// <summary>
   ///   the property to get the path of the key certificate
   /// </summary>
-  public string? ClientKeyFilePem { get; }
+  public string ClientKeyFilePem { get; }
 
   /// <summary>
   ///   the property to get the path of the certificate in P12/Pkcs12/PFX format
   /// </summary>
-  public string? ClientP12File { get; }
+  public string ClientP12File { get; }
 
   /// <summary>
   ///   The SSL validation property to disable SSL strong verification
@@ -257,32 +276,7 @@ public class Properties
   // TODO: mark as [PublicApi] ?
   // ReSharper disable once MemberCanBePrivate.Global
   public string ConnectionString
-  {
-    get => $"{Protocol}://{ConnectionAddress}:{ConnectionPort}";
-    // ReSharper disable once PropertyCanBeMadeInitOnly.Global
-    set
-    {
-      try
-      {
-        if (string.IsNullOrEmpty(value))
-        {
-          return;
-        }
-
-        var uri = new Uri(value);
-
-        Protocol = uri.Scheme;
-
-        ConnectionAddress = uri.Host;
-        ConnectionPort    = uri.Port;
-      }
-      catch (FormatException e)
-      {
-        Console.WriteLine(e);
-        throw;
-      }
-    }
-  }
+    => $"{Protocol}://{ConnectionAddress}:{ConnectionPort}";
 
   /// <summary>
   ///   Secure or insecure protocol communication https or http (Default http)
@@ -320,5 +314,5 @@ public class Properties
   // TODO: mark as [PublicApi] for setter ?
   // ReSharper disable once MemberCanBePrivate.Global
   // ReSharper disable once AutoPropertyCanBeMadeGetOnly.Global
-  public string? TargetNameOverride { get; set; }
+  public string TargetNameOverride { get; set; }
 }

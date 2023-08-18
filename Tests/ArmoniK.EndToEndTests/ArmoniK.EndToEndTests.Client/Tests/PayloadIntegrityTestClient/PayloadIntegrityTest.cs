@@ -24,8 +24,8 @@ using System.Threading.Tasks;
 
 using ArmoniK.Api.gRPC.V1;
 using ArmoniK.DevelopmentKit.Client.Common;
+using ArmoniK.DevelopmentKit.Client.Common.Submitter;
 using ArmoniK.DevelopmentKit.Client.Unified.Factory;
-using ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter;
 using ArmoniK.DevelopmentKit.Common;
 
 using AutoFixture;
@@ -141,8 +141,8 @@ public class PayloadIntegrityTest
     taskAndData_.Clear();
   }
 
-  private async Task NewSubmitCallAsync(Fixture fixture,
-                                        Service service)
+  private async Task NewSubmitCallAsync(Fixture           fixture,
+                                        ISubmitterService service)
   {
     var payload = new[]
                   {
