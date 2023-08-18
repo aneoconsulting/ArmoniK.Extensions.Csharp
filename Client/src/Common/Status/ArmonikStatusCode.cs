@@ -63,7 +63,7 @@ public enum ArmonikStatusCode
   ResultNotReady,
 
   /// <summary>
-  ///   The result is in error and the task could finished with no result
+  ///   The result is in error and the task could finished without result
   /// </summary>
   [Obsolete("unused")]
   ResultError,
