@@ -34,8 +34,7 @@ public class ServiceAdmin : AbstractClientService
   /// <param name="loggerFactory"></param>
   public ServiceAdmin(Properties     properties,
                       ILoggerFactory loggerFactory)
-    : base(properties,
-           loggerFactory)
+    : base(loggerFactory)
   {
     SessionServiceFactory = new SessionServiceFactory(LoggerFactory);
 

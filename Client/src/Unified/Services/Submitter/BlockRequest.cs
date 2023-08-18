@@ -21,16 +21,13 @@ using ArmoniK.Api.gRPC.V1;
 using ArmoniK.DevelopmentKit.Client.Common;
 using ArmoniK.DevelopmentKit.Common;
 
-using JetBrains.Annotations;
-
 namespace ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter;
 
 internal class BlockRequest
 {
   public IServiceInvocationHandler Handler;
 
-  [CanBeNull]
-  public ArmonikPayload Payload { get; set; }
+  public ArmonikPayload? Payload { get; set; }
 
   public SemaphoreSlim Lock     { get; set; }
   public Guid          SubmitId { get; set; }

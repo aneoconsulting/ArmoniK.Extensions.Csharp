@@ -112,12 +112,9 @@ public class Priority
     {
       var options = properties.TaskOptions.Clone();
       options.Priority = t;
-      var payload = new ArmonikPayload
-                    {
-                      ClientPayload       = BitConverter.GetBytes(options.Priority),
-                      MethodName          = "GetPriority",
-                      SerializedArguments = true,
-                    }.Serialize();
+      var payload = new ArmonikPayload("GetPriority",
+                                       BitConverter.GetBytes(options.Priority),
+                                       true).Serialize();
       foreach (var submitTask in service.SubmitTasks(Enumerable.Repeat(payload,
                                                                        nTasksPerSessionPerPriority),
                                                      taskOptions: options))
@@ -130,7 +127,7 @@ public class Priority
 
     var results = new List<(string, int, int)>(service.GetResults(tasks.Keys)
                                                       .Select(tuple => (tuple.Item1, tasks[tuple.Item1],
-                                                                        BitConverter.ToInt32((ProtoSerializer.DeSerializeMessageObjectArray(tuple.Item2)[0] as byte[])!,
+                                                                        BitConverter.ToInt32((ProtoSerializer.Deserialize<object[]>(tuple.Item2)[0] as byte[])!,
                                                                                              0))));
 
     foreach (var (taskId, expected, actual) in results)

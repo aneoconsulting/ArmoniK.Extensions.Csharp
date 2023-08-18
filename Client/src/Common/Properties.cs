@@ -21,6 +21,8 @@ using ArmoniK.DevelopmentKit.Common;
 
 using Google.Protobuf.WellKnownTypes;
 
+using JetBrains.Annotations;
+
 using Microsoft.Extensions.Configuration;
 
 namespace ArmoniK.DevelopmentKit.Client.Common;
@@ -32,6 +34,7 @@ namespace ArmoniK.DevelopmentKit.Client.Common;
 ///   The ssl mTLS certificate if needed to connect to the control plane
 /// </summary>
 [MarkDownDoc]
+// TODO: check all setter and mark the required as PublicApi
 public class Properties
 {
   /// <summary>
@@ -50,15 +53,17 @@ public class Properties
   /// <summary>
   ///   The default configuration to submit task in a Session
   /// </summary>
-  public static TaskOptions DefaultTaskOptions = new()
-                                                 {
-                                                   MaxDuration = new Duration
-                                                                 {
-                                                                   Seconds = 300000,
-                                                                 },
-                                                   MaxRetries = 3,
-                                                   Priority   = 1,
-                                                 };
+  // TODO: define [PublicApi] ?
+  // ReSharper disable once UnusedMember.Global
+  public static readonly TaskOptions DefaultTaskOptions = new()
+                                                          {
+                                                            MaxDuration = new Duration
+                                                                          {
+                                                                            Seconds = 300000,
+                                                                          },
+                                                            MaxRetries = 3,
+                                                            Priority   = 1,
+                                                          };
 
 
   /// <summary>
@@ -73,14 +78,16 @@ public class Properties
   /// <param name="clientP12">The client certificate in a P12/Pkcs12/PFX format</param>
   /// <param name="caCertPem">The Server certificate file to validate mTLS</param>
   /// <param name="sslValidation">Disable the ssl strong validation of ssl certificate (default : enable => true)</param>
+  // TODO: define [PublicApi] ?
+  // ReSharper disable once UnusedMember.Global
   public Properties(TaskOptions options,
-                    string      connectionAddress,
+                    string?     connectionAddress,
                     int         connectionPort = 0,
-                    string      protocol       = null,
-                    string      clientCertPem  = null,
-                    string      clientKeyPem   = null,
-                    string      clientP12      = null,
-                    string      caCertPem      = null,
+                    string?     protocol       = null,
+                    string?     clientCertPem  = null,
+                    string?     clientKeyPem   = null,
+                    string?     clientP12      = null,
+                    string?     caCertPem      = null,
                     bool?       sslValidation  = null)
     : this(new ConfigurationBuilder().AddEnvironmentVariables()
                                      .Build(),
@@ -112,22 +119,19 @@ public class Properties
   /// <exception cref="ArgumentException"></exception>
   public Properties(IConfiguration configuration,
                     TaskOptions    options,
-                    string         connectionAddress = null,
+                    string?        connectionAddress = null,
                     int            connectionPort    = 0,
-                    string         protocol          = null,
-                    string         clientCertFilePem = null,
-                    string         clientKeyFilePem  = null,
-                    string         clientP12         = null,
-                    string         caCertPem         = null,
+                    string?        protocol          = null,
+                    string?        clientCertFilePem = null,
+                    string?        clientKeyFilePem  = null,
+                    string?        clientP12         = null,
+                    string?        caCertPem         = null,
                     bool?          sslValidation     = null)
   {
     TaskOptions   = options;
     Configuration = configuration;
 
-    var sectionGrpc = configuration.GetSection(SectionGrpc)
-                                   .Exists()
-                        ? configuration.GetSection(SectionGrpc)
-                        : null;
+    var sectionGrpc = configuration.GetSection(SectionGrpc);
 
     if (connectionAddress != null)
     {
@@ -141,17 +145,17 @@ public class Properties
     }
     else
     {
-      ConnectionString = sectionGrpc?[SectionEndPoint];
+      ConnectionString = sectionGrpc.GetValue<string>(SectionEndPoint);
     }
 
     Protocol = protocol ?? Protocol;
 
-    ConfSSLValidation  = sslValidation ?? sectionGrpc?[SectionSSlValidation] != "disable";
-    TargetNameOverride = sectionGrpc?[SectionTargetNameOverride];
-    CaCertFilePem      = caCertPem         ?? sectionGrpc?[SectionCaCert];
-    ClientCertFilePem  = clientCertFilePem ?? sectionGrpc?[SectionClientCert];
-    ClientKeyFilePem   = clientKeyFilePem  ?? sectionGrpc?[SectionClientKey];
-    ClientP12File      = clientP12         ?? sectionGrpc?[SectionClientCertP12];
+    ConfSslValidation  = sslValidation ?? sectionGrpc[SectionSSlValidation] != "disable";
+    TargetNameOverride = sectionGrpc[SectionTargetNameOverride];
+    CaCertFilePem      = caCertPem         ?? sectionGrpc[SectionCaCert];
+    ClientCertFilePem  = clientCertFilePem ?? sectionGrpc[SectionClientCert];
+    ClientKeyFilePem   = clientKeyFilePem  ?? sectionGrpc[SectionClientKey];
+    ClientP12File      = clientP12         ?? sectionGrpc[SectionClientCertP12];
 
     if (connectionPort != 0)
     {
@@ -164,72 +168,98 @@ public class Properties
       throw new ArgumentException($"Issue with the connection point : {ConnectionString}");
     }
 
-    ControlPlaneUri = new Uri(ConnectionString!);
+    ControlPlaneUri = new Uri(ConnectionString);
   }
 
   /// <summary>
   ///   Set the number of task by buffer
   /// </summary>
+  // TODO: mark as [PublicApi] for setter ?
+  // ReSharper disable once AutoPropertyCanBeMadeGetOnly.Global
   public int MaxTasksPerBuffer { get; set; } = 500;
 
 
   /// <summary>
   ///   Set the number of buffers that can be filled in asynchronous submitAsync
   /// </summary>
+  // TODO: mark as [PublicApi] for setter ?
+  // ReSharper disable once AutoPropertyCanBeMadeGetOnly.Global
   public int MaxConcurrentBuffers { get; set; } = 1;
 
 
   /// <summary>
   ///   TimeSpan to trigger a batch to send the batch of submit
   /// </summary>
+  // TODO: mark as [PublicApi] for setter ?
+  // ReSharper disable once AutoPropertyCanBeMadeGetOnly.Global
   public TimeSpan? TimeTriggerBuffer { get; set; } = TimeSpan.FromSeconds(10);
 
   /// <summary>
   ///   The number of channels used for Buffered Submit (Default 1)
   /// </summary>
+  // TODO: mark as [PublicApi] for setter ?
+  // ReSharper disable once AutoPropertyCanBeMadeGetOnly.Global
   public int MaxParallelChannels { get; set; } = 1;
 
   /// <summary>
   ///   The control plane url to connect
   /// </summary>
+  // TODO: mark as [PublicApi] for setter ?
+  // ReSharper disable once AutoPropertyCanBeMadeGetOnly.Global
   public Uri ControlPlaneUri { get; set; }
 
   /// <summary>
   ///   The path to the CA Root file name
   /// </summary>
-  public string CaCertFilePem { get; set; }
+  // TODO: mark as [PublicApi] for setter ?
+  // ReSharper disable once AutoPropertyCanBeMadeGetOnly.Global
+  public string? CaCertFilePem { get; set; }
 
   /// <summary>
   ///   The property to get the path of the certificate file
   /// </summary>
-  public string ClientCertFilePem { get; }
+  public string? ClientCertFilePem { get; }
 
   /// <summary>
   ///   the property to get the path of the key certificate
   /// </summary>
-  public string ClientKeyFilePem { get; }
+  public string? ClientKeyFilePem { get; }
 
   /// <summary>
   ///   the property to get the path of the certificate in P12/Pkcs12/PFX format
   /// </summary>
-  public string ClientP12File { get; }
+  public string? ClientP12File { get; }
 
   /// <summary>
   ///   The SSL validation property to disable SSL strong verification
   /// </summary>
-  public bool ConfSSLValidation { get; }
+  [PublicAPI]
+  [Obsolete("Use ConfSslValidation instead")]
+  // ReSharper disable once InconsistentNaming
+  public bool ConfSSLValidation
+    => ConfSslValidation;
+
+  /// <summary>
+  ///   The SSL validation property to disable SSL strong verification
+  /// </summary>
+  public bool ConfSslValidation { get; }
 
   /// <summary>
   ///   The configuration property to give to the ClientService connector
   /// </summary>
+  // TODO: mark as [PublicApi] ?
+  // ReSharper disable once UnusedAutoPropertyAccessor.Global
   public IConfiguration Configuration { get; }
 
   /// <summary>
   ///   The connection string building the value Port Protocol and address
   /// </summary>
+  // TODO: mark as [PublicApi] ?
+  // ReSharper disable once MemberCanBePrivate.Global
   public string ConnectionString
   {
     get => $"{Protocol}://{ConnectionAddress}:{ConnectionPort}";
+    // ReSharper disable once PropertyCanBeMadeInitOnly.Global
     set
     {
       try
@@ -257,25 +287,38 @@ public class Properties
   /// <summary>
   ///   Secure or insecure protocol communication https or http (Default http)
   /// </summary>
+  // TODO: mark as [PublicApi] for setter ?
+  // ReSharper disable once MemberCanBePrivate.Global
   public string Protocol { get; set; } = "http";
 
   /// <summary>
   ///   The connection address property to connect to the control plane
   /// </summary>
+  // TODO: mark as [PublicApi] for setter ?
+  // ReSharper disable once MemberCanBePrivate.Global
   public string ConnectionAddress { get; set; }
 
   /// <summary>
   ///   The option connection port to connect to control plane (Default : 5001)
   /// </summary>
+  // TODO: mark as [PublicApi] for setter ?
+  // ReSharper disable once MemberCanBePrivate.Global
+  // ReSharper disable once AutoPropertyCanBeMadeGetOnly.Global
   public int ConnectionPort { get; set; } = 5001;
 
   /// <summary>
   ///   The TaskOptions to pass to the session or the submission session
   /// </summary>
+  // TODO: mark as [PublicApi] for setter ?
+  // ReSharper disable once MemberCanBePrivate.Global
+  // ReSharper disable once AutoPropertyCanBeMadeGetOnly.Global
   public TaskOptions TaskOptions { get; set; }
 
   /// <summary>
   ///   The target name of the endpoint when ssl validation is disabled. Automatic if not set.
   /// </summary>
-  public string TargetNameOverride { get; set; } = "";
+  // TODO: mark as [PublicApi] for setter ?
+  // ReSharper disable once MemberCanBePrivate.Global
+  // ReSharper disable once AutoPropertyCanBeMadeGetOnly.Global
+  public string? TargetNameOverride { get; set; }
 }

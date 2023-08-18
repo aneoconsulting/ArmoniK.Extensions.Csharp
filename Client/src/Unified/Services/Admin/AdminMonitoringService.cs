@@ -22,8 +22,6 @@ using ArmoniK.Api.gRPC.V1;
 using ArmoniK.Api.gRPC.V1.Submitter;
 using ArmoniK.DevelopmentKit.Client.Common.Submitter;
 
-using JetBrains.Annotations;
-
 using Microsoft.Extensions.Logging;
 
 namespace ArmoniK.DevelopmentKit.Client.Unified.Services.Admin;
@@ -40,15 +38,14 @@ public class AdminMonitoringService
   /// </summary>
   /// <param name="channel">The entry point to the control plane</param>
   /// <param name="loggerFactory">The factory logger to create logger</param>
-  public AdminMonitoringService(ChannelPool                channelPool,
-                                [CanBeNull] ILoggerFactory loggerFactory = null)
+  public AdminMonitoringService(ChannelPool     channelPool,
+                                ILoggerFactory? loggerFactory = null)
   {
     Logger       = loggerFactory?.CreateLogger<AdminMonitoringService>();
     channelPool_ = channelPool;
   }
 
-  [CanBeNull]
-  private ILogger Logger { get; }
+  private ILogger? Logger { get; }
 
 
   /// <summary>

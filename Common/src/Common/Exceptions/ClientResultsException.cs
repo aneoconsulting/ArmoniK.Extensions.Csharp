@@ -1,4 +1,4 @@
-﻿// This file is part of the ArmoniK project
+// This file is part of the ArmoniK project
 // 
 // Copyright (C) ANEO, 2021-2023.All rights reserved.
 // 
@@ -46,17 +46,21 @@ public class ClientResultsException : Exception
   /// <summary>
   ///   The default constructor to refer the list of task in error
   /// </summary>
-  /// <param name="message">The string message in exception</param>
-  /// <param name="taskIds"></param>
-  public ClientResultsException(string              message,
-                                IEnumerable<string> taskIds)
-    : base(message)
+  /// <param name="message">the message in exception</param>
+  /// <param name="innerException">Exception that caused this one to be raised</param>
+  /// <param name="taskIds">The list of taskId</param>
+  public ClientResultsException(string          message,
+                                Exception       innerException,
+                                params string[] taskIds)
+    : base(message,
+           innerException)
     => TaskIds = taskIds;
+
 
   /// <summary>
   ///   The list of taskId in error
   /// </summary>
-  public IEnumerable<string> TaskIds { get; set; }
+  public string[] TaskIds { get; }
 
   private static string BuildMessage(IEnumerable<string> taskIds)
   {

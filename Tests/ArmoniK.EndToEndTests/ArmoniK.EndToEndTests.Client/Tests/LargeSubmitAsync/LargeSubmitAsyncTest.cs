@@ -93,11 +93,14 @@ public class LargeSubmitAsyncTest
 
     for (indexTask = 0; indexTask < nbTasks; indexTask++)
     {
-      taskIds.Add(service.SubmitAsync("ComputeSum",
-                                      UnitTestHelperBase.ParamsHelper(numbers,
-                                                                      workloadTimeInMs),
-                                      localUnifiedTestHelper,
-                                      token: cancellationSource.Token));
+      taskIds.Add(service!.SubmitAsync("ComputeSum",
+                                       new object[]
+                                       {
+                                         numbers,
+                                         workloadTimeInMs,
+                                       },
+                                       localUnifiedTestHelper,
+                                       token: cancellationSource.Token));
     }
     //System.Threading.Thread.Sleep(10000);
 

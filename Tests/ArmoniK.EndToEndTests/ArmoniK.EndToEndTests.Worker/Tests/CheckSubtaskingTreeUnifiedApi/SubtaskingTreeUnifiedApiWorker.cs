@@ -159,7 +159,7 @@ public class SubtaskingTreeUnifiedApiWorker : TaskWorkerService
         throw new WorkerApiException($"Cannot retrieve result from taskId {TaskContext.DependenciesTaskIds?.Single()}");
       }
 
-      var deprot                  = ProtoSerializer.DeSerializeMessageObjectArray(taskDependency.Value);
+      var deprot                  = ProtoSerializer.Deserialize<object[]>(taskDependency.Value);
       var dependencyResultPayload = ClientPayload.Deserialize(deprot[0] as byte[]);
       dependencyValues.Add(dependencyResultPayload.Result);
       aggregatedValuesSum += dependencyResultPayload.Result;

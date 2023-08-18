@@ -14,14 +14,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.Reflection;
 
-namespace ArmoniK.EndToEndTests.Common;
+#if NETFRAMEWORK
+// This type is required to use initializers when compiling to framework
+namespace System.Runtime.CompilerServices;
 
-public class TestContext
+internal static class IsExternalInit
 {
-  public Type?         ClassClient         { get; set; }
-  public string?       NameSpaceTest       { get; set; }
-  public object?       ClientClassInstance { get; set; }
-  public MethodInfo[]? MethodTests         { get; set; }
 }
+#endif

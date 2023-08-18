@@ -16,6 +16,7 @@
 
 using System;
 
+using ArmoniK.DevelopmentKit.Client.Common.Status;
 using ArmoniK.DevelopmentKit.Common;
 
 namespace ArmoniK.DevelopmentKit.Client.Common.Exceptions;

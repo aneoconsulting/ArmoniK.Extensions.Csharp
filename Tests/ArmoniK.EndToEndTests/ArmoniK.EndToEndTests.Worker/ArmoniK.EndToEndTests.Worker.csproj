@@ -13,6 +13,7 @@
     <PublishUrl>../publish/$(MSBuildProjectName)/$(Version)/</PublishUrl>
     <IsPackable>false</IsPackable>
     <OutputType>Library</OutputType>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>

@@ -26,12 +26,9 @@ public static class ArmoniKPayloadSerialization
   [Test]
   public static void ShouldSerialize()
   {
-    var payload = new ArmonikPayload
-                  {
-                    MethodName          = "Test",
-                    ClientPayload       = Encoding.ASCII.GetBytes("Payload"),
-                    SerializedArguments = true,
-                  };
+    var payload = new ArmonikPayload("Test",
+                                     Encoding.ASCII.GetBytes("Payload"),
+                                     true);
     var serialize = payload.Serialize();
 
     var deserialize = ProtoSerializer.Deserialize<ArmonikPayload>(serialize);

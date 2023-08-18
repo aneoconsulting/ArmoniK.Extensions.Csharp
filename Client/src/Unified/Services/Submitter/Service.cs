@@ -26,6 +26,7 @@ using ArmoniK.Api.Common.Utils;
 using ArmoniK.Api.gRPC.V1;
 using ArmoniK.DevelopmentKit.Client.Common;
 using ArmoniK.DevelopmentKit.Client.Common.Exceptions;
+using ArmoniK.DevelopmentKit.Client.Common.Status;
 using ArmoniK.DevelopmentKit.Client.Common.Submitter;
 using ArmoniK.DevelopmentKit.Client.Unified.Factory;
 using ArmoniK.DevelopmentKit.Client.Unified.Services.Common;
@@ -50,36 +51,6 @@ namespace ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter;
 [MarkDownDoc]
 public class Service : AbstractClientService, ISubmitterService
 {
-  private const int MaxRetries = 10;
-
-  // *** you need some mechanism to map types to fields
-  private static readonly IDictionary<TaskStatus, ArmonikStatusCode> StatusCodesLookUp = new List<Tuple<TaskStatus, ArmonikStatusCode>>
-                                                                                         {
-                                                                                           Tuple.Create(TaskStatus.Submitted,
-                                                                                                        ArmonikStatusCode.ResultNotReady),
-                                                                                           Tuple.Create(TaskStatus.Timeout,
-                                                                                                        ArmonikStatusCode.TaskTimeout),
-                                                                                           Tuple.Create(TaskStatus.Cancelled,
-                                                                                                        ArmonikStatusCode.TaskCancelled),
-                                                                                           Tuple.Create(TaskStatus.Cancelling,
-                                                                                                        ArmonikStatusCode.TaskCancelled),
-                                                                                           Tuple.Create(TaskStatus.Error,
-                                                                                                        ArmonikStatusCode.TaskFailed),
-                                                                                           Tuple.Create(TaskStatus.Processing,
-                                                                                                        ArmonikStatusCode.ResultNotReady),
-                                                                                           Tuple.Create(TaskStatus.Dispatched,
-                                                                                                        ArmonikStatusCode.ResultNotReady),
-                                                                                           Tuple.Create(TaskStatus.Completed,
-                                                                                                        ArmonikStatusCode.ResultReady),
-                                                                                           Tuple.Create(TaskStatus.Creating,
-                                                                                                        ArmonikStatusCode.ResultNotReady),
-                                                                                           Tuple.Create(TaskStatus.Unspecified,
-                                                                                                        ArmonikStatusCode.TaskFailed),
-                                                                                           Tuple.Create(TaskStatus.Processed,
-                                                                                                        ArmonikStatusCode.ResultReady),
-                                                                                         }.ToDictionary(k => k.Item1,
-                                                                                                        v => v.Item2);
-
   private readonly RequestTaskMap requestTaskMap_ = new();
 
 
@@ -97,10 +68,9 @@ public class Service : AbstractClientService, ISubmitterService
   /// </summary>
   /// <param name="properties">The properties containing TaskOptions and information to communicate with Control plane and </param>
   /// <param name="loggerFactory"></param>
-  public Service(Properties                 properties,
-                 [CanBeNull] ILoggerFactory loggerFactory = null)
-    : base(properties,
-           loggerFactory)
+  public Service(Properties      properties,
+                 ILoggerFactory? loggerFactory = null)
+    : base(loggerFactory)
   {
     var timeOutSending = properties.TimeTriggerBuffer ?? TimeSpan.FromSeconds(1);
 
@@ -112,17 +82,14 @@ public class Service : AbstractClientService, ISubmitterService
 
     SessionService = SessionServiceFactory.CreateSession(properties);
 
-    ProtoSerializer = new ProtoSerializer();
-
     CancellationResultTaskSource = new CancellationTokenSource();
-    CancellationQueueTaskSource  = new CancellationTokenSource();
 
     HandlerResponse = Task.Run(ResultTask,
                                CancellationResultTaskSource.Token);
 
-    Logger = LoggerFactory?.CreateLogger<Service>();
-    Logger?.BeginPropertyScope(("SessionId", SessionService.SessionId),
-                               ("Class", "Service"));
+    Logger = LoggerFactory.CreateLogger<Service>();
+    Logger.BeginPropertyScope(("SessionId", SessionService.SessionId),
+                              ("Class", "Service"));
 
     BufferSubmit = new BatchUntilInactiveBlock<BlockRequest>(maxTasksPerBuffer,
                                                              timeOutSending,
@@ -143,8 +110,8 @@ public class Service : AbstractClientService, ISubmitterService
                                     return;
                                   }
 
-                                  Logger?.LogInformation("Submitting buffer of {count} task...",
-                                                         blockRequestList.Count);
+                                  Logger.LogInformation("Submitting buffer of {count} task...",
+                                                        blockRequestList.Count);
                                   var query = blockRequestList.GroupBy(blockRequest => blockRequest.TaskOptions);
 
                                   foreach (var groupBlockRequest in query)
@@ -152,14 +119,14 @@ public class Service : AbstractClientService, ISubmitterService
                                     var maxRetries = groupBlockRequest.First()
                                                                       .MaxRetries;
                                     //Generate resultId
-                                    var results_ids = SessionService.CreateResultsMetadata(groupBlockRequest.Select(_ => Guid.NewGuid()
-                                                                                                                             .ToString()))
-                                                                    .Values.ToList();
+                                    var resultsIds = SessionService.CreateResultsMetadata(groupBlockRequest.Select(_ => Guid.NewGuid()
+                                                                                                                            .ToString()))
+                                                                   .Values.ToList();
 
                                     foreach (var (request, index) in groupBlockRequest.Select((r,
                                                                                                i) => (r, i)))
                                     {
-                                      request.ResultId = results_ids[index];
+                                      request.ResultId = resultsIds[index];
                                     }
 
                                     for (var retry = 0; retry < maxRetries; retry++)
@@ -170,7 +137,9 @@ public class Service : AbstractClientService, ISubmitterService
                                           SessionService.SubmitTasksWithDependencies(groupBlockRequest.Select(x => new Tuple<string, byte[], IList<string>>(x.ResultId,
                                                                                                                                                             x.Payload!
                                                                                                                                                              .Serialize(),
-                                                                                                                                                            null)),
+                                                                                                                                                            Array
+                                                                                                                                                              .Empty<
+                                                                                                                                                                string>())),
                                                                                      1,
                                                                                      groupBlockRequest.First()
                                                                                                       .TaskOptions);
@@ -195,7 +164,7 @@ public class Service : AbstractClientService, ISubmitterService
 
                                         if (ids.Count > taskIdsResultIds.Count)
                                         {
-                                          Logger?.LogWarning("Fail to submit all tasks at once, retry with missing tasks");
+                                          Logger.LogWarning("Fail to submit all tasks at once, retry with missing tasks");
 
                                           throw new Exception("Fail to submit all tasks at once. Retrying...");
                                         }
@@ -206,16 +175,16 @@ public class Service : AbstractClientService, ISubmitterService
                                       {
                                         if (retry >= maxRetries - 1)
                                         {
-                                          Logger?.LogError(e,
-                                                           "Fail to retry {count} times of submission. Stop trying to submit",
-                                                           maxRetries);
+                                          Logger.LogError(e,
+                                                          "Fail to retry {count} times of submission. Stop trying to submit",
+                                                          maxRetries);
                                           throw;
                                         }
 
-                                        Logger?.LogWarning(e,
-                                                           "Fail to submit, {retry}/{maxRetries} retrying",
-                                                           retry,
-                                                           maxRetries);
+                                        Logger.LogWarning(e,
+                                                          "Fail to submit, {retry}/{maxRetries} retrying",
+                                                          retry,
+                                                          maxRetries);
 
                                         //Delay before submission
                                         Task.Delay(TimeSpan.FromMilliseconds(1000));
@@ -224,15 +193,15 @@ public class Service : AbstractClientService, ISubmitterService
 
                                     foreach (var blockRequest in groupBlockRequest)
                                     {
-                                      blockRequest.Lock?.Release();
+                                      blockRequest.Lock.Release();
                                     }
                                   }
                                 }
                                 catch (Exception e)
                                 {
-                                  Logger?.LogError(e,
-                                                   "Fail to submit buffer with {count} tasks inside",
-                                                   blockRequestList?.Count);
+                                  Logger.LogError(e,
+                                                  "Fail to submit buffer with {count} tasks inside",
+                                                  blockRequestList.Count);
 
                                   requestTaskMap_.BufferFailures(blockRequestList.Select(block => block.SubmitId),
                                                                  e);
@@ -240,30 +209,25 @@ public class Service : AbstractClientService, ISubmitterService
                               });
   }
 
-  private CancellationTokenSource CancellationQueueTaskSource { get; }
-
 
   private BatchUntilInactiveBlock<BlockRequest> BufferSubmit { get; }
 
-  [CanBeNull]
   private ILogger Logger { get; }
 
-  private ProtoSerializer ProtoSerializer { get; }
-
-  private SessionServiceFactory SessionServiceFactory { get; set; }
+  private SessionServiceFactory SessionServiceFactory { get; }
 
   private CancellationTokenSource CancellationResultTaskSource { get; }
 
   /// <summary>
   ///   The handler to send the response
   /// </summary>
-  public Task HandlerResponse { get; set; }
+  private Task HandlerResponse { get; }
 
   /// <summary>
   ///   The sessionId
   /// </summary>
   public string SessionId
-    => SessionService?.SessionId.Id;
+    => SessionService.SessionId.Id;
 
   /// <summary>
   ///   The method submit will execute task asynchronously on the server and will serialize object[] for Service method
@@ -276,16 +240,13 @@ public class Service : AbstractClientService, ISubmitterService
   public string Submit(string                    methodName,
                        object[]                  arguments,
                        IServiceInvocationHandler handler)
-  {
-    ArmonikPayload payload = new()
-                             {
-                               MethodName    = methodName,
-                               ClientPayload = ProtoSerializer.SerializeMessageObjectArray(arguments),
-                             };
-    var taskId = SessionService.SubmitTask(payload.Serialize());
-    ResultHandlerDictionary[taskId] = handler;
-    return taskId;
-  }
+    => Submit(methodName,
+              new List<object[]>
+              {
+                arguments,
+              },
+              handler)
+      .Single();
 
   /// <summary>
   ///   The method submit list of task with Enumerable list of arguments that will be serialized to each call of byte[]
@@ -298,23 +259,12 @@ public class Service : AbstractClientService, ISubmitterService
   public IEnumerable<string> Submit(string                    methodName,
                                     IEnumerable<object[]>     arguments,
                                     IServiceInvocationHandler handler)
-  {
-    var armonikPayloads = arguments.Select(args => new ArmonikPayload
-                                                   {
-                                                     MethodName          = methodName,
-                                                     ClientPayload       = ProtoSerializer.SerializeMessageObjectArray(args),
-                                                     SerializedArguments = false,
-                                                   });
-
-    var taskIds   = SessionService.SubmitTasks(armonikPayloads.Select(p => p.Serialize()));
-    var submitted = taskIds as string[] ?? taskIds.ToArray();
-    foreach (var taskid in submitted)
-    {
-      ResultHandlerDictionary[taskid] = handler;
-    }
-
-    return submitted;
-  }
+    => Submit(methodName,
+              arguments.Select(ProtoSerializer.Serialize),
+              handler,
+              5,
+              null,
+              false);
 
   /// <summary>
   ///   The method submit with One serialized argument that will be already serialized for byte[] MethodName(byte[]
@@ -329,25 +279,22 @@ public class Service : AbstractClientService, ISubmitterService
   ///   If non null it will override the default taskOptions in SessionService for client or given by taskHandler for worker
   /// </param>
   /// <returns>Returns the taskId string</returns>
+  // TODO: mark with [PublicApi] ?
+  // ReSharper disable once UnusedMember.Global
   public string Submit(string                    methodName,
                        byte[]                    argument,
                        IServiceInvocationHandler handler,
                        int                       maxRetries  = 5,
-                       TaskOptions               taskOptions = null)
-  {
-    ArmonikPayload payload = new()
-                             {
-                               MethodName          = methodName,
-                               ClientPayload       = argument,
-                               SerializedArguments = true,
-                             };
-
-    var taskId = SessionService.SubmitTask(payload.Serialize(),
-                                           maxRetries: maxRetries,
-                                           taskOptions: taskOptions);
-    ResultHandlerDictionary[taskId] = handler;
-    return taskId;
-  }
+                       TaskOptions?              taskOptions = null)
+    => Submit(methodName,
+              new[]
+              {
+                argument,
+              },
+              handler,
+              maxRetries,
+              taskOptions)
+      .Single();
 
   /// <summary>
   ///   The method submit list of task with Enumerable list of serialized arguments that will be already serialized for
@@ -362,26 +309,52 @@ public class Service : AbstractClientService, ISubmitterService
   ///   If non null it will override the default taskOptions in SessionService for client or given by taskHandler for worker
   /// </param>
   /// <returns>Return the taskId string</returns>
+  // TODO: mark with [PublicApi] ?
+  // ReSharper disable once MemberCanBePrivate.Global
   public IEnumerable<string> Submit(string                    methodName,
                                     IEnumerable<byte[]>       arguments,
                                     IServiceInvocationHandler handler,
                                     int                       maxRetries  = 5,
-                                    TaskOptions               taskOptions = null)
+                                    TaskOptions?              taskOptions = null)
+    => Submit(methodName,
+              arguments,
+              handler,
+              maxRetries,
+              taskOptions,
+              true);
+
+  /// <summary>
+  ///   The method submit list of task with Enumerable list of serialized arguments that will be already serialized for
+  ///   byte[] MethodName(byte[] argument).
+  /// </summary>
+  /// <param name="methodName">The name of the method inside the service</param>
+  /// <param name="arguments">List of serialized arguments that will already serialize for MethodName.</param>
+  /// <param name="handler">The handler callBack implemented as IServiceInvocationHandler to get response or result or error</param>
+  /// <param name="maxRetries">The number of retry before fail to submit task. Default = 5 retries</param>
+  /// <param name="taskOptions">
+  ///   TaskOptions argument to override default taskOptions in Session.
+  ///   If non null it will override the default taskOptions in SessionService for client or given by taskHandler for worker
+  /// </param>
+  /// <param name="serializedArguments">defines whether the arguments should be passed as serialized to the compute function</param>
+  /// <returns>Return the taskId string</returns>
+  private IEnumerable<string> Submit(string                    methodName,
+                                     IEnumerable<byte[]>       arguments,
+                                     IServiceInvocationHandler handler,
+                                     int                       maxRetries,
+                                     TaskOptions?              taskOptions,
+                                     bool                      serializedArguments)
   {
-    var armonikPayloads = arguments.Select(args => new ArmonikPayload
-                                                   {
-                                                     MethodName          = methodName,
-                                                     ClientPayload       = args,
-                                                     SerializedArguments = true,
-                                                   });
+    var armonikPayloads = arguments.Select(args => new ArmonikPayload(methodName,
+                                                                      args,
+                                                                      serializedArguments));
 
     var taskIds = SessionService.SubmitTasks(armonikPayloads.Select(p => p.Serialize()),
                                              maxRetries,
                                              taskOptions);
     var submitted = taskIds as string[] ?? taskIds.ToArray();
-    foreach (var taskid in submitted)
+    foreach (var taskId in submitted)
     {
-      ResultHandlerDictionary[taskid] = handler;
+      ResultHandlerDictionary[taskId] = handler;
     }
 
     return submitted;
@@ -401,33 +374,22 @@ public class Service : AbstractClientService, ISubmitterService
   /// </param>
   /// <param name="token">The cancellation token</param>
   /// <returns>Returns the taskId string</returns>
+  // TODO: [PublicAPI] ?
+  // ReSharper disable once UnusedMember.Global
   public async Task<string> SubmitAsync(string                    methodName,
                                         object[]                  argument,
                                         IServiceInvocationHandler handler,
                                         int                       maxRetries  = 5,
-                                        TaskOptions               taskOptions = null,
+                                        TaskOptions?              taskOptions = null,
                                         CancellationToken         token       = default)
-  {
-    await semaphoreSlim_.WaitAsync(token);
-
-    var blockRequest = new BlockRequest
-                       {
-                         SubmitId = Guid.NewGuid(),
-                         Payload = new ArmonikPayload
-                                   {
-                                     MethodName          = methodName,
-                                     ClientPayload       = ProtoSerializer.SerializeMessageObjectArray(argument),
-                                     SerializedArguments = false,
-                                   },
-                         Handler     = handler,
-                         MaxRetries  = maxRetries,
-                         TaskOptions = taskOptions ?? SessionService.TaskOptions,
-                         Lock        = semaphoreSlim_,
-                       };
-
-    return await SubmitAsync(blockRequest,
-                             token);
-  }
+    => await SubmitAsync(methodName,
+                         ProtoSerializer.Serialize(argument),
+                         handler,
+                         maxRetries,
+                         taskOptions,
+                         false,
+                         token)
+         .ConfigureAwait(false);
 
   /// <summary>
   ///   The method submit with one serialized argument that will send as byte[] MethodName(byte[]   argument).
@@ -442,24 +404,54 @@ public class Service : AbstractClientService, ISubmitterService
   ///   If non null it will override the default taskOptions in SessionService for client or given by taskHandler for worker
   /// </param>
   /// <returns>Return the taskId string</returns>
+  // TODO: mark with [PublicApi] ?
+  // ReSharper disable once MemberCanBePrivate.Global
+  // ReSharper disable once UnusedMember.Global
   public async Task<string> SubmitAsync(string                    methodName,
                                         byte[]                    argument,
                                         IServiceInvocationHandler handler,
                                         int                       maxRetries  = 5,
-                                        TaskOptions               taskOptions = null,
+                                        TaskOptions?              taskOptions = null,
                                         CancellationToken         token       = default)
+    => await SubmitAsync(methodName,
+                         ProtoSerializer.Serialize(argument),
+                         handler,
+                         maxRetries,
+                         taskOptions,
+                         true,
+                         token)
+         .ConfigureAwait(false);
+
+  /// <summary>
+  ///   The method submit with one serialized argument that will send as byte[] MethodName(byte[]   argument).
+  /// </summary>
+  /// <param name="methodName">The name of the method inside the service</param>
+  /// <param name="argument">One serialized argument that will already serialize for MethodName.</param>
+  /// <param name="handler">The handler callBack implemented as IServiceInvocationHandler to get response or result or error</param>
+  /// <param name="maxRetries">The number of retry before fail to submit task. Default = 5 retries</param>
+  /// <param name="taskOptions">
+  ///   TaskOptions argument to override default taskOptions in Session.
+  ///   If non null it will override the default taskOptions in SessionService for client or given by taskHandler for worker
+  /// </param>
+  /// <param name="serializedArguments">defines whether the arguments should be passed as serialized to the compute function</param>
+  /// <param name="token">The cancellation token to set to cancel the async task</param>
+  /// <returns>Return the taskId string</returns>
+  private async Task<string> SubmitAsync(string                    methodName,
+                                         byte[]                    argument,
+                                         IServiceInvocationHandler handler,
+                                         int                       maxRetries,
+                                         TaskOptions?              taskOptions,
+                                         bool                      serializedArguments,
+                                         CancellationToken         token)
   {
     await semaphoreSlim_.WaitAsync(token);
 
     return await SubmitAsync(new BlockRequest
                              {
                                SubmitId = Guid.NewGuid(),
-                               Payload = new ArmonikPayload
-                                         {
-                                           MethodName          = methodName,
-                                           ClientPayload       = argument,
-                                           SerializedArguments = true,
-                                         },
+                               Payload = new ArmonikPayload(methodName,
+                                                            argument,
+                                                            serializedArguments),
                                Handler     = handler,
                                MaxRetries  = maxRetries,
                                TaskOptions = taskOptions ?? SessionService.TaskOptions,
@@ -488,28 +480,24 @@ public class Service : AbstractClientService, ISubmitterService
   /// <param name="arguments">the array of object to pass as arguments for the method</param>
   /// <returns>Returns an object as result of the method call</returns>
   /// <exception cref="WorkerApiException"></exception>
-  [CanBeNull]
-  public ServiceResult LocalExecute(object   service,
+  // TODO: mark with [PublicApi] ?
+  // ReSharper disable once UnusedMember.Global
+#pragma warning disable CA1822
+  public ServiceResult LocalExecute(object service,
+#pragma warning restore CA1822
                                     string   methodName,
                                     object[] arguments)
   {
     var methodInfo = service.GetType()
-                            .GetMethod(methodName);
+                            .GetMethod(methodName) ?? throw new InvalidOperationException($"MethodName [{methodName}] was not found");
 
-    if (methodInfo == null)
-    {
-      throw new InvalidOperationException($"MethodName [{methodName}] was not found");
-    }
 
     var result = methodInfo.Invoke(service,
-                                   arguments);
+                                   arguments)!;
 
-    return new ServiceResult
-           {
-             TaskId = Guid.NewGuid()
-                          .ToString(),
-             Result = result,
-           };
+    return new ServiceResult(Guid.NewGuid()
+                                 .ToString(),
+                             result);
   }
 
   /// <summary>
@@ -524,29 +512,17 @@ public class Service : AbstractClientService, ISubmitterService
   ///   If non null it will override the default taskOptions in SessionService for client or given by taskHandler for worker
   /// </param>
   /// <returns>Returns a tuple with the taskId string and an object as result of the method call</returns>
-  public ServiceResult Execute(string      methodName,
-                               object[]    arguments,
-                               int         maxRetries  = 5,
-                               TaskOptions taskOptions = null)
-  {
-    ArmonikPayload unifiedPayload = new()
-                                    {
-                                      MethodName    = methodName,
-                                      ClientPayload = ProtoSerializer.SerializeMessageObjectArray(arguments),
-                                    };
-
-    var taskId = SessionService.SubmitTask(unifiedPayload.Serialize(),
-                                           maxRetries: maxRetries,
-                                           taskOptions: taskOptions);
-
-    var result = ProtoSerializer.DeSerializeMessageObjectArray(SessionService.GetResult(taskId));
-
-    return new ServiceResult
-           {
-             TaskId = taskId,
-             Result = result?[0],
-           };
-  }
+  // TODO: mark with [PublicApi] ?
+  // ReSharper disable once UnusedMember.Global
+  public ServiceResult Execute(string       methodName,
+                               object[]     arguments,
+                               int          maxRetries  = 5,
+                               TaskOptions? taskOptions = null)
+    => Execute(methodName,
+               ProtoSerializer.Serialize(arguments),
+               maxRetries,
+               taskOptions,
+               false);
 
   /// <summary>
   ///   This method is used to execute task and waiting after the result.
@@ -560,20 +536,43 @@ public class Service : AbstractClientService, ISubmitterService
   ///   If non null it will override the default taskOptions in SessionService for client or given by taskHandler for worker
   /// </param>
   /// <returns>Returns a tuple with the taskId string and an object as result of the method call</returns>
-  public ServiceResult Execute(string      methodName,
-                               byte[]      dataArg,
-                               int         maxRetries  = 5,
-                               TaskOptions taskOptions = null)
-  {
-    ArmonikPayload unifiedPayload = new()
-                                    {
-                                      MethodName          = methodName,
-                                      ClientPayload       = dataArg,
-                                      SerializedArguments = true,
-                                    };
+  // TODO: mark with [PublicApi] ?
+  // ReSharper disable once UnusedMember.Global
+  public ServiceResult Execute(string       methodName,
+                               byte[]       dataArg,
+                               int          maxRetries  = 5,
+                               TaskOptions? taskOptions = null)
+    => Execute(methodName,
+               dataArg,
+               maxRetries,
+               taskOptions,
+               true);
 
-    var      taskId = "not-TaskId";
-    object[] result;
+  /// <summary>
+  ///   This method is used to execute task and waiting after the result.
+  ///   the method will return the result of the execution until the grid returns the task result
+  /// </summary>
+  /// <param name="methodName">The string name of the method</param>
+  /// <param name="dataArg">the array of byte to pass as argument for the methodName(byte[] dataArg)</param>
+  /// <param name="maxRetries">The number of retry before fail to submit task. Default = 5 retries</param>
+  /// <param name="taskOptions">
+  ///   TaskOptions argument to override default taskOptions in Session.
+  ///   If non null it will override the default taskOptions in SessionService for client or given by taskHandler for worker
+  /// </param>
+  /// <param name="serializedArguments">defines whether the arguments should be passed as serialized to the compute function</param>
+  /// <returns>Returns a tuple with the taskId string and an object as result of the method call</returns>
+  private ServiceResult Execute(string       methodName,
+                                byte[]       dataArg,
+                                int          maxRetries,
+                                TaskOptions? taskOptions,
+                                bool         serializedArguments)
+  {
+    ArmonikPayload unifiedPayload = new(methodName,
+                                        dataArg,
+                                        serializedArguments);
+
+    var       taskId = "not-TaskId";
+    object?[] result;
 
     try
     {
@@ -581,14 +580,15 @@ public class Service : AbstractClientService, ISubmitterService
                                          maxRetries: maxRetries,
                                          taskOptions: taskOptions);
 
-      result = ProtoSerializer.DeSerializeMessageObjectArray(SessionService.GetResult(taskId));
+      result = ProtoSerializer.Deserialize<object[]>(SessionService.GetResult(taskId))!;
     }
     catch (Exception e)
     {
       var status = SessionService.GetTaskStatus(taskId);
 
-      var details = "";
+      var details = string.Empty;
 
+      // ReSharper disable once InvertIf
       if (status != TaskStatus.Completed)
       {
         var output = SessionService.GetTaskOutputInfo(taskId);
@@ -598,21 +598,16 @@ public class Service : AbstractClientService, ISubmitterService
       }
 
       throw new ServiceInvocationException(e is AggregateException
-                                             ? e.InnerException
+                                             ? e.InnerException ?? e
                                              : e,
-                                           StatusCodesLookUp.Keys.Contains(status)
-                                             ? StatusCodesLookUp[status]
-                                             : ArmonikStatusCode.Unknown)
+                                           status.ToArmonikStatusCode())
             {
               OutputDetails = details,
             };
     }
 
-    return new ServiceResult
-           {
-             TaskId = taskId,
-             Result = result?[0],
-           };
+    return new ServiceResult(taskId,
+                             result[0]);
   }
 
   /// <summary>
@@ -651,8 +646,8 @@ public class Service : AbstractClientService, ISubmitterService
         {
           try
           {
-            Logger?.LogTrace("Response handler for {taskId}",
-                             resultStatusData.TaskId);
+            Logger.LogTrace("Response handler for {taskId}",
+                            resultStatusData.TaskId);
             responseHandler(resultStatusData.TaskId,
                             Retry.WhileException(5,
                                                  2000,
@@ -660,9 +655,9 @@ public class Service : AbstractClientService, ISubmitterService
                                                  {
                                                    if (retry > 1)
                                                    {
-                                                     Logger?.LogWarning("Try {try} for {funcName}",
-                                                                        retry,
-                                                                        nameof(SessionService.TryGetResultAsync));
+                                                     Logger.LogWarning("Try {try} for {funcName}",
+                                                                       retry,
+                                                                       nameof(SessionService.TryGetResultAsync));
                                                    }
 
                                                    return SessionService.TryGetResultAsync(new ResultRequest
@@ -675,13 +670,13 @@ public class Service : AbstractClientService, ISubmitterService
                                                  },
                                                  true,
                                                  typeof(IOException),
-                                                 typeof(RpcException)));
+                                                 typeof(RpcException))!);
           }
           catch (Exception e)
           {
-            Logger?.LogWarning(e,
-                               "Response handler for {taskId} threw an error",
-                               resultStatusData.TaskId);
+            Logger.LogWarning(e,
+                              "Response handler for {taskId} threw an error",
+                              resultStatusData.TaskId);
             try
             {
               errorHandler(resultStatusData.TaskId,
@@ -690,9 +685,9 @@ public class Service : AbstractClientService, ISubmitterService
             }
             catch (Exception e2)
             {
-              Logger?.LogError(e2,
-                               "An error occured while handling another error: {details}",
-                               e);
+              Logger.LogError(e2,
+                              "An error occurred while handling another error: {details}",
+                              e);
             }
           }
         }
@@ -719,10 +714,10 @@ public class Service : AbstractClientService, ISubmitterService
               break;
           }
 
-          Logger?.LogDebug("Error handler for {taskId}, {taskStatus}: {details}",
-                           resultStatusData.TaskId,
-                           taskStatus,
-                           details);
+          Logger.LogDebug("Error handler for {taskId}, {taskStatus}: {details}",
+                          resultStatusData.TaskId,
+                          taskStatus,
+                          details);
           try
           {
             errorHandler(resultStatusData.TaskId,
@@ -731,10 +726,10 @@ public class Service : AbstractClientService, ISubmitterService
           }
           catch (Exception e)
           {
-            Logger?.LogError(e,
-                             "An error occured while handling a Task error {status}: {details}",
-                             taskStatus,
-                             details);
+            Logger.LogError(e,
+                            "An error occurred while handling a Task error {status}: {details}",
+                            taskStatus,
+                            details);
           }
         }
 
@@ -750,10 +745,10 @@ public class Service : AbstractClientService, ISubmitterService
           }
           catch (Exception e)
           {
-            Logger?.LogError(e,
-                             "An error occured while handling a Task error {status}: {details}",
-                             TaskStatus.Unspecified,
-                             "Task is missing");
+            Logger.LogError(e,
+                            "An error occurred while handling a Task error {status}: {details}",
+                            TaskStatus.Unspecified,
+                            "Task is missing");
           }
         }
 
@@ -765,8 +760,8 @@ public class Service : AbstractClientService, ISubmitterService
                   ? waitInSeconds.Count - 1
                   : idx                 + 1;
 
-          Logger?.LogDebug("No Results are ready. Wait for {timeWait} seconds before new retry",
-                           waitInSeconds[idx] / 1000);
+          Logger.LogDebug("No Results are ready. Wait for {timeWait} seconds before new retry",
+                          waitInSeconds[idx] / 1000);
         }
         else
         {
@@ -794,9 +789,9 @@ public class Service : AbstractClientService, ISubmitterService
                              {
                                try
                                {
-                                 var result = ProtoSerializer.DeSerializeMessageObjectArray(byteResult);
+                                 var result = ProtoSerializer.Deserialize<object?[]>(byteResult);
                                  ResultHandlerDictionary[taskId]
-                                   .HandleResponse(result?[0],
+                                   .HandleResponse(result![0],
                                                    taskId);
                                }
                                catch (Exception e)
@@ -814,7 +809,7 @@ public class Service : AbstractClientService, ISubmitterService
                                  }
                                  else if (ae is not null)
                                  {
-                                   ex = new ServiceInvocationException(ae.InnerException,
+                                   ex = new ServiceInvocationException(ae.InnerException ?? ae,
                                                                        statusCode);
                                  }
                                  else
@@ -839,9 +834,7 @@ public class Service : AbstractClientService, ISubmitterService
                              {
                                try
                                {
-                                 var statusCode = StatusCodesLookUp.Keys.Contains(taskStatus)
-                                                    ? StatusCodesLookUp[taskStatus]
-                                                    : ArmonikStatusCode.Unknown;
+                                 var statusCode = taskStatus.ToArmonikStatusCode();
 
                                  ResultHandlerDictionary[taskId]
                                    .HandleError(new ServiceInvocationException(ex,
@@ -862,16 +855,16 @@ public class Service : AbstractClientService, ISubmitterService
       }
       catch (Exception e)
       {
-        Logger?.LogError("An error occured while fetching results: {e}",
-                         e);
+        Logger.LogError("An error occurred while fetching results: {e}",
+                        e);
       }
     }
 
     if (!ResultHandlerDictionary.IsEmpty)
     {
-      Logger?.LogWarning("Results not processed : [{resultsNotProcessed}]",
-                         string.Join(", ",
-                                     ResultHandlerDictionary.Keys));
+      Logger.LogWarning("Results not processed : [{resultsNotProcessed}]",
+                        string.Join(", ",
+                                    ResultHandlerDictionary.Keys));
     }
   }
 
@@ -880,6 +873,8 @@ public class Service : AbstractClientService, ISubmitterService
   ///   Get a new channel to communicate with the control plane
   /// </summary>
   /// <returns>gRPC channel</returns>
+  // TODO: Refactor test to remove this
+  // ReSharper disable once UnusedMember.Global
   public ChannelBase GetChannel()
     => SessionService.ChannelPool.GetChannel();
 
@@ -887,32 +882,11 @@ public class Service : AbstractClientService, ISubmitterService
   public override void Dispose()
   {
     CancellationResultTaskSource.Cancel();
-    HandlerResponse?.Wait();
-    HandlerResponse?.Dispose();
-
-    SessionService        = null;
-    SessionServiceFactory = null;
+    HandlerResponse.Wait();
+    HandlerResponse.Dispose();
     semaphoreSlim_.Dispose();
-  }
 
-  /// <summary>
-  ///   The method to destroy the service and close the session
-  /// </summary>
-  public void Destroy()
-    => Dispose();
-
-  /// <summary>
-  ///   Check if this service has been destroyed before that call
-  /// </summary>
-  /// <returns>Returns true if the service was destroyed previously</returns>
-  public bool IsDestroyed()
-  {
-    if (SessionService == null || SessionServiceFactory == null)
-    {
-      return true;
-    }
-
-    return false;
+    GC.SuppressFinalize(this);
   }
 
   /// <summary>
@@ -921,13 +895,29 @@ public class Service : AbstractClientService, ISubmitterService
   public class ServiceResult
   {
     /// <summary>
+    ///   Constructor
+    /// </summary>
+    /// <param name="taskId"></param>
+    /// <param name="result"></param>
+    public ServiceResult(string  taskId,
+                         object? result)
+    {
+      TaskId = taskId;
+      Result = result;
+    }
+
+    /// <summary>
     ///   The getter to return the taskId
     /// </summary>
-    public string TaskId { get; set; }
+    // TODO: mark with [PublicApi] ?
+    // ReSharper disable once UnusedAutoPropertyAccessor.Global
+    public string TaskId { get; }
 
     /// <summary>
     ///   The getter to return the result in object type format
     /// </summary>
-    public object Result { get; set; }
+    // TODO: mark with [PublicApi] ?
+    // ReSharper disable once UnusedAutoPropertyAccessor.Global
+    public object? Result { get; }
   }
 }

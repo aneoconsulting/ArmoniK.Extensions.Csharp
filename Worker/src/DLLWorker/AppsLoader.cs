@@ -56,7 +56,7 @@ public class AppsLoader : IAppsLoader
                                                                         }) ??
                               throw new WorkerApiException($"Could not find main assembly {localAssemblySearchPath}/{packageId.MainAssemblyFileName}");
 
-    UserAssemblyLoadContext = new AddonsAssemblyLoadContext(localPathToAssembly);
+    UserAssemblyLoadContext = new AddOnAssemblyLoadContext(localPathToAssembly);
 
     try
     {

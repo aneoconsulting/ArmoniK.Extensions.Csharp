@@ -37,8 +37,8 @@ public interface IServiceInvocationHandler
   /// <summary>
   ///   The callBack method which has to be implemented to retrieve response from the server
   /// </summary>
-  /// <param name="response">The object receive from the server as result the method called by the client</param>
-  /// <param name="taskId">The task identifier which has invoke the response callBack</param>
-  void HandleResponse(object response,
-                      string taskId);
+  /// <param name="response">The object received from the server as the result of the method called by the client</param>
+  /// <param name="taskId">The task identifier triggering the callBack</param>
+  void HandleResponse(object? response,
+                      string  taskId);
 }

@@ -59,6 +59,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArmoniK.EndToEndTests.Clien
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArmoniK.EndToEndTests.Worker", "Tests\ArmoniK.EndToEndTests\ArmoniK.EndToEndTests.Worker\ArmoniK.EndToEndTests.Worker.csproj", "{B960962F-4CB1-480D-8D10-9DE2990896B7}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArmoniK.DevelopmentKit.Common.Tests", "Tests\ArmoniK.DevelopmentKit.Common.Tests\ArmoniK.DevelopmentKit.Common.Tests.csproj", "{84BB2691-33F0-45B4-8D63-0ECF82708CFC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -109,6 +111,10 @@ Global
 		{B960962F-4CB1-480D-8D10-9DE2990896B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B960962F-4CB1-480D-8D10-9DE2990896B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B960962F-4CB1-480D-8D10-9DE2990896B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{84BB2691-33F0-45B4-8D63-0ECF82708CFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{84BB2691-33F0-45B4-8D63-0ECF82708CFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{84BB2691-33F0-45B4-8D63-0ECF82708CFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{84BB2691-33F0-45B4-8D63-0ECF82708CFC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -137,6 +143,7 @@ Global
 		{E7AE7482-42A7-4113-AB1E-EBECE53AF6CA} = {CD412C3D-63D0-4726-B4C3-FEF701E4DCAF}
 		{7E5AE5BF-099E-4E00-B7CB-1C80FDC7C193} = {CD412C3D-63D0-4726-B4C3-FEF701E4DCAF}
 		{B960962F-4CB1-480D-8D10-9DE2990896B7} = {CD412C3D-63D0-4726-B4C3-FEF701E4DCAF}
+		{84BB2691-33F0-45B4-8D63-0ECF82708CFC} = {CD412C3D-63D0-4726-B4C3-FEF701E4DCAF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1285A466-2AF6-43E6-8DCC-2F93A5D5F02E}

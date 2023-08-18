@@ -170,12 +170,9 @@ public class AggregationPriority : TaskWorkerService
                                          object argument)
   {
     var payload = JsonSerializer.SerializeToUtf8Bytes(argument);
-    return new ArmonikPayload
-           {
-             MethodName          = methodName,
-             ClientPayload       = ProtoSerializer.SerializeMessageObject(payload),
-             SerializedArguments = false,
-           }.Serialize();
+    return new ArmonikPayload(methodName,
+                              ProtoSerializer.Serialize(payload),
+                              false).Serialize();
   }
 
   /// <summary>
@@ -192,7 +189,7 @@ public class AggregationPriority : TaskWorkerService
                                   nameof(payload));
     }
 
-    var deprot     = ProtoSerializer.DeSerializeMessageObjectArray(payload);
+    var deprot     = ProtoSerializer.Deserialize<object[]>(payload);
     var taskResult = TaskResult.Deserialize(deprot[0] as byte[]);
 
     if (taskResult is null)

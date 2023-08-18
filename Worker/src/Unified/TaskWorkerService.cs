@@ -248,13 +248,9 @@ public abstract class TaskWorkerService : ITaskContextConfiguration, ISessionSer
                            int         maxRetries  = 5,
                            TaskOptions taskOptions = null)
   {
-    var protoSerializer = new ProtoSerializer();
-    ArmonikPayload armonikPayload = new()
-                                    {
-                                      MethodName          = methodName,
-                                      ClientPayload       = protoSerializer.SerializeMessageObjectArray(arguments),
-                                      SerializedArguments = false,
-                                    };
+    ArmonikPayload armonikPayload = new(methodName,
+                                        ProtoSerializer.Serialize(arguments),
+                                        false);
     return SessionService.SubmitTasks(new[]
                                       {
                                         armonikPayload.Serialize(),
@@ -314,13 +310,9 @@ public abstract class TaskWorkerService : ITaskContextConfiguration, ISessionSer
                                            int           maxRetries      = 5,
                                            TaskOptions   taskOptions     = null)
   {
-    var protoSerializer = new ProtoSerializer();
-    ArmonikPayload armonikPayload = new()
-                                    {
-                                      MethodName          = methodName,
-                                      ClientPayload       = protoSerializer.SerializeMessageObjectArray(arguments),
-                                      SerializedArguments = false,
-                                    };
+    ArmonikPayload armonikPayload = new(methodName,
+                                        ProtoSerializer.Serialize(arguments),
+                                        false);
     return SessionService.SubmitTasksWithDependencies(new[]
                                                       {
                                                         Tuple.Create(armonikPayload.Serialize(),
