@@ -22,12 +22,11 @@ using System.Runtime.Serialization;
 
 using ArmoniK.DevelopmentKit.Common.Exceptions;
 
-using JetBrains.Annotations;
-
 using ProtoBuf;
 
 namespace ArmoniK.DevelopmentKit.Common;
 
+// TODO: should it be marked for [PublicApi] ?
 public static class ProtoSerializer
 {
 // *** you need some mechanism to map types to fields
@@ -68,7 +67,8 @@ public static class ProtoSerializer
     return data;
   }
 
-  [UsedImplicitly]
+  // TODO: is it [PublicApi]?
+  // ReSharper disable once UnusedMember.Global
   public static void RegisterClass(Type type)
   {
     if (TypeLookup.Contains(type))

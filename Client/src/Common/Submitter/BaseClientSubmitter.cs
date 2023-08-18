@@ -437,7 +437,6 @@ public abstract class BaseClientSubmitter<T>
                                                           retry,
                                                           nameof(submitterService.GetResultStatus));
                                           // TODO: replace with submitterService.TryGetResultStream() => Issue #
-#pragma warning disable CS0612 // Type or member is obsolete
                                           var resultStatusReply = submitterService.GetResultStatus(new GetResultStatusRequest
                                                                                                    {
                                                                                                      ResultIds =
@@ -446,7 +445,6 @@ public abstract class BaseClientSubmitter<T>
                                                                                                      },
                                                                                                      SessionId = SessionId.Id,
                                                                                                    });
-#pragma warning restore CS0612 // Type or member is obsolete
                                           return resultStatusReply.IdStatuses;
                                         },
                                         true,
@@ -564,10 +562,8 @@ public abstract class BaseClientSubmitter<T>
                                              retry,
                                              nameof(submitterService.WaitForAvailability));
                              // TODO: replace with submitterService.TryGetResultStream() => Issue #
-#pragma warning disable CS0612 // Type or member is obsolete
                              var availabilityReply = submitterService.WaitForAvailability(resultRequest,
                                                                                           cancellationToken: cancellationToken);
-#pragma warning restore CS0612 // Type or member is obsolete
 
                              switch (availabilityReply.TypeCase)
                              {
