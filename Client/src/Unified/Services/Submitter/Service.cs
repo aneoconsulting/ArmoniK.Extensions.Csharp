@@ -374,6 +374,8 @@ public class Service : AbstractClientService, ISubmitterService
   /// </param>
   /// <param name="token">The cancellation token</param>
   /// <returns>Returns the taskId string</returns>
+  // TODO: [PublicAPI] ?
+  // ReSharper disable once UnusedMember.Global
   public async Task<string> SubmitAsync(string                    methodName,
                                         object[]                  argument,
                                         IServiceInvocationHandler handler,
@@ -385,8 +387,8 @@ public class Service : AbstractClientService, ISubmitterService
                          handler,
                          maxRetries,
                          taskOptions,
-                         token,
-                         false)
+                         false,
+                         token)
          .ConfigureAwait(false);
 
   /// <summary>
@@ -404,6 +406,7 @@ public class Service : AbstractClientService, ISubmitterService
   /// <returns>Return the taskId string</returns>
   // TODO: mark with [PublicApi] ?
   // ReSharper disable once MemberCanBePrivate.Global
+  // ReSharper disable once UnusedMember.Global
   public async Task<string> SubmitAsync(string                    methodName,
                                         byte[]                    argument,
                                         IServiceInvocationHandler handler,
@@ -415,8 +418,8 @@ public class Service : AbstractClientService, ISubmitterService
                          handler,
                          maxRetries,
                          taskOptions,
-                         token,
-                         true)
+                         true,
+                         token)
          .ConfigureAwait(false);
 
   /// <summary>
@@ -425,21 +428,21 @@ public class Service : AbstractClientService, ISubmitterService
   /// <param name="methodName">The name of the method inside the service</param>
   /// <param name="argument">One serialized argument that will already serialize for MethodName.</param>
   /// <param name="handler">The handler callBack implemented as IServiceInvocationHandler to get response or result or error</param>
-  /// <param name="token">The cancellation token to set to cancel the async task</param>
   /// <param name="maxRetries">The number of retry before fail to submit task. Default = 5 retries</param>
   /// <param name="taskOptions">
   ///   TaskOptions argument to override default taskOptions in Session.
   ///   If non null it will override the default taskOptions in SessionService for client or given by taskHandler for worker
   /// </param>
   /// <param name="serializedArguments">defines whether the arguments should be passed as serialized to the compute function</param>
+  /// <param name="token">The cancellation token to set to cancel the async task</param>
   /// <returns>Return the taskId string</returns>
   private async Task<string> SubmitAsync(string                    methodName,
                                          byte[]                    argument,
                                          IServiceInvocationHandler handler,
                                          int                       maxRetries,
                                          TaskOptions?              taskOptions,
-                                         CancellationToken         token,
-                                         bool                      serializedArguments)
+                                         bool                      serializedArguments,
+                                         CancellationToken         token)
   {
     await semaphoreSlim_.WaitAsync(token);
 
@@ -583,23 +586,16 @@ public class Service : AbstractClientService, ISubmitterService
     {
       var status = SessionService.GetTaskStatus(taskId);
 
-      var details = "";
+      var details = string.Empty;
 
-      if (status == TaskStatus.Completed)
+      // ReSharper disable once InvertIf
+      if (status != TaskStatus.Completed)
       {
-        throw new ServiceInvocationException(e is AggregateException
-                                               ? e.InnerException ?? e
-                                               : e,
-                                             status.ToArmonikStatusCode())
-              {
-                OutputDetails = details,
-              };
+        var output = SessionService.GetTaskOutputInfo(taskId);
+        details = output.TypeCase == Output.TypeOneofCase.Error
+                    ? output.Error.Details
+                    : e.Message + e.StackTrace;
       }
-
-      var output = SessionService.GetTaskOutputInfo(taskId);
-      details = output.TypeCase == Output.TypeOneofCase.Error
-                  ? output.Error.Details
-                  : e.Message + e.StackTrace;
 
       throw new ServiceInvocationException(e is AggregateException
                                              ? e.InnerException ?? e
@@ -877,6 +873,8 @@ public class Service : AbstractClientService, ISubmitterService
   ///   Get a new channel to communicate with the control plane
   /// </summary>
   /// <returns>gRPC channel</returns>
+  // TODO: Refactor test to remove this
+  // ReSharper disable once UnusedMember.Global
   public ChannelBase GetChannel()
     => SessionService.ChannelPool.GetChannel();
 
