@@ -254,8 +254,7 @@ public abstract class BaseClientSubmitter<T>
   {
     using var _ = Logger.LogFunction();
 
-    List<TaskRequest> taskRequestList = new();
-    var localTaskRequest = payloadsWithDependencies.Select(pwd =>
+    var taskRequests = payloadsWithDependencies.Select(pwd =>
                                                            {
                                                              var taskRequest = new TaskRequest
                                                                                {
@@ -263,7 +262,6 @@ public abstract class BaseClientSubmitter<T>
                                                                                };
                                                              taskRequest.DataDependencies.AddRange(pwd.Item3);
                                                              taskRequest.ExpectedOutputKeys.Add(pwd.Item1);
-                                                             taskRequestList.Add(taskRequest);
                                                              return taskRequest;
                                                            });
 
@@ -276,7 +274,9 @@ public abstract class BaseClientSubmitter<T>
 
         var response = submitterService.CreateTasksAsync(SessionId.Id,
                                                          taskOptions ?? TaskOptions,
-                                                         localTaskRequest)
+                                                         // multiple enumeration only occurs in case of failure
+                                                         // ReSharper disable once PossibleMultipleEnumeration 
+                                                         taskRequests)
                                        .ConfigureAwait(false)
                                        .GetAwaiter()
                                        .GetResult();
@@ -290,7 +290,6 @@ public abstract class BaseClientSubmitter<T>
       }
       catch (Exception e)
       {
-        localTaskRequest = taskRequestList;
         if (nbRetry >= maxRetries - 1)
         {
           throw;
@@ -340,6 +339,8 @@ public abstract class BaseClientSubmitter<T>
   /// <param name="taskId">
   ///   The task taskId of the task to wait for
   /// </param>
+  /// <param name="maxRetries">Max number of retries for the underlying calls</param>
+  /// <param name="delayMs">Delay between retries</param>
   public void WaitForTaskCompletion(string taskId,
                                     int    maxRetries = 5,
                                     int    delayMs    = 20000)
