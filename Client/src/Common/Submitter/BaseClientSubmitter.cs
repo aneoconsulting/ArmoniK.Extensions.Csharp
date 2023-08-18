@@ -817,31 +817,34 @@ public abstract class BaseClientSubmitter<T>
     {
       if (resultStatus.IdsError.Any() || resultStatus.IdsResultError.Any())
       {
-        var ids = string.Join(", ",
-                              resultStatus.IdsResultError.Select(x => x.TaskId));
+        var taskList = string.Join(", ",
+                                   resultStatus.IdsResultError.Select(x => x.TaskId));
 
         if (resultStatus.IdsError.Any())
         {
           if (resultStatus.IdsResultError.Any())
           {
-            ids += ", ";
+            taskList += ", ";
           }
 
-          ids += string.Join(", ",
-                             resultStatus.IdsError);
+          taskList += string.Join(", ",
+                                  resultStatus.IdsError);
         }
 
         var taskIdInError = resultStatus.IdsError.Any()
                               ? resultStatus.IdsError[0]
                               : resultStatus.IdsResultError[0].TaskId;
 
-        Logger.LogError("The missing result is in error or canceled. Please check log for more information on Armonik grid server list of taskIds in Error: [{taskList}]",
-                        ids);
-        Logger.LogError("1st result id where the task which should create it is in error : {taskIdInError}",
+        const string message = "The missing result is in error or canceled. "                                                          +
+                               "Please check log for more information on Armonik grid server list of taskIds in Error: [{taskList}]\n" +
+                               "1st result id where the task which should create it is in error : {taskIdInError}";
+
+        Logger.LogError(message,
+                        taskList,
                         taskIdInError);
 
         throw new
-          ClientResultsException($"The missing result is in error or canceled. Please check log for more information on Armonik grid server list of taskIds in Error: [{ids}]" +
+          ClientResultsException($"The missing result is in error or canceled. Please check log for more information on Armonik grid server list of taskIds in Error: [{taskList}]" +
                                  $"1st result id where the task which should create it is in error : {taskIdInError}",
                                  resultStatus.IdsError.ToArray());
       }
