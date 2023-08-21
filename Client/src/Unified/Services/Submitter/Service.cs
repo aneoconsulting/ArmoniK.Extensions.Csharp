@@ -574,11 +574,8 @@ public class Service : AbstractClientService, ISubmitterService
                                                                        nameof(SessionService.TryGetResultAsync));
                                                    }
 
-                                                   return SessionService.TryGetResultAsync(new ResultRequest
-                                                                                           {
-                                                                                             ResultId = resultStatusData.ResultId,
-                                                                                             Session  = SessionId,
-                                                                                           },
+                                                   return SessionService.TryGetResultAsync(resultStatusData.ResultId,
+                                                                                           SessionId,
                                                                                            CancellationToken.None)
                                                                         .Result;
                                                  },
