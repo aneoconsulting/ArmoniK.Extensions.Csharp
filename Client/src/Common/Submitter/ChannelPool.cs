@@ -165,7 +165,7 @@ public sealed class ChannelPool
   public T WithChannel<T>(Func<ChannelBase, T> f)
   {
     using var channel = GetChannel();
-    return f(channel);
+    return f(channel.Channel);
   }
 
   /// <summary>
@@ -173,11 +173,6 @@ public sealed class ChannelPool
   /// </summary>
   public sealed class ChannelGuard : IDisposable
   {
-    /// <summary>
-    ///   Channel that is used by nobody else
-    /// </summary>
-    private readonly ChannelBase channel_;
-
     private readonly ChannelPool pool_;
 
     /// <summary>
@@ -186,20 +181,17 @@ public sealed class ChannelPool
     /// <param name="channelPool"></param>
     public ChannelGuard(ChannelPool channelPool)
     {
-      pool_    = channelPool;
-      channel_ = channelPool.AcquireChannel();
+      pool_   = channelPool;
+      Channel = channelPool.AcquireChannel();
     }
+
+    /// <summary>
+    ///   Channel that is used by nobody else
+    /// </summary>
+    public ChannelBase Channel { get; }
 
     /// <inheritdoc />
     public void Dispose()
-      => pool_.ReleaseChannel(channel_);
-
-    /// <summary>
-    ///   Implicit convert a ChannelGuard into a ChannelBase
-    /// </summary>
-    /// <param name="guard">ChannelGuard</param>
-    /// <returns>ChannelBase</returns>
-    public static implicit operator ChannelBase(ChannelGuard guard)
-      => guard.channel_;
+      => pool_.ReleaseChannel(Channel);
   }
 }

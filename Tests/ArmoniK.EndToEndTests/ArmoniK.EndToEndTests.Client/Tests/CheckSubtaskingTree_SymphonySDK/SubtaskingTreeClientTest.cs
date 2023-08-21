@@ -53,9 +53,9 @@ public class SubtaskingTreeClientTest
   public void Check_That_Subtasking_Is_Working_With_Symphony_SDK(int maxNumberToSum,
                                                                  int subtaskSplitCount)
   {
-    var numbers = Enumerable.Range(1,
-                                   maxNumberToSum)
-                            .ToList();
+    var numbers = System.Linq.Enumerable.Range(1,
+                                               maxNumberToSum)
+                        .ToList();
     var expectedResult = numbers.Sum(elem => (long)elem);
 
     var payload = new ClientPayload

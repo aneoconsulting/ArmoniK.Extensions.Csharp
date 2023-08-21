@@ -107,16 +107,16 @@ public class Priority
 
 
     var tasks = new Dictionary<string, int>();
-    foreach (var t in Enumerable.Range(1,
-                                       5))
+    foreach (var t in System.Linq.Enumerable.Range(1,
+                                                   5))
     {
       var options = properties.TaskOptions.Clone();
       options.Priority = t;
       var payload = new ArmonikPayload("GetPriority",
                                        BitConverter.GetBytes(options.Priority),
                                        true).Serialize();
-      foreach (var submitTask in service.SubmitTasks(Enumerable.Repeat(payload,
-                                                                       nTasksPerSessionPerPriority),
+      foreach (var submitTask in service.SubmitTasks(System.Linq.Enumerable.Repeat(payload,
+                                                                                   nTasksPerSessionPerPriority),
                                                      taskOptions: options))
       {
         tasks.Add(submitTask,

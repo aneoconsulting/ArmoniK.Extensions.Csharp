@@ -50,10 +50,10 @@ public class RandomExceptionSymClientTest
                           Type = ClientPayload.TaskType.Expm1,
                         }.Serialize();
 
-    var payloadsTasks = Enumerable.Range(1,
-                                         2)
-                                  .Select(_ => new Task<int>(() => SendTaskAndGetErrorCount(clientPayload)))
-                                  .ToArray();
+    var payloadsTasks = System.Linq.Enumerable.Range(1,
+                                                     2)
+                              .Select(_ => new Task<int>(() => SendTaskAndGetErrorCount(clientPayload)))
+                              .ToArray();
     payloadsTasks.AsParallel()
                  .ForAll(t => t.Start());
 
@@ -72,9 +72,9 @@ public class RandomExceptionSymClientTest
     var symphonyTestHelper = new SymphonyTestHelper(ApplicationNamespace,
                                                     ApplicationService);
 
-    var payloads = Enumerable.Repeat(0,
-                                     50)
-                             .Select(_ => clientPayload);
+    var payloads = System.Linq.Enumerable.Repeat(0,
+                                                 50)
+                         .Select(_ => clientPayload);
     var taskIds = symphonyTestHelper.SessionService.SubmitTasks(payloads);
 
     //var taskResults = symphonyTestHelper.WaitForTasksResult(0, taskIds).ToList();

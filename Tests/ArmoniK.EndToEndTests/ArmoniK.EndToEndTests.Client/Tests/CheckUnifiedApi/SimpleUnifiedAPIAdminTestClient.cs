@@ -52,13 +52,13 @@ public class SimpleUnifiedApiAdminTestClient : ClientBaseTest<SimpleUnifiedApiTe
   public void HandleError(ServiceInvocationException e,
                           string                     taskId)
   {
-    if (e.StatusCode == ArmonikStatusCode.TaskCancelled)
+    if (e.TaskStatusCode == ArmonikTaskStatusCode.TaskCancelled)
     {
-      Log.LogWarning($"Task canceled : {taskId}. Status {e.StatusCode.ToString()} Message : {e.Message}\nDetails : {e.OutputDetails}");
+      Log.LogWarning($"Task canceled : {taskId}. TaskStatus {e.TaskStatusCode.ToString()} Message : {e.Message}\nDetails : {e.OutputDetails}");
     }
     else
     {
-      Log.LogError($"Fail to get result from {taskId}. Status {e.StatusCode.ToString()} Message : {e.Message}\nDetails : {e.OutputDetails}");
+      Log.LogError($"Fail to get result from {taskId}. TaskStatus {e.TaskStatusCode.ToString()} Message : {e.Message}\nDetails : {e.OutputDetails}");
 
       throw new ApplicationException($"Error from {taskId}",
                                      e);
@@ -103,8 +103,8 @@ public class SimpleUnifiedApiAdminTestClient : ClientBaseTest<SimpleUnifiedApiTe
 
     //var resourceId = ServiceAdmin.CreateInstance(Configuration, LoggerFactory,props).UploadResource("filePath");
 
-    using var cs = ServiceFactory.CreateService(props,
-                                                LoggerFactory);
+    var cs = ServiceFactory.CreateService(props,
+                                          LoggerFactory);
 
     using var csa = ServiceFactory.GetServiceAdmin(props,
                                                    LoggerFactory);
@@ -148,9 +148,9 @@ public class SimpleUnifiedApiAdminTestClient : ClientBaseTest<SimpleUnifiedApiTe
                   }.ToArray();
     const int wantedCount = 100;
     var tasks = sessionService.Submit("ComputeBasicArrayCube",
-                                      Enumerable.Range(1,
-                                                       wantedCount)
-                                                .Select(_ => ParamsHelper(numbers)),
+                                      System.Linq.Enumerable.Range(1,
+                                                                   wantedCount)
+                                            .Select(_ => ParamsHelper(numbers)),
                                       this);
     if (tasks.Count() is var count && count != wantedCount)
     {

@@ -46,19 +46,19 @@ public class CheckTryGetResultClientTest
   [Test]
   public void Check_That_We_Can_Launch_tasks_In_Multiple_Sessions_At_The_Same_Time()
   {
-    var numbersToSquareReduce = Enumerable.Range(1,
-                                                 3)
-                                          .ToList();
+    var numbersToSquareReduce = System.Linq.Enumerable.Range(1,
+                                                             3)
+                                      .ToList();
     var clientPayload = new ClientPayload
                         {
                           Type    = ClientPayload.TaskType.ComputeCube,
                           Numbers = numbersToSquareReduce,
                         }.Serialize();
     var expectedResult = numbersToSquareReduce.Sum(x => x * x * x);
-    var payloadsTasks = Enumerable.Range(1,
-                                         2)
-                                  .Select(elem => new Task<IEnumerable<ClientPayload>>(() => SendTaskAndGetPayloadResults(clientPayload)))
-                                  .ToArray();
+    var payloadsTasks = System.Linq.Enumerable.Range(1,
+                                                     2)
+                              .Select(elem => new Task<IEnumerable<ClientPayload>>(() => SendTaskAndGetPayloadResults(clientPayload)))
+                              .ToArray();
     payloadsTasks.AsParallel()
                  .ForAll(t => t.Start());
     Task.WaitAll(payloadsTasks);
@@ -77,9 +77,9 @@ public class CheckTryGetResultClientTest
     var symphonyTestHelper = new SymphonyTestHelper(ApplicationNamespace,
                                                     ApplicationService);
 
-    var payloads = Enumerable.Repeat(0,
-                                     20)
-                             .Select(_ => clientPayload);
+    var payloads = System.Linq.Enumerable.Repeat(0,
+                                                 20)
+                         .Select(_ => clientPayload);
     var taskIds = symphonyTestHelper.SessionService.SubmitTasks(payloads);
     var taskResults = symphonyTestHelper.WaitForTaskResults(taskIds)
                                         .ToList();

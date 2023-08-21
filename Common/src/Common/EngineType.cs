@@ -77,9 +77,10 @@ public class EngineTypes
   {
     get
     {
-      if (engineTypes_.ContainsKey(key))
+      if (engineTypes_.TryGetValue(key,
+                                   out var item))
       {
-        return engineTypes_[key];
+        return item;
       }
 
       throw new KeyNotFoundException($"There is no engine type [{key}]");

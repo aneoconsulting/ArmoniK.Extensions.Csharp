@@ -110,10 +110,10 @@ public class SubmitAsyncFixRequestOrder
       taskIdExpectedResults[myTaskId] = expectedResult;
     }
 
-    Enumerable.Range(0,
-                     nbTasks)
-              .LoopAsync(Function)
-              .Wait(cancellationSource.Token);
+    System.Linq.Enumerable.Range(0,
+                                 nbTasks)
+          .LoopAsync(Function)
+          .Wait(cancellationSource.Token);
 
     var taskResult = localUnifiedTestHelper.WaitForResultcompletion(taskIdExpectedResults.Select(elem => elem.Key));
     Assert.IsNotNull(taskResult);

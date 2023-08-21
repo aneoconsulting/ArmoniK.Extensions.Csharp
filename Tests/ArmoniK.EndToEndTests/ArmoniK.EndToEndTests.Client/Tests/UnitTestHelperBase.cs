@@ -133,7 +133,7 @@ internal abstract class UnitTestHelperBase
        };
 }
 
-public static class IEnumerable
+public static class Enumerable
 {
   /// <summary>
   ///   Extensions to loop Async all over IEnumerable without expected result

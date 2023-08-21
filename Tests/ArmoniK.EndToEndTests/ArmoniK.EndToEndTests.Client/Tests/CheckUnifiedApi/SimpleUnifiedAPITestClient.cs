@@ -127,8 +127,8 @@ public class SimpleUnifiedApiTestClient : ClientBaseTest<SimpleUnifiedApiTestCli
                                Configuration.GetSection("Grpc")["EndPoint"],
                                5001);
 
-    using var cs = ServiceFactory.CreateService(props,
-                                                LoggerFactory);
+    var cs = ServiceFactory.CreateService(props,
+                                          LoggerFactory);
 
     Log.LogInformation($"New session created : {cs.SessionId}");
 
@@ -224,9 +224,9 @@ public class SimpleUnifiedApiTestClient : ClientBaseTest<SimpleUnifiedApiTestCli
     const int wantedCount = 100;
 
     var tasksBasic = sessionService.Submit("ComputeBasicArrayCube",
-                                           Enumerable.Range(1,
-                                                            wantedCount)
-                                                     .Select(n => ParamsHelper(numbers)),
+                                           System.Linq.Enumerable.Range(1,
+                                                                        wantedCount)
+                                                 .Select(n => ParamsHelper(numbers)),
                                            this);
     if (tasksBasic.Count() is var countBasic && countBasic != wantedCount)
     {
@@ -235,9 +235,9 @@ public class SimpleUnifiedApiTestClient : ClientBaseTest<SimpleUnifiedApiTestCli
 
     var handler = new IgnoreErrorHandler(Log);
     var tasksRandom = sessionService.Submit("RandomTaskError",
-                                            Enumerable.Range(1,
-                                                             wantedCount)
-                                                      .Select(_ => ParamsHelper(25)),
+                                            System.Linq.Enumerable.Range(1,
+                                                                         wantedCount)
+                                                  .Select(_ => ParamsHelper(25)),
                                             handler);
     if (tasksRandom.Count() is var countRandom && countRandom != wantedCount)
     {

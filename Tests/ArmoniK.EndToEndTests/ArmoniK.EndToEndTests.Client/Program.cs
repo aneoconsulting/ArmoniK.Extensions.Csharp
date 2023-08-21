@@ -27,6 +27,7 @@ using Microsoft.Extensions.Logging;
 
 using Serilog;
 using Serilog.Extensions.Logging;
+using Serilog.Sinks.SystemConsole.Themes;
 
 namespace ArmoniK.EndToEndTests.Client;
 
@@ -39,6 +40,7 @@ public class Program
   private static void Main(string[] args)
   {
     Console.WriteLine("Hello Armonik End to End Tests !");
+    Console.WriteLine($"These tests require {typeof(AnsiConsoleTheme).Assembly.FullName}");
 
 
     var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory())

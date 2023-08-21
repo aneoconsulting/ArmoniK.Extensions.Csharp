@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net472;net48;netstandard2.0;net5.0;net6.0</TargetFrameworks>
+    <TargetFrameworks>net472;net48;netstandard2.0;net6.0</TargetFrameworks>
     <OutputType>Library</OutputType>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <IsPackable>true</IsPackable>
@@ -11,6 +11,8 @@
   <ItemGroup>
     <PackageReference Include="ArmoniK.Api.Client" Version="3.11.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="7.0.0" />
+    <PackageReference Include="Polly" Version="7.2.4" />
+    <PackageReference Include="Polly.Contrib.WaitAndRetry" Version="1.1.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -20,5 +22,9 @@
   <Target Name="DeleteLocalCache" BeforeTargets="Pack">
     <RemoveDir Directories="$(NugetPackageRoot)/$(PackageId.ToLower())/" />
   </Target>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="$(AssemblyName).Tests,PublicKey=0024000004800000940000000602000000240000525341310004000001000100b9cbe494cb23f1c9a351b8d0f211ba3f27afd44f1e683f1c08077b08372ad2649a9427e888c2aad68f010776c168f7a755e6ec591e48fcdd6928d2d6f1aeba06f7c3857437a5a15c7407756e17c3e1877a92eb5f9c82369731520f257bbca1f61a4caaa8aafc7aa40c5810cb81f16c68b4d4f8aa3044b09f7b417ca553bd53be"/>
+  </ItemGroup>
 
 </Project>

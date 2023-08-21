@@ -110,8 +110,8 @@ public class LargePayloadSubmitClient : ClientBaseTest<LargePayloadSubmitClient>
                                Configuration.GetSection("Grpc")["EndPoint"],
                                5001);
 
-    using var cs = ServiceFactory.CreateService(props,
-                                                LoggerFactory);
+    var cs = ServiceFactory.CreateService(props,
+                                          LoggerFactory);
 
 
     Log.LogInformation($"New session created : {cs.SessionId}");
@@ -171,10 +171,10 @@ public class LargePayloadSubmitClient : ClientBaseTest<LargePayloadSubmitClient>
     const int workloadTimeInMs = 100;
     nbResults_ = 0;
 
-    var numbers = Enumerable.Range(0,
-                                   nbElement)
-                            .Select(x => (double)x)
-                            .ToArray();
+    var numbers = System.Linq.Enumerable.Range(0,
+                                               nbElement)
+                        .Select(x => (double)x)
+                        .ToArray();
     Log.LogInformation($"===  Running from {nbTasks} tasks with payload by task {nbElement * 8 / 1024} Ko Total : {nbTasks * nbElement / 128} Ko...   ===");
 
     PeriodicInfo(() =>

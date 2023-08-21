@@ -51,12 +51,12 @@ public class PayloadIntegrityTest
                                                          true,
                                                          false)
                                             .AddEnvironmentVariables();
-    _configuration = builder.Build();
-    if (_configuration.GetSection("ProxyUrl")
+    configuration_ = builder.Build();
+    if (configuration_.GetSection("ProxyUrl")
                       .Exists())
     {
       Environment.SetEnvironmentVariable("https_proxy",
-                                         _configuration.GetSection("ProxyUrl")
+                                         configuration_.GetSection("ProxyUrl")
                                                        .Value,
                                          EnvironmentVariableTarget.Process);
     }
@@ -94,7 +94,7 @@ public class PayloadIntegrityTest
   private          ResultHandler?                       resultHandler_;
   private readonly ConcurrentDictionary<string, string> taskAndData_     = new();
   private readonly ConcurrentDictionary<string, string> responseAndData_ = new();
-  private          IConfigurationRoot                   _configuration;
+  private          IConfigurationRoot                   configuration_;
 
   [TestCase(1,
             1,
@@ -113,7 +113,7 @@ public class PayloadIntegrityTest
 
     var fixture = new Fixture();
     var tasks   = new List<Task>();
-    var props = new Properties(_configuration,
+    var props = new Properties(configuration_,
                                taskOptions_)
                 {
                   MaxConcurrentBuffers = maxConcurrentBuffers,
@@ -136,7 +136,6 @@ public class PayloadIntegrityTest
     CollectionAssert.AreEquivalent(taskAndData_,
                                    responseAndData_);
 
-    service.Dispose();
     responseAndData_.Clear();
     taskAndData_.Clear();
   }

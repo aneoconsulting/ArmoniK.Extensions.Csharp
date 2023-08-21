@@ -23,7 +23,7 @@ namespace ArmoniK.DevelopmentKit.Common.Extensions;
 /// <summary>
 ///   Convert IEnumerable byte to IEnumerable double
 /// </summary>
-public static class IEnumerableExt
+public static class EnumerableExt
 {
   /// <summary>
   ///   Convert IEnumerable byte to IEnumerable double

@@ -49,12 +49,13 @@ public class ClientServiceConnector
                     OverrideTargetName    = properties.TargetNameOverride,
                   };
 
+    // ReSharper disable once InvertIf
     if (properties.ControlPlaneUri.Scheme == Uri.UriSchemeHttps && options.AllowUnsafeConnection && string.IsNullOrEmpty(options.OverrideTargetName))
     {
 #if NET5_0_OR_GREATER
       var doOverride = !string.IsNullOrEmpty(options.CaCert);
 #else
-      var doOverride = true;
+      const bool doOverride = true;
 #endif
       if (doOverride)
       {

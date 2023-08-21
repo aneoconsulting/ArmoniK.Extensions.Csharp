@@ -24,19 +24,20 @@ namespace ArmoniK.DevelopmentKit.Common.Utils;
 /// <summary>
 ///   Represents a simple Either type to manage an object of type L or an exception of type R.
 /// </summary>
-/// <typeparam name="L">The object in the Either.</typeparam>
-/// <typeparam name="R">The exception in the Either.</typeparam>
-public class Either<L, R>
+/// <typeparam name="TL">The object in the Either.</typeparam>
+/// <typeparam name="TException">The exception in the Either.</typeparam>
+public class Either<TL, TException>
+  where TException : Exception
 {
   /// <summary>
   ///   The exception in the Either.
   /// </summary>
-  private readonly R exception_;
+  private readonly TException? exception_;
 
   /// <summary>
   ///   The object in the Either.
   /// </summary>
-  private readonly L obj_;
+  private readonly TL? obj_;
 
   /// <summary>
   ///   The status of the Either.
@@ -56,7 +57,7 @@ public class Either<L, R>
   ///   Constructs an Either with an object.
   /// </summary>
   /// <param name="obj">The object to be stored in the Either.</param>
-  public Either(L obj)
+  public Either(TL obj)
   {
     obj_       = obj;
     exception_ = default;
@@ -67,7 +68,7 @@ public class Either<L, R>
   ///   Constructs an Either with an exception.
   /// </summary>
   /// <param name="exception">The exception to be stored in the Either.</param>
-  public Either(R exception)
+  public Either(TException exception)
   {
     exception_ = exception;
     obj_       = default;
@@ -79,23 +80,23 @@ public class Either<L, R>
   /// </summary>
   /// <param name="ma">The Either to be converted.</param>
   /// <returns>The exception stored in the Either.</returns>
-  public static explicit operator R(Either<L, R> ma)
-    => ma.exception_;
+  public static explicit operator TException(Either<TL, TException> ma)
+    => ma.exception_!;
 
   /// <summary>
   ///   Implicitly converts the Either to an object.
   /// </summary>
   /// <param name="ma">The Either to be converted.</param>
   /// <returns>The object stored in the Either.</returns>
-  public static explicit operator L(Either<L, R> ma)
-    => ma.obj_;
+  public static explicit operator TL(Either<TL, TException> ma)
+    => ma.obj_ ?? throw ma.exception_!;
 
   /// <summary>
   ///   Implicitly converts an object to an Either.
   /// </summary>
   /// <param name="ma">The object to be converted.</param>
   /// <returns>An Either containing the object.</returns>
-  public static implicit operator Either<L, R>(L ma)
+  public static implicit operator Either<TL, TException>(TL ma)
     => new(ma);
 
   /// <summary>
@@ -103,7 +104,7 @@ public class Either<L, R>
   /// </summary>
   /// <param name="ma">The exception to be converted.</param>
   /// <returns>An Either containing the exception.</returns>
-  public static implicit operator Either<L, R>(R ma)
+  public static implicit operator Either<TL, TException>(TException ma)
     => new(ma);
 
   /// <summary>
@@ -111,15 +112,15 @@ public class Either<L, R>
   /// </summary>
   /// <param name="action">The action to be executed.</param>
   /// <returns>The object stored in the Either.</returns>
-  public L IfRight(Action<R> action)
+  public TL? IfRight(Action<TException> action)
   {
     if (status_ == EitherStatus.Right)
     {
-      action(exception_);
+      action(exception_!);
     }
     else
     {
-      return obj_;
+      return obj_!;
     }
 
     return default;

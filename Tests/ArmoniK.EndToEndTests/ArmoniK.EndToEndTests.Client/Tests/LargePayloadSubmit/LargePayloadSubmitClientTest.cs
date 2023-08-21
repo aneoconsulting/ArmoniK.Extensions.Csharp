@@ -58,10 +58,10 @@ public class LargePayloadSubmitClientTest
     const int workloadTimeInMs = 100;
 
     using var cancellationTokenSource = new CancellationTokenSource();
-    var numbers = Enumerable.Range(0,
-                                   nbElement)
-                            .Select(x => (double)x)
-                            .ToArray();
+    var numbers = System.Linq.Enumerable.Range(0,
+                                               nbElement)
+                        .Select(x => (double)x)
+                        .ToArray();
     var expectedResult = numbers.Sum();
 
     var sw      = Stopwatch.StartNew();

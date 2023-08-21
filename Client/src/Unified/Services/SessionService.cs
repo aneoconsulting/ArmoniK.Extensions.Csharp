@@ -52,11 +52,6 @@ public class SessionService : BaseClientSubmitter<SessionService>
   {
   }
 
-
-  /// <inheritdoc />
-  public override string ToString()
-    => SessionId.Id ?? "Session_Not_ready";
-
   /// <summary>
   ///   Supply a default TaskOptions
   /// </summary>
@@ -77,7 +72,6 @@ public class SessionService : BaseClientSubmitter<SessionService>
                                 ApplicationName      = "ArmoniK.DevelopmentKit.Worker.Unified",
                                 ApplicationVersion   = "1.X.X",
                                 ApplicationNamespace = "ArmoniK.DevelopmentKit.Worker.Unified",
-                                ApplicationService   = "FallBackServerAdder",
                               };
 
     return taskOptions;

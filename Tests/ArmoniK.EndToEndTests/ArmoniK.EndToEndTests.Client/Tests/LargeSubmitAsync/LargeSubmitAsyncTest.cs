@@ -85,10 +85,10 @@ public class LargeSubmitAsyncTest
 
     var service = localUnifiedTestHelper.Service as Service;
 
-    var numbers = Enumerable.Range(1,
-                                   nbElementInWorkLoad)
-                            .Select(elem => (double)elem)
-                            .ToArray();
+    var numbers = System.Linq.Enumerable.Range(1,
+                                               nbElementInWorkLoad)
+                        .Select(elem => (double)elem)
+                        .ToArray();
 
 
     for (indexTask = 0; indexTask < nbTasks; indexTask++)

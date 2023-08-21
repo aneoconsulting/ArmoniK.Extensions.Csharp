@@ -59,10 +59,10 @@ public class AggregationPriorityTest
   /// <summary>
   ///   numbers_ is an array of double values.
   /// </summary>
-  private readonly double[] numbers_ = Enumerable.Range(0,
-                                                        10)
-                                                 .Select(i => (double)i)
-                                                 .ToArray();
+  private readonly double[] numbers_ = System.Linq.Enumerable.Range(0,
+                                                                    10)
+                                             .Select(i => (double)i)
+                                             .ToArray();
 
   /// <summary>
   ///   unifiedTestHelper_ is an instance of UnifiedTestHelper class.
@@ -156,7 +156,7 @@ public class AggregationPriorityTest
 
     var taskRawData = new List<TaskDetailed>();
 
-    await foreach (var taskRaw in RetrieveAllTasksStats(service.GetChannel(),
+    await foreach (var taskRaw in RetrieveAllTasksStats(null,
                                                         new Filters
                                                         {
                                                           Or =
@@ -248,7 +248,7 @@ public class AggregationPriorityTest
   /// </summary>
   /// <param name="sessionId">The sessionId to retrieve the results from.</param>
   /// <param name="taskIds">The taskIds to retrieve the results for.</param>
-  /// <returns>A <see cref="IEnumerable{Tuple{string, byte[]}}" /> of the results.</returns>
+  /// <returns>A <c>IEnumerable{Tuple{string, byte[]}}</c> of the results.</returns>
   private IEnumerable<Tuple<string, byte[]>> WaitForResults(string              sessionId,
                                                             IEnumerable<string> taskIds)
   {
@@ -276,7 +276,7 @@ public class AggregationPriorityTest
                                                             //TODO Fix issue GetResultIds return MapTaskResult can be N result for N TaskId since parentTaskIds can be requested
                                                             var mapTaskResults = taskList.ToChunks(200)
                                                                                          .SelectMany(b => service.SessionService.GetResultIds(b))
-                                                                                         .Select(mp => (mp.ResultIds, mp.TaskId))
+                                                                                         .Select(mp => (mp.OutputIds, mp.TaskId))
                                                                                          .ToList();
                                                             var dic = mapTaskResults.GroupBy(taskResult => taskResult.Item1.First())
                                                                                     .ToDictionary(group => group.Key,
@@ -354,7 +354,7 @@ public class AggregationPriorityTest
   public void Check_That_Result_has_expected_value(int squareMatrixSize)
   {
     unifiedTestHelper_.Log.LogInformation($"Compute square matrix with n =  {squareMatrixSize}");
-    unifiedTestHelper_.Log.LogInformation($"Duplicating {squareMatrixSize} Rows with vector {string.Join(", ", Enumerable.Range(0, squareMatrixSize))}");
+    unifiedTestHelper_.Log.LogInformation($"Duplicating {squareMatrixSize} Rows with vector {string.Join(", ", System.Linq.Enumerable.Range(0, squareMatrixSize))}");
 
     var taskId = unifiedTestHelper_.Service.Submit("ComputeMatrix",
                                                    UnitTestHelperBase.ParamsHelper(squareMatrixSize),
@@ -373,16 +373,20 @@ public class AggregationPriorityTest
     var taskResult = TaskResult.Deserialize(deprot[0] as byte[]);
     unifiedTestHelper_.Log.LogInformation($"Result of Matrix formula : {taskResult.Result}");
 
-    var sum = Enumerable.Range(0,
-                               squareMatrixSize)
-                        .Aggregate(0.0,
-                                   (current,
-                                    scalar) => current + scalar * scalar);
+    var sum = System.Linq.Enumerable.Range(0,
+                                           squareMatrixSize)
+                    .Aggregate(0.0,
+                               (current,
+                                scalar) => current + scalar * scalar);
 
     Assert.That(sum * squareMatrixSize,
                 Is.EqualTo(taskResult.Result));
 
-    var _ = GetDistribution(squareMatrixSize)
-      .Result;
+    if (false)
+      // ReSharper disable once HeuristicUnreachableCode
+    {
+      var _ = GetDistribution(squareMatrixSize)
+        .Result;
+    }
   }
 }

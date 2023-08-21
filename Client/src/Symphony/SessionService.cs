@@ -25,6 +25,8 @@ using ArmoniK.DevelopmentKit.Common;
 
 using Google.Protobuf.WellKnownTypes;
 
+using JetBrains.Annotations;
+
 using Microsoft.Extensions.Logging;
 
 namespace ArmoniK.DevelopmentKit.Client.Symphony;
@@ -40,6 +42,7 @@ public class SessionService : BaseClientSubmitter<SessionService>
   ///   Ctor to instantiate a new SessionService
   ///   This is an object to send task or get Results from a session
   /// </summary>
+  [PublicAPI]
   public SessionService(Properties     properties,
                         ILoggerFactory loggerFactory,
                         TaskOptions?   taskOptions = null,
@@ -51,17 +54,11 @@ public class SessionService : BaseClientSubmitter<SessionService>
   {
   }
 
-  /// <summary>Returns a string that represents the current object.</summary>
-  /// <returns>A string that represents the current object.</returns>
-  public override string ToString()
-    => SessionId.Id ?? "Session_Not_ready";
 
   /// <summary>
   ///   Default task options
   /// </summary>
   /// <returns></returns>
-  // TODO: mark with [PublicApi] ?
-  // ReSharper disable once MemberCanBePrivate.Global
   public static TaskOptions InitializeDefaultTaskOptions()
     => new()
        {

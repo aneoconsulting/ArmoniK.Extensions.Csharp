@@ -30,10 +30,10 @@ public class SimpleUnifiedApiAdminClientTest
   private const string ApplicationNamespace = "ArmoniK.EndToEndTests.Worker.Tests.CheckUnifiedApi";
   private const string ApplicationService   = "CheckUnifiedApiWorker";
 
-  private readonly double[] numbers_ = Enumerable.Range(0,
-                                                        10)
-                                                 .Select(i => (double)i)
-                                                 .ToArray();
+  private readonly double[] numbers_ = System.Linq.Enumerable.Range(0,
+                                                                    10)
+                                             .Select(i => (double)i)
+                                             .ToArray();
 
   private UnifiedTestHelper unifiedTestHelper_;
 
@@ -54,9 +54,9 @@ public class SimpleUnifiedApiAdminClientTest
   {
     const int wantedCount = 100;
     var tasks = unifiedTestHelper_.Service.Submit("ComputeBasicArrayCube",
-                                                  Enumerable.Range(1,
-                                                                   wantedCount)
-                                                            .Select(_ => UnitTestHelperBase.ParamsHelper(numbers_)),
+                                                  System.Linq.Enumerable.Range(1,
+                                                                               wantedCount)
+                                                        .Select(_ => UnitTestHelperBase.ParamsHelper(numbers_)),
                                                   unifiedTestHelper_);
     if (tasks.Count() is var count && count != wantedCount)
     {
@@ -78,9 +78,9 @@ public class SimpleUnifiedApiAdminClientTest
   {
     const int wantedCount = 100;
     var tasks = unifiedTestHelper_.Service.Submit("ComputeBasicArrayCube",
-                                                  Enumerable.Range(1,
-                                                                   wantedCount)
-                                                            .Select(_ => UnitTestHelperBase.ParamsHelper(numbers_)),
+                                                  System.Linq.Enumerable.Range(1,
+                                                                               wantedCount)
+                                                        .Select(_ => UnitTestHelperBase.ParamsHelper(numbers_)),
                                                   unifiedTestHelper_);
     if (tasks.Count() is var count && count != wantedCount)
     {

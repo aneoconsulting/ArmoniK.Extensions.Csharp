@@ -74,9 +74,9 @@ public class SubtaskingTreeClient : ClientBaseTest<SubtaskingTreeClient>
                                             int            maxNumberToSum    = 10,
                                             int            subtaskSplitCount = 2)
   {
-    var numbers = Enumerable.Range(1,
-                                   maxNumberToSum)
-                            .ToList();
+    var numbers = System.Linq.Enumerable.Range(1,
+                                               maxNumberToSum)
+                        .ToList();
     var payload = new ClientPayload
                   {
                     IsRootTask = true,

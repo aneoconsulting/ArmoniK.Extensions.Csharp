@@ -97,8 +97,8 @@ public class SubtaskingTreeUnifiedApiClient : ClientBaseTest<SubtaskingTreeUnifi
                                Configuration.GetSection("Grpc")["EndPoint"],
                                5001);
 
-    using var cs = ServiceFactory.CreateService(props,
-                                                LoggerFactory);
+    var cs = ServiceFactory.CreateService(props,
+                                          LoggerFactory);
 
     Log.LogInformation("Running End to End test to compute Sum of numbers with subtasking");
     SumNumbersWithSubtasking(cs);
@@ -121,9 +121,9 @@ public class SubtaskingTreeUnifiedApiClient : ClientBaseTest<SubtaskingTreeUnifi
                                         int               subtaskSplitCount = 2)
   {
     Log.LogInformation($"Launching Sum of numbers 1 to {maxNumberToSum}");
-    var numbers = Enumerable.Range(1,
-                                   maxNumberToSum)
-                            .ToList();
+    var numbers = System.Linq.Enumerable.Range(1,
+                                               maxNumberToSum)
+                        .ToList();
     var payload = new ClientPayload
                   {
                     IsRootTask = true,

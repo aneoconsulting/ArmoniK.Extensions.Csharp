@@ -14,7 +14,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using ArmoniK.Api.gRPC.V1;
+using ArmoniK.DevelopmentKit.Client.Common.Submitter.ApiExt;
 
 using JetBrains.Annotations;
 
@@ -27,6 +27,6 @@ namespace ArmoniK.DevelopmentKit.Client.Common.Status;
 /// <param name="TaskId">The id of the task producing the result</param>
 /// <param name="Status">The status of the result</param>
 [PublicAPI]
-public sealed record ResultStatusData(string       ResultId,
-                                      string       TaskId,
-                                      ResultStatus Status);
+public sealed record ResultStatusData(string              ResultId,
+                                      string              TaskId,
+                                      ArmoniKResultStatus Status);
