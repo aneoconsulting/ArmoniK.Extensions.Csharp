@@ -15,10 +15,11 @@
 // limitations under the License.
 
 using ArmoniK.DevelopmentKit.Client.Common;
-using ArmoniK.DevelopmentKit.Client.Common.Submitter;
 using ArmoniK.DevelopmentKit.Client.Unified.Services.Admin;
 using ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter;
 using ArmoniK.DevelopmentKit.Common;
+
+using JetBrains.Annotations;
 
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
@@ -37,10 +38,11 @@ public class ServiceFactory
   /// <param name="props">Properties for the service containing IConfiguration and TaskOptions</param>
   /// <param name="loggerFactory">Logger factory to create loggers for service</param>
   /// <returns>returns the new instantiated service</returns>
-  public static ISubmitterService CreateService(Properties      props,
-                                                ILoggerFactory? loggerFactory = null)
-    => new Service(props,
-                   loggerFactory);
+  [PublicAPI]
+  public static Service CreateService(Properties      props,
+                                      ILoggerFactory? loggerFactory = null)
+    => new(props,
+           loggerFactory);
 
   /// <summary>
   ///   Method to get the ServiceAdmin
@@ -48,6 +50,7 @@ public class ServiceFactory
   /// <param name="props"></param>
   /// <param name="loggerFactory">Logger factory to create loggers for service</param>
   /// <returns></returns>
+  [PublicAPI]
   public static ServiceAdmin GetServiceAdmin(Properties      props,
                                              ILoggerFactory? loggerFactory = null)
     => new(props,

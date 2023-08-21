@@ -229,6 +229,23 @@ public class Service : AbstractClientService, ISubmitterService
   public string SessionId
     => SessionService.SessionId.Id;
 
+  /// <inheritdoc />
+  [PublicAPI]
+  public string Submit(string                    methodName,
+                       object[]                  arguments,
+                       IServiceInvocationHandler handler,
+                       int                       maxRetries  = 5,
+                       TaskOptions?              taskOptions = null)
+    => Submit(methodName,
+              new List<object[]>
+              {
+                arguments,
+              },
+              handler,
+              maxRetries,
+              taskOptions)
+      .Single();
+
 
   /// <inheritdoc />
   public IEnumerable<string> Submit(string                    methodName,

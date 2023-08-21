@@ -38,6 +38,25 @@ public interface ISubmitterService : IDisposable
   string SessionId { get; }
 
   /// <summary>
+  ///   The method submit will execute task asynchronously on the server and will serialize object[] for Service method
+  ///   MethodName(Object[] arguments)
+  /// </summary>
+  /// <param name="methodName">The name of the method inside the service</param>
+  /// <param name="arguments">A list of object that can be passed in parameters of the function</param>
+  /// <param name="handler">The handler callBack implemented as IServiceInvocationHandler to get response or result or error</param>
+  /// <param name="maxRetries">The number of retry before fail to submit task. Default = 5 retries</param>
+  /// <param name="taskOptions">
+  ///   TaskOptions argument to override default taskOptions in Session.
+  ///   If non null it will override the default taskOptions in SessionService for client or given by taskHandler for worker
+  /// </param>
+  /// <returns>Return the taskId string</returns>
+  string Submit(string                    methodName,
+                object[]                  arguments,
+                IServiceInvocationHandler handler,
+                int                       maxRetries  = 5,
+                TaskOptions?              taskOptions = null);
+
+  /// <summary>
   ///   The method submits a list of task with a list of arguments for each task which will be serialized into a byte[] for
   ///   each call
   ///   MethodName(byte[] argument)
@@ -145,7 +164,7 @@ public static class SubmitterServiceExt
                               int                       maxRetries  = 5,
                               TaskOptions?              taskOptions = null)
     => service.Submit(methodName,
-                      new[]
+                      new List<object[]>
                       {
                         arguments,
                       },
@@ -174,7 +193,7 @@ public static class SubmitterServiceExt
                               int                       maxRetries  = 5,
                               TaskOptions?              taskOptions = null)
     => service.Submit(methodName,
-                      new[]
+                      new List<byte[]>
                       {
                         arguments,
                       },
