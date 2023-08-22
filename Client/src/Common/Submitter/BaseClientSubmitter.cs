@@ -17,7 +17,6 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -26,13 +25,10 @@ using ArmoniK.Api.Common.Utils;
 using ArmoniK.Api.gRPC.V1;
 using ArmoniK.DevelopmentKit.Client.Common.Status;
 using ArmoniK.DevelopmentKit.Client.Common.Submitter.ApiExt;
-using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.Common.Exceptions;
 using ArmoniK.Utils;
 
 using Google.Protobuf;
-
-using Grpc.Core;
 
 using JetBrains.Annotations;
 
@@ -54,6 +50,8 @@ public abstract class BaseClientSubmitter<T>
   private readonly int chunkSubmitSize_;
 
   private readonly Properties properties_;
+
+  private readonly IDictionary<string, string> taskId2ResultId_ = new Dictionary<string, string>();
 
   /// <summary>
   ///   The channel pool to use for creating clients
@@ -92,7 +90,6 @@ public abstract class BaseClientSubmitter<T>
                                          {
                                            TaskOptions.PartitionId,
                                          });
-
   }
 
   private ILoggerFactory LoggerFactory { get; }
@@ -273,8 +270,6 @@ public abstract class BaseClientSubmitter<T>
     }
   }
 
-  private readonly IDictionary<string, string> taskId2ResultId_ = new Dictionary<string, string>();
-
   /// <summary>
   ///   User method to wait for only the parent task from the client
   /// </summary>
@@ -317,8 +312,9 @@ public abstract class BaseClientSubmitter<T>
                                          true,
                                          true,
                                          maxRetries,
-                                         (Math.Pow(2.0, maxRetries)/maxRetries) * delayMs,
-                                         cancellationToken: CancellationToken.None)
+                                         Math.Pow(2.0,
+                                                  maxRetries) / maxRetries * delayMs,
+                                         CancellationToken.None)
                  .Wait();
   }
 
@@ -343,7 +339,9 @@ public abstract class BaseClientSubmitter<T>
       }
       else
       {
-        missingTasks.Add(new ResultStatusData(string.Empty, taskId, ArmoniKResultStatus.Unknown));
+        missingTasks.Add(new ResultStatusData(string.Empty,
+                                              taskId,
+                                              ArmoniKResultStatus.Unknown));
       }
     }
 
@@ -411,8 +409,8 @@ public abstract class BaseClientSubmitter<T>
                                         resultId,
                                         5,
                                         Math.Pow(2.0,
-                                                  5) * 20000 / 5,
-                                        cancellationToken: cancellationToken)
+                                                 5) * 20000 / 5,
+                                        cancellationToken)
                    .Wait(cancellationToken);
 
       return ArmoniKClient.DownloadResultAsync(SessionId.Id,
@@ -420,7 +418,7 @@ public abstract class BaseClientSubmitter<T>
                                                5,
                                                Math.Pow(2.0,
                                                         5) * 200 / 5,
-                                               cancellationToken: cancellationToken)
+                                               cancellationToken)
                           .Result!;
     }
     catch (Exception ex)
@@ -515,16 +513,15 @@ public abstract class BaseClientSubmitter<T>
   /// <param name="resultIds">A list of result ids</param>
   /// <returns>Returns an Enumerable pair of </returns>
   public IList<Tuple<string, byte[]>> TryGetResults(IList<string> resultIds)
-  {
-    return resultIds.ParallelSelect(new ParallelTaskOptions(20),
-                                    async resultId => Tuple.Create(resultId,
-                                                                   await TryGetResultAsync(SessionId.Id,
-                                                                                           resultId)))
-                    .Where(tuple => tuple.Item2 is not null)
-                    .Select(tuple => Tuple.Create(tuple.Item1, tuple.Item2!))
-                    .ToListAsync()
-                    .Result;
-  }
+    => resultIds.ParallelSelect(new ParallelTaskOptions(20),
+                                async resultId => Tuple.Create(resultId,
+                                                               await TryGetResultAsync(SessionId.Id,
+                                                                                       resultId)))
+                .Where(tuple => tuple.Item2 is not null)
+                .Select(tuple => Tuple.Create(tuple.Item1,
+                                              tuple.Item2!))
+                .ToListAsync()
+                .Result;
 
   /// <summary>
   ///   Creates the results metadata

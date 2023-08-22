@@ -404,7 +404,7 @@ public class GrpcArmoniKClient : IArmoniKClient
   }
 
   internal static void ValidateRetryArguments(int    maxRetries,
-                                             double totalTimeoutMs)
+                                              double totalTimeoutMs)
   {
     // ReSharper disable once CompareOfFloatsByEqualityOperator
     if (maxRetries != 1 || totalTimeoutMs != 1e10)
