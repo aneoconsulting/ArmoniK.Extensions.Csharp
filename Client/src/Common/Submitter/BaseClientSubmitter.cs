@@ -833,8 +833,7 @@ public abstract class BaseClientSubmitter<T>
 
         var taskIdInError = resultStatus.IdsError.Any()
                               ? resultStatus.IdsError[0]
-                              : resultStatus.IdsResultError[0]
-                                            .TaskId;
+                              : resultStatus.IdsResultError[0].TaskId;
 
         const string message = "The missing result is in error or canceled. "                                                          +
                                "Please check log for more information on Armonik grid server list of taskIds in Error: [{taskList}]\n" +
