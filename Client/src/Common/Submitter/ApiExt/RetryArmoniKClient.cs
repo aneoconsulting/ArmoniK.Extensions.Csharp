@@ -244,11 +244,7 @@ public class RetryArmoniKClient : IArmoniKClient
 
     if (policyResult.Outcome == OutcomeType.Failure)
     {
-      throw new ArmoniKException($"""
-                                  Call to {callerName} failed the retry policy.
-                                  Reason is: {policyResult.FaultType}.
-                                  See previous log for details.
-                                  """,
+      throw new ArmoniKException($"Call to {callerName} failed the retry policy.\r\nReason is: {policyResult.FaultType}.\r\nSee previous log for details.",
                                  policyResult.FinalException);
     }
 

@@ -67,7 +67,7 @@
     <!--Code analysis-->
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <Nullable>enable</Nullable>
-    <LangVersion>11</LangVersion>
+    <LangVersion>10</LangVersion>
     <!-- Ready for the future
       <AnalysisLevel>latest</AnalysisLevel>
       <AnalysisMode>AllEnabledByDefault</AnalysisMode>

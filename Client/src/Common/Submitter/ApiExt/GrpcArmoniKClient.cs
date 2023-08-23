@@ -410,11 +410,8 @@ public class GrpcArmoniKClient : IArmoniKClient
     if (maxRetries != 1 || totalTimeoutMs != 1e10)
     {
       throw new ArgumentOutOfRangeException(nameof(maxRetries),
-                                            $"""
-                                             {nameof(GrpcArmoniKClient)} has no retry policy and only support a single call.
-                                             {maxRetries} must be equal to 1.
-                                             {totalTimeoutMs} must be equal to 1e10 ({1e10}).
-                                             """);
+                                            $"{nameof(GrpcArmoniKClient)} has no retry policy and only support a single call.\r\n" +
+                                            $"{maxRetries} must be equal to 1.\r\n" + $"{totalTimeoutMs} must be equal to 1e10 ({1e10}).");
     }
   }
 }
