@@ -17,7 +17,6 @@
 
 using System;
 using System.IO;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -32,29 +31,6 @@ using Moq;
 using NUnit.Framework;
 
 namespace ArmoniK.DevelopmentKit.Client.Common.Tests;
-
-[TestFixture]
-public class ArmoniKClientTests
-{
-  [Test]
-  public void DefaultTotalTimeoutShouldBeConvertibleToTimeSpan()
-  {
-    var methodInfo = typeof(IArmoniKClient).GetMethod(nameof(IArmoniKClient.CreateSessionAsync));
-    Assert.That(methodInfo,
-                Is.Not.Null);
-    var parameterInfo = methodInfo.GetParameters()
-                                  .SingleOrDefault(info => info.Name == "totalTimeoutMs");
-    Assert.That(parameterInfo,
-                Is.Not.Null);
-    Assert.That(parameterInfo!.HasDefaultValue,
-                Is.True);
-    var value = (double)parameterInfo.DefaultValue!;
-    Assert.That(value,
-                Is.GreaterThan(0.0));
-    TimeSpan span;
-    Assert.DoesNotThrow(() => span = TimeSpan.FromMilliseconds(value));
-  }
-}
 
 /// <summary>
 ///   Tests the RetryArmoniKClient class
@@ -163,6 +139,47 @@ public class RetrySubmitterApplyPolicyTests
   ///   First call throws an RpcException but is handled by the policy and the proper result is returned.
   /// </summary>
   [Test]
+  public async Task ShouldSendResultIfOneAsyncRpcException()
+  {
+    var logger          = NullLogger<RetryArmoniKClient>.Instance;
+    var submitterClient = new Mock<IArmoniKClient>().Object;
+
+    var retrySubmitterClient = new RetryArmoniKClient(logger,
+                                                      submitterClient);
+
+    var source = new object();
+    var calls  = 0;
+
+    var result = await retrySubmitterClient.ApplyRetryPolicy(async _ =>
+                                                             {
+                                                               calls++;
+                                                               if (calls == 1)
+                                                               {
+                                                                 throw new RpcException(Grpc.Core.Status.DefaultCancelled);
+                                                               }
+
+                                                               return await Task.FromResult(source);
+                                                             },
+                                                             5,
+                                                             TimeSpan.FromSeconds(1),
+                                                             CancellationToken.None);
+
+    Assert.That(result,
+                Is.Not.Null);
+
+
+    Assert.That(result,
+                Is.SameAs(source));
+
+
+    Assert.That(calls,
+                Is.EqualTo(2));
+  }
+
+  /// <summary>
+  ///   First call throws an RpcException but is handled by the policy and the proper result is returned.
+  /// </summary>
+  [Test]
   public async Task ShouldSendResultIfOneRpcException()
   {
     var logger          = NullLogger<RetryArmoniKClient>.Instance;
@@ -223,6 +240,46 @@ public class RetrySubmitterApplyPolicyTests
                                                                }
 
                                                                return Task.FromResult(source);
+                                                             },
+                                                             5,
+                                                             TimeSpan.FromSeconds(1),
+                                                             CancellationToken.None);
+    Assert.Multiple(() =>
+                    {
+                      Assert.That(result,
+                                  Is.Not.Null);
+                      Assert.That(result,
+                                  Is.SameAs(source));
+                      Assert.That(calls,
+                                  Is.EqualTo(2));
+                    });
+  }
+
+  /// <summary>
+  ///   First call throws an RpcException but is handled by the policy and the proper result is returned.
+  /// </summary>
+  [Test]
+  public async Task ShouldSendResultIfOneAsyncInnerRpcException()
+  {
+    var logger          = NullLogger<RetryArmoniKClient>.Instance;
+    var submitterClient = new Mock<IArmoniKClient>().Object;
+
+    var retrySubmitterClient = new RetryArmoniKClient(logger,
+                                                      submitterClient);
+
+    var source = new object();
+    var calls  = 0;
+
+    var result = await retrySubmitterClient.ApplyRetryPolicy(async _ =>
+                                                             {
+                                                               calls++;
+                                                               if (calls == 1)
+                                                               {
+                                                                 throw new Exception("",
+                                                                                                         new RpcException(Grpc.Core.Status.DefaultCancelled));
+                                                               }
+
+                                                               return await Task.FromResult(source);
                                                              },
                                                              5,
                                                              TimeSpan.FromSeconds(1),

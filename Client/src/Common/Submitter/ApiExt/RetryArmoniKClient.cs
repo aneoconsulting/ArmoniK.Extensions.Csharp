@@ -103,7 +103,9 @@ public class RetryArmoniKClient : IArmoniKClient
                                                                           token),
                               maxRetries,
                               TimeSpan.FromMilliseconds(totalTimeoutMs),
-                              cancellationToken);
+                              cancellationToken,
+                              null,
+                              exception => true);
 
   /// <inheritdoc />
   public async Task<string> CreateSessionAsync(TaskOptions                 taskOptions,
@@ -242,13 +244,14 @@ public class RetryArmoniKClient : IArmoniKClient
                                                               new Context(callerName),
                                                               cancellationToken);
 
-    if (policyResult.Outcome == OutcomeType.Failure)
-    {
-      throw new ArmoniKException($"Call to {callerName} failed the retry policy.\r\nReason is: {policyResult.FaultType}.\r\nSee previous log for details.",
-                                 policyResult.FinalException);
-    }
-
-    return policyResult.Result;
+    return policyResult.Outcome switch
+           {
+             OutcomeType.Failure => throw new ArmoniKException($"Call to {callerName} failed the retry policy.\r\n" + $"Reason is: {policyResult.FaultType}.\r\n" +
+                                                               $"See previous log for details.",
+                                                               policyResult.FinalException),
+             OutcomeType.Successful => policyResult.Result,
+             _                      => throw new InvalidOperationException(),
+           };
   }
 
   internal async Task ApplyRetryPolicy(Func<CancellationToken, Task> action,

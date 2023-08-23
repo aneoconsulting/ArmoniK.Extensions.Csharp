@@ -266,7 +266,7 @@ jobs:
          if [ "${{ matrix.mtls }}" = "true" ]; then
           export Grpc__ClientP12="${{ steps.deploy.outputs.generated-folder }}/certificates/ingress/client.submitter.p12"
          fi
-         dotnet test --runtime linux-x64 -f net6.0 --logger "trx;LogFileName=test-results.trx"  -p:RunAnalyzers=false -p:WarningLevel=0
+         dotnet test --runtime linux-x64 -f net6.0 --logger "trx;LogFileName=test-results.trx" -p:RunAnalyzers=false -p:WarningLevel=0
          
       - name: Test Report
         uses: dorny/test-reporter@v1

@@ -6,7 +6,7 @@ COPY . .
 
 WORKDIR "/src/Tests/ArmoniK.EndToEndTests/ArmoniK.EndToEndTests.Worker"
 
-RUN dotnet publish --self-contained -c Release -r linux-x64 -f net6.0 .
+RUN dotnet publish  -p:RunAnalyzers=false -p:WarningLevel=0 --self-contained -c Release -r linux-x64 -f net6.0 .
 
 
 FROM ${WORKER_DLL_IMAGE} AS final
