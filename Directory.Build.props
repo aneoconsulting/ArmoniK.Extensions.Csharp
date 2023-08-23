@@ -62,6 +62,16 @@
     <EnablePackageValidation>true</EnablePackageValidation>
     <Deterministic>true</Deterministic>
     <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+    <IncludeSymbols>true</IncludeSymbols>
+
+    <!--Code analysis-->
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <Nullable>enable</Nullable>
+    <LangVersion>10</LangVersion>
+    <!-- Ready for the future
+      <AnalysisLevel>latest</AnalysisLevel>
+      <AnalysisMode>AllEnabledByDefault</AnalysisMode>
+    -->
   </PropertyGroup>
 
   <ItemGroup>
@@ -71,14 +81,16 @@
     <None Include="$(RootProjectDir)/README.md" Pack="true" PackagePath="\" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="7.0.3" PrivateAssets="All" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="All" Version="1.1.1" />
   </ItemGroup>
 
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugType>Embedded</DebugType>
-    <IncludeSymbols>true</IncludeSymbols>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <Optimize>true</Optimize>
   </PropertyGroup>
 
 </Project>
