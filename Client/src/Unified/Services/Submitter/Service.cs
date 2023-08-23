@@ -538,7 +538,7 @@ public class Service : AbstractClientService, ISubmitterService
                                   Action<string, TaskStatus, string> errorHandler,
                                   int                                chunkResultSize = 200)
   {
-    var missing  = taskIds.ToHashSet();
+    var missing  = new HashSet<string>(taskIds);
     var holdPrev = missing.Count;
     var waitInSeconds = new List<int>
                         {

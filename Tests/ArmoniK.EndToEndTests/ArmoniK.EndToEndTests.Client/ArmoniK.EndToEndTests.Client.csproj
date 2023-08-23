@@ -4,7 +4,6 @@
     <TargetFrameworks>net472;net6.0</TargetFrameworks>
 
     <Version>1.0.0-700</Version>
-    <LangVersion>10</LangVersion>
     <AppendRuntimeIdentifierToOutputPath>true</AppendRuntimeIdentifierToOutputPath>
     <AppendTargetFrameworkToOutputPath>true</AppendTargetFrameworkToOutputPath>
     <RuntimeIdentifier>win-x64</RuntimeIdentifier>
