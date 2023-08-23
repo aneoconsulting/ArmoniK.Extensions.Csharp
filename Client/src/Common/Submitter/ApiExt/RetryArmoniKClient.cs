@@ -234,10 +234,11 @@ public class RetryArmoniKClient : IArmoniKClient
                                                           context) =>
                                                          {
                                                            // TODO: use the context to return a more complete exception at the end.
-                                                           logger_.LogError(result.Exception,
-                                                                            "Error during execution of {method}, will retry in {time}ms",
-                                                                            context.OperationKey,
-                                                                            span.TotalMilliseconds);
+                                                           logger_.LogWarning(result.Exception,
+                                                                              "Error during execution of {method}. Nb of trials: {nbTrials}. Will retry in {time}ms",
+                                                                              context.OperationKey,
+                                                                              context.Count,
+                                                                              span.TotalMilliseconds);
                                                          })
                                       .ExecuteAndCaptureAsync((_,
                                                                token) => action(token),

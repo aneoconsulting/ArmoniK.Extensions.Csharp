@@ -563,25 +563,10 @@ public class Service : AbstractClientService, ISubmitterService
             Logger.LogTrace("Response handler for {taskId}",
                             resultStatusData.TaskId);
             responseHandler(resultStatusData.TaskId,
-                            Retry.WhileException(5,
-                                                 2000,
-                                                 retry =>
-                                                 {
-                                                   if (retry > 1)
-                                                   {
-                                                     Logger.LogWarning("Try {try} for {funcName}",
-                                                                       retry,
-                                                                       nameof(SessionService.TryGetResultAsync));
-                                                   }
-
-                                                   return SessionService.TryGetResultAsync(resultStatusData.ResultId,
-                                                                                           SessionId,
-                                                                                           CancellationToken.None)
-                                                                        .Result;
-                                                 },
-                                                 true,
-                                                 typeof(IOException),
-                                                 typeof(RpcException))!);
+                            SessionService.TryGetResultAsync(resultStatusData.ResultId,
+                                                             SessionId,
+                                                             CancellationToken.None)
+                                          .Result!);
           }
           catch (Exception e)
           {

@@ -467,7 +467,10 @@ public abstract class BaseClientSubmitter<T>
     {
       return await ArmoniKClient.DownloadResultAsync(sessionId,
                                                      resultId,
-                                                     cancellationToken: cancellationToken);
+                                                     5,
+                                                     Math.Pow(2.0,
+                                                              5) * 2000 / 5,
+                                                     cancellationToken);
     }
     catch
     {
