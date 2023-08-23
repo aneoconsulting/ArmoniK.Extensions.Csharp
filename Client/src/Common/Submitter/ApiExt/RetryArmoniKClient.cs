@@ -235,14 +235,20 @@ public class RetryArmoniKClient : IArmoniKClient
                                                          {
                                                            // TODO: use the context to return a more complete exception at the end.
                                                            logger_.LogWarning(result.Exception,
-                                                                              "Error during execution of {method}. Nb of trials: {nbTrials}. Will retry in {time}ms",
+                                                                              "Error during execution of {method}. Nb of trials: {nbTrials}/{maxRetries}. Will retry in {time}ms",
                                                                               context.OperationKey,
-                                                                              context.Count,
+                                                                              context["trial"],
+                                                                              context[nameof(maxRetries)],
                                                                               span.TotalMilliseconds);
                                                          })
                                       .ExecuteAndCaptureAsync((_,
                                                                token) => action(token),
-                                                              new Context(callerName),
+                                                              new Context(callerName,
+                                                                          new Dictionary<string, object>()
+                                                                          {
+                                                                            ["trial"] = 1,
+                                                                            [nameof(maxRetries)] = maxRetries,
+                                                                          }),
                                                               cancellationToken);
 
     return policyResult.Outcome switch
@@ -297,7 +303,7 @@ public class RetryArmoniKClient : IArmoniKClient
          _                             => throw new InvalidOperationException(),
        };
 
-  private static IEnumerable<TimeSpan> GetRetryDelays<T>(int      maxRetries,
+  internal static IEnumerable<TimeSpan> GetRetryDelays<T>(int      maxRetries,
                                                          TimeSpan totalTimeout)
   {
     if (maxRetries <= 0)
@@ -312,9 +318,7 @@ public class RetryArmoniKClient : IArmoniKClient
                                             "totalTimeout should be strictly positive");
     }
 
-    var medianFirstRetryDelay = TimeSpan.FromMilliseconds(totalTimeout.TotalMilliseconds / Enumerable.Range(2,
-                                                                                                            maxRetries + 1)
-                                                                                                     .Sum(i => i * i));
+    var medianFirstRetryDelay = TimeSpan.FromMilliseconds(totalTimeout.TotalMilliseconds / Math.Pow(2, maxRetries));
 
     var delays = Backoff.DecorrelatedJitterBackoffV2(medianFirstRetryDelay,
                                                      maxRetries,
