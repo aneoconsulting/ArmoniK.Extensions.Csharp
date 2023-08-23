@@ -28,7 +28,6 @@ namespace ArmoniK.DevelopmentKit.Client.Common.Tests;
 [TestFixture]
 public class ArmoniKClientTests
 {
-
   public static IEnumerable<TestCaseData> ArmoniKClientMethodswithTimeOut
   {
     get
@@ -56,13 +55,15 @@ public class ArmoniKClientTests
   }
 
   /// <summary>
-  /// This test ensures that the parameter can be represented as a TimeSpan
+  ///   This test ensures that the parameter can be represented as a TimeSpan
   /// </summary>
   /// <param name="typeName"></param>
   /// <param name="methodName"></param>
   /// <param name="parameterInfo"></param>
   [TestCaseSource(nameof(ArmoniKClientMethodswithTimeOut))]
-  public static void DefaultTotalTimeoutShouldBeConvertibleToTimeSpan(string typeName, string methodName, ParameterInfo parameterInfo)
+  public static void DefaultTotalTimeoutShouldBeConvertibleToTimeSpan(string        typeName,
+                                                                      string        methodName,
+                                                                      ParameterInfo parameterInfo)
   {
     Assert.That(parameterInfo.HasDefaultValue,
                 Is.True);

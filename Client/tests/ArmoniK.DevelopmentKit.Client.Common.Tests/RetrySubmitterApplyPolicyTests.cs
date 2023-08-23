@@ -276,7 +276,7 @@ public class RetrySubmitterApplyPolicyTests
                                                                if (calls == 1)
                                                                {
                                                                  throw new Exception("",
-                                                                                                         new RpcException(Grpc.Core.Status.DefaultCancelled));
+                                                                                     new RpcException(Grpc.Core.Status.DefaultCancelled));
                                                                }
 
                                                                return await Task.FromResult(source);

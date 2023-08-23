@@ -168,7 +168,7 @@ public class GrpcArmoniKClient : IArmoniKClient
 
     return await service.DownloadResultData(sessionId,
                                             resultId,
-                                            cancellationToken);
+                                            cancellationToken) ?? throw new KeyNotFoundException();
   }
 
   /// <inheritdoc />

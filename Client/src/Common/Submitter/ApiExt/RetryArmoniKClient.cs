@@ -244,9 +244,9 @@ public class RetryArmoniKClient : IArmoniKClient
                                       .ExecuteAndCaptureAsync((_,
                                                                token) => action(token),
                                                               new Context(callerName,
-                                                                          new Dictionary<string, object>()
+                                                                          new Dictionary<string, object>
                                                                           {
-                                                                            ["trial"] = 1,
+                                                                            ["trial"]            = 1,
                                                                             [nameof(maxRetries)] = maxRetries,
                                                                           }),
                                                               cancellationToken);
@@ -304,7 +304,7 @@ public class RetryArmoniKClient : IArmoniKClient
        };
 
   internal static IEnumerable<TimeSpan> GetRetryDelays<T>(int      maxRetries,
-                                                         TimeSpan totalTimeout)
+                                                          TimeSpan totalTimeout)
   {
     if (maxRetries <= 0)
     {
@@ -318,7 +318,8 @@ public class RetryArmoniKClient : IArmoniKClient
                                             "totalTimeout should be strictly positive");
     }
 
-    var medianFirstRetryDelay = TimeSpan.FromMilliseconds(totalTimeout.TotalMilliseconds / Math.Pow(2, maxRetries));
+    var medianFirstRetryDelay = TimeSpan.FromMilliseconds(totalTimeout.TotalMilliseconds / Math.Pow(2,
+                                                                                                    maxRetries));
 
     var delays = Backoff.DecorrelatedJitterBackoffV2(medianFirstRetryDelay,
                                                      maxRetries,
