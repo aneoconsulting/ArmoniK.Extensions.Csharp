@@ -35,7 +35,6 @@ namespace ArmoniK.DevelopmentKit.Client.Common.Submitter.ApiExt;
 // TODO: Should be split in different services interfaces
 public interface IArmoniKClient
 {
-
   /// <summary>
   ///   Creates a new ArmoniK session.
   /// </summary>
@@ -79,6 +78,7 @@ public interface IArmoniKClient
                                                             int                         maxRetries        = 1,
                                                             double                      totalTimeoutMs    = 1e10,
                                                             CancellationToken           cancellationToken = default);
+
   /// <summary>
   ///   Downloads a result
   /// </summary>

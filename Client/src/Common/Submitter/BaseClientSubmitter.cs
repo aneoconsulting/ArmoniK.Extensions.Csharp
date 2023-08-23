@@ -484,7 +484,7 @@ public abstract class BaseClientSubmitter<T>
   /// <returns>Returns the result or byte[0] if there no result or null if task is not yet ready</returns>
   // TODO: return a compound type to avoid having a nullable that holds the information and return an empty array.
   [PublicAPI]
-  [Obsolete($"Use version without the checkOutput parameter.")]
+  [Obsolete("Use version without the checkOutput parameter.")]
   public byte[]? TryGetResult(string            taskId,
                               bool              checkOutput,
                               CancellationToken cancellationToken = default)

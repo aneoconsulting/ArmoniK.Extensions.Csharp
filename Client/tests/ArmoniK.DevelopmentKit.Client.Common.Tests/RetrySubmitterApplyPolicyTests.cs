@@ -36,23 +36,24 @@ namespace ArmoniK.DevelopmentKit.Client.Common.Tests;
 [TestFixture]
 public class ArmoniKClientTests
 {
-
   [Test]
   public void DefaultTotalTimeoutShouldBeConvertibleToTimeSpan()
   {
-    var methodInfo     = typeof(IArmoniKClient).GetMethod(nameof(IArmoniKClient.CreateSessionAsync));
-    Assert.That(methodInfo, Is.Not.Null);
-    var parameterInfo = methodInfo.GetParameters().SingleOrDefault(info => info.Name == "totalTimeoutMs");
+    var methodInfo = typeof(IArmoniKClient).GetMethod(nameof(IArmoniKClient.CreateSessionAsync));
+    Assert.That(methodInfo,
+                Is.Not.Null);
+    var parameterInfo = methodInfo.GetParameters()
+                                  .SingleOrDefault(info => info.Name == "totalTimeoutMs");
     Assert.That(parameterInfo,
                 Is.Not.Null);
-    Assert.That(parameterInfo!.HasDefaultValue, Is.True);
+    Assert.That(parameterInfo!.HasDefaultValue,
+                Is.True);
     var value = (double)parameterInfo.DefaultValue!;
-    Assert.That(value, Is.GreaterThan(0.0));
+    Assert.That(value,
+                Is.GreaterThan(0.0));
     TimeSpan span;
     Assert.DoesNotThrow(() => span = TimeSpan.FromMilliseconds(value));
-
   }
-  
 }
 
 /// <summary>
