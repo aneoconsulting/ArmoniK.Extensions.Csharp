@@ -35,6 +35,10 @@ namespace ArmoniK.DevelopmentKit.Client.Common.Submitter.ApiExt;
 // TODO: Should be split in different services interfaces
 public interface IArmoniKClient
 {
+
+  /// <summary>
+  ///   Creates a new ArmoniK session.
+  /// </summary>
   /// <param name="taskOptions">Default task options for the session</param>
   /// <param name="partitions">List of all partition that will be used during the session</param>
   /// <param name="maxRetries">Number of times the call must be retried. Default=1</param>
@@ -46,6 +50,10 @@ public interface IArmoniKClient
                                          double                      totalTimeoutMs    = 1e10,
                                          CancellationToken           cancellationToken = default);
 
+
+  /// <summary>
+  ///   Submits new tasks to ArmoniK
+  /// </summary>
   /// <param name="sessionId">Id of the session</param>
   /// <param name="definitions">Definition of the tasks</param>
   /// <param name="taskOptions">Task options for these tasks</param>
@@ -59,6 +67,10 @@ public interface IArmoniKClient
                                                       double                      totalTimeoutMs    = 1e10,
                                                       CancellationToken           cancellationToken = default);
 
+
+  /// <summary>
+  ///   Gets the resultIds from the tasks
+  /// </summary>
   /// <param name="taskIds">Id of the tasks</param>
   /// <param name="maxRetries">Number of times the call must be retried. Default=1</param>
   /// <param name="totalTimeoutMs">Define a timeout for the global call (including all retries)</param>
@@ -67,7 +79,9 @@ public interface IArmoniKClient
                                                             int                         maxRetries        = 1,
                                                             double                      totalTimeoutMs    = 1e10,
                                                             CancellationToken           cancellationToken = default);
-
+  /// <summary>
+  ///   Downloads a result
+  /// </summary>
   /// <param name="sessionId">Id of the session</param>
   /// <param name="resultId">Id of the result</param>
   /// <param name="maxRetries">Number of times the call must be retried. Default=1</param>
@@ -79,6 +93,9 @@ public interface IArmoniKClient
                                           double            totalTimeoutMs    = 1e10,
                                           CancellationToken cancellationToken = default);
 
+  /// <summary>
+  ///   Gets the status of a task
+  /// </summary>
   /// <param name="taskIds">Id of the tasks</param>
   /// <param name="maxRetries">Number of times the call must be retried. Default=1</param>
   /// <param name="totalTimeoutMs">Define a timeout for the global call (including all retries)</param>
@@ -88,6 +105,9 @@ public interface IArmoniKClient
                                                             double                      totalTimeoutMs    = 1e10,
                                                             CancellationToken           cancellationToken = default);
 
+  /// <summary>
+  ///   Gets the status of a result
+  /// </summary>
   /// <param name="sessionId">Id of the session</param>
   /// <param name="resultIds"></param>
   /// <param name="maxRetries">Number of times the call must be retried. Default=1</param>
@@ -99,17 +119,24 @@ public interface IArmoniKClient
                                                                 double                      totalTimeoutMs    = 1e10,
                                                                 CancellationToken           cancellationToken = default);
 
+  /// <summary>
+  ///   Tries to get the error result of a task
+  /// </summary>
   /// <param name="sessionId">Id of the session</param>
   /// <param name="taskId">Id of the task</param>
   /// <param name="maxRetries">Number of times the call must be retried. Default=1</param>
   /// <param name="totalTimeoutMs">Define a timeout for the global call (including all retries)</param>
   /// <param name="cancellationToken"></param>
+  /// <returns><c>null</c> if no error is available, the error message otherwise</returns>
   public Task<string?> TryGetTaskErrorAsync(string            sessionId,
                                             string            taskId,
                                             int               maxRetries        = 1,
                                             double            totalTimeoutMs    = 1e10,
                                             CancellationToken cancellationToken = default);
 
+  /// <summary>
+  ///   Waits for tasks to be completed
+  /// </summary>
   /// <param name="sessionId">Id of the session</param>
   /// <param name="taskIds">Id of the tasks</param>
   /// <param name="stopOnFirstTaskCancellation"></param>
@@ -125,6 +152,9 @@ public interface IArmoniKClient
                                                                            double                      totalTimeoutMs    = 1e10,
                                                                            CancellationToken           cancellationToken = default);
 
+  /// <summary>
+  ///   Waits for some results to be available
+  /// </summary>
   /// <param name="sessionId">Id of the session</param>
   /// <param name="resultId"></param>
   /// <param name="maxRetries">Number of times the call must be retried. Default=1</param>
@@ -137,6 +167,9 @@ public interface IArmoniKClient
                                   CancellationToken cancellationToken = default);
 
 
+  /// <summary>
+  ///   Create the metadata corresponding to tasks
+  /// </summary>
   /// <param name="sessionId">Id of the session</param>
   /// <param name="resultNames"></param>
   /// <param name="maxRetries">Number of times the call must be retried. Default=1</param>

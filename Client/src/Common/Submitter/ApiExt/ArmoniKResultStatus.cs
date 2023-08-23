@@ -25,7 +25,7 @@ namespace ArmoniK.DevelopmentKit.Client.Common.Submitter.ApiExt;
 public enum ArmoniKResultStatus
 {
   Unknown,
-  Ready,
+  Available,
   NotReady,
   Error,
 }

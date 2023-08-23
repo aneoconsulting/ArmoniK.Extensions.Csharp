@@ -27,7 +27,7 @@ internal static class ArmoniKResultStatusExt
        {
          ResultStatus.Unspecified => ArmoniKResultStatus.Unknown,
          ResultStatus.Created     => ArmoniKResultStatus.NotReady,
-         ResultStatus.Completed   => ArmoniKResultStatus.Ready,
+         ResultStatus.Completed   => ArmoniKResultStatus.Available,
          ResultStatus.Aborted     => ArmoniKResultStatus.Error,
          ResultStatus.Notfound    => ArmoniKResultStatus.Error,
          _ => throw new ArgumentOutOfRangeException(nameof(resultStatus),
