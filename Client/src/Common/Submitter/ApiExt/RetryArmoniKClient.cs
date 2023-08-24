@@ -240,6 +240,7 @@ public class RetryArmoniKClient : IArmoniKClient
                                                                               context["trial"],
                                                                               context[nameof(maxRetries)],
                                                                               span.TotalMilliseconds);
+                                                           context["trial"] = 1 + (int)context["trial"];
                                                          })
                                       .ExecuteAndCaptureAsync((_,
                                                                token) => action(token),

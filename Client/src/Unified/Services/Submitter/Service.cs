@@ -109,23 +109,13 @@ public class Service : AbstractClientService, ISubmitterService
                                   {
                                     var maxRetries = groupBlockRequest.First()
                                                                       .MaxRetries;
-                                    //Generate resultId
-                                    var resultsIds = SessionService.CreateResultsMetadata(groupBlockRequest.Select(_ => Guid.NewGuid()
-                                                                                                                            .ToString()))
-                                                                   .Values.ToList();
-
-                                    foreach (var (request, index) in groupBlockRequest.Select((r,
-                                                                                               i) => (r, i)))
-                                    {
-                                      request.ResultId = resultsIds[index];
-                                    }
 
                                     for (var retry = 0; retry < maxRetries; retry++)
                                     {
                                       try
                                       {
                                         var taskIds =
-                                          SessionService.SubmitTasksWithDependencies(groupBlockRequest.Select(x => new Tuple<string, byte[], IList<string>>(x.ResultId,
+                                          SessionService.SubmitTasksWithDependencies(groupBlockRequest.Select(x => new Tuple<byte[], IList<string>>(
                                                                                                                                                             x.Payload!
                                                                                                                                                              .Serialize(),
                                                                                                                                                             Array

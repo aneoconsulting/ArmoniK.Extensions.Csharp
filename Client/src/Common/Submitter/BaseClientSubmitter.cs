@@ -15,6 +15,7 @@
 // limitations under the License.
 
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
@@ -23,6 +24,7 @@ using System.Threading.Tasks;
 
 using ArmoniK.Api.Common.Utils;
 using ArmoniK.Api.gRPC.V1;
+using ArmoniK.Api.gRPC.V1.Tasks;
 using ArmoniK.DevelopmentKit.Client.Common.Status;
 using ArmoniK.DevelopmentKit.Client.Common.Submitter.ApiExt;
 using ArmoniK.DevelopmentKit.Common.Exceptions;
@@ -35,6 +37,59 @@ using JetBrains.Annotations;
 using Microsoft.Extensions.Logging;
 
 namespace ArmoniK.DevelopmentKit.Client.Common.Submitter;
+
+internal interface ITaskResultMapper
+{
+  Task<string> GetTaskIdAsync(string resultId);
+
+  Task<string> GetResultIdAsync(string taskId);
+
+  Task AddMapping(string taskId, string resultId);
+}
+
+internal class ArmoniKTaskResultMapper : ITaskResultMapper
+{
+  protected IArmoniKClient ArmoniKClient { get; }
+
+  public Task<string> GetTaskIdAsync(string resultId)
+    => throw new NotImplementedException();
+
+  public async Task<string> GetResultIdAsync(string taskId)
+    => (await ArmoniKClient.GetResultIdsAsync(new[]
+                                              {
+                                                taskId,
+                                              })).Single()
+                                                 .OutputIds.Single();
+
+  public Task AddMapping(string taskId,
+                         string resultId)
+    => Task.CompletedTask;
+}
+
+internal class MemoryTaskResultMapper : ITaskResultMapper
+{
+  protected ConcurrentDictionary<string, string> Task2Result { get; } = new();
+  protected ConcurrentDictionary<string, string> Result2Task { get; } = new();
+
+  public Task<string> GetTaskIdAsync(string resultId)
+    => Task.FromResult(Result2Task[resultId]);
+
+  public Task<string> GetResultIdAsync(string taskId)
+    => Task.FromResult(Task2Result[taskId]);
+
+  public Task AddMapping(string taskId,
+                         string resultId)
+  {
+    if (!Task2Result.TryAdd(taskId,
+                            resultId) || !Result2Task.TryAdd(resultId,
+                                                             taskId))
+    {
+      throw new InvalidOperationException();
+    }
+
+    return Task.CompletedTask;
+  }
+}
 
 /// <summary>
 ///   Base Object for all Client submitter
@@ -51,7 +106,7 @@ public abstract class BaseClientSubmitter<T>
 
   private readonly Properties properties_;
 
-  private readonly IDictionary<string, string> taskId2ResultId_ = new Dictionary<string, string>();
+  private readonly ITaskResultMapper taskResultMapper_= new MemoryTaskResultMapper();
 
   /// <summary>
   ///   The channel pool to use for creating clients
@@ -265,7 +320,9 @@ public abstract class BaseClientSubmitter<T>
 
     foreach (var taskInfo in tasksInfo)
     {
-      taskId2ResultId_[taskInfo.TaskId] = taskInfo.Outputs.Single();
+      taskResultMapper_.AddMapping(taskInfo.TaskId,
+                                   taskInfo.Outputs.Single())
+                       .Wait();
       yield return taskInfo.TaskId;
     }
   }
