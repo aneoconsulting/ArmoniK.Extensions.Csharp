@@ -16,6 +16,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -32,6 +33,8 @@ using ArmoniK.DevelopmentKit.Client.Unified.Services.Common;
 using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.Common.Exceptions;
 using ArmoniK.Utils;
+
+using Grpc.Core;
 
 using JetBrains.Annotations;
 
@@ -109,13 +112,23 @@ public class Service : AbstractClientService, ISubmitterService
                                   {
                                     var maxRetries = groupBlockRequest.First()
                                                                       .MaxRetries;
+                                    //Generate resultId
+                                    var resultsIds = SessionService.CreateResultsMetadata(groupBlockRequest.Select(_ => Guid.NewGuid()
+                                                                                                                            .ToString()))
+                                                                   .Values.ToList();
+
+                                    foreach (var (request, index) in groupBlockRequest.Select((r,
+                                                                                               i) => (r, i)))
+                                    {
+                                      request.ResultId = resultsIds[index];
+                                    }
 
                                     for (var retry = 0; retry < maxRetries; retry++)
                                     {
                                       try
                                       {
                                         var taskIds =
-                                          SessionService.SubmitTasksWithDependencies(groupBlockRequest.Select(x => new Tuple<byte[], IList<string>>(
+                                          SessionService.SubmitTasksWithDependencies(groupBlockRequest.Select(x => new Tuple<string, byte[], IList<string>>(x.ResultId,
                                                                                                                                                             x.Payload!
                                                                                                                                                              .Serialize(),
                                                                                                                                                             Array
@@ -550,10 +563,28 @@ public class Service : AbstractClientService, ISubmitterService
             Logger.LogTrace("Response handler for {taskId}",
                             resultStatusData.TaskId);
             responseHandler(resultStatusData.TaskId,
-                            SessionService.TryGetResultAsync(resultStatusData.ResultId,
-                                                             SessionId,
-                                                             CancellationToken.None)
-                                          .Result!);
+                            Retry.WhileException(5,
+                                                 2000,
+                                                 retry =>
+                                                 {
+                                                   if (retry > 1)
+                                                   {
+                                                     Logger.LogWarning("Try {try} for {funcName}",
+                                                                       retry,
+                                                                       nameof(SessionService.TryGetResultAsync));
+                                                   }
+
+                                                   return SessionService.TryGetResultAsync(new ResultRequest
+                                                                                           {
+                                                                                             ResultId = resultStatusData.ResultId,
+                                                                                             Session  = SessionId,
+                                                                                           },
+                                                                                           CancellationToken.None)
+                                                                        .Result;
+                                                 },
+                                                 true,
+                                                 typeof(IOException),
+                                                 typeof(RpcException))!);
           }
           catch (Exception e)
           {

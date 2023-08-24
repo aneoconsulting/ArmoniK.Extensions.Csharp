@@ -15,81 +15,30 @@
 // limitations under the License.
 
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
 using ArmoniK.Api.Common.Utils;
 using ArmoniK.Api.gRPC.V1;
-using ArmoniK.Api.gRPC.V1.Tasks;
 using ArmoniK.DevelopmentKit.Client.Common.Status;
 using ArmoniK.DevelopmentKit.Client.Common.Submitter.ApiExt;
+using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.Common.Exceptions;
 using ArmoniK.Utils;
 
 using Google.Protobuf;
+
+using Grpc.Core;
 
 using JetBrains.Annotations;
 
 using Microsoft.Extensions.Logging;
 
 namespace ArmoniK.DevelopmentKit.Client.Common.Submitter;
-
-internal interface ITaskResultMapper
-{
-  Task<string> GetTaskIdAsync(string resultId);
-
-  Task<string> GetResultIdAsync(string taskId);
-
-  Task AddMapping(string taskId, string resultId);
-}
-
-internal class ArmoniKTaskResultMapper : ITaskResultMapper
-{
-  protected IArmoniKClient ArmoniKClient { get; }
-
-  public Task<string> GetTaskIdAsync(string resultId)
-    => throw new NotImplementedException();
-
-  public async Task<string> GetResultIdAsync(string taskId)
-    => (await ArmoniKClient.GetResultIdsAsync(new[]
-                                              {
-                                                taskId,
-                                              })).Single()
-                                                 .OutputIds.Single();
-
-  public Task AddMapping(string taskId,
-                         string resultId)
-    => Task.CompletedTask;
-}
-
-internal class MemoryTaskResultMapper : ITaskResultMapper
-{
-  protected ConcurrentDictionary<string, string> Task2Result { get; } = new();
-  protected ConcurrentDictionary<string, string> Result2Task { get; } = new();
-
-  public Task<string> GetTaskIdAsync(string resultId)
-    => Task.FromResult(Result2Task[resultId]);
-
-  public Task<string> GetResultIdAsync(string taskId)
-    => Task.FromResult(Task2Result[taskId]);
-
-  public Task AddMapping(string taskId,
-                         string resultId)
-  {
-    if (!Task2Result.TryAdd(taskId,
-                            resultId) || !Result2Task.TryAdd(resultId,
-                                                             taskId))
-    {
-      throw new InvalidOperationException();
-    }
-
-    return Task.CompletedTask;
-  }
-}
 
 /// <summary>
 ///   Base Object for all Client submitter
@@ -105,8 +54,6 @@ public abstract class BaseClientSubmitter<T>
   private readonly int chunkSubmitSize_;
 
   private readonly Properties properties_;
-
-  private readonly ITaskResultMapper taskResultMapper_= new MemoryTaskResultMapper();
 
   /// <summary>
   ///   The channel pool to use for creating clients
@@ -310,21 +257,62 @@ public abstract class BaseClientSubmitter<T>
                                                                                         tuple.Item1,
                                                                                       }));
 
-
-    var tasksInfo = ArmoniKClient.SubmitTasksAsync(SessionId.Id,
-                                                   taskDefinitions,
-                                                   taskOptions ?? TaskOptions,
-                                                   maxRetries,
-                                                   cancellationToken: CancellationToken.None)
-                                 .Result;
-
-    foreach (var taskInfo in tasksInfo)
+    for (var nbRetry = 0; nbRetry < maxRetries; nbRetry++)
     {
-      taskResultMapper_.AddMapping(taskInfo.TaskId,
-                                   taskInfo.Outputs.Single())
-                       .Wait();
-      yield return taskInfo.TaskId;
+      try
+      {
+        return ArmoniKClient.SubmitTasksAsync(SessionId.Id,
+                                              // ReSharper disable once PossibleMultipleEnumeration
+                                              // Only occurs in case of retry
+                                              taskDefinitions,
+                                              taskOptions ?? TaskOptions,
+                                              5,
+                                              cancellationToken: CancellationToken.None)
+                            .Result.Select(info => info.TaskId);
+      }
+      catch (Exception e)
+      {
+        if (nbRetry >= maxRetries - 1)
+        {
+          throw;
+        }
+
+        switch (e)
+        {
+          case AggregateException
+               {
+                 InnerException: RpcException,
+               } ex:
+            Logger.LogWarning(ex.InnerException,
+                              "Failure to submit");
+            break;
+          case AggregateException
+               {
+                 InnerException: IOException,
+               } ex:
+            Logger.LogWarning(ex.InnerException,
+                              "IOException : Failure to submit, Retrying");
+            break;
+          case IOException ex:
+            Logger.LogWarning(ex,
+                              "IOException Failure to submit");
+            break;
+          default:
+            Logger.LogError(e,
+                            "Unknown failure :");
+            throw;
+        }
+      }
+
+      if (nbRetry > 0)
+      {
+        Logger.LogWarning("{retry}/{maxRetries} nbRetry to submit batch of task",
+                          nbRetry,
+                          maxRetries);
+      }
     }
+
+    throw new Exception("Max retry to send has been reached");
   }
 
   /// <summary>
@@ -364,15 +352,29 @@ public abstract class BaseClientSubmitter<T>
   {
     using var _ = Logger.LogFunction();
 
-    ArmoniKClient.WaitForCompletionAsync(SessionId.Id,
-                                         taskIds.ToList(),
-                                         true,
-                                         true,
-                                         maxRetries,
-                                         Math.Pow(2.0,
-                                                  maxRetries) / maxRetries * delayMs,
-                                         CancellationToken.None)
-                 .Wait();
+    // TODO: use RetryArmoniKClient instead of this code.
+    Retry.WhileException(maxRetries,
+                         delayMs,
+                         retry =>
+                         {
+                           if (retry > 1)
+                           {
+                             Logger.LogWarning("Try {try} for {funcName}",
+                                               retry,
+                                               nameof(ArmoniKClient.WaitForCompletionAsync));
+                           }
+
+                           var __ = ArmoniKClient.WaitForCompletionAsync(SessionId.Id,
+                                                                         taskIds.ToList(),
+                                                                         true,
+                                                                         true,
+                                                                         5,
+                                                                         cancellationToken: CancellationToken.None)
+                                                 .Result;
+                         },
+                         true,
+                         typeof(IOException),
+                         typeof(RpcException));
   }
 
   /// <summary>
@@ -384,48 +386,58 @@ public abstract class BaseClientSubmitter<T>
   public ResultStatusCollection GetResultStatus(IEnumerable<string> taskIds,
                                                 CancellationToken   cancellationToken = default)
   {
-    var result2TaskDic = new Dictionary<string, string>();
-    var missingTasks   = new List<ResultStatusData>();
+    var taskList       = taskIds.ToList();
+    var mapTaskResults = GetResultIds(taskList);
 
-    foreach (var taskId in taskIds)
-    {
-      if (taskId2ResultId_.TryGetValue(taskId,
-                                       out var resultId))
-      {
-        result2TaskDic[resultId] = taskId;
-      }
-      else
-      {
-        missingTasks.Add(new ResultStatusData(string.Empty,
-                                              taskId,
-                                              ArmoniKResultStatus.Unknown));
-      }
-    }
+    var result2TaskDic = mapTaskResults.ToDictionary(result => result.OutputIds.Single(),
+                                                     result => result.TaskId);
 
-    var idStatuses = ArmoniKClient.GetResultStatusAsync(SessionId.Id,
-                                                        result2TaskDic.Keys,
-                                                        5,
-                                                        cancellationToken: cancellationToken)
-                                  .Result.Where(status => status.TaskStatus != ArmoniKResultStatus.Unknown)
-                                  .ToLookup(idStatus => idStatus.TaskStatus,
-                                            idStatus =>
-                                            {
-                                              var taskId = result2TaskDic[idStatus.ResultId];
-                                              result2TaskDic.Remove(idStatus.ResultId);
-                                              return new ResultStatusData(idStatus.ResultId,
-                                                                          taskId,
-                                                                          idStatus.TaskStatus);
-                                            });
+    var missingTasks = taskList.Count > result2TaskDic.Count
+                         ? taskList.Except(result2TaskDic.Values)
+                                   .Select(tid => new ResultStatusData(string.Empty,
+                                                                       tid,
+                                                                       ArmoniKResultStatus.Unknown))
+                         : Array.Empty<ResultStatusData>();
+
+    // TODO: use RetryArmoniKClient instead of this code.
+    var idStatuses = Retry.WhileException(5,
+                                          2000,
+                                          retry =>
+                                          {
+                                            Logger.LogDebug("Try {try} for {funcName}",
+                                                            retry,
+                                                            nameof(ArmoniKClient.GetResultStatusAsync));
+                                            return ArmoniKClient.GetResultStatusAsync(SessionId.Id,
+                                                                                      result2TaskDic.Keys,
+                                                                                      5,
+                                                                                      cancellationToken: cancellationToken)
+                                                                .Result;
+                                          },
+                                          true,
+                                          typeof(IOException),
+                                          typeof(RpcException))
+                          .Where(status => status.TaskStatus != ArmoniKResultStatus.Unknown)
+                          .ToLookup(idStatus => idStatus.TaskStatus,
+                                    idStatus =>
+                                    {
+                                      var taskId = result2TaskDic[idStatus.ResultId];
+                                      result2TaskDic.Remove(idStatus.ResultId);
+                                      return new ResultStatusData(idStatus.ResultId,
+                                                                  taskId,
+                                                                  idStatus.TaskStatus);
+                                    });
 
 
-    return new ResultStatusCollection(idStatuses[ArmoniKResultStatus.Available]
-                                        .ToImmutableList(),
-                                      idStatuses[ArmoniKResultStatus.Error]
-                                        .ToImmutableList(),
-                                      result2TaskDic.Values.ToList(),
-                                      idStatuses[ArmoniKResultStatus.NotReady]
-                                        .ToImmutableList(),
-                                      missingTasks);
+    var resultStatusList = new ResultStatusCollection(idStatuses[ArmoniKResultStatus.Available]
+                                                        .ToImmutableList(),
+                                                      idStatuses[ArmoniKResultStatus.Error]
+                                                        .ToImmutableList(),
+                                                      result2TaskDic.Values.ToList(),
+                                                      idStatuses[ArmoniKResultStatus.NotReady]
+                                                        .ToImmutableList(),
+                                                      missingTasks.ToList());
+
+    return resultStatusList;
   }
 
   /// <summary>
@@ -434,10 +446,25 @@ public abstract class BaseClientSubmitter<T>
   /// <param name="taskIds">The list of task ids.</param>
   /// <returns>A collection of map task results.</returns>
   public IEnumerable<TaskOutputIds> GetResultIds(IEnumerable<string> taskIds)
-    => ArmoniKClient.GetResultIdsAsync(taskIds.ToList(),
-                                       5,
-                                       cancellationToken: CancellationToken.None)
-                    .Result;
+    => Retry.WhileException(5,
+                            2000,
+                            retry =>
+                            {
+                              if (retry > 1)
+                              {
+                                Logger.LogWarning("Try {try} for {funcName}",
+                                                  retry,
+                                                  nameof(GetResultIds));
+                              }
+
+                              return ArmoniKClient.GetResultIdsAsync(taskIds.ToList(),
+                                                                     5,
+                                                                     cancellationToken: CancellationToken.None)
+                                                  .Result;
+                            },
+                            true,
+                            typeof(IOException),
+                            typeof(RpcException));
 
 
   /// <summary>
@@ -453,30 +480,35 @@ public abstract class BaseClientSubmitter<T>
 
     try
     {
-      var resultId = taskId2ResultId_[taskId];
+      var resultId = GetResultIds(new[]
+                                  {
+                                    taskId,
+                                  })
+                     .Single()
+                     .OutputIds.Single();
 
+      Retry.WhileException(5,
+                           2000,
+                           retry =>
+                           {
+                             ArmoniKClient.WaitForAvailability(SessionId.Id,
+                                                               resultId,
+                                                               cancellationToken: cancellationToken)
+                                          .Wait(cancellationToken);
+                           },
+                           true,
+                           typeof(IOException),
+                           typeof(RpcException));
 
-      var resultRequest = new ResultRequest
-                          {
-                            ResultId = resultId,
-                            Session  = SessionId.Id,
-                          };
-
-      ArmoniKClient.WaitForAvailability(SessionId.Id,
-                                        resultId,
-                                        5,
-                                        Math.Pow(2.0,
-                                                 5) * 20000 / 5,
-                                        cancellationToken)
-                   .Wait(cancellationToken);
-
-      return ArmoniKClient.DownloadResultAsync(SessionId.Id,
-                                               resultId,
-                                               5,
-                                               Math.Pow(2.0,
-                                                        5) * 200 / 5,
-                                               cancellationToken)
-                          .Result!;
+      return Retry.WhileException(5,
+                                  200,
+                                  _ => ArmoniKClient.DownloadResultAsync(SessionId.Id,
+                                                                         resultId,
+                                                                         cancellationToken: cancellationToken)
+                                                    .Result,
+                                  true,
+                                  typeof(IOException),
+                                  typeof(RpcException))!;
     }
     catch (Exception ex)
     {
@@ -510,30 +542,18 @@ public abstract class BaseClientSubmitter<T>
   /// <summary>
   ///   Try to get the result if it is available
   /// </summary>
-  /// <param name="sessionId"></param>
-  /// <param name="resultId"></param>
+  /// <param name="resultRequest">Request specifying the result to fetch</param>
   /// <param name="cancellationToken">The token used to cancel the operation.</param>
   /// <returns>Returns the result or byte[0] if there no result or null if task is not yet ready</returns>
   /// <exception cref="Exception"></exception>
   /// <exception cref="ArgumentOutOfRangeException"></exception>
-  public async Task<byte[]?> TryGetResultAsync(string            sessionId,
-                                               string            resultId,
+  // TODO: return a compound type to avoid having a nullable that holds the information and return an empty array.
+  [Obsolete]
+  public async Task<byte[]?> TryGetResultAsync(ResultRequest     resultRequest,
                                                CancellationToken cancellationToken = default)
-  {
-    try
-    {
-      return await ArmoniKClient.DownloadResultAsync(sessionId,
-                                                     resultId,
-                                                     5,
-                                                     Math.Pow(2.0,
-                                                              5) * 2000 / 5,
-                                                     cancellationToken);
-    }
-    catch
-    {
-      return null;
-    }
-  }
+    => await ArmoniKClient.DownloadResultAsync(resultRequest.Session,
+                                               resultRequest.ResultId,
+                                               cancellationToken: cancellationToken);
 
   /// <summary>
   ///   Try to find the result of One task. If there no result, the function return byte[0]
@@ -562,10 +582,79 @@ public abstract class BaseClientSubmitter<T>
   [PublicAPI]
   public byte[]? TryGetResult(string            taskId,
                               CancellationToken cancellationToken = default)
-    => TryGetResultAsync(SessionId.Id,
-                         taskId2ResultId_[taskId],
-                         cancellationToken)
-      .Result;
+  {
+    using var _ = Logger.LogFunction(taskId);
+    var resultId = GetResultIds(new[]
+                                {
+                                  taskId,
+                                })
+                   .Single()
+                   .OutputIds.Single();
+
+    var resultReply = Retry.WhileException(5,
+                                           2000,
+                                           retry =>
+                                           {
+                                             if (retry > 1)
+                                             {
+                                               Logger.LogWarning("Try {try} for {funcName}",
+                                                                 retry,
+                                                                 "SubmitterService.TryGetResultAsync");
+                                             }
+
+                                             try
+                                             {
+                                               var response = ArmoniKClient.DownloadResultAsync(SessionId.Id,
+                                                                                                resultId,
+                                                                                                cancellationToken: cancellationToken)
+                                                                           .Result;
+                                               return response;
+                                             }
+                                             catch (AggregateException ex)
+                                             {
+                                               if (ex.InnerException == null)
+                                               {
+                                                 throw;
+                                               }
+
+                                               var rpcException = ex.InnerException;
+
+                                               switch (rpcException)
+                                               {
+                                                 //Not yet available return from the tryGetResult
+                                                 case RpcException
+                                                      {
+                                                        StatusCode: StatusCode.NotFound,
+                                                      }:
+                                                   return null;
+
+                                                 //We lost the communication rethrow to retry :
+                                                 case RpcException
+                                                      {
+                                                        StatusCode: StatusCode.Unavailable,
+                                                      }:
+                                                   throw;
+
+                                                 case RpcException
+                                                      {
+                                                        StatusCode: StatusCode.Aborted or StatusCode.Cancelled,
+                                                      }:
+
+                                                   Logger.LogError(rpcException,
+                                                                   "Error while trying to get a result: {error}",
+                                                                   rpcException.Message);
+                                                   return null;
+                                                 default:
+                                                   throw;
+                                               }
+                                             }
+                                           },
+                                           true,
+                                           typeof(IOException),
+                                           typeof(RpcException));
+
+    return resultReply;
+  }
 
   /// <summary>
   ///   Try to get result of a list of taskIds
@@ -573,15 +662,60 @@ public abstract class BaseClientSubmitter<T>
   /// <param name="resultIds">A list of result ids</param>
   /// <returns>Returns an Enumerable pair of </returns>
   public IList<Tuple<string, byte[]>> TryGetResults(IList<string> resultIds)
-    => resultIds.ParallelSelect(new ParallelTaskOptions(20),
-                                async resultId => Tuple.Create(resultId,
-                                                               await TryGetResultAsync(SessionId.Id,
-                                                                                       resultId)))
-                .Where(tuple => tuple.Item2 is not null)
-                .Select(tuple => Tuple.Create(tuple.Item1,
-                                              tuple.Item2!))
-                .ToListAsync()
-                .Result;
+  {
+    var resultStatus = GetResultStatus(resultIds);
+
+    if (!resultStatus.IdsReady.Any() && !resultStatus.IdsNotReady.Any())
+    {
+      if (resultStatus.IdsError.Any() || resultStatus.IdsResultError.Any())
+      {
+        var taskList = string.Join(", ",
+                                   resultStatus.IdsResultError.Select(x => x.TaskId));
+
+        if (resultStatus.IdsError.Any())
+        {
+          if (resultStatus.IdsResultError.Any())
+          {
+            taskList += ", ";
+          }
+
+          taskList += string.Join(", ",
+                                  resultStatus.IdsError);
+        }
+
+        var taskIdInError = resultStatus.IdsError.Any()
+                              ? resultStatus.IdsError[0]
+                              : resultStatus.IdsResultError[0].TaskId;
+
+        const string message = "The missing result is in error or canceled. "                                                          +
+                               "Please check log for more information on Armonik grid server list of taskIds in Error: [{taskList}]\n" +
+                               "1st result id where the task which should create it is in error : {taskIdInError}";
+
+        Logger.LogError(message,
+                        taskList,
+                        taskIdInError);
+
+        throw new
+          ClientResultsException($"The missing result is in error or canceled. Please check log for more information on Armonik grid server list of taskIds in Error: [{taskList}]" +
+                                 $"1st result id where the task which should create it is in error : {taskIdInError}",
+                                 resultStatus.IdsError.ToArray());
+      }
+    }
+
+    return resultStatus.IdsReady.Select(resultStatusData =>
+                                        {
+                                          var res = ArmoniKClient.DownloadResultAsync(SessionId.Id,
+                                                                                      resultStatusData.ResultId)
+                                                                 .Result;
+                                          return res == null
+                                                   ? null
+                                                   : new Tuple<string, byte[]>(resultStatusData.TaskId,
+                                                                               res);
+                                        })
+                       .Where(tuple => tuple is not null)
+                       .Select(tuple => tuple!)
+                       .ToList();
+  }
 
   /// <summary>
   ///   Creates the results metadata
