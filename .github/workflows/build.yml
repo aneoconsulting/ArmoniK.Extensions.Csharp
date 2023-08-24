@@ -227,7 +227,7 @@ jobs:
           tls: ${{ matrix.tls }}
           mtls: ${{ matrix.mtls }}
           ext-csharp-version: ${{ needs.versionning.outputs.version }}
-          core-version: 0.14.0-SNAPSHOT.138.2c9f7407
+          core-version: 0.15.0
 
       - name: Setup hosts file
         run : echo -e "$(kubectl get svc ingress -n armonik -o jsonpath={.status.loadBalancer.ingress[0].ip})\tarmonik.local" | sudo tee -a /etc/hosts
@@ -275,6 +275,35 @@ jobs:
           name: "IntegrationTests tls:${{ matrix.tls }} mtls:${{ matrix.mtls }} val:${{ matrix.sslvalidation }} ca:${{ matrix.useca }}"
           path: ./Tests/ArmoniK.EndToEndTests/ArmoniK.EndToEndTests.Client/TestResults/test-results.trx
           reporter: dotnet-trx
+          
+      - name: Show logs
+        if: always()
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: us-east-1
+          AWS_DEFAULT_OUTPUT: json
+        run: |
+          set -e
+          cd infra
+          mkdir -p end2end/infra/generated \
+            end2end/infra/tfstates \
+            end2end/app  
+          if [ -e infrastructure/quick-deploy/localhost/all-in-one/generated/armonik-output.json ] ; then
+           cp infrastructure/quick-deploy/localhost/all-in-one/generated/armonik-output.json end2end/infra/generated
+          fi
+          cp infrastructure/quick-deploy/localhost/all-in-one/generated/terraform.tfstate end2end/infra/tfstates
+          sudo cp -rL /var/log/pods/armonik_* end2end/app
+          sudo chown $USER -R end2end
+          tar -czf end2end-${{ matrix.tls }}-${{ matrix.mtls }}-${{ matrix.sslvalidation }}-${{ matrix.useca }}.tar.gz end2end
+          aws s3 cp end2end-${{ matrix.tls }}-${{ matrix.mtls }}-${{ matrix.sslvalidation }}-${{ matrix.useca }}.tar.gz s3://${{ secrets.AWS_LOG_BUCKET_NAME }}/extcsharp-pipeline/${{ github.run_number }}/${{ github.run_attempt }}/end2end-${{ matrix.tls }}-${{ matrix.mtls }}-${{ matrix.sslvalidation }}-${{ matrix.useca }}.tar.gz
+
+      - name: 'Upload Artifact'
+        uses: actions/upload-artifact@v3
+        with:
+          name: end2end-${{ matrix.tls }}-${{ matrix.mtls }}-${{ matrix.sslvalidation }}-${{ matrix.useca }}.tar.gz
+          path: end2end-${{ matrix.tls }}-${{ matrix.mtls }}-${{ matrix.sslvalidation }}-${{ matrix.useca }}.tar.gz
+          retention-days: 2
     
       - name: Destroy deployment
         if: success() || failure()
