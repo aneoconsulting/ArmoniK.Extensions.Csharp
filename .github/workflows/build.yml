@@ -312,7 +312,7 @@ jobs:
 
       - name: Build Docker image
         run: |
-            docker build -t test_image:latest --build -arg=WORKER_DLL_IMAGE=dockerhubaneo/armonik_worker_dll:$VERSION -f Tests/ArmoniK.EndToEndTests/ArmoniK.EndToEndTests.Worker/Dockerfile .
+          docker build -t test_image:latest --build-arg WORKER_DLL_IMAGE=dockerhubaneo/armonik_worker_dll:$VERSION -f Tests/ArmoniK.EndToEndTests/ArmoniK.EndToEndTests.Worker/Dockerfile .
 
       - name: Change version
         run: |
