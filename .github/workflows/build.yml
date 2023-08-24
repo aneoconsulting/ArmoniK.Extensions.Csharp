@@ -289,7 +289,8 @@ jobs:
     needs:
       - versionning
       - buildWorkerEnd2End
-
+    env:
+      VERSION: ${{ needs.versionning.outputs.version }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
