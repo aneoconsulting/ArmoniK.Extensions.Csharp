@@ -71,7 +71,7 @@ public class GrpcArmoniKClient : IArmoniKClient
                                               return definition.ToTaskRequest();
                                             });
 
-      using var guard = channelFactory_();
+      await using var guard = channelFactory_();
 
       var service = new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(guard.Channel);
 
@@ -135,7 +135,7 @@ public class GrpcArmoniKClient : IArmoniKClient
     ValidateRetryArguments(maxRetries,
                            totalTimeoutMs);
 
-    using var guard = channelFactory_();
+    await using var guard = channelFactory_();
 
     var service = new Tasks.TasksClient(guard.Channel);
 
@@ -162,7 +162,7 @@ public class GrpcArmoniKClient : IArmoniKClient
     ValidateRetryArguments(maxRetries,
                            totalTimeoutMs);
 
-    using var guard = channelFactory_();
+    await using var guard = channelFactory_();
 
     var service = new Results.ResultsClient(guard.Channel);
 
@@ -181,7 +181,7 @@ public class GrpcArmoniKClient : IArmoniKClient
     ValidateRetryArguments(maxRetries,
                            totalTimeoutMs);
 
-    using var guard = channelFactory_();
+    await using var guard = channelFactory_();
 
     var service = new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(guard.Channel);
 
@@ -208,7 +208,7 @@ public class GrpcArmoniKClient : IArmoniKClient
     ValidateRetryArguments(maxRetries,
                            totalTimeoutMs);
 
-    using var guard = channelFactory_();
+    await using var guard = channelFactory_();
 
     var service = new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(guard.Channel);
 
@@ -236,7 +236,7 @@ public class GrpcArmoniKClient : IArmoniKClient
     ValidateRetryArguments(maxRetries,
                            totalTimeoutMs);
 
-    using var guard = channelFactory_();
+    await using var guard = channelFactory_();
 
     var service = new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(guard.Channel);
 
@@ -267,7 +267,7 @@ public class GrpcArmoniKClient : IArmoniKClient
     ValidateRetryArguments(maxRetries,
                            totalTimeoutMs);
 
-    using var guard = channelFactory_();
+    await using var guard = channelFactory_();
 
     var service = new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(guard.Channel);
 
@@ -300,7 +300,7 @@ public class GrpcArmoniKClient : IArmoniKClient
     ValidateRetryArguments(maxRetries,
                            totalTimeoutMs);
 
-    using var guard = channelFactory_();
+    await using var guard = channelFactory_();
 
     var service = new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(guard.Channel);
 
@@ -343,7 +343,7 @@ public class GrpcArmoniKClient : IArmoniKClient
     ValidateRetryArguments(maxRetries,
                            totalTimeoutMs);
 
-    using var guard = channelFactory_();
+    await using var guard = channelFactory_();
 
     var service = new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(guard.Channel);
 
@@ -380,7 +380,7 @@ public class GrpcArmoniKClient : IArmoniKClient
     ValidateRetryArguments(maxRetries,
                            totalTimeoutMs);
 
-    using var guard = channelFactory_();
+    await using var guard = channelFactory_();
 
     var service = new Results.ResultsClient(guard.Channel);
 

@@ -16,6 +16,7 @@
 
 using System;
 using System.Collections.Concurrent;
+using System.Threading.Tasks;
 
 using Grpc.Core;
 
@@ -54,11 +55,11 @@ public sealed class ChannelPool
   ///   Get a channel from the pool. If the pool is empty, create a new channel
   /// </summary>
   /// <returns>A ChannelBase used by nobody else</returns>
-  private ChannelBase AcquireChannel()
+  private async Task<ChannelBase> AcquireChannelAsync()
   {
-    if (pool_.TryTake(out var channel))
+    while (pool_.TryTake(out var channel))
     {
-      if (ShutdownOnFailure(channel))
+      if (await IsChannelFailedAsync(channel))
       {
         logger_?.LogDebug("Got an invalid channel {channel} from pool",
                           channel);
@@ -71,19 +72,19 @@ public sealed class ChannelPool
       }
     }
 
-    channel = channelFactory_();
+    var newChannel = channelFactory_();
     logger_?.LogInformation("Created and acquired new channel {channel} from pool",
-                            channel);
-    return channel;
+                            newChannel);
+    return newChannel;
   }
 
   /// <summary>
   ///   Release a ChannelBase to the pool that could be reused later by someone else
   /// </summary>
   /// <param name="channel">Channel to release</param>
-  private void ReleaseChannel(ChannelBase channel)
+  private async Task ReleaseChannelAsync(ChannelBase channel)
   {
-    if (ShutdownOnFailure(channel))
+    if (await IsChannelFailedAsync(channel))
     {
       logger_?.LogDebug("Shutdown unhealthy channel {channel}",
                         channel);
@@ -101,7 +102,7 @@ public sealed class ChannelPool
   /// </summary>
   /// <param name="channel">Channel to check the state</param>
   /// <returns>True if the channel has been shut down</returns>
-  private static bool ShutdownOnFailure(ChannelBase channel)
+  private static async Task<bool> IsChannelFailedAsync(ChannelBase channel)
   {
     try
     {
@@ -111,8 +112,7 @@ public sealed class ChannelPool
           switch (chan.State)
           {
             case ChannelState.TransientFailure:
-              chan.ShutdownAsync()
-                  .Wait();
+              await chan.ShutdownAsync();
               return true;
             case ChannelState.Shutdown:
               return true;
@@ -127,8 +127,7 @@ public sealed class ChannelPool
           switch (chan.State)
           {
             case ConnectivityState.TransientFailure:
-              chan.ShutdownAsync()
-                  .Wait();
+              await chan.ShutdownAsync();
               return true;
             case ConnectivityState.Shutdown:
               return true;
@@ -163,15 +162,25 @@ public sealed class ChannelPool
   /// <typeparam name="T">Type of the return type of f</typeparam>
   /// <returns>Value returned by f</returns>
   public T WithChannel<T>(Func<ChannelBase, T> f)
+    => WithChannel(channel => Task.FromResult(f(channel)))
+      .Result;
+
+  /// <summary>
+  ///   Call f with an acquired channel
+  /// </summary>
+  /// <param name="f">Function to be called</param>
+  /// <typeparam name="T">Type of the return type of f</typeparam>
+  /// <returns>Value returned by f</returns>
+  public async Task<T> WithChannel<T>(Func<ChannelBase, Task<T>> f)
   {
-    using var channel = GetChannel();
-    return f(channel.Channel);
+    await using var channel = GetChannel();
+    return await f(channel.Channel);
   }
 
   /// <summary>
   ///   Helper class that acquires a channel from a pool when constructed, and releases it when disposed
   /// </summary>
-  public sealed class ChannelGuard : IDisposable
+  public sealed class ChannelGuard : IAsyncDisposable
   {
     private readonly ChannelPool pool_;
 
@@ -182,7 +191,7 @@ public sealed class ChannelPool
     public ChannelGuard(ChannelPool channelPool)
     {
       pool_   = channelPool;
-      Channel = channelPool.AcquireChannel();
+      Channel = channelPool.AcquireChannelAsync().Result;
     }
 
     /// <summary>
@@ -191,7 +200,9 @@ public sealed class ChannelPool
     public ChannelBase Channel { get; }
 
     /// <inheritdoc />
-    public void Dispose()
-      => pool_.ReleaseChannel(Channel);
+    public async ValueTask DisposeAsync()
+    {
+      await pool_.ReleaseChannelAsync(Channel);
+    }
   }
 }
