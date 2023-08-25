@@ -52,7 +52,10 @@ public abstract class BaseClientSubmitter<T>
   /// </summary>
   private readonly int chunkSubmitSize_;
 
-  private ConcurrentDictionary<string, string> taskId2ResultId_ = new();
+  /// <summary>
+  ///   Stores the resultId corresponding to the taskIds
+  /// </summary>
+  private readonly ConcurrentDictionary<string, string> taskId2ResultId_ = new();
 
   /// <summary>
   ///   Base Object for all Client submitter
