@@ -51,13 +51,6 @@ public abstract class BaseClientSubmitter<T>
   /// </summary>
   private readonly int chunkSubmitSize_;
 
-  private readonly Properties properties_;
-
-  /// <summary>
-  ///   The channel pool to use for creating clients
-  /// </summary>
-  private ChannelPool? channelPool_;
-
   /// <summary>
   ///   Base Object for all Client submitter
   /// </summary>
@@ -71,20 +64,35 @@ public abstract class BaseClientSubmitter<T>
                                 TaskOptions    taskOptions,
                                 Session?       session,
                                 int            chunkSubmitSize = 500)
+    : this(new RetryArmoniKClient(loggerFactory.CreateLogger<RetryArmoniKClient>(),
+                                  new GrpcArmoniKClient(() => ClientServiceConnector.ControlPlaneConnectionPool(properties,
+                                                                                                                loggerFactory)
+                                                                                    .GetChannel())),
+           loggerFactory.CreateLogger<T>(),
+           taskOptions,
+           session,
+           chunkSubmitSize)
   {
-    LoggerFactory    = loggerFactory;
+  }
+
+  /// <summary>
+  ///   Base Object for all Client submitter
+  /// </summary>
+  /// <param name="armoniKClient">ArmoniKClient instance to be used for all the calls to ArmoniK's Control Plane</param>
+  /// <param name="logger">the logger for current object</param>
+  /// <param name="taskOptions"></param>
+  /// <param name="session"></param>
+  /// <param name="chunkSubmitSize">The size of chunk to split the list of tasks</param>
+  internal BaseClientSubmitter(IArmoniKClient armoniKClient,
+                               ILogger<T>     logger,
+                               TaskOptions    taskOptions,
+                               Session?       session,
+                               int            chunkSubmitSize = 500)
+  {
     TaskOptions      = taskOptions;
-    properties_      = properties;
-    Logger           = loggerFactory.CreateLogger<T>();
+    ArmoniKClient    = armoniKClient;
+    Logger           = logger;
     chunkSubmitSize_ = chunkSubmitSize;
-
-    var channelPool = ClientServiceConnector.ControlPlaneConnectionPool(properties_,
-                                                                        LoggerFactory);
-
-    var grpcArmoniKClient = new GrpcArmoniKClient(() => channelPool.GetChannel());
-
-    ArmoniKClient = new RetryArmoniKClient(loggerFactory.CreateLogger<RetryArmoniKClient>(),
-                                           grpcArmoniKClient);
 
     SessionId = session ?? CreateSession(new[]
                                          {
@@ -92,9 +100,7 @@ public abstract class BaseClientSubmitter<T>
                                          });
   }
 
-  private ILoggerFactory LoggerFactory { get; }
-
-  protected IArmoniKClient ArmoniKClient { get; }
+  private IArmoniKClient ArmoniKClient { get; }
 
   /// <summary>
   ///   Set or Get TaskOptions with inside MaxDuration, Priority, AppName, VersionName and AppNamespace
@@ -254,6 +260,7 @@ public abstract class BaseClientSubmitter<T>
                                           taskOptions ?? TaskOptions,
                                           maxRetries,
                                           cancellationToken: CancellationToken.None)
+                        // TODO: Store the taskId->ResultId Mapping
                         .Result.Select(info => info.TaskId);
   }
 
@@ -327,7 +334,6 @@ public abstract class BaseClientSubmitter<T>
                                                                        ArmoniKResultStatus.Unknown))
                          : Array.Empty<ResultStatusData>();
 
-    // TODO: use RetryArmoniKClient instead of this code.
     var idStatuses = ArmoniKClient.GetResultStatusAsync(SessionId.Id,
                                                         result2TaskDic.Keys,
                                                         5,
