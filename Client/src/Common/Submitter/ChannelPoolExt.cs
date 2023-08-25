@@ -20,7 +20,6 @@ using ArmoniK.Utils;
 
 using Grpc.Core;
 
-
 namespace ArmoniK.DevelopmentKit.Client.Common.Submitter;
 
 /// <summary>
@@ -28,7 +27,6 @@ namespace ArmoniK.DevelopmentKit.Client.Common.Submitter;
 /// </summary>
 public static class ChannelPoolExt
 {
-
   /// <summary>
   ///   Call f with an acquired channel and automatically manage the guard lifecycle
   /// </summary>
@@ -36,7 +34,7 @@ public static class ChannelPoolExt
   /// <typeparam name="T">Type of the return type of f</typeparam>
   /// <returns>Value returned by f</returns>
   public static T WithChannel<T>(this ObjectPool<ChannelBase> pool,
-                                        Func<ChannelBase, T> f)
+                                 Func<ChannelBase, T>         f)
   {
     using var guard = pool.Get();
     return f(guard.Value);
