@@ -64,15 +64,23 @@ public abstract class BaseClientSubmitter<T>
                                 TaskOptions    taskOptions,
                                 Session?       session,
                                 int            chunkSubmitSize = 500)
-    : this(new RetryArmoniKClient(loggerFactory.CreateLogger<RetryArmoniKClient>(),
-                                  new GrpcArmoniKClient(() => ClientServiceConnector.ControlPlaneConnectionPool(properties,
-                                                                                                                loggerFactory)
-                                                                                    .GetChannel())),
-           loggerFactory.CreateLogger<T>(),
-           taskOptions,
-           session,
-           chunkSubmitSize)
   {
+    Logger = loggerFactory.CreateLogger<T>();
+
+
+    var channelPool = ClientServiceConnector.ControlPlaneConnectionPool(properties,
+                                                                        loggerFactory);
+
+    ArmoniKClient = new RetryArmoniKClient(loggerFactory.CreateLogger<RetryArmoniKClient>(),
+                                           new GrpcArmoniKClient(() => channelPool.GetChannel()));
+
+    TaskOptions      = taskOptions;
+    chunkSubmitSize_ = chunkSubmitSize;
+
+    SessionId = session ?? CreateSession(new[]
+                                         {
+                                           TaskOptions.PartitionId,
+                                         });
   }
 
   /// <summary>
