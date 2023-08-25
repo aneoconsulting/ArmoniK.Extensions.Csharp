@@ -22,10 +22,19 @@ using JetBrains.Annotations;
 
 namespace ArmoniK.DevelopmentKit.Client.Common.Submitter.ApiExt;
 
+/// <summary>
+///   Pair containing the Id of a task and the list of its outputs.
+/// </summary>
+/// <param name="TaskId">Id of the task</param>
+/// <param name="OutputIds">The list of the task outputs</param>
 [PublicAPI]
 public record TaskOutputIds(string                      TaskId,
                             IReadOnlyCollection<string> OutputIds)
 {
+  /// <summary>
+  ///   Converts from the gRPC object.
+  /// </summary>
+  /// <param name="mapTaskResult">Object from ArmoniK's gRPC model.</param>
   public TaskOutputIds(GetResultIdsResponse.Types.MapTaskResult mapTaskResult)
     : this(mapTaskResult.TaskId,
            mapTaskResult.ResultIds)

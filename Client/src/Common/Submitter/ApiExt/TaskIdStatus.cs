@@ -22,16 +22,18 @@ using JetBrains.Annotations;
 namespace ArmoniK.DevelopmentKit.Client.Common.Submitter.ApiExt;
 
 /// <summary>
+///   Pair containing the Id of a task and the corresponding status.
 /// </summary>
-/// <param name="TaskId"></param>
-/// <param name="TaskStatus"></param>
+/// <param name="TaskId">Id of the task</param>
+/// <param name="TaskStatus">Status of the task</param>
 [PublicAPI]
 public record TaskIdStatus(string                TaskId,
                            ArmonikTaskStatusCode TaskStatus)
 {
   /// <summary>
+  ///   Constructs the object from the gRPC object.
   /// </summary>
-  /// <param name="idStatus"></param>
+  /// <param name="idStatus">Object from ArmoniK's gRPC model.</param>
   public TaskIdStatus(GetTaskStatusReply.Types.IdStatus idStatus)
     : this(idStatus.TaskId,
            idStatus.Status.ToArmonikStatusCode())
