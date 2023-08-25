@@ -101,12 +101,12 @@ function build() {
   echo rm -rf ${nuget_cache}/armonik.*
   rm -rf $(dotnet nuget locals global-packages --list | awk '{ print $2 }')/armonik.*
   find \( -iname obj -o -iname bin \) -exec rm -rf {} + || true
-  dotnet publish --self-contained -c ${configuration} -r linux-x64 -f ${FRAMEWORK} .
+  dotnet publish -p:RunAnalyzers=false -p:WarningLevel=0 --self-contained -c ${configuration} -r linux-x64 -f ${FRAMEWORK} .
   cd ${TestDir}.Client/
   echo rm -rf ${nuget_cache}/armonik.*
   rm -rf $(dotnet nuget locals global-packages --list | awk '{ print $2 }')/armonik.*
   find \( -iname obj -o -iname bin \) -exec rm -rf {} + || true
-  dotnet publish --self-contained -c ${configuration} -r linux-x64 -f ${FRAMEWORK} .
+  dotnet publish -p:RunAnalyzers=false -p:WarningLevel=0 --self-contained -c ${configuration} -r linux-x64 -f ${FRAMEWORK} .
 }
 
 function deploy() {
@@ -124,8 +124,8 @@ function deploy() {
 function execute() {
   echo "cd ${TestDir}.Client/"
   cd "${TestDir}.Client/"
-  echo dotnet run --self-contained -r linux-x64 -f ${FRAMEWORK} -c ${configuration} $@
-  dotnet run --self-contained -r linux-x64 -f ${FRAMEWORK} -c ${configuration} $@
+  echo dotnet run -p:RunAnalyzers=false -p:WarningLevel=0 --self-contained -r linux-x64 -f ${FRAMEWORK} -c ${configuration} $@
+  dotnet run -p:RunAnalyzers=false -p:WarningLevel=0 --self-contained -r linux-x64 -f ${FRAMEWORK} -c ${configuration} $@
 }
 
 function usage() {

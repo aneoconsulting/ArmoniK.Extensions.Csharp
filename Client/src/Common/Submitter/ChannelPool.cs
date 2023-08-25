@@ -19,8 +19,10 @@ using System.Collections.Concurrent;
 using System.Threading.Tasks;
 
 using Grpc.Core;
+using Grpc.Net.Client;
 
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 #if NET5_0_OR_GREATER
 using Grpc.Net.Client;
 #endif
@@ -34,7 +36,7 @@ public sealed class ChannelPool
 {
   private readonly Func<ChannelBase> channelFactory_;
 
-  private readonly ILogger<ChannelPool>? logger_;
+  private readonly ILogger<ChannelPool> logger_;
 
   private readonly ConcurrentBag<ChannelBase> pool_;
 
@@ -43,12 +45,12 @@ public sealed class ChannelPool
   /// </summary>
   /// <param name="channelFactory">Function used to create new channels</param>
   /// <param name="loggerFactory">loggerFactory used to instantiate a logger for the pool</param>
-  public ChannelPool(Func<ChannelBase> channelFactory,
-                     ILoggerFactory?   loggerFactory = null)
+  public ChannelPool(Func<ChannelBase>    channelFactory,
+                     ILogger<ChannelPool> logger)
   {
     channelFactory_ = channelFactory;
     pool_           = new ConcurrentBag<ChannelBase>();
-    logger_         = loggerFactory?.CreateLogger<ChannelPool>();
+    logger_         = logger;
   }
 
   /// <summary>

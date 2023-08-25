@@ -36,7 +36,7 @@ public class AdminMonitoringService
   /// <summary>
   ///   The constructor to instantiate this service
   /// </summary>
-  /// <param name="channel">The entry point to the control plane</param>
+  /// <param name="channelPool">The entry point to the control plane</param>
   /// <param name="loggerFactory">The factory logger to create logger</param>
   public AdminMonitoringService(ChannelPool     channelPool,
                                 ILoggerFactory? loggerFactory = null)
@@ -55,7 +55,7 @@ public class AdminMonitoringService
   {
     var configuration = channelPool_.WithChannel(channel => new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel).GetServiceConfiguration(new Empty()));
 
-    Logger?.LogInformation($"This configuration will be update in the nex version [ {configuration} ]");
+    Logger?.LogInformation($"This configuration will be updated in the next version [ {configuration} ]");
   }
 
   /// <summary>

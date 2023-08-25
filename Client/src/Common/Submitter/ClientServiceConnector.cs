@@ -36,7 +36,7 @@ public class ClientServiceConnector
   /// <param name="loggerFactory">Optional logger factory</param>
   /// <returns>The connection pool</returns>
   public static ChannelPool ControlPlaneConnectionPool(Properties      properties,
-                                                       ILoggerFactory? loggerFactory = null)
+                                                       ILoggerFactory loggerFactory)
   {
     var options = new GrpcClient
                   {
@@ -68,6 +68,7 @@ public class ClientServiceConnector
 
 
     return new ChannelPool(() => GrpcChannelFactory.CreateChannel(options,
-                                                                  loggerFactory?.CreateLogger(typeof(ClientServiceConnector))));
+                                                                  loggerFactory.CreateLogger(typeof(ClientServiceConnector))),
+                           loggerFactory.CreateLogger<ChannelPool>());
   }
 }
