@@ -16,7 +16,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -33,8 +32,6 @@ using ArmoniK.DevelopmentKit.Client.Unified.Services.Common;
 using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.Common.Exceptions;
 using ArmoniK.Utils;
-
-using Grpc.Core;
 
 using JetBrains.Annotations;
 
@@ -563,28 +560,13 @@ public class Service : AbstractClientService, ISubmitterService
             Logger.LogTrace("Response handler for {taskId}",
                             resultStatusData.TaskId);
             responseHandler(resultStatusData.TaskId,
-                            Retry.WhileException(5,
-                                                 2000,
-                                                 retry =>
-                                                 {
-                                                   if (retry > 1)
-                                                   {
-                                                     Logger.LogWarning("Try {try} for {funcName}",
-                                                                       retry,
-                                                                       nameof(SessionService.TryGetResultAsync));
-                                                   }
-
-                                                   return SessionService.TryGetResultAsync(new ResultRequest
-                                                                                           {
-                                                                                             ResultId = resultStatusData.ResultId,
-                                                                                             Session  = SessionId,
-                                                                                           },
-                                                                                           CancellationToken.None)
-                                                                        .Result;
-                                                 },
-                                                 true,
-                                                 typeof(IOException),
-                                                 typeof(RpcException))!);
+                            SessionService.TryGetResultAsync(new ResultRequest
+                                                             {
+                                                               ResultId = resultStatusData.ResultId,
+                                                               Session  = SessionId,
+                                                             },
+                                                             CancellationToken.None)
+                                          .Result!);
           }
           catch (Exception e)
           {
@@ -614,15 +596,14 @@ public class Service : AbstractClientService, ISubmitterService
 
           var taskStatus = SessionService.GetTaskStatus(resultStatusData.TaskId);
 
-          switch (taskStatus)
+          if (taskStatus == ArmonikTaskStatusCode.TaskCancelled)
           {
-            case ArmonikTaskStatusCode.TaskCancelled:
-              details = $"Task {resultStatusData.TaskId} was canceled";
-              break;
-            default:
-              var outputInfo = SessionService.TryGetTaskError(resultStatusData.TaskId);
-              details = outputInfo ?? "Result is in status : " + resultStatusData.Status + ", look for task in error in logs.";
-              break;
+            details = $"Task {resultStatusData.TaskId} was canceled";
+          }
+          else
+          {
+            var outputInfo = SessionService.TryGetTaskError(resultStatusData.TaskId);
+            details = outputInfo ?? "Result is in status : " + resultStatusData.Status + ", look for task in error in logs.";
           }
 
           Logger.LogDebug("Error handler for {taskId}, {taskStatus}: {details}",
