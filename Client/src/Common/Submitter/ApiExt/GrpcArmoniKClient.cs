@@ -28,6 +28,9 @@ using ArmoniK.Api.gRPC.V1.Results;
 using ArmoniK.Api.gRPC.V1.Submitter;
 using ArmoniK.Api.gRPC.V1.Tasks;
 using ArmoniK.DevelopmentKit.Client.Common.Status;
+using ArmoniK.Utils;
+
+using Grpc.Core;
 
 using JetBrains.Annotations;
 
@@ -42,13 +45,13 @@ namespace ArmoniK.DevelopmentKit.Client.Common.Submitter.ApiExt;
 // TODO: should be in ArmoniK.Api
 public class GrpcArmoniKClient : IArmoniKClient
 {
-  private readonly Func<ChannelPool.ChannelGuard> channelFactory_;
+  private readonly Func<ObjectPool<ChannelBase>.Guard> channelFactory_;
 
   /// <summary>
   ///   Builds an instance of the armoniKClient
   /// </summary>
   /// <param name="channelFactory">Used to call the grpc API</param>
-  public GrpcArmoniKClient(Func<ChannelPool.ChannelGuard> channelFactory)
+  public GrpcArmoniKClient(Func<ObjectPool<ChannelBase>.Guard> channelFactory)
     => channelFactory_ = channelFactory;
 
   /// <inheritdoc />
@@ -73,7 +76,7 @@ public class GrpcArmoniKClient : IArmoniKClient
 
       using var guard = channelFactory_();
 
-      var service = new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(guard.Channel);
+      var service = new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(guard.Value);
 
       var response = await service.CreateTasksAsync(sessionId,
                                                     taskOptions,
@@ -137,7 +140,7 @@ public class GrpcArmoniKClient : IArmoniKClient
 
     using var guard = channelFactory_();
 
-    var service = new Tasks.TasksClient(guard.Channel);
+    var service = new Tasks.TasksClient(guard.Value);
 
     var response = await service.GetResultIdsAsync(new GetResultIdsRequest
                                                    {
@@ -164,7 +167,7 @@ public class GrpcArmoniKClient : IArmoniKClient
 
     using var guard = channelFactory_();
 
-    var service = new Results.ResultsClient(guard.Channel);
+    var service = new Results.ResultsClient(guard.Value);
 
     return await service.DownloadResultData(sessionId,
                                             resultId,
@@ -183,7 +186,7 @@ public class GrpcArmoniKClient : IArmoniKClient
 
     using var guard = channelFactory_();
 
-    var service = new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(guard.Channel);
+    var service = new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(guard.Value);
 
     var session = await service.CreateSessionAsync(new CreateSessionRequest
                                                    {
@@ -210,7 +213,7 @@ public class GrpcArmoniKClient : IArmoniKClient
 
     using var guard = channelFactory_();
 
-    var service = new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(guard.Channel);
+    var service = new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(guard.Value);
 
     var statuses = await service.GetTaskStatusAsync(new GetTaskStatusRequest
                                                     {
@@ -238,7 +241,7 @@ public class GrpcArmoniKClient : IArmoniKClient
 
     using var guard = channelFactory_();
 
-    var service = new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(guard.Channel);
+    var service = new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(guard.Value);
 
 
     // TODO: replace with a logic based on service.TryGetResultStream
@@ -269,7 +272,7 @@ public class GrpcArmoniKClient : IArmoniKClient
 
     using var guard = channelFactory_();
 
-    var service = new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(guard.Channel);
+    var service = new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(guard.Value);
 
     var output = await service.TryGetTaskOutputAsync(new TaskOutputRequest
                                                      {
@@ -302,7 +305,7 @@ public class GrpcArmoniKClient : IArmoniKClient
 
     using var guard = channelFactory_();
 
-    var service = new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(guard.Channel);
+    var service = new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(guard.Value);
 
     var count = await service.WaitForCompletionAsync(new WaitRequest
                                                      {
@@ -345,7 +348,7 @@ public class GrpcArmoniKClient : IArmoniKClient
 
     using var guard = channelFactory_();
 
-    var service = new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(guard.Channel);
+    var service = new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(guard.Value);
 
     // TODO: replace with a logic based on service.TryGetResultStream
     var reply = await service.WaitForAvailabilityAsync(new ResultRequest
@@ -382,7 +385,7 @@ public class GrpcArmoniKClient : IArmoniKClient
 
     using var guard = channelFactory_();
 
-    var service = new Results.ResultsClient(guard.Channel);
+    var service = new Results.ResultsClient(guard.Value);
 
 
     var resultsMetaData = await service.CreateResultsMetaDataAsync(new CreateResultsMetaDataRequest

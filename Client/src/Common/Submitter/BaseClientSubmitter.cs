@@ -72,7 +72,7 @@ public abstract class BaseClientSubmitter<T>
                                                                         loggerFactory);
 
     ArmoniKClient = new RetryArmoniKClient(loggerFactory.CreateLogger<RetryArmoniKClient>(),
-                                           new GrpcArmoniKClient(() => channelPool.GetChannel()));
+                                           new GrpcArmoniKClient(() => channelPool.Get()));
 
     TaskOptions      = taskOptions;
     chunkSubmitSize_ = chunkSubmitSize;
