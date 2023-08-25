@@ -15,6 +15,7 @@
 // limitations under the License.
 
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
@@ -50,6 +51,8 @@ public abstract class BaseClientSubmitter<T>
   ///   The number of chunk to split the payloadsWithDependencies
   /// </summary>
   private readonly int chunkSubmitSize_;
+
+  private ConcurrentDictionary<string, string> taskId2ResultId_ = new();
 
   /// <summary>
   ///   Base Object for all Client submitter
@@ -260,8 +263,16 @@ public abstract class BaseClientSubmitter<T>
                                           taskOptions ?? TaskOptions,
                                           maxRetries,
                                           cancellationToken: CancellationToken.None)
-                        // TODO: Store the taskId->ResultId Mapping
-                        .Result.Select(info => info.TaskId);
+                        .Result.Select(info =>
+                                       {
+                                         if (taskId2ResultId_.TryAdd(info.TaskId,
+                                                                     info.Outputs.Single()))
+                                         {
+                                           return info.TaskId;
+                                         }
+
+                                         throw new InvalidOperationException();
+                                       });
   }
 
   /// <summary>
@@ -370,12 +381,20 @@ public abstract class BaseClientSubmitter<T>
   /// <param name="taskIds">The list of task ids.</param>
   /// <returns>A collection of map task results.</returns>
   public IEnumerable<TaskOutputIds> GetResultIds(IEnumerable<string> taskIds)
-    => ArmoniKClient.GetResultIdsAsync(taskIds.ToList(),
-                                       5,
-                                       5 * 2000 / Math.Pow(2,
-                                                           5),
-                                       CancellationToken.None)
-                    .Result;
+    => taskIds.Select(taskId =>
+                      {
+                        if (taskId2ResultId_.TryGetValue(taskId,
+                                                         out var resultId))
+                        {
+                          return new TaskOutputIds(taskId,
+                                                   new[]
+                                                   {
+                                                     resultId,
+                                                   });
+                        }
+
+                        throw new KeyNotFoundException("taskId not found in taskId2ResultId.");
+                      });
 
 
   /// <summary>
