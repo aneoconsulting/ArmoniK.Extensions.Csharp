@@ -148,9 +148,9 @@ public class SimpleUnifiedApiAdminTestClient : ClientBaseTest<SimpleUnifiedApiTe
                   }.ToArray();
     const int wantedCount = 100;
     var tasks = sessionService.Submit("ComputeBasicArrayCube",
-                                      System.Linq.Enumerable.Range(1,
-                                                                   wantedCount)
-                                            .Select(_ => ParamsHelper(numbers)),
+                                      Enumerable.Range(1,
+                                                       wantedCount)
+                                                .Select(_ => ParamsHelper(numbers)),
                                       this);
     if (tasks.Count() is var count && count != wantedCount)
     {

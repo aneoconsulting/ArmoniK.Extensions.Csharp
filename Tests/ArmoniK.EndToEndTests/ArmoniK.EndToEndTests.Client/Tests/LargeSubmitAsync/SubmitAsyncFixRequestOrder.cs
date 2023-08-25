@@ -23,6 +23,7 @@ using System.Threading.Tasks;
 
 using ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter;
 using ArmoniK.DevelopmentKit.Common;
+using ArmoniK.Utils;
 
 using NUnit.Framework;
 
@@ -110,10 +111,11 @@ public class SubmitAsyncFixRequestOrder
       taskIdExpectedResults[myTaskId] = expectedResult;
     }
 
-    System.Linq.Enumerable.Range(0,
-                                 nbTasks)
-          .LoopAsync(Function)
-          .Wait(cancellationSource.Token);
+    Enumerable.Range(0,
+                     nbTasks)
+              .Select(Function)
+              .WhenAll()
+              .Wait(cancellationSource.Token);
 
     var taskResult = localUnifiedTestHelper.WaitForResultcompletion(taskIdExpectedResults.Select(elem => elem.Key));
     Assert.IsNotNull(taskResult);

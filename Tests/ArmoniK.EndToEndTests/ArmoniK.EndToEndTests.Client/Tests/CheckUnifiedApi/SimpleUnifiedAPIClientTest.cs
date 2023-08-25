@@ -30,10 +30,10 @@ public class SimpleUnifiedApiClientTest
   private const string ApplicationNamespace = "ArmoniK.EndToEndTests.Worker.Tests.CheckUnifiedApi";
   private const string ApplicationService   = "CheckUnifiedApiWorker";
 
-  private readonly double[] numbers_ = System.Linq.Enumerable.Range(0,
-                                                                    10)
-                                             .Select(i => (double)i)
-                                             .ToArray();
+  private readonly double[] numbers_ = Enumerable.Range(0,
+                                                        10)
+                                                 .Select(i => (double)i)
+                                                 .ToArray();
 
   private UnifiedTestHelper unifiedTestHelper_;
 
@@ -196,9 +196,9 @@ public class SimpleUnifiedApiClientTest
   {
     var nbTasksToSubmit = 3;
     var taskId = unifiedTestHelper_.Service.Submit("RandomTaskError",
-                                                   System.Linq.Enumerable.Range(1,
-                                                                                nbTasksToSubmit)
-                                                         .Select(_ => UnitTestHelperBase.ParamsHelper(100)),
+                                                   Enumerable.Range(1,
+                                                                    nbTasksToSubmit)
+                                                             .Select(_ => UnitTestHelperBase.ParamsHelper(100)),
                                                    unifiedTestHelper_);
 
     var results = unifiedTestHelper_.WaitForResultcompletion(taskId);

@@ -49,10 +49,10 @@ public class CheckRandomExceptionSymClient : ClientBaseTest<CheckRandomException
     var client = new ArmonikSymphonyClient(Configuration,
                                            LoggerFactory);
     Log.LogInformation("------   Start 2 Sessions  with 100 tasks  -------");
-    var payloadsTasks = System.Linq.Enumerable.Range(1,
-                                                     2)
-                              .Select(idx => new Task(() => ClientStartup(client,
-                                                                          idx)));
+    var payloadsTasks = Enumerable.Range(1,
+                                         2)
+                                  .Select(idx => new Task(() => ClientStartup(client,
+                                                                              idx)));
     var tasks = payloadsTasks.ToList();
     tasks.AsParallel()
          .ForAll(t => t.Start());
@@ -135,9 +135,9 @@ public class CheckRandomExceptionSymClient : ClientBaseTest<CheckRandomException
     var sessionService = client.CreateSession(taskOptions);
 
 
-    var payloads = System.Linq.Enumerable.Repeat(0,
-                                                 100)
-                         .Select(_ => clientPayload.Serialize());
+    var payloads = Enumerable.Repeat(0,
+                                     100)
+                             .Select(_ => clientPayload.Serialize());
     var taskIds = sessionService.SubmitTasks(payloads);
 
 

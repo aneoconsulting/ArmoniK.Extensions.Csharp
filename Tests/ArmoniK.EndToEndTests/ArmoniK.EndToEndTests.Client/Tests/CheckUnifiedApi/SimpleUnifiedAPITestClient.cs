@@ -224,9 +224,9 @@ public class SimpleUnifiedApiTestClient : ClientBaseTest<SimpleUnifiedApiTestCli
     const int wantedCount = 100;
 
     var tasksBasic = sessionService.Submit("ComputeBasicArrayCube",
-                                           System.Linq.Enumerable.Range(1,
-                                                                        wantedCount)
-                                                 .Select(n => ParamsHelper(numbers)),
+                                           Enumerable.Range(1,
+                                                            wantedCount)
+                                                     .Select(n => ParamsHelper(numbers)),
                                            this);
     if (tasksBasic.Count() is var countBasic && countBasic != wantedCount)
     {
@@ -235,9 +235,9 @@ public class SimpleUnifiedApiTestClient : ClientBaseTest<SimpleUnifiedApiTestCli
 
     var handler = new IgnoreErrorHandler(Log);
     var tasksRandom = sessionService.Submit("RandomTaskError",
-                                            System.Linq.Enumerable.Range(1,
-                                                                         wantedCount)
-                                                  .Select(_ => ParamsHelper(25)),
+                                            Enumerable.Range(1,
+                                                             wantedCount)
+                                                      .Select(_ => ParamsHelper(25)),
                                             handler);
     if (tasksRandom.Count() is var countRandom && countRandom != wantedCount)
     {

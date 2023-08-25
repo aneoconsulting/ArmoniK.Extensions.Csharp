@@ -59,10 +59,10 @@ public class AggregationPriorityTest
   /// <summary>
   ///   numbers_ is an array of double values.
   /// </summary>
-  private readonly double[] numbers_ = System.Linq.Enumerable.Range(0,
-                                                                    10)
-                                             .Select(i => (double)i)
-                                             .ToArray();
+  private readonly double[] numbers_ = Enumerable.Range(0,
+                                                        10)
+                                                 .Select(i => (double)i)
+                                                 .ToArray();
 
   /// <summary>
   ///   unifiedTestHelper_ is an instance of UnifiedTestHelper class.
@@ -354,7 +354,7 @@ public class AggregationPriorityTest
   public void Check_That_Result_has_expected_value(int squareMatrixSize)
   {
     unifiedTestHelper_.Log.LogInformation($"Compute square matrix with n =  {squareMatrixSize}");
-    unifiedTestHelper_.Log.LogInformation($"Duplicating {squareMatrixSize} Rows with vector {string.Join(", ", System.Linq.Enumerable.Range(0, squareMatrixSize))}");
+    unifiedTestHelper_.Log.LogInformation($"Duplicating {squareMatrixSize} Rows with vector {string.Join(", ", Enumerable.Range(0, squareMatrixSize))}");
 
     var taskId = unifiedTestHelper_.Service.Submit("ComputeMatrix",
                                                    UnitTestHelperBase.ParamsHelper(squareMatrixSize),
@@ -373,11 +373,11 @@ public class AggregationPriorityTest
     var taskResult = TaskResult.Deserialize(deprot[0] as byte[]);
     unifiedTestHelper_.Log.LogInformation($"Result of Matrix formula : {taskResult.Result}");
 
-    var sum = System.Linq.Enumerable.Range(0,
-                                           squareMatrixSize)
-                    .Aggregate(0.0,
-                               (current,
-                                scalar) => current + scalar * scalar);
+    var sum = Enumerable.Range(0,
+                               squareMatrixSize)
+                        .Aggregate(0.0,
+                                   (current,
+                                    scalar) => current + scalar * scalar);
 
     Assert.That(sum * squareMatrixSize,
                 Is.EqualTo(taskResult.Result));

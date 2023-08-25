@@ -56,9 +56,9 @@ public class SubtaskingTreeUnifiedApiClientTest
                                                                 int subtaskSplitCount)
   {
     unifiedTestHelper_.Log.LogInformation($"Launching Sum of numbers 1 to {maxNumberToSum}");
-    var numbers = System.Linq.Enumerable.Range(1,
-                                               maxNumberToSum)
-                        .ToList();
+    var numbers = Enumerable.Range(1,
+                                   maxNumberToSum)
+                            .ToList();
     var payload = new ClientPayload
                   {
                     IsRootTask = true,

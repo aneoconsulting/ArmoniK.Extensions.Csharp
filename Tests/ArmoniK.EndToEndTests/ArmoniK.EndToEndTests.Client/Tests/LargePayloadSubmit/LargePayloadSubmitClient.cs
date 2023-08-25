@@ -171,10 +171,10 @@ public class LargePayloadSubmitClient : ClientBaseTest<LargePayloadSubmitClient>
     const int workloadTimeInMs = 100;
     nbResults_ = 0;
 
-    var numbers = System.Linq.Enumerable.Range(0,
-                                               nbElement)
-                        .Select(x => (double)x)
-                        .ToArray();
+    var numbers = Enumerable.Range(0,
+                                   nbElement)
+                            .Select(x => (double)x)
+                            .ToArray();
     Log.LogInformation($"===  Running from {nbTasks} tasks with payload by task {nbElement * 8 / 1024} Ko Total : {nbTasks * nbElement / 128} Ko...   ===");
 
     PeriodicInfo(() =>
