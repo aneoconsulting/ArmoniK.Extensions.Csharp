@@ -1,0 +1,891 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+
+  <head>
+    <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+      <title>Class Service
+ </title>
+      <meta name="viewport" content="width=device-width">
+      <meta name="title" content="Class Service
+ ">
+    
+      <link rel="shortcut icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../styles/docfx.vendor.min.css">
+      <link rel="stylesheet" href="../styles/docfx.css">
+      <link rel="stylesheet" href="../styles/main.css">
+      <meta property="docfx:navrel" content="../toc.html">
+      <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.Service">
+
+
+
+  <h1 id="ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_Service" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.Service" class="text-break">Class Service
+</h1>
+  <div class="markdown level0 summary"><p>This class is instantiated by ServiceFactory and allows to execute task on ArmoniK
+Grid.</p>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
+    <div class="level1"><a class="xref" href="ArmoniK.DevelopmentKit.Client.Unified.Services.Common.AbstractClientService.html">AbstractClientService</a></div>
+    <div class="level2"><span class="xref">Service</span></div>
+  </div>
+  <div class="implements">
+    <h5>Implements</h5>
+    <div><a class="xref" href="ArmoniK.DevelopmentKit.Client.Common.Submitter.ISubmitterService.html">ISubmitterService</a></div>
+    <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.idisposable">IDisposable</a></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <a class="xref" href="ArmoniK.DevelopmentKit.Client.Unified.Services.Common.AbstractClientService.html#ArmoniK_DevelopmentKit_Client_Unified_Services_Common_AbstractClientService_CurrentlyHandledTaskIds">AbstractClientService.CurrentlyHandledTaskIds</a>
+    </div>
+    <div>
+      <a class="xref" href="ArmoniK.DevelopmentKit.Client.Unified.Services.Common.AbstractClientService.html#ArmoniK_DevelopmentKit_Client_Unified_Services_Common_AbstractClientService_ResultHandlerDictionary">AbstractClientService.ResultHandlerDictionary</a>
+    </div>
+    <div>
+      <a class="xref" href="ArmoniK.DevelopmentKit.Client.Unified.Services.Common.AbstractClientService.html#ArmoniK_DevelopmentKit_Client_Unified_Services_Common_AbstractClientService_LoggerFactory">AbstractClientService.LoggerFactory</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)">object.Equals(object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)">object.Equals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gethashcode">object.GetHashCode()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gettype">object.GetType()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone">object.MemberwiseClone()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.referenceequals">object.ReferenceEquals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.tostring">object.ToString()</a>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="ArmoniK.html">ArmoniK</a>.<a class="xref" href="ArmoniK.DevelopmentKit.html">DevelopmentKit</a>.<a class="xref" href="ArmoniK.DevelopmentKit.Client.html">Client</a>.<a class="xref" href="ArmoniK.DevelopmentKit.Client.Unified.html">Unified</a>.<a class="xref" href="ArmoniK.DevelopmentKit.Client.Unified.Services.html">Services</a>.<a class="xref" href="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.html">Submitter</a></h6>
+  <h6><strong>Assembly</strong>: ArmoniK.DevelopmentKit.Client.Unified.dll</h6>
+  <h5 id="ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_Service_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class Service : AbstractClientService, ISubmitterService, IDisposable</code></pre>
+  </div>
+  <h3 id="constructors">Constructors
+</h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/ng/docfx/apiSpec/new?filename=ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_Service__ctor_ArmoniK_DevelopmentKit_Client_Common_Properties_Microsoft_Extensions_Logging_ILoggerFactory_.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.Service.%23ctor(ArmoniK.DevelopmentKit.Client.Common.Properties%2CMicrosoft.Extensions.Logging.ILoggerFactory)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/ng/docfx/Client/src/Unified/Services/Submitter/Service.cs/#L65">View Source</a>
+  </span>
+  <a id="ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_Service__ctor_" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.Service.#ctor*"></a>
+  <h4 id="ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_Service__ctor_ArmoniK_DevelopmentKit_Client_Common_Properties_Microsoft_Extensions_Logging_ILoggerFactory_" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.Service.#ctor(ArmoniK.DevelopmentKit.Client.Common.Properties,Microsoft.Extensions.Logging.ILoggerFactory)">Service(Properties, ILoggerFactory?)</h4>
+  <div class="markdown level1 summary"><p>The default constructor to open connection with the control plane
+and create the session to ArmoniK</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Service(Properties properties, ILoggerFactory? loggerFactory = null)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="ArmoniK.DevelopmentKit.Client.Common.Properties.html">Properties</a></td>
+        <td><span class="parametername">properties</span></td>
+        <td><p>The properties containing TaskOptions and information to communicate with Control plane and</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/microsoft.extensions.logging.iloggerfactory">ILoggerFactory</a></td>
+        <td><span class="parametername">loggerFactory</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="properties">Properties
+</h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/ng/docfx/apiSpec/new?filename=ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_Service_SessionId.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.Service.SessionId%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/ng/docfx/Client/src/Unified/Services/Submitter/Service.cs/#L229">View Source</a>
+  </span>
+  <a id="ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_Service_SessionId_" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.Service.SessionId*"></a>
+  <h4 id="ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_Service_SessionId" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.Service.SessionId">SessionId</h4>
+  <div class="markdown level1 summary"><p>The sessionId</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string SessionId { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/ng/docfx/apiSpec/new?filename=ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_Service_SessionService.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.Service.SessionService%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/ng/docfx/Client/src/Unified/Services/Submitter/Service.cs/#L209">View Source</a>
+  </span>
+  <a id="ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_Service_SessionService_" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.Service.SessionService*"></a>
+  <h4 id="ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_Service_SessionService" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.Service.SessionService">SessionService</h4>
+  <div class="markdown level1 summary"><p>Property Get the SessionId</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[PublicAPI]
+public SessionService SessionService { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="ArmoniK.DevelopmentKit.Client.Unified.Services.SessionService.html">SessionService</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+</h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/ng/docfx/apiSpec/new?filename=ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_Service_Dispose.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.Service.Dispose%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/ng/docfx/Client/src/Unified/Services/Submitter/Service.cs/#L294">View Source</a>
+  </span>
+  <a id="ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_Service_Dispose_" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.Service.Dispose*"></a>
+  <h4 id="ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_Service_Dispose" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.Service.Dispose">Dispose()</h4>
+  <div class="markdown level1 summary"><p>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void Dispose()</code></pre>
+  </div>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="ArmoniK.DevelopmentKit.Client.Unified.Services.Common.AbstractClientService.html#ArmoniK_DevelopmentKit_Client_Unified_Services_Common_AbstractClientService_Dispose">AbstractClientService.Dispose()</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/ng/docfx/apiSpec/new?filename=ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_Service_Execute_System_String_System_Byte___System_Int32_ArmoniK_Api_gRPC_V1_TaskOptions_.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.Service.Execute(System.String%2CSystem.Byte%5B%5D%2CSystem.Int32%2CArmoniK.Api.gRPC.V1.TaskOptions)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/ng/docfx/Client/src/Unified/Services/Submitter/Service.cs/#L457">View Source</a>
+  </span>
+  <a id="ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_Service_Execute_" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.Service.Execute*"></a>
+  <h4 id="ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_Service_Execute_System_String_System_Byte___System_Int32_ArmoniK_Api_gRPC_V1_TaskOptions_" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.Service.Execute(System.String,System.Byte[],System.Int32,ArmoniK.Api.gRPC.V1.TaskOptions)">Execute(string, byte[], int, TaskOptions?)</h4>
+  <div class="markdown level1 summary"><p>This method is used to execute task and waiting after the result.
+the method will return the result of the execution until the grid returns the task result</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Service.ServiceResult Execute(string methodName, byte[] dataArg, int maxRetries = 5, TaskOptions? taskOptions = null)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td><span class="parametername">methodName</span></td>
+        <td><p>The string name of the method</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">byte</a>[]</td>
+        <td><span class="parametername">dataArg</span></td>
+        <td><p>the array of byte to pass as argument for the methodName(byte[] dataArg)</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></td>
+        <td><span class="parametername">maxRetries</span></td>
+        <td><p>The number of retry before fail to submit task. Default = 5 retries</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">TaskOptions</span></td>
+        <td><span class="parametername">taskOptions</span></td>
+        <td><p>TaskOptions argument to override default taskOptions in Session.
+If non null it will override the default taskOptions in SessionService for client or given by taskHandler for worker</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.Service.html">Service</a>.<a class="xref" href="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.Service.ServiceResult.html">ServiceResult</a></td>
+        <td><p>Returns a tuple with the taskId string and an object as result of the method call</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/ng/docfx/apiSpec/new?filename=ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_Service_Execute_System_String_System_Object___System_Int32_ArmoniK_Api_gRPC_V1_TaskOptions_.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.Service.Execute(System.String%2CSystem.Object%5B%5D%2CSystem.Int32%2CArmoniK.Api.gRPC.V1.TaskOptions)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/ng/docfx/Client/src/Unified/Services/Submitter/Service.cs/#L433">View Source</a>
+  </span>
+  <a id="ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_Service_Execute_" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.Service.Execute*"></a>
+  <h4 id="ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_Service_Execute_System_String_System_Object___System_Int32_ArmoniK_Api_gRPC_V1_TaskOptions_" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.Service.Execute(System.String,System.Object[],System.Int32,ArmoniK.Api.gRPC.V1.TaskOptions)">Execute(string, object[], int, TaskOptions?)</h4>
+  <div class="markdown level1 summary"><p>This method is used to execute task and waiting after the result.
+the method will return the result of the execution until the grid returns the task result</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Service.ServiceResult Execute(string methodName, object[] arguments, int maxRetries = 5, TaskOptions? taskOptions = null)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td><span class="parametername">methodName</span></td>
+        <td><p>The string name of the method</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a>[]</td>
+        <td><span class="parametername">arguments</span></td>
+        <td><p>the array of object to pass as arguments for the method</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></td>
+        <td><span class="parametername">maxRetries</span></td>
+        <td><p>The number of retry before fail to submit task. Default = 5 retries</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">TaskOptions</span></td>
+        <td><span class="parametername">taskOptions</span></td>
+        <td><p>TaskOptions argument to override default taskOptions in Session.
+If non null it will override the default taskOptions in SessionService for client or given by taskHandler for worker</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.Service.html">Service</a>.<a class="xref" href="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.Service.ServiceResult.html">ServiceResult</a></td>
+        <td><p>Returns a tuple with the taskId string and an object as result of the method call</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/ng/docfx/apiSpec/new?filename=ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_Service_GetChannel.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.Service.GetChannel%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/ng/docfx/Client/src/Unified/Services/Submitter/Service.cs/#L794">View Source</a>
+  </span>
+  <a id="ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_Service_GetChannel_" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.Service.GetChannel*"></a>
+  <h4 id="ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_Service_GetChannel" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.Service.GetChannel">GetChannel()</h4>
+  <div class="markdown level1 summary"><p>Get a new channel to communicate with the control plane</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ChannelBase GetChannel()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://github.com/grpc/grpc-dotnet/blob/8ca08ebf05b0c81c15cb68baf5196ffe5ed7b5a3/src/Grpc.Core.Api/ChannelBase.cs">ChannelBase</a></td>
+        <td><p>gRPC channel</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/ng/docfx/apiSpec/new?filename=ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_Service_LocalExecute_System_Object_System_String_System_Object___.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.Service.LocalExecute(System.Object%2CSystem.String%2CSystem.Object%5B%5D)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/ng/docfx/Client/src/Unified/Services/Submitter/Service.cs/#L402">View Source</a>
+  </span>
+  <a id="ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_Service_LocalExecute_" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.Service.LocalExecute*"></a>
+  <h4 id="ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_Service_LocalExecute_System_Object_System_String_System_Object___" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.Service.LocalExecute(System.Object,System.String,System.Object[])">LocalExecute(object, string, object[])</h4>
+  <div class="markdown level1 summary"><p>This function execute code locally with the same configuration as Armonik Grid execution
+The method needs the Service to execute, the method name to call and arguments of method to pass</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Service.ServiceResult LocalExecute(object service, string methodName, object[] arguments)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></td>
+        <td><span class="parametername">service</span></td>
+        <td><p>The instance of object containing the method to call</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td><span class="parametername">methodName</span></td>
+        <td><p>The string name of the method</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a>[]</td>
+        <td><span class="parametername">arguments</span></td>
+        <td><p>the array of object to pass as arguments for the method</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.Service.html">Service</a>.<a class="xref" href="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.Service.ServiceResult.html">ServiceResult</a></td>
+        <td><p>Returns an object as result of the method call</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="ArmoniK.DevelopmentKit.Common.Exceptions.WorkerApiException.html">WorkerApiException</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/ng/docfx/apiSpec/new?filename=ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_Service_Submit_System_String_System_Collections_Generic_IEnumerable_System_Byte____ArmoniK_DevelopmentKit_Client_Common_IServiceInvocationHandler_System_Int32_ArmoniK_Api_gRPC_V1_TaskOptions_.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.Service.Submit(System.String%2CSystem.Collections.Generic.IEnumerable%7BSystem.Byte%5B%5D%7D%2CArmoniK.DevelopmentKit.Client.Common.IServiceInvocationHandler%2CSystem.Int32%2CArmoniK.Api.gRPC.V1.TaskOptions)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/ng/docfx/Client/src/Unified/Services/Submitter/Service.cs/#L248">View Source</a>
+  </span>
+  <a id="ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_Service_Submit_" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.Service.Submit*"></a>
+  <h4 id="ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_Service_Submit_System_String_System_Collections_Generic_IEnumerable_System_Byte____ArmoniK_DevelopmentKit_Client_Common_IServiceInvocationHandler_System_Int32_ArmoniK_Api_gRPC_V1_TaskOptions_" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.Service.Submit(System.String,System.Collections.Generic.IEnumerable{System.Byte[]},ArmoniK.DevelopmentKit.Client.Common.IServiceInvocationHandler,System.Int32,ArmoniK.Api.gRPC.V1.TaskOptions)">Submit(string, IEnumerable&lt;byte[]&gt;, IServiceInvocationHandler, int, TaskOptions?)</h4>
+  <div class="markdown level1 summary"><p>The method submits a list of task with a list of arguments for each task which will be serialized into a byte[] for
+each call
+MethodName(byte[] argument)</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public IEnumerable&lt;string&gt; Submit(string methodName, IEnumerable&lt;byte[]&gt; arguments, IServiceInvocationHandler handler, int maxRetries = 5, TaskOptions? taskOptions = null)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td><span class="parametername">methodName</span></td>
+        <td><p>The name of the method inside the service</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">byte</a>[]&gt;</td>
+        <td><span class="parametername">arguments</span></td>
+        <td><p>List of serialized arguments that will already serialize for MethodName.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="ArmoniK.DevelopmentKit.Client.Common.IServiceInvocationHandler.html">IServiceInvocationHandler</a></td>
+        <td><span class="parametername">handler</span></td>
+        <td><p>The handler callBack implemented as IServiceInvocationHandler to get response or result or error</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></td>
+        <td><span class="parametername">maxRetries</span></td>
+        <td><p>The number of retry before fail to submit task. Default = 5 retries</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">TaskOptions</span></td>
+        <td><span class="parametername">taskOptions</span></td>
+        <td><p>TaskOptions argument to override default taskOptions in Session.
+If non null it will override the default taskOptions in SessionService for client or given by taskHandler for worker</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>&gt;</td>
+        <td><p>Return the list of created taskIds</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/ng/docfx/apiSpec/new?filename=ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_Service_Submit_System_String_System_Collections_Generic_IEnumerable_System_Object____ArmoniK_DevelopmentKit_Client_Common_IServiceInvocationHandler_System_Int32_ArmoniK_Api_gRPC_V1_TaskOptions_.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.Service.Submit(System.String%2CSystem.Collections.Generic.IEnumerable%7BSystem.Object%5B%5D%7D%2CArmoniK.DevelopmentKit.Client.Common.IServiceInvocationHandler%2CSystem.Int32%2CArmoniK.Api.gRPC.V1.TaskOptions)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/ng/docfx/Client/src/Unified/Services/Submitter/Service.cs/#L234">View Source</a>
+  </span>
+  <a id="ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_Service_Submit_" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.Service.Submit*"></a>
+  <h4 id="ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_Service_Submit_System_String_System_Collections_Generic_IEnumerable_System_Object____ArmoniK_DevelopmentKit_Client_Common_IServiceInvocationHandler_System_Int32_ArmoniK_Api_gRPC_V1_TaskOptions_" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.Service.Submit(System.String,System.Collections.Generic.IEnumerable{System.Object[]},ArmoniK.DevelopmentKit.Client.Common.IServiceInvocationHandler,System.Int32,ArmoniK.Api.gRPC.V1.TaskOptions)">Submit(string, IEnumerable&lt;object[]&gt;, IServiceInvocationHandler, int, TaskOptions?)</h4>
+  <div class="markdown level1 summary"><p>The method submits a list of task with a list of arguments for each task which will be serialized into a byte[] for
+each call
+MethodName(byte[] argument)</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public IEnumerable&lt;string&gt; Submit(string methodName, IEnumerable&lt;object[]&gt; arguments, IServiceInvocationHandler handler, int maxRetries = 5, TaskOptions? taskOptions = null)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td><span class="parametername">methodName</span></td>
+        <td><p>The name of the method inside the service</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a>[]&gt;</td>
+        <td><span class="parametername">arguments</span></td>
+        <td><p>A list of parameters that can be passed in parameters of the each call of function</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="ArmoniK.DevelopmentKit.Client.Common.IServiceInvocationHandler.html">IServiceInvocationHandler</a></td>
+        <td><span class="parametername">handler</span></td>
+        <td><p>The handler callBack implemented as IServiceInvocationHandler to get response or result or error</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></td>
+        <td><span class="parametername">maxRetries</span></td>
+        <td><p>The number of retry before fail to submit task. Default = 5 retries</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">TaskOptions</span></td>
+        <td><span class="parametername">taskOptions</span></td>
+        <td><p>TaskOptions argument to override default taskOptions in Session.
+If non null it will override the default taskOptions in SessionService for client or given by taskHandler for worker</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>&gt;</td>
+        <td><p>Return the list of created taskIds</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/ng/docfx/apiSpec/new?filename=ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_Service_SubmitAsync_System_String_System_Byte___ArmoniK_DevelopmentKit_Client_Common_IServiceInvocationHandler_System_Int32_ArmoniK_Api_gRPC_V1_TaskOptions_System_Threading_CancellationToken_.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.Service.SubmitAsync(System.String%2CSystem.Byte%5B%5D%2CArmoniK.DevelopmentKit.Client.Common.IServiceInvocationHandler%2CSystem.Int32%2CArmoniK.Api.gRPC.V1.TaskOptions%2CSystem.Threading.CancellationToken)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/ng/docfx/Client/src/Unified/Services/Submitter/Service.cs/#L278">View Source</a>
+  </span>
+  <a id="ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_Service_SubmitAsync_" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.Service.SubmitAsync*"></a>
+  <h4 id="ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_Service_SubmitAsync_System_String_System_Byte___ArmoniK_DevelopmentKit_Client_Common_IServiceInvocationHandler_System_Int32_ArmoniK_Api_gRPC_V1_TaskOptions_System_Threading_CancellationToken_" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.Service.SubmitAsync(System.String,System.Byte[],ArmoniK.DevelopmentKit.Client.Common.IServiceInvocationHandler,System.Int32,ArmoniK.Api.gRPC.V1.TaskOptions,System.Threading.CancellationToken)">SubmitAsync(string, byte[], IServiceInvocationHandler, int, TaskOptions?, CancellationToken)</h4>
+  <div class="markdown level1 summary"><p>The method submit with one serialized argument that will send as byte[] MethodName(byte[]   argument).</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;string&gt; SubmitAsync(string methodName, byte[] argument, IServiceInvocationHandler handler, int maxRetries = 5, TaskOptions? taskOptions = null, CancellationToken token = default)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td><span class="parametername">methodName</span></td>
+        <td><p>The name of the method inside the service</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">byte</a>[]</td>
+        <td><span class="parametername">argument</span></td>
+        <td><p>One serialized argument that will already serialize for MethodName.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="ArmoniK.DevelopmentKit.Client.Common.IServiceInvocationHandler.html">IServiceInvocationHandler</a></td>
+        <td><span class="parametername">handler</span></td>
+        <td><p>The handler callBack implemented as IServiceInvocationHandler to get response or result or error</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></td>
+        <td><span class="parametername">maxRetries</span></td>
+        <td><p>The number of retry before fail to submit task. Default = 5 retries</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">TaskOptions</span></td>
+        <td><span class="parametername">taskOptions</span></td>
+        <td><p>TaskOptions argument to override default taskOptions in Session.
+If non null it will override the default taskOptions in SessionService for client or given by taskHandler for worker</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.cancellationtoken">CancellationToken</a></td>
+        <td><span class="parametername">token</span></td>
+        <td><p>The cancellation token to set to cancel the async task</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>&gt;</td>
+        <td><p>Return the taskId string</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/ng/docfx/apiSpec/new?filename=ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_Service_SubmitAsync_System_String_System_Object___ArmoniK_DevelopmentKit_Client_Common_IServiceInvocationHandler_System_Int32_ArmoniK_Api_gRPC_V1_TaskOptions_System_Threading_CancellationToken_.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.Service.SubmitAsync(System.String%2CSystem.Object%5B%5D%2CArmoniK.DevelopmentKit.Client.Common.IServiceInvocationHandler%2CSystem.Int32%2CArmoniK.Api.gRPC.V1.TaskOptions%2CSystem.Threading.CancellationToken)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/ng/docfx/Client/src/Unified/Services/Submitter/Service.cs/#L261">View Source</a>
+  </span>
+  <a id="ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_Service_SubmitAsync_" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.Service.SubmitAsync*"></a>
+  <h4 id="ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_Service_SubmitAsync_System_String_System_Object___ArmoniK_DevelopmentKit_Client_Common_IServiceInvocationHandler_System_Int32_ArmoniK_Api_gRPC_V1_TaskOptions_System_Threading_CancellationToken_" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.Service.SubmitAsync(System.String,System.Object[],ArmoniK.DevelopmentKit.Client.Common.IServiceInvocationHandler,System.Int32,ArmoniK.Api.gRPC.V1.TaskOptions,System.Threading.CancellationToken)">SubmitAsync(string, object[], IServiceInvocationHandler, int, TaskOptions?, CancellationToken)</h4>
+  <div class="markdown level1 summary"><p>The method submit with one serialized argument that will send as byte[] MethodName(byte[]   argument).</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;string&gt; SubmitAsync(string methodName, object[] argument, IServiceInvocationHandler handler, int maxRetries = 5, TaskOptions? taskOptions = null, CancellationToken token = default)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td><span class="parametername">methodName</span></td>
+        <td><p>The name of the method inside the service</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a>[]</td>
+        <td><span class="parametername">argument</span></td>
+        <td><p>One serialized argument that will already serialize for MethodName.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="ArmoniK.DevelopmentKit.Client.Common.IServiceInvocationHandler.html">IServiceInvocationHandler</a></td>
+        <td><span class="parametername">handler</span></td>
+        <td><p>The handler callBack implemented as IServiceInvocationHandler to get response or result or error</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></td>
+        <td><span class="parametername">maxRetries</span></td>
+        <td><p>The number of retry before fail to submit task. Default = 5 retries</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">TaskOptions</span></td>
+        <td><span class="parametername">taskOptions</span></td>
+        <td><p>TaskOptions argument to override default taskOptions in Session.
+If non null it will override the default taskOptions in SessionService for client or given by taskHandler for worker</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.cancellationtoken">CancellationToken</a></td>
+        <td><span class="parametername">token</span></td>
+        <td><p>The cancellation token to set to cancel the async task</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>&gt;</td>
+        <td><p>Return the taskId string</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="implements">Implements</h3>
+  <div>
+      <a class="xref" href="ArmoniK.DevelopmentKit.Client.Common.Submitter.ISubmitterService.html">ISubmitterService</a>
+  </div>
+  <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.idisposable">IDisposable</a>
+  </div>
+  <h3 id="extensionmethods">Extension Methods</h3>
+  <div>
+      <a class="xref" href="ArmoniK.DevelopmentKit.Client.Common.Submitter.SubmitterServiceExt.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_SubmitterServiceExt_Submit_ArmoniK_DevelopmentKit_Client_Common_Submitter_ISubmitterService_System_String_System_Byte___ArmoniK_DevelopmentKit_Client_Common_IServiceInvocationHandler_System_Int32_ArmoniK_Api_gRPC_V1_TaskOptions_">SubmitterServiceExt.Submit(ISubmitterService, string, byte[], IServiceInvocationHandler, int, TaskOptions?)</a>
+  </div>
+  <div>
+      <a class="xref" href="ArmoniK.DevelopmentKit.Client.Common.Submitter.SubmitterServiceExt.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_SubmitterServiceExt_Submit_ArmoniK_DevelopmentKit_Client_Common_Submitter_ISubmitterService_System_String_System_Object___ArmoniK_DevelopmentKit_Client_Common_IServiceInvocationHandler_System_Int32_ArmoniK_Api_gRPC_V1_TaskOptions_">SubmitterServiceExt.Submit(ISubmitterService, string, object[], IServiceInvocationHandler, int, TaskOptions?)</a>
+  </div>
+
+</article>
+          </div>
+
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/ng/docfx/apiSpec/new?filename=ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_Service.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.Service%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                  </li>
+                  <li>
+                    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/ng/docfx/Client/src/Unified/Services/Submitter/Service.cs/#L51" class="contribution-link">View Source</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+      
+      <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    <!-- Required styles -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+    <!-- Load v9.1.3 of Mermaid -->
+    <!-- Hash obtained via https://www.srihash.org/ -->
+    <script type="text/javascript" src="https://unpkg.com/mermaid@9.1.3/dist/mermaid.min.js" integrity="sha384-LnGjpNDrP4cp7MIk4CpRa/lPNclrf839ryYVFx1T1mPSV3RGAZ7nlBa7pqcyGY/K" crossorigin="anonymous"></script>
+    <!-- Initialize Mermaid -->
+    <script>
+        mermaid.initialize({
+            startOnLoad: false
+        });
+        mermaid.init(undefined, ".lang-mermaid");
+    </script>
+  </body>
+</html>

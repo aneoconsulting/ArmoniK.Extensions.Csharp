@@ -1,0 +1,936 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+
+  <head>
+    <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+      <title>Class BatchUntilInactiveBlock&lt;T&gt;
+ </title>
+      <meta name="viewport" content="width=device-width">
+      <meta name="title" content="Class BatchUntilInactiveBlock&lt;T&gt;
+ ">
+    
+      <link rel="shortcut icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../styles/docfx.vendor.min.css">
+      <link rel="stylesheet" href="../styles/docfx.css">
+      <link rel="stylesheet" href="../styles/main.css">
+      <meta property="docfx:navrel" content="../toc.html">
+      <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1">
+
+
+
+  <h1 id="ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_BatchUntilInactiveBlock_1" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1" class="text-break">Class BatchUntilInactiveBlock&lt;T&gt;
+</h1>
+  <div class="markdown level0 summary"><p>Provides a dataFlow block that batches inputs into arrays.
+A batch is produced when the number of currently queued items becomes equal
+to BatchSize, or when a Timeout period has elapsed after receiving the last item.</p>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
+    <div class="level1"><span class="xref">BatchUntilInactiveBlock&lt;T&gt;</span></div>
+  </div>
+  <div class="implements">
+    <h5>Implements</h5>
+    <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.dataflow.ipropagatorblock-2">IPropagatorBlock</a>&lt;T, T[]&gt;</div>
+    <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.dataflow.itargetblock-1">ITargetBlock</a>&lt;T&gt;</div>
+    <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.dataflow.ireceivablesourceblock-1">IReceivableSourceBlock</a>&lt;T[]&gt;</div>
+    <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.dataflow.isourceblock-1">ISourceBlock</a>&lt;T[]&gt;</div>
+    <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.dataflow.idataflowblock">IDataflowBlock</a></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)">object.Equals(object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)">object.Equals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gethashcode">object.GetHashCode()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gettype">object.GetType()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone">object.MemberwiseClone()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.referenceequals">object.ReferenceEquals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.tostring">object.ToString()</a>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="ArmoniK.html">ArmoniK</a>.<a class="xref" href="ArmoniK.DevelopmentKit.html">DevelopmentKit</a>.<a class="xref" href="ArmoniK.DevelopmentKit.Client.html">Client</a>.<a class="xref" href="ArmoniK.DevelopmentKit.Client.Unified.html">Unified</a>.<a class="xref" href="ArmoniK.DevelopmentKit.Client.Unified.Services.html">Services</a>.<a class="xref" href="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.html">Submitter</a></h6>
+  <h6><strong>Assembly</strong>: ArmoniK.DevelopmentKit.Client.Unified.dll</h6>
+  <h5 id="ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_BatchUntilInactiveBlock_1_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class BatchUntilInactiveBlock&lt;T&gt; : IPropagatorBlock&lt;T, T[]&gt;, ITargetBlock&lt;T&gt;, IReceivableSourceBlock&lt;T[]&gt;, ISourceBlock&lt;T[]&gt;, IDataflowBlock</code></pre>
+  </div>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="constructors">Constructors
+</h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/ng/docfx/apiSpec/new?filename=ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_BatchUntilInactiveBlock_1__ctor_System_Int32_System_TimeSpan_System_Threading_Tasks_Dataflow_ExecutionDataflowBlockOptions_.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock%601.%23ctor(System.Int32%2CSystem.TimeSpan%2CSystem.Threading.Tasks.Dataflow.ExecutionDataflowBlockOptions)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/ng/docfx/Client/src/Unified/Services/Submitter/BatchUntilInactiveBlock.cs/#L48">View Source</a>
+  </span>
+  <a id="ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_BatchUntilInactiveBlock_1__ctor_" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.#ctor*"></a>
+  <h4 id="ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_BatchUntilInactiveBlock_1__ctor_System_Int32_System_TimeSpan_System_Threading_Tasks_Dataflow_ExecutionDataflowBlockOptions_" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.#ctor(System.Int32,System.TimeSpan,System.Threading.Tasks.Dataflow.ExecutionDataflowBlockOptions)">BatchUntilInactiveBlock(int, TimeSpan, ExecutionDataflowBlockOptions?)</h4>
+  <div class="markdown level1 summary"><p>The buffer construct base on the number of request in the buffer
+Be aware that buffer should be T sized for network B/W</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public BatchUntilInactiveBlock(int bufferRequestsSize, TimeSpan timeout, ExecutionDataflowBlockOptions? executionDataFlowBlockOptions = null)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></td>
+        <td><span class="parametername">bufferRequestsSize</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.timespan">TimeSpan</a></td>
+        <td><span class="parametername">timeout</span></td>
+        <td><p>Time out before the next submit call</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.dataflow.executiondataflowblockoptions">ExecutionDataflowBlockOptions</a></td>
+        <td><span class="parametername">executionDataFlowBlockOptions</span></td>
+        <td><p>Parameters to control execution for each block in pipeline
+Options to configure message.
+<a href="https://learn.microsoft.com/fr-fr/dotnet/api/system.threading.tasks.dataflow.executiondataflowblockoptions?view=net-6.0">https://learn.microsoft.com/fr-fr/dotnet/api/system.threading.tasks.dataflow.executiondataflowblockoptions?view=net-6.0</a></p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="properties">Properties
+</h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/ng/docfx/apiSpec/new?filename=ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_BatchUntilInactiveBlock_1_BatchSize.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock%601.BatchSize%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/ng/docfx/Client/src/Unified/Services/Submitter/BatchUntilInactiveBlock.cs/#L95">View Source</a>
+  </span>
+  <a id="ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_BatchUntilInactiveBlock_1_BatchSize_" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.BatchSize*"></a>
+  <h4 id="ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_BatchUntilInactiveBlock_1_BatchSize" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.BatchSize">BatchSize</h4>
+  <div class="markdown level1 summary"><p>Simple Getter to return size of batch in the pipeline</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int BatchSize { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/ng/docfx/apiSpec/new?filename=ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_BatchUntilInactiveBlock_1_Completion.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock%601.Completion%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/ng/docfx/Client/src/Unified/Services/Submitter/BatchUntilInactiveBlock.cs/#L104">View Source</a>
+  </span>
+  <a id="ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_BatchUntilInactiveBlock_1_Completion_" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.Completion*"></a>
+  <h4 id="ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_BatchUntilInactiveBlock_1_Completion" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.Completion">Completion</h4>
+  <div class="markdown level1 summary"><p>Gets a  <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task">Task</a> that represents the asynchronous operation and completion of the dataflow block.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task Completion { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task">Task</a></td>
+        <td><p>The task.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+</h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/ng/docfx/apiSpec/new?filename=ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_BatchUntilInactiveBlock_1_Complete.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock%601.Complete%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/ng/docfx/Client/src/Unified/Services/Submitter/BatchUntilInactiveBlock.cs/#L109">View Source</a>
+  </span>
+  <a id="ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_BatchUntilInactiveBlock_1_Complete_" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.Complete*"></a>
+  <h4 id="ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_BatchUntilInactiveBlock_1_Complete" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.Complete">Complete()</h4>
+  <div class="markdown level1 summary"><p>Signals to the <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.dataflow.idataflowblock">IDataflowBlock</a> that it should not accept nor produce any more messages nor consume any more postponed messages.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Complete()</code></pre>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/ng/docfx/apiSpec/new?filename=ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_BatchUntilInactiveBlock_1_ConsumeMessage_System_Threading_Tasks_Dataflow_DataflowMessageHeader_System_Threading_Tasks_Dataflow_ITargetBlock__0____System_Boolean__.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock%601.ConsumeMessage(System.Threading.Tasks.Dataflow.DataflowMessageHeader%2CSystem.Threading.Tasks.Dataflow.ITargetBlock%7B%600%5B%5D%7D%2CSystem.Boolean%40)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/ng/docfx/Client/src/Unified/Services/Submitter/BatchUntilInactiveBlock.cs/#L145">View Source</a>
+  </span>
+  <a id="ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_BatchUntilInactiveBlock_1_ConsumeMessage_" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.ConsumeMessage*"></a>
+  <h4 id="ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_BatchUntilInactiveBlock_1_ConsumeMessage_System_Threading_Tasks_Dataflow_DataflowMessageHeader_System_Threading_Tasks_Dataflow_ITargetBlock__0____System_Boolean__" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.ConsumeMessage(System.Threading.Tasks.Dataflow.DataflowMessageHeader,System.Threading.Tasks.Dataflow.ITargetBlock{`0[]},System.Boolean@)">ConsumeMessage(DataflowMessageHeader, ITargetBlock&lt;T[]&gt;, out bool)</h4>
+  <div class="markdown level1 summary"><p>Called by a linked <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.dataflow.itargetblock-1">ITargetBlock&lt;TInput&gt;</a> to accept and consume a <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.dataflow.dataflowmessageheader">DataflowMessageHeader</a> previously offered by this <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.dataflow.isourceblock-1">ISourceBlock&lt;TOutput&gt;</a>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public T[] ConsumeMessage(DataflowMessageHeader messageHeader, ITargetBlock&lt;T[]&gt; target, out bool messageConsumed)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.dataflow.dataflowmessageheader">DataflowMessageHeader</a></td>
+        <td><span class="parametername">messageHeader</span></td>
+        <td><p>The <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.dataflow.dataflowmessageheader">DataflowMessageHeader</a> of the message being consumed.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.dataflow.itargetblock-1">ITargetBlock</a>&lt;T[]&gt;</td>
+        <td><span class="parametername">target</span></td>
+        <td><p>The <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.dataflow.itargetblock-1">ITargetBlock&lt;TInput&gt;</a> consuming the message.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></td>
+        <td><span class="parametername">messageConsumed</span></td>
+        <td><p><a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">true</a> if the message was successfully consumed; otherwise, <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">false</a>.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>T[]</td>
+        <td><p>The value of the consumed message. This may correspond to a different  <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.dataflow.dataflowmessageheader">DataflowMessageHeader</a> instance than was previously reserved and passed as the <code class="paramref">messageHeader</code> to <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.dataflow.isourceblock-1.consumemessage">ConsumeMessage(DataflowMessageHeader, ITargetBlock&lt;TOutput&gt;, out bool)</a>. The consuming <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.dataflow.itargetblock-1">ITargetBlock&lt;TInput&gt;</a> must use the returned value instead of the value passed as <code class="paramref">messageValue</code> through <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.dataflow.itargetblock-1.offermessage">OfferMessage(DataflowMessageHeader, TInput, ISourceBlock&lt;TInput&gt;, bool)</a>.</p>
+<p>If the message requested is not available, the return value will be null.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.argumentexception">ArgumentException</a></td>
+        <td><p>The messageHeader is not valid.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.argumentnullexception">ArgumentNullException</a></td>
+        <td><p>The target is <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/keywords/null">null</a>.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/ng/docfx/apiSpec/new?filename=ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_BatchUntilInactiveBlock_1_ExecuteAsync_System_Action__0____.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock%601.ExecuteAsync(System.Action%7B%600%5B%5D%7D)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/ng/docfx/Client/src/Unified/Services/Submitter/BatchUntilInactiveBlock.cs/#L179">View Source</a>
+  </span>
+  <a id="ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_BatchUntilInactiveBlock_1_ExecuteAsync_" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.ExecuteAsync*"></a>
+  <h4 id="ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_BatchUntilInactiveBlock_1_ExecuteAsync_System_Action__0____" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.ExecuteAsync(System.Action{`0[]})">ExecuteAsync(Action&lt;T[]&gt;)</h4>
+  <div class="markdown level1 summary"><p>Create an ActionBlock with a delegated function to execute
+at the end of pipeline</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void ExecuteAsync(Action&lt;T[]&gt; action)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.action-1">Action</a>&lt;T[]&gt;</td>
+        <td><span class="parametername">action</span></td>
+        <td><p>the method to call</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/ng/docfx/apiSpec/new?filename=ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_BatchUntilInactiveBlock_1_Fault_System_Exception_.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock%601.Fault(System.Exception)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/ng/docfx/Client/src/Unified/Services/Submitter/BatchUntilInactiveBlock.cs/#L113">View Source</a>
+  </span>
+  <a id="ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_BatchUntilInactiveBlock_1_Fault_" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.Fault*"></a>
+  <h4 id="ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_BatchUntilInactiveBlock_1_Fault_System_Exception_" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.Fault(System.Exception)">Fault(Exception)</h4>
+  <div class="markdown level1 summary"><p>Causes the <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.dataflow.idataflowblock">IDataflowBlock</a> to complete in a  <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.taskstatus#system-threading-tasks-taskstatus-faulted">Faulted</a> state.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Fault(Exception exception)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.exception">Exception</a></td>
+        <td><span class="parametername">exception</span></td>
+        <td><p>The  <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.exception">Exception</a> that caused the faulting.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.argumentnullexception">ArgumentNullException</a></td>
+        <td><p>The <code class="paramref">exception</code> is <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/keywords/null">null</a>.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/ng/docfx/apiSpec/new?filename=ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_BatchUntilInactiveBlock_1_LinkTo_System_Threading_Tasks_Dataflow_ITargetBlock__0____System_Threading_Tasks_Dataflow_DataflowLinkOptions_.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock%601.LinkTo(System.Threading.Tasks.Dataflow.ITargetBlock%7B%600%5B%5D%7D%2CSystem.Threading.Tasks.Dataflow.DataflowLinkOptions)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/ng/docfx/Client/src/Unified/Services/Submitter/BatchUntilInactiveBlock.cs/#L118">View Source</a>
+  </span>
+  <a id="ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_BatchUntilInactiveBlock_1_LinkTo_" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.LinkTo*"></a>
+  <h4 id="ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_BatchUntilInactiveBlock_1_LinkTo_System_Threading_Tasks_Dataflow_ITargetBlock__0____System_Threading_Tasks_Dataflow_DataflowLinkOptions_" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.LinkTo(System.Threading.Tasks.Dataflow.ITargetBlock{`0[]},System.Threading.Tasks.Dataflow.DataflowLinkOptions)">LinkTo(ITargetBlock&lt;T[]&gt;, DataflowLinkOptions)</h4>
+  <div class="markdown level1 summary"><p>Links the  <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.dataflow.isourceblock-1">ISourceBlock&lt;TOutput&gt;</a> to the specified  <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.dataflow.itargetblock-1">ITargetBlock&lt;TInput&gt;</a>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public IDisposable LinkTo(ITargetBlock&lt;T[]&gt; target, DataflowLinkOptions linkOptions)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.dataflow.itargetblock-1">ITargetBlock</a>&lt;T[]&gt;</td>
+        <td><span class="parametername">target</span></td>
+        <td><p>The  <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.dataflow.itargetblock-1">ITargetBlock&lt;TInput&gt;</a> to which to connect this source.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.dataflow.dataflowlinkoptions">DataflowLinkOptions</a></td>
+        <td><span class="parametername">linkOptions</span></td>
+        <td><p>A <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.dataflow.dataflowlinkoptions">DataflowLinkOptions</a> instance that configures the link.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.idisposable">IDisposable</a></td>
+        <td><p>An IDisposable that, upon calling Dispose, will unlink the source from the target.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.argumentnullexception">ArgumentNullException</a></td>
+        <td><p><code class="paramref">target</code> is null (Nothing in Visual Basic) or  <code class="paramref">linkOptions</code> is null (Nothing in Visual Basic).</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/ng/docfx/apiSpec/new?filename=ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_BatchUntilInactiveBlock_1_OfferMessage_System_Threading_Tasks_Dataflow_DataflowMessageHeader__0_System_Threading_Tasks_Dataflow_ISourceBlock__0__System_Boolean_.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock%601.OfferMessage(System.Threading.Tasks.Dataflow.DataflowMessageHeader%2C%600%2CSystem.Threading.Tasks.Dataflow.ISourceBlock%7B%600%7D%2CSystem.Boolean)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/ng/docfx/Client/src/Unified/Services/Submitter/BatchUntilInactiveBlock.cs/#L125">View Source</a>
+  </span>
+  <a id="ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_BatchUntilInactiveBlock_1_OfferMessage_" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.OfferMessage*"></a>
+  <h4 id="ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_BatchUntilInactiveBlock_1_OfferMessage_System_Threading_Tasks_Dataflow_DataflowMessageHeader__0_System_Threading_Tasks_Dataflow_ISourceBlock__0__System_Boolean_" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.OfferMessage(System.Threading.Tasks.Dataflow.DataflowMessageHeader,`0,System.Threading.Tasks.Dataflow.ISourceBlock{`0},System.Boolean)">OfferMessage(DataflowMessageHeader, T, ISourceBlock&lt;T&gt;, bool)</h4>
+  <div class="markdown level1 summary"><p>Offers a message to the <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.dataflow.itargetblock-1">ITargetBlock&lt;TInput&gt;</a>, giving the target the opportunity to consume or postpone the message.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public DataflowMessageStatus OfferMessage(DataflowMessageHeader messageHeader, T messageValue, ISourceBlock&lt;T&gt; source, bool consumeToAccept)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.dataflow.dataflowmessageheader">DataflowMessageHeader</a></td>
+        <td><span class="parametername">messageHeader</span></td>
+        <td><p>A <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.dataflow.dataflowmessageheader">DataflowMessageHeader</a> instance that represents the header of the message being offered.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">T</span></td>
+        <td><span class="parametername">messageValue</span></td>
+        <td><p>The value of the message being offered.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.dataflow.isourceblock-1">ISourceBlock</a>&lt;T&gt;</td>
+        <td><span class="parametername">source</span></td>
+        <td><p>The <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.dataflow.isourceblock-1">ISourceBlock&lt;TOutput&gt;</a> offering the message. This may be null.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></td>
+        <td><span class="parametername">consumeToAccept</span></td>
+        <td><p>Set to <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">true</a> to instruct the target to call <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.dataflow.isourceblock-1.consumemessage">ConsumeMessage(DataflowMessageHeader, ITargetBlock&lt;TOutput&gt;, out bool)</a> synchronously during the call to <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.dataflow.itargetblock-1.offermessage">OfferMessage(DataflowMessageHeader, TInput, ISourceBlock&lt;TInput&gt;, bool)</a>, prior to returning <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.dataflow.dataflowmessagestatus#system-threading-tasks-dataflow-dataflowmessagestatus-accepted">Accepted</a>, in order to consume the message.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.dataflow.dataflowmessagestatus">DataflowMessageStatus</a></td>
+        <td><p>The status of the offered message. If the message was accepted by the target, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.dataflow.dataflowmessagestatus#system-threading-tasks-dataflow-dataflowmessagestatus-accepted">Accepted</a> is returned, and the source should no longer use the offered message, because it is now owned by the target. If the message was postponed by the target, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.dataflow.dataflowmessagestatus#system-threading-tasks-dataflow-dataflowmessagestatus-postponed">Postponed</a> is returned as a notification that the target may later attempt to consume or reserve the message; in the meantime, the source still owns the message and may offer it to other blocks.</p>
+<p>If the target would have otherwise postponed message, but source was <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/keywords/null">null</a>, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.dataflow.dataflowmessagestatus#system-threading-tasks-dataflow-dataflowmessagestatus-declined">Declined</a> is instead returned.</p>
+<p>If the target tried to accept the message but missed it due to the source delivering the message to another target or simply discarding it, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.dataflow.dataflowmessagestatus#system-threading-tasks-dataflow-dataflowmessagestatus-notavailable">NotAvailable</a> is returned.</p>
+<p>If the target chose not to accept the message, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.dataflow.dataflowmessagestatus#system-threading-tasks-dataflow-dataflowmessagestatus-declined">Declined</a> is returned. If the target chose not to accept the message and will never accept another message from this source, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.dataflow.dataflowmessagestatus#system-threading-tasks-dataflow-dataflowmessagestatus-decliningpermanently">DecliningPermanently</a> is returned.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.argumentexception">ArgumentException</a></td>
+        <td><p>The  <code class="paramref">messageHeader</code> is not valid.</p>
+<p>-or- <code class="paramref">consumeToAccept</code> may only be true if provided with a non-null <code class="paramref">source</code>.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/ng/docfx/apiSpec/new?filename=ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_BatchUntilInactiveBlock_1_ReleaseReservation_System_Threading_Tasks_Dataflow_DataflowMessageHeader_System_Threading_Tasks_Dataflow_ITargetBlock__0____.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock%601.ReleaseReservation(System.Threading.Tasks.Dataflow.DataflowMessageHeader%2CSystem.Threading.Tasks.Dataflow.ITargetBlock%7B%600%5B%5D%7D)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/ng/docfx/Client/src/Unified/Services/Submitter/BatchUntilInactiveBlock.cs/#L159">View Source</a>
+  </span>
+  <a id="ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_BatchUntilInactiveBlock_1_ReleaseReservation_" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.ReleaseReservation*"></a>
+  <h4 id="ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_BatchUntilInactiveBlock_1_ReleaseReservation_System_Threading_Tasks_Dataflow_DataflowMessageHeader_System_Threading_Tasks_Dataflow_ITargetBlock__0____" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.ReleaseReservation(System.Threading.Tasks.Dataflow.DataflowMessageHeader,System.Threading.Tasks.Dataflow.ITargetBlock{`0[]})">ReleaseReservation(DataflowMessageHeader, ITargetBlock&lt;T[]&gt;)</h4>
+  <div class="markdown level1 summary"><p>Called by a linked <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.dataflow.itargetblock-1">ITargetBlock&lt;TInput&gt;</a> to release a previously reserved <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.dataflow.dataflowmessageheader">DataflowMessageHeader</a> by this <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.dataflow.isourceblock-1">ISourceBlock&lt;TOutput&gt;</a>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void ReleaseReservation(DataflowMessageHeader messageHeader, ITargetBlock&lt;T[]&gt; target)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.dataflow.dataflowmessageheader">DataflowMessageHeader</a></td>
+        <td><span class="parametername">messageHeader</span></td>
+        <td><p>The <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.dataflow.dataflowmessageheader">DataflowMessageHeader</a> of the reserved message being released.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.dataflow.itargetblock-1">ITargetBlock</a>&lt;T[]&gt;</td>
+        <td><span class="parametername">target</span></td>
+        <td><p>The <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.dataflow.itargetblock-1">ITargetBlock&lt;TInput&gt;</a> releasing the message it previously reserved.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.argumentexception">ArgumentException</a></td>
+        <td><p>The <code class="paramref">messageHeader</code> is not valid.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.argumentnullexception">ArgumentNullException</a></td>
+        <td><p>The <code class="paramref">target</code> is <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/keywords/null">null</a>.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.invalidoperationexception">InvalidOperationException</a></td>
+        <td><p>The <code class="paramref">target</code> did not have the message reserved.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/ng/docfx/apiSpec/new?filename=ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_BatchUntilInactiveBlock_1_ReserveMessage_System_Threading_Tasks_Dataflow_DataflowMessageHeader_System_Threading_Tasks_Dataflow_ITargetBlock__0____.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock%601.ReserveMessage(System.Threading.Tasks.Dataflow.DataflowMessageHeader%2CSystem.Threading.Tasks.Dataflow.ITargetBlock%7B%600%5B%5D%7D)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/ng/docfx/Client/src/Unified/Services/Submitter/BatchUntilInactiveBlock.cs/#L153">View Source</a>
+  </span>
+  <a id="ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_BatchUntilInactiveBlock_1_ReserveMessage_" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.ReserveMessage*"></a>
+  <h4 id="ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_BatchUntilInactiveBlock_1_ReserveMessage_System_Threading_Tasks_Dataflow_DataflowMessageHeader_System_Threading_Tasks_Dataflow_ITargetBlock__0____" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.ReserveMessage(System.Threading.Tasks.Dataflow.DataflowMessageHeader,System.Threading.Tasks.Dataflow.ITargetBlock{`0[]})">ReserveMessage(DataflowMessageHeader, ITargetBlock&lt;T[]&gt;)</h4>
+  <div class="markdown level1 summary"><p>Called by a linked <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.dataflow.itargetblock-1">ITargetBlock&lt;TInput&gt;</a> to reserve a previously offered <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.dataflow.dataflowmessageheader">DataflowMessageHeader</a> by this <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.dataflow.isourceblock-1">ISourceBlock&lt;TOutput&gt;</a>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool ReserveMessage(DataflowMessageHeader messageHeader, ITargetBlock&lt;T[]&gt; target)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.dataflow.dataflowmessageheader">DataflowMessageHeader</a></td>
+        <td><span class="parametername">messageHeader</span></td>
+        <td><p>The <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.dataflow.dataflowmessageheader">DataflowMessageHeader</a> of the message being reserved.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.dataflow.itargetblock-1">ITargetBlock</a>&lt;T[]&gt;</td>
+        <td><span class="parametername">target</span></td>
+        <td><p>The <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.dataflow.itargetblock-1">ITargetBlock&lt;TInput&gt;</a> reserving the message.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></td>
+        <td><p><a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">true</a> if the message was successfully reserved; otherwise, <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">false</a>.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.argumentexception">ArgumentException</a></td>
+        <td><p>The <code class="paramref">messageHeader</code> is not valid.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.argumentnullexception">ArgumentNullException</a></td>
+        <td><p>The <code class="paramref">target</code> is <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/keywords/null">null</a>.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/ng/docfx/apiSpec/new?filename=ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_BatchUntilInactiveBlock_1_TriggerBatch.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock%601.TriggerBatch%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/ng/docfx/Client/src/Unified/Services/Submitter/BatchUntilInactiveBlock.cs/#L194">View Source</a>
+  </span>
+  <a id="ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_BatchUntilInactiveBlock_1_TriggerBatch_" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.TriggerBatch*"></a>
+  <h4 id="ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_BatchUntilInactiveBlock_1_TriggerBatch" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.TriggerBatch">TriggerBatch()</h4>
+  <div class="markdown level1 summary"><p>Trigger the batch even if it doesn't criteria to submit</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void TriggerBatch()</code></pre>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/ng/docfx/apiSpec/new?filename=ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_BatchUntilInactiveBlock_1_TryReceive_System_Predicate__0_____0____.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock%601.TryReceive(System.Predicate%7B%600%5B%5D%7D%2C%600%5B%5D%40)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/ng/docfx/Client/src/Unified/Services/Submitter/BatchUntilInactiveBlock.cs/#L165">View Source</a>
+  </span>
+  <a id="ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_BatchUntilInactiveBlock_1_TryReceive_" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.TryReceive*"></a>
+  <h4 id="ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_BatchUntilInactiveBlock_1_TryReceive_System_Predicate__0_____0____" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.TryReceive(System.Predicate{`0[]},`0[]@)">TryReceive(Predicate&lt;T[]&gt;, out T[])</h4>
+  <div class="markdown level1 summary"><p>Attempts to synchronously receive an available output item from the <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.dataflow.ireceivablesourceblock-1">IReceivableSourceBlock&lt;TOutput&gt;</a>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool TryReceive(Predicate&lt;T[]&gt; filter, out T[] item)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.predicate-1">Predicate</a>&lt;T[]&gt;</td>
+        <td><span class="parametername">filter</span></td>
+        <td><p>The predicate value must successfully pass in order for it to be received.  <code class="paramref">filter</code> may be <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/keywords/null">null</a>, in which case all items will pass.</p>
+</td>
+      </tr>
+      <tr>
+        <td>T[]</td>
+        <td><span class="parametername">item</span></td>
+        <td><p>The item received from the source.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></td>
+        <td><p><a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">true</a> if an item could be received; otherwise, <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">false</a>.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/ng/docfx/apiSpec/new?filename=ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_BatchUntilInactiveBlock_1_TryReceiveAll_System_Collections_Generic_IList__0_____.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock%601.TryReceiveAll(System.Collections.Generic.IList%7B%600%5B%5D%7D%40)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/ng/docfx/Client/src/Unified/Services/Submitter/BatchUntilInactiveBlock.cs/#L171">View Source</a>
+  </span>
+  <a id="ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_BatchUntilInactiveBlock_1_TryReceiveAll_" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.TryReceiveAll*"></a>
+  <h4 id="ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_BatchUntilInactiveBlock_1_TryReceiveAll_System_Collections_Generic_IList__0_____" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.TryReceiveAll(System.Collections.Generic.IList{`0[]}@)">TryReceiveAll(out IList&lt;T[]&gt;)</h4>
+  <div class="markdown level1 summary"><p>Attempts to synchronously receive all available items from the <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.dataflow.ireceivablesourceblock-1">IReceivableSourceBlock&lt;TOutput&gt;</a>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool TryReceiveAll(out IList&lt;T[]&gt; items)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ilist-1">IList</a>&lt;T[]&gt;</td>
+        <td><span class="parametername">items</span></td>
+        <td><p>The items received from the source.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></td>
+        <td><p><a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">true</a> if one or more items could be received; otherwise, <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">false</a>.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="implements">Implements</h3>
+  <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.dataflow.ipropagatorblock-2">IPropagatorBlock&lt;TInput, TOutput&gt;</a>
+  </div>
+  <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.dataflow.itargetblock-1">ITargetBlock&lt;TInput&gt;</a>
+  </div>
+  <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.dataflow.ireceivablesourceblock-1">IReceivableSourceBlock&lt;TOutput&gt;</a>
+  </div>
+  <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.dataflow.isourceblock-1">ISourceBlock&lt;TOutput&gt;</a>
+  </div>
+  <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.dataflow.idataflowblock">IDataflowBlock</a>
+  </div>
+
+</article>
+          </div>
+
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/ng/docfx/apiSpec/new?filename=ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_BatchUntilInactiveBlock_1.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock%601%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                  </li>
+                  <li>
+                    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/ng/docfx/Client/src/Unified/Services/Submitter/BatchUntilInactiveBlock.cs/#L30" class="contribution-link">View Source</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+      
+      <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    <!-- Required styles -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+    <!-- Load v9.1.3 of Mermaid -->
+    <!-- Hash obtained via https://www.srihash.org/ -->
+    <script type="text/javascript" src="https://unpkg.com/mermaid@9.1.3/dist/mermaid.min.js" integrity="sha384-LnGjpNDrP4cp7MIk4CpRa/lPNclrf839ryYVFx1T1mPSV3RGAZ7nlBa7pqcyGY/K" crossorigin="anonymous"></script>
+    <!-- Initialize Mermaid -->
+    <script>
+        mermaid.initialize({
+            startOnLoad: false
+        });
+        mermaid.init(undefined, ".lang-mermaid");
+    </script>
+  </body>
+</html>
