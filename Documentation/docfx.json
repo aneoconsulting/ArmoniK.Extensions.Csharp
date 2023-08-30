@@ -4,14 +4,19 @@
       "src": [
         {
           "src": "../",
-	  "files": [
-            "**.csproj"
-          ]
+	        "files": [
+              "**.csproj"
+            ]
         }
       ],
       "dest": "api",
+      "includePrivateMembers": false,
       "disableGitFeatures": false,
-      "disableDefaultFilter": false
+      "disableDefaultFilter": false,
+      "noRestore": false,
+      "namespaceLayout": "flattened",
+      "memberLayout": "samePage",
+      "allowCompilationErrors": false
     }
   ],
   "build": {
@@ -49,19 +54,23 @@
         ]
       }
     ],
-    "dest": "_site",
+    "output": "_site",
+    "globalMetadata": {
+      "_appTitle": "My App",
+      "_appFaviconPath": "images/armonik_favicon.ico",
+      "_appLogoPath": "images/armonik_logo.svg",
+      "_appFooter": "<strong>Aneo</strong>",
+      "_copyrightFooter": "© Aneo. All rights reserved.",
+      "_enableSearch": true
+    },
     "globalMetadataFiles": [],
     "fileMetadataFiles": [],
     "template": [
       "default",
-      "templates/armonik",
-      "templates/mermaid"
+      "modern"
     ],
     "postProcessors": [],
-    "markdownEngineName": "markdig",
-    "noLangKeyword": false,
     "keepFileLink": false,
-    "cleanupCacheHistory": false,
     "disableGitFeatures": false
   }
 }
