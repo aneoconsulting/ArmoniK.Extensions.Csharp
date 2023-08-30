@@ -1,196 +1,176 @@
 ﻿<!DOCTYPE html>
-<!--[if IE]><![endif]-->
 <html>
-
   <head>
     <meta charset="utf-8">
-      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
       <title>Enum ArmonikStatusCode
- </title>
-      <meta name="viewport" content="width=device-width">
+ | My App </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <meta name="title" content="Enum ArmonikStatusCode
- ">
-    
-      <link rel="shortcut icon" href="../favicon.ico">
-      <link rel="stylesheet" href="../styles/docfx.vendor.min.css">
-      <link rel="stylesheet" href="../styles/docfx.css">
-      <link rel="stylesheet" href="../styles/main.css">
-      <meta property="docfx:navrel" content="../toc.html">
-      <meta property="docfx:tocrel" content="toc.html">
-    
-    
-    
+ | My App ">
+      
+      <link rel="icon" href="../images/armonik_favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/main/apiSpec/new?filename=ArmoniK_DevelopmentKit_Client_Common_Status_ArmonikStatusCode.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Client.Common.Status.ArmonikStatusCode%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
   </head>
-  <body data-spy="scroll" data-target="#affix" data-offset="120">
-    <div id="wrapper">
-      <header>
 
-        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
-          <div class="container">
-            <div class="navbar-header">
-              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-              </button>
+  <script type="module">
+    import options from './../public/main.js'
+    import { init } from './../public/docfx.min.js'
+    init(options)
+  </script>
 
-              <a class="navbar-brand" href="../index.html">
-                <img id="logo" class="svg" src="../logo.svg" alt="">
-              </a>
-            </div>
-            <div class="collapse navbar-collapse" id="navbar">
-              <form class="navbar-form navbar-right" role="search" id="search">
-                <div class="form-group">
-                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
-                </div>
+  <script>
+    const theme = localStorage.getItem('theme') || 'auto'
+    document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+  </script>
+
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../images/armonik_logo.svg" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled="" placeholder="Search" autocomplete="off" aria-label="Search">
               </form>
             </div>
           </div>
-        </nav>
-
-        <div class="subnav navbar navbar-default">
-          <div class="container hide-when-search" id="breadcrumb">
-            <ul class="breadcrumb">
-              <li></li>
-            </ul>
-          </div>
         </div>
-      </header>
-      <div role="main" class="container body-content hide-when-search">
+      </nav>
+    </header>
 
-        <div class="sidenav hide-when-search">
-          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
-          <div class="sidetoggle collapse" id="sidetoggle">
-            <div id="sidetoc"></div>
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
           </div>
-        </div>
-        <div class="article row grid-right">
-          <div class="col-md-10">
-            <article class="content wrap" id="_content" data-uid="ArmoniK.DevelopmentKit.Client.Common.Status.ArmonikStatusCode">
-
-
-
-
-  <h1 id="ArmoniK_DevelopmentKit_Client_Common_Status_ArmonikStatusCode" data-uid="ArmoniK.DevelopmentKit.Client.Common.Status.ArmonikStatusCode" class="text-break">Enum ArmonikStatusCode
-</h1>
-  <div class="markdown level0 summary"><p>List of status for task and result in Armonik</p>
-</div>
-  <div class="markdown level0 conceptual"></div>
-  <h6><strong>Namespace</strong>: <a class="xref" href="ArmoniK.html">ArmoniK</a>.<a class="xref" href="ArmoniK.DevelopmentKit.html">DevelopmentKit</a>.<a class="xref" href="ArmoniK.DevelopmentKit.Client.html">Client</a>.<a class="xref" href="ArmoniK.DevelopmentKit.Client.Common.html">Common</a>.<a class="xref" href="ArmoniK.DevelopmentKit.Client.Common.Status.html">Status</a></h6>
-  <h6><strong>Assembly</strong>: ArmoniK.DevelopmentKit.Client.Common.dll</h6>
-  <h5 id="ArmoniK_DevelopmentKit_Client_Common_Status_ArmonikStatusCode_syntax">Syntax</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">[PublicAPI]
-public enum ArmonikStatusCode</code></pre>
-  </div>
-  <h3 id="fields">Fields
-</h3>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    <thead>
-    <tbody>
-      <tr>
-        <td id="ArmoniK_DevelopmentKit_Client_Common_Status_ArmonikStatusCode_ResultError">ResultError</td>
-        <td><p>The result is in error and the task could finished without result</p>
-</td>
-      </tr>
-      <tr>
-        <td id="ArmoniK_DevelopmentKit_Client_Common_Status_ArmonikStatusCode_ResultNotReady">ResultNotReady</td>
-        <td><p>The result is not yet ready and the task is still in processing</p>
-</td>
-      </tr>
-      <tr>
-        <td id="ArmoniK_DevelopmentKit_Client_Common_Status_ArmonikStatusCode_ResultReady">ResultReady</td>
-        <td><p>The result is ready to be retrieved</p>
-</td>
-      </tr>
-      <tr>
-        <td id="ArmoniK_DevelopmentKit_Client_Common_Status_ArmonikStatusCode_TaskCancelled">TaskCancelled</td>
-        <td><p>The task has been canceled by operator or user himself</p>
-</td>
-      </tr>
-      <tr>
-        <td id="ArmoniK_DevelopmentKit_Client_Common_Status_ArmonikStatusCode_TaskCompleted">TaskCompleted</td>
-        <td><p>The task is completed but result could not be ready</p>
-</td>
-      </tr>
-      <tr>
-        <td id="ArmoniK_DevelopmentKit_Client_Common_Status_ArmonikStatusCode_TaskFailed">TaskFailed</td>
-        <td><p>The task has failed and no result can be expected</p>
-</td>
-      </tr>
-      <tr>
-        <td id="ArmoniK_DevelopmentKit_Client_Common_Status_ArmonikStatusCode_TaskTimeout">TaskTimeout</td>
-        <td><p>the task has reached the max duration of execution</p>
-</td>
-      </tr>
-      <tr>
-        <td id="ArmoniK_DevelopmentKit_Client_Common_Status_ArmonikStatusCode_Unknown">Unknown</td>
-        <td><p>Unknown status of task or result</p>
-</td>
-      </tr>
-    </tbody>
-  </thead></thead></table>
-  <h3 id="extensionmethods">Extension Methods</h3>
-  <div>
-      <a class="xref" href="ArmoniK.DevelopmentKit.Common.Extensions.EnumExt.html#ArmoniK_DevelopmentKit_Common_Extensions_EnumExt_GetName_System_Enum_">EnumExt.GetName(Enum)</a>
-  </div>
-</article>
-          </div>
-
-          <div class="hidden-sm col-md-2" role="complementary">
-            <div class="sideaffix">
-              <div class="contribution">
-                <ul class="nav">
-                  <li>
-                    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/main/apiSpec/new?filename=ArmoniK_DevelopmentKit_Client_Common_Status_ArmonikStatusCode.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Client.Common.Status.ArmonikStatusCode%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
-                  </li>
-                  <li>
-                    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Status/ArmonikStatusCode.cs/#L26" class="contribution-link">View Source</a>
-                  </li>
-                </ul>
-              </div>
-              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
-                <h5>In This Article</h5>
-                <div></div>
-              </nav>
-            </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
           </div>
         </div>
       </div>
 
-      <footer>
-        <div class="grad-bottom"></div>
-        <div class="footer">
-          <div class="container">
-            <span class="pull-right">
-              <a href="#top">Back to top</a>
-            </span>
-      
-      <span>Generated by <strong>DocFX</strong></span>
-          </div>
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" style="margin-top: -.65em; margin-left: -.8em" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
         </div>
-      </footer>
-    </div>
-    <!-- Required styles -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
-    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
-    <script type="text/javascript" src="../styles/docfx.js"></script>
-    <script type="text/javascript" src="../styles/main.js"></script>
-    <!-- Load v9.1.3 of Mermaid -->
-    <!-- Hash obtained via https://www.srihash.org/ -->
-    <script type="text/javascript" src="https://unpkg.com/mermaid@9.1.3/dist/mermaid.min.js" integrity="sha384-LnGjpNDrP4cp7MIk4CpRa/lPNclrf839ryYVFx1T1mPSV3RGAZ7nlBa7pqcyGY/K" crossorigin="anonymous"></script>
-    <!-- Initialize Mermaid -->
-    <script>
-        mermaid.initialize({
-            startOnLoad: false
-        });
-        mermaid.init(undefined, ".lang-mermaid");
-    </script>
+
+        <article data-uid="ArmoniK.DevelopmentKit.Client.Common.Status.ArmonikStatusCode">
+
+
+
+
+  <h1 id="ArmoniK_DevelopmentKit_Client_Common_Status_ArmonikStatusCode" data-uid="ArmoniK.DevelopmentKit.Client.Common.Status.ArmonikStatusCode" class="text-break">
+    Enum ArmonikStatusCode
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Status/ArmonikStatusCode.cs/#L26"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="ArmoniK.html">ArmoniK</a>.<a class="xref" href="ArmoniK.DevelopmentKit.html">DevelopmentKit</a>.<a class="xref" href="ArmoniK.DevelopmentKit.Client.html">Client</a>.<a class="xref" href="ArmoniK.DevelopmentKit.Client.Common.html">Common</a>.<a class="xref" href="ArmoniK.DevelopmentKit.Client.Common.Status.html">Status</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>ArmoniK.DevelopmentKit.Client.Common.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"><p>List of status for task and result in Armonik</p>
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[PublicAPI]
+public enum ArmonikStatusCode</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+  <dl class="typelist extensionMethods">
+    <dt>Extension Methods</dt>
+    <dd>
+  <div>
+      <a class="xref" href="ArmoniK.DevelopmentKit.Common.Extensions.EnumExt.html#ArmoniK_DevelopmentKit_Common_Extensions_EnumExt_GetName_System_Enum_">EnumExt.GetName(Enum)</a>
+  </div>
+  </dd></dl>
+
+  <h2 id="fields">Fields
+</h2>
+  <dl class="parameters">
+    <dt id="ArmoniK_DevelopmentKit_Client_Common_Status_ArmonikStatusCode_ResultError"><code>[Obsolete(&quot;unused&quot;)]
+ResultError = 7</code></dt>
+    <dd><p>The result is in error and the task could finished without result</p>
+</dd>
+    <dt id="ArmoniK_DevelopmentKit_Client_Common_Status_ArmonikStatusCode_ResultNotReady"><code>ResultNotReady = 6</code></dt>
+    <dd><p>The result is not yet ready and the task is still in processing</p>
+</dd>
+    <dt id="ArmoniK_DevelopmentKit_Client_Common_Status_ArmonikStatusCode_ResultReady"><code>ResultReady = 5</code></dt>
+    <dd><p>The result is ready to be retrieved</p>
+</dd>
+    <dt id="ArmoniK_DevelopmentKit_Client_Common_Status_ArmonikStatusCode_TaskCancelled"><code>TaskCancelled = 3</code></dt>
+    <dd><p>The task has been canceled by operator or user himself</p>
+</dd>
+    <dt id="ArmoniK_DevelopmentKit_Client_Common_Status_ArmonikStatusCode_TaskCompleted"><code>[Obsolete(&quot;unused&quot;)]
+TaskCompleted = 1</code></dt>
+    <dd><p>The task is completed but result could not be ready</p>
+</dd>
+    <dt id="ArmoniK_DevelopmentKit_Client_Common_Status_ArmonikStatusCode_TaskFailed"><code>TaskFailed = 2</code></dt>
+    <dd><p>The task has failed and no result can be expected</p>
+</dd>
+    <dt id="ArmoniK_DevelopmentKit_Client_Common_Status_ArmonikStatusCode_TaskTimeout"><code>TaskTimeout = 4</code></dt>
+    <dd><p>the task has reached the max duration of execution</p>
+</dd>
+    <dt id="ArmoniK_DevelopmentKit_Client_Common_Status_ArmonikStatusCode_Unknown"><code>Unknown = 0</code></dt>
+    <dd><p>Unknown status of task or result</p>
+</dd>
+  </dl>
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Status/ArmonikStatusCode.cs/#L26" class="edit-link">Edit this page</a>
+        </div>
+
+        
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <strong>Aneo</strong>
+        </div>
+      </div>
+    </footer>
   </body>
 </html>

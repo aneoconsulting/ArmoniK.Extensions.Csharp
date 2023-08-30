@@ -11415,6 +11415,3 @@ references:
   isSpec: "True"
   fullName: ArmoniK.EndToEndTests.Worker.Tests.TemplateTest.ServiceContainer.OnSessionLeave
   nameWithType: ServiceContainer.OnSessionLeave
-- uid: armonik_api_samples
-  name: Armonik.Samples API
-  href: api/index.html

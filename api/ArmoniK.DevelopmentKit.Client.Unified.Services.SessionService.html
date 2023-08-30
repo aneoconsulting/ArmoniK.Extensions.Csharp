@@ -1,90 +1,122 @@
 ﻿<!DOCTYPE html>
-<!--[if IE]><![endif]-->
 <html>
-
   <head>
     <meta charset="utf-8">
-      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
       <title>Class SessionService
- </title>
-      <meta name="viewport" content="width=device-width">
+ | My App </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <meta name="title" content="Class SessionService
- ">
-    
-      <link rel="shortcut icon" href="../favicon.ico">
-      <link rel="stylesheet" href="../styles/docfx.vendor.min.css">
-      <link rel="stylesheet" href="../styles/docfx.css">
-      <link rel="stylesheet" href="../styles/main.css">
-      <meta property="docfx:navrel" content="../toc.html">
-      <meta property="docfx:tocrel" content="toc.html">
-    
-    
-    
+ | My App ">
+      
+      <link rel="icon" href="../images/armonik_favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/main/apiSpec/new?filename=ArmoniK_DevelopmentKit_Client_Unified_Services_SessionService.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Client.Unified.Services.SessionService%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
   </head>
-  <body data-spy="scroll" data-target="#affix" data-offset="120">
-    <div id="wrapper">
-      <header>
 
-        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
-          <div class="container">
-            <div class="navbar-header">
-              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-              </button>
+  <script type="module">
+    import options from './../public/main.js'
+    import { init } from './../public/docfx.min.js'
+    init(options)
+  </script>
 
-              <a class="navbar-brand" href="../index.html">
-                <img id="logo" class="svg" src="../logo.svg" alt="">
-              </a>
-            </div>
-            <div class="collapse navbar-collapse" id="navbar">
-              <form class="navbar-form navbar-right" role="search" id="search">
-                <div class="form-group">
-                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
-                </div>
+  <script>
+    const theme = localStorage.getItem('theme') || 'auto'
+    document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+  </script>
+
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../images/armonik_logo.svg" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled="" placeholder="Search" autocomplete="off" aria-label="Search">
               </form>
             </div>
           </div>
-        </nav>
+        </div>
+      </nav>
+    </header>
 
-        <div class="subnav navbar navbar-default">
-          <div class="container hide-when-search" id="breadcrumb">
-            <ul class="breadcrumb">
-              <li></li>
-            </ul>
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
           </div>
         </div>
-      </header>
-      <div role="main" class="container body-content hide-when-search">
+      </div>
 
-        <div class="sidenav hide-when-search">
-          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
-          <div class="sidetoggle collapse" id="sidetoggle">
-            <div id="sidetoc"></div>
-          </div>
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" style="margin-top: -.65em; margin-left: -.8em" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
         </div>
-        <div class="article row grid-right">
-          <div class="col-md-10">
-            <article class="content wrap" id="_content" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.SessionService">
+
+        <article data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.SessionService">
 
 
 
-  <h1 id="ArmoniK_DevelopmentKit_Client_Unified_Services_SessionService" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.SessionService" class="text-break">Class SessionService
-</h1>
-  <div class="markdown level0 summary"><p>The class SessionService will be create each time the function CreateSession or OpenSession will
+  <h1 id="ArmoniK_DevelopmentKit_Client_Unified_Services_SessionService" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.SessionService" class="text-break">
+    Class SessionService
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Unified/Services/SessionService.cs/#L37"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="ArmoniK.html">ArmoniK</a>.<a class="xref" href="ArmoniK.DevelopmentKit.html">DevelopmentKit</a>.<a class="xref" href="ArmoniK.DevelopmentKit.Client.html">Client</a>.<a class="xref" href="ArmoniK.DevelopmentKit.Client.Unified.html">Unified</a>.<a class="xref" href="ArmoniK.DevelopmentKit.Client.Unified.Services.html">Services</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>ArmoniK.DevelopmentKit.Client.Unified.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"><p>The class SessionService will be create each time the function CreateSession or OpenSession will
 be called by client or by the worker.</p>
 </div>
-  <div class="markdown level0 conceptual"></div>
-  <div class="inheritance">
-    <h5>Inheritance</h5>
-    <div class="level0"><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
-    <div class="level1"><a class="xref" href="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter-1.html">BaseClientSubmitter</a>&lt;<a class="xref" href="ArmoniK.DevelopmentKit.Client.Unified.Services.SessionService.html">SessionService</a>&gt;</div>
-    <div class="level2"><span class="xref">SessionService</span></div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class SessionService : BaseClientSubmitter&lt;SessionService&gt;</code></pre>
   </div>
-  <div class="inheritedMembers">
-    <h5>Inherited Members</h5>
+
+
+
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
+      <div><a class="xref" href="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter-1.html">BaseClientSubmitter</a>&lt;<a class="xref" href="ArmoniK.DevelopmentKit.Client.Unified.Services.SessionService.html">SessionService</a>&gt;</div>
+      <div><span class="xref">SessionService</span></div>
+    </dd>
+  </dl>
+
+
+
+  <dl class="typelist derived">
+    <dt>Inherited Members</dt>
+    <dd>
     <div>
       <a class="xref" href="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_TaskOptions">BaseClientSubmitter&lt;SessionService&gt;.TaskOptions</a>
     </div>
@@ -163,384 +195,292 @@ be called by client or by the worker.</p>
     <div>
       <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.referenceequals">object.ReferenceEquals(object, object)</a>
     </div>
-  </div>
-  <h6><strong>Namespace</strong>: <a class="xref" href="ArmoniK.html">ArmoniK</a>.<a class="xref" href="ArmoniK.DevelopmentKit.html">DevelopmentKit</a>.<a class="xref" href="ArmoniK.DevelopmentKit.Client.html">Client</a>.<a class="xref" href="ArmoniK.DevelopmentKit.Client.Unified.html">Unified</a>.<a class="xref" href="ArmoniK.DevelopmentKit.Client.Unified.Services.html">Services</a></h6>
-  <h6><strong>Assembly</strong>: ArmoniK.DevelopmentKit.Client.Unified.dll</h6>
-  <h5 id="ArmoniK_DevelopmentKit_Client_Unified_Services_SessionService_syntax">Syntax</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public class SessionService : BaseClientSubmitter&lt;SessionService&gt;</code></pre>
-  </div>
-  <h3 id="constructors">Constructors
-</h3>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/main/apiSpec/new?filename=ArmoniK_DevelopmentKit_Client_Unified_Services_SessionService__ctor_ArmoniK_DevelopmentKit_Client_Common_Properties_Microsoft_Extensions_Logging_ILoggerFactory_ArmoniK_Api_gRPC_V1_TaskOptions_ArmoniK_Api_gRPC_V1_Session_.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Client.Unified.Services.SessionService.%23ctor(ArmoniK.DevelopmentKit.Client.Common.Properties%2CMicrosoft.Extensions.Logging.ILoggerFactory%2CArmoniK.Api.gRPC.V1.TaskOptions%2CArmoniK.Api.gRPC.V1.Session)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Unified/Services/SessionService.cs/#L44">View Source</a>
-  </span>
+  </dd></dl>
+
+
+
+
+
+
+  <h2 class="section" id="constructors">Constructors
+</h2>
+
+
   <a id="ArmoniK_DevelopmentKit_Client_Unified_Services_SessionService__ctor_" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.SessionService.#ctor*"></a>
-  <h4 id="ArmoniK_DevelopmentKit_Client_Unified_Services_SessionService__ctor_ArmoniK_DevelopmentKit_Client_Common_Properties_Microsoft_Extensions_Logging_ILoggerFactory_ArmoniK_Api_gRPC_V1_TaskOptions_ArmoniK_Api_gRPC_V1_Session_" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.SessionService.#ctor(ArmoniK.DevelopmentKit.Client.Common.Properties,Microsoft.Extensions.Logging.ILoggerFactory,ArmoniK.Api.gRPC.V1.TaskOptions,ArmoniK.Api.gRPC.V1.Session)">SessionService(Properties, ILoggerFactory, TaskOptions?, Session?)</h4>
+
+  <h3 id="ArmoniK_DevelopmentKit_Client_Unified_Services_SessionService__ctor_ArmoniK_DevelopmentKit_Client_Common_Properties_Microsoft_Extensions_Logging_ILoggerFactory_ArmoniK_Api_gRPC_V1_TaskOptions_ArmoniK_Api_gRPC_V1_Session_" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.SessionService.#ctor(ArmoniK.DevelopmentKit.Client.Common.Properties,Microsoft.Extensions.Logging.ILoggerFactory,ArmoniK.Api.gRPC.V1.TaskOptions,ArmoniK.Api.gRPC.V1.Session)">
+  SessionService(Properties, ILoggerFactory, TaskOptions?, Session?)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Unified/Services/SessionService.cs/#L44"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>Ctor to instantiate a new SessionService
 This is an object to send task or get Results from a session</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public SessionService(Properties properties, ILoggerFactory loggerFactory, TaskOptions? taskOptions = null, Session? session = null)</code></pre>
   </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="ArmoniK.DevelopmentKit.Client.Common.Properties.html">Properties</a></td>
-        <td><span class="parametername">properties</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/microsoft.extensions.logging.iloggerfactory">ILoggerFactory</a></td>
-        <td><span class="parametername">loggerFactory</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><span class="xref">TaskOptions</span></td>
-        <td><span class="parametername">taskOptions</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><span class="xref">Session</span></td>
-        <td><span class="parametername">session</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h3 id="methods">Methods
-</h3>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/main/apiSpec/new?filename=ArmoniK_DevelopmentKit_Client_Unified_Services_SessionService_InitializeDefaultTaskOptions.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Client.Unified.Services.SessionService.InitializeDefaultTaskOptions%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Unified/Services/SessionService.cs/#L66">View Source</a>
-  </span>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>properties</code> <a class="xref" href="ArmoniK.DevelopmentKit.Client.Common.Properties.html">Properties</a></dt>
+    <dd></dd>
+    <dt><code>loggerFactory</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/microsoft.extensions.logging.iloggerfactory">ILoggerFactory</a></dt>
+    <dd></dd>
+    <dt><code>taskOptions</code> <span class="xref">TaskOptions</span></dt>
+    <dd></dd>
+    <dt><code>session</code> <span class="xref">Session</span></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
   <a id="ArmoniK_DevelopmentKit_Client_Unified_Services_SessionService_InitializeDefaultTaskOptions_" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.SessionService.InitializeDefaultTaskOptions*"></a>
-  <h4 id="ArmoniK_DevelopmentKit_Client_Unified_Services_SessionService_InitializeDefaultTaskOptions" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.SessionService.InitializeDefaultTaskOptions">InitializeDefaultTaskOptions()</h4>
+
+  <h3 id="ArmoniK_DevelopmentKit_Client_Unified_Services_SessionService_InitializeDefaultTaskOptions" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.SessionService.InitializeDefaultTaskOptions">
+  InitializeDefaultTaskOptions()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Unified/Services/SessionService.cs/#L66"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>Supply a default TaskOptions</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public static TaskOptions InitializeDefaultTaskOptions()</code></pre>
   </div>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">TaskOptions</span></td>
-        <td><p>A default TaskOptions object</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/main/apiSpec/new?filename=ArmoniK_DevelopmentKit_Client_Unified_Services_SessionService_SubmitTask_System_Byte___System_Int32_System_Int32_ArmoniK_Api_gRPC_V1_TaskOptions_.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Client.Unified.Services.SessionService.SubmitTask(System.Byte%5B%5D%2CSystem.Int32%2CSystem.Int32%2CArmoniK.Api.gRPC.V1.TaskOptions)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Unified/Services/SessionService.cs/#L119">View Source</a>
-  </span>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TaskOptions</span></dt>
+    <dd><p>A default TaskOptions object</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
   <a id="ArmoniK_DevelopmentKit_Client_Unified_Services_SessionService_SubmitTask_" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.SessionService.SubmitTask*"></a>
-  <h4 id="ArmoniK_DevelopmentKit_Client_Unified_Services_SessionService_SubmitTask_System_Byte___System_Int32_System_Int32_ArmoniK_Api_gRPC_V1_TaskOptions_" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.SessionService.SubmitTask(System.Byte[],System.Int32,System.Int32,ArmoniK.Api.gRPC.V1.TaskOptions)">SubmitTask(byte[], int, int, TaskOptions?)</h4>
+
+  <h3 id="ArmoniK_DevelopmentKit_Client_Unified_Services_SessionService_SubmitTask_System_Byte___System_Int32_System_Int32_ArmoniK_Api_gRPC_V1_TaskOptions_" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.SessionService.SubmitTask(System.Byte[],System.Int32,System.Int32,ArmoniK.Api.gRPC.V1.TaskOptions)">
+  SubmitTask(byte[], int, int, TaskOptions?)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Unified/Services/SessionService.cs/#L119"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>User method to submit task from the client</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public string SubmitTask(byte[] payload, int waitTimeBeforeNextSubmit = 2, int maxRetries = 5, TaskOptions? taskOptions = null)</code></pre>
   </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">byte</a>[]</td>
-        <td><span class="parametername">payload</span></td>
-        <td><p>The user payload to execute.</p>
-</td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></td>
-        <td><span class="parametername">waitTimeBeforeNextSubmit</span></td>
-        <td><p>The time to wait before 2 single submitTask</p>
-</td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></td>
-        <td><span class="parametername">maxRetries</span></td>
-        <td><p>The number of retry before fail to submit task. Default = 5 retries</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">TaskOptions</span></td>
-        <td><span class="parametername">taskOptions</span></td>
-        <td><p>TaskOptions argument to override default taskOptions in Session.
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>payload</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">byte</a>[]</dt>
+    <dd><p>The user payload to execute.</p>
+</dd>
+    <dt><code>waitTimeBeforeNextSubmit</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>The time to wait before 2 single submitTask</p>
+</dd>
+    <dt><code>maxRetries</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>The number of retry before fail to submit task. Default = 5 retries</p>
+</dd>
+    <dt><code>taskOptions</code> <span class="xref">TaskOptions</span></dt>
+    <dd><p>TaskOptions argument to override default taskOptions in Session.
 If non null it will override the default taskOptions in SessionService for client or given by taskHandler for worker</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/main/apiSpec/new?filename=ArmoniK_DevelopmentKit_Client_Unified_Services_SessionService_SubmitTaskWithDependencies_System_Byte___System_Collections_Generic_IList_System_String__System_Int32_ArmoniK_Api_gRPC_V1_TaskOptions_.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Client.Unified.Services.SessionService.SubmitTaskWithDependencies(System.Byte%5B%5D%2CSystem.Collections.Generic.IList%7BSystem.String%7D%2CSystem.Int32%2CArmoniK.Api.gRPC.V1.TaskOptions)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Unified/Services/SessionService.cs/#L150">View Source</a>
-  </span>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
   <a id="ArmoniK_DevelopmentKit_Client_Unified_Services_SessionService_SubmitTaskWithDependencies_" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.SessionService.SubmitTaskWithDependencies*"></a>
-  <h4 id="ArmoniK_DevelopmentKit_Client_Unified_Services_SessionService_SubmitTaskWithDependencies_System_Byte___System_Collections_Generic_IList_System_String__System_Int32_ArmoniK_Api_gRPC_V1_TaskOptions_" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.SessionService.SubmitTaskWithDependencies(System.Byte[],System.Collections.Generic.IList{System.String},System.Int32,ArmoniK.Api.gRPC.V1.TaskOptions)">SubmitTaskWithDependencies(byte[], IList&lt;string&gt;, int, TaskOptions?)</h4>
+
+  <h3 id="ArmoniK_DevelopmentKit_Client_Unified_Services_SessionService_SubmitTaskWithDependencies_System_Byte___System_Collections_Generic_IList_System_String__System_Int32_ArmoniK_Api_gRPC_V1_TaskOptions_" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.SessionService.SubmitTaskWithDependencies(System.Byte[],System.Collections.Generic.IList{System.String},System.Int32,ArmoniK.Api.gRPC.V1.TaskOptions)">
+  SubmitTaskWithDependencies(byte[], IList&lt;string&gt;, int, TaskOptions?)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Unified/Services/SessionService.cs/#L150"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>The method to submit One task with dependencies tasks. This task will wait for
 to start until all dependencies are completed successfully</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public string SubmitTaskWithDependencies(byte[] payload, IList&lt;string&gt; dependencies, int maxRetries = 5, TaskOptions? taskOptions = null)</code></pre>
   </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">byte</a>[]</td>
-        <td><span class="parametername">payload</span></td>
-        <td><p>The payload to submit</p>
-</td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ilist-1">IList</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>&gt;</td>
-        <td><span class="parametername">dependencies</span></td>
-        <td><p>A list of task Id in dependence of this created task</p>
-</td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></td>
-        <td><span class="parametername">maxRetries</span></td>
-        <td><p>The number of retry before fail to submit task. Default = 5 retries</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">TaskOptions</span></td>
-        <td><span class="parametername">taskOptions</span></td>
-        <td><p>TaskOptions argument to override default taskOptions in Session.
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>payload</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">byte</a>[]</dt>
+    <dd><p>The payload to submit</p>
+</dd>
+    <dt><code>dependencies</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ilist-1">IList</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>&gt;</dt>
+    <dd><p>A list of task Id in dependence of this created task</p>
+</dd>
+    <dt><code>maxRetries</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>The number of retry before fail to submit task. Default = 5 retries</p>
+</dd>
+    <dt><code>taskOptions</code> <span class="xref">TaskOptions</span></dt>
+    <dd><p>TaskOptions argument to override default taskOptions in Session.
 If non null it will override the default taskOptions in SessionService for client or given by taskHandler for worker</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
-        <td><p>return the taskId of the created task</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/main/apiSpec/new?filename=ArmoniK_DevelopmentKit_Client_Unified_Services_SessionService_SubmitTasks_System_Collections_Generic_IEnumerable_System_Byte____System_Int32_ArmoniK_Api_gRPC_V1_TaskOptions_.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Client.Unified.Services.SessionService.SubmitTasks(System.Collections.Generic.IEnumerable%7BSystem.Byte%5B%5D%7D%2CSystem.Int32%2CArmoniK.Api.gRPC.V1.TaskOptions)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Unified/Services/SessionService.cs/#L99">View Source</a>
-  </span>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>return the taskId of the created task</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
   <a id="ArmoniK_DevelopmentKit_Client_Unified_Services_SessionService_SubmitTasks_" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.SessionService.SubmitTasks*"></a>
-  <h4 id="ArmoniK_DevelopmentKit_Client_Unified_Services_SessionService_SubmitTasks_System_Collections_Generic_IEnumerable_System_Byte____System_Int32_ArmoniK_Api_gRPC_V1_TaskOptions_" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.SessionService.SubmitTasks(System.Collections.Generic.IEnumerable{System.Byte[]},System.Int32,ArmoniK.Api.gRPC.V1.TaskOptions)">SubmitTasks(IEnumerable&lt;byte[]&gt;, int, TaskOptions?)</h4>
+
+  <h3 id="ArmoniK_DevelopmentKit_Client_Unified_Services_SessionService_SubmitTasks_System_Collections_Generic_IEnumerable_System_Byte____System_Int32_ArmoniK_Api_gRPC_V1_TaskOptions_" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.SessionService.SubmitTasks(System.Collections.Generic.IEnumerable{System.Byte[]},System.Int32,ArmoniK.Api.gRPC.V1.TaskOptions)">
+  SubmitTasks(IEnumerable&lt;byte[]&gt;, int, TaskOptions?)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Unified/Services/SessionService.cs/#L99"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>User method to submit task from the client
 Need a client Service. In case of ServiceContainer
 submitterService can be null until the OpenSession is called</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public IEnumerable&lt;string&gt; SubmitTasks(IEnumerable&lt;byte[]&gt; payloads, int maxRetries = 5, TaskOptions? taskOptions = null)</code></pre>
   </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">byte</a>[]&gt;</td>
-        <td><span class="parametername">payloads</span></td>
-        <td><p>The user payload list to execute. General used for subTasking.</p>
-</td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></td>
-        <td><span class="parametername">maxRetries</span></td>
-        <td><p>The number of retry before fail to submit task. Default = 5 retries</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">TaskOptions</span></td>
-        <td><span class="parametername">taskOptions</span></td>
-        <td><p>TaskOptions argument to override default taskOptions in Session.
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>payloads</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">byte</a>[]&gt;</dt>
+    <dd><p>The user payload list to execute. General used for subTasking.</p>
+</dd>
+    <dt><code>maxRetries</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>The number of retry before fail to submit task. Default = 5 retries</p>
+</dd>
+    <dt><code>taskOptions</code> <span class="xref">TaskOptions</span></dt>
+    <dd><p>TaskOptions argument to override default taskOptions in Session.
 If non null it will override the default taskOptions in SessionService for client or given by taskHandler for worker</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>&gt;</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/main/apiSpec/new?filename=ArmoniK_DevelopmentKit_Client_Unified_Services_SessionService_ToString.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Client.Unified.Services.SessionService.ToString%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Unified/Services/SessionService.cs/#L57">View Source</a>
-  </span>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
   <a id="ArmoniK_DevelopmentKit_Client_Unified_Services_SessionService_ToString_" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.SessionService.ToString*"></a>
-  <h4 id="ArmoniK_DevelopmentKit_Client_Unified_Services_SessionService_ToString" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.SessionService.ToString">ToString()</h4>
+
+  <h3 id="ArmoniK_DevelopmentKit_Client_Unified_Services_SessionService_ToString" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.SessionService.ToString">
+  ToString()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Unified/Services/SessionService.cs/#L57"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public override string ToString()</code></pre>
   </div>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="overrides">Overrides</h5>
-  <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.tostring">object.ToString()</a></div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
 
 </article>
-          </div>
 
-          <div class="hidden-sm col-md-2" role="complementary">
-            <div class="sideaffix">
-              <div class="contribution">
-                <ul class="nav">
-                  <li>
-                    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/new/main/apiSpec/new?filename=ArmoniK_DevelopmentKit_Client_Unified_Services_SessionService.md&amp;value=---%0Auid%3A%20ArmoniK.DevelopmentKit.Client.Unified.Services.SessionService%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
-                  </li>
-                  <li>
-                    <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Unified/Services/SessionService.cs/#L37" class="contribution-link">View Source</a>
-                  </li>
-                </ul>
-              </div>
-              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
-                <h5>In This Article</h5>
-                <div></div>
-              </nav>
-            </div>
-          </div>
+        <div class="contribution d-print-none">
+          <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Unified/Services/SessionService.cs/#L37" class="edit-link">Edit this page</a>
         </div>
+
+        
       </div>
 
-      <footer>
-        <div class="grad-bottom"></div>
-        <div class="footer">
-          <div class="container">
-            <span class="pull-right">
-              <a href="#top">Back to top</a>
-            </span>
-      
-      <span>Generated by <strong>DocFX</strong></span>
-          </div>
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <strong>Aneo</strong>
         </div>
-      </footer>
-    </div>
-    <!-- Required styles -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
-    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
-    <script type="text/javascript" src="../styles/docfx.js"></script>
-    <script type="text/javascript" src="../styles/main.js"></script>
-    <!-- Load v9.1.3 of Mermaid -->
-    <!-- Hash obtained via https://www.srihash.org/ -->
-    <script type="text/javascript" src="https://unpkg.com/mermaid@9.1.3/dist/mermaid.min.js" integrity="sha384-LnGjpNDrP4cp7MIk4CpRa/lPNclrf839ryYVFx1T1mPSV3RGAZ7nlBa7pqcyGY/K" crossorigin="anonymous"></script>
-    <!-- Initialize Mermaid -->
-    <script>
-        mermaid.initialize({
-            startOnLoad: false
-        });
-        mermaid.init(undefined, ".lang-mermaid");
-    </script>
+      </div>
+    </footer>
   </body>
 </html>
