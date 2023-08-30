@@ -1,5 +1,2 @@
----
-uid: armonik_api_samples
----
+# API documentation
 
-# Armonik.Samples API
