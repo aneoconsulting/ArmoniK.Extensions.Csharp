@@ -1,123 +1,102 @@
 import requests
-import zipfile
 import json
-import io
 import argparse
-import boto3
+import tarfile
+import logging
+from pathlib import Path
+import sys
 import os
-import gzip
+
 
 # How to run seq in docker
 # docker rm -f seqlogpipe
 # docker run -d --rm --name seqlogpipe -e ACCEPT_EULA=Y -p 9080:80 -p 9341:5341 datalust/seq
 
-# Before using this script, you need to have a configured AWS sso profile.
-# To create an AWS sso profile execute the following command:
-#
-# aws configure sso
-#
-# and follow the promp instructions, assuming you called your profile armonikDev you will need to execute
-#
-# aws sso login --profile=armonikDev
-# to update your sso temporary credentials. Finally, you will be need to make your profile available to your aws cli
-# by exporting the following enviromental variable:
-#
-# export AWS_PROFILE=armonikDev
 
-parser = argparse.ArgumentParser(description="Download ArmoniK logs in JSON CLEF format from S3 bucket then send them to Seq.",
-                                 formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-# parser.add_argument("bucket_name", help="S3 bucket", type=str)
-# parser.add_argument("folder_name_core",
-#                     help="Folder where core logs are located", type=str)
-# parser.add_argument("run_number", help="GitHub workflow run_number", type=str)
-# parser.add_argument(
-#     "run_attempt", help="GitHub workflow run_attempt", type=str)
-# parser.add_argument(
-#     "file_name", help="file to download from the bucket", type=str)
-parser.add_argument("--url", dest="url", help="Seq url", type=str,
-                    default="http://localhost:9341/api/events/raw?clef")
-args = parser.parse_args()
-
-# dir_name = args.folder_name_core + "/" + \
-#     args.run_number + "/" + args.run_attempt + "/"
-# tmp_dir = "./tmp/"
-# obj_name = dir_name + args.file_name
-# file_name = tmp_dir + obj_name
-file_name = "/home/jeremyzynger/test_logs/end2end-false-false-disable-false.tar"
-
-# os.makedirs(tmp_dir + dir_name, exist_ok=True)
-
-# s3 = boto3.client('s3')
-# s3.download_file(args.bucket_name, obj_name, file_name)
+def is_valid_file(name: str) -> bool:
+    if name.find("control") != -1 and name.endswith(".log"):
+        return True
+    return False
 
 
-def process_json_log(url, file_name):
+def filter_logs(file_list: list[str]) -> list[str]:
+    result = []
+    # file:str
+    for file in file_list:
+        if is_valid_file(file):
+            result.append(file)
+    return result
+
+
+def make_post_request(url, data):
+    try:
+        resp = requests.post(url, data=data)
+        resp.raise_for_status()
+
+        return resp.content.decode("utf-8")
+
+    except requests.exceptions.RequestException as e:
+        return f"Une erreur s'est produite lors de la requête : {e}"
+
+
+def send_log_file(name: str, file_obj: tarfile.TarFile, url: str):
     batch = 0
     ctr = 0
     tosend = ""
-    with open(file_name, "r") as file:
-        for line in file.readlines():
-            if line.startswith("{"):
-                tosend += line + "\n"
-            if batch > 100:
-                requests.post(url, data=tosend)
-                tosend = ""
-                batch = 0
-            batch = batch + 1
-            ctr = ctr + 1
-        print("sent :", ctr)
-        if tosend != "":
-            requests.post(url, data=tosend)
+    file = file_obj.extractfile(name)
+    for line in file:
+        line = line.decode("utf-8").strip()
+        if line.startswith("{"):
+            try:
+                json_data = json.loads(line)
+                # if "log" not in json_data:
+                #     continue
+                log_message = json_data.get("log")
+                tosend += log_message
+                logging.debug(log_message)
+            except json.JSONDecodeError:
+                pass
+        if batch > 1000:
+            make_post_request(url, tosend)
+            tosend = ""
+            batch = 0
+        batch = batch + 1
+        ctr = ctr + 1
+    logging.info(f"sent : {ctr}",)
+    if tosend != "":
+        make_post_request(url, tosend)
 
 
-def process_jsongz_log(url, file_name):
-    batch = 0
-    ctr = 0
-    tosend = ""
-    with gzip.open(file_name, "r") as file:
-        for line in file.read().decode("utf-8").split("\n"):
-            if line.startswith("{"):
-                tosend += line + "\n"
-            if batch > 100:
-                requests.post(url, data=tosend)
-                tosend = ""
-                batch = 0
-            batch = batch + 1
-            ctr = ctr + 1
-        print("sent :", ctr)
-        if tosend != "":
-            requests.post(url, data=tosend)
+def extract_jsontar_log(url: str, file_name: str):
+    file_obj = tarfile.open(file_name, "r")
+    file_list = file_obj.getnames()
+    file_list = filter_logs(file_list)
+    # logging.debug(file_list)
+    for file in file_list:
+        send_log_file(file, file_obj, url)
+
+    file_obj.close()
 
 
-def process_jsontar_log(url, file_name):
-    batch = 0
-    ctr = 0
-    tosend = ""
-    with gzip.open(file_name, "r") as file:
-        for line in file.read().decode("utf-8").split("\n"):
-            if line.startswith("{"):
-                try:
-                    json_data = json.loads(line)
-                    log_message = json_data.get("log")
-                    tosend += log_message
-                    # print(log_message)
-                except json.JSONDecodeError:
-                    pass
-            if batch > 5000:
-                print("posting batch ...")
-                requests.post(url, data=tosend.encode("utf-8"))
-                tosend = ""
-                batch = 0
-            batch = batch + 1
-            ctr = ctr + 1
-        print("sent :", ctr)
-        if tosend != "":
-            requests.post(url, data=tosend)
+if __name__ == "__main__":
 
+    # Création du logger
+    logger = logging.getLogger(__file__)
+    logging.basicConfig(
+        # Définit le niveau à partir du quel les logs sont affichés
+        level=logging.INFO
+    )
 
-if file_name.endswith(".tar"):
-    process_jsontar_log(args.url, file_name)
-elif file_name.endswith(".json.tar.gz"):
-    process_jsongz_log(args.url, file_name)
-elif file_name.endswith(".json"):
-    process_json_log(args.url, file_name)
+    parser = argparse.ArgumentParser(description=" Local ArmoniK logs in JSON CLEF format then send them to Seq.",
+                                     formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+
+    parser.add_argument("--url", dest="url", help="Seq url", type=str,
+                        default="http://localhost:9341/api/events/raw?clef")
+    args = parser.parse_args()
+
+    filename = "/home/jeremyzynger/test_logs/end2end-false-false-disable-false.tar"
+
+    if not Path(filename).exists():
+        logger.critical(f"ERROR : file does not exist {filename}")
+
+    extract_jsontar_log(args.url, filename)
