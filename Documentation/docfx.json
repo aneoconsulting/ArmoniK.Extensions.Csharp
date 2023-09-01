@@ -56,7 +56,6 @@
     ],
     "output": "_site",
     "globalMetadata": {
-      "_appTitle": "My App",
       "_appFaviconPath": "images/armonik_favicon.ico",
       "_appLogoPath": "images/armonik_logo.svg",
       "_appFooter": "<strong>Aneo</strong>",
