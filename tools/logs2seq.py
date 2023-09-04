@@ -12,9 +12,14 @@ import os
 # docker rm -f seqlogpipe
 # docker run -d --rm --name seqlogpipe -e ACCEPT_EULA=Y -p 9080:80 -p 9341:5341 datalust/seq
 
+VALID_LOG_FILES = [
+    'control',
+    'compute'
+]
+
 
 def is_valid_file(name: str) -> bool:
-    if (name.find("control") != -1 or name.find("compute") != -1) and name.endswith(".log"):
+    if any([name.find(log_file) != -1 for log_file in VALID_LOG_FILES]) and name.endswith(".log"):
         return True
     return False
 
