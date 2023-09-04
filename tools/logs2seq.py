@@ -14,7 +14,7 @@ import os
 
 
 def is_valid_file(name: str) -> bool:
-    if name.find("ingres") != -1 and name.endswith(".log"):
+    if (name.find("control") != -1 or name.find("compute") != -1) and name.endswith(".log"):
         return True
     return False
 
@@ -39,29 +39,34 @@ def make_post_request(url: str, data: str):
         return f"Une erreur s'est produite lors de la requête : {e}", True
 
 
-def send_line(line: str, url: str):
-    try:
-        json_data: dict = json.loads(line)
-        log_message = json_data.get("log")
-        if log_message:
-            message, error = make_post_request(url, log_message)
-            if error:
-                logger.error(message)
-                sys.exit(84)
-            logger.debug(log_message)
-    except json.JSONDecodeError:
-        pass
+def send_batch(data: str, url: str):
+    message, error = make_post_request(url, data)
+    if error:
+        logger.error(message)
+        sys.exit(84)
+    logger.debug(data)
 
 
 def send_log_file(name: str, file_obj: tarfile.TarFile, url: str):
     ctr = 0
+    batch = 0
+    tosend = ""
     file = file_obj.extractfile(name)
     for line in file:
         line = line.decode("utf-8").strip()
         if line.startswith("{"):
-            send_line(line, url)
-            ctr += 1
+            json_data = json.loads(line)
+            log_message = json_data.get("log")
+            tosend += log_message
+        if batch > 100:
+            send_batch(tosend, url)
+            tosend = ""
+            batch = 0
+        batch = batch + 1
+        ctr = ctr + 1
     logger.info(f"sent : {ctr}")
+    if tosend != "":
+        send_batch(tosend, url)
 
 
 def extract_jsontar_log(url: str, file_name: str):
