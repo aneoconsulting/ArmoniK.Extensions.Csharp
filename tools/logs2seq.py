@@ -14,7 +14,7 @@ import os
 
 
 def is_valid_file(name: str) -> bool:
-    if name.find("compute") != -1 and name.endswith(".log"):
+    if name.find("ingres") != -1 and name.endswith(".log"):
         return True
     return False
 
@@ -35,8 +35,8 @@ def make_post_request(url: str, data: str):
         return resp.content.decode("utf-8"), False
     except requests.HTTPError as e:
         return f"Une erreur s'est produite lors de la requête : {e}", True
-    except ...:
-        return f"Une erreur s'est produite et n'a pas été gérée", True
+    except requests.exceptions.ConnectionError as e:
+        return f"Une erreur s'est produite lors de la requête : {e}", True
 
 
 def send_line(line: str, url: str):
