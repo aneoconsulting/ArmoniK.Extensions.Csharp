@@ -30,5 +30,5 @@ public static class EnumExt
   /// <returns>the type in a string format</returns>
   public static string GetName(this Enum value)
     => Enum.GetName(value.GetType(),
-                    value);
+                    value) ?? throw new InvalidOperationException();
 }

@@ -24,7 +24,7 @@ namespace ArmoniK.DevelopmentKit.Client.Common.Status;
 ///   List of status for task and result in Armonik
 /// </summary>
 [PublicAPI]
-public enum ArmonikStatusCode
+public enum ArmonikTaskStatusCode
 {
   /// <summary>
   ///   Unknown status of task or result
@@ -34,7 +34,6 @@ public enum ArmonikStatusCode
   /// <summary>
   ///   The task is completed but result could not be ready
   /// </summary>
-  [Obsolete("unused")]
   TaskCompleted,
 
   /// <summary>

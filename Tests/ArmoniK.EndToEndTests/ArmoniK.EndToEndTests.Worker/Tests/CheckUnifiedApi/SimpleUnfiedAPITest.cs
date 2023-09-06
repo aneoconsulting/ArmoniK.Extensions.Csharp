@@ -25,7 +25,7 @@ namespace ArmoniK.EndToEndTests.Worker.Tests.CheckUnifiedApi;
 
 public class CheckUnifiedApiWorker : TaskWorkerService
 {
-  private readonly Random rd = new();
+  private readonly Random rd_ = new();
 
   public double[] ComputeBasicArrayCube(double[] inputs)
     => inputs.Select(x => x * x * x)
@@ -83,7 +83,7 @@ public class CheckUnifiedApiWorker : TaskWorkerService
 
   public double[] RandomTaskError(double percentageOfFailure = 25)
   {
-    var randNum = rd.NextDouble();
+    var randNum = rd_.NextDouble();
     if (randNum < percentageOfFailure / 100)
     {
       throw new UnifiedException("An expected failure in this random call");

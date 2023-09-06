@@ -14,19 +14,36 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using ArmoniK.DevelopmentKit.Client.Common.Submitter.ApiExt;
+using System;
+using System.Runtime.Serialization;
 
 using JetBrains.Annotations;
 
-namespace ArmoniK.DevelopmentKit.Client.Common.Status;
+namespace ArmoniK.DevelopmentKit.Client.Common.Submitter.ApiExt;
 
-/// <summary>
-///   Stores the relation between result id, task id and result status
-/// </summary>
-/// <param name="ResultId">The id of the result</param>
-/// <param name="TaskId">The id of the task producing the result</param>
-/// <param name="Status">The status of the result</param>
+/// <inheritdoc />
 [PublicAPI]
-public sealed record ResultStatusData(string              ResultId,
-                                      string              TaskId,
-                                      ArmoniKResultStatus Status);
+public class ArmoniKException : ApplicationException
+{
+  /// <inheritdoc />
+  public ArmoniKException(string?    message,
+                          Exception? innerException)
+    : base(message,
+           innerException)
+  {
+  }
+
+  /// <inheritdoc />
+  public ArmoniKException(string? message)
+    : base(message)
+  {
+  }
+
+  /// <inheritdoc />
+  public ArmoniKException(SerializationInfo info,
+                          StreamingContext  context)
+    : base(info,
+           context)
+  {
+  }
+}

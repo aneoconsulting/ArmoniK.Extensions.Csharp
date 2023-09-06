@@ -14,9 +14,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -30,7 +28,7 @@ namespace ArmoniK.DevelopmentKit.Client.Common.Submitter;
 ///   Common Interface for Submitter services.
 /// </summary>
 [PublicAPI]
-public interface ISubmitterService : IDisposable
+public interface ISubmitterService
 {
   /// <summary>
   ///   The Id of the current session
@@ -117,69 +115,4 @@ public interface ISubmitterService : IDisposable
                                   int                       maxRetries  = 5,
                                   TaskOptions?              taskOptions = null,
                                   CancellationToken         token       = default);
-}
-
-/// <summary>
-///   Provide extension methods for ISubmitterService
-/// </summary>
-[PublicAPI]
-public static class SubmitterServiceExt
-{
-  /// <summary>
-  ///   The method submit will execute task asynchronously on the server
-  /// </summary>
-  /// <param name="service">the ISubmitterService extended</param>
-  /// <param name="methodName">The name of the method inside the service</param>
-  /// <param name="arguments">A list of objects that can be passed in parameters of the function</param>
-  /// <param name="handler">The handler callBack implemented as IServiceInvocationHandler to get response or result or error</param>
-  /// <param name="maxRetries">The number of retry before fail to submit task. Default = 5 retries</param>
-  /// <param name="taskOptions">
-  ///   TaskOptions argument to override default taskOptions in Session.
-  ///   If non null it will override the default taskOptions in SessionService for client or given by taskHandler for worker
-  /// </param>
-  /// <returns>Return the taskId string</returns>
-  public static string Submit(this ISubmitterService    service,
-                              string                    methodName,
-                              object[]                  arguments,
-                              IServiceInvocationHandler handler,
-                              int                       maxRetries  = 5,
-                              TaskOptions?              taskOptions = null)
-    => service.Submit(methodName,
-                      new[]
-                      {
-                        arguments,
-                      },
-                      handler,
-                      maxRetries,
-                      taskOptions)
-              .Single();
-
-  /// <summary>
-  ///   The method submit will execute task asynchronously on the server
-  /// </summary>
-  /// <param name="service">the ISubmitterService extended</param>
-  /// <param name="methodName">The name of the method inside the service</param>
-  /// <param name="arguments">List of serialized arguments that will already serialize for MethodName.</param>
-  /// <param name="handler">The handler callBack implemented as IServiceInvocationHandler to get response or result or error</param>
-  /// <param name="maxRetries">The number of retry before fail to submit task. Default = 5 retries</param>
-  /// <param name="taskOptions">
-  ///   TaskOptions argument to override default taskOptions in Session.
-  ///   If non null it will override the default taskOptions in SessionService for client or given by taskHandler for worker
-  /// </param>
-  /// <returns>Return the taskId string</returns>
-  public static string Submit(this ISubmitterService    service,
-                              string                    methodName,
-                              byte[]                    arguments,
-                              IServiceInvocationHandler handler,
-                              int                       maxRetries  = 5,
-                              TaskOptions?              taskOptions = null)
-    => service.Submit(methodName,
-                      new[]
-                      {
-                        arguments,
-                      },
-                      handler,
-                      maxRetries,
-                      taskOptions)
-              .Single();
 }

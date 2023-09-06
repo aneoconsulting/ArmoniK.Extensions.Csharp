@@ -1,6 +1,6 @@
 // This file is part of the ArmoniK project
 // 
-// Copyright (C) ANEO, 2021-2023.All rights reserved.
+// Copyright (C) ANEO, 2021-2023. All rights reserved.
 // 
 // Licensed under the Apache License, Version 2.0 (the "License")
 // you may not use this file except in compliance with the License.
@@ -14,14 +14,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace ArmoniK.DevelopmentKit.Common;
+using JetBrains.Annotations;
 
-[MarkDownDoc]
-public static class AppsOptions
+namespace ArmoniK.DevelopmentKit.Client.Common.Submitter.ApiExt;
+
+/// <summary>
+///   Enum representing the status of a result
+/// </summary>
+[PublicAPI]
+public enum ArmoniKResultStatus
 {
-  public const string GridVolumesKey      = "gridVolumes";
-  public const string GridAppVolumesKey   = "target_app_path";
-  public const string GridDataVolumesKey  = "target_data_path";
-  public const string GridAssemblyPathKey = "ServiceAssemblyPath";
-  public const string GridZipVolumePath   = "target_zip_path";
+  Unknown,
+  Available,
+  NotReady,
+  Error,
 }

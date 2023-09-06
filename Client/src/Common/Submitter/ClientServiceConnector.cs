@@ -18,6 +18,9 @@ using System;
 
 using ArmoniK.Api.Client.Options;
 using ArmoniK.Api.Client.Submitter;
+using ArmoniK.Utils;
+
+using Grpc.Core;
 
 using Microsoft.Extensions.Logging;
 
@@ -35,8 +38,8 @@ public class ClientServiceConnector
   /// <param name="properties">Configuration Properties</param>
   /// <param name="loggerFactory">Optional logger factory</param>
   /// <returns>The connection pool</returns>
-  public static ChannelPool ControlPlaneConnectionPool(Properties      properties,
-                                                       ILoggerFactory? loggerFactory = null)
+  public static ObjectPool<ChannelBase> ControlPlaneConnectionPool(Properties      properties,
+                                                                   ILoggerFactory? loggerFactory = null)
   {
     var options = new GrpcClient
                   {
@@ -49,12 +52,13 @@ public class ClientServiceConnector
                     OverrideTargetName    = properties.TargetNameOverride,
                   };
 
+    // ReSharper disable once InvertIf
     if (properties.ControlPlaneUri.Scheme == Uri.UriSchemeHttps && options.AllowUnsafeConnection && string.IsNullOrEmpty(options.OverrideTargetName))
     {
 #if NET5_0_OR_GREATER
       var doOverride = !string.IsNullOrEmpty(options.CaCert);
 #else
-      var doOverride = true;
+      const bool doOverride = true;
 #endif
       if (doOverride)
       {
@@ -65,8 +69,63 @@ public class ClientServiceConnector
       }
     }
 
+    return new ObjectPool<ChannelBase>(20,
+                                       () => GrpcChannelFactory.CreateChannel(options,
+                                                                              loggerFactory.CreateLogger(typeof(ClientServiceConnector))),
+                                       IsChannelHealthy);
+  }
 
-    return new ChannelPool(() => GrpcChannelFactory.CreateChannel(options,
-                                                                  loggerFactory?.CreateLogger(typeof(ClientServiceConnector))));
+
+  /// <summary>
+  ///   Check the state of a channel and shutdown it in case of failure
+  /// </summary>
+  /// <param name="channel">Channel to check the state</param>
+  /// <returns>True if the channel has been shut down</returns>
+  private static bool IsChannelHealthy(ChannelBase channel)
+  {
+    try
+    {
+      switch (channel)
+      {
+        case Channel chan:
+          switch (chan.State)
+          {
+            case ChannelState.TransientFailure:
+              chan.ShutdownAsync()
+                  .Wait();
+              return false;
+            case ChannelState.Shutdown:
+              return false;
+            case ChannelState.Idle:
+            case ChannelState.Connecting:
+            case ChannelState.Ready:
+            default:
+              return true;
+          }
+#if NET5_0_OR_GREATER
+        case GrpcChannel chan:
+          switch (chan.State)
+          {
+            case ChannelState.TransientFailure:
+              chan.ShutdownAsync()
+                  .Wait();
+              return false;
+            case ChannelState.Shutdown:
+              return false;
+            case ChannelState.Idle:
+            case ChannelState.Connecting:
+            case ChannelState.Ready:
+            default:
+              return true;
+          }
+#endif
+        default:
+          return false;
+      }
+    }
+    catch (InvalidOperationException)
+    {
+      return false;
+    }
   }
 }

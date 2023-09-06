@@ -27,23 +27,23 @@ public delegate void HandleResponseType(object response,
 
 public class ResultHandler : IServiceInvocationHandler
 {
-  private readonly HandleErrorType    _onError;
-  private readonly HandleResponseType _onResponse;
+  private readonly HandleErrorType    onError_;
+  private readonly HandleResponseType onResponse_;
 
   public ResultHandler(HandleErrorType    onError,
                        HandleResponseType onResponse)
   {
-    _onError    = onError;
-    _onResponse = onResponse;
+    onError_    = onError;
+    onResponse_ = onResponse;
   }
 
   public void HandleError(ServiceInvocationException e,
                           string                     taskId)
-    => _onError(e,
+    => onError_(e,
                 taskId);
 
   public void HandleResponse(object response,
                              string taskId)
-    => _onResponse(response,
+    => onResponse_(response,
                    taskId);
 }

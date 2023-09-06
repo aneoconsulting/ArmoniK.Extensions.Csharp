@@ -127,8 +127,8 @@ public class SimpleUnifiedApiTestClient : ClientBaseTest<SimpleUnifiedApiTestCli
                                Configuration.GetSection("Grpc")["EndPoint"],
                                5001);
 
-    using var cs = ServiceFactory.CreateService(props,
-                                                LoggerFactory);
+    var cs = ServiceFactory.CreateService(props,
+                                          LoggerFactory);
 
     Log.LogInformation($"New session created : {cs.SessionId}");
 

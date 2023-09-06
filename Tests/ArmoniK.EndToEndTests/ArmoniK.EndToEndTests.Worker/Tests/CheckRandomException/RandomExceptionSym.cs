@@ -34,7 +34,7 @@ namespace ArmoniK.EndToEndTests.Worker.Tests.CheckRandomException;
 [PublicAPI]
 public class ServiceContainer : ServiceContainerBase
 {
-  private readonly Random rd = new();
+  private readonly Random rd_ = new();
 
   public override void OnCreateService(ServiceContext serviceContext)
   {
@@ -77,7 +77,7 @@ public class ServiceContainer : ServiceContainerBase
   {
     var percentageOfFailure = 5.0;
 
-    var randNum = rd.NextDouble();
+    var randNum = rd_.NextDouble();
     if (randNum < percentageOfFailure / 100)
     {
       throw new MyCustomWorkerException("An expected failure in this random call");

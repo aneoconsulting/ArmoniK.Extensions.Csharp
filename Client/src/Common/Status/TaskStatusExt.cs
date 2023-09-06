@@ -28,20 +28,20 @@ public static class TaskStatusExt
   /// </summary>
   /// <param name="taskStatus">the native API status to convert</param>
   /// <returns>the SDK status</returns>
-  public static ArmonikStatusCode ToArmonikStatusCode(this TaskStatus taskStatus)
+  public static ArmonikTaskStatusCode ToArmonikStatusCode(this TaskStatus taskStatus)
     => taskStatus switch
        {
-         TaskStatus.Submitted   => ArmonikStatusCode.ResultNotReady,
-         TaskStatus.Timeout     => ArmonikStatusCode.TaskTimeout,
-         TaskStatus.Cancelled   => ArmonikStatusCode.TaskCancelled,
-         TaskStatus.Cancelling  => ArmonikStatusCode.TaskCancelled,
-         TaskStatus.Error       => ArmonikStatusCode.TaskFailed,
-         TaskStatus.Processing  => ArmonikStatusCode.ResultNotReady,
-         TaskStatus.Dispatched  => ArmonikStatusCode.ResultNotReady,
-         TaskStatus.Completed   => ArmonikStatusCode.ResultNotReady,
-         TaskStatus.Creating    => ArmonikStatusCode.ResultNotReady,
-         TaskStatus.Unspecified => ArmonikStatusCode.TaskFailed,
-         TaskStatus.Processed   => ArmonikStatusCode.ResultReady,
-         _                      => ArmonikStatusCode.Unknown,
+         TaskStatus.Submitted   => ArmonikTaskStatusCode.ResultNotReady,
+         TaskStatus.Timeout     => ArmonikTaskStatusCode.TaskTimeout,
+         TaskStatus.Cancelled   => ArmonikTaskStatusCode.TaskCancelled,
+         TaskStatus.Cancelling  => ArmonikTaskStatusCode.TaskCancelled,
+         TaskStatus.Error       => ArmonikTaskStatusCode.TaskFailed,
+         TaskStatus.Processing  => ArmonikTaskStatusCode.ResultNotReady,
+         TaskStatus.Dispatched  => ArmonikTaskStatusCode.ResultNotReady,
+         TaskStatus.Completed   => ArmonikTaskStatusCode.TaskCompleted,
+         TaskStatus.Creating    => ArmonikTaskStatusCode.ResultNotReady,
+         TaskStatus.Unspecified => ArmonikTaskStatusCode.Unknown,
+         TaskStatus.Processed   => ArmonikTaskStatusCode.ResultReady,
+         _                      => ArmonikTaskStatusCode.Unknown,
        };
 }

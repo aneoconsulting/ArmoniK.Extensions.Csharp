@@ -14,19 +14,26 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using ArmoniK.DevelopmentKit.Client.Common.Submitter.ApiExt;
+using ArmoniK.Api.gRPC.V1.Submitter;
 
 using JetBrains.Annotations;
 
-namespace ArmoniK.DevelopmentKit.Client.Common.Status;
+namespace ArmoniK.DevelopmentKit.Client.Common.Submitter.ApiExt;
 
 /// <summary>
-///   Stores the relation between result id, task id and result status
 /// </summary>
-/// <param name="ResultId">The id of the result</param>
-/// <param name="TaskId">The id of the task producing the result</param>
-/// <param name="Status">The status of the result</param>
+/// <param name="ResultId"></param>
+/// <param name="TaskStatus"></param>
 [PublicAPI]
-public sealed record ResultStatusData(string              ResultId,
-                                      string              TaskId,
-                                      ArmoniKResultStatus Status);
+public record ResultIdStatus(string              ResultId,
+                             ArmoniKResultStatus TaskStatus)
+{
+  /// <summary>
+  /// </summary>
+  /// <param name="idStatus"></param>
+  public ResultIdStatus(GetResultStatusReply.Types.IdStatus idStatus)
+    : this(idStatus.ResultId,
+           idStatus.Status.ToArmoniKResultStatus())
+  {
+  }
+}

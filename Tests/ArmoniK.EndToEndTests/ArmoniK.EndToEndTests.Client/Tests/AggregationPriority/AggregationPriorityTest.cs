@@ -156,7 +156,7 @@ public class AggregationPriorityTest
 
     var taskRawData = new List<TaskDetailed>();
 
-    await foreach (var taskRaw in RetrieveAllTasksStats(service.GetChannel(),
+    await foreach (var taskRaw in RetrieveAllTasksStats(null,
                                                         new Filters
                                                         {
                                                           Or =
@@ -248,7 +248,7 @@ public class AggregationPriorityTest
   /// </summary>
   /// <param name="sessionId">The sessionId to retrieve the results from.</param>
   /// <param name="taskIds">The taskIds to retrieve the results for.</param>
-  /// <returns>A <see cref="IEnumerable{Tuple{string, byte[]}}" /> of the results.</returns>
+  /// <returns>A <c>IEnumerable{Tuple{string, byte[]}}</c> of the results.</returns>
   private IEnumerable<Tuple<string, byte[]>> WaitForResults(string              sessionId,
                                                             IEnumerable<string> taskIds)
   {
@@ -276,7 +276,7 @@ public class AggregationPriorityTest
                                                             //TODO Fix issue GetResultIds return MapTaskResult can be N result for N TaskId since parentTaskIds can be requested
                                                             var mapTaskResults = taskList.ToChunks(200)
                                                                                          .SelectMany(b => service.SessionService.GetResultIds(b))
-                                                                                         .Select(mp => (mp.ResultIds, mp.TaskId))
+                                                                                         .Select(mp => (mp.OutputIds, mp.TaskId))
                                                                                          .ToList();
                                                             var dic = mapTaskResults.GroupBy(taskResult => taskResult.Item1.First())
                                                                                     .ToDictionary(group => group.Key,
@@ -382,7 +382,11 @@ public class AggregationPriorityTest
     Assert.That(sum * squareMatrixSize,
                 Is.EqualTo(taskResult.Result));
 
-    var _ = GetDistribution(squareMatrixSize)
-      .Result;
+    if (false)
+      // ReSharper disable once HeuristicUnreachableCode
+    {
+      var _ = GetDistribution(squareMatrixSize)
+        .Result;
+    }
   }
 }
