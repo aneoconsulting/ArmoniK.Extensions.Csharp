@@ -22,15 +22,39 @@ VALID_LOG_FILES = [
 
 
 def is_valid_file(name: str) -> bool:
+    """
+    Select a specific file or folder based on name
+
+    Args:
+        name: The file or folder name to be checked
+
+    Returns:
+        bool: True if the file name ends with ".log" and match with the names
+        defined in VALID_LOG_FILES, or False
+    """
     return any(([name.endswith(".log") and log_file in name for log_file in VALID_LOG_FILES]))
 
 
 def make_post_request(url: str, data: str):
+    """
+    Make a POST request to the URL of the data
+
+    Args:
+        url: The URL to which the POST request will be made
+        data: The data to be sent in the POST request body
+    """
     logger.debug(f"send : {len(data)} bytes")
     requests.post(url, data=data)
 
 
 def send_log_file(file: str, url: str):
+    """
+    Send log data from a file to a seq URL
+
+    Args:
+        file: The file object containing log data
+        url: The URL to which log data will be sent
+    """
     ctr = 0
     tosend = b""
     for line in file:
@@ -52,6 +76,13 @@ def send_log_file(file: str, url: str):
 
 
 def extract_jsontar_log(url: str, file_name: str):
+    """
+    Extract log data from a tar archive and send to a seq server
+
+    Args:
+        url : The URL to which log data will be sent
+        file_name : The name of the tar archive
+    """
     with tarfile.open(file_name, "r") as file_obj:
         for file in file_obj.getnames():
             if is_valid_file(file):
