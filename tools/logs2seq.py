@@ -16,8 +16,8 @@ logging.basicConfig(
 )
 
 VALID_LOG_FILES = [
-    'control',
-    'compute'
+    'control-plane',
+    'compute-plane'
 ]
 
 
@@ -32,16 +32,17 @@ def make_post_request(url: str, data: str):
     requests.post(url, data=data)
 
 
-def send_log_file(file: IO[bytes], url: str):
+def send_log_file(file: str, url: str):
     ctr = 0
     tosend = b""
     for line in file:
         line = line.decode("utf-8").strip()
         if line.startswith("{"):
-            ctr = ctr + 1
             json_data = json.loads(line)
+            if "@t" not in json_data.get("log"):
+                continue
+            ctr = ctr + 1
             log_message = bytes(json_data.get("log"), "utf-8")
-
             if len(tosend) + len(log_message) > 100000:
                 make_post_request(url, tosend)
                 tosend = log_message
@@ -64,7 +65,7 @@ if __name__ == "__main__":
                                      formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument("bucket_name", help="S3 bucket", type=str)
     parser.add_argument("folder_name",
-                        help="Folder where core logs are located", type=str)
+                        help="Folder where extcsharp logs are located", type=str)
     parser.add_argument(
         "run_number", help="GitHub workflow run_number", type=str)
     parser.add_argument(
