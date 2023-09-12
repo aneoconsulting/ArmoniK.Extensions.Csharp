@@ -69,7 +69,7 @@ public class SessionServiceFactory
     Logger?.LogDebug("Creating Session... ");
 
     return new SessionService(GrpcPool,
-                              properties.TaskOptions,
+                              properties.TaskOptions ?? SessionService.GetDefaultTaskOptions(EngineType.Unified),
                               LoggerFactory);
   }
 

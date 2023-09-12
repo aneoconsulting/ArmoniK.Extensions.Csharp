@@ -421,7 +421,7 @@ public class Service : AbstractClientService, ISubmitterService
                                    },
                          Handler     = handler,
                          MaxRetries  = maxRetries,
-                         TaskOptions = taskOptions ?? SessionService.TaskOptions,
+                         TaskOptions = taskOptions,
                          Lock        = semaphoreSlim_,
                        };
 
@@ -462,7 +462,7 @@ public class Service : AbstractClientService, ISubmitterService
                                          },
                                Handler     = handler,
                                MaxRetries  = maxRetries,
-                               TaskOptions = taskOptions ?? SessionService.TaskOptions,
+                               TaskOptions = taskOptions,
                                Lock        = semaphoreSlim_,
                              },
                              token)
@@ -881,7 +881,7 @@ public class Service : AbstractClientService, ISubmitterService
   /// </summary>
   /// <returns>gRPC channel</returns>
   public ChannelBase GetChannel()
-    => SessionService.ChannelPool.GetChannel();
+    => SessionService.GetChannel();
 
   /// <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
   public override void Dispose()

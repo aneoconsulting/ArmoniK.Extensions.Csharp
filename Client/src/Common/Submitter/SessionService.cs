@@ -1,4 +1,4 @@
-﻿// This file is part of the ArmoniK project
+// This file is part of the ArmoniK project
 // 
 // Copyright (C) ANEO, 2021-2023. All rights reserved.
 // 
@@ -55,7 +55,7 @@ public class SessionService
   /// <summary>
   ///   Pool of Grpc channels
   /// </summary>
-  public readonly ChannelPool ChannelPool;
+  private readonly ChannelPool channelPool_;
 
   private readonly int chunkSubmitSize_;
 
@@ -63,11 +63,6 @@ public class SessionService
   ///   Logger
   /// </summary>
   protected readonly ILogger Logger;
-
-  /// <summary>
-  ///   Default task options of the session
-  /// </summary>
-  public readonly TaskOptions TaskOptions;
 
   /// <summary>
   ///   Creates a session service
@@ -84,12 +79,11 @@ public class SessionService
                         int                        chunkSubmitSize = 500)
   {
     Logger           = loggerFactory?.CreateLogger<SessionService>();
-    ChannelPool      = channelPool;
+    channelPool_     = channelPool;
     chunkSubmitSize_ = chunkSubmitSize;
-    TaskOptions      = sessionTaskOptions;
 
     SessionId = session is null
-                  ? CreateSession(TaskOptions)
+                  ? CreateSession(sessionTaskOptions)
                   : OpenSession(session);
 
     Logger?.LogDebug("Session {Status} {SessionId}",
@@ -118,7 +112,7 @@ public class SessionService
                          Seconds = 300,
                        },
          MaxRetries = 3,
-         Priority   = 1,
+         Priority   = 2,
          EngineType = engineType.ToString(),
          ApplicationName = engineType == EngineType.Symphony
                              ? "ArmoniK.Samples.SymphonyPackage"
@@ -223,15 +217,15 @@ public class SessionService
   /// <param name="taskIds">The list of taskIds</param>
   /// <returns></returns>
   public IEnumerable<Tuple<string, TaskStatus>> GetTaskStatues(params string[] taskIds)
-    => ChannelPool.WithChannel(channel => new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel).GetTaskStatus(new GetTaskStatusRequest
-                                                                                                                     {
-                                                                                                                       TaskIds =
-                                                                                                                       {
-                                                                                                                         taskIds,
-                                                                                                                       },
-                                                                                                                     })
-                                                                                                      .IdStatuses.Select(x => Tuple.Create(x.TaskId,
-                                                                                                                                           x.Status)));
+    => channelPool_.WithChannel(channel => new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel).GetTaskStatus(new GetTaskStatusRequest
+                                                                                                                      {
+                                                                                                                        TaskIds =
+                                                                                                                        {
+                                                                                                                          taskIds,
+                                                                                                                        },
+                                                                                                                      })
+                                                                                                       .IdStatuses.Select(x => Tuple.Create(x.TaskId,
+                                                                                                                                            x.Status)));
 
   /// <summary>
   ///   Return the taskOutput when error occurred
@@ -239,11 +233,11 @@ public class SessionService
   /// <param name="taskId"></param>
   /// <returns></returns>
   public Output GetTaskOutputInfo(string taskId)
-    => ChannelPool.WithChannel(channel => new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel).TryGetTaskOutput(new TaskOutputRequest
-                                                                                                                        {
-                                                                                                                          TaskId  = taskId,
-                                                                                                                          Session = SessionId.Id,
-                                                                                                                        }));
+    => channelPool_.WithChannel(channel => new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel).TryGetTaskOutput(new TaskOutputRequest
+                                                                                                                         {
+                                                                                                                           TaskId  = taskId,
+                                                                                                                           Session = SessionId.Id,
+                                                                                                                         }));
 
   /// <summary>
   ///   The method to submit several tasks with dependencies tasks. This task will wait for
@@ -324,12 +318,12 @@ public class SessionService
     {
       try
       {
-        using var channel          = ChannelPool.GetChannel();
+        using var channel          = channelPool_.GetChannel();
         var       submitterService = new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel);
 
         //Multiple enumeration occurs on a retry
         var response = submitterService.CreateTasksAsync(SessionId.Id,
-                                                         taskOptions ?? TaskOptions,
+                                                         taskOptions,
                                                          payloadsWithDependencies.Select(pwd =>
                                                                                          {
                                                                                            var taskRequest = new TaskRequest
@@ -431,7 +425,7 @@ public class SessionService
                          2000,
                          retry =>
                          {
-                           using var channel          = ChannelPool.GetChannel();
+                           using var channel          = channelPool_.GetChannel();
                            var       submitterService = new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel);
 
                            if (retry > 1)
@@ -488,7 +482,7 @@ public class SessionService
                                         2000,
                                         retry =>
                                         {
-                                          using var channel          = ChannelPool.GetChannel();
+                                          using var channel          = channelPool_.GetChannel();
                                           var       submitterService = new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel);
 
                                           Logger?.LogDebug("Try {try} for {funcName}",
@@ -570,14 +564,14 @@ public class SessionService
                                                    nameof(GetResultIds));
                               }
 
-                              return ChannelPool.WithChannel(channel => new Tasks.TasksClient(channel).GetResultIds(new GetResultIdsRequest
-                                                                                                                    {
-                                                                                                                      TaskId =
-                                                                                                                      {
-                                                                                                                        taskIds,
-                                                                                                                      },
-                                                                                                                    })
-                                                                                                      .TaskResults);
+                              return channelPool_.WithChannel(channel => new Tasks.TasksClient(channel).GetResultIds(new GetResultIdsRequest
+                                                                                                                     {
+                                                                                                                       TaskId =
+                                                                                                                       {
+                                                                                                                         taskIds,
+                                                                                                                       },
+                                                                                                                     })
+                                                                                                       .TaskResults);
                             },
                             true,
                             typeof(IOException),
@@ -613,7 +607,7 @@ public class SessionService
                          2000,
                          retry =>
                          {
-                           using var channel          = ChannelPool.GetChannel();
+                           using var channel          = channelPool_.GetChannel();
                            var       submitterService = new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel);
 
                            Logger?.LogDebug("Try {try} for {funcName}",
@@ -695,7 +689,7 @@ public class SessionService
     List<ReadOnlyMemory<byte>> chunks;
     int                        len;
 
-    using var channel          = ChannelPool.GetChannel();
+    using var channel          = channelPool_.GetChannel();
     var       submitterService = new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel);
 
     {
@@ -914,19 +908,20 @@ public class SessionService
   /// <returns>Dictionary where each result name is associated with its result id</returns>
   [PublicAPI]
   public Dictionary<string, string> CreateResultsMetadata(IEnumerable<string> resultNames)
-    => ChannelPool.WithChannel(c => new Results.ResultsClient(c).CreateResultsMetaData(new CreateResultsMetaDataRequest
-                                                                                       {
-                                                                                         SessionId = SessionId.Id,
-                                                                                         Results =
-                                                                                         {
-                                                                                           resultNames.Select(name => new CreateResultsMetaDataRequest.Types.ResultCreate
-                                                                                                                      {
-                                                                                                                        Name = name,
-                                                                                                                      }),
-                                                                                         },
-                                                                                       }))
-                  .Results.ToDictionary(r => r.Name,
-                                        r => r.ResultId);
+    => channelPool_.WithChannel(c => new Results.ResultsClient(c).CreateResultsMetaData(new CreateResultsMetaDataRequest
+                                                                                        {
+                                                                                          SessionId = SessionId.Id,
+                                                                                          Results =
+                                                                                          {
+                                                                                            resultNames.Select(name
+                                                                                                                 => new CreateResultsMetaDataRequest.Types.ResultCreate
+                                                                                                                    {
+                                                                                                                      Name = name,
+                                                                                                                    }),
+                                                                                          },
+                                                                                        }))
+                   .Results.ToDictionary(r => r.Name,
+                                         r => r.ResultId);
 
   /// <summary>
   ///   Creates a session
@@ -937,24 +932,25 @@ public class SessionService
   [PublicAPI]
   protected Session CreateSession(TaskOptions                     defaultTaskOptions,
                                   [CanBeNull] IEnumerable<string> partitions = null)
-    => ChannelPool.WithChannel(c => new Session
-                                    {
-                                      Id = new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(c).CreateSession(new CreateSessionRequest
-                                                                                                                {
-                                                                                                                  DefaultTaskOption = defaultTaskOptions,
-                                                                                                                  PartitionIds =
-                                                                                                                  {
-                                                                                                                    partitions ??
-                                                                                                                    (string.IsNullOrEmpty(defaultTaskOptions.PartitionId)
-                                                                                                                       ? Enumerable.Empty<string>()
-                                                                                                                       : new List<string>
-                                                                                                                         {
-                                                                                                                           defaultTaskOptions.PartitionId,
-                                                                                                                         }),
-                                                                                                                  },
-                                                                                                                })
-                                                                                                 .SessionId,
-                                    });
+    => channelPool_.WithChannel(c => new Session
+                                     {
+                                       Id = new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(c).CreateSession(new CreateSessionRequest
+                                                                                                                 {
+                                                                                                                   DefaultTaskOption = defaultTaskOptions,
+                                                                                                                   PartitionIds =
+                                                                                                                   {
+                                                                                                                     partitions ??
+                                                                                                                     (string.IsNullOrEmpty(defaultTaskOptions
+                                                                                                                                             .PartitionId)
+                                                                                                                        ? Enumerable.Empty<string>()
+                                                                                                                        : new List<string>
+                                                                                                                          {
+                                                                                                                            defaultTaskOptions.PartitionId,
+                                                                                                                          }),
+                                                                                                                   },
+                                                                                                                 })
+                                                                                                  .SessionId,
+                                     });
 
   /// <summary>
   ///   Opens an existing session
@@ -969,11 +965,11 @@ public class SessionService
                      session);
     try
     {
-      var status = ChannelPool.WithChannel(c => new Sessions.SessionsClient(c).GetSession(new GetSessionRequest
-                                                                                          {
-                                                                                            SessionId = session.Id,
-                                                                                          }))
-                              .Session.Status;
+      var status = channelPool_.WithChannel(c => new Sessions.SessionsClient(c).GetSession(new GetSessionRequest
+                                                                                           {
+                                                                                             SessionId = session.Id,
+                                                                                           }))
+                               .Session.Status;
 
       if (status != SessionStatus.Running)
       {
@@ -989,4 +985,12 @@ public class SessionService
                                    e);
     }
   }
+
+  /// <summary>
+  ///   Gets a channel from the session service's channel pool
+  /// </summary>
+  /// <returns>gRPC channel</returns>
+  [PublicAPI]
+  public ChannelBase GetChannel()
+    => channelPool_.GetChannel();
 }
