@@ -22,9 +22,7 @@ VALID_LOG_FILES = [
 
 
 def is_valid_file(name: str) -> bool:
-    if any([name.find(log_file) != -1 for log_file in VALID_LOG_FILES]) and name.endswith(".log"):
-        return True
-    return False
+    return any(([name.endswith(".log") and log_file in name for log_file in VALID_LOG_FILES]))
 
 
 def make_post_request(url: str, data: str):
