@@ -103,7 +103,7 @@ def main():
     obj_name = os.path.join(dir_name, args.file_name)
     file_name = os.path.join(tmp_dir, obj_name)
 
-    os.makedirs(tmp_dir + dir_name, exist_ok=True)
+    os.makedirs(os.path.join(tmp_dir, dir_name), exist_ok=True)
 
     s3 = boto3.client('s3')
     s3.download_file(args.bucket_name, obj_name, file_name)
