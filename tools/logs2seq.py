@@ -32,7 +32,7 @@ def is_valid_file(name: str) -> bool:
         bool: True if the file name ends with ".log" and match with the names
         defined in VALID_LOG_FILES, or False
     """
-    return any(([name.endswith(".log") and log_file in name for log_file in VALID_LOG_FILES]))
+    return any(([name.endswith(".log") and log_file in name for log_file in args.valid_log_files]))
 
 
 def make_post_request(url: str, data: str):
@@ -90,24 +90,16 @@ def extract_jsontar_log(url: str, file_name: str):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Download ArmoniK logs in tar format from S3 bucket then send them to Seq.",
-                                     formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+    parser = argparse.ArgumentParser(description="Download ArmoniK logs in tar format from S3 bucket then send them to Seq.", formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument("bucket_name", help="S3 bucket", type=str)
-    parser.add_argument("folder_name",
-                        help="Folder where extcsharp logs are located", type=str)
-    parser.add_argument(
-        "run_number", help="GitHub workflow run_number", type=str)
-    parser.add_argument(
-        "run_attempt", help="GitHub workflow run_attempt", type=str)
-    parser.add_argument(
-        "file_name", help="file to download from the bucket", type=str)
-    parser.add_argument("--url", dest="url", help="Seq url", type=str,
-                        default="http://localhost:9341/api/events/raw?clef")
-    parser.add_argument("--file", dest="valid_log_files", nargs='+', 
-                    help="List of choosen files", default=VALID_LOG_FILES)
+    parser.add_argument("folder_name", help="Folder where extcsharp logs are located", type=str)
+    parser.add_argument("run_number", help="GitHub workflow run_number", type=str)
+    parser.add_argument("run_attempt", help="GitHub workflow run_attempt", type=str)
+    parser.add_argument("file_name", help="file to download from the bucket", type=str)
+    parser.add_argument("--url", dest="url", help="Seq url", type=str, default="http://localhost:9341/api/events/raw?clef")
+    parser.add_argument("--file", dest="valid_log_files", nargs='+', help="List of choosen files", default=VALID_LOG_FILES)
     args = parser.parse_args()
     
-    VALID_LOG_FILES = args.valid_log_files
 
     dir_name = args.folder_name + "/" + \
         args.run_number + "/" + args.run_attempt + "/"
