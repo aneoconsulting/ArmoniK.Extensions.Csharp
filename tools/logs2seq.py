@@ -30,7 +30,7 @@ def is_valid_file(name: str) -> bool:
 
     Returns:
         bool: True if the file name ends with ".log" and match with the names
-        defined in VALID_LOG_FILES, or False
+        defined as valid, False otherwise
     """
     return any(([name.endswith(".log") and log_file in name for log_file in args.valid_log_files]))
 
