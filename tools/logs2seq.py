@@ -15,11 +15,6 @@ logging.basicConfig(
     level=logging.INFO
 )
 
-VALID_LOG_FILES = [
-    'control-plane',
-    'compute-plane'
-]
-
 
 def is_valid_file(name: str) -> bool:
     """
@@ -97,7 +92,7 @@ if __name__ == "__main__":
     parser.add_argument("run_attempt", help="GitHub workflow run_attempt", type=str)
     parser.add_argument("file_name", help="file to download from the bucket", type=str)
     parser.add_argument("--url", dest="url", help="Seq url", type=str, default="http://localhost:9341/api/events/raw?clef")
-    parser.add_argument("--file", dest="valid_log_files", nargs='+', help="List of choosen files", default=VALID_LOG_FILES)
+    parser.add_argument("--file", dest="valid_log_files", nargs='+', help="List of choosen files", default=['control-plane','compute-plane'])
     args = parser.parse_args()
     
 
