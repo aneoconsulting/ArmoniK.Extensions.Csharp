@@ -95,12 +95,10 @@ if __name__ == "__main__":
     parser.add_argument("--file", dest="valid_log_files", nargs='+', help="List of choosen files", default=['control-plane','compute-plane'])
     args = parser.parse_args()
     
-
-    dir_name = args.folder_name + "/" + \
-        args.run_number + "/" + args.run_attempt + "/"
     tmp_dir = "./tmp/"
-    obj_name = dir_name + args.file_name
-    file_name = tmp_dir + obj_name
+    dir_name = os.path.join(args.folder_name, args.run_number, args.run_attempt)
+    obj_name = os.path.join(dir_name, args.file_name)
+    file_name = os.path.join(tmp_dir, obj_name)
 
     os.makedirs(tmp_dir + dir_name, exist_ok=True)
 
