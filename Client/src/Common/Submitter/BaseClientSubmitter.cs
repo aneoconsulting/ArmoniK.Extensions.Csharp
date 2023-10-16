@@ -362,6 +362,7 @@ public class BaseClientSubmitter<T>
                                                                        });
                          },
                          true,
+                         Logger,
                          typeof(IOException),
                          typeof(RpcException));
   }
@@ -409,6 +410,7 @@ public class BaseClientSubmitter<T>
                                           return resultStatusReply.IdStatuses;
                                         },
                                         true,
+                                        Logger,
                                         typeof(IOException),
                                         typeof(RpcException));
 
@@ -484,6 +486,7 @@ public class BaseClientSubmitter<T>
                                                                                                        .TaskResults);
                             },
                             true,
+                            Logger,
                             typeof(IOException),
                             typeof(RpcException));
 
@@ -543,6 +546,7 @@ public class BaseClientSubmitter<T>
                            }
                          },
                          true,
+                         Logger,
                          typeof(IOException),
                          typeof(RpcException));
 
@@ -552,6 +556,7 @@ public class BaseClientSubmitter<T>
                                                               cancellationToken)
                                      .Result,
                                    true,
+                                   Logger,
                                    typeof(IOException),
                                    typeof(RpcException));
 
@@ -746,6 +751,7 @@ public class BaseClientSubmitter<T>
                                              }
                                            },
                                            true,
+                                           Logger,
                                            typeof(IOException),
                                            typeof(RpcException));
 
