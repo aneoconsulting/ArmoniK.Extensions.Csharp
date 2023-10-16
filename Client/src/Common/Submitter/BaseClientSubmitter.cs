@@ -225,16 +225,16 @@ public class BaseClientSubmitter<T>
   {
     using var _ = Logger?.LogFunction();
 
-    using var channel          = channelPool_.GetChannel();
-    var       submitterService = new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel);
-
-    var serviceConfiguration = submitterService.GetServiceConfigurationAsync(new Empty())
-                                               .ResponseAsync.Result;
-
     for (var nbRetry = 0; nbRetry < maxRetries; nbRetry++)
     {
       try
       {
+        using var channel          = channelPool_.GetChannel();
+        var       submitterService = new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel);
+
+        var serviceConfiguration = submitterService.GetServiceConfigurationAsync(new Empty())
+                                                   .ResponseAsync.Result;
+
         using var asyncClientStreamingCall = submitterService.CreateLargeTasks();
 
         asyncClientStreamingCall.RequestStream.WriteAsync(new CreateLargeTaskRequest
@@ -399,13 +399,13 @@ public class BaseClientSubmitter<T>
   {
     using var _ = Logger?.LogFunction();
 
-    using var channel          = channelPool_.GetChannel();
-    var       submitterService = new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel);
-
     Retry.WhileException(5,
                          2000,
                          retry =>
                          {
+                           using var channel          = channelPool_.GetChannel();
+                           var       submitterService = new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel);
+
                            if (retry > 1)
                            {
                              Logger?.LogWarning("Try {try} for {funcName}",
@@ -457,13 +457,13 @@ public class BaseClientSubmitter<T>
                                                                        ResultStatus.Notfound))
                          : Array.Empty<ResultStatusData>();
 
-    using var channel          = channelPool_.GetChannel();
-    var       submitterService = new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel);
-
     var idStatus = Retry.WhileException(5,
                                         2000,
                                         retry =>
                                         {
+                                          using var channel          = channelPool_.GetChannel();
+                                          var       submitterService = new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel);
+
                                           Logger?.LogDebug("Try {try} for {funcName}",
                                                            retry,
                                                            nameof(submitterService.GetResultStatus));
@@ -584,13 +584,13 @@ public class BaseClientSubmitter<T>
                           Session  = SessionId.Id,
                         };
 
-    using var channel          = channelPool_.GetChannel();
-    var       submitterService = new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel);
-
     Retry.WhileException(5,
                          2000,
                          retry =>
                          {
+                           using var channel          = channelPool_.GetChannel();
+                           var       submitterService = new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel);
+
                            Logger?.LogDebug("Try {try} for {funcName}",
                                             retry,
                                             nameof(submitterService.WaitForAvailability));
