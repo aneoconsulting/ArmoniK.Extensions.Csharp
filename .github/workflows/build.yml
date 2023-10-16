@@ -261,13 +261,6 @@ jobs:
           name: "IntegrationTests tls:${{ matrix.tls }} mtls:${{ matrix.mtls }} val:${{ matrix.sslvalidation }} ca:${{ matrix.useca }}"
           path: ./Tests/ArmoniK.EndToEndTests/ArmoniK.EndToEndTests.Client/TestResults/test-results.trx
           reporter: dotnet-trx
-    
-      - name: Destroy deployment
-        if: success() || failure()
-        uses: aneoconsulting/ArmoniK.Action.Deploy/destroy@main
-        with:
-          working-directory: ${{ github.workspace }}/infra
-          type: localhost
 
   canMerge:
     needs: 
