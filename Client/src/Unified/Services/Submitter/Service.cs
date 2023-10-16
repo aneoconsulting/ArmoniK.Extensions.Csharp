@@ -684,6 +684,7 @@ public class Service : AbstractClientService, ISubmitterService
                                                                         .Result;
                                                  },
                                                  true,
+                                                 Logger,
                                                  typeof(IOException),
                                                  typeof(RpcException)));
           }
