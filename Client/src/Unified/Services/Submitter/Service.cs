@@ -152,6 +152,7 @@ public class Service : AbstractClientService, ISubmitterService
                                   {
                                     var maxRetries = groupBlockRequest.First()
                                                                       .MaxRetries;
+                                    var currentBackoff = properties.RetryInitialBackoff;
                                     for (var retry = 0; retry < maxRetries; retry++)
                                     {
                                       //Generate resultId
@@ -214,11 +215,14 @@ public class Service : AbstractClientService, ISubmitterService
 
                                         Logger?.LogWarning(e,
                                                            "Fail to submit, {retry}/{maxRetries} retrying",
-                                                           retry,
+                                                           retry + 1,
                                                            maxRetries);
 
                                         //Delay before submission
-                                        Task.Delay(TimeSpan.FromMilliseconds(1000));
+                                        Task.Delay(currentBackoff)
+                                            .Wait();
+                                        currentBackoff = TimeSpan.FromSeconds(Math.Min(currentBackoff.TotalSeconds * properties.RetryBackoffMultiplier,
+                                                                                       properties.RetryMaxBackoff.TotalSeconds));
                                       }
                                     }
 

@@ -54,6 +54,10 @@ public class Properties
   private const string SectionClientCertP12      = "ClientP12";
   private const string SectionTargetNameOverride = "EndpointNameOverride";
 
+  private const string SectionRetryInitialBackoff    = "RetryInitialBackoff";
+  private const string SectionRetryBackoffMultiplier = "RetryBackoffMultiplier";
+  private const string SectionRetryMaxBackoff        = "RetryMaxBackoff";
+
   /// <summary>
   ///   The default configuration to submit task in a Session
   /// </summary>
@@ -116,17 +120,23 @@ public class Properties
   /// <param name="clientKeyFilePem">The client key file in a pem format</param>
   /// <param name="clientP12">The client certificate in a P12/Pkcs12/PFX format</param>
   /// <param name="sslValidation">Disable the ssl strong validation of ssl certificate (default : enable => true)</param>
+  /// <param name="retryInitialBackoff">Initial retry backoff delay</param>
+  /// <param name="retryBackoffMultiplier">Retry backoff multiplier</param>
+  /// <param name="retryMaxBackoff">Max retry backoff</param>
   /// <exception cref="ArgumentException"></exception>
   public Properties(IConfiguration configuration,
                     TaskOptions    options,
-                    string         connectionAddress = null,
-                    int            connectionPort    = 0,
-                    string         protocol          = null,
-                    string         clientCertFilePem = null,
-                    string         clientKeyFilePem  = null,
-                    string         clientP12         = null,
-                    string         caCertPem         = null,
-                    bool?          sslValidation     = null)
+                    string         connectionAddress      = null,
+                    int            connectionPort         = 0,
+                    string         protocol               = null,
+                    string         clientCertFilePem      = null,
+                    string         clientKeyFilePem       = null,
+                    string         clientP12              = null,
+                    string         caCertPem              = null,
+                    bool?          sslValidation          = null,
+                    TimeSpan       retryInitialBackoff    = new(),
+                    double         retryBackoffMultiplier = 0,
+                    TimeSpan       retryMaxBackoff        = new())
   {
     TaskOptions   = options;
     Configuration = configuration;
@@ -159,6 +169,35 @@ public class Properties
     ClientCertFilePem  = clientCertFilePem ?? sectionGrpc?[SectionClientCert];
     ClientKeyFilePem   = clientKeyFilePem  ?? sectionGrpc?[SectionClientKey];
     ClientP12File      = clientP12         ?? sectionGrpc?[SectionClientCertP12];
+
+    if (retryInitialBackoff != TimeSpan.Zero)
+    {
+      RetryInitialBackoff = retryInitialBackoff;
+    }
+    else if (!string.IsNullOrWhiteSpace(sectionGrpc?[SectionRetryInitialBackoff]))
+    {
+      RetryInitialBackoff = TimeSpan.Parse(sectionGrpc[SectionRetryInitialBackoff]);
+    }
+
+    if (retryBackoffMultiplier != 0)
+    {
+      RetryBackoffMultiplier = retryBackoffMultiplier;
+    }
+    else if (!string.IsNullOrWhiteSpace(sectionGrpc?[SectionRetryBackoffMultiplier]))
+    {
+      RetryBackoffMultiplier = double.Parse(sectionGrpc[SectionRetryBackoffMultiplier]);
+    }
+
+
+    if (retryMaxBackoff != TimeSpan.Zero)
+    {
+      RetryMaxBackoff = retryMaxBackoff;
+    }
+    else if (!string.IsNullOrWhiteSpace(sectionGrpc?[SectionRetryMaxBackoff]))
+    {
+      RetryMaxBackoff = TimeSpan.Parse(sectionGrpc[SectionRetryMaxBackoff]);
+    }
+
 
     if (connectionPort != 0)
     {
@@ -285,4 +324,19 @@ public class Properties
   ///   The target name of the endpoint when ssl validation is disabled. Automatic if not set.
   /// </summary>
   public string TargetNameOverride { get; set; } = "";
+
+  /// <summary>
+  ///   Initial backoff from retries
+  /// </summary>
+  public TimeSpan RetryInitialBackoff { get; set; } = TimeSpan.FromSeconds(1);
+
+  /// <summary>
+  ///   Backoff multiplier for retries
+  /// </summary>
+  public double RetryBackoffMultiplier { get; set; } = 2;
+
+  /// <summary>
+  ///   Max backoff for retries
+  /// </summary>
+  public TimeSpan RetryMaxBackoff { get; set; } = TimeSpan.FromSeconds(30);
 }
