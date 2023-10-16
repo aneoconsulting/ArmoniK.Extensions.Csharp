@@ -328,15 +328,15 @@ public class Properties
   /// <summary>
   ///   Initial backoff from retries
   /// </summary>
-  public TimeSpan RetryInitialBackoff { get; set; } = TimeSpan.FromSeconds(1);
+  public TimeSpan RetryInitialBackoff { get; } = TimeSpan.FromSeconds(1);
 
   /// <summary>
   ///   Backoff multiplier for retries
   /// </summary>
-  public double RetryBackoffMultiplier { get; set; } = 2;
+  public double RetryBackoffMultiplier { get; } = 2;
 
   /// <summary>
   ///   Max backoff for retries
   /// </summary>
-  public TimeSpan RetryMaxBackoff { get; set; } = TimeSpan.FromSeconds(30);
+  public TimeSpan RetryMaxBackoff { get; } = TimeSpan.FromSeconds(30);
 }
