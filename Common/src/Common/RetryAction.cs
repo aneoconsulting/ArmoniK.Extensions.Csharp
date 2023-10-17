@@ -18,8 +18,6 @@ using System;
 using System.Linq;
 using System.Threading;
 
-using JetBrains.Annotations;
-
 using Microsoft.Extensions.Logging;
 
 namespace ArmoniK.DevelopmentKit.Common;
@@ -92,12 +90,12 @@ public static class Retry
   /// </param>
   /// <param name="logger">Logger to log retried exception</param>
   /// <returns>When one of the retries succeeds, return the value the operation returned. If not, an exception is thrown.</returns>
-  public static void WhileException(int                 retries,
-                                    int                 delayMs,
-                                    Action<int>         operation,
-                                    bool                allowDerivedExceptions = false,
-                                    [CanBeNull] ILogger logger                 = null,
-                                    params      Type[]  exceptionType)
+  public static void WhileException(int           retries,
+                                    int           delayMs,
+                                    Action<int>   operation,
+                                    bool          allowDerivedExceptions = false,
+                                    ILogger?      logger                 = null,
+                                    params Type[] exceptionType)
   {
     // Do all but one retries in the loop
     for (var retry = 1; retry < retries; retry++)
@@ -178,12 +176,12 @@ public static class Retry
   /// </param>
   /// <param name="logger">Logger to log retried exception</param>
   /// <returns>When one of the retries succeeds, return the value the operation returned. If not, an exception is thrown.</returns>
-  public static T WhileException<T>(int                 retries,
-                                    int                 delayMs,
-                                    Func<int, T>        operation,
-                                    bool                allowDerivedExceptions = false,
-                                    [CanBeNull] ILogger logger                 = null,
-                                    params      Type[]  exceptionType)
+  public static T WhileException<T>(int           retries,
+                                    int           delayMs,
+                                    Func<int, T>  operation,
+                                    bool          allowDerivedExceptions = false,
+                                    ILogger?      logger                 = null,
+                                    params Type[] exceptionType)
   {
     // Do all but one retries in the loop
     for (var retry = 1; retry < retries; retry++)
