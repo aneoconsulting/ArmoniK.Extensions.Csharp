@@ -16,7 +16,10 @@
 
 using System;
 
+using ArmoniK.DevelopmentKit.Client.Common.Status;
 using ArmoniK.DevelopmentKit.Common;
+
+using JetBrains.Annotations;
 
 namespace ArmoniK.DevelopmentKit.Client.Common.Exceptions;
 
@@ -24,6 +27,7 @@ namespace ArmoniK.DevelopmentKit.Client.Common.Exceptions;
 ///   The service invocation exception. This class wil contain all error information of task or result
 /// </summary>
 [MarkDownDoc]
+[PublicAPI]
 public class ServiceInvocationException : Exception
 {
   private readonly string message_ = "ServiceInvocationException during call function";

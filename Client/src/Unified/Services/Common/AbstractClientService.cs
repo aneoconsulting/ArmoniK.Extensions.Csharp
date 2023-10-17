@@ -20,9 +20,8 @@ using System.Collections.Generic;
 
 using ArmoniK.DevelopmentKit.Client.Common;
 
-using JetBrains.Annotations;
-
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 
 namespace ArmoniK.DevelopmentKit.Client.Unified.Services.Common;
 
@@ -34,12 +33,10 @@ public abstract class AbstractClientService : IDisposable
   /// <summary>
   ///   The default constructor with properties information
   /// </summary>
-  /// <param name="properties"></param>
   /// <param name="loggerFactory"></param>
-  public AbstractClientService(Properties                 properties,
-                               [CanBeNull] ILoggerFactory loggerFactory = null)
+  protected AbstractClientService(ILoggerFactory? loggerFactory = null)
   {
-    LoggerFactory = loggerFactory;
+    LoggerFactory = loggerFactory ?? new NullLoggerFactory();
 
     ResultHandlerDictionary = new ConcurrentDictionary<string, IServiceInvocationHandler>();
   }
@@ -55,13 +52,12 @@ public abstract class AbstractClientService : IDisposable
   /// <summary>
   ///   The result dictionary to return result
   /// </summary>
-  protected ConcurrentDictionary<string, IServiceInvocationHandler> ResultHandlerDictionary { get; set; }
+  protected ConcurrentDictionary<string, IServiceInvocationHandler> ResultHandlerDictionary { get; }
 
   /// <summary>
   ///   The properties to get LoggerFactory or to override it
   /// </summary>
-  [CanBeNull]
-  protected ILoggerFactory LoggerFactory { get; set; }
+  protected ILoggerFactory LoggerFactory { get; }
 
   /// <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
   public abstract void Dispose();

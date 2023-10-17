@@ -23,8 +23,8 @@ using System.Threading.Tasks;
 using ArmoniK.Api.gRPC.V1;
 using ArmoniK.DevelopmentKit.Client.Common;
 using ArmoniK.DevelopmentKit.Client.Common.Exceptions;
+using ArmoniK.DevelopmentKit.Client.Common.Submitter;
 using ArmoniK.DevelopmentKit.Client.Unified.Factory;
-using ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter;
 using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.Common.Extensions;
 using ArmoniK.EndToEndTests.Common;
@@ -160,7 +160,7 @@ public class LargePayloadSubmitClient : ClientBaseTest<LargePayloadSubmitClient>
   /// <param name="nbTasks">The number of task to submit</param>
   /// <param name="nbElement">The number of element n x M in the vector</param>
   /// <param name="cancellationTokenSource"></param>
-  private void ComputeVector(Service                 sessionService,
+  private void ComputeVector(ISubmitterService       sessionService,
                              int                     nbTasks,
                              int                     nbElement,
                              CancellationTokenSource cancellationTokenSource)

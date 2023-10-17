@@ -26,6 +26,7 @@ using ArmoniK.Api.gRPC.V1;
 using ArmoniK.Api.Worker.Worker;
 using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.Common.Exceptions;
+using ArmoniK.DevelopmentKit.Worker.Common;
 
 using Grpc.Core;
 
@@ -36,6 +37,8 @@ namespace ArmoniK.DevelopmentKit.Worker.DLLWorker.Services;
 
 public class ComputerService : WorkerStreamWrapper
 {
+  private readonly ApplicationPackageManager appPackageManager_;
+
   public ComputerService(IConfiguration        configuration,
                          GrpcChannelProvider   provider,
                          ServiceRequestContext serviceRequestContext)
@@ -45,6 +48,8 @@ public class ComputerService : WorkerStreamWrapper
     Configuration         = configuration;
     Logger                = serviceRequestContext.LoggerFactory.CreateLogger<ComputerService>();
     ServiceRequestContext = serviceRequestContext;
+    appPackageManager_ = new ApplicationPackageManager(configuration,
+                                                       serviceRequestContext.LoggerFactory);
     Logger.LogDebug("Starting worker...OK");
   }
 
@@ -91,21 +96,18 @@ public class ComputerService : WorkerStreamWrapper
         throw new WorkerApiException($"Error in TaskOptions : One of Keys is missing [{string.Join(";", missingKeys.Select(el => $"{el.Item1} => {el.Item2}"))}]");
       }
 
-      var fileName          = $"{taskHandler.TaskOptions.ApplicationName}-v{taskHandler.TaskOptions.ApplicationVersion}.zip";
-      var localDirectoryZip = $"{Configuration[AppsOptions.GridDataVolumesKey]}";
+      var packageId = new PackageId(taskHandler.TaskOptions.ApplicationName,
+                                    taskHandler.TaskOptions.ApplicationVersion);
 
       var engineTypeName = string.IsNullOrEmpty(taskHandler.TaskOptions.EngineType)
                              ? EngineType.Symphony.ToString()
                              : taskHandler.TaskOptions.EngineType;
 
-      var fileAdapter = ServiceRequestContext.CreateOrGetFileAdapter(Configuration,
-                                                                     localDirectoryZip);
-
 
       var serviceWorker = ServiceRequestContext.CreateOrGetArmonikService(Configuration,
+                                                                          appPackageManager_,
                                                                           engineTypeName,
-                                                                          fileAdapter,
-                                                                          fileName,
+                                                                          packageId,
                                                                           taskHandler.TaskOptions);
 
 

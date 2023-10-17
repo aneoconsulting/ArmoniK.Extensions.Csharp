@@ -15,14 +15,12 @@
 // limitations under the License.
 
 using System;
-using System.IO;
 
 using ArmoniK.Api.gRPC.V1;
 using ArmoniK.Api.Worker.Worker;
 using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.Common.Exceptions;
 using ArmoniK.DevelopmentKit.Worker.Common;
-using ArmoniK.DevelopmentKit.Worker.Common.Adapter;
 
 using JetBrains.Annotations;
 
@@ -30,82 +28,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
 namespace ArmoniK.DevelopmentKit.Worker.DLLWorker;
-
-public class ServiceId : IEquatable<ServiceId>
-{
-  public ServiceId(string engineTypeName,
-                   string pathToZipFile,
-                   string namespaceService)
-    => Key = $"{engineTypeName}#{pathToZipFile}#{namespaceService}".ToLower();
-
-  public string Key { get; }
-
-  /// <inheritdoc />
-  public bool Equals(ServiceId other)
-  {
-    if (other is null)
-    {
-      return false;
-    }
-
-    if (ReferenceEquals(this,
-                        other))
-    {
-      return true;
-    }
-
-    return Key == other.Key;
-  }
-
-  /// <summary>Returns a string that represents the current object.</summary>
-  /// <returns>A string that represents the current object.</returns>
-  public override string ToString()
-    => Key;
-
-  /// <inheritdoc />
-  public override bool Equals(object obj)
-  {
-    if (obj is null)
-    {
-      return false;
-    }
-
-    if (ReferenceEquals(this,
-                        obj))
-    {
-      return true;
-    }
-
-    return obj.GetType() == GetType() && Equals((ServiceId)obj);
-  }
-
-  /// <inheritdoc />
-  public override int GetHashCode()
-    => Key != null
-         ? Key.GetHashCode()
-         : 0;
-
-
-  /// <summary>
-  ///   Checks if both ServiceIds are equal
-  /// </summary>
-  /// <param name="a">ServiceId a</param>
-  /// <param name="b">ServiceId b</param>
-  /// <returns>Same as a.Equals(b)</returns>
-  public static bool operator ==(ServiceId a,
-                                 ServiceId b)
-    => a?.Equals(b) ?? false;
-
-  /// <summary>
-  ///   Checks if both ServiceIds are different
-  /// </summary>
-  /// <param name="a">ServiceId a</param>
-  /// <param name="b">ServiceId b</param>
-  /// <returns>Same as !a.Equals(b)</returns>
-  public static bool operator !=(ServiceId a,
-                                 ServiceId b)
-    => !(a == b);
-}
 
 public class ArmonikServiceWorker : IDisposable
 {
@@ -238,38 +160,37 @@ public class ServiceRequestContext
     return IsNewSessionId(currentSessionId);
   }
 
-  public ArmonikServiceWorker CreateOrGetArmonikService(IConfiguration configuration,
-                                                        string         engineTypeName,
-                                                        IFileAdapter   fileAdapter,
-                                                        string         fileName,
-                                                        TaskOptions    requestTaskOptions)
+  public ArmonikServiceWorker CreateOrGetArmonikService(IConfiguration            configuration,
+                                                        ApplicationPackageManager appPackageManager,
+                                                        string                    engineTypeName,
+                                                        PackageId                 packageId,
+                                                        TaskOptions               requestTaskOptions)
   {
     if (string.IsNullOrEmpty(requestTaskOptions.ApplicationNamespace))
     {
       throw new WorkerApiException("Cannot find namespace service in TaskOptions. Please set the namespace");
     }
 
-    var serviceId = GenerateServiceId(engineTypeName,
-                                      Path.Combine(fileAdapter.DestinationDirPath,
-                                                   fileName),
-                                      requestTaskOptions.ApplicationNamespace);
+    var serviceId = new ServiceId(packageId,
+                                  requestTaskOptions.ApplicationNamespace,
+                                  EngineTypeHelper.ToEnum(engineTypeName));
 
     if (currentService_?.ServiceId == serviceId)
     {
       return currentService_;
     }
 
-    logger_.LogInformation($"Worker needs to load new context, from {currentService_?.ServiceId?.ToString() ?? "null"} to {serviceId}");
+    logger_.LogInformation($"Worker needs to load new context, from {currentService_?.ServiceId.ToString() ?? "null"} to {serviceId}");
 
     currentService_?.DestroyService();
     currentService_?.Dispose();
     currentService_ = null;
 
-    var appsLoader = new AppsLoader(configuration,
+
+    var appsLoader = new AppsLoader(appPackageManager,
                                     LoggerFactory,
                                     engineTypeName,
-                                    fileAdapter,
-                                    fileName);
+                                    packageId);
 
     currentService_ = new ArmonikServiceWorker
                       {
@@ -283,36 +204,5 @@ public class ServiceRequestContext
                               requestTaskOptions);
 
     return currentService_;
-  }
-
-  public static ServiceId GenerateServiceId(string engineTypeName,
-                                            string uniqueKey,
-                                            string namespaceService)
-    => new(engineTypeName,
-           uniqueKey,
-           namespaceService);
-
-  public static IFileAdapter CreateOrGetFileAdapter(IConfiguration configuration,
-                                                    string         localDirectoryZip)
-  {
-    var sectionStorage = configuration.GetSection("FileStorageType");
-    if (sectionStorage.Exists() && configuration["FileStorageType"] == "FS")
-    {
-      return new FsAdapter(localDirectoryZip);
-    }
-
-    if ((sectionStorage.Exists() && configuration["FileStorageType"] == "S3") || !sectionStorage.Exists())
-    {
-      var configurationSection = configuration.GetSection("S3Storage");
-      return new S3Adapter(configurationSection["ServiceURL"],
-                           configurationSection["BucketName"],
-                           configurationSection["AccessKeyId"],
-                           configurationSection["SecretAccessKey"],
-                           "",
-                           configurationSection.GetValue("MustForcePathStyle",
-                                                         false));
-    }
-
-    throw new WorkerApiException("Cannot find the FileStorageType in the IConfiguration. Please make sure you have properly set the field [FileStorageType]");
   }
 }

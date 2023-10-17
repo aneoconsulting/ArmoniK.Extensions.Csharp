@@ -16,40 +16,17 @@
 
 using ArmoniK.Api.gRPC.V1;
 
+using JetBrains.Annotations;
+
 namespace ArmoniK.DevelopmentKit.Client.Common.Status;
 
 /// <summary>
-///   Class for storing relation between result id, task id and result status
+///   Stores the relation between result id, task id and result status
 /// </summary>
-public class ResultStatusData
-{
-  /// <summary>
-  ///   Constructor for the class
-  /// </summary>
-  /// <param name="resultId">The id of the result</param>
-  /// <param name="taskId">The id of the task producing the result</param>
-  /// <param name="status">The status of the result</param>
-  public ResultStatusData(string       resultId,
-                          string       taskId,
-                          ResultStatus status)
-  {
-    ResultId = resultId;
-    TaskId   = taskId;
-    Status   = status;
-  }
-
-  /// <summary>
-  ///   The id of the result
-  /// </summary>
-  public string ResultId { get; }
-
-  /// <summary>
-  ///   The id of the task producing the result
-  /// </summary>
-  public string TaskId { get; }
-
-  /// <summary>
-  ///   The status of the result
-  /// </summary>
-  public ResultStatus Status { get; }
-}
+/// <param name="ResultId">The id of the result</param>
+/// <param name="TaskId">The id of the task producing the result</param>
+/// <param name="Status">The status of the result</param>
+[PublicAPI]
+public sealed record ResultStatusData(string       ResultId,
+                                      string       TaskId,
+                                      ResultStatus Status);

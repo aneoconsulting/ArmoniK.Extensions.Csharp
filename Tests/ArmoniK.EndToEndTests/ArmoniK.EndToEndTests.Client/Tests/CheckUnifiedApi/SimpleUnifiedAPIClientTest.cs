@@ -18,6 +18,7 @@ using System;
 using System.Linq;
 
 using ArmoniK.DevelopmentKit.Client.Common.Exceptions;
+using ArmoniK.DevelopmentKit.Client.Common.Submitter;
 using ArmoniK.DevelopmentKit.Common;
 
 using NUnit.Framework;

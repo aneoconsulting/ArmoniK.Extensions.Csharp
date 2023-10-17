@@ -66,7 +66,8 @@ public class CheckAllSubmissionsClient : ClientBaseTest<CheckAllSubmissionsClien
 
     var resultClient = new ArmonikSymphonyClient(Configuration,
                                                  LoggerFactory);
-    var resultService = resultClient.OpenSession(sessionService.SessionId);
+    var resultService = resultClient.OpenSession(sessionService.SessionId,
+                                                 taskOptions);
 
     Log.LogInformation($"New session created : {sessionService}");
 

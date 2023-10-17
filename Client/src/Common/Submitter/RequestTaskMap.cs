@@ -24,7 +24,7 @@ using ArmoniK.DevelopmentKit.Common.Utils;
 namespace ArmoniK.DevelopmentKit.Client.Common.Submitter;
 
 /// <summary>
-///   The class to map submitId to taskId when submit is done asynchronously
+///   The class to map submissionId to taskId when submit is done asynchronously
 /// </summary>
 public class RequestTaskMap
 {
@@ -32,27 +32,27 @@ public class RequestTaskMap
   private readonly ConcurrentDictionary<Guid, Either<string, Exception>> dictionary_ = new();
 
   /// <summary>
-  ///   Push the SubmitId and taskId in the concurrentDictionary
-  /// </summary>
-  /// <param name="SubmitId">The submit Id push during the submission</param>
-  /// <param name="taskId">the taskId was given by the control Plane</param>
-  public void PutResponse(Guid   SubmitId,
-                          string taskId)
-    => dictionary_[SubmitId] = taskId;
-
-  /// <summary>
-  ///   Get the correct taskId based on the SubmitId
+  ///   Push the submissionId and taskId in the concurrentDictionary
   /// </summary>
   /// <param name="submitId">The submit Id push during the submission</param>
+  /// <param name="taskId">the taskId was given by the control Plane</param>
+  public void PutResponse(Guid   submitId,
+                          string taskId)
+    => dictionary_[submitId] = taskId;
+
+  /// <summary>
+  ///   Get the correct taskId based on the submissionId
+  /// </summary>
+  /// <param name="submissionId">The submit Id push during the submission</param>
   /// <returns>the async taskId</returns>
-  public async Task<string> GetResponseAsync(Guid submitId)
+  public async Task<string> GetResponseAsync(Guid submissionId)
   {
-    while (!dictionary_.ContainsKey(submitId))
+    while (!dictionary_.ContainsKey(submissionId))
     {
       await Task.Delay(WaitTime);
     }
 
-    return dictionary_[submitId]
+    return dictionary_[submissionId]
       .IfRight(e =>
                {
                  throw e;
@@ -63,12 +63,12 @@ public class RequestTaskMap
   /// <summary>
   ///   Notice user that there was at least one error during the submission of buffer
   /// </summary>
-  /// <param name="submitIds"></param>
+  /// <param name="submissionIds"></param>
   /// <param name="exception">exception occurring the submission</param>
-  public void BufferFailures(IEnumerable<Guid> submitIds,
+  public void BufferFailures(IEnumerable<Guid> submissionIds,
                              Exception         exception)
   {
-    foreach (var submitId in submitIds)
+    foreach (var submitId in submissionIds)
     {
       dictionary_[submitId] = exception;
     }

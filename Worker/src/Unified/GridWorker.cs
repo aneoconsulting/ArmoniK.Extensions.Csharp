@@ -168,7 +168,7 @@ public class GridWorker : IGridWorker
                         {
                           armonikPayload.ClientPayload,
                         }
-                      : ProtoSerializer.DeSerializeMessageObjectArray(armonikPayload.ClientPayload);
+                      : ProtoSerializer.Deserialize<object[]>(armonikPayload.ClientPayload);
 
     MethodInfo methodInfo;
     if (arguments == null || arguments.Any() == false)
@@ -204,7 +204,7 @@ public class GridWorker : IGridWorker
     if (methodInfo == null)
     {
       throw new
-        WorkerApiException($"Cannot found method [{methodName}({string.Join(", ", arguments.Select(x => x.GetType().Name))})] in Service class [{GridAppNamespace}.{GridServiceName}]");
+        WorkerApiException($"Cannot find method [{methodName}({string.Join(", ", arguments.Select(x => x.GetType().Name))})] in Service class [{GridAppNamespace}.{GridServiceName}]");
     }
 
     try
@@ -213,10 +213,10 @@ public class GridWorker : IGridWorker
                                      arguments);
       if (result != null)
       {
-        return new ProtoSerializer().SerializeMessageObjectArray(new[]
-                                                                 {
-                                                                   result,
-                                                                 });
+        return ProtoSerializer.Serialize(new[]
+                                         {
+                                           result,
+                                         });
       }
     }
     // Catch all exceptions from MethodBase.Invoke except TargetInvocationException (triggered by an exception in the invoked code)

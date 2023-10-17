@@ -4,7 +4,6 @@
     <TargetFrameworks>net472;net6.0</TargetFrameworks>
 
     <Version>1.0.0-700</Version>
-    <LangVersion>10</LangVersion>
     <AppendRuntimeIdentifierToOutputPath>true</AppendRuntimeIdentifierToOutputPath>
     <AppendTargetFrameworkToOutputPath>true</AppendTargetFrameworkToOutputPath>
     <RuntimeIdentifier>win-x64</RuntimeIdentifier>
@@ -27,7 +26,6 @@
 
   <ItemGroup>
     <PackageReference Include="AutoFixture" Version="4.18.0" />
-    <PackageReference Include="MathNet.Numerics.Signed" Version="5.0.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.6.3" />
     <PackageReference Include="NUnit" Version="3.13.3" />
     <PackageReference Include="NUnit3TestAdapter" Version="4.5.0" />
@@ -44,8 +42,8 @@
   <ItemGroup>
     <PackageReference Include="Serilog" Version="3.0.1" />
     <PackageReference Include="Serilog.Extensions.Logging" Version="7.0.0" />
-    <PackageReference Include="Serilog.Sinks.Console" Version="4.1.0" />
     <PackageReference Include="Serilog.Settings.Configuration" Version="7.0.0" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="4.1.0" />
   </ItemGroup>
 
   <ItemGroup>
