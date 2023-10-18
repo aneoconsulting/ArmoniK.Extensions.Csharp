@@ -167,7 +167,7 @@ The ssl mTLS certificate if needed to connect to the control plane</li>
 
   <h3 id="ArmoniK_DevelopmentKit_Client_Common_Properties__ctor_ArmoniK_Api_gRPC_V1_TaskOptions_System_String_System_Int32_System_String_System_String_System_String_System_String_System_String_System_Nullable_System_Boolean__" data-uid="ArmoniK.DevelopmentKit.Client.Common.Properties.#ctor(ArmoniK.Api.gRPC.V1.TaskOptions,System.String,System.Int32,System.String,System.String,System.String,System.String,System.String,System.Nullable{System.Boolean})">
   Properties(TaskOptions, string?, int, string?, string?, string?, string?, string?, bool?)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Properties.cs/#L84"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Properties.cs/#L88"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>The constructor to instantiate Properties object</p>
@@ -222,9 +222,9 @@ The ssl mTLS certificate if needed to connect to the control plane</li>
 
   <a id="ArmoniK_DevelopmentKit_Client_Common_Properties__ctor_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Properties.#ctor*"></a>
 
-  <h3 id="ArmoniK_DevelopmentKit_Client_Common_Properties__ctor_Microsoft_Extensions_Configuration_IConfiguration_ArmoniK_Api_gRPC_V1_TaskOptions_System_String_System_Int32_System_String_System_String_System_String_System_String_System_String_System_Nullable_System_Boolean__" data-uid="ArmoniK.DevelopmentKit.Client.Common.Properties.#ctor(Microsoft.Extensions.Configuration.IConfiguration,ArmoniK.Api.gRPC.V1.TaskOptions,System.String,System.Int32,System.String,System.String,System.String,System.String,System.String,System.Nullable{System.Boolean})">
-  Properties(IConfiguration, TaskOptions, string?, int, string?, string?, string?, string?, string?, bool?)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Properties.cs/#L121"><i class="bi bi-code-slash"></i></a>
+  <h3 id="ArmoniK_DevelopmentKit_Client_Common_Properties__ctor_Microsoft_Extensions_Configuration_IConfiguration_ArmoniK_Api_gRPC_V1_TaskOptions_System_String_System_Int32_System_String_System_String_System_String_System_String_System_String_System_Nullable_System_Boolean__System_TimeSpan_System_Double_System_TimeSpan_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Properties.#ctor(Microsoft.Extensions.Configuration.IConfiguration,ArmoniK.Api.gRPC.V1.TaskOptions,System.String,System.Int32,System.String,System.String,System.String,System.String,System.String,System.Nullable{System.Boolean},System.TimeSpan,System.Double,System.TimeSpan)">
+  Properties(IConfiguration, TaskOptions, string?, int, string?, string?, string?, string?, string?, bool?, TimeSpan, double, TimeSpan)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Properties.cs/#L128"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>The constructor to instantiate Properties object</p>
@@ -232,7 +232,7 @@ The ssl mTLS certificate if needed to connect to the control plane</li>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Properties(IConfiguration configuration, TaskOptions options, string? connectionAddress = null, int connectionPort = 0, string? protocol = null, string? clientCertFilePem = null, string? clientKeyFilePem = null, string? clientP12 = null, string? caCertPem = null, bool? sslValidation = null)</code></pre>
+    <pre><code class="lang-csharp hljs">public Properties(IConfiguration configuration, TaskOptions options, string? connectionAddress = null, int connectionPort = 0, string? protocol = null, string? clientCertFilePem = null, string? clientKeyFilePem = null, string? clientP12 = null, string? caCertPem = null, bool? sslValidation = null, TimeSpan retryInitialBackoff = default, double retryBackoffMultiplier = 0, TimeSpan retryMaxBackoff = default)</code></pre>
   </div>
 
   <h4 class="section">Parameters</h4>
@@ -267,6 +267,15 @@ The ssl mTLS certificate if needed to connect to the control plane</li>
     <dt><code>sslValidation</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a>?</dt>
     <dd><p>Disable the ssl strong validation of ssl certificate (default : enable =&gt; true)</p>
 </dd>
+    <dt><code>retryInitialBackoff</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.timespan">TimeSpan</a></dt>
+    <dd><p>Initial retry backoff delay</p>
+</dd>
+    <dt><code>retryBackoffMultiplier</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Retry backoff multiplier</p>
+</dd>
+    <dt><code>retryMaxBackoff</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.timespan">TimeSpan</a></dt>
+    <dd><p>Max retry backoff</p>
+</dd>
   </dl>
 
 
@@ -292,7 +301,7 @@ The ssl mTLS certificate if needed to connect to the control plane</li>
 
   <h3 id="ArmoniK_DevelopmentKit_Client_Common_Properties_DefaultTaskOptions" data-uid="ArmoniK.DevelopmentKit.Client.Common.Properties.DefaultTaskOptions">
   DefaultTaskOptions
-  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Properties.cs/#L59"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Properties.cs/#L63"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>The default configuration to submit task in a Session</p>
@@ -328,7 +337,7 @@ The ssl mTLS certificate if needed to connect to the control plane</li>
 
   <h3 id="ArmoniK_DevelopmentKit_Client_Common_Properties_CaCertFilePem" data-uid="ArmoniK.DevelopmentKit.Client.Common.Properties.CaCertFilePem">
   CaCertFilePem
-  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Properties.cs/#L235"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Properties.cs/#L274"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>The path to the CA Root file name</p>
@@ -360,7 +369,7 @@ The ssl mTLS certificate if needed to connect to the control plane</li>
 
   <h3 id="ArmoniK_DevelopmentKit_Client_Common_Properties_ClientCertFilePem" data-uid="ArmoniK.DevelopmentKit.Client.Common.Properties.ClientCertFilePem">
   ClientCertFilePem
-  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Properties.cs/#L240"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Properties.cs/#L279"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>The property to get the path of the certificate file</p>
@@ -392,7 +401,7 @@ The ssl mTLS certificate if needed to connect to the control plane</li>
 
   <h3 id="ArmoniK_DevelopmentKit_Client_Common_Properties_ClientKeyFilePem" data-uid="ArmoniK.DevelopmentKit.Client.Common.Properties.ClientKeyFilePem">
   ClientKeyFilePem
-  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Properties.cs/#L245"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Properties.cs/#L284"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>the property to get the path of the key certificate</p>
@@ -424,7 +433,7 @@ The ssl mTLS certificate if needed to connect to the control plane</li>
 
   <h3 id="ArmoniK_DevelopmentKit_Client_Common_Properties_ClientP12File" data-uid="ArmoniK.DevelopmentKit.Client.Common.Properties.ClientP12File">
   ClientP12File
-  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Properties.cs/#L250"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Properties.cs/#L289"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>the property to get the path of the certificate in P12/Pkcs12/PFX format</p>
@@ -456,7 +465,7 @@ The ssl mTLS certificate if needed to connect to the control plane</li>
 
   <h3 id="ArmoniK_DevelopmentKit_Client_Common_Properties_ConfSSLValidation" data-uid="ArmoniK.DevelopmentKit.Client.Common.Properties.ConfSSLValidation">
   ConfSSLValidation
-  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Properties.cs/#L255"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Properties.cs/#L294"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>The SSL validation property to disable SSL strong verification</p>
@@ -490,7 +499,7 @@ public bool ConfSSLValidation { get; }</code></pre>
 
   <h3 id="ArmoniK_DevelopmentKit_Client_Common_Properties_ConfSslValidation" data-uid="ArmoniK.DevelopmentKit.Client.Common.Properties.ConfSslValidation">
   ConfSslValidation
-  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Properties.cs/#L264"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Properties.cs/#L303"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>The SSL validation property to disable SSL strong verification</p>
@@ -522,7 +531,7 @@ public bool ConfSSLValidation { get; }</code></pre>
 
   <h3 id="ArmoniK_DevelopmentKit_Client_Common_Properties_Configuration" data-uid="ArmoniK.DevelopmentKit.Client.Common.Properties.Configuration">
   Configuration
-  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Properties.cs/#L271"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Properties.cs/#L310"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>The configuration property to give to the ClientService connector</p>
@@ -554,7 +563,7 @@ public bool ConfSSLValidation { get; }</code></pre>
 
   <h3 id="ArmoniK_DevelopmentKit_Client_Common_Properties_ConnectionAddress" data-uid="ArmoniK.DevelopmentKit.Client.Common.Properties.ConnectionAddress">
   ConnectionAddress
-  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Properties.cs/#L293"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Properties.cs/#L332"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>The connection address property to connect to the control plane</p>
@@ -586,7 +595,7 @@ public bool ConfSSLValidation { get; }</code></pre>
 
   <h3 id="ArmoniK_DevelopmentKit_Client_Common_Properties_ConnectionPort" data-uid="ArmoniK.DevelopmentKit.Client.Common.Properties.ConnectionPort">
   ConnectionPort
-  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Properties.cs/#L301"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Properties.cs/#L340"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>The option connection port to connect to control plane (Default : 5001)</p>
@@ -618,7 +627,7 @@ public bool ConfSSLValidation { get; }</code></pre>
 
   <h3 id="ArmoniK_DevelopmentKit_Client_Common_Properties_ConnectionString" data-uid="ArmoniK.DevelopmentKit.Client.Common.Properties.ConnectionString">
   ConnectionString
-  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Properties.cs/#L278"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Properties.cs/#L317"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>The connection string building the value Port Protocol and address</p>
@@ -650,7 +659,7 @@ public bool ConfSSLValidation { get; }</code></pre>
 
   <h3 id="ArmoniK_DevelopmentKit_Client_Common_Properties_ControlPlaneUri" data-uid="ArmoniK.DevelopmentKit.Client.Common.Properties.ControlPlaneUri">
   ControlPlaneUri
-  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Properties.cs/#L228"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Properties.cs/#L267"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>The control plane url to connect</p>
@@ -682,7 +691,7 @@ public bool ConfSSLValidation { get; }</code></pre>
 
   <h3 id="ArmoniK_DevelopmentKit_Client_Common_Properties_MaxConcurrentBuffers" data-uid="ArmoniK.DevelopmentKit.Client.Common.Properties.MaxConcurrentBuffers">
   MaxConcurrentBuffers
-  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Properties.cs/#L206"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Properties.cs/#L245"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Set the number of buffers that can be filled in asynchronous submitAsync</p>
@@ -714,7 +723,7 @@ public bool ConfSSLValidation { get; }</code></pre>
 
   <h3 id="ArmoniK_DevelopmentKit_Client_Common_Properties_MaxParallelChannels" data-uid="ArmoniK.DevelopmentKit.Client.Common.Properties.MaxParallelChannels">
   MaxParallelChannels
-  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Properties.cs/#L221"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Properties.cs/#L260"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>The number of channels used for Buffered Submit (Default 1)</p>
@@ -746,7 +755,7 @@ public bool ConfSSLValidation { get; }</code></pre>
 
   <h3 id="ArmoniK_DevelopmentKit_Client_Common_Properties_MaxTasksPerBuffer" data-uid="ArmoniK.DevelopmentKit.Client.Common.Properties.MaxTasksPerBuffer">
   MaxTasksPerBuffer
-  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Properties.cs/#L198"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Properties.cs/#L237"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Set the number of task by buffer</p>
@@ -778,7 +787,7 @@ public bool ConfSSLValidation { get; }</code></pre>
 
   <h3 id="ArmoniK_DevelopmentKit_Client_Common_Properties_Protocol" data-uid="ArmoniK.DevelopmentKit.Client.Common.Properties.Protocol">
   Protocol
-  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Properties.cs/#L286"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Properties.cs/#L325"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Secure or insecure protocol communication https or http (Default http)</p>
@@ -806,11 +815,107 @@ public bool ConfSSLValidation { get; }</code></pre>
 
 
 
+  <a id="ArmoniK_DevelopmentKit_Client_Common_Properties_RetryBackoffMultiplier_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Properties.RetryBackoffMultiplier*"></a>
+
+  <h3 id="ArmoniK_DevelopmentKit_Client_Common_Properties_RetryBackoffMultiplier" data-uid="ArmoniK.DevelopmentKit.Client.Common.Properties.RetryBackoffMultiplier">
+  RetryBackoffMultiplier
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Properties.cs/#L366"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Backoff multiplier for retries</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public double RetryBackoffMultiplier { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="ArmoniK_DevelopmentKit_Client_Common_Properties_RetryInitialBackoff_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Properties.RetryInitialBackoff*"></a>
+
+  <h3 id="ArmoniK_DevelopmentKit_Client_Common_Properties_RetryInitialBackoff" data-uid="ArmoniK.DevelopmentKit.Client.Common.Properties.RetryInitialBackoff">
+  RetryInitialBackoff
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Properties.cs/#L361"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Initial backoff from retries</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TimeSpan RetryInitialBackoff { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.timespan">TimeSpan</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="ArmoniK_DevelopmentKit_Client_Common_Properties_RetryMaxBackoff_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Properties.RetryMaxBackoff*"></a>
+
+  <h3 id="ArmoniK_DevelopmentKit_Client_Common_Properties_RetryMaxBackoff" data-uid="ArmoniK.DevelopmentKit.Client.Common.Properties.RetryMaxBackoff">
+  RetryMaxBackoff
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Properties.cs/#L371"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Max backoff for retries</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TimeSpan RetryMaxBackoff { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.timespan">TimeSpan</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
   <a id="ArmoniK_DevelopmentKit_Client_Common_Properties_TargetNameOverride_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Properties.TargetNameOverride*"></a>
 
   <h3 id="ArmoniK_DevelopmentKit_Client_Common_Properties_TargetNameOverride" data-uid="ArmoniK.DevelopmentKit.Client.Common.Properties.TargetNameOverride">
   TargetNameOverride
-  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Properties.cs/#L317"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Properties.cs/#L356"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>The target name of the endpoint when ssl validation is disabled. Automatic if not set.</p>
@@ -842,7 +947,7 @@ public bool ConfSSLValidation { get; }</code></pre>
 
   <h3 id="ArmoniK_DevelopmentKit_Client_Common_Properties_TaskOptions" data-uid="ArmoniK.DevelopmentKit.Client.Common.Properties.TaskOptions">
   TaskOptions
-  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Properties.cs/#L309"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Properties.cs/#L348"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>The TaskOptions to pass to the session or the submission session</p>
@@ -874,7 +979,7 @@ public bool ConfSSLValidation { get; }</code></pre>
 
   <h3 id="ArmoniK_DevelopmentKit_Client_Common_Properties_TimeTriggerBuffer" data-uid="ArmoniK.DevelopmentKit.Client.Common.Properties.TimeTriggerBuffer">
   TimeTriggerBuffer
-  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Properties.cs/#L214"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Properties.cs/#L253"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>TimeSpan to trigger a batch to send the batch of submit</p>

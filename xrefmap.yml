@@ -157,15 +157,15 @@ references:
   fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Properties.New(ArmoniK.Api.gRPC.V1.TaskOptions, String, Integer, String, String, String, String, String, Boolean?)
   nameWithType: Properties.Properties(TaskOptions, string?, int, string?, string?, string?, string?, string?, bool?)
   nameWithType.vb: Properties.New(TaskOptions, String, Integer, String, String, String, String, String, Boolean?)
-- uid: ArmoniK.DevelopmentKit.Client.Common.Properties.#ctor(Microsoft.Extensions.Configuration.IConfiguration,ArmoniK.Api.gRPC.V1.TaskOptions,System.String,System.Int32,System.String,System.String,System.String,System.String,System.String,System.Nullable{System.Boolean})
-  name: Properties(IConfiguration, TaskOptions, string?, int, string?, string?, string?, string?, string?, bool?)
-  href: api/ArmoniK.DevelopmentKit.Client.Common.Properties.html#ArmoniK_DevelopmentKit_Client_Common_Properties__ctor_Microsoft_Extensions_Configuration_IConfiguration_ArmoniK_Api_gRPC_V1_TaskOptions_System_String_System_Int32_System_String_System_String_System_String_System_String_System_String_System_Nullable_System_Boolean__
-  commentId: M:ArmoniK.DevelopmentKit.Client.Common.Properties.#ctor(Microsoft.Extensions.Configuration.IConfiguration,ArmoniK.Api.gRPC.V1.TaskOptions,System.String,System.Int32,System.String,System.String,System.String,System.String,System.String,System.Nullable{System.Boolean})
-  name.vb: New(IConfiguration, TaskOptions, String, Integer, String, String, String, String, String, Boolean?)
-  fullName: ArmoniK.DevelopmentKit.Client.Common.Properties.Properties(Microsoft.Extensions.Configuration.IConfiguration, ArmoniK.Api.gRPC.V1.TaskOptions, string?, int, string?, string?, string?, string?, string?, bool?)
-  fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Properties.New(Microsoft.Extensions.Configuration.IConfiguration, ArmoniK.Api.gRPC.V1.TaskOptions, String, Integer, String, String, String, String, String, Boolean?)
-  nameWithType: Properties.Properties(IConfiguration, TaskOptions, string?, int, string?, string?, string?, string?, string?, bool?)
-  nameWithType.vb: Properties.New(IConfiguration, TaskOptions, String, Integer, String, String, String, String, String, Boolean?)
+- uid: ArmoniK.DevelopmentKit.Client.Common.Properties.#ctor(Microsoft.Extensions.Configuration.IConfiguration,ArmoniK.Api.gRPC.V1.TaskOptions,System.String,System.Int32,System.String,System.String,System.String,System.String,System.String,System.Nullable{System.Boolean},System.TimeSpan,System.Double,System.TimeSpan)
+  name: Properties(IConfiguration, TaskOptions, string?, int, string?, string?, string?, string?, string?, bool?, TimeSpan, double, TimeSpan)
+  href: api/ArmoniK.DevelopmentKit.Client.Common.Properties.html#ArmoniK_DevelopmentKit_Client_Common_Properties__ctor_Microsoft_Extensions_Configuration_IConfiguration_ArmoniK_Api_gRPC_V1_TaskOptions_System_String_System_Int32_System_String_System_String_System_String_System_String_System_String_System_Nullable_System_Boolean__System_TimeSpan_System_Double_System_TimeSpan_
+  commentId: M:ArmoniK.DevelopmentKit.Client.Common.Properties.#ctor(Microsoft.Extensions.Configuration.IConfiguration,ArmoniK.Api.gRPC.V1.TaskOptions,System.String,System.Int32,System.String,System.String,System.String,System.String,System.String,System.Nullable{System.Boolean},System.TimeSpan,System.Double,System.TimeSpan)
+  name.vb: New(IConfiguration, TaskOptions, String, Integer, String, String, String, String, String, Boolean?, TimeSpan, Double, TimeSpan)
+  fullName: ArmoniK.DevelopmentKit.Client.Common.Properties.Properties(Microsoft.Extensions.Configuration.IConfiguration, ArmoniK.Api.gRPC.V1.TaskOptions, string?, int, string?, string?, string?, string?, string?, bool?, System.TimeSpan, double, System.TimeSpan)
+  fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Properties.New(Microsoft.Extensions.Configuration.IConfiguration, ArmoniK.Api.gRPC.V1.TaskOptions, String, Integer, String, String, String, String, String, Boolean?, System.TimeSpan, Double, System.TimeSpan)
+  nameWithType: Properties.Properties(IConfiguration, TaskOptions, string?, int, string?, string?, string?, string?, string?, bool?, TimeSpan, double, TimeSpan)
+  nameWithType.vb: Properties.New(IConfiguration, TaskOptions, String, Integer, String, String, String, String, String, Boolean?, TimeSpan, Double, TimeSpan)
 - uid: ArmoniK.DevelopmentKit.Client.Common.Properties.#ctor*
   name: Properties
   href: api/ArmoniK.DevelopmentKit.Client.Common.Properties.html#ArmoniK_DevelopmentKit_Client_Common_Properties__ctor_
@@ -377,6 +377,45 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.Client.Common.Properties.Protocol
   nameWithType: Properties.Protocol
+- uid: ArmoniK.DevelopmentKit.Client.Common.Properties.RetryBackoffMultiplier
+  name: RetryBackoffMultiplier
+  href: api/ArmoniK.DevelopmentKit.Client.Common.Properties.html#ArmoniK_DevelopmentKit_Client_Common_Properties_RetryBackoffMultiplier
+  commentId: P:ArmoniK.DevelopmentKit.Client.Common.Properties.RetryBackoffMultiplier
+  fullName: ArmoniK.DevelopmentKit.Client.Common.Properties.RetryBackoffMultiplier
+  nameWithType: Properties.RetryBackoffMultiplier
+- uid: ArmoniK.DevelopmentKit.Client.Common.Properties.RetryBackoffMultiplier*
+  name: RetryBackoffMultiplier
+  href: api/ArmoniK.DevelopmentKit.Client.Common.Properties.html#ArmoniK_DevelopmentKit_Client_Common_Properties_RetryBackoffMultiplier_
+  commentId: Overload:ArmoniK.DevelopmentKit.Client.Common.Properties.RetryBackoffMultiplier
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Client.Common.Properties.RetryBackoffMultiplier
+  nameWithType: Properties.RetryBackoffMultiplier
+- uid: ArmoniK.DevelopmentKit.Client.Common.Properties.RetryInitialBackoff
+  name: RetryInitialBackoff
+  href: api/ArmoniK.DevelopmentKit.Client.Common.Properties.html#ArmoniK_DevelopmentKit_Client_Common_Properties_RetryInitialBackoff
+  commentId: P:ArmoniK.DevelopmentKit.Client.Common.Properties.RetryInitialBackoff
+  fullName: ArmoniK.DevelopmentKit.Client.Common.Properties.RetryInitialBackoff
+  nameWithType: Properties.RetryInitialBackoff
+- uid: ArmoniK.DevelopmentKit.Client.Common.Properties.RetryInitialBackoff*
+  name: RetryInitialBackoff
+  href: api/ArmoniK.DevelopmentKit.Client.Common.Properties.html#ArmoniK_DevelopmentKit_Client_Common_Properties_RetryInitialBackoff_
+  commentId: Overload:ArmoniK.DevelopmentKit.Client.Common.Properties.RetryInitialBackoff
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Client.Common.Properties.RetryInitialBackoff
+  nameWithType: Properties.RetryInitialBackoff
+- uid: ArmoniK.DevelopmentKit.Client.Common.Properties.RetryMaxBackoff
+  name: RetryMaxBackoff
+  href: api/ArmoniK.DevelopmentKit.Client.Common.Properties.html#ArmoniK_DevelopmentKit_Client_Common_Properties_RetryMaxBackoff
+  commentId: P:ArmoniK.DevelopmentKit.Client.Common.Properties.RetryMaxBackoff
+  fullName: ArmoniK.DevelopmentKit.Client.Common.Properties.RetryMaxBackoff
+  nameWithType: Properties.RetryMaxBackoff
+- uid: ArmoniK.DevelopmentKit.Client.Common.Properties.RetryMaxBackoff*
+  name: RetryMaxBackoff
+  href: api/ArmoniK.DevelopmentKit.Client.Common.Properties.html#ArmoniK_DevelopmentKit_Client_Common_Properties_RetryMaxBackoff_
+  commentId: Overload:ArmoniK.DevelopmentKit.Client.Common.Properties.RetryMaxBackoff
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Client.Common.Properties.RetryMaxBackoff
+  nameWithType: Properties.RetryMaxBackoff
 - uid: ArmoniK.DevelopmentKit.Client.Common.Properties.TargetNameOverride
   name: TargetNameOverride
   href: api/ArmoniK.DevelopmentKit.Client.Common.Properties.html#ArmoniK_DevelopmentKit_Client_Common_Properties_TargetNameOverride
@@ -3354,6 +3393,15 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.Common.Retry.UntilTrue
   nameWithType: Retry.UntilTrue
+- uid: ArmoniK.DevelopmentKit.Common.Retry.WhileException(System.Int32,System.Int32,System.Action{System.Int32},System.Boolean,Microsoft.Extensions.Logging.ILogger,System.Type[])
+  name: WhileException(int, int, Action<int>, bool, ILogger?, params Type[])
+  href: api/ArmoniK.DevelopmentKit.Common.Retry.html#ArmoniK_DevelopmentKit_Common_Retry_WhileException_System_Int32_System_Int32_System_Action_System_Int32__System_Boolean_Microsoft_Extensions_Logging_ILogger_System_Type___
+  commentId: M:ArmoniK.DevelopmentKit.Common.Retry.WhileException(System.Int32,System.Int32,System.Action{System.Int32},System.Boolean,Microsoft.Extensions.Logging.ILogger,System.Type[])
+  name.vb: WhileException(Integer, Integer, Action(Of Integer), Boolean, ILogger, ParamArray Type())
+  fullName: ArmoniK.DevelopmentKit.Common.Retry.WhileException(int, int, System.Action<int>, bool, Microsoft.Extensions.Logging.ILogger?, params System.Type[])
+  fullName.vb: ArmoniK.DevelopmentKit.Common.Retry.WhileException(Integer, Integer, System.Action(Of Integer), Boolean, Microsoft.Extensions.Logging.ILogger, ParamArray System.Type())
+  nameWithType: Retry.WhileException(int, int, Action<int>, bool, ILogger?, params Type[])
+  nameWithType.vb: Retry.WhileException(Integer, Integer, Action(Of Integer), Boolean, ILogger, ParamArray Type())
 - uid: ArmoniK.DevelopmentKit.Common.Retry.WhileException(System.Int32,System.Int32,System.Action{System.Int32},System.Boolean,System.Type[])
   name: WhileException(int, int, Action<int>, bool, params Type[])
   href: api/ArmoniK.DevelopmentKit.Common.Retry.html#ArmoniK_DevelopmentKit_Common_Retry_WhileException_System_Int32_System_Int32_System_Action_System_Int32__System_Boolean_System_Type___
@@ -3370,6 +3418,15 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.Common.Retry.WhileException
   nameWithType: Retry.WhileException
+- uid: ArmoniK.DevelopmentKit.Common.Retry.WhileException``1(System.Int32,System.Int32,System.Func{System.Int32,``0},System.Boolean,Microsoft.Extensions.Logging.ILogger,System.Type[])
+  name: WhileException<T>(int, int, Func<int, T>, bool, ILogger?, params Type[])
+  href: api/ArmoniK.DevelopmentKit.Common.Retry.html#ArmoniK_DevelopmentKit_Common_Retry_WhileException__1_System_Int32_System_Int32_System_Func_System_Int32___0__System_Boolean_Microsoft_Extensions_Logging_ILogger_System_Type___
+  commentId: M:ArmoniK.DevelopmentKit.Common.Retry.WhileException``1(System.Int32,System.Int32,System.Func{System.Int32,``0},System.Boolean,Microsoft.Extensions.Logging.ILogger,System.Type[])
+  name.vb: WhileException(Of T)(Integer, Integer, Func(Of Integer, T), Boolean, ILogger, ParamArray Type())
+  fullName: ArmoniK.DevelopmentKit.Common.Retry.WhileException<T>(int, int, System.Func<int, T>, bool, Microsoft.Extensions.Logging.ILogger?, params System.Type[])
+  fullName.vb: ArmoniK.DevelopmentKit.Common.Retry.WhileException(Of T)(Integer, Integer, System.Func(Of Integer, T), Boolean, Microsoft.Extensions.Logging.ILogger, ParamArray System.Type())
+  nameWithType: Retry.WhileException<T>(int, int, Func<int, T>, bool, ILogger?, params Type[])
+  nameWithType.vb: Retry.WhileException(Of T)(Integer, Integer, Func(Of Integer, T), Boolean, ILogger, ParamArray Type())
 - uid: ArmoniK.DevelopmentKit.Common.Retry.WhileException``1(System.Int32,System.Int32,System.Func{System.Int32,``0},System.Boolean,System.Type[])
   name: WhileException<T>(int, int, Func<int, T>, bool, params Type[])
   href: api/ArmoniK.DevelopmentKit.Common.Retry.html#ArmoniK_DevelopmentKit_Common_Retry_WhileException__1_System_Int32_System_Int32_System_Func_System_Int32___0__System_Boolean_System_Type___

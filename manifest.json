@@ -1,5 +1,4 @@
 {
-  "homepages": [],
   "source_base_path": "/home/runner/work/ArmoniK.Extensions.Csharp/ArmoniK.Extensions.Csharp/Documentation",
   "xrefmap": "xrefmap.yml",
   "files": [
@@ -2180,7 +2179,6 @@
       "version": ""
     }
   ],
-  "version_info": {},
   "groups": [
     {
       "xrefmap": "xrefmap.yml"

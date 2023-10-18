@@ -94,7 +94,7 @@
 
   <h1 id="ArmoniK_DevelopmentKit_Common_Retry" data-uid="ArmoniK.DevelopmentKit.Common.Retry" class="text-break">
     Class Retry
-  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Common/src/Common/RetryAction.cs/#L26"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Common/src/Common/RetryAction.cs/#L28"><i class="bi bi-code-slash"></i></a>
   </h1>
 
   <div class="facts text-secondary">
@@ -162,7 +162,7 @@
 
   <h3 id="ArmoniK_DevelopmentKit_Common_Retry_UntilTrue_System_Int32_System_Int32_System_Func_System_Boolean__" data-uid="ArmoniK.DevelopmentKit.Common.Retry.UntilTrue(System.Int32,System.Int32,System.Func{System.Boolean})">
   UntilTrue(int, int, Func&lt;bool&gt;)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Common/src/Common/RetryAction.cs/#L35"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Common/src/Common/RetryAction.cs/#L37"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Retry the specified action at most retries times until it returns true.</p>
@@ -205,9 +205,59 @@
 
   <a id="ArmoniK_DevelopmentKit_Common_Retry_WhileException_" data-uid="ArmoniK.DevelopmentKit.Common.Retry.WhileException*"></a>
 
+  <h3 id="ArmoniK_DevelopmentKit_Common_Retry_WhileException_System_Int32_System_Int32_System_Action_System_Int32__System_Boolean_Microsoft_Extensions_Logging_ILogger_System_Type___" data-uid="ArmoniK.DevelopmentKit.Common.Retry.WhileException(System.Int32,System.Int32,System.Action{System.Int32},System.Boolean,Microsoft.Extensions.Logging.ILogger,System.Type[])">
+  WhileException(int, int, Action&lt;int&gt;, bool, ILogger?, params Type[])
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Common/src/Common/RetryAction.cs/#L93"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Retry the specified operation the specified number of times, until there are no more retries or it succeeded
+without an exception.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static void WhileException(int retries, int delayMs, Action&lt;int&gt; operation, bool allowDerivedExceptions = false, ILogger? logger = null, params Type[] exceptionType)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>retries</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>The number of times to retry the operation</p>
+</dd>
+    <dt><code>delayMs</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>The number of milliseconds to sleep after a failed invocation of the operation</p>
+</dd>
+    <dt><code>operation</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.action-1">Action</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a>&gt;</dt>
+    <dd><p>the operation to perform</p>
+</dd>
+    <dt><code>allowDerivedExceptions</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p>If true, exceptions deriving from the specified exception type are ignored as
+well. Defaults to False</p>
+</dd>
+    <dt><code>logger</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/microsoft.extensions.logging.ilogger">ILogger</a></dt>
+    <dd><p>Logger to log retried exception</p>
+</dd>
+    <dt><code>exceptionType</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.type">Type</a>[]</dt>
+    <dd><p>if not null, ignore any exceptions of this type and subtypes</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="ArmoniK_DevelopmentKit_Common_Retry_WhileException_" data-uid="ArmoniK.DevelopmentKit.Common.Retry.WhileException*"></a>
+
   <h3 id="ArmoniK_DevelopmentKit_Common_Retry_WhileException_System_Int32_System_Int32_System_Action_System_Int32__System_Boolean_System_Type___" data-uid="ArmoniK.DevelopmentKit.Common.Retry.WhileException(System.Int32,System.Int32,System.Action{System.Int32},System.Boolean,System.Type[])">
   WhileException(int, int, Action&lt;int&gt;, bool, params Type[])
-  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Common/src/Common/RetryAction.cs/#L65"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Common/src/Common/RetryAction.cs/#L67"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Retry the specified operation the specified number of times, until there are no more retries or it succeeded
@@ -252,9 +302,71 @@ well. Defaults to False</p>
 
   <a id="ArmoniK_DevelopmentKit_Common_Retry_WhileException_" data-uid="ArmoniK.DevelopmentKit.Common.Retry.WhileException*"></a>
 
+  <h3 id="ArmoniK_DevelopmentKit_Common_Retry_WhileException__1_System_Int32_System_Int32_System_Func_System_Int32___0__System_Boolean_Microsoft_Extensions_Logging_ILogger_System_Type___" data-uid="ArmoniK.DevelopmentKit.Common.Retry.WhileException``1(System.Int32,System.Int32,System.Func{System.Int32,``0},System.Boolean,Microsoft.Extensions.Logging.ILogger,System.Type[])">
+  WhileException&lt;T&gt;(int, int, Func&lt;int, T&gt;, bool, ILogger?, params Type[])
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Common/src/Common/RetryAction.cs/#L179"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Retry the specified operation the specified number of times, until there are no more retries or it succeeded
+without an exception.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static T WhileException&lt;T&gt;(int retries, int delayMs, Func&lt;int, T&gt; operation, bool allowDerivedExceptions = false, ILogger? logger = null, params Type[] exceptionType)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>retries</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>The number of times to retry the operation</p>
+</dd>
+    <dt><code>delayMs</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>The number of milliseconds to sleep after a failed invocation of the operation</p>
+</dd>
+    <dt><code>operation</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.func-2">Func</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a>, T&gt;</dt>
+    <dd><p>the operation to perform</p>
+</dd>
+    <dt><code>allowDerivedExceptions</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p>If true, exceptions deriving from the specified exception type are ignored as
+well. Defaults to False</p>
+</dd>
+    <dt><code>logger</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/microsoft.extensions.logging.ilogger">ILogger</a></dt>
+    <dd><p>Logger to log retried exception</p>
+</dd>
+    <dt><code>exceptionType</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.type">Type</a>[]</dt>
+    <dd><p>if not null, ignore any exceptions of this type and subtypes</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">T</span></dt>
+    <dd><p>When one of the retries succeeds, return the value the operation returned. If not, an exception is thrown.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>T</code></dt>
+    <dd><p>The return type of the exception</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <a id="ArmoniK_DevelopmentKit_Common_Retry_WhileException_" data-uid="ArmoniK.DevelopmentKit.Common.Retry.WhileException*"></a>
+
   <h3 id="ArmoniK_DevelopmentKit_Common_Retry_WhileException__1_System_Int32_System_Int32_System_Func_System_Int32___0__System_Boolean_System_Type___" data-uid="ArmoniK.DevelopmentKit.Common.Retry.WhileException``1(System.Int32,System.Int32,System.Func{System.Int32,``0},System.Boolean,System.Type[])">
   WhileException&lt;T&gt;(int, int, Func&lt;int, T&gt;, bool, params Type[])
-  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Common/src/Common/RetryAction.cs/#L119"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Common/src/Common/RetryAction.cs/#L152"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Retry the specified operation the specified number of times, until there are no more retries or it succeeded
@@ -313,7 +425,7 @@ well. Defaults to False</p>
 </article>
 
         <div class="contribution d-print-none">
-          <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Common/src/Common/RetryAction.cs/#L26" class="edit-link">Edit this page</a>
+          <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Common/src/Common/RetryAction.cs/#L28" class="edit-link">Edit this page</a>
         </div>
 
         
