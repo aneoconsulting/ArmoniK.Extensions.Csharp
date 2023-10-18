@@ -4,9 +4,12 @@ on:
   push:
     branches:
       - main
+      - "[0-9]+.[0-9]+.x"
   pull_request:
     branches:
       - main
+      - "[0-9]+.[0-9]+.x"
+      
 
 jobs:
   versionning:
@@ -304,13 +307,6 @@ jobs:
           name: end2end-${{ matrix.tls }}-${{ matrix.mtls }}-${{ matrix.sslvalidation }}-${{ matrix.useca }}.tar.gz
           path: end2end-${{ matrix.tls }}-${{ matrix.mtls }}-${{ matrix.sslvalidation }}-${{ matrix.useca }}.tar.gz
           retention-days: 2
-    
-      - name: Destroy deployment
-        if: success() || failure()
-        uses: aneoconsulting/ArmoniK.Action.Deploy/destroy@main
-        with:
-          working-directory: ${{ github.workspace }}/infra
-          type: localhost
 
 
   test-container:

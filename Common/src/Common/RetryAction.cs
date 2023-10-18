@@ -18,6 +18,8 @@ using System;
 using System.Linq;
 using System.Threading;
 
+using Microsoft.Extensions.Logging;
+
 namespace ArmoniK.DevelopmentKit.Common;
 
 /// <summary>
@@ -67,6 +69,33 @@ public static class Retry
                                     Action<int>   operation,
                                     bool          allowDerivedExceptions = false,
                                     params Type[] exceptionType)
+    => WhileException(retries,
+                      delayMs,
+                      operation,
+                      allowDerivedExceptions,
+                      null,
+                      exceptionType);
+
+  /// <summary>
+  ///   Retry the specified operation the specified number of times, until there are no more retries or it succeeded
+  ///   without an exception.
+  /// </summary>
+  /// <param name="retries">The number of times to retry the operation</param>
+  /// <param name="delayMs">The number of milliseconds to sleep after a failed invocation of the operation</param>
+  /// <param name="operation">the operation to perform</param>
+  /// <param name="exceptionType">if not null, ignore any exceptions of this type and subtypes</param>
+  /// <param name="allowDerivedExceptions">
+  ///   If true, exceptions deriving from the specified exception type are ignored as
+  ///   well. Defaults to False
+  /// </param>
+  /// <param name="logger">Logger to log retried exception</param>
+  /// <returns>When one of the retries succeeds, return the value the operation returned. If not, an exception is thrown.</returns>
+  public static void WhileException(int           retries,
+                                    int           delayMs,
+                                    Action<int>   operation,
+                                    bool          allowDerivedExceptions = false,
+                                    ILogger?      logger                 = null,
+                                    params Type[] exceptionType)
   {
     // Do all but one retries in the loop
     for (var retry = 1; retry < retries; retry++)
@@ -83,6 +112,8 @@ public static class Retry
         if (exceptionType != null && allowDerivedExceptions && ex is AggregateException &&
             exceptionType.Any(e => ex.InnerException != null && ex.InnerException.GetType() == e))
         {
+          logger?.LogDebug("Got exception while executing function to retry : {ex}",
+                           ex);
           Thread.Sleep(delayMs);
         }
         else if (exceptionType == null || exceptionType.Any(e => e == ex.GetType()) || (allowDerivedExceptions && exceptionType.Any(e => ex.GetType()
@@ -91,6 +122,8 @@ public static class Retry
           // Ignore exceptions when exceptionType is not specified OR
           // the exception thrown was of the specified exception type OR
           // the exception thrown is derived from the specified exception type and we allow that
+          logger?.LogDebug("Got exception while executing function to retry : {ex}",
+                           ex);
           Thread.Sleep(delayMs);
         }
         else
@@ -121,6 +154,34 @@ public static class Retry
                                     Func<int, T>  operation,
                                     bool          allowDerivedExceptions = false,
                                     params Type[] exceptionType)
+    => WhileException(retries,
+                      delayMs,
+                      operation,
+                      allowDerivedExceptions,
+                      null,
+                      exceptionType);
+
+  /// <summary>
+  ///   Retry the specified operation the specified number of times, until there are no more retries or it succeeded
+  ///   without an exception.
+  /// </summary>
+  /// <typeparam name="T">The return type of the exception</typeparam>
+  /// <param name="retries">The number of times to retry the operation</param>
+  /// <param name="delayMs">The number of milliseconds to sleep after a failed invocation of the operation</param>
+  /// <param name="operation">the operation to perform</param>
+  /// <param name="exceptionType">if not null, ignore any exceptions of this type and subtypes</param>
+  /// <param name="allowDerivedExceptions">
+  ///   If true, exceptions deriving from the specified exception type are ignored as
+  ///   well. Defaults to False
+  /// </param>
+  /// <param name="logger">Logger to log retried exception</param>
+  /// <returns>When one of the retries succeeds, return the value the operation returned. If not, an exception is thrown.</returns>
+  public static T WhileException<T>(int           retries,
+                                    int           delayMs,
+                                    Func<int, T>  operation,
+                                    bool          allowDerivedExceptions = false,
+                                    ILogger?      logger                 = null,
+                                    params Type[] exceptionType)
   {
     // Do all but one retries in the loop
     for (var retry = 1; retry < retries; retry++)
@@ -135,6 +196,8 @@ public static class Retry
         if (exceptionType != null && allowDerivedExceptions && ex is AggregateException &&
             exceptionType.Any(e => ex.InnerException != null && ex.InnerException.GetType() == e))
         {
+          logger?.LogDebug("Got exception while executing function to retry : {ex}",
+                           ex);
           Thread.Sleep(delayMs);
         }
         else if (exceptionType == null || exceptionType.Any(e => e == ex.GetType()) || (allowDerivedExceptions && exceptionType.Any(e => ex.GetType()
@@ -143,6 +206,8 @@ public static class Retry
           // Ignore exceptions when exceptionType is not specified OR
           // the exception thrown was of the specified exception type OR
           // the exception thrown is derived from the specified exception type and we allow that
+          logger?.LogDebug("Got exception while executing function to retry : {ex}",
+                           ex);
           Thread.Sleep(delayMs);
         }
         else
