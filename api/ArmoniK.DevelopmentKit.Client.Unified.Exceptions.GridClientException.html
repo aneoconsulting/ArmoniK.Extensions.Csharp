@@ -29,13 +29,10 @@
       <meta name="loc:themeAuto" content="Auto">
       <meta name="loc:changeTheme" content="Change theme">
       <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
   </head>
 
-  <script type="module">
-    import options from './../public/main.js'
-    import { init } from './../public/docfx.min.js'
-    init(options)
-  </script>
+  <script type="module" src="./../public/docfx.min.js"></script>
 
   <script>
     const theme = localStorage.getItem('theme') || 'auto'
@@ -274,7 +271,7 @@
           <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Unified/Exceptions/GridClientException.cs/#L24" class="edit-link">Edit this page</a>
         </div>
 
-        
+
       </div>
 
       <div class="affix">
@@ -284,7 +281,7 @@
 
     <div class="container-xxl search-results" id="search-results"></div>
 
-    <footer class="border-top">
+    <footer class="border-top text-secondary">
       <div class="container-xxl">
         <div class="flex-fill">
           <strong>Aneo</strong>
