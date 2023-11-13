@@ -156,13 +156,18 @@ public class ComputerService : WorkerStreamWrapper
                        },
              };
     }
-
+    catch (RpcException ex)
+    {
+      Logger.LogWarning(ex,
+                        "Worker sent an error");
+      throw;
+    }
     catch (Exception ex)
     {
       Logger.LogError(ex,
                       "Unmanaged exception while executing task");
 
-      throw new RpcException(new Status(StatusCode.Aborted,
+      throw new RpcException(new Status(StatusCode.Internal,
                                         ex.Message + Environment.NewLine + ex.StackTrace));
     }
 
