@@ -339,7 +339,7 @@ jobs:
       - name: Build Docker image
         run: |
           docker build -t test_image:latest --build-arg WORKER_DLL_IMAGE=dockerhubaneo/armonik_worker_dll:$VERSION -f Tests/ArmoniK.EndToEndTests/ArmoniK.EndToEndTests.Worker/Dockerfile .
-
+          docker save "test_image:latest" | sudo k3s ctr images import /dev/stdin
       - name: Change version
         run: |
             cp tools/parameters.tfvars ${{ github.workspace }}/infra/infrastructure/quick-deploy/localhost/all-in-one/parameters.tfvars
