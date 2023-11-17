@@ -230,7 +230,7 @@ jobs:
           tls: ${{ matrix.tls }}
           mtls: ${{ matrix.mtls }}
           ext-csharp-version: ${{ needs.versionning.outputs.version }}
-          core-version: 0.19.2
+          core-version: 0.19.3
 
       - name: Setup hosts file
         run : echo -e "$(kubectl get svc ingress -n armonik -o jsonpath={.status.loadBalancer.ingress[0].ip})\tarmonik.local" | sudo tee -a /etc/hosts
@@ -353,7 +353,7 @@ jobs:
           working-directory: ${{ github.workspace }}/infra
           type: localhost
           ext-csharp-version: ${{ needs.versionning.outputs.version }}
-          core-version: 0.19.2
+          core-version: 0.19.3
 
       - name: Run Test
         run: |
