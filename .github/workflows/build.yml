@@ -356,6 +356,7 @@ jobs:
           core-version: 0.19.3
 
       - name: Run Test
+        timeout-minutes: 20
         run: |
           cd Tests
           bash -x ./endToEndTests.sh
