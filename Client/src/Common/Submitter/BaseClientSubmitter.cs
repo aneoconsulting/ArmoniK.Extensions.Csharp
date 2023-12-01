@@ -285,79 +285,100 @@ public abstract class BaseClientSubmitter<T>
   {
     using var _ = Logger.LogFunction();
 
-    var taskRequests = payloadsWithDependencies.Select(pwd =>
-                                                       {
-                                                         var taskRequest = new TaskRequest
-                                                                           {
-                                                                             Payload = UnsafeByteOperations.UnsafeWrap(pwd.Item2),
-                                                                           };
-                                                         taskRequest.DataDependencies.AddRange(pwd.Item3);
-                                                         taskRequest.ExpectedOutputKeys.Add(pwd.Item1);
-                                                         return taskRequest;
-                                                       });
-
     for (var nbRetry = 0; nbRetry < maxRetries; nbRetry++)
     {
-      try
+      var channel        = ChannelPool.GetChannel();
+      var tasksClient    = new Tasks.TasksClient(channel);
+      var resultsClient  = new Results.ResultsClient(channel);
+      var resultsCreated = new List<string>();
+      foreach (var (resultId, payload, dependencies) in payloadsWithDependencies)
       {
-        using var channel          = ChannelPool.GetChannel();
-        var       submitterService = new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel);
-
-        var response = submitterService.CreateTasksAsync(SessionId.Id,
-                                                         taskOptions ?? TaskOptions,
-                                                         // multiple enumeration only occurs in case of failure
-                                                         // ReSharper disable once PossibleMultipleEnumeration 
-                                                         taskRequests)
-                                       .ConfigureAwait(false)
-                                       .GetAwaiter()
-                                       .GetResult();
-        return response.ResponseCase switch
-               {
-                 CreateTaskReply.ResponseOneofCase.CreationStatusList => response.CreationStatusList.CreationStatuses.Select(status => status.TaskInfo.TaskId),
-                 CreateTaskReply.ResponseOneofCase.None               => throw new Exception("Issue with Server !"),
-                 CreateTaskReply.ResponseOneofCase.Error              => throw new Exception("Error while creating tasks !"),
-                 _                                                    => throw new InvalidOperationException(),
-               };
-      }
-      catch (Exception e)
-      {
-        if (nbRetry >= maxRetries - 1)
+        try
         {
-          throw;
+          var payloads = resultsClient.CreateResults(new CreateResultsRequest
+                                                     {
+                                                       SessionId = SessionId.Id,
+                                                       Results =
+                                                       {
+                                                         new CreateResultsRequest.Types.ResultCreate
+                                                         {
+                                                           Data = UnsafeByteOperations.UnsafeWrap(payload),
+                                                         },
+                                                       },
+                                                     });
+          var result = resultsClient.CreateResultsMetaData(new CreateResultsMetaDataRequest
+                                                           {
+                                                             SessionId = SessionId.Id,
+                                                             Results =
+                                                             {
+                                                               new CreateResultsMetaDataRequest.Types.ResultCreate(),
+                                                             },
+                                                           })
+                                    .Results.Select(raw => raw.ResultId)
+                                    .Single();
+          tasksClient.SubmitTasksAsync(new SubmitTasksRequest
+                                       {
+                                         SessionId = SessionId.Id,
+                                         TaskCreations =
+                                         {
+                                           new SubmitTasksRequest.Types.TaskCreation
+                                           {
+                                             PayloadId = payloads.Results.Select(raw => raw.ResultId)
+                                                                 .Single(),
+                                             DataDependencies =
+                                             {
+                                               dependencies,
+                                             },
+                                             ExpectedOutputKeys =
+                                             {
+                                               result,
+                                             },
+                                           },
+                                         },
+                                       });
+          resultsCreated.Add(result);
+          return resultsCreated;
         }
-
-        switch (e)
+        catch (Exception e)
         {
-          case AggregateException
-               {
-                 InnerException: RpcException,
-               } ex:
-            Logger.LogWarning(ex.InnerException,
-                              "Failure to submit");
-            break;
-          case AggregateException
-               {
-                 InnerException: IOException,
-               } ex:
-            Logger.LogWarning(ex.InnerException,
-                              "IOException : Failure to submit, Retrying");
-            break;
-          case IOException ex:
-            Logger.LogWarning(ex,
-                              "IOException Failure to submit");
-            break;
-          default:
-            Logger.LogError(e,
-                            "Unknown failure :");
+          if (nbRetry >= maxRetries - 1)
+          {
             throw;
-        }
-      }
+          }
 
-      if (nbRetry > 0)
-      {
-        Logger.LogWarning("{retry}/{maxRetries} nbRetry to submit batch of task",
-                          nbRetry,
-                          maxRetries);
+          switch (e)
+          {
+            case AggregateException
+                 {
+                   InnerException: RpcException,
+                 } ex:
+              Logger.LogWarning(ex.InnerException,
+                                "Failure to submit");
+              break;
+            case AggregateException
+                 {
+                   InnerException: IOException,
+                 } ex:
+              Logger.LogWarning(ex.InnerException,
+                                "IOException : Failure to submit, Retrying");
+              break;
+            case IOException ex:
+              Logger.LogWarning(ex,
+                                "IOException Failure to submit");
+              break;
+            default:
+              Logger.LogError(e,
+                              "Unknown failure :");
+              throw;
+          }
+        }
+
+        if (nbRetry > 0)
+        {
+          Logger.LogWarning("{retry}/{maxRetries} nbRetry to submit batch of task",
+                            nbRetry,
+                            maxRetries);
+        }
       }
     }
 
