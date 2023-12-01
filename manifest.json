@@ -172,6 +172,16 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/ArmoniK.DevelopmentKit.Client.Common.Submitter.TasksClientExt.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ArmoniK.DevelopmentKit.Client.Common.Submitter.TasksClientExt.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/ArmoniK.DevelopmentKit.Client.Common.Submitter.yml",
       "output": {
         ".html": {

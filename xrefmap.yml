@@ -1343,6 +1343,44 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.Client.Common.Submitter.SubmitterServiceExt.Submit
   nameWithType: SubmitterServiceExt.Submit
+- uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.TasksClientExt
+  name: TasksClientExt
+  href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.TasksClientExt.html
+  commentId: T:ArmoniK.DevelopmentKit.Client.Common.Submitter.TasksClientExt
+  fullName: ArmoniK.DevelopmentKit.Client.Common.Submitter.TasksClientExt
+  nameWithType: TasksClientExt
+- uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.TasksClientExt.ListTasks(ArmoniK.Api.gRPC.V1.Tasks.Tasks.TasksClient,ArmoniK.Api.gRPC.V1.Tasks.Filters,ArmoniK.Api.gRPC.V1.Tasks.ListTasksRequest.Types.Sort,System.Int32)
+  name: ListTasks(TasksClient, Filters, Sort, int)
+  href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.TasksClientExt.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_TasksClientExt_ListTasks_ArmoniK_Api_gRPC_V1_Tasks_Tasks_TasksClient_ArmoniK_Api_gRPC_V1_Tasks_Filters_ArmoniK_Api_gRPC_V1_Tasks_ListTasksRequest_Types_Sort_System_Int32_
+  commentId: M:ArmoniK.DevelopmentKit.Client.Common.Submitter.TasksClientExt.ListTasks(ArmoniK.Api.gRPC.V1.Tasks.Tasks.TasksClient,ArmoniK.Api.gRPC.V1.Tasks.Filters,ArmoniK.Api.gRPC.V1.Tasks.ListTasksRequest.Types.Sort,System.Int32)
+  name.vb: ListTasks(TasksClient, Filters, Sort, Integer)
+  fullName: ArmoniK.DevelopmentKit.Client.Common.Submitter.TasksClientExt.ListTasks(ArmoniK.Api.gRPC.V1.Tasks.Tasks.TasksClient, ArmoniK.Api.gRPC.V1.Tasks.Filters, ArmoniK.Api.gRPC.V1.Tasks.ListTasksRequest.Types.Sort, int)
+  fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Submitter.TasksClientExt.ListTasks(ArmoniK.Api.gRPC.V1.Tasks.Tasks.TasksClient, ArmoniK.Api.gRPC.V1.Tasks.Filters, ArmoniK.Api.gRPC.V1.Tasks.ListTasksRequest.Types.Sort, Integer)
+  nameWithType: TasksClientExt.ListTasks(Tasks.TasksClient, Filters, ListTasksRequest.Types.Sort, int)
+  nameWithType.vb: TasksClientExt.ListTasks(Tasks.TasksClient, Filters, ListTasksRequest.Types.Sort, Integer)
+- uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.TasksClientExt.ListTasks*
+  name: ListTasks
+  href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.TasksClientExt.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_TasksClientExt_ListTasks_
+  commentId: Overload:ArmoniK.DevelopmentKit.Client.Common.Submitter.TasksClientExt.ListTasks
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Client.Common.Submitter.TasksClientExt.ListTasks
+  nameWithType: TasksClientExt.ListTasks
+- uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.TasksClientExt.TaskIdFilter(System.String)
+  name: TaskIdFilter(string)
+  href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.TasksClientExt.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_TasksClientExt_TaskIdFilter_System_String_
+  commentId: M:ArmoniK.DevelopmentKit.Client.Common.Submitter.TasksClientExt.TaskIdFilter(System.String)
+  name.vb: TaskIdFilter(String)
+  fullName: ArmoniK.DevelopmentKit.Client.Common.Submitter.TasksClientExt.TaskIdFilter(string)
+  fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Submitter.TasksClientExt.TaskIdFilter(String)
+  nameWithType: TasksClientExt.TaskIdFilter(string)
+  nameWithType.vb: TasksClientExt.TaskIdFilter(String)
+- uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.TasksClientExt.TaskIdFilter*
+  name: TaskIdFilter
+  href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.TasksClientExt.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_TasksClientExt_TaskIdFilter_
+  commentId: Overload:ArmoniK.DevelopmentKit.Client.Common.Submitter.TasksClientExt.TaskIdFilter
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Client.Common.Submitter.TasksClientExt.TaskIdFilter
+  nameWithType: TasksClientExt.TaskIdFilter
 - uid: ArmoniK.DevelopmentKit.Client.Symphony
   name: ArmoniK.DevelopmentKit.Client.Symphony
   href: api/ArmoniK.DevelopmentKit.Client.Symphony.html
