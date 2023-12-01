@@ -23,10 +23,12 @@ using ArmoniK.Api.gRPC.V1.Results;
 using ArmoniK.Api.gRPC.V1.Sessions;
 using ArmoniK.Api.gRPC.V1.Submitter;
 using ArmoniK.Api.gRPC.V1.Tasks;
+using ArmoniK.Api.gRPC.V1.SortDirection;
 using ArmoniK.DevelopmentKit.Client.Common.Submitter;
 
 using Microsoft.Extensions.Logging;
 
+using Filters = ArmoniK.Api.gRPC.V1.Tasks.Filters;
 namespace ArmoniK.DevelopmentKit.Client.Unified.Services.Admin;
 
 /// <summary>
@@ -446,16 +448,26 @@ public class AdminMonitoringService
   {
     using var channel     = channelPool_.GetChannel();
     var       tasksClient = new Tasks.TasksClient(channel);
-    var idStatuses = taskIds.Select(taskId =>
-                                    {
-                                      var getTaskResponse = tasksClient.GetTask(new GetTaskRequest
-                                                                                {
-                                                                                  TaskId = taskId,
-                                                                                });
-                                      return new Tuple<string, TaskStatus>(taskId,
-                                                                           getTaskResponse.Task.Status);
-                                    });
-    return idStatuses;
+    return tasksClient.ListTasks(new Filters
+                                 {
+                                   Or =
+                                   {
+                                     taskIds.Select(TasksClientExt.TaskIdFilter),
+                                   },
+                                 },
+                                 new ListTasksRequest.Types.Sort
+                                 {
+                                   Direction = SortDirection.Asc,
+                                   Field = new TaskField
+                                           {
+                                             TaskSummaryField = new TaskSummaryField
+                                                                {
+                                                                  Field = TaskSummaryEnumField.TaskId,
+                                                                },
+                                           },
+                                 })
+                      .Select(task => new Tuple<string, TaskStatus>(task.Id,
+                                                                    task.Status));
   }
 
 
