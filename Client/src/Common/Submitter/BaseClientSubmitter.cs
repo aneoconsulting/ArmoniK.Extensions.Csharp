@@ -135,7 +135,6 @@ public abstract class BaseClientSubmitter<T>
                                                               partitionIds,
                                                             },
                                                           });
-
     Logger.LogDebug("Session Created {SessionId}",
                     SessionId);
     return new Session
