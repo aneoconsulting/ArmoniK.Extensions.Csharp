@@ -19,11 +19,16 @@ using System.Collections.Generic;
 using System.Linq;
 
 using ArmoniK.Api.gRPC.V1;
+using ArmoniK.Api.gRPC.V1.Results;
+using ArmoniK.Api.gRPC.V1.Sessions;
 using ArmoniK.Api.gRPC.V1.Submitter;
+using ArmoniK.Api.gRPC.V1.Tasks;
+using ArmoniK.Api.gRPC.V1.SortDirection;
 using ArmoniK.DevelopmentKit.Client.Common.Submitter;
 
 using Microsoft.Extensions.Logging;
 
+using Filters = ArmoniK.Api.gRPC.V1.Tasks.Filters;
 namespace ArmoniK.DevelopmentKit.Client.Unified.Services.Admin;
 
 /// <summary>
@@ -53,8 +58,9 @@ public class AdminMonitoringService
   /// </summary>
   public void GetServiceConfiguration()
   {
-    var configuration = channelPool_.WithChannel(channel => new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel).GetServiceConfiguration(new Empty()));
-
+    using var channel       = channelPool_.GetChannel();
+    var       resultsClient = new Results.ResultsClient(channel);
+    var       configuration = resultsClient.GetServiceConfiguration(new Empty());
     Logger?.LogInformation($"This configuration will be update in the nex version [ {configuration} ]");
   }
 
@@ -64,10 +70,16 @@ public class AdminMonitoringService
   /// </summary>
   /// <param name="sessionId">the sessionId of the session to cancel</param>
   public void CancelSession(string sessionId)
-    => channelPool_.WithChannel(channel => new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel).CancelSession(new Session
-                                                                                                                      {
-                                                                                                                        Id = sessionId,
-                                                                                                                      }));
+  {
+    using var channel        = channelPool_.GetChannel();
+    var       sessionsClient = new Sessions.SessionsClient(channel);
+    sessionsClient.CancelSession(new CancelSessionRequest
+                                 {
+                                   SessionId = sessionId,
+                                 });
+    Logger.LogDebug("Session cancelled {sessionId}",
+                    sessionId);
+  }
 
   /// <summary>
   ///   Return the filtered list of task of a session
@@ -433,15 +445,30 @@ public class AdminMonitoringService
   /// <param name="taskIds">The list of task</param>
   /// <returns>returns a list of pair TaskId/TaskStatus</returns>
   public IEnumerable<Tuple<string, TaskStatus>> GetTaskStatus(IEnumerable<string> taskIds)
-    => channelPool_.WithChannel(channel => new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel).GetTaskStatus(new GetTaskStatusRequest
-                                                                                                                      {
-                                                                                                                        TaskIds =
-                                                                                                                        {
-                                                                                                                          taskIds,
-                                                                                                                        },
-                                                                                                                      })
-                                                                                                       .IdStatuses.Select(idsStatus => Tuple.Create(idsStatus.TaskId,
-                                                                                                                                                    idsStatus.Status)));
+  {
+    using var channel     = channelPool_.GetChannel();
+    var       tasksClient = new Tasks.TasksClient(channel);
+    return tasksClient.ListTasks(new Filters
+                                 {
+                                   Or =
+                                   {
+                                     taskIds.Select(TasksClientExt.TaskIdFilter),
+                                   },
+                                 },
+                                 new ListTasksRequest.Types.Sort
+                                 {
+                                   Direction = SortDirection.Asc,
+                                   Field = new TaskField
+                                           {
+                                             TaskSummaryField = new TaskSummaryField
+                                                                {
+                                                                  Field = TaskSummaryEnumField.TaskId,
+                                                                },
+                                           },
+                                 })
+                      .Select(task => new Tuple<string, TaskStatus>(task.Id,
+                                                                    task.Status));
+  }
 
 
   private void UploadResources(string path)
