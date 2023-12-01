@@ -23,6 +23,7 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using ArmoniK.Api.Client.Submitter;
+using ArmoniK.Api.Client;
 using ArmoniK.Api.Common.Utils;
 using ArmoniK.Api.gRPC.V1;
 using ArmoniK.Api.gRPC.V1.Results;
