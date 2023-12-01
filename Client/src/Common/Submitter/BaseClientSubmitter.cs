@@ -290,7 +290,7 @@ public abstract class BaseClientSubmitter<T>
       var channel        = ChannelPool.GetChannel();
       var tasksClient    = new Tasks.TasksClient(channel);
       var resultsClient  = new Results.ResultsClient(channel);
-      var resultsCreated = new List<string>();
+      var tasksSubmitted = new List<string>();
       foreach (var (resultId, payload, dependencies) in payloadsWithDependencies)
       {
         try
@@ -316,7 +316,7 @@ public abstract class BaseClientSubmitter<T>
                                                            })
                                     .Results.Select(raw => raw.ResultId)
                                     .Single();
-          tasksClient.SubmitTasksAsync(new SubmitTasksRequest
+          var submitResponse = tasksClient.SubmitTasks(new SubmitTasksRequest
                                        {
                                          SessionId = SessionId.Id,
                                          TaskCreations =
@@ -336,8 +336,8 @@ public abstract class BaseClientSubmitter<T>
                                            },
                                          },
                                        });
-          resultsCreated.Add(result);
-          return resultsCreated;
+          tasksSubmitted.AddRange(submitResponse.TaskInfos.Select(taskInfo=> taskInfo.TaskId));
+          return tasksSubmitted;
         }
         catch (Exception e)
         {
