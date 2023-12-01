@@ -1,13 +1,13 @@
 // This file is part of the ArmoniK project
-// 
+//
 // Copyright (C) ANEO, 2021-2023. All rights reserved.
-// 
+//
 // Licensed under the Apache License, Version 2.0 (the "License")
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
-// 
+//
 //     http://www.apache.org/licenses/LICENSE-2.0
-// 
+//
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -28,7 +28,10 @@ using ArmoniK.DevelopmentKit.Client.Common.Submitter;
 
 using Microsoft.Extensions.Logging;
 
+using FilterField = ArmoniK.Api.gRPC.V1.Tasks.FilterField;
 using Filters = ArmoniK.Api.gRPC.V1.Tasks.Filters;
+using FiltersAnd = ArmoniK.Api.gRPC.V1.Tasks.FiltersAnd;
+using FilterStatus = ArmoniK.Api.gRPC.V1.Tasks.FilterStatus;
 
 namespace ArmoniK.DevelopmentKit.Client.Unified.Services.Admin;
 
@@ -91,22 +94,104 @@ public class AdminMonitoringService
     => channelPool_.WithChannel(channel => new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel).ListTasks(taskFilter)
                                                                                                        .TaskIds);
 
+  private ListTasksResponse ListTasks(string sessionId)
+  {
+    using var channel     = channelPool_.GetChannel();
+    var       tasksClient = new Tasks.TasksClient(channel);
+    return tasksClient.ListTasks(new ListTasksRequest
+                                 {
+                                   Filters = new Filters
+                                             {
+                                               Or =
+                                               {
+                                                 new FiltersAnd
+                                                 {
+                                                   And =
+                                                   {
+                                                     new FilterField
+                                                     {
+                                                       FilterString = new FilterString
+                                                                      {
+                                                                        Operator = FilterStringOperator.Equal,
+                                                                        Value    = sessionId,
+                                                                      },
+                                                       Field = new TaskField
+                                                               {
+                                                                 TaskSummaryField = new TaskSummaryField
+                                                                                    {
+                                                                                      Field = TaskSummaryEnumField.SessionId,
+                                                                                    },
+                                                               },
+                                                     },
+                                                   },
+                                                 },
+                                               },
+                                             },
+                                   Sort = new ListTasksRequest.Types.Sort
+                                          {
+                                            Direction = SortDirection.Asc,
+                                            Field = new TaskField
+                                                    {
+                                                      TaskSummaryField = new TaskSummaryField
+                                                                         {
+                                                                           Field = TaskSummaryEnumField.SessionId,
+                                                                         },
+                                                    },
+                                          },
+                                 });
+  }
+
   /// <summary>
   ///   Return the whole list of task of a session
   /// </summary>
   /// <returns>The list of filtered task </returns>
   public IEnumerable<string> ListAllTasksBySession(string sessionId)
-    => channelPool_.WithChannel(channel => new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel).ListTasks(new TaskFilter
-                                                                                                                  {
-                                                                                                                    Session = new TaskFilter.Types.IdsRequest
-                                                                                                                              {
-                                                                                                                                Ids =
-                                                                                                                                {
-                                                                                                                                  sessionId,
-                                                                                                                                },
-                                                                                                                              },
-                                                                                                                  })
-                                                                                                       .TaskIds);
+  {
+    using var channel     = channelPool_.GetChannel();
+    var       tasksClient = new Tasks.TasksClient(channel);
+    return tasksClient.ListTasks(new ListTasksRequest
+                                 {
+                                   Filters = new Filters
+                                             {
+                                               Or =
+                                               {
+                                                 new FiltersAnd
+                                                 {
+                                                   And =
+                                                   {
+                                                     new FilterField
+                                                     {
+                                                       FilterString = new FilterString
+                                                                      {
+                                                                        Operator = FilterStringOperator.Equal,
+                                                                        Value    = sessionId,
+                                                                      },
+                                                       Field = new TaskField
+                                                               {
+                                                                 TaskSummaryField = new TaskSummaryField
+                                                                                    {
+                                                                                      Field = TaskSummaryEnumField.SessionId,
+                                                                                    },
+                                                               },
+                                                     },
+                                                   },
+                                                 },
+                                               },
+                                             },
+                                   Sort = new ListTasksRequest.Types.Sort
+                                          {
+                                            Direction = SortDirection.Asc,
+                                            Field = new TaskField
+                                                    {
+                                                      TaskSummaryField = new TaskSummaryField
+                                                                         {
+                                                                           Field = TaskSummaryEnumField.SessionId,
+                                                                         },
+                                                    },
+                                          },
+                                 })
+                      .Tasks.Select(task => task.Id);
+  }
 
   /// <summary>
   ///   Return the list of task of a session filtered by status
@@ -114,24 +199,9 @@ public class AdminMonitoringService
   /// <returns>The list of filtered task </returns>
   public IEnumerable<string> ListTasksBySession(string              sessionId,
                                                 params TaskStatus[] taskStatus)
-    => channelPool_.WithChannel(channel => new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel).ListTasks(new TaskFilter
-                                                                                                                  {
-                                                                                                                    Session = new TaskFilter.Types.IdsRequest
-                                                                                                                              {
-                                                                                                                                Ids =
-                                                                                                                                {
-                                                                                                                                  sessionId,
-                                                                                                                                },
-                                                                                                                              },
-                                                                                                                    Included = new TaskFilter.Types.StatusesRequest
-                                                                                                                               {
-                                                                                                                                 Statuses =
-                                                                                                                                 {
-                                                                                                                                   taskStatus,
-                                                                                                                                 },
-                                                                                                                               },
-                                                                                                                  })
-                                                                                                       .TaskIds);
+    => ListTasks(sessionId)
+       .Tasks.Where(task => taskStatus.Contains(task.Status))
+       .Select(task => task.Id);
 
   /// <summary>
   ///   Return the list of running tasks of a session
@@ -140,27 +210,67 @@ public class AdminMonitoringService
   /// <returns>The list of filtered task </returns>
   [Obsolete]
   public IEnumerable<string> ListRunningTasks(string sessionId)
-    => channelPool_.WithChannel(channel => new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel).ListTasks(new TaskFilter
-                                                                                                                  {
-                                                                                                                    Session = new TaskFilter.Types.IdsRequest
-                                                                                                                              {
-                                                                                                                                Ids =
-                                                                                                                                {
-                                                                                                                                  sessionId,
-                                                                                                                                },
-                                                                                                                              },
-                                                                                                                    Included = new TaskFilter.Types.StatusesRequest
-                                                                                                                               {
-                                                                                                                                 Statuses =
-                                                                                                                                 {
-                                                                                                                                   TaskStatus.Creating,
-                                                                                                                                   TaskStatus.Dispatched,
-                                                                                                                                   TaskStatus.Processing,
-                                                                                                                                   TaskStatus.Submitted,
-                                                                                                                                 },
-                                                                                                                               },
-                                                                                                                  })
-                                                                                                       .TaskIds);
+  {
+    using var channel     = channelPool_.GetChannel();
+    var       tasksClient = new Tasks.TasksClient(channel);
+    return tasksClient.ListTasks(new ListTasksRequest
+                                 {
+                                   Filters = new Filters
+                                             {
+                                               Or =
+                                               {
+                                                 new FiltersAnd
+                                                 {
+                                                   And =
+                                                   {
+                                                     new FilterField
+                                                     {
+                                                       FilterString = new FilterString
+                                                                      {
+                                                                        Operator = FilterStringOperator.Equal,
+                                                                        Value    = sessionId,
+                                                                      },
+                                                       Field = new TaskField
+                                                               {
+                                                                 TaskSummaryField = new TaskSummaryField
+                                                                                    {
+                                                                                      Field = TaskSummaryEnumField.SessionId,
+                                                                                    },
+                                                               },
+                                                     },
+                                                     new FilterField
+                                                     {
+                                                       FilterStatus = new FilterStatus
+                                                                      {
+                                                                        Operator = FilterStatusOperator.Equal,
+                                                                        Value    = TaskStatus.Processing,
+                                                                      },
+                                                       Field = new TaskField
+                                                               {
+                                                                 TaskSummaryField = new TaskSummaryField
+                                                                                    {
+                                                                                      Field = TaskSummaryEnumField.Status,
+                                                                                    },
+                                                               },
+                                                     },
+                                                   },
+                                                 },
+                                               },
+                                             },
+                                   Sort = new ListTasksRequest.Types.Sort
+                                          {
+                                            Direction = SortDirection.Asc,
+                                            Field = new TaskField
+                                                    {
+                                                      TaskSummaryField = new TaskSummaryField
+                                                                         {
+                                                                           Field = TaskSummaryEnumField.SessionId,
+                                                                         },
+                                                    },
+                                          },
+                                 })
+                      .Tasks.Select(task => task.Id);
+  }
 
   /// <summary>
   ///   Return the list of error tasks of a session
@@ -169,25 +279,67 @@ public class AdminMonitoringService
   /// <returns>The list of filtered task </returns>
   [Obsolete]
   public IEnumerable<string> ListErrorTasks(string sessionId)
-    => channelPool_.WithChannel(channel => new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel).ListTasks(new TaskFilter
-                                                                                                                  {
-                                                                                                                    Session = new TaskFilter.Types.IdsRequest
-                                                                                                                              {
-                                                                                                                                Ids =
-                                                                                                                                {
-                                                                                                                                  sessionId,
-                                                                                                                                },
-                                                                                                                              },
-                                                                                                                    Included = new TaskFilter.Types.StatusesRequest
-                                                                                                                               {
-                                                                                                                                 Statuses =
-                                                                                                                                 {
-                                                                                                                                   TaskStatus.Error,
-                                                                                                                                   TaskStatus.Timeout,
-                                                                                                                                 },
-                                                                                                                               },
-                                                                                                                  })
-                                                                                                       .TaskIds);
+  {
+    using var channel     = channelPool_.GetChannel();
+    var       tasksClient = new Tasks.TasksClient(channel);
+    return tasksClient.ListTasks(new ListTasksRequest
+                                 {
+                                   Filters = new Filters
+                                             {
+                                               Or =
+                                               {
+                                                 new FiltersAnd
+                                                 {
+                                                   And =
+                                                   {
+                                                     new FilterField
+                                                     {
+                                                       FilterString = new FilterString
+                                                                      {
+                                                                        Operator = FilterStringOperator.Equal,
+                                                                        Value    = sessionId,
+                                                                      },
+                                                       Field = new TaskField
+                                                               {
+                                                                 TaskSummaryField = new TaskSummaryField
+                                                                                    {
+                                                                                      Field = TaskSummaryEnumField.SessionId,
+                                                                                    },
+                                                               },
+                                                     },
+                                                     new FilterField
+                                                     {
+                                                       FilterStatus = new FilterStatus
+                                                                      {
+                                                                        Operator = FilterStatusOperator.Equal,
+                                                                        Value    = TaskStatus.Error,
+                                                                      },
+                                                       Field = new TaskField
+                                                               {
+                                                                 TaskSummaryField = new TaskSummaryField
+                                                                                    {
+                                                                                      Field = TaskSummaryEnumField.Status,
+                                                                                    },
+                                                               },
+                                                     },
+                                                   },
+                                                 },
+                                               },
+                                             },
+                                   Sort = new ListTasksRequest.Types.Sort
+                                          {
+                                            Direction = SortDirection.Asc,
+                                            Field = new TaskField
+                                                    {
+                                                      TaskSummaryField = new TaskSummaryField
+                                                                         {
+                                                                           Field = TaskSummaryEnumField.SessionId,
+                                                                         },
+                                                    },
+                                          },
+                                 })
+                      .Tasks.Select(task => task.Id);
+  }
 
   /// <summary>
   ///   Return the list of canceled tasks of a session
@@ -196,33 +348,82 @@ public class AdminMonitoringService
   /// <returns>The list of filtered task </returns>
   [Obsolete]
   public IEnumerable<string> ListCancelledTasks(string sessionId)
-    => channelPool_.WithChannel(channel => new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel).ListTasks(new TaskFilter
-                                                                                                                  {
-                                                                                                                    Session = new TaskFilter.Types.IdsRequest
-                                                                                                                              {
-                                                                                                                                Ids =
-                                                                                                                                {
-                                                                                                                                  sessionId,
-                                                                                                                                },
-                                                                                                                              },
-                                                                                                                    Included = new TaskFilter.Types.StatusesRequest
-                                                                                                                               {
-                                                                                                                                 Statuses =
-                                                                                                                                 {
-                                                                                                                                   TaskStatus.Cancelled,
-                                                                                                                                   TaskStatus.Cancelling,
-                                                                                                                                 },
-                                                                                                                               },
-                                                                                                                  })
-                                                                                                       .TaskIds);
+  {
+    using var channel     = channelPool_.GetChannel();
+    var       tasksClient = new Tasks.TasksClient(channel);
+    return tasksClient.ListTasks(new ListTasksRequest
+                                 {
+                                   Filters = new Filters
+                                             {
+                                               Or =
+                                               {
+                                                 new FiltersAnd
+                                                 {
+                                                   And =
+                                                   {
+                                                     new FilterField
+                                                     {
+                                                       FilterString = new FilterString
+                                                                      {
+                                                                        Operator = FilterStringOperator.Equal,
+                                                                        Value    = sessionId,
+                                                                      },
+                                                       Field = new TaskField
+                                                               {
+                                                                 TaskSummaryField = new TaskSummaryField
+                                                                                    {
+                                                                                      Field = TaskSummaryEnumField.SessionId,
+                                                                                    },
+                                                               },
+                                                     },
+                                                     new FilterField
+                                                     {
+                                                       FilterStatus = new FilterStatus
+                                                                      {
+                                                                        Operator = FilterStatusOperator.Equal,
+                                                                        Value    = TaskStatus.Cancelled,
+                                                                      },
+                                                       Field = new TaskField
+                                                               {
+                                                                 TaskSummaryField = new TaskSummaryField
+                                                                                    {
+                                                                                      Field = TaskSummaryEnumField.Status,
+                                                                                    },
+                                                               },
+                                                     },
+                                                   },
+                                                 },
+                                               },
+                                             },
+                                   Sort = new ListTasksRequest.Types.Sort
+                                          {
+                                            Direction = SortDirection.Asc,
+                                            Field = new TaskField
+                                                    {
+                                                      TaskSummaryField = new TaskSummaryField
+                                                                         {
+                                                                           Field = TaskSummaryEnumField.SessionId,
+                                                                         },
+                                                    },
+                                          },
+                                 })
+                      .Tasks.Select(task => task.Id);
+  }
+
+  private ListSessionsResponse ListSessions()
+  {
+    using var channel        = channelPool_.GetChannel();
+    var       sessionsClient = new Sessions.SessionsClient(channel);
+    return sessionsClient.ListSessions(new ListSessionsRequest());
+  }
 
   /// <summary>
   ///   Return the list of all sessions
   /// </summary>
   /// <returns>The list of filtered session </returns>
   public IEnumerable<string> ListAllSessions()
-    => channelPool_.WithChannel(channel => new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel).ListSessions(new SessionFilter())
-                                                                                                       .SessionIds);
+    => ListSessions()
+       .Sessions.Select(session => session.SessionId);
 
   /// <summary>
   ///   The method is to get a filtered list of session
@@ -238,34 +439,118 @@ public class AdminMonitoringService
   /// </summary>
   /// <returns>returns a list of session filtered</returns>
   public IEnumerable<string> ListRunningSessions()
-    => channelPool_.WithChannel(channel => new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel).ListSessions(new SessionFilter
-                                                                                                                     {
-                                                                                                                       Included = new SessionFilter.Types.StatusesRequest
-                                                                                                                                  {
-                                                                                                                                    Statuses =
-                                                                                                                                    {
-                                                                                                                                      SessionStatus.Running,
-                                                                                                                                    },
-                                                                                                                                  },
-                                                                                                                     })
-                                                                                                       .SessionIds);
+  {
+    using var channel        = channelPool_.GetChannel();
+    var       sessionsClient = new Sessions.SessionsClient(channel);
+    return sessionsClient.ListSessions(new ListSessionsRequest
+                                       {
+                                         Filters = new Api.gRPC.V1.Sessions.Filters
+                                                   {
+                                                     Or =
+                                                     {
+                                                       new Api.gRPC.V1.Sessions.FiltersAnd
+                                                       {
+                                                         And =
+                                                         {
+                                                           new Api.gRPC.V1.Sessions.FilterField
+                                                           {
+                                                             FilterStatus = new Api.gRPC.V1.Sessions.FilterStatus
+                                                                            {
+                                                                              Operator = FilterStatusOperator.Equal,
+                                                                              Value    = SessionStatus.Running,
+                                                                            },
+                                                             Field = new SessionField
+                                                                     {
+                                                                       SessionRawField = new SessionRawField
+                                                                                         {
+                                                                                           Field = SessionRawEnumField.Status,
+                                                                                         },
+                                                                     },
+                                                           },
+                                                         },
+                                                       },
+                                                     },
+                                                   },
+                                       })
+                         .Sessions.Select(session => session.SessionId);
+  }
 
   /// <summary>
   ///   The method is to get a filtered list of running session
   /// </summary>
   /// <returns>returns a list of session filtered</returns>
   public IEnumerable<string> ListCancelledSessions()
-    => channelPool_.WithChannel(channel => new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel).ListSessions(new SessionFilter
-                                                                                                                     {
-                                                                                                                       Included = new SessionFilter.Types.StatusesRequest
-                                                                                                                                  {
-                                                                                                                                    Statuses =
-                                                                                                                                    {
-                                                                                                                                      SessionStatus.Cancelled,
-                                                                                                                                    },
-                                                                                                                                  },
-                                                                                                                     })
-                                                                                                       .SessionIds);
+  {
+    using var channel        = channelPool_.GetChannel();
+    var       sessionsClient = new Sessions.SessionsClient(channel);
+    return sessionsClient.ListSessions(new ListSessionsRequest
+                                       {
+                                         Filters = new Api.gRPC.V1.Sessions.Filters
+                                                   {
+                                                     Or =
+                                                     {
+                                                       new Api.gRPC.V1.Sessions.FiltersAnd
+                                                       {
+                                                         And =
+                                                         {
+                                                           new Api.gRPC.V1.Sessions.FilterField
+                                                           {
+                                                             FilterStatus = new Api.gRPC.V1.Sessions.FilterStatus
+                                                                            {
+                                                                              Operator = FilterStatusOperator.Equal,
+                                                                              Value    = SessionStatus.Cancelled,
+                                                                            },
+                                                             Field = new SessionField
+                                                                     {
+                                                                       SessionRawField = new SessionRawField
+                                                                                         {
+                                                                                           Field = SessionRawEnumField.Status,
+                                                                                         },
+                                                                     },
+                                                           },
+                                                         },
+                                                       },
+                                                     },
+                                                   },
+                                       })
+                         .Sessions.Select(session => session.SessionId);
+  }
+
+  private CountTasksByStatusResponse CountTasksByStatus(string sessionId)
+  {
+    using var channel     = channelPool_.GetChannel();
+    var       tasksClient = new Tasks.TasksClient(channel);
+    return tasksClient.CountTasksByStatus(new CountTasksByStatusRequest
+                                          {
+                                            Filters = new Filters
+                                                      {
+                                                        Or =
+                                                        {
+                                                          new FiltersAnd
+                                                          {
+                                                            And =
+                                                            {
+                                                              new FilterField
+                                                              {
+                                                                FilterString = new FilterString
+                                                                               {
+                                                                                 Operator = FilterStringOperator.Equal,
+                                                                                 Value    = sessionId,
+                                                                               },
+                                                                Field = new TaskField
+                                                                        {
+                                                                          TaskSummaryField = new TaskSummaryField
+                                                                                             {
+                                                                                               Field = TaskSummaryEnumField.SessionId,
+                                                                                             },
+                                                                        },
+                                                              },
+                                                            },
+                                                          },
+                                                        },
+                                                      },
+                                          });
+  }
 
   /// <summary>
   ///   The method is to get the number of filtered tasks
@@ -281,17 +566,8 @@ public class AdminMonitoringService
   /// </summary>
   /// <returns>return the number of task</returns>
   public int CountAllTasksBySession(string sessionId)
-    => channelPool_.WithChannel(channel => new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel).CountTasks(new TaskFilter
-                                                                                                                   {
-                                                                                                                     Session = new TaskFilter.Types.IdsRequest
-                                                                                                                               {
-                                                                                                                                 Ids =
-                                                                                                                                 {
-                                                                                                                                   sessionId,
-                                                                                                                                 },
-                                                                                                                               },
-                                                                                                                   })
-                                                                                                       .Values.Count);
+    => CountTasksByStatus(sessionId)
+       .Status.Sum(count => count.Count);
 
 
   /// <summary>
@@ -299,52 +575,18 @@ public class AdminMonitoringService
   /// </summary>
   /// <returns>return the number of task</returns>
   public int CountRunningTasksBySession(string sessionId)
-    => channelPool_.WithChannel(channel => new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel).CountTasks(new TaskFilter
-                                                                                                                   {
-                                                                                                                     Session = new TaskFilter.Types.IdsRequest
-                                                                                                                               {
-                                                                                                                                 Ids =
-                                                                                                                                 {
-                                                                                                                                   sessionId,
-                                                                                                                                 },
-                                                                                                                               },
-                                                                                                                     Included = new TaskFilter.Types.StatusesRequest
-                                                                                                                                {
-                                                                                                                                  Statuses =
-                                                                                                                                  {
-                                                                                                                                    TaskStatus.Creating,
-                                                                                                                                    TaskStatus.Dispatched,
-                                                                                                                                    TaskStatus.Processing,
-                                                                                                                                    TaskStatus.Submitted,
-                                                                                                                                  },
-                                                                                                                                },
-                                                                                                                   })
-                                                                                                       .Values.Count);
+    => CountTasksByStatus(sessionId)
+       .Status.Where(count => count.Status == TaskStatus.Processing)
+       .Sum(count => count.Count);
 
   /// <summary>
   ///   The method is to get the number of error tasks in the session
   /// </summary>
   /// <returns>return the number of task</returns>
   public int CountErrorTasksBySession(string sessionId)
-    => channelPool_.WithChannel(channel => new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel).CountTasks(new TaskFilter
-                                                                                                                   {
-                                                                                                                     Session = new TaskFilter.Types.IdsRequest
-                                                                                                                               {
-                                                                                                                                 Ids =
-                                                                                                                                 {
-                                                                                                                                   sessionId,
-                                                                                                                                 },
-                                                                                                                               },
-                                                                                                                     Included = new TaskFilter.Types.StatusesRequest
-                                                                                                                                {
-                                                                                                                                  Statuses =
-                                                                                                                                  {
-                                                                                                                                    TaskStatus.Error,
-                                                                                                                                    TaskStatus.Timeout,
-                                                                                                                                  },
-                                                                                                                                },
-                                                                                                                   })
-                                                                                                       .Values.Count);
+    => CountTasksByStatus(sessionId)
+       .Status.Where(count => count.Status == TaskStatus.Error)
+       .Sum(count => count.Count);
 
   /// <summary>
   ///   Count task in a session and select by status
@@ -354,24 +596,9 @@ public class AdminMonitoringService
   /// <returns>return the number of task</returns>
   public int CountTaskBySession(string              sessionId,
                                 params TaskStatus[] taskStatus)
-    => channelPool_.WithChannel(channel => new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel).CountTasks(new TaskFilter
-                                                                                                                   {
-                                                                                                                     Session = new TaskFilter.Types.IdsRequest
-                                                                                                                               {
-                                                                                                                                 Ids =
-                                                                                                                                 {
-                                                                                                                                   sessionId,
-                                                                                                                                 },
-                                                                                                                               },
-                                                                                                                     Included = new TaskFilter.Types.StatusesRequest
-                                                                                                                                {
-                                                                                                                                  Statuses =
-                                                                                                                                  {
-                                                                                                                                    taskStatus,
-                                                                                                                                  },
-                                                                                                                                },
-                                                                                                                   })
-                                                                                                       .Values.Count);
+    => CountTasksByStatus(sessionId)
+       .Status.Where(count => taskStatus.Contains(count.Status))
+       .Sum(count => count.Count);
 
   /// <summary>
   ///   The method is to get the number of error tasks in the session
@@ -379,25 +606,9 @@ public class AdminMonitoringService
   /// <returns>return the number of task</returns>
   [Obsolete]
   public int CountCancelTasksBySession(string sessionId)
-    => channelPool_.WithChannel(channel => new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel).CountTasks(new TaskFilter
-                                                                                                                   {
-                                                                                                                     Session = new TaskFilter.Types.IdsRequest
-                                                                                                                               {
-                                                                                                                                 Ids =
-                                                                                                                                 {
-                                                                                                                                   sessionId,
-                                                                                                                                 },
-                                                                                                                               },
-                                                                                                                     Included = new TaskFilter.Types.StatusesRequest
-                                                                                                                                {
-                                                                                                                                  Statuses =
-                                                                                                                                  {
-                                                                                                                                    TaskStatus.Cancelling,
-                                                                                                                                    TaskStatus.Cancelled,
-                                                                                                                                  },
-                                                                                                                                },
-                                                                                                                   })
-                                                                                                       .Values.Count);
+    => CountTasksByStatus(sessionId)
+       .Status.Where(count => count.Status == TaskStatus.Cancelled)
+       .Sum(count => count.Count);
 
   /// <summary>
   ///   The method is to get the number of error tasks in the session
@@ -405,40 +616,27 @@ public class AdminMonitoringService
   /// <returns>return the number of task</returns>
   [Obsolete]
   public int CountCompletedTasksBySession(string sessionId)
-    => channelPool_.WithChannel(channel => new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel).CountTasks(new TaskFilter
-                                                                                                                   {
-                                                                                                                     Session = new TaskFilter.Types.IdsRequest
-                                                                                                                               {
-                                                                                                                                 Ids =
-                                                                                                                                 {
-                                                                                                                                   sessionId,
-                                                                                                                                 },
-                                                                                                                               },
-                                                                                                                     Included = new TaskFilter.Types.StatusesRequest
-                                                                                                                                {
-                                                                                                                                  Statuses =
-                                                                                                                                  {
-                                                                                                                                    TaskStatus.Completed,
-                                                                                                                                  },
-                                                                                                                                },
-                                                                                                                   })
-                                                                                                       .Values.Count);
+    => CountTasksByStatus(sessionId)
+       .Status.Where(count => count.Status == TaskStatus.Completed)
+       .Sum(count => count.Count);
+
 
   /// <summary>
   ///   Cancel a list of task in a session
   /// </summary>
   /// <param name="taskIds">the taskIds list to cancel</param>
   public void CancelTasksBySession(IEnumerable<string> taskIds)
-    => channelPool_.WithChannel(channel => new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel).CancelTasks(new TaskFilter
-                                                                                                                    {
-                                                                                                                      Task = new TaskFilter.Types.IdsRequest
-                                                                                                                             {
-                                                                                                                               Ids =
-                                                                                                                               {
-                                                                                                                                 taskIds,
-                                                                                                                               },
-                                                                                                                             },
-                                                                                                                    }));
+  {
+    using var channel     = channelPool_.GetChannel();
+    var       tasksClient = new Tasks.TasksClient(channel);
+    tasksClient.CancelTasks(new CancelTasksRequest
+                            {
+                              TaskIds =
+                              {
+                                taskIds,
+                              },
+                            });
+  }
 
   /// <summary>
   ///   The method to get status of a list of tasks
