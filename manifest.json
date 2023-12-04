@@ -802,16 +802,6 @@
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "api/ArmoniK.DevelopmentKit.Worker.DLLWorker.ServiceCollectionExt.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/ArmoniK.DevelopmentKit.Worker.DLLWorker.ServiceCollectionExt.html"
-        }
-      },
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
       "source_relative_path": "api/ArmoniK.DevelopmentKit.Worker.DLLWorker.ServiceRequestContext.yml",
       "output": {
         ".html": {

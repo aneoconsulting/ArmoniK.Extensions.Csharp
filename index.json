@@ -394,11 +394,6 @@
     "title": "Class ArmonikServiceWorker",
     "keywords": "Class ArmonikServiceWorker Namespace ArmoniK.DevelopmentKit.Worker.DLLWorker Assembly ArmoniK.DevelopmentKit.Worker.DLLWorker.dll public class ArmonikServiceWorker : IDisposable Inheritance object ArmonikServiceWorker Implements IDisposable Inherited Members object.Equals(object) object.Equals(object, object) object.GetHashCode() object.GetType() object.MemberwiseClone() object.ReferenceEquals(object, object) object.ToString() Constructors ArmonikServiceWorker() public ArmonikServiceWorker() Properties AppsLoader public AppsLoader AppsLoader { get; set; } Property Value AppsLoader GridWorker public IGridWorker GridWorker { get; set; } Property Value IGridWorker Initialized public bool Initialized { get; set; } Property Value bool ServiceId public ServiceId ServiceId { get; set; } Property Value ServiceId Methods CloseSession() public void CloseSession() Configure(IConfiguration, TaskOptions) public void Configure(IConfiguration configuration, TaskOptions requestTaskOptions) Parameters configuration IConfiguration requestTaskOptions TaskOptions DestroyService() Call the GridWorker callback to let the user know when the service will be unloaded public void DestroyService() Dispose() Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources. public void Dispose() Execute(ITaskHandler) public byte[] Execute(ITaskHandler taskHandler) Parameters taskHandler ITaskHandler Returns byte[] InitializeSessionWorker(Session, TaskOptions) public void InitializeSessionWorker(Session sessionId, TaskOptions taskHandlerTaskOptions) Parameters sessionId Session taskHandlerTaskOptions TaskOptions"
   },
-  "api/ArmoniK.DevelopmentKit.Worker.DLLWorker.ServiceCollectionExt.html": {
-    "href": "api/ArmoniK.DevelopmentKit.Worker.DLLWorker.ServiceCollectionExt.html",
-    "title": "Class ServiceCollectionExt",
-    "keywords": "Class ServiceCollectionExt Namespace ArmoniK.DevelopmentKit.Worker.DLLWorker Assembly ArmoniK.DevelopmentKit.Worker.DLLWorker.dll public static class ServiceCollectionExt Inheritance object ServiceCollectionExt Inherited Members object.Equals(object) object.Equals(object, object) object.GetHashCode() object.GetType() object.MemberwiseClone() object.ReferenceEquals(object, object) object.ToString() Methods AddConfiguration(IServiceCollection, IConfiguration) [PublicAPI] public static IServiceCollection AddConfiguration(this IServiceCollection serviceCollection, IConfiguration configuration) Parameters serviceCollection IServiceCollection configuration IConfiguration Returns IServiceCollection"
-  },
   "api/ArmoniK.DevelopmentKit.Worker.DLLWorker.ServiceRequestContext.html": {
     "href": "api/ArmoniK.DevelopmentKit.Worker.DLLWorker.ServiceRequestContext.html",
     "title": "Class ServiceRequestContext",
@@ -417,7 +412,7 @@
   "api/ArmoniK.DevelopmentKit.Worker.DLLWorker.html": {
     "href": "api/ArmoniK.DevelopmentKit.Worker.DLLWorker.html",
     "title": "Namespace ArmoniK.DevelopmentKit.Worker.DLLWorker",
-    "keywords": "Namespace ArmoniK.DevelopmentKit.Worker.DLLWorker Classes ApplicationPackageManager Manages application packages AppsLoader ArmonikServiceWorker ServiceCollectionExt ServiceRequestContext"
+    "keywords": "Namespace ArmoniK.DevelopmentKit.Worker.DLLWorker Classes ApplicationPackageManager Manages application packages AppsLoader ArmonikServiceWorker ServiceRequestContext"
   },
   "api/ArmoniK.DevelopmentKit.Worker.Symphony.GridWorker.html": {
     "href": "api/ArmoniK.DevelopmentKit.Worker.Symphony.GridWorker.html",

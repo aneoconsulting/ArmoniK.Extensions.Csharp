@@ -4919,25 +4919,6 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.Worker.DLLWorker.ArmonikServiceWorker.ServiceId
   nameWithType: ArmonikServiceWorker.ServiceId
-- uid: ArmoniK.DevelopmentKit.Worker.DLLWorker.ServiceCollectionExt
-  name: ServiceCollectionExt
-  href: api/ArmoniK.DevelopmentKit.Worker.DLLWorker.ServiceCollectionExt.html
-  commentId: T:ArmoniK.DevelopmentKit.Worker.DLLWorker.ServiceCollectionExt
-  fullName: ArmoniK.DevelopmentKit.Worker.DLLWorker.ServiceCollectionExt
-  nameWithType: ServiceCollectionExt
-- uid: ArmoniK.DevelopmentKit.Worker.DLLWorker.ServiceCollectionExt.AddConfiguration(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)
-  name: AddConfiguration(IServiceCollection, IConfiguration)
-  href: api/ArmoniK.DevelopmentKit.Worker.DLLWorker.ServiceCollectionExt.html#ArmoniK_DevelopmentKit_Worker_DLLWorker_ServiceCollectionExt_AddConfiguration_Microsoft_Extensions_DependencyInjection_IServiceCollection_Microsoft_Extensions_Configuration_IConfiguration_
-  commentId: M:ArmoniK.DevelopmentKit.Worker.DLLWorker.ServiceCollectionExt.AddConfiguration(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)
-  fullName: ArmoniK.DevelopmentKit.Worker.DLLWorker.ServiceCollectionExt.AddConfiguration(Microsoft.Extensions.DependencyInjection.IServiceCollection, Microsoft.Extensions.Configuration.IConfiguration)
-  nameWithType: ServiceCollectionExt.AddConfiguration(IServiceCollection, IConfiguration)
-- uid: ArmoniK.DevelopmentKit.Worker.DLLWorker.ServiceCollectionExt.AddConfiguration*
-  name: AddConfiguration
-  href: api/ArmoniK.DevelopmentKit.Worker.DLLWorker.ServiceCollectionExt.html#ArmoniK_DevelopmentKit_Worker_DLLWorker_ServiceCollectionExt_AddConfiguration_
-  commentId: Overload:ArmoniK.DevelopmentKit.Worker.DLLWorker.ServiceCollectionExt.AddConfiguration
-  isSpec: "True"
-  fullName: ArmoniK.DevelopmentKit.Worker.DLLWorker.ServiceCollectionExt.AddConfiguration
-  nameWithType: ServiceCollectionExt.AddConfiguration
 - uid: ArmoniK.DevelopmentKit.Worker.DLLWorker.ServiceRequestContext
   name: ServiceRequestContext
   href: api/ArmoniK.DevelopmentKit.Worker.DLLWorker.ServiceRequestContext.html
