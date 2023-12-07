@@ -398,6 +398,11 @@ public abstract class BaseClientSubmitter<T>
 
     foreach (var taskChunk in tasks.ToChunks(100))
     {
+      if (taskChunk.Length == 0)
+      {
+        continue;
+      }
+
       for (var nbRetry = 0; nbRetry < maxRetries; nbRetry++)
       {
         using var channel     = ChannelPool.GetChannel();
