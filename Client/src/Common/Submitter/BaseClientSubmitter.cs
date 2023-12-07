@@ -285,14 +285,16 @@ public abstract class BaseClientSubmitter<T>
   {
     using var _ = Logger.LogFunction();
 
-    for (var nbRetry = 0; nbRetry < maxRetries; nbRetry++)
+    var tasksSubmitted = new List<string>();
+
+    foreach (var (resultId, payload, dependencies) in payloadsWithDependencies)
     {
-      var channel        = ChannelPool.GetChannel();
-      var tasksClient    = new Tasks.TasksClient(channel);
-      var resultsClient  = new Results.ResultsClient(channel);
-      var tasksSubmitted = new List<string>();
-      foreach (var (resultId, payload, dependencies) in payloadsWithDependencies)
+      for (var nbRetry = 0; nbRetry < maxRetries; nbRetry++)
       {
+        using var channel       = ChannelPool.GetChannel();
+        var       tasksClient   = new Tasks.TasksClient(channel);
+        var       resultsClient = new Results.ResultsClient(channel);
+
         try
         {
           var payloads = resultsClient.CreateResults(new CreateResultsRequest
@@ -326,9 +328,9 @@ public abstract class BaseClientSubmitter<T>
                                                              },
                                                            },
                                                          },
+                                                         TaskOptions = taskOptions,
                                                        });
           tasksSubmitted.AddRange(submitResponse.TaskInfos.Select(taskInfo => taskInfo.TaskId));
-          return tasksSubmitted;
         }
         catch (Exception e)
         {
@@ -362,18 +364,19 @@ public abstract class BaseClientSubmitter<T>
                               "Unknown failure :");
               throw;
           }
-        }
 
-        if (nbRetry > 0)
-        {
-          Logger.LogWarning("{retry}/{maxRetries} nbRetry to submit batch of task",
-                            nbRetry,
-                            maxRetries);
+          if (nbRetry > 0)
+          {
+            Logger.LogWarning("{retry}/{maxRetries} nbRetry to submit task associated to {resultId}",
+                              nbRetry,
+                              maxRetries,
+                              resultId);
+          }
         }
       }
     }
 
-    throw new Exception("Max retry to send has been reached");
+    return tasksSubmitted;
   }
 
   /// <summary>
