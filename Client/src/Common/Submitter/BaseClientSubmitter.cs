@@ -285,6 +285,7 @@ public abstract class BaseClientSubmitter<T>
   {
     using var _ = Logger.LogFunction();
 
+    var tasks          = new List<SubmitTasksRequest.Types.TaskCreation>();
     var tasksSubmitted = new List<string>();
 
     foreach (var (resultId, payload, dependencies) in payloadsWithDependencies)
@@ -292,7 +293,6 @@ public abstract class BaseClientSubmitter<T>
       for (var nbRetry = 0; nbRetry < maxRetries; nbRetry++)
       {
         using var channel       = ChannelPool.GetChannel();
-        var       tasksClient   = new Tasks.TasksClient(channel);
         var       resultsClient = new Results.ResultsClient(channel);
 
         try
@@ -309,28 +309,19 @@ public abstract class BaseClientSubmitter<T>
                                                        },
                                                      });
 
-          var submitResponse = tasksClient.SubmitTasks(new SubmitTasksRequest
-                                                       {
-                                                         SessionId = SessionId.Id,
-                                                         TaskCreations =
-                                                         {
-                                                           new SubmitTasksRequest.Types.TaskCreation
-                                                           {
-                                                             PayloadId = payloads.Results.Select(raw => raw.ResultId)
-                                                                                 .Single(),
-                                                             DataDependencies =
-                                                             {
-                                                               dependencies,
-                                                             },
-                                                             ExpectedOutputKeys =
-                                                             {
-                                                               resultId,
-                                                             },
-                                                           },
-                                                         },
-                                                         TaskOptions = taskOptions,
-                                                       });
-          tasksSubmitted.AddRange(submitResponse.TaskInfos.Select(taskInfo => taskInfo.TaskId));
+          tasks.Add(new SubmitTasksRequest.Types.TaskCreation
+                    {
+                      PayloadId = payloads.Results.Select(raw => raw.ResultId)
+                                          .Single(),
+                      DataDependencies =
+                      {
+                        dependencies,
+                      },
+                      ExpectedOutputKeys =
+                      {
+                        resultId,
+                      },
+                    });
           // break retry loop because submission is successful
           break;
         }
@@ -373,6 +364,72 @@ public abstract class BaseClientSubmitter<T>
                               nbRetry,
                               maxRetries,
                               resultId);
+          }
+        }
+      }
+    }
+
+    foreach (var taskChunk in tasks.ToChunks(100))
+    {
+      for (var nbRetry = 0; nbRetry < maxRetries; nbRetry++)
+      {
+        using var channel     = ChannelPool.GetChannel();
+        var       tasksClient = new Tasks.TasksClient(channel);
+
+        try
+        {
+          var submitTasksResponse = tasksClient.SubmitTasks(new SubmitTasksRequest
+                                                            {
+                                                              TaskOptions = taskOptions,
+                                                              SessionId   = SessionId.Id,
+                                                              TaskCreations =
+                                                              {
+                                                                taskChunk,
+                                                              },
+                                                            });
+
+          tasksSubmitted.AddRange(submitTasksResponse.TaskInfos.Select(info => info.TaskId));
+          // break retry loop because submission is successful
+          break;
+        }
+        catch (Exception e)
+        {
+          if (nbRetry >= maxRetries - 1)
+          {
+            throw;
+          }
+
+          switch (e)
+          {
+            case AggregateException
+                 {
+                   InnerException: RpcException,
+                 } ex:
+              Logger.LogWarning(ex.InnerException,
+                                "Failure to submit");
+              break;
+            case AggregateException
+                 {
+                   InnerException: IOException,
+                 } ex:
+              Logger.LogWarning(ex.InnerException,
+                                "IOException : Failure to submit, Retrying");
+              break;
+            case IOException ex:
+              Logger.LogWarning(ex,
+                                "IOException Failure to submit");
+              break;
+            default:
+              Logger.LogError(e,
+                              "Unknown failure :");
+              throw;
+          }
+
+          if (nbRetry > 0)
+          {
+            Logger.LogWarning("{retry}/{maxRetries} nbRetry to submit tasks",
+                              nbRetry,
+                              maxRetries);
           }
         }
       }
