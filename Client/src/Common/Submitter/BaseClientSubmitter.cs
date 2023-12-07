@@ -288,6 +288,9 @@ public abstract class BaseClientSubmitter<T>
     var tasks          = new List<SubmitTasksRequest.Types.TaskCreation>();
     var tasksSubmitted = new List<string>();
 
+    var configuration = ChannelPool.WithChannel(channel => new Results.ResultsClient(channel).GetServiceConfiguration(new Empty())
+                                                                                             .DataChunkMaxSize);
+
     foreach (var (resultId, payload, dependencies) in payloadsWithDependencies)
     {
       for (var nbRetry = 0; nbRetry < maxRetries; nbRetry++)
@@ -297,22 +300,46 @@ public abstract class BaseClientSubmitter<T>
 
         try
         {
-          var payloads = resultsClient.CreateResults(new CreateResultsRequest
-                                                     {
-                                                       SessionId = SessionId.Id,
-                                                       Results =
-                                                       {
-                                                         new CreateResultsRequest.Types.ResultCreate
-                                                         {
-                                                           Data = UnsafeByteOperations.UnsafeWrap(payload),
-                                                         },
-                                                       },
-                                                     });
+          // todo: migrate to ArmoniK.Api
+          string payloadId;
+          if (payload.Length > configuration)
+          {
+            payloadId = resultsClient.CreateResultsMetaData(new CreateResultsMetaDataRequest
+                                                            {
+                                                              SessionId = SessionId.Id,
+                                                              Results =
+                                                              {
+                                                                new CreateResultsMetaDataRequest.Types.ResultCreate(),
+                                                              },
+                                                            })
+                                     .Results.Select(raw => raw.ResultId)
+                                     .Single();
+
+            resultsClient.UploadResultData(SessionId.Id,
+                                           payloadId,
+                                           payload);
+          }
+          else
+          {
+            payloadId = resultsClient.CreateResults(new CreateResultsRequest
+                                                    {
+                                                      SessionId = SessionId.Id,
+                                                      Results =
+                                                      {
+                                                        new CreateResultsRequest.Types.ResultCreate
+                                                        {
+                                                          Data = UnsafeByteOperations.UnsafeWrap(payload),
+                                                        },
+                                                      },
+                                                    })
+                                     .Results.Select(raw => raw.ResultId)
+                                     .Single();
+          }
+
 
           tasks.Add(new SubmitTasksRequest.Types.TaskCreation
                     {
-                      PayloadId = payloads.Results.Select(raw => raw.ResultId)
-                                          .Single(),
+                      PayloadId = payloadId,
                       DataDependencies =
                       {
                         dependencies,
