@@ -306,37 +306,28 @@ public abstract class BaseClientSubmitter<T>
                                                          },
                                                        },
                                                      });
-          var result = resultsClient.CreateResultsMetaData(new CreateResultsMetaDataRequest
-                                                           {
-                                                             SessionId = SessionId.Id,
-                                                             Results =
-                                                             {
-                                                               new CreateResultsMetaDataRequest.Types.ResultCreate(),
-                                                             },
-                                                           })
-                                    .Results.Select(raw => raw.ResultId)
-                                    .Single();
+
           var submitResponse = tasksClient.SubmitTasks(new SubmitTasksRequest
-                                       {
-                                         SessionId = SessionId.Id,
-                                         TaskCreations =
-                                         {
-                                           new SubmitTasksRequest.Types.TaskCreation
-                                           {
-                                             PayloadId = payloads.Results.Select(raw => raw.ResultId)
-                                                                 .Single(),
-                                             DataDependencies =
-                                             {
-                                               dependencies,
-                                             },
-                                             ExpectedOutputKeys =
-                                             {
-                                               result,
-                                             },
-                                           },
-                                         },
-                                       });
-          tasksSubmitted.AddRange(submitResponse.TaskInfos.Select(taskInfo=> taskInfo.TaskId));
+                                                       {
+                                                         SessionId = SessionId.Id,
+                                                         TaskCreations =
+                                                         {
+                                                           new SubmitTasksRequest.Types.TaskCreation
+                                                           {
+                                                             PayloadId = payloads.Results.Select(raw => raw.ResultId)
+                                                                                 .Single(),
+                                                             DataDependencies =
+                                                             {
+                                                               dependencies,
+                                                             },
+                                                             ExpectedOutputKeys =
+                                                             {
+                                                               resultId,
+                                                             },
+                                                           },
+                                                         },
+                                                       });
+          tasksSubmitted.AddRange(submitResponse.TaskInfos.Select(taskInfo => taskInfo.TaskId));
           return tasksSubmitted;
         }
         catch (Exception e)
