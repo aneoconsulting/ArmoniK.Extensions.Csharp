@@ -331,6 +331,8 @@ public abstract class BaseClientSubmitter<T>
                                                          TaskOptions = taskOptions,
                                                        });
           tasksSubmitted.AddRange(submitResponse.TaskInfos.Select(taskInfo => taskInfo.TaskId));
+          // break retry loop because submission is successful
+          break;
         }
         catch (Exception e)
         {
