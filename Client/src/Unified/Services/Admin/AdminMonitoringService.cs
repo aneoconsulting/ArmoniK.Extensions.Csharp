@@ -21,14 +21,15 @@ using System.Linq;
 using ArmoniK.Api.gRPC.V1;
 using ArmoniK.Api.gRPC.V1.Results;
 using ArmoniK.Api.gRPC.V1.Sessions;
+using ArmoniK.Api.gRPC.V1.SortDirection;
 using ArmoniK.Api.gRPC.V1.Submitter;
 using ArmoniK.Api.gRPC.V1.Tasks;
-using ArmoniK.Api.gRPC.V1.SortDirection;
 using ArmoniK.DevelopmentKit.Client.Common.Submitter;
 
 using Microsoft.Extensions.Logging;
 
 using Filters = ArmoniK.Api.gRPC.V1.Tasks.Filters;
+
 namespace ArmoniK.DevelopmentKit.Client.Unified.Services.Admin;
 
 /// <summary>
