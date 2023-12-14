@@ -22,8 +22,8 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-using ArmoniK.Api.Client.Submitter;
 using ArmoniK.Api.Client;
+using ArmoniK.Api.Client.Submitter;
 using ArmoniK.Api.Common.Utils;
 using ArmoniK.Api.gRPC.V1;
 using ArmoniK.Api.gRPC.V1.Results;
@@ -405,8 +405,8 @@ public abstract class BaseClientSubmitter<T>
                          delayMs,
                          retry =>
                          {
-                           using var channel = ChannelPool.GetChannel();
-                           var submitterService = new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel);
+                           using var channel          = ChannelPool.GetChannel();
+                           var       submitterService = new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel);
 
                            if (retry > 1)
                            {
@@ -416,20 +416,20 @@ public abstract class BaseClientSubmitter<T>
                            }
 
                            var __ = submitterService.WaitForCompletion(new WaitRequest
-                           {
-                             Filter = new TaskFilter
-                             {
-                               Task = new TaskFilter.Types.IdsRequest
-                               {
-                                 Ids =
+                                                                       {
+                                                                         Filter = new TaskFilter
+                                                                                  {
+                                                                                    Task = new TaskFilter.Types.IdsRequest
+                                                                                           {
+                                                                                             Ids =
                                                                                              {
                                                                                                taskIds,
                                                                                              },
-                               },
-                             },
-                             StopOnFirstTaskCancellation = true,
-                             StopOnFirstTaskError = true,
-                           });
+                                                                                           },
+                                                                                  },
+                                                                         StopOnFirstTaskCancellation = true,
+                                                                         StopOnFirstTaskError        = true,
+                                                                       });
                          },
                          true,
                          Logger,
@@ -576,17 +576,17 @@ public abstract class BaseClientSubmitter<T>
 
 
       var resultRequest = new ResultRequest
-      {
-        ResultId = resultId,
-        Session = SessionId.Id,
-      };
+                          {
+                            ResultId = resultId,
+                            Session  = SessionId.Id,
+                          };
 
       Retry.WhileException(5,
                            2000,
                            retry =>
                            {
-                             using var channel = ChannelPool.GetChannel();
-                             var submitterService = new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel);
+                             using var channel          = ChannelPool.GetChannel();
+                             var       submitterService = new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel);
 
                              Logger.LogDebug("Try {try} for {funcName}",
                                              retry,
@@ -833,7 +833,8 @@ public abstract class BaseClientSubmitter<T>
 
         var taskIdInError = resultStatus.IdsError.Any()
                               ? resultStatus.IdsError[0]
-                              : resultStatus.IdsResultError[0].TaskId;
+                              : resultStatus.IdsResultError[0]
+                                            .TaskId;
 
         const string message = "The missing result is in error or canceled. "                                                          +
                                "Please check log for more information on Armonik grid server list of taskIds in Error: [{taskList}]\n" +
