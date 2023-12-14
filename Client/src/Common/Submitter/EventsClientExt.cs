@@ -53,10 +53,10 @@ internal static class EventsClientExt
          },
        };
 
-  private static async Task WaitForResultsAsync(this Events.EventsClient client,
-                                                string                   sessionId,
-                                                ICollection<string>      resultIds,
-                                                CancellationToken        cancellationToken)
+  internal static async Task WaitForResultsAsync(this Events.EventsClient client,
+                                                 string                   sessionId,
+                                                 ICollection<string>      resultIds,
+                                                 CancellationToken        cancellationToken)
   {
     var resultsNotFound = new HashSet<string>(resultIds);
     while (resultsNotFound.Any())

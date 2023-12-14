@@ -16,13 +16,13 @@
 
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
 using ArmoniK.Api.Client;
+using ArmoniK.Api.Client.Submitter;
 using ArmoniK.Api.Common.Utils;
 using ArmoniK.Api.gRPC.V1;
 using ArmoniK.Api.gRPC.V1.Events;
@@ -676,7 +676,6 @@ public abstract class BaseClientSubmitter<T>
                             ResultId = resultId,
                             Session  = SessionId.Id,
                           };
-
       using var channel      = ChannelPool.GetChannel();
       var       eventsClient = new Events.EventsClient(channel);
       eventsClient.WaitForResultsAsync(SessionId.Id,
