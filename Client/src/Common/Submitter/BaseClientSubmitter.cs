@@ -376,7 +376,7 @@ public abstract class BaseClientSubmitter<T>
               break;
             default:
               Logger.LogError(innerException,
-                                "Unknown failure");
+                              "Unknown failure");
               throw;
           }
 
