@@ -23,7 +23,6 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using ArmoniK.Api.Client;
-using ArmoniK.Api.Client.Submitter;
 using ArmoniK.Api.Common.Utils;
 using ArmoniK.Api.gRPC.V1;
 using ArmoniK.Api.gRPC.V1.Results;
@@ -63,6 +62,8 @@ public abstract class BaseClientSubmitter<T>
   /// </summary>
   private readonly int chunkSubmitSize_;
 
+  private readonly int configuration_;
+
   private readonly Properties properties_;
 
   /// <summary>
@@ -93,6 +94,9 @@ public abstract class BaseClientSubmitter<T>
                                          {
                                            TaskOptions.PartitionId,
                                          });
+
+    configuration_ = ChannelPool.WithChannel(channel => new Results.ResultsClient(channel).GetServiceConfiguration(new Empty())
+                                                                                          .DataChunkMaxSize);
   }
 
   private ILoggerFactory LoggerFactory { get; }
@@ -285,83 +289,174 @@ public abstract class BaseClientSubmitter<T>
   {
     using var _ = Logger.LogFunction();
 
-    var taskRequests = payloadsWithDependencies.Select(pwd =>
-                                                       {
-                                                         var taskRequest = new TaskRequest
-                                                                           {
-                                                                             Payload = UnsafeByteOperations.UnsafeWrap(pwd.Item2),
-                                                                           };
-                                                         taskRequest.DataDependencies.AddRange(pwd.Item3);
-                                                         taskRequest.ExpectedOutputKeys.Add(pwd.Item1);
-                                                         return taskRequest;
-                                                       });
+    var tasks          = new List<SubmitTasksRequest.Types.TaskCreation>();
+    var tasksSubmitted = new List<string>();
 
-    for (var nbRetry = 0; nbRetry < maxRetries; nbRetry++)
+    foreach (var (resultId, payload, dependencies) in payloadsWithDependencies)
     {
-      try
+      for (var nbRetry = 0; nbRetry < maxRetries; nbRetry++)
       {
-        using var channel          = ChannelPool.GetChannel();
-        var       submitterService = new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel);
+        using var channel       = ChannelPool.GetChannel();
+        var       resultsClient = new Results.ResultsClient(channel);
 
-        var response = submitterService.CreateTasksAsync(SessionId.Id,
-                                                         taskOptions ?? TaskOptions,
-                                                         // multiple enumeration only occurs in case of failure
-                                                         // ReSharper disable once PossibleMultipleEnumeration 
-                                                         taskRequests)
-                                       .ConfigureAwait(false)
-                                       .GetAwaiter()
-                                       .GetResult();
-        return response.ResponseCase switch
-               {
-                 CreateTaskReply.ResponseOneofCase.CreationStatusList => response.CreationStatusList.CreationStatuses.Select(status => status.TaskInfo.TaskId),
-                 CreateTaskReply.ResponseOneofCase.None               => throw new Exception("Issue with Server !"),
-                 CreateTaskReply.ResponseOneofCase.Error              => throw new Exception("Error while creating tasks !"),
-                 _                                                    => throw new InvalidOperationException(),
-               };
-      }
-      catch (Exception e)
-      {
-        if (nbRetry >= maxRetries - 1)
+        try
         {
-          throw;
+          // todo: migrate to ArmoniK.Api
+          string payloadId;
+          if (payload.Length > configuration_)
+          {
+            payloadId = resultsClient.CreateResultsMetaData(new CreateResultsMetaDataRequest
+                                                            {
+                                                              SessionId = SessionId.Id,
+                                                              Results =
+                                                              {
+                                                                new CreateResultsMetaDataRequest.Types.ResultCreate(),
+                                                              },
+                                                            })
+                                     .Results.Select(raw => raw.ResultId)
+                                     .Single();
+
+            resultsClient.UploadResultData(SessionId.Id,
+                                           payloadId,
+                                           payload);
+          }
+          else
+          {
+            payloadId = resultsClient.CreateResults(new CreateResultsRequest
+                                                    {
+                                                      SessionId = SessionId.Id,
+                                                      Results =
+                                                      {
+                                                        new CreateResultsRequest.Types.ResultCreate
+                                                        {
+                                                          Data = UnsafeByteOperations.UnsafeWrap(payload),
+                                                        },
+                                                      },
+                                                    })
+                                     .Results.Select(raw => raw.ResultId)
+                                     .Single();
+          }
+
+
+          tasks.Add(new SubmitTasksRequest.Types.TaskCreation
+                    {
+                      PayloadId = payloadId,
+                      DataDependencies =
+                      {
+                        dependencies,
+                      },
+                      ExpectedOutputKeys =
+                      {
+                        resultId,
+                      },
+                    });
+          // break retry loop because submission is successful
+          break;
         }
-
-        switch (e)
+        catch (Exception e)
         {
-          case AggregateException
-               {
-                 InnerException: RpcException,
-               } ex:
-            Logger.LogWarning(ex.InnerException,
-                              "Failure to submit");
-            break;
-          case AggregateException
-               {
-                 InnerException: IOException,
-               } ex:
-            Logger.LogWarning(ex.InnerException,
-                              "IOException : Failure to submit, Retrying");
-            break;
-          case IOException ex:
-            Logger.LogWarning(ex,
-                              "IOException Failure to submit");
-            break;
-          default:
-            Logger.LogError(e,
-                            "Unknown failure :");
+          if (nbRetry >= maxRetries - 1)
+          {
             throw;
-        }
-      }
+          }
 
-      if (nbRetry > 0)
-      {
-        Logger.LogWarning("{retry}/{maxRetries} nbRetry to submit batch of task",
-                          nbRetry,
-                          maxRetries);
+          var innerException = e is AggregateException
+                                    {
+                                      InnerExceptions.Count: 1,
+                                    } agg
+                                 ? agg.InnerException
+                                 : e;
+
+          switch (innerException)
+          {
+            case RpcException:
+            case IOException:
+              Logger.LogWarning(innerException,
+                                "Failure to submit : Retrying");
+              break;
+            default:
+              Logger.LogError(innerException,
+                              "Unknown failure");
+              throw;
+          }
+
+          if (nbRetry > 0)
+          {
+            Logger.LogWarning("{retry}/{maxRetries} nbRetry to submit task associated to {resultId}",
+                              nbRetry,
+                              maxRetries,
+                              resultId);
+          }
+        }
       }
     }
 
-    throw new Exception("Max retry to send has been reached");
+    foreach (var taskChunk in tasks.ToChunks(100))
+    {
+      if (taskChunk.Length == 0)
+      {
+        continue;
+      }
+
+      for (var nbRetry = 0; nbRetry < maxRetries; nbRetry++)
+      {
+        using var channel     = ChannelPool.GetChannel();
+        var       tasksClient = new Tasks.TasksClient(channel);
+
+        try
+        {
+          var submitTasksResponse = tasksClient.SubmitTasks(new SubmitTasksRequest
+                                                            {
+                                                              TaskOptions = taskOptions,
+                                                              SessionId   = SessionId.Id,
+                                                              TaskCreations =
+                                                              {
+                                                                taskChunk,
+                                                              },
+                                                            });
+
+          tasksSubmitted.AddRange(submitTasksResponse.TaskInfos.Select(info => info.TaskId));
+          // break retry loop because submission is successful
+          break;
+        }
+        catch (Exception e)
+        {
+          if (nbRetry >= maxRetries - 1)
+          {
+            throw;
+          }
+
+          var innerException = e is AggregateException
+                                    {
+                                      InnerExceptions.Count: 1,
+                                    } agg
+                                 ? agg.InnerException
+                                 : e;
+
+          switch (innerException)
+          {
+            case RpcException:
+            case IOException:
+              Logger.LogWarning(innerException,
+                                "Failure to submit : Retrying");
+              break;
+            default:
+              Logger.LogError(innerException,
+                              "Unknown failure");
+              throw;
+          }
+
+          if (nbRetry > 0)
+          {
+            Logger.LogWarning("{retry}/{maxRetries} nbRetry to submit tasks",
+                              nbRetry,
+                              maxRetries);
+          }
+        }
+      }
+    }
+
+    return tasksSubmitted;
   }
 
   /// <summary>
