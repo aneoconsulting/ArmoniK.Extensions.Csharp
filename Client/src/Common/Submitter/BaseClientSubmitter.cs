@@ -23,7 +23,6 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using ArmoniK.Api.Client;
-using ArmoniK.Api.Client.Submitter;
 using ArmoniK.Api.Common.Utils;
 using ArmoniK.Api.gRPC.V1;
 using ArmoniK.Api.gRPC.V1.Results;
@@ -63,6 +62,8 @@ public abstract class BaseClientSubmitter<T>
   /// </summary>
   private readonly int chunkSubmitSize_;
 
+  private readonly int configuration_;
+
   private readonly Properties properties_;
 
   /// <summary>
@@ -93,6 +94,9 @@ public abstract class BaseClientSubmitter<T>
                                          {
                                            TaskOptions.PartitionId,
                                          });
+
+    configuration_ = ChannelPool.WithChannel(channel => new Results.ResultsClient(channel).GetServiceConfiguration(new Empty())
+                                                                                          .DataChunkMaxSize);
   }
 
   private ILoggerFactory LoggerFactory { get; }
@@ -288,9 +292,6 @@ public abstract class BaseClientSubmitter<T>
     var tasks          = new List<SubmitTasksRequest.Types.TaskCreation>();
     var tasksSubmitted = new List<string>();
 
-    var configuration = ChannelPool.WithChannel(channel => new Results.ResultsClient(channel).GetServiceConfiguration(new Empty())
-                                                                                             .DataChunkMaxSize);
-
     foreach (var (resultId, payload, dependencies) in payloadsWithDependencies)
     {
       for (var nbRetry = 0; nbRetry < maxRetries; nbRetry++)
@@ -302,7 +303,7 @@ public abstract class BaseClientSubmitter<T>
         {
           // todo: migrate to ArmoniK.Api
           string payloadId;
-          if (payload.Length > configuration)
+          if (payload.Length > configuration_)
           {
             payloadId = resultsClient.CreateResultsMetaData(new CreateResultsMetaDataRequest
                                                             {
