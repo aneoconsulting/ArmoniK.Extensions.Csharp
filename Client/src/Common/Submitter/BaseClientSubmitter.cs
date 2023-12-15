@@ -360,29 +360,23 @@ public abstract class BaseClientSubmitter<T>
             throw;
           }
 
-          switch (e)
+          var innerException = e is AggregateException
+                                    {
+                                      InnerExceptions.Count: 1,
+                                    } agg
+                                 ? agg.InnerException
+                                 : e;
+
+          switch (innerException)
           {
-            case AggregateException
-                 {
-                   InnerException: RpcException,
-                 } ex:
-              Logger.LogWarning(ex.InnerException,
-                                "Failure to submit");
-              break;
-            case AggregateException
-                 {
-                   InnerException: IOException,
-                 } ex:
-              Logger.LogWarning(ex.InnerException,
-                                "IOException : Failure to submit, Retrying");
-              break;
-            case IOException ex:
-              Logger.LogWarning(ex,
-                                "IOException Failure to submit");
+            case RpcException:
+            case IOException:
+              Logger.LogWarning(innerException,
+                                "Failure to submit : Retrying");
               break;
             default:
-              Logger.LogError(e,
-                              "Unknown failure :");
+              Logger.LogError(innerException,
+                                "Unknown failure");
               throw;
           }
 
@@ -432,29 +426,23 @@ public abstract class BaseClientSubmitter<T>
             throw;
           }
 
-          switch (e)
+          var innerException = e is AggregateException
+                                    {
+                                      InnerExceptions.Count: 1,
+                                    } agg
+                                 ? agg.InnerException
+                                 : e;
+
+          switch (innerException)
           {
-            case AggregateException
-                 {
-                   InnerException: RpcException,
-                 } ex:
-              Logger.LogWarning(ex.InnerException,
-                                "Failure to submit");
-              break;
-            case AggregateException
-                 {
-                   InnerException: IOException,
-                 } ex:
-              Logger.LogWarning(ex.InnerException,
-                                "IOException : Failure to submit, Retrying");
-              break;
-            case IOException ex:
-              Logger.LogWarning(ex,
-                                "IOException Failure to submit");
+            case RpcException:
+            case IOException:
+              Logger.LogWarning(innerException,
+                                "Failure to submit : Retrying");
               break;
             default:
-              Logger.LogError(e,
-                              "Unknown failure :");
+              Logger.LogError(innerException,
+                              "Unknown failure");
               throw;
           }
 
