@@ -1381,6 +1381,38 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.Client.Common.Submitter.TasksClientExt.TaskIdFilter
   nameWithType: TasksClientExt.TaskIdFilter
+- uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.TasksClientExt.TaskSessionIdFilter(System.String)
+  name: TaskSessionIdFilter(string)
+  href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.TasksClientExt.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_TasksClientExt_TaskSessionIdFilter_System_String_
+  commentId: M:ArmoniK.DevelopmentKit.Client.Common.Submitter.TasksClientExt.TaskSessionIdFilter(System.String)
+  name.vb: TaskSessionIdFilter(String)
+  fullName: ArmoniK.DevelopmentKit.Client.Common.Submitter.TasksClientExt.TaskSessionIdFilter(string)
+  fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Submitter.TasksClientExt.TaskSessionIdFilter(String)
+  nameWithType: TasksClientExt.TaskSessionIdFilter(string)
+  nameWithType.vb: TasksClientExt.TaskSessionIdFilter(String)
+- uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.TasksClientExt.TaskSessionIdFilter*
+  name: TaskSessionIdFilter
+  href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.TasksClientExt.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_TasksClientExt_TaskSessionIdFilter_
+  commentId: Overload:ArmoniK.DevelopmentKit.Client.Common.Submitter.TasksClientExt.TaskSessionIdFilter
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Client.Common.Submitter.TasksClientExt.TaskSessionIdFilter
+  nameWithType: TasksClientExt.TaskSessionIdFilter
+- uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.TasksClientExt.TaskStatusFilter(ArmoniK.Api.gRPC.V1.TaskStatus,System.String)
+  name: TaskStatusFilter(TaskStatus, string)
+  href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.TasksClientExt.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_TasksClientExt_TaskStatusFilter_ArmoniK_Api_gRPC_V1_TaskStatus_System_String_
+  commentId: M:ArmoniK.DevelopmentKit.Client.Common.Submitter.TasksClientExt.TaskStatusFilter(ArmoniK.Api.gRPC.V1.TaskStatus,System.String)
+  name.vb: TaskStatusFilter(TaskStatus, String)
+  fullName: ArmoniK.DevelopmentKit.Client.Common.Submitter.TasksClientExt.TaskStatusFilter(ArmoniK.Api.gRPC.V1.TaskStatus, string)
+  fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Submitter.TasksClientExt.TaskStatusFilter(ArmoniK.Api.gRPC.V1.TaskStatus, String)
+  nameWithType: TasksClientExt.TaskStatusFilter(TaskStatus, string)
+  nameWithType.vb: TasksClientExt.TaskStatusFilter(TaskStatus, String)
+- uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.TasksClientExt.TaskStatusFilter*
+  name: TaskStatusFilter
+  href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.TasksClientExt.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_TasksClientExt_TaskStatusFilter_
+  commentId: Overload:ArmoniK.DevelopmentKit.Client.Common.Submitter.TasksClientExt.TaskStatusFilter
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Client.Common.Submitter.TasksClientExt.TaskStatusFilter
+  nameWithType: TasksClientExt.TaskStatusFilter
 - uid: ArmoniK.DevelopmentKit.Client.Symphony
   name: ArmoniK.DevelopmentKit.Client.Symphony
   href: api/ArmoniK.DevelopmentKit.Client.Symphony.html
@@ -1952,19 +1984,6 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.CountTaskBySession
   nameWithType: AdminMonitoringService.CountTaskBySession
-- uid: ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.CountTasks(ArmoniK.Api.gRPC.V1.Submitter.TaskFilter)
-  name: CountTasks(TaskFilter)
-  href: api/ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.html#ArmoniK_DevelopmentKit_Client_Unified_Services_Admin_AdminMonitoringService_CountTasks_ArmoniK_Api_gRPC_V1_Submitter_TaskFilter_
-  commentId: M:ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.CountTasks(ArmoniK.Api.gRPC.V1.Submitter.TaskFilter)
-  fullName: ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.CountTasks(ArmoniK.Api.gRPC.V1.Submitter.TaskFilter)
-  nameWithType: AdminMonitoringService.CountTasks(TaskFilter)
-- uid: ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.CountTasks*
-  name: CountTasks
-  href: api/ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.html#ArmoniK_DevelopmentKit_Client_Unified_Services_Admin_AdminMonitoringService_CountTasks_
-  commentId: Overload:ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.CountTasks
-  isSpec: "True"
-  fullName: ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.CountTasks
-  nameWithType: AdminMonitoringService.CountTasks
 - uid: ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.GetServiceConfiguration
   name: GetServiceConfiguration()
   href: api/ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.html#ArmoniK_DevelopmentKit_Client_Unified_Services_Admin_AdminMonitoringService_GetServiceConfiguration
@@ -2097,32 +2116,6 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.ListRunningTasks
   nameWithType: AdminMonitoringService.ListRunningTasks
-- uid: ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.ListSessions(ArmoniK.Api.gRPC.V1.Submitter.SessionFilter)
-  name: ListSessions(SessionFilter)
-  href: api/ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.html#ArmoniK_DevelopmentKit_Client_Unified_Services_Admin_AdminMonitoringService_ListSessions_ArmoniK_Api_gRPC_V1_Submitter_SessionFilter_
-  commentId: M:ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.ListSessions(ArmoniK.Api.gRPC.V1.Submitter.SessionFilter)
-  fullName: ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.ListSessions(ArmoniK.Api.gRPC.V1.Submitter.SessionFilter)
-  nameWithType: AdminMonitoringService.ListSessions(SessionFilter)
-- uid: ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.ListSessions*
-  name: ListSessions
-  href: api/ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.html#ArmoniK_DevelopmentKit_Client_Unified_Services_Admin_AdminMonitoringService_ListSessions_
-  commentId: Overload:ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.ListSessions
-  isSpec: "True"
-  fullName: ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.ListSessions
-  nameWithType: AdminMonitoringService.ListSessions
-- uid: ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.ListTasks(ArmoniK.Api.gRPC.V1.Submitter.TaskFilter)
-  name: ListTasks(TaskFilter)
-  href: api/ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.html#ArmoniK_DevelopmentKit_Client_Unified_Services_Admin_AdminMonitoringService_ListTasks_ArmoniK_Api_gRPC_V1_Submitter_TaskFilter_
-  commentId: M:ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.ListTasks(ArmoniK.Api.gRPC.V1.Submitter.TaskFilter)
-  fullName: ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.ListTasks(ArmoniK.Api.gRPC.V1.Submitter.TaskFilter)
-  nameWithType: AdminMonitoringService.ListTasks(TaskFilter)
-- uid: ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.ListTasks*
-  name: ListTasks
-  href: api/ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.html#ArmoniK_DevelopmentKit_Client_Unified_Services_Admin_AdminMonitoringService_ListTasks_
-  commentId: Overload:ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.ListTasks
-  isSpec: "True"
-  fullName: ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.ListTasks
-  nameWithType: AdminMonitoringService.ListTasks
 - uid: ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.ListTasksBySession(System.String,ArmoniK.Api.gRPC.V1.TaskStatus[])
   name: ListTasksBySession(string, params TaskStatus[])
   href: api/ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.html#ArmoniK_DevelopmentKit_Client_Unified_Services_Admin_AdminMonitoringService_ListTasksBySession_System_String_ArmoniK_Api_gRPC_V1_TaskStatus___
