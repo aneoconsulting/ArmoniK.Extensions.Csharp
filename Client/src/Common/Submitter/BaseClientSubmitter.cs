@@ -1,13 +1,13 @@
 // This file is part of the ArmoniK project
-// 
+//
 // Copyright (C) ANEO, 2021-2023. All rights reserved.
-// 
+//
 // Licensed under the Apache License, Version 2.0 (the "License")
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
-// 
+//
 //     http://www.apache.org/licenses/LICENSE-2.0
-// 
+//
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,7 +16,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -25,6 +24,7 @@ using System.Threading.Tasks;
 using ArmoniK.Api.Client;
 using ArmoniK.Api.Common.Utils;
 using ArmoniK.Api.gRPC.V1;
+using ArmoniK.Api.gRPC.V1.Events;
 using ArmoniK.Api.gRPC.V1.Results;
 using ArmoniK.Api.gRPC.V1.Sessions;
 using ArmoniK.Api.gRPC.V1.SortDirection;
@@ -675,40 +675,15 @@ public abstract class BaseClientSubmitter<T>
                             ResultId = resultId,
                             Session  = SessionId.Id,
                           };
-
-      Retry.WhileException(5,
-                           2000,
-                           retry =>
-                           {
-                             using var channel          = ChannelPool.GetChannel();
-                             var       submitterService = new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel);
-
-                             Logger.LogDebug("Try {try} for {funcName}",
-                                             retry,
-                                             nameof(submitterService.WaitForAvailability));
-                             // TODO: replace with submitterService.TryGetResultStream() => Issue #
-                             var availabilityReply = submitterService.WaitForAvailability(resultRequest,
-                                                                                          cancellationToken: cancellationToken);
-
-                             switch (availabilityReply.TypeCase)
-                             {
-                               case AvailabilityReply.TypeOneofCase.None:
-                                 throw new Exception("Issue with Server !");
-                               case AvailabilityReply.TypeOneofCase.Ok:
-                                 break;
-                               case AvailabilityReply.TypeOneofCase.Error:
-                                 throw new
-                                   ClientResultsException($"Result in Error - {resultId}\nMessage :\n{string.Join("Inner message:\n", availabilityReply.Error.Errors)}",
-                                                          resultId);
-                               case AvailabilityReply.TypeOneofCase.NotCompletedTask:
-                                 throw new DataException($"Result {resultId} was not yet completed");
-                               default:
-                                 throw new InvalidOperationException();
-                             }
-                           },
-                           true,
-                           typeof(IOException),
-                           typeof(RpcException));
+      using var channel      = ChannelPool.GetChannel();
+      var       eventsClient = new Events.EventsClient(channel);
+      eventsClient.WaitForResultsAsync(SessionId.Id,
+                                       new List<string>
+                                       {
+                                         resultId,
+                                       },
+                                       cancellationToken)
+                  .Wait(cancellationToken);
 
       return Retry.WhileException(5,
                                   200,
