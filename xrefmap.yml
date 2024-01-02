@@ -13,6 +13,31 @@ references:
   commentId: N:ArmoniK.DevelopmentKit.Client.Common.Exceptions
   fullName: ArmoniK.DevelopmentKit.Client.Common.Exceptions
   nameWithType: ArmoniK.DevelopmentKit.Client.Common.Exceptions
+- uid: ArmoniK.DevelopmentKit.Client.Common.Exceptions.ResultAbortedException
+  name: ResultAbortedException
+  href: api/ArmoniK.DevelopmentKit.Client.Common.Exceptions.ResultAbortedException.html
+  commentId: T:ArmoniK.DevelopmentKit.Client.Common.Exceptions.ResultAbortedException
+  fullName: ArmoniK.DevelopmentKit.Client.Common.Exceptions.ResultAbortedException
+  nameWithType: ResultAbortedException
+- uid: ArmoniK.DevelopmentKit.Client.Common.Exceptions.ResultAbortedException.#ctor(System.String)
+  name: ResultAbortedException(string)
+  href: api/ArmoniK.DevelopmentKit.Client.Common.Exceptions.ResultAbortedException.html#ArmoniK_DevelopmentKit_Client_Common_Exceptions_ResultAbortedException__ctor_System_String_
+  commentId: M:ArmoniK.DevelopmentKit.Client.Common.Exceptions.ResultAbortedException.#ctor(System.String)
+  name.vb: New(String)
+  fullName: ArmoniK.DevelopmentKit.Client.Common.Exceptions.ResultAbortedException.ResultAbortedException(string)
+  fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Exceptions.ResultAbortedException.New(String)
+  nameWithType: ResultAbortedException.ResultAbortedException(string)
+  nameWithType.vb: ResultAbortedException.New(String)
+- uid: ArmoniK.DevelopmentKit.Client.Common.Exceptions.ResultAbortedException.#ctor*
+  name: ResultAbortedException
+  href: api/ArmoniK.DevelopmentKit.Client.Common.Exceptions.ResultAbortedException.html#ArmoniK_DevelopmentKit_Client_Common_Exceptions_ResultAbortedException__ctor_
+  commentId: Overload:ArmoniK.DevelopmentKit.Client.Common.Exceptions.ResultAbortedException.#ctor
+  isSpec: "True"
+  name.vb: New
+  fullName: ArmoniK.DevelopmentKit.Client.Common.Exceptions.ResultAbortedException.ResultAbortedException
+  fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Exceptions.ResultAbortedException.New
+  nameWithType: ResultAbortedException.ResultAbortedException
+  nameWithType.vb: ResultAbortedException.New
 - uid: ArmoniK.DevelopmentKit.Client.Common.Exceptions.ServiceInvocationException
   name: ServiceInvocationException
   href: api/ArmoniK.DevelopmentKit.Client.Common.Exceptions.ServiceInvocationException.html

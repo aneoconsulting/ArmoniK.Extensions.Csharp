@@ -1,4 +1,9 @@
 {
+  "api/ArmoniK.DevelopmentKit.Client.Common.Exceptions.ResultAbortedException.html": {
+    "href": "api/ArmoniK.DevelopmentKit.Client.Common.Exceptions.ResultAbortedException.html",
+    "title": "Class ResultAbortedException",
+    "keywords": "Class ResultAbortedException Namespace ArmoniK.DevelopmentKit.Client.Common.Exceptions Assembly ArmoniK.DevelopmentKit.Client.Common.dll Exception when result is aborted public class ResultAbortedException : Exception, ISerializable Inheritance object Exception ResultAbortedException Implements ISerializable Inherited Members Exception.GetBaseException() Exception.GetObjectData(SerializationInfo, StreamingContext) Exception.GetType() Exception.ToString() Exception.Data Exception.HelpLink Exception.HResult Exception.InnerException Exception.Message Exception.Source Exception.StackTrace Exception.TargetSite Exception.SerializeObjectState object.Equals(object) object.Equals(object, object) object.GetHashCode() object.MemberwiseClone() object.ReferenceEquals(object, object) Constructors ResultAbortedException(string) Initializes a new instance of the ResultAbortedException with the specified error message public ResultAbortedException(string message) Parameters message string The error message"
+  },
   "api/ArmoniK.DevelopmentKit.Client.Common.Exceptions.ServiceInvocationException.html": {
     "href": "api/ArmoniK.DevelopmentKit.Client.Common.Exceptions.ServiceInvocationException.html",
     "title": "Class ServiceInvocationException",
@@ -7,7 +12,7 @@
   "api/ArmoniK.DevelopmentKit.Client.Common.Exceptions.html": {
     "href": "api/ArmoniK.DevelopmentKit.Client.Common.Exceptions.html",
     "title": "Namespace ArmoniK.DevelopmentKit.Client.Common.Exceptions",
-    "keywords": "Namespace ArmoniK.DevelopmentKit.Client.Common.Exceptions Classes ServiceInvocationException The service invocation exception. This class wil contain all error information of task or result"
+    "keywords": "Namespace ArmoniK.DevelopmentKit.Client.Common.Exceptions Classes ResultAbortedException Exception when result is aborted ServiceInvocationException The service invocation exception. This class wil contain all error information of task or result"
   },
   "api/ArmoniK.DevelopmentKit.Client.Common.IServiceInvocationHandler.html": {
     "href": "api/ArmoniK.DevelopmentKit.Client.Common.IServiceInvocationHandler.html",
