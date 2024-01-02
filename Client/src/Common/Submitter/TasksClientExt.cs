@@ -54,6 +54,79 @@ public static class TasksClientExt
        };
 
   /// <summary>
+  ///   Filter tasks on their sessionId
+  /// </summary>
+  /// <param name="sessionId"> the session id to filter on </param>
+  /// <returns></returns>
+  public static FiltersAnd TaskSessionIdFilter(string sessionId)
+    => new()
+       {
+         And =
+         {
+           new FilterField
+           {
+             Field = new TaskField
+                     {
+                       TaskSummaryField = new TaskSummaryField
+                                          {
+                                            Field = TaskSummaryEnumField.SessionId,
+                                          },
+                     },
+             FilterString = new FilterString
+                            {
+                              Value    = sessionId,
+                              Operator = FilterStringOperator.Equal,
+                            },
+           },
+         },
+       };
+
+  /// <summary>
+  ///   Filter on task status ajd session id
+  /// </summary>
+  /// <param name="status"> the task status to filter on </param>
+  /// <param name="sessionId"> the session id to filter on </param>
+  /// <returns></returns>
+  public static FiltersAnd TaskStatusFilter(TaskStatus status,
+                                            string     sessionId)
+    => new()
+       {
+         And =
+         {
+           new FilterField
+           {
+             Field = new TaskField
+                     {
+                       TaskSummaryField = new TaskSummaryField
+                                          {
+                                            Field = TaskSummaryEnumField.Status,
+                                          },
+                     },
+             FilterStatus = new FilterStatus
+                            {
+                              Operator = FilterStatusOperator.Equal,
+                              Value    = status,
+                            },
+           },
+           new FilterField
+           {
+             Field = new TaskField
+                     {
+                       TaskSummaryField = new TaskSummaryField
+                                          {
+                                            Field = TaskSummaryEnumField.SessionId,
+                                          },
+                     },
+             FilterString = new FilterString
+                            {
+                              Operator = FilterStringOperator.Equal,
+                              Value    = sessionId,
+                            },
+           },
+         },
+       };
+
+  /// <summary>
   ///   List tasks while handling page size
   /// </summary>
   /// <param name="tasksClient"> the tasks client </param>
