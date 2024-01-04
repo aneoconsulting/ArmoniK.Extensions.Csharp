@@ -100,7 +100,7 @@ public class ComputerService : WorkerStreamWrapper
                                     taskHandler.TaskOptions.ApplicationVersion);
 
       var engineTypeName = string.IsNullOrEmpty(taskHandler.TaskOptions.EngineType)
-                             ? EngineType.Symphony.ToString()
+                             ? EngineType.Unified.ToString()
                              : taskHandler.TaskOptions.EngineType;
 
 
