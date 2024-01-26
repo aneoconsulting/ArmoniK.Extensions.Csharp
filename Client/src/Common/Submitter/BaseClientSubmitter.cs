@@ -558,20 +558,25 @@ public abstract class BaseClientSubmitter<T>
                                         2000,
                                         retry =>
                                         {
-                                          using var channel       = ChannelPool.GetChannel();
-                                          var       resultsClient = new Results.ResultsClient(channel);
                                           Logger.LogDebug("Try {try} for {funcName}",
                                                           retry,
-                                                          nameof(resultsClient.GetResult));
-                                          var idStatusPair = result2TaskDic.Keys.Select(resultId =>
-                                                                                        {
-                                                                                          var status = resultsClient.GetResult(new GetResultRequest
-                                                                                                                               {
-                                                                                                                                 ResultId = resultId,
-                                                                                                                               })
-                                                                                                                    .Result.Status;
-                                                                                          return (resultId, status);
-                                                                                        });
+                                                          nameof(Results.ResultsClient.GetResult));
+
+                                          // TODO: use ListResult
+                                          var idStatusPair = result2TaskDic.Keys.ParallelSelect(async resultId =>
+                                                                                                {
+                                                                                                  using var channel       = ChannelPool.GetChannel();
+                                                                                                  var       resultsClient = new Results.ResultsClient(channel);
+                                                                                                  var result = await resultsClient.GetResultAsync(new GetResultRequest
+                                                                                                                                                  {
+                                                                                                                                                    ResultId = resultId,
+                                                                                                                                                  })
+                                                                                                                                  .ConfigureAwait(false);
+                                                                                                  var status = result.Result.Status;
+                                                                                                  return (resultId, status);
+                                                                                                })
+                                                                           .ToListAsync(CancellationToken.None)
+                                                                           .WaitSync();
                                           return idStatusPair;
                                         },
                                         true,
