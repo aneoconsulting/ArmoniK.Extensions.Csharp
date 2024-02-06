@@ -2,12 +2,11 @@
 <html>
   <head>
     <meta charset="utf-8">
-      <title>Class BaseClientSubmitter&lt;T&gt;
- </title>
+      <title>Class BaseClientSubmitter&lt;T&gt; </title>
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <meta name="title" content="Class BaseClientSubmitter&lt;T&gt;
- ">
+      <meta name="title" content="Class BaseClientSubmitter&lt;T&gt; ">
       
+      <meta name="description" content="Base Object for all Client submitter Need to pass the child object Class Type">
       <link rel="icon" href="../images/armonik_favicon.ico">
       <link rel="stylesheet" href="../public/docfx.min.css">
       <link rel="stylesheet" href="../public/main.css">
@@ -90,8 +89,7 @@
 
 
   <h1 id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1" class="text-break">
-    Class BaseClientSubmitter&lt;T&gt;
-  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/BaseClientSubmitter.cs/#L56"><i class="bi bi-code-slash"></i></a>
+Class BaseClientSubmitter&lt;T&gt;  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/BaseClientSubmitter.cs/#L56"><i class="bi bi-code-slash"></i></a>
   </h1>
 
   <div class="facts text-secondary">
@@ -114,7 +112,7 @@ public abstract class BaseClientSubmitter&lt;T&gt;</code></pre>
   <h4 class="section">Type Parameters</h4>
   <dl class="parameters">
     <dt><code>T</code></dt>
-    <dd></dd>
+    <dd>Base Object for all Client submitter Need to pass the child object Class Type</dd>
   </dl>
 
   <dl class="typelist inheritance">
@@ -134,7 +132,7 @@ public abstract class BaseClientSubmitter&lt;T&gt;</code></pre>
     </dd>
   </dl>
 
-  <dl class="typelist derived">
+  <dl class="typelist inheritedMembers">
     <dt>Inherited Members</dt>
     <dd>
     <div>
@@ -353,7 +351,7 @@ SubmitSubTaskWithDependencies or WaitForCompletion, WaitForSubTaskCompletion or 
 
   <h3 id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_CreateResultsMetadata_System_Collections_Generic_IEnumerable_System_String__" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.CreateResultsMetadata(System.Collections.Generic.IEnumerable{System.String})">
   CreateResultsMetadata(IEnumerable&lt;string&gt;)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/BaseClientSubmitter.cs/#L947"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/BaseClientSubmitter.cs/#L952"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Creates the results metadata</p>
@@ -393,7 +391,7 @@ public Dictionary&lt;string, string&gt; CreateResultsMetadata(IEnumerable&lt;str
 
   <h3 id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_GetResult_System_String_System_Threading_CancellationToken_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.GetResult(System.String,System.Threading.CancellationToken)">
   GetResult(string, CancellationToken)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/BaseClientSubmitter.cs/#L658"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/BaseClientSubmitter.cs/#L663"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Try to find the result of One task. If there no result, the function return byte[0]</p>
@@ -435,7 +433,7 @@ public Dictionary&lt;string, string&gt; CreateResultsMetadata(IEnumerable&lt;str
 
   <h3 id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_GetResultIds_System_Collections_Generic_IEnumerable_System_String__" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.GetResultIds(System.Collections.Generic.IEnumerable{System.String})">
   GetResultIds(IEnumerable&lt;string&gt;)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/BaseClientSubmitter.cs/#L626"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/BaseClientSubmitter.cs/#L631"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Gets the result ids for a given list of task ids.</p>
@@ -515,7 +513,7 @@ public Dictionary&lt;string, string&gt; CreateResultsMetadata(IEnumerable&lt;str
 
   <h3 id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_GetResults_System_Collections_Generic_IEnumerable_System_String__System_Threading_CancellationToken_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.GetResults(System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
   GetResults(IEnumerable&lt;string&gt;, CancellationToken)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/BaseClientSubmitter.cs/#L713"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/BaseClientSubmitter.cs/#L718"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Retrieve results from control plane</p>
@@ -777,7 +775,7 @@ created tasks</p>
 
   <h3 id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_TryGetResult_System_String_System_Boolean_System_Threading_CancellationToken_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.TryGetResult(System.String,System.Boolean,System.Threading.CancellationToken)">
   TryGetResult(string, bool, CancellationToken)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/BaseClientSubmitter.cs/#L778"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/BaseClientSubmitter.cs/#L783"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Try to find the result of One task. If there no result, the function return byte[0]</p>
@@ -823,7 +821,7 @@ public byte[]? TryGetResult(string taskId, bool checkOutput, CancellationToken c
 
   <h3 id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_TryGetResult_System_String_System_Threading_CancellationToken_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.TryGetResult(System.String,System.Threading.CancellationToken)">
   TryGetResult(string, CancellationToken)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/BaseClientSubmitter.cs/#L794"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/BaseClientSubmitter.cs/#L799"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Try to find the result of One task. If there no result, the function return byte[0]</p>
@@ -866,7 +864,7 @@ public byte[]? TryGetResult(string taskId, CancellationToken cancellationToken =
 
   <h3 id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_TryGetResultAsync_ArmoniK_Api_gRPC_V1_ResultRequest_System_Threading_CancellationToken_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.TryGetResultAsync(ArmoniK.Api.gRPC.V1.ResultRequest,System.Threading.CancellationToken)">
   TryGetResultAsync(ResultRequest, CancellationToken)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/BaseClientSubmitter.cs/#L735"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/BaseClientSubmitter.cs/#L740"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Try to get the result if it is available</p>
@@ -915,7 +913,7 @@ public byte[]? TryGetResult(string taskId, CancellationToken cancellationToken =
 
   <h3 id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_TryGetResults_System_Collections_Generic_IList_System_String__" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.TryGetResults(System.Collections.Generic.IList{System.String})">
   TryGetResults(IList&lt;string&gt;)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/BaseClientSubmitter.cs/#L882"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/BaseClientSubmitter.cs/#L887"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Try to get result of a list of taskIds</p>
