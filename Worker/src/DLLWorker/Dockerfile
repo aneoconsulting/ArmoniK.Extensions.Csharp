@@ -36,7 +36,7 @@ WORKDIR /app
 COPY --from=publish /app/publish .
 ENV LD_LIBRARY_PATH=.:$LD_LIBRARY_PATH
 RUN groupadd --gid 5000 armonikuser && useradd --home-dir /home/armonikuser --create-home --uid 5000 --gid 5000 --shell /bin/sh --skel /dev/null armonikuser
-RUN mkdir /cache && chown armonikuser: /cache
+RUN mkdir /cache /data && chown armonikuser: /cache /data
 USER armonikuser
 
 ENTRYPOINT ["dotnet", "ArmoniK.DevelopmentKit.Worker.DLLWorker.dll"]
