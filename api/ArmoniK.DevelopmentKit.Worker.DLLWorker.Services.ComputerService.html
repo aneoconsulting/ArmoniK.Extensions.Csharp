@@ -284,7 +284,8 @@ Class ComputerService  <a class="header-action link-secondary" title="View sourc
   <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Worker/src/DLLWorker/Services/ComputerService.cs/#L62"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>User defined computations</p>
+</div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
@@ -294,13 +295,15 @@ Class ComputerService  <a class="header-action link-secondary" title="View sourc
   <h4 class="section">Parameters</h4>
   <dl class="parameters">
     <dt><code>taskHandler</code> <span class="xref">ITaskHandler</span></dt>
-    <dd></dd>
+    <dd><p>Handler to access input data and task capabilities</p>
+</dd>
   </dl>
 
   <h4 class="section">Returns</h4>
   <dl class="parameters">
     <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<span class="xref">Output</span>&gt;</dt>
-    <dd></dd>
+    <dd><p>The output of the computational task</p>
+</dd>
   </dl>
 
 
@@ -310,6 +313,12 @@ Class ComputerService  <a class="header-action link-secondary" title="View sourc
 
 
 
+  <h4 class="section">Exceptions</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://github.com/grpc/grpc-dotnet/blob/main/src/Grpc.Core.Api/RpcException.cs">RpcException</a></dt>
+    <dd><p>when method is not overwritten</p>
+</dd>
+  </dl>
 
 
 
