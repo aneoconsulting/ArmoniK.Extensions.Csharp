@@ -70,7 +70,7 @@ public abstract class ClientBaseTest<T>
          ApplicationService = (typeof(T).Name + "Worker").Replace("Client",
                                                                   ""),
 
-         EngineType = EngineType.Symphony.ToString(),
+         EngineType = EngineType.Unified.ToString(),
        };
 
 

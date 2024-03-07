@@ -24,10 +24,7 @@ namespace ArmoniK.DevelopmentKit.Common;
 public enum EngineType
 {
   /// <summary>
-  /// </summary>
-  Symphony = 0,
-
-  /// <summary>
+  ///   Unified engine for worker
   /// </summary>
   Unified = 1,
 }
@@ -38,7 +35,7 @@ public enum EngineType
 public static class EngineTypeHelper
 {
   /// <summary>
-  ///   The method to convert string enum name to obejct enum
+  ///   The method to convert string enum name to object enum
   /// </summary>
   /// <param name="enumName"></param>
   /// <returns></returns>
@@ -46,9 +43,8 @@ public static class EngineTypeHelper
   public static EngineType ToEnum(string enumName)
     => enumName switch
        {
-         "Symphony" => EngineType.Symphony,
-         "Unified"  => EngineType.Unified,
-         _          => throw new KeyNotFoundException($"enumName, possible choice are [{string.Join(", ", typeof(EngineType).GetEnumNames())}]"),
+         "Unified" => EngineType.Unified,
+         _         => throw new KeyNotFoundException($"enumName, possible choice are [{string.Join(", ", typeof(EngineType).GetEnumNames())}]"),
        };
 }
 
@@ -59,10 +55,6 @@ public class EngineTypes
 {
   private readonly Dictionary<EngineType, string> engineTypes_ = new()
                                                                  {
-                                                                   {
-                                                                     EngineType.Symphony, "ArmoniK.DevelopmentKit.Worker.Symphony"
-                                                                   },
-
                                                                    {
                                                                      EngineType.Unified, "ArmoniK.DevelopmentKit.Worker.Unified"
                                                                    },
@@ -77,9 +69,10 @@ public class EngineTypes
   {
     get
     {
-      if (engineTypes_.ContainsKey(key))
+      if (engineTypes_.TryGetValue(key,
+                                   out var item))
       {
-        return engineTypes_[key];
+        return item;
       }
 
       throw new KeyNotFoundException($"There is no engine type [{key}]");

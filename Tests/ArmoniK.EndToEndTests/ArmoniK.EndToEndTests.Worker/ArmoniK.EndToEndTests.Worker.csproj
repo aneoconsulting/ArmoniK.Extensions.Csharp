@@ -24,7 +24,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Worker\src\Symphony\ArmoniK.DevelopmentKit.Worker.Symphony.csproj" />
     <ProjectReference Include="..\..\..\Worker\src\Unified\ArmoniK.DevelopmentKit.Worker.Unified.csproj" />
     <ProjectReference Include="..\ArmoniK.EndToEndTests.Common\ArmoniK.EndToEndTests.Common.csproj" />
   </ItemGroup>
