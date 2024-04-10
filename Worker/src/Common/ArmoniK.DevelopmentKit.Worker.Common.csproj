@@ -10,6 +10,8 @@
   <ItemGroup>
     <PackageReference Include="ArmoniK.Api.Worker" Version="3.16.1" />
     <PackageReference Include="AWSSDK.S3" Version="3.7.106.1" />
+    <!-- AWSSDK.SecurityToken is used by AWSSDK.S3 to automatically get credentials from pod secrets -->
+    <PackageReference Include="AWSSDK.SecurityToken" Version="3.7.103.16" />
     <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.18.1" />
     <PackageReference Include="Grpc.Tools" Version="2.56.0">
