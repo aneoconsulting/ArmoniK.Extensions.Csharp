@@ -13,8 +13,8 @@ wait $!
 ret="$?"
 
 # Add log that process has crashed
-if [ "$ret" = 139 ]; then
-  echo "$@" "CRASHED"
+if [ "$ret" != 0 ]; then
+  echo "$@" "CRASHED with status code $ret" >&2
 fi
 
 # Forward the status code
