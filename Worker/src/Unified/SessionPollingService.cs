@@ -108,10 +108,10 @@ public class SessionPollingService
                                               },
                                 MaxRetries           = 3,
                                 Priority             = 1,
-                                EngineType           = EngineType.Symphony.ToString(),
-                                ApplicationName      = "ArmoniK.Samples.SymphonyPackage",
+                                EngineType           = EngineType.Unified.ToString(),
+                                ApplicationName      = "ArmoniK.Samples.UnifiedPackage",
                                 ApplicationVersion   = "1.0.0",
-                                ApplicationNamespace = "ArmoniK.Samples.Symphony.Packages",
+                                ApplicationNamespace = "ArmoniK.Samples.Unified.Packages",
                               };
 
     return taskOptions;

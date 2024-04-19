@@ -36,9 +36,6 @@ namespace ArmoniK.DevelopmentKit.Worker.Unified;
 /// <summary>
 ///   The Class ServiceContainerBase (Old name was IServiceContainer) is an abstract class
 ///   that have to be implemented by each class wanted to be loaded as new Application
-///   See an example in the project ArmoniK.Samples in the sub project
-///   https://github.com/aneoconsulting/ArmoniK.Samples/tree/main/Samples/SymphonyLike
-///   Samples.ArmoniK.Sample.SymphonyPackages
 /// </summary>
 [PublicAPI]
 [MarkDownDoc]
