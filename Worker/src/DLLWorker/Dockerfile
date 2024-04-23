@@ -32,6 +32,9 @@ RUN case "$TARGETARCH" in \
     dotnet publish "ArmoniK.DevelopmentKit.Worker.DLLWorker.csproj" -c "${BUILD_CONFIG}" -f net6.0 -o /app/publish -r "${DOTNET_ARCH}" --self-contained true
 
 FROM base AS final
+
+COPY ["Worker/src/DLLWorker/entry.sh", "/entry.sh"]
+
 WORKDIR /app
 COPY --from=publish /app/publish .
 ENV LD_LIBRARY_PATH=.:$LD_LIBRARY_PATH
@@ -39,4 +42,4 @@ RUN groupadd --gid 5000 armonikuser && useradd --home-dir /home/armonikuser --cr
 RUN mkdir /cache /data && chown armonikuser: /cache /data
 USER armonikuser
 
-ENTRYPOINT ["dotnet", "ArmoniK.DevelopmentKit.Worker.DLLWorker.dll"]
+ENTRYPOINT ["/entry.sh", "dotnet", "ArmoniK.DevelopmentKit.Worker.DLLWorker.dll"]
