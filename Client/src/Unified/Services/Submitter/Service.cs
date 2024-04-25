@@ -286,7 +286,7 @@ public class Service : AbstractClientService, ISubmitterService
                                         TaskOptions?              taskOptions = null,
                                         CancellationToken         token       = default)
     => await SubmitAsync(methodName,
-                         ProtoSerializer.Serialize(argument),
+                         argument,
                          handler,
                          maxRetries,
                          taskOptions,
