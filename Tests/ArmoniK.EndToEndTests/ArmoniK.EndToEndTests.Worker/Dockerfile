@@ -1,6 +1,6 @@
-ARG WORKER_DLL_IMAGE=dockerhubaneo/armonik_worker_dll:0.13.1-01307g2fdaf5b.7.2fdaf5b
+ARG WORKER_DLL_IMAGE=dockerhubaneo/armonik_worker_dll:0.14.5
 
-FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:6.0-bookworm-slim AS build
 WORKDIR /src
 COPY . .
 
