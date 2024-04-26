@@ -89,6 +89,7 @@ jobs:
       run: |
         docker push dockerhubaneo/armonik_worker_dll:$VERSION
 
+
   buildImagesCross:
     runs-on: ubuntu-latest
     needs:
@@ -125,11 +126,13 @@ jobs:
         context: .
         platforms: linux/arm64
         push: true
+        provenance: mode=max
+        sbom: true
         tags: |
             dockerhubaneo/armonik_worker_dll:${{ needs.versionning.outputs.version }}-arm
 
     - name: Create multi-arch manifest
-      run: docker buildx imagetools create dockerhubaneo/armonik_worker_dll:${VERSION} --tag dockerhubaneo/armonik_worker_dll:${VERSION} --append dockerhubaneo/armonik_worker_dll:${VERSION}-arm
+      run: docker buildx imagetools create dockerhubaneo/armonik_worker_dll:${VERSION} --tag dockerhubaneo/armonik_worker_dll:${VERSION} --provenance=true --sbom=true --append dockerhubaneo/armonik_worker_dll:${VERSION}-arm
 
   testEndToEnd:
     needs:
