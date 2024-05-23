@@ -14,8 +14,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
-
 using ArmoniK.Api.Client.Options;
 using ArmoniK.Api.Client.Submitter;
 
@@ -48,23 +46,6 @@ public class ClientServiceConnector
                     Endpoint              = properties.ControlPlaneUri.ToString(),
                     OverrideTargetName    = properties.TargetNameOverride,
                   };
-
-    if (properties.ControlPlaneUri.Scheme == Uri.UriSchemeHttps && options.AllowUnsafeConnection && string.IsNullOrEmpty(options.OverrideTargetName))
-    {
-#if NET5_0_OR_GREATER
-      var doOverride = !string.IsNullOrEmpty(options.CaCert);
-#else
-      var doOverride = true;
-#endif
-      if (doOverride)
-      {
-        // Doing it here once to improve performance
-        options.OverrideTargetName = GrpcChannelFactory.GetOverrideTargetName(options,
-                                                                              GrpcChannelFactory.GetServerCertificate(properties.ControlPlaneUri,
-                                                                                                                      options)) ?? "";
-      }
-    }
-
 
     return new ChannelPool(() => GrpcChannelFactory.CreateChannel(options,
                                                                   loggerFactory?.CreateLogger(typeof(ClientServiceConnector))));
