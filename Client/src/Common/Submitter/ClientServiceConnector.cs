@@ -45,6 +45,11 @@ public class ClientServiceConnector
                     KeyPem                = properties.ClientKeyFilePem,
                     Endpoint              = properties.ControlPlaneUri.ToString(),
                     OverrideTargetName    = properties.TargetNameOverride,
+                    BackoffMultiplier     = properties.RetryBackoffMultiplier,
+                    InitialBackOff        = properties.RetryInitialBackoff,
+                    Proxy                 = properties.Proxy,
+                    ProxyUsername         = properties.ProxyUsername,
+                    ProxyPassword         = properties.ProxyPassword,
                   };
 
     return new ChannelPool(() => GrpcChannelFactory.CreateChannel(options,
