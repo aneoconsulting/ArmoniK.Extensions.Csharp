@@ -38,6 +38,7 @@ using ArmoniK.Utils;
 using Google.Protobuf;
 
 using Grpc.Core;
+using Grpc.Net.Client;
 
 using JetBrains.Annotations;
 
@@ -69,7 +70,7 @@ public abstract class BaseClientSubmitter<T>
   /// <summary>
   ///   The channel pool to use for creating clients
   /// </summary>
-  private ChannelPool? channelPool_;
+  private ObjectPool<GrpcChannel>? channelPool_;
 
   /// <summary>
   ///   Base Object for all Client submitter
@@ -95,8 +96,8 @@ public abstract class BaseClientSubmitter<T>
                                            TaskOptions.PartitionId,
                                          });
 
-    configuration_ = ChannelPool.WithChannel(channel => new Results.ResultsClient(channel).GetServiceConfiguration(new Empty())
-                                                                                          .DataChunkMaxSize);
+    configuration_ = ChannelPool.WithInstance(channel => new Results.ResultsClient(channel).GetServiceConfiguration(new Empty())
+                                                                                           .DataChunkMaxSize);
   }
 
   private ILoggerFactory LoggerFactory { get; }
@@ -115,7 +116,7 @@ public abstract class BaseClientSubmitter<T>
   /// <summary>
   ///   The channel pool to use for creating clients
   /// </summary>
-  public ChannelPool ChannelPool
+  public ObjectPool<GrpcChannel> ChannelPool
     => channelPool_ ??= ClientServiceConnector.ControlPlaneConnectionPool(properties_,
                                                                           LoggerFactory);
 
@@ -129,7 +130,7 @@ public abstract class BaseClientSubmitter<T>
   {
     using var _ = Logger.LogFunction();
     Logger.LogDebug("Creating Session... ");
-    using var channel        = ChannelPool.GetChannel();
+    using var channel        = ChannelPool.Get();
     var       sessionsClient = new Sessions.SessionsClient(channel);
     var createSessionReply = sessionsClient.CreateSession(new CreateSessionRequest
                                                           {
@@ -167,7 +168,7 @@ public abstract class BaseClientSubmitter<T>
   /// <returns></returns>
   public IEnumerable<Tuple<string, TaskStatus>> GetTaskStatues(params string[] taskIds)
   {
-    using var channel     = ChannelPool.GetChannel();
+    using var channel     = ChannelPool.Get();
     var       tasksClient = new Tasks.TasksClient(channel);
     return tasksClient.ListTasks(new Filters
                                  {
@@ -200,10 +201,10 @@ public abstract class BaseClientSubmitter<T>
   // TODO: This function should not have Output as a return type because it is a gRPC type
   public Output GetTaskOutputInfo(string taskId)
   {
-    var getTaskResponse = ChannelPool.WithChannel(channel => new Tasks.TasksClient(channel).GetTask(new GetTaskRequest
-                                                                                                    {
-                                                                                                      TaskId = taskId,
-                                                                                                    }));
+    var getTaskResponse = ChannelPool.WithInstance(channel => new Tasks.TasksClient(channel).GetTask(new GetTaskRequest
+                                                                                                     {
+                                                                                                       TaskId = taskId,
+                                                                                                     }));
     return new Output
            {
              Error = new Output.Types.Error
@@ -296,7 +297,7 @@ public abstract class BaseClientSubmitter<T>
     {
       for (var nbRetry = 0; nbRetry < maxRetries; nbRetry++)
       {
-        using var channel       = ChannelPool.GetChannel();
+        using var channel       = ChannelPool.Get();
         var       resultsClient = new Results.ResultsClient(channel);
 
         try
@@ -400,7 +401,7 @@ public abstract class BaseClientSubmitter<T>
 
       for (var nbRetry = 0; nbRetry < maxRetries; nbRetry++)
       {
-        using var channel     = ChannelPool.GetChannel();
+        using var channel     = ChannelPool.Get();
         var       tasksClient = new Tasks.TasksClient(channel);
 
         try
@@ -500,7 +501,7 @@ public abstract class BaseClientSubmitter<T>
                          delayMs,
                          retry =>
                          {
-                           using var channel          = ChannelPool.GetChannel();
+                           using var channel          = ChannelPool.Get();
                            var       submitterService = new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel);
 
                            if (retry > 1)
@@ -565,7 +566,7 @@ public abstract class BaseClientSubmitter<T>
                                           // TODO: use ListResult
                                           var idStatusPair = result2TaskDic.Keys.ParallelSelect(async resultId =>
                                                                                                 {
-                                                                                                  using var channel       = ChannelPool.GetChannel();
+                                                                                                  using var channel       = ChannelPool.Get();
                                                                                                   var       resultsClient = new Results.ResultsClient(channel);
                                                                                                   var result = await resultsClient.GetResultAsync(new GetResultRequest
                                                                                                                                                   {
@@ -640,14 +641,14 @@ public abstract class BaseClientSubmitter<T>
                                                   nameof(GetResultIds));
                               }
 
-                              return ChannelPool.WithChannel(channel => new Tasks.TasksClient(channel).GetResultIds(new GetResultIdsRequest
-                                                                                                                    {
-                                                                                                                      TaskId =
-                                                                                                                      {
-                                                                                                                        taskIds,
-                                                                                                                      },
-                                                                                                                    })
-                                                                                                      .TaskResults);
+                              return ChannelPool.WithInstance(channel => new Tasks.TasksClient(channel).GetResultIds(new GetResultIdsRequest
+                                                                                                                     {
+                                                                                                                       TaskId =
+                                                                                                                       {
+                                                                                                                         taskIds,
+                                                                                                                       },
+                                                                                                                     })
+                                                                                                       .TaskResults);
                             },
                             true,
                             Logger,
@@ -680,7 +681,7 @@ public abstract class BaseClientSubmitter<T>
                             ResultId = resultId,
                             Session  = SessionId.Id,
                           };
-      using var channel      = ChannelPool.GetChannel();
+      using var channel      = ChannelPool.Get();
       var       eventsClient = new Events.EventsClient(channel);
       eventsClient.WaitForResultsAsync(SessionId.Id,
                                        new List<string>
@@ -740,8 +741,9 @@ public abstract class BaseClientSubmitter<T>
   public async Task<byte[]?> TryGetResultAsync(ResultRequest     resultRequest,
                                                CancellationToken cancellationToken = default)
   {
-    using var channel       = ChannelPool.GetChannel();
-    var       resultsClient = new Results.ResultsClient(channel);
+    await using var channel = await ChannelPool.GetAsync(cancellationToken)
+                                               .ConfigureAwait(false);
+    var resultsClient = new Results.ResultsClient(channel);
     var getResultResponse = await resultsClient.GetResultAsync(new GetResultRequest
                                                                {
                                                                  ResultId = resultRequest.ResultId,
@@ -951,17 +953,18 @@ public abstract class BaseClientSubmitter<T>
   /// <returns>Dictionary where each result name is associated with its result id</returns>
   [PublicAPI]
   public Dictionary<string, string> CreateResultsMetadata(IEnumerable<string> resultNames)
-    => ChannelPool.WithChannel(c => new Results.ResultsClient(c).CreateResultsMetaData(new CreateResultsMetaDataRequest
-                                                                                       {
-                                                                                         SessionId = SessionId.Id,
-                                                                                         Results =
-                                                                                         {
-                                                                                           resultNames.Select(name => new CreateResultsMetaDataRequest.Types.ResultCreate
-                                                                                                                      {
-                                                                                                                        Name = name,
-                                                                                                                      }),
-                                                                                         },
-                                                                                       }))
+    => ChannelPool.WithInstance(c => new Results.ResultsClient(c).CreateResultsMetaData(new CreateResultsMetaDataRequest
+                                                                                        {
+                                                                                          SessionId = SessionId.Id,
+                                                                                          Results =
+                                                                                          {
+                                                                                            resultNames.Select(name
+                                                                                                                 => new CreateResultsMetaDataRequest.Types.ResultCreate
+                                                                                                                    {
+                                                                                                                      Name = name,
+                                                                                                                    }),
+                                                                                          },
+                                                                                        }))
                   .Results.ToDictionary(r => r.Name,
                                         r => r.ResultId);
 }

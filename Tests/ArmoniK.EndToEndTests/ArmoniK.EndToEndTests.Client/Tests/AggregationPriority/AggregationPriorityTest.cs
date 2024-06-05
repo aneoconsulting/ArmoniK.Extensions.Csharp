@@ -157,7 +157,11 @@ public class AggregationPriorityTest
 
     var taskRawData = new List<TaskDetailed>();
 
-    await foreach (var taskRaw in RetrieveAllTasksStats(service.GetChannel(),
+    await using var channel = await service!.GetChannelPool()
+                                            .GetAsync(CancellationToken.None)
+                                            .ConfigureAwait(false);
+
+    await foreach (var taskRaw in RetrieveAllTasksStats(channel,
                                                         new Filters
                                                         {
                                                           Or =

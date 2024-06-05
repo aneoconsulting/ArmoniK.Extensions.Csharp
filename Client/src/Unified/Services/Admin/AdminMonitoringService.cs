@@ -24,6 +24,9 @@ using ArmoniK.Api.gRPC.V1.Sessions;
 using ArmoniK.Api.gRPC.V1.SortDirection;
 using ArmoniK.Api.gRPC.V1.Tasks;
 using ArmoniK.DevelopmentKit.Client.Common.Submitter;
+using ArmoniK.Utils;
+
+using Grpc.Net.Client;
 
 using Microsoft.Extensions.Logging;
 
@@ -39,15 +42,15 @@ namespace ArmoniK.DevelopmentKit.Client.Unified.Services.Admin;
 /// </summary>
 public class AdminMonitoringService
 {
-  private readonly ChannelPool channelPool_;
+  private readonly ObjectPool<GrpcChannel> channelPool_;
 
   /// <summary>
   ///   The constructor to instantiate this service
   /// </summary>
   /// <param name="channel">The entry point to the control plane</param>
   /// <param name="loggerFactory">The factory logger to create logger</param>
-  public AdminMonitoringService(ChannelPool     channelPool,
-                                ILoggerFactory? loggerFactory = null)
+  public AdminMonitoringService(ObjectPool<GrpcChannel> channelPool,
+                                ILoggerFactory?         loggerFactory = null)
   {
     Logger       = loggerFactory?.CreateLogger<AdminMonitoringService>();
     channelPool_ = channelPool;
@@ -61,7 +64,7 @@ public class AdminMonitoringService
   /// </summary>
   public void GetServiceConfiguration()
   {
-    using var channel       = channelPool_.GetChannel();
+    using var channel       = channelPool_.Get();
     var       resultsClient = new Results.ResultsClient(channel);
     var       configuration = resultsClient.GetServiceConfiguration(new Empty());
     Logger?.LogInformation($"This configuration will be update in the nex version [ {configuration} ]");
@@ -74,7 +77,7 @@ public class AdminMonitoringService
   /// <param name="sessionId">the sessionId of the session to cancel</param>
   public void CancelSession(string sessionId)
   {
-    using var channel        = channelPool_.GetChannel();
+    using var channel        = channelPool_.Get();
     var       sessionsClient = new Sessions.SessionsClient(channel);
     sessionsClient.CancelSession(new CancelSessionRequest
                                  {
@@ -98,7 +101,7 @@ public class AdminMonitoringService
   public IEnumerable<string> ListTasksBySession(string              sessionId,
                                                 params TaskStatus[] taskStatus)
   {
-    using var channel     = channelPool_.GetChannel();
+    using var channel     = channelPool_.Get();
     var       tasksClient = new Tasks.TasksClient(channel);
 
     return tasksClient.ListTasks(new Filters
@@ -159,7 +162,7 @@ public class AdminMonitoringService
   /// <returns>The list of filtered session </returns>
   public IEnumerable<string> ListAllSessions()
   {
-    using var channel        = channelPool_.GetChannel();
+    using var channel        = channelPool_.Get();
     var       sessionsClient = new Sessions.SessionsClient(channel);
     return sessionsClient.ListSessions(new ListSessionsRequest())
                          .Sessions.Select(session => session.SessionId);
@@ -172,7 +175,7 @@ public class AdminMonitoringService
   /// <returns>returns a list of session filtered</returns>
   public IEnumerable<string> ListRunningSessions()
   {
-    using var channel        = channelPool_.GetChannel();
+    using var channel        = channelPool_.Get();
     var       sessionsClient = new Sessions.SessionsClient(channel);
     return sessionsClient.ListSessions(new ListSessionsRequest
                                        {
@@ -213,7 +216,7 @@ public class AdminMonitoringService
   /// <returns>returns a list of session filtered</returns>
   public IEnumerable<string> ListCancelledSessions()
   {
-    using var channel        = channelPool_.GetChannel();
+    using var channel        = channelPool_.Get();
     var       sessionsClient = new Sessions.SessionsClient(channel);
     return sessionsClient.ListSessions(new ListSessionsRequest
                                        {
@@ -281,7 +284,7 @@ public class AdminMonitoringService
   public int CountTaskBySession(string              sessionId,
                                 params TaskStatus[] taskStatus)
   {
-    using var channel     = channelPool_.GetChannel();
+    using var channel     = channelPool_.Get();
     var       tasksClient = new Tasks.TasksClient(channel);
     return tasksClient.CountTasksByStatus(new CountTasksByStatusRequest
                                           {
@@ -322,7 +325,7 @@ public class AdminMonitoringService
   /// <param name="taskIds">the taskIds list to cancel</param>
   public void CancelTasksBySession(IEnumerable<string> taskIds)
   {
-    using var channel     = channelPool_.GetChannel();
+    using var channel     = channelPool_.Get();
     var       tasksClient = new Tasks.TasksClient(channel);
     tasksClient.CancelTasks(new CancelTasksRequest
                             {
@@ -340,7 +343,7 @@ public class AdminMonitoringService
   /// <returns>returns a list of pair TaskId/TaskStatus</returns>
   public IEnumerable<Tuple<string, TaskStatus>> GetTaskStatus(IEnumerable<string> taskIds)
   {
-    using var channel     = channelPool_.GetChannel();
+    using var channel     = channelPool_.Get();
     var       tasksClient = new Tasks.TasksClient(channel);
     return tasksClient.ListTasks(new Filters
                                  {

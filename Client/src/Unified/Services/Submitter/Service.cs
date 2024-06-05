@@ -1,6 +1,6 @@
 // This file is part of the ArmoniK project
 // 
-// Copyright (C) ANEO, 2021-2023. All rights reserved.
+// Copyright (C) ANEO, 2021-2024. All rights reserved.
 // 
 // Licensed under the Apache License, Version 2.0 (the "License")
 // you may not use this file except in compliance with the License.
@@ -797,8 +797,8 @@ public class Service : AbstractClientService, ISubmitterService
   /// <returns>gRPC channel</returns>
   // TODO: Refactor test to remove this
   // ReSharper disable once UnusedMember.Global
-  public GrpcChannel GetChannel()
-    => SessionService.ChannelPool.GetChannel();
+  public ObjectPool<GrpcChannel> GetChannelPool()
+    => SessionService.ChannelPool;
 
   /// <summary>
   ///   Class to return TaskId and the result

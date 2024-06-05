@@ -18,6 +18,9 @@ using ArmoniK.Api.gRPC.V1;
 using ArmoniK.DevelopmentKit.Client.Common;
 using ArmoniK.DevelopmentKit.Client.Common.Submitter;
 using ArmoniK.DevelopmentKit.Common;
+using ArmoniK.Utils;
+
+using Grpc.Net.Client;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -63,7 +66,7 @@ public class ArmonikSymphonyClient
   /// </summary>
   public string SectionGrpc { get; set; } = "Grpc";
 
-  private ChannelPool GrpcPool { get; set; }
+  private ObjectPool<GrpcChannel> GrpcPool { get; set; }
 
 
   private IConfiguration Configuration { get; }
