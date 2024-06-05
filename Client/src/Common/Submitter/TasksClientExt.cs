@@ -1,6 +1,6 @@
 // This file is part of the ArmoniK project
 //
-// Copyright (C) ANEO, 2021-$CURRENT_YEAR$. All rights reserved.
+// Copyright (C) ANEO, 2021-2024. All rights reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License")
 // you may not use this file except in compliance with the License.
@@ -17,6 +17,8 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading;
 
 using ArmoniK.Api.gRPC.V1;
 using ArmoniK.Api.gRPC.V1.Tasks;
@@ -133,21 +135,25 @@ public static class TasksClientExt
   /// <param name="filters"> filters to apply on the tasks </param>
   /// <param name="sort"> sorting order </param>
   /// <param name="pageSize"> page size </param>
+  /// <param name="cancellationToken"></param>
   /// <returns></returns>
-  public static IEnumerable<TaskSummary> ListTasks(this Tasks.TasksClient      tasksClient,
-                                                   Filters                     filters,
-                                                   ListTasksRequest.Types.Sort sort,
-                                                   int                         pageSize = 50)
+  public static async IAsyncEnumerable<TaskSummary> ListTasksAsync(this Tasks.TasksClient                     tasksClient,
+                                                                   Filters                                    filters,
+                                                                   ListTasksRequest.Types.Sort                sort,
+                                                                   int                                        pageSize          = 50,
+                                                                   [EnumeratorCancellation] CancellationToken cancellationToken = default)
   {
     var               page = 0;
     ListTasksResponse res;
-    while ((res = tasksClient.ListTasks(new ListTasksRequest
-                                        {
-                                          Filters  = filters,
-                                          Sort     = sort,
-                                          PageSize = pageSize,
-                                          Page     = page,
-                                        })).Tasks.Any())
+    while ((res = await tasksClient.ListTasksAsync(new ListTasksRequest
+                                                   {
+                                                     Filters  = filters,
+                                                     Sort     = sort,
+                                                     PageSize = pageSize,
+                                                     Page     = page,
+                                                   },
+                                                   cancellationToken: cancellationToken)
+                                   .ConfigureAwait(false)).Tasks.Any())
     {
       foreach (var taskSummary in res.Tasks)
       {
@@ -157,4 +163,22 @@ public static class TasksClientExt
       page++;
     }
   }
+
+  /// <summary>
+  ///   List tasks while handling page size
+  /// </summary>
+  /// <param name="tasksClient"> the tasks client </param>
+  /// <param name="filters"> filters to apply on the tasks </param>
+  /// <param name="sort"> sorting order </param>
+  /// <param name="pageSize"> page size </param>
+  /// <returns></returns>
+  public static IEnumerable<TaskSummary> ListTasks(this Tasks.TasksClient      tasksClient,
+                                                   Filters                     filters,
+                                                   ListTasksRequest.Types.Sort sort,
+                                                   int                         pageSize = 50)
+    => ListTasksAsync(tasksClient,
+                      filters,
+                      sort,
+                      pageSize)
+      .ToEnumerable();
 }
