@@ -182,15 +182,15 @@ references:
   fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Properties.New(ArmoniK.Api.gRPC.V1.TaskOptions, String, Integer, String, String, String, String, String, Boolean?)
   nameWithType: Properties.Properties(TaskOptions, string?, int, string?, string?, string?, string?, string?, bool?)
   nameWithType.vb: Properties.New(TaskOptions, String, Integer, String, String, String, String, String, Boolean?)
-- uid: ArmoniK.DevelopmentKit.Client.Common.Properties.#ctor(Microsoft.Extensions.Configuration.IConfiguration,ArmoniK.Api.gRPC.V1.TaskOptions,System.String,System.Int32,System.String,System.String,System.String,System.String,System.String,System.Nullable{System.Boolean},System.TimeSpan,System.Double,System.TimeSpan)
-  name: Properties(IConfiguration, TaskOptions, string?, int, string?, string?, string?, string?, string?, bool?, TimeSpan, double, TimeSpan)
-  href: api/ArmoniK.DevelopmentKit.Client.Common.Properties.html#ArmoniK_DevelopmentKit_Client_Common_Properties__ctor_Microsoft_Extensions_Configuration_IConfiguration_ArmoniK_Api_gRPC_V1_TaskOptions_System_String_System_Int32_System_String_System_String_System_String_System_String_System_String_System_Nullable_System_Boolean__System_TimeSpan_System_Double_System_TimeSpan_
-  commentId: M:ArmoniK.DevelopmentKit.Client.Common.Properties.#ctor(Microsoft.Extensions.Configuration.IConfiguration,ArmoniK.Api.gRPC.V1.TaskOptions,System.String,System.Int32,System.String,System.String,System.String,System.String,System.String,System.Nullable{System.Boolean},System.TimeSpan,System.Double,System.TimeSpan)
-  name.vb: New(IConfiguration, TaskOptions, String, Integer, String, String, String, String, String, Boolean?, TimeSpan, Double, TimeSpan)
-  fullName: ArmoniK.DevelopmentKit.Client.Common.Properties.Properties(Microsoft.Extensions.Configuration.IConfiguration, ArmoniK.Api.gRPC.V1.TaskOptions, string?, int, string?, string?, string?, string?, string?, bool?, System.TimeSpan, double, System.TimeSpan)
-  fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Properties.New(Microsoft.Extensions.Configuration.IConfiguration, ArmoniK.Api.gRPC.V1.TaskOptions, String, Integer, String, String, String, String, String, Boolean?, System.TimeSpan, Double, System.TimeSpan)
-  nameWithType: Properties.Properties(IConfiguration, TaskOptions, string?, int, string?, string?, string?, string?, string?, bool?, TimeSpan, double, TimeSpan)
-  nameWithType.vb: Properties.New(IConfiguration, TaskOptions, String, Integer, String, String, String, String, String, Boolean?, TimeSpan, Double, TimeSpan)
+- uid: ArmoniK.DevelopmentKit.Client.Common.Properties.#ctor(Microsoft.Extensions.Configuration.IConfiguration,ArmoniK.Api.gRPC.V1.TaskOptions,System.String,System.Int32,System.String,System.String,System.String,System.String,System.String,System.Nullable{System.Boolean},System.TimeSpan,System.Double,System.TimeSpan,System.String,System.String,System.String)
+  name: Properties(IConfiguration, TaskOptions, string?, int, string?, string?, string?, string?, string?, bool?, TimeSpan, double, TimeSpan, string?, string?, string?)
+  href: api/ArmoniK.DevelopmentKit.Client.Common.Properties.html#ArmoniK_DevelopmentKit_Client_Common_Properties__ctor_Microsoft_Extensions_Configuration_IConfiguration_ArmoniK_Api_gRPC_V1_TaskOptions_System_String_System_Int32_System_String_System_String_System_String_System_String_System_String_System_Nullable_System_Boolean__System_TimeSpan_System_Double_System_TimeSpan_System_String_System_String_System_String_
+  commentId: M:ArmoniK.DevelopmentKit.Client.Common.Properties.#ctor(Microsoft.Extensions.Configuration.IConfiguration,ArmoniK.Api.gRPC.V1.TaskOptions,System.String,System.Int32,System.String,System.String,System.String,System.String,System.String,System.Nullable{System.Boolean},System.TimeSpan,System.Double,System.TimeSpan,System.String,System.String,System.String)
+  name.vb: New(IConfiguration, TaskOptions, String, Integer, String, String, String, String, String, Boolean?, TimeSpan, Double, TimeSpan, String, String, String)
+  fullName: ArmoniK.DevelopmentKit.Client.Common.Properties.Properties(Microsoft.Extensions.Configuration.IConfiguration, ArmoniK.Api.gRPC.V1.TaskOptions, string?, int, string?, string?, string?, string?, string?, bool?, System.TimeSpan, double, System.TimeSpan, string?, string?, string?)
+  fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Properties.New(Microsoft.Extensions.Configuration.IConfiguration, ArmoniK.Api.gRPC.V1.TaskOptions, String, Integer, String, String, String, String, String, Boolean?, System.TimeSpan, Double, System.TimeSpan, String, String, String)
+  nameWithType: Properties.Properties(IConfiguration, TaskOptions, string?, int, string?, string?, string?, string?, string?, bool?, TimeSpan, double, TimeSpan, string?, string?, string?)
+  nameWithType.vb: Properties.New(IConfiguration, TaskOptions, String, Integer, String, String, String, String, String, Boolean?, TimeSpan, Double, TimeSpan, String, String, String)
 - uid: ArmoniK.DevelopmentKit.Client.Common.Properties.#ctor*
   name: Properties
   href: api/ArmoniK.DevelopmentKit.Client.Common.Properties.html#ArmoniK_DevelopmentKit_Client_Common_Properties__ctor_
@@ -402,6 +402,45 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.Client.Common.Properties.Protocol
   nameWithType: Properties.Protocol
+- uid: ArmoniK.DevelopmentKit.Client.Common.Properties.Proxy
+  name: Proxy
+  href: api/ArmoniK.DevelopmentKit.Client.Common.Properties.html#ArmoniK_DevelopmentKit_Client_Common_Properties_Proxy
+  commentId: P:ArmoniK.DevelopmentKit.Client.Common.Properties.Proxy
+  fullName: ArmoniK.DevelopmentKit.Client.Common.Properties.Proxy
+  nameWithType: Properties.Proxy
+- uid: ArmoniK.DevelopmentKit.Client.Common.Properties.Proxy*
+  name: Proxy
+  href: api/ArmoniK.DevelopmentKit.Client.Common.Properties.html#ArmoniK_DevelopmentKit_Client_Common_Properties_Proxy_
+  commentId: Overload:ArmoniK.DevelopmentKit.Client.Common.Properties.Proxy
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Client.Common.Properties.Proxy
+  nameWithType: Properties.Proxy
+- uid: ArmoniK.DevelopmentKit.Client.Common.Properties.ProxyPassword
+  name: ProxyPassword
+  href: api/ArmoniK.DevelopmentKit.Client.Common.Properties.html#ArmoniK_DevelopmentKit_Client_Common_Properties_ProxyPassword
+  commentId: P:ArmoniK.DevelopmentKit.Client.Common.Properties.ProxyPassword
+  fullName: ArmoniK.DevelopmentKit.Client.Common.Properties.ProxyPassword
+  nameWithType: Properties.ProxyPassword
+- uid: ArmoniK.DevelopmentKit.Client.Common.Properties.ProxyPassword*
+  name: ProxyPassword
+  href: api/ArmoniK.DevelopmentKit.Client.Common.Properties.html#ArmoniK_DevelopmentKit_Client_Common_Properties_ProxyPassword_
+  commentId: Overload:ArmoniK.DevelopmentKit.Client.Common.Properties.ProxyPassword
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Client.Common.Properties.ProxyPassword
+  nameWithType: Properties.ProxyPassword
+- uid: ArmoniK.DevelopmentKit.Client.Common.Properties.ProxyUsername
+  name: ProxyUsername
+  href: api/ArmoniK.DevelopmentKit.Client.Common.Properties.html#ArmoniK_DevelopmentKit_Client_Common_Properties_ProxyUsername
+  commentId: P:ArmoniK.DevelopmentKit.Client.Common.Properties.ProxyUsername
+  fullName: ArmoniK.DevelopmentKit.Client.Common.Properties.ProxyUsername
+  nameWithType: Properties.ProxyUsername
+- uid: ArmoniK.DevelopmentKit.Client.Common.Properties.ProxyUsername*
+  name: ProxyUsername
+  href: api/ArmoniK.DevelopmentKit.Client.Common.Properties.html#ArmoniK_DevelopmentKit_Client_Common_Properties_ProxyUsername_
+  commentId: Overload:ArmoniK.DevelopmentKit.Client.Common.Properties.ProxyUsername
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Client.Common.Properties.ProxyUsername
+  nameWithType: Properties.ProxyUsername
 - uid: ArmoniK.DevelopmentKit.Client.Common.Properties.RetryBackoffMultiplier
   name: RetryBackoffMultiplier
   href: api/ArmoniK.DevelopmentKit.Client.Common.Properties.html#ArmoniK_DevelopmentKit_Client_Common_Properties_RetryBackoffMultiplier
@@ -1090,15 +1129,15 @@ references:
   commentId: T:ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool
   fullName: ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool
   nameWithType: ChannelPool
-- uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.#ctor(System.Func{Grpc.Core.ChannelBase},Microsoft.Extensions.Logging.ILoggerFactory)
-  name: ChannelPool(Func<ChannelBase>, ILoggerFactory?)
-  href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_ChannelPool__ctor_System_Func_Grpc_Core_ChannelBase__Microsoft_Extensions_Logging_ILoggerFactory_
-  commentId: M:ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.#ctor(System.Func{Grpc.Core.ChannelBase},Microsoft.Extensions.Logging.ILoggerFactory)
-  name.vb: New(Func(Of ChannelBase), ILoggerFactory)
-  fullName: ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.ChannelPool(System.Func<Grpc.Core.ChannelBase>, Microsoft.Extensions.Logging.ILoggerFactory?)
-  fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.New(System.Func(Of Grpc.Core.ChannelBase), Microsoft.Extensions.Logging.ILoggerFactory)
-  nameWithType: ChannelPool.ChannelPool(Func<ChannelBase>, ILoggerFactory?)
-  nameWithType.vb: ChannelPool.New(Func(Of ChannelBase), ILoggerFactory)
+- uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.#ctor(System.Func{Grpc.Net.Client.GrpcChannel},Microsoft.Extensions.Logging.ILoggerFactory)
+  name: ChannelPool(Func<GrpcChannel>, ILoggerFactory?)
+  href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_ChannelPool__ctor_System_Func_Grpc_Net_Client_GrpcChannel__Microsoft_Extensions_Logging_ILoggerFactory_
+  commentId: M:ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.#ctor(System.Func{Grpc.Net.Client.GrpcChannel},Microsoft.Extensions.Logging.ILoggerFactory)
+  name.vb: New(Func(Of GrpcChannel), ILoggerFactory)
+  fullName: ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.ChannelPool(System.Func<Grpc.Net.Client.GrpcChannel>, Microsoft.Extensions.Logging.ILoggerFactory?)
+  fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.New(System.Func(Of Grpc.Net.Client.GrpcChannel), Microsoft.Extensions.Logging.ILoggerFactory)
+  nameWithType: ChannelPool.ChannelPool(Func<GrpcChannel>, ILoggerFactory?)
+  nameWithType.vb: ChannelPool.New(Func(Of GrpcChannel), ILoggerFactory)
 - uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.#ctor*
   name: ChannelPool
   href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_ChannelPool__ctor_
@@ -1147,14 +1186,14 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.ChannelGuard.Dispose
   nameWithType: ChannelPool.ChannelGuard.Dispose
-- uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.ChannelGuard.op_Implicit(ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.ChannelGuard)~Grpc.Core.ChannelBase
-  name: implicit operator ChannelBase(ChannelGuard)
-  href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.ChannelGuard.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_ChannelPool_ChannelGuard_op_Implicit_ArmoniK_DevelopmentKit_Client_Common_Submitter_ChannelPool_ChannelGuard__Grpc_Core_ChannelBase
-  commentId: M:ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.ChannelGuard.op_Implicit(ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.ChannelGuard)~Grpc.Core.ChannelBase
+- uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.ChannelGuard.op_Implicit(ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.ChannelGuard)~Grpc.Net.Client.GrpcChannel
+  name: implicit operator GrpcChannel(ChannelGuard)
+  href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.ChannelGuard.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_ChannelPool_ChannelGuard_op_Implicit_ArmoniK_DevelopmentKit_Client_Common_Submitter_ChannelPool_ChannelGuard__Grpc_Net_Client_GrpcChannel
+  commentId: M:ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.ChannelGuard.op_Implicit(ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.ChannelGuard)~Grpc.Net.Client.GrpcChannel
   name.vb: CType(ChannelGuard)
-  fullName: ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.ChannelGuard.implicit operator Grpc.Core.ChannelBase(ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.ChannelGuard)
+  fullName: ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.ChannelGuard.implicit operator Grpc.Net.Client.GrpcChannel(ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.ChannelGuard)
   fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.ChannelGuard.CType(ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.ChannelGuard)
-  nameWithType: ChannelPool.ChannelGuard.implicit operator ChannelBase(ChannelPool.ChannelGuard)
+  nameWithType: ChannelPool.ChannelGuard.implicit operator GrpcChannel(ChannelPool.ChannelGuard)
   nameWithType.vb: ChannelPool.ChannelGuard.CType(ChannelPool.ChannelGuard)
 - uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.ChannelGuard.op_Implicit*
   name: implicit operator
@@ -1186,15 +1225,15 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.WithChannel
   nameWithType: ChannelPool.WithChannel
-- uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.WithChannel``1(System.Func{Grpc.Core.ChannelBase,``0})
-  name: WithChannel<T>(Func<ChannelBase, T>)
-  href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_ChannelPool_WithChannel__1_System_Func_Grpc_Core_ChannelBase___0__
-  commentId: M:ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.WithChannel``1(System.Func{Grpc.Core.ChannelBase,``0})
-  name.vb: WithChannel(Of T)(Func(Of ChannelBase, T))
-  fullName: ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.WithChannel<T>(System.Func<Grpc.Core.ChannelBase, T>)
-  fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.WithChannel(Of T)(System.Func(Of Grpc.Core.ChannelBase, T))
-  nameWithType: ChannelPool.WithChannel<T>(Func<ChannelBase, T>)
-  nameWithType.vb: ChannelPool.WithChannel(Of T)(Func(Of ChannelBase, T))
+- uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.WithChannel``1(System.Func{Grpc.Net.Client.GrpcChannel,``0})
+  name: WithChannel<T>(Func<GrpcChannel, T>)
+  href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_ChannelPool_WithChannel__1_System_Func_Grpc_Net_Client_GrpcChannel___0__
+  commentId: M:ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.WithChannel``1(System.Func{Grpc.Net.Client.GrpcChannel,``0})
+  name.vb: WithChannel(Of T)(Func(Of GrpcChannel, T))
+  fullName: ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.WithChannel<T>(System.Func<Grpc.Net.Client.GrpcChannel, T>)
+  fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.WithChannel(Of T)(System.Func(Of Grpc.Net.Client.GrpcChannel, T))
+  nameWithType: ChannelPool.WithChannel<T>(Func<GrpcChannel, T>)
+  nameWithType.vb: ChannelPool.WithChannel(Of T)(Func(Of GrpcChannel, T))
 - uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.ClientServiceConnector
   name: ClientServiceConnector
   href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.ClientServiceConnector.html

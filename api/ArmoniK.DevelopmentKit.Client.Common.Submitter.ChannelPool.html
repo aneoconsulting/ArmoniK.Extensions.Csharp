@@ -89,7 +89,7 @@
 
 
   <h1 id="ArmoniK_DevelopmentKit_Client_Common_Submitter_ChannelPool" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool" class="text-break">
-Class ChannelPool  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/ChannelPool.cs/#L32"><i class="bi bi-code-slash"></i></a>
+Class ChannelPool  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/ChannelPool.cs/#L30"><i class="bi bi-code-slash"></i></a>
   </h1>
 
   <div class="facts text-secondary">
@@ -152,9 +152,9 @@ Class ChannelPool  <a class="header-action link-secondary" title="View source" h
 
   <a id="ArmoniK_DevelopmentKit_Client_Common_Submitter_ChannelPool__ctor_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.#ctor*"></a>
 
-  <h3 id="ArmoniK_DevelopmentKit_Client_Common_Submitter_ChannelPool__ctor_System_Func_Grpc_Core_ChannelBase__Microsoft_Extensions_Logging_ILoggerFactory_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.#ctor(System.Func{Grpc.Core.ChannelBase},Microsoft.Extensions.Logging.ILoggerFactory)">
-  ChannelPool(Func&lt;ChannelBase&gt;, ILoggerFactory?)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/ChannelPool.cs/#L45"><i class="bi bi-code-slash"></i></a>
+  <h3 id="ArmoniK_DevelopmentKit_Client_Common_Submitter_ChannelPool__ctor_System_Func_Grpc_Net_Client_GrpcChannel__Microsoft_Extensions_Logging_ILoggerFactory_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.#ctor(System.Func{Grpc.Net.Client.GrpcChannel},Microsoft.Extensions.Logging.ILoggerFactory)">
+  ChannelPool(Func&lt;GrpcChannel&gt;, ILoggerFactory?)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/ChannelPool.cs/#L43"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Constructs a new channelPool</p>
@@ -162,12 +162,12 @@ Class ChannelPool  <a class="header-action link-secondary" title="View source" h
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public ChannelPool(Func&lt;ChannelBase&gt; channelFactory, ILoggerFactory? loggerFactory = null)</code></pre>
+    <pre><code class="lang-csharp hljs">public ChannelPool(Func&lt;GrpcChannel&gt; channelFactory, ILoggerFactory? loggerFactory = null)</code></pre>
   </div>
 
   <h4 class="section">Parameters</h4>
   <dl class="parameters">
-    <dt><code>channelFactory</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.func-1">Func</a>&lt;<a class="xref" href="https://github.com/grpc/grpc-dotnet/blob/main/src/Grpc.Core.Api/ChannelBase.cs">ChannelBase</a>&gt;</dt>
+    <dt><code>channelFactory</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.func-1">Func</a>&lt;<a class="xref" href="https://github.com/grpc/grpc-dotnet/blob/main/src/Grpc.Net.Client/GrpcChannel.cs">GrpcChannel</a>&gt;</dt>
     <dd><p>Function used to create new channels</p>
 </dd>
     <dt><code>loggerFactory</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/microsoft.extensions.logging.iloggerfactory">ILoggerFactory</a></dt>
@@ -194,7 +194,7 @@ Class ChannelPool  <a class="header-action link-secondary" title="View source" h
 
   <h3 id="ArmoniK_DevelopmentKit_Client_Common_Submitter_ChannelPool_GetChannel" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.GetChannel">
   GetChannel()
-  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/ChannelPool.cs/#L156"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/ChannelPool.cs/#L137"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Get a channel that will be automatically released when disposed</p>
@@ -224,9 +224,9 @@ Class ChannelPool  <a class="header-action link-secondary" title="View source" h
 
   <a id="ArmoniK_DevelopmentKit_Client_Common_Submitter_ChannelPool_WithChannel_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.WithChannel*"></a>
 
-  <h3 id="ArmoniK_DevelopmentKit_Client_Common_Submitter_ChannelPool_WithChannel__1_System_Func_Grpc_Core_ChannelBase___0__" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.WithChannel``1(System.Func{Grpc.Core.ChannelBase,``0})">
-  WithChannel&lt;T&gt;(Func&lt;ChannelBase, T&gt;)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/ChannelPool.cs/#L165"><i class="bi bi-code-slash"></i></a>
+  <h3 id="ArmoniK_DevelopmentKit_Client_Common_Submitter_ChannelPool_WithChannel__1_System_Func_Grpc_Net_Client_GrpcChannel___0__" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.WithChannel``1(System.Func{Grpc.Net.Client.GrpcChannel,``0})">
+  WithChannel&lt;T&gt;(Func&lt;GrpcChannel, T&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/ChannelPool.cs/#L146"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Call f with an acquired channel</p>
@@ -234,12 +234,12 @@ Class ChannelPool  <a class="header-action link-secondary" title="View source" h
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public T WithChannel&lt;T&gt;(Func&lt;ChannelBase, T&gt; f)</code></pre>
+    <pre><code class="lang-csharp hljs">public T WithChannel&lt;T&gt;(Func&lt;GrpcChannel, T&gt; f)</code></pre>
   </div>
 
   <h4 class="section">Parameters</h4>
   <dl class="parameters">
-    <dt><code>f</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.func-2">Func</a>&lt;<a class="xref" href="https://github.com/grpc/grpc-dotnet/blob/main/src/Grpc.Core.Api/ChannelBase.cs">ChannelBase</a>, T&gt;</dt>
+    <dt><code>f</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.func-2">Func</a>&lt;<a class="xref" href="https://github.com/grpc/grpc-dotnet/blob/main/src/Grpc.Net.Client/GrpcChannel.cs">GrpcChannel</a>, T&gt;</dt>
     <dd><p>Function to be called</p>
 </dd>
   </dl>
@@ -271,7 +271,7 @@ Class ChannelPool  <a class="header-action link-secondary" title="View source" h
 </article>
 
         <div class="contribution d-print-none">
-          <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/ChannelPool.cs/#L32" class="edit-link">Edit this page</a>
+          <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/ChannelPool.cs/#L30" class="edit-link">Edit this page</a>
         </div>
 
 
