@@ -1,6 +1,6 @@
 // This file is part of the ArmoniK project
 // 
-// Copyright (C) ANEO, 2021-2023. All rights reserved.
+// Copyright (C) ANEO, 2021-2024. All rights reserved.
 // 
 // Licensed under the Apache License, Version 2.0 (the "License")
 // you may not use this file except in compliance with the License.
@@ -50,6 +50,9 @@ public class Properties
   private const string SectionClientKey          = "ClientKey";
   private const string SectionClientCertP12      = "ClientP12";
   private const string SectionTargetNameOverride = "EndpointNameOverride";
+  private const string SectionProxy              = "Proxy";
+  private const string SectionProxyUsername      = "ProxyUsername";
+  private const string SectionProxyPassword      = "ProxyPassword";
 
   private const string SectionRetryInitialBackoff    = "RetryInitialBackoff";
   private const string SectionRetryBackoffMultiplier = "RetryBackoffMultiplier";
@@ -137,7 +140,10 @@ public class Properties
                     bool?          sslValidation          = null,
                     TimeSpan       retryInitialBackoff    = new(),
                     double         retryBackoffMultiplier = 0,
-                    TimeSpan       retryMaxBackoff        = new())
+                    TimeSpan       retryMaxBackoff        = new(),
+                    string?        proxy                  = null,
+                    string?        proxyUsername          = null,
+                    string?        proxyPassword          = null)
   {
     TaskOptions   = options;
     Configuration = configuration;
@@ -186,6 +192,9 @@ public class Properties
     ClientCertFilePem  = clientCertFilePem                      ?? sectionGrpc[SectionClientCert]    ?? string.Empty;
     ClientKeyFilePem   = clientKeyFilePem                       ?? sectionGrpc[SectionClientKey]     ?? string.Empty;
     ClientP12File      = clientP12                              ?? sectionGrpc[SectionClientCertP12] ?? string.Empty;
+    Proxy              = proxy                                  ?? sectionGrpc[SectionProxy]         ?? string.Empty;
+    ProxyUsername      = proxyUsername                          ?? sectionGrpc[SectionProxyUsername] ?? string.Empty;
+    ProxyPassword      = proxyPassword                          ?? sectionGrpc[SectionProxyPassword] ?? string.Empty;
 
     if (retryInitialBackoff != TimeSpan.Zero)
     {
@@ -369,4 +378,19 @@ public class Properties
   ///   Max backoff for retries
   /// </summary>
   public TimeSpan RetryMaxBackoff { get; } = TimeSpan.FromSeconds(30);
+
+  /// <summary>
+  ///   Proxy URL
+  /// </summary>
+  public string Proxy { get; set; }
+
+  /// <summary>
+  ///   Username for the proxy
+  /// </summary>
+  public string ProxyUsername { get; set; }
+
+  /// <summary>
+  ///   Password for the proxy
+  /// </summary>
+  public string ProxyPassword { get; set; }
 }
