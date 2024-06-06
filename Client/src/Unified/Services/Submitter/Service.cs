@@ -35,6 +35,7 @@ using ArmoniK.DevelopmentKit.Common.Exceptions;
 using ArmoniK.Utils;
 
 using Grpc.Core;
+using Grpc.Net.Client;
 
 using JetBrains.Annotations;
 
@@ -796,7 +797,7 @@ public class Service : AbstractClientService, ISubmitterService
   /// <returns>gRPC channel</returns>
   // TODO: Refactor test to remove this
   // ReSharper disable once UnusedMember.Global
-  public ChannelBase GetChannel()
+  public GrpcChannel GetChannel()
     => SessionService.ChannelPool.GetChannel();
 
   /// <summary>

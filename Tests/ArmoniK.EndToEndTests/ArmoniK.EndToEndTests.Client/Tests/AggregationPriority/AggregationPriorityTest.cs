@@ -32,6 +32,7 @@ using ArmoniK.EndToEndTests.Common;
 using ArmoniK.Utils;
 
 using Grpc.Core;
+using Grpc.Net.Client;
 
 using Microsoft.Extensions.Logging;
 
@@ -113,7 +114,7 @@ public class AggregationPriorityTest
   /// <param name="filter">The filter.</param>
   /// <param name="sort">The sort.</param>
   /// <returns>An IAsyncEnumerable of TaskRaw.</returns>
-  private async IAsyncEnumerable<TaskDetailed> RetrieveAllTasksStats(ChannelBase                 channel,
+  private async IAsyncEnumerable<TaskDetailed> RetrieveAllTasksStats(GrpcChannel                 channel,
                                                                      Filters                     filter,
                                                                      ListTasksRequest.Types.Sort sort)
   {
