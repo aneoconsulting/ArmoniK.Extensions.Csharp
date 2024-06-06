@@ -178,7 +178,7 @@ public sealed class ChannelPool
       => pool_.ReleaseChannel(channel_);
 
     /// <summary>
-    ///   Implicit convert a ChannelGuard into a ChannelBase
+    ///   Implicit convert a ChannelGuard into a GrpcChannel
     /// </summary>
     /// <param name="guard">ChannelGuard</param>
     /// <returns>GrpcChannel</returns>
