@@ -1,3 +1,7 @@
+platform     := ""
+push         := "true"
+load         := "true"
+
 build imageTag dockerFile target="":
   #!/usr/bin/env bash
 
