@@ -1,6 +1,7 @@
 platform     := ""
 push         := "true"
 load         := "true"
+tag          := "0.0.0.0-local"
 
 build imageTag dockerFile target="":
   #!/usr/bin/env bash
