@@ -122,9 +122,10 @@ jobs:
     - name: platforms
       run: echo ${{ steps.buildx.outputs.platforms }}
       
-    - name: Build
+    - name: Build and Push Docker Images
+      working-directory: ${{ github.workspace }}
       run: |
-        just tag=$VERSION platform_parameter=linux/arm64,linux/amd64 dockerfile=Worker/src/DLLWorker/Dockerfile load_parameter=false push_parameter=true ${{ matrix.type }}
+        just build imageTag="dockerhubaneo/armonik_worker_dll:${{ env.VERSION }}" dockerFile="Worker/src/DLLWorker/Dockerfile" platform="linux/arm64,linux/amd64" load="false" push="true" ${{ matrix.type }}
         
   testEndToEnd:
     needs:
