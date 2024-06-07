@@ -19,3 +19,4 @@ fi
 
 # Forward the status code
 exit "$ret"
+ls

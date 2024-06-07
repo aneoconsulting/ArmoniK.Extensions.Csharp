@@ -15,7 +15,7 @@ RUN dotnet restore "Worker/src/DLLWorker/ArmoniK.DevelopmentKit.Worker.DLLWorker
 COPY . .
 WORKDIR "/src/Worker/src/DLLWorker"
 ARG BUILD_CONFIG=Release
-RUN dotnet build "ArmoniK.DevelopmentKit.Worker.DLLWorker.csproj" -c "${BUILD_CONFIG}" -f net8.0 -o /app/build
+RUN dotnet build "ArmoniK.DevelopmentKit.Worker.DLLWorker.csproj" -c "${BUILD_CONFIG}" -f net8.0 -o /app/builddot
 
 FROM build AS publish
 ARG BUILD_CONFIG=Release
