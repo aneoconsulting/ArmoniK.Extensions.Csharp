@@ -125,11 +125,7 @@ jobs:
     - name: Build and Push Docker Images
       working-directory: ${{ github.workspace }}
       run: |
-        just build imageTag="dockerhubaneo/armonik_worker_dll:${{ env.VERSION }}" \
-          dockerFile="Worker/src/DLLWorker/Dockerfile" \
-          platform="linux/arm64,linux/amd64" \
-          load=false \
-          push=true
+        just tag=$VERSION platform=linux/arm64,linux/amd64 load=false push=true target="Worker/src/DLLWorker/Dockerfile"
       
   testEndToEnd:
     needs:
