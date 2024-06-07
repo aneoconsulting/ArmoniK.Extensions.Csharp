@@ -29,7 +29,7 @@ RUN case "$TARGETARCH" in \
         esac ;; \
         *) exit 1 ;; \
     esac ; \
-    dotnet publish -a "${TARGETARCH}" "ArmoniK.DevelopmentKit.Worker.DLLWorker.csproj" -c "${BUILD_CONFIG}" -f net8.0 -o /app/publish -r "${DOTNET_ARCH}" --self-contained true
+    dotnet publish -a "${TARGETARCH}" "ArmoniK.DevelopmentKit.Worker.DLLWorker.csproj" -c "${BUILD_CONFIG}" -f net8.0 -o /app/publish --self-contained true
 
 FROM base AS final
 
