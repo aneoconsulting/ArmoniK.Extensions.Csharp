@@ -11,7 +11,7 @@ COPY ["Worker/src/DLLWorker/ArmoniK.DevelopmentKit.Worker.DLLWorker.csproj", "Wo
 COPY ["Common/src/Common/ArmoniK.DevelopmentKit.Common.csproj", "Common/src/Common/"]
 COPY ["Client/src/Common/ArmoniK.DevelopmentKit.Client.Common.csproj", "Client/src/Common/"]
 COPY ["Worker/src/Common/ArmoniK.DevelopmentKit.Worker.Common.csproj", "Worker/src/Common/"]
-RUN dotnet restore -a "${TARGETARCH} "Worker/src/DLLWorker/ArmoniK.DevelopmentKit.Worker.DLLWorker.csproj"
+RUN dotnet restore -a "${TARGETARCH}" "Worker/src/DLLWorker/ArmoniK.DevelopmentKit.Worker.DLLWorker.csproj"
 COPY . .
 WORKDIR "/src/Worker/src/DLLWorker"
 ARG BUILD_CONFIG=Release
