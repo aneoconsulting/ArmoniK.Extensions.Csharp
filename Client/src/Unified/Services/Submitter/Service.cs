@@ -19,8 +19,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
+using System.Threading.Channels;
 using System.Threading.Tasks;
-using System.Threading.Tasks.Dataflow;
 
 using ArmoniK.Api.Common.Utils;
 using ArmoniK.Api.gRPC.V1;
@@ -52,11 +52,6 @@ namespace ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter;
 [MarkDownDoc]
 public class Service : AbstractClientService, ISubmitterService
 {
-  private readonly RequestTaskMap requestTaskMap_ = new();
-
-
-  private readonly SemaphoreSlim semaphoreSlim_;
-
   /// <summary>
   ///   The default constructor to open connection with the control plane
   ///   and create the session to ArmoniK
@@ -67,155 +62,68 @@ public class Service : AbstractClientService, ISubmitterService
                  ILoggerFactory? loggerFactory = null)
     : base(loggerFactory)
   {
-    var timeOutSending = properties.TimeTriggerBuffer ?? TimeSpan.FromSeconds(1);
-
-    var maxTasksPerBuffer = properties.MaxTasksPerBuffer;
-
-    semaphoreSlim_ = new SemaphoreSlim(properties.MaxConcurrentBuffers * maxTasksPerBuffer);
-
-    SessionServiceFactory = new SessionServiceFactory(LoggerFactory);
-
-    SessionService = SessionServiceFactory.CreateSession(properties);
-
+    SessionServiceFactory        = new SessionServiceFactory(LoggerFactory);
+    SessionService               = SessionServiceFactory.CreateSession(properties);
     CancellationResultTaskSource = new CancellationTokenSource();
-
-    HandlerResponse = Task.Run(ResultTask,
-                               CancellationResultTaskSource.Token);
-
-    Logger = LoggerFactory.CreateLogger<Service>();
+    Logger                       = LoggerFactory.CreateLogger<Service>();
     Logger.BeginPropertyScope(("SessionId", SessionService.SessionId),
                               ("Class", "Service"));
 
-    BufferSubmit = new BatchUntilInactiveBlock<BlockRequest>(maxTasksPerBuffer,
-                                                             timeOutSending,
-                                                             new ExecutionDataflowBlockOptions
+    var submitChannel = Channel.CreateUnbounded<TaskSubmission>();
+    SubmitChannel = submitChannel.Writer;
+
+    var cancellationToken = CancellationResultTaskSource.Token;
+    var requests          = submitChannel.Reader.ToAsyncEnumerable(cancellationToken);
+
+    SubmitTask = Task.Run(() => requests.ToChunksAsync(properties.MaxTasksPerBuffer,
+                                                       properties.TimeTriggerBuffer ?? TimeSpan.FromSeconds(1),
+                                                       cancellationToken)
+                                        .ParallelForEach(new ParallelTaskOptions(properties.MaxConcurrentBuffers,
+                                                                                 cancellationToken),
+                                                         async chunk =>
+                                                         {
+                                                           var taskRequests = chunk.Select(req => ((string?)null, req.Payload, req.Dependencies, req.TaskOptions));
+                                                           var response = SessionService.ChunkSubmitTasksWithDependenciesAsync(taskRequests,
+                                                                                                                               cancellationToken: cancellationToken);
+
+                                                           List<(string taskId, string resultId)> tasks;
+                                                           try
+                                                           {
+                                                             tasks = await response.ToListAsync(cancellationToken)
+                                                                                   .ConfigureAwait(false);
+                                                           }
+                                                           catch (Exception e)
+                                                           {
+                                                             foreach (var req in chunk)
                                                              {
-                                                               BoundedCapacity        = properties.MaxParallelChannels,
-                                                               MaxDegreeOfParallelism = properties.MaxParallelChannels,
-                                                             });
+                                                               req.Tcs.SetException(e);
+                                                             }
 
-    BufferSubmit.ExecuteAsync(blockRequests =>
-                              {
-                                var blockRequestList = blockRequests.ToList();
+                                                             return;
+                                                           }
 
-                                try
-                                {
-                                  if (blockRequestList.Count == 0)
-                                  {
-                                    return;
-                                  }
-
-                                  Logger.LogInformation("Submitting buffer of {count} task...",
-                                                        blockRequestList.Count);
-                                  var query = blockRequestList.GroupBy(blockRequest => blockRequest.TaskOptions);
-
-                                  foreach (var groupBlockRequest in query)
-                                  {
-                                    var maxRetries = groupBlockRequest.First()
-                                                                      .MaxRetries;
-                                    //Generate resultId
-                                    var resultsIds = SessionService.CreateResultsMetadata(groupBlockRequest.Select(_ => Guid.NewGuid()
-                                                                                                                            .ToString()))
-                                                                   .Values.ToList();
-
-                                    foreach (var (request, index) in groupBlockRequest.Select((r,
-                                                                                               i) => (r, i)))
-                                    {
-                                      request.ResultId = resultsIds[index];
-                                    }
-
-                                    var currentBackoff = properties.RetryInitialBackoff;
-                                    for (var retry = 0; retry < maxRetries; retry++)
-                                    {
-                                      try
-                                      {
-                                        var taskIds =
-                                          SessionService.SubmitTasksWithDependencies(groupBlockRequest.Select(x => new Tuple<string, byte[], IList<string>>(x.ResultId,
-                                                                                                                                                            x.Payload!
-                                                                                                                                                             .Serialize(),
-                                                                                                                                                            Array
-                                                                                                                                                              .Empty<
-                                                                                                                                                                string>())),
-                                                                                     1,
-                                                                                     groupBlockRequest.First()
-                                                                                                      .TaskOptions);
+                                                           foreach (var (task, submission) in tasks.Zip(chunk,
+                                                                                                        (s,
+                                                                                                         submission) => (s, submission)))
+                                                           {
+                                                             ResultHandlerDictionary[task.taskId] = submission.Handler;
+                                                             submission.Tcs.SetResult(task.taskId);
+                                                           }
+                                                         }));
 
 
-                                        var ids            = taskIds.ToList();
-                                        var mapTaskResults = SessionService.GetResultIds(ids);
-                                        var taskIdsResultIds = mapTaskResults.ToDictionary(result => result.ResultIds.Single(),
-                                                                                           result => result.TaskId);
-
-
-                                        foreach (var pairTaskIdResultId in taskIdsResultIds)
-                                        {
-                                          var blockRequest = groupBlockRequest.FirstOrDefault(x => x.ResultId == pairTaskIdResultId.Key) ??
-                                                             throw new InvalidOperationException($"Cannot find BlockRequest with result id {pairTaskIdResultId.Value}");
-
-                                          ResultHandlerDictionary[pairTaskIdResultId.Value] = blockRequest.Handler;
-
-                                          requestTaskMap_.PutResponse(blockRequest.SubmitId,
-                                                                      pairTaskIdResultId.Value);
-                                        }
-
-                                        if (ids.Count > taskIdsResultIds.Count)
-                                        {
-                                          Logger.LogWarning("Fail to submit all tasks at once, retry with missing tasks");
-
-                                          throw new Exception("Fail to submit all tasks at once. Retrying...");
-                                        }
-
-                                        break;
-                                      }
-                                      catch (Exception e)
-                                      {
-                                        if (retry >= maxRetries - 1)
-                                        {
-                                          Logger.LogError(e,
-                                                          "Fail to retry {count} times of submission. Stop trying to submit",
-                                                          maxRetries);
-                                          throw;
-                                        }
-
-                                        Logger?.LogWarning(e,
-                                                           "Fail to submit, {retry}/{maxRetries} retrying",
-                                                           retry + 1,
-                                                           maxRetries);
-
-                                        //Delay before submission
-                                        Task.Delay(currentBackoff)
-                                            .Wait();
-                                        currentBackoff = TimeSpan.FromSeconds(Math.Min(currentBackoff.TotalSeconds * properties.RetryBackoffMultiplier,
-                                                                                       properties.RetryMaxBackoff.TotalSeconds));
-                                      }
-                                    }
-
-                                    foreach (var blockRequest in groupBlockRequest)
-                                    {
-                                      blockRequest.Lock.Release();
-                                    }
-                                  }
-                                }
-                                catch (Exception e)
-                                {
-                                  Logger.LogError(e,
-                                                  "Fail to submit buffer with {count} tasks inside",
-                                                  blockRequestList.Count);
-
-                                  requestTaskMap_.BufferFailures(blockRequestList.Select(block => block.SubmitId),
-                                                                 e);
-                                }
-                              });
+    HandlerResponse = Task.Run(ResultTask,
+                               CancellationResultTaskSource.Token);
   }
+
+  private Task                          SubmitTask    { get; }
+  private ChannelWriter<TaskSubmission> SubmitChannel { get; }
 
   /// <summary>
   ///   Property Get the SessionId
   /// </summary>
   [PublicAPI]
   public SessionService SessionService { get; }
-
-
-  private BatchUntilInactiveBlock<BlockRequest> BufferSubmit { get; }
 
   private ILogger Logger { get; }
 
@@ -299,9 +207,22 @@ public class Service : AbstractClientService, ISubmitterService
   public override void Dispose()
   {
     CancellationResultTaskSource.Cancel();
-    HandlerResponse.Wait();
-    HandlerResponse.Dispose();
-    semaphoreSlim_.Dispose();
+
+    foreach (var awaitable in new[]
+                              {
+                                HandlerResponse,
+                                SubmitTask,
+                              })
+    {
+      try
+      {
+        awaitable.WaitSync();
+        awaitable.Dispose();
+      }
+      catch (OperationCanceledException)
+      {
+      }
+    }
 
     GC.SuppressFinalize(this);
   }
@@ -365,31 +286,18 @@ public class Service : AbstractClientService, ISubmitterService
                                          bool                      serializedArguments,
                                          CancellationToken         token)
   {
-    await semaphoreSlim_.WaitAsync(token);
+    var tcs = new TaskCompletionSource<string>();
+    await SubmitChannel.WriteAsync(new TaskSubmission(new ArmonikPayload(methodName,
+                                                                         argument,
+                                                                         serializedArguments).Serialize(),
+                                                      Array.Empty<string>(),
+                                                      taskOptions,
+                                                      handler,
+                                                      tcs),
+                                   token)
+                       .ConfigureAwait(false);
 
-    return await SubmitAsync(new BlockRequest
-                             {
-                               SubmitId = Guid.NewGuid(),
-                               Payload = new ArmonikPayload(methodName,
-                                                            argument,
-                                                            serializedArguments),
-                               Handler     = handler,
-                               MaxRetries  = maxRetries,
-                               TaskOptions = taskOptions ?? SessionService.TaskOptions,
-                               Lock        = semaphoreSlim_,
-                             },
-                             token)
-             .ConfigureAwait(false);
-  }
-
-  private async Task<string> SubmitAsync(BlockRequest      blockRequest,
-                                         CancellationToken token = default)
-  {
-    await BufferSubmit.SendAsync(blockRequest,
-                                 token)
-                      .ConfigureAwait(false);
-
-    return await requestTaskMap_.GetResponseAsync(blockRequest.SubmitId);
+    return await tcs.Task.ConfigureAwait(false);
   }
 
   /// <summary>
@@ -799,6 +707,12 @@ public class Service : AbstractClientService, ISubmitterService
   // ReSharper disable once UnusedMember.Global
   public ObjectPool<GrpcChannel> GetChannelPool()
     => SessionService.ChannelPool;
+
+  private record TaskSubmission(byte[]                        Payload,
+                                IList<string>                 Dependencies,
+                                TaskOptions?                  TaskOptions,
+                                IServiceInvocationHandler     Handler,
+                                TaskCompletionSource<string>? Tcs);
 
   /// <summary>
   ///   Class to return TaskId and the result

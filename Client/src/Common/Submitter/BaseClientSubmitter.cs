@@ -308,10 +308,12 @@ public abstract class BaseClientSubmitter<T>
                                                                    CancellationToken                                 cancellationToken = default)
     => payloadsWithDependencies.ToChunks(chunkSubmitSize_)
                                .ToAsyncEnumerable()
-                               .SelectMany(chunk => ChunkSubmitTasksWithDependenciesAsync(chunk.Select(tuple => ((string?)tuple.Item1, tuple.Item2, tuple.Item3)),
+                               .SelectMany(chunk => ChunkSubmitTasksWithDependenciesAsync(chunk.Select(tuple => ((string?)tuple.Item1, tuple.Item2, tuple.Item3,
+                                                                                                                 (TaskOptions?)null)),
                                                                                           maxRetries,
                                                                                           taskOptions,
-                                                                                          cancellationToken));
+                                                                                          cancellationToken))
+                               .Select(task => task.taskId);
 
   /// <summary>
   ///   The method to submit several tasks with dependencies tasks. This task will wait for
@@ -356,10 +358,12 @@ public abstract class BaseClientSubmitter<T>
                                                                    CancellationToken                         cancellationToken = default)
     => payloadsWithDependencies.ToChunks(chunkSubmitSize_)
                                .ToAsyncEnumerable()
-                               .SelectMany(chunk => ChunkSubmitTasksWithDependenciesAsync(chunk.Select(tuple => ((string?)null, tuple.Item1, tuple.Item2)),
+                               .SelectMany(chunk => ChunkSubmitTasksWithDependenciesAsync(chunk.Select(tuple => ((string?)null, tuple.Item1, tuple.Item2,
+                                                                                                                 (TaskOptions?)null)),
                                                                                           maxRetries,
                                                                                           taskOptions,
-                                                                                          cancellationToken));
+                                                                                          cancellationToken))
+                               .Select(task => task.taskId);
 
   /// <summary>
   ///   The method to submit several tasks with dependencies tasks. This task will wait for
@@ -397,19 +401,20 @@ public abstract class BaseClientSubmitter<T>
   /// </param>
   /// <param name="cancellationToken"></param>
   /// <returns>return the ids of the created tasks</returns>
-  private async IAsyncEnumerable<string> ChunkSubmitTasksWithDependenciesAsync(IEnumerable<(string?, byte[], IList<string>)> payloadsWithDependencies,
-                                                                               int                                           maxRetries,
-                                                                               TaskOptions?                                  taskOptions       = null,
-                                                                               [EnumeratorCancellation] CancellationToken    cancellationToken = default)
+  public async IAsyncEnumerable<(string taskId, string resultId)> ChunkSubmitTasksWithDependenciesAsync(
+    IEnumerable<(string?, byte[], IList<string>, TaskOptions?)> payloadsWithDependencies,
+    int                                                         maxRetries        = 5,
+    TaskOptions?                                                taskOptions       = null,
+    [EnumeratorCancellation] CancellationToken                  cancellationToken = default)
   {
     using var _ = Logger.LogFunction();
 
-    var taskProperties         = new List<(Either<string, int>, int, bool, IList<string>)>();
+    var taskProperties         = new List<(Either<string, int>, int, bool, IList<string>, TaskOptions?)>();
     var smallPayloadProperties = new List<byte[]>();
     var largePayloadProperties = new List<(byte[], int)>();
     var nbResults              = 0;
 
-    foreach (var (resultId, payload, dependencies) in payloadsWithDependencies)
+    foreach (var (resultId, payload, dependencies, specificTaskOptions) in payloadsWithDependencies)
     {
       Either<string, int> result;
       if (resultId is null)
@@ -438,12 +443,12 @@ public abstract class BaseClientSubmitter<T>
         isLarge = false;
       }
 
-      taskProperties.Add((result, payloadIndex, isLarge, dependencies));
+      taskProperties.Add((result, payloadIndex, isLarge, dependencies, specificTaskOptions));
     }
 
     var uploadSmallPayloads = smallPayloadProperties.ParallelSelect(new ParallelTaskOptions(1,
                                                                                             cancellationToken),
-                                                                    payload => Retry.WhileException(5,
+                                                                    payload => Retry.WhileException(maxRetries,
                                                                                                     2000,
                                                                                                     async _ =>
                                                                                                     {
@@ -483,7 +488,7 @@ public abstract class BaseClientSubmitter<T>
                                                                                     .AsTask())
                                                     .ToListAsync(cancellationToken);
 
-    var createResultMetadata = Retry.WhileException(5,
+    var createResultMetadata = Retry.WhileException(maxRetries,
                                                     2000,
                                                     async _ =>
                                                     {
@@ -522,7 +527,7 @@ public abstract class BaseClientSubmitter<T>
                                                                      {
                                                                        var results = await createResultMetadata.ConfigureAwait(false);
 
-                                                                       await Retry.WhileException(5,
+                                                                       await Retry.WhileException(maxRetries,
                                                                                                   2000,
                                                                                                   async _ =>
                                                                                                   {
@@ -550,7 +555,7 @@ public abstract class BaseClientSubmitter<T>
 
     var tasks = taskProperties.Select(tuple =>
                                       {
-                                        var (result, payloadIndex, isLarge, dependencies) = tuple;
+                                        var (result, payloadIndex, isLarge, dependencies, specificTaskOptions) = tuple;
                                         var resultId = (string?)result ?? results[(int)result]!;
 
                                         var payloadId = isLarge
@@ -569,6 +574,7 @@ public abstract class BaseClientSubmitter<T>
                                                  {
                                                    resultId,
                                                  },
+                                                 TaskOptions = specificTaskOptions,
                                                };
                                       })
                               .AsIList();
@@ -578,7 +584,7 @@ public abstract class BaseClientSubmitter<T>
                                                                   cancellationToken),
                                           async taskChunk =>
                                           {
-                                            var response = await Retry.WhileException(5,
+                                            var response = await Retry.WhileException(maxRetries,
                                                                                       2000,
                                                                                       async _ =>
                                                                                       {
@@ -605,7 +611,7 @@ public abstract class BaseClientSubmitter<T>
                                                                                       typeof(RpcException))
                                                                       .ConfigureAwait(false);
 
-                                            return response.TaskInfos.Select(task => task.TaskId);
+                                            return response.TaskInfos.Select(task => (task.TaskId, task.ExpectedOutputIds.Single()));
                                           });
 
     await foreach (var taskChunk in taskSubmit.ConfigureAwait(false))
