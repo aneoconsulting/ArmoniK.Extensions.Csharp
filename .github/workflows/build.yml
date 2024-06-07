@@ -10,6 +10,8 @@ on:
       - main
       - "[0-9]+.[0-9]+.x"
       
+env:
+  REGISTRY_IMAGE: dockerhubaneo/armonik_worker_dll
 
 jobs:
   versionning:
@@ -17,27 +19,23 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       version: ${{ steps.genver.outputs.version }}
-      release: ${{ steps.genver.outputs.release }}
     steps:
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
       with:
         ref: ${{ github.ref }}
         fetch-depth: 0
 
     - name: Generate Version
       id: genver
-      run: |
-        VERSION=$(docker run --rm -v $(pwd):/repo codacy/git-version /bin/git-version --folder=/repo --release-branch=${{ github.ref_name }}-pre --dev-branch=main)
-        echo "version=$VERSION" >> $GITHUB_OUTPUT
-        echo "VERSION : $VERSION"
-        RELEASE=$(docker run --rm -v $(pwd):/repo codacy/git-version /bin/git-version --folder=/repo --release-branch=${{ github.ref_name }} --dev-branch=main)
-        echo "release=$RELEASE" >> $GITHUB_OUTPUT
-        echo "RELEASE : $RELEASE"
-        echo "Version :" >> $GITHUB_STEP_SUMMARY
-        echo "$VERSION" >> $GITHUB_STEP_SUMMARY
-        echo "Release :" >> $GITHUB_STEP_SUMMARY
-        echo "$RELEASE" >> $GITHUB_STEP_SUMMARY
+      uses: codacy/git-version@80c816f11db8dea5e3a81025f598193015b51832 # 2.8.0
+      with:
+        minor-identifier: "feat:"
+        release-branch: release
+        dev-branch: main
+
+    - name: Print version
+      run: echo VERSION ${{ steps.genver.outputs.version }} >> $GITHUB_STEP_SUMMARY
 
   buildProjects:
     runs-on: ubuntu-latest
@@ -64,78 +62,58 @@ jobs:
       run: |
         find /tmp/packages -name 'ArmoniK*.nupkg' ! -name '*test*.nupkg' -exec dotnet nuget push {} -k ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate --no-symbols \;
 
-  buildWorkerEnd2End:
+  buildDocker:
     runs-on: ubuntu-latest
     needs:
       - versionning
+      - buildProjects
     env:
       VERSION: ${{ needs.versionning.outputs.version }}
+    strategy:
+      fail-fast: true
     steps:
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
         ref: ${{ github.ref }}
         submodules: true
 
-    - name: login
-      run: |
-        echo ${{ secrets.DOCKER_HUB_TOKEN }} | docker login -u ${{ secrets.DOCKER_HUB_LOGIN }} --password-stdin
-
-    - name: build
-      run: |
-        docker build -t dockerhubaneo/armonik_worker_dll:$VERSION -f Worker/src/DLLWorker/Dockerfile .
-
-    - name: push
-      run: |
-        docker push dockerhubaneo/armonik_worker_dll:$VERSION
-
-  buildImagesCross:
-    runs-on: ubuntu-latest
-    needs:
-      - versionning
-      - buildWorkerEnd2End
-    env:
-      VERSION: ${{ needs.versionning.outputs.version }}
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v3
-      with:
-        ref: ${{ github.ref }}
-
-    - name: Set up QEMU
-      uses: docker/setup-qemu-action@v2
-
     - name: Set up Docker Buildx
       id: buildx
-      uses: docker/setup-buildx-action@v2
+      uses: docker/setup-buildx-action@v3
 
-    - name: login
-      uses: docker/login-action@v2
+    - name: Login to Docker Hub
+      uses: docker/login-action@v3
       with:
         username: ${{ secrets.DOCKER_HUB_LOGIN }}
         password: ${{ secrets.DOCKER_HUB_TOKEN }}
 
-    - name: platforms
-      run: echo ${{ steps.buildx.outputs.platforms }}
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v3
+
+    - name: Docker meta
+      id: meta
+      uses: docker/metadata-action@v4
+      with:
+        images: ${{ env.REGISTRY_IMAGE }}
 
     - name: Build and push
-      uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671 # v4
+      uses: docker/build-push-action@v5
       with:
         file: Worker/src/DLLWorker/Dockerfile
         context: .
-        platforms: linux/arm64
+        platforms: linux/amd64,linux/arm64 
+        tags: ${{ env.REGISTRY_IMAGE }}:${{ needs.versionning.outputs.version }}
+        provenance: mode=max
+        sbom: true
         push: true
-        tags: |
-            dockerhubaneo/armonik_worker_dll:${{ needs.versionning.outputs.version }}-arm
 
-    - name: Create multi-arch manifest
-      run: docker buildx imagetools create dockerhubaneo/armonik_worker_dll:${VERSION} --tag dockerhubaneo/armonik_worker_dll:${VERSION} --append dockerhubaneo/armonik_worker_dll:${VERSION}-arm
 
   testEndToEnd:
     needs:
       - versionning
       - buildProjects
-      - buildWorkerEnd2End
+      - buildDocker
     strategy:
       fail-fast: false
       matrix:
@@ -264,7 +242,7 @@ jobs:
     runs-on: ubuntu-latest
     needs:
       - versionning
-      - buildWorkerEnd2End
+      - buildDocker
     env:
       VERSION: ${{ needs.versionning.outputs.version }}
     steps:
@@ -289,7 +267,7 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t test_image:latest --build-arg WORKER_DLL_IMAGE=dockerhubaneo/armonik_worker_dll:$VERSION -f Tests/ArmoniK.EndToEndTests/ArmoniK.EndToEndTests.Worker/Dockerfile .
+          docker buildx build -t test_image:latest --build-arg WORKER_DLL_IMAGE=dockerhubaneo/armonik_worker_dll:$VERSION -f Tests/ArmoniK.EndToEndTests/ArmoniK.EndToEndTests.Worker/Dockerfile .
           docker save "test_image:latest" | sudo k3s ctr images import /dev/stdin
       - name: Change version
         run: |
@@ -319,3 +297,4 @@ jobs:
     steps:
       - name: Echo OK
         run: echo OK
+
