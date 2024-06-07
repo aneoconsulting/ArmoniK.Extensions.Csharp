@@ -124,7 +124,7 @@ jobs:
       
     - name: Build
       run: |
-        just tag=$VERSION platform=linux/arm64,linux/amd64 dockerfile=Worker/src/DLLWorker/Dockerfile load=false push=true ${{ matrix.type }}
+        just tag=$VERSION platform_parameter=linux/arm64,linux/amd64 dockerfile=Worker/src/DLLWorker/Dockerfile load_parameter=false push_parameter=true ${{ matrix.type }}
         
   testEndToEnd:
     needs:
