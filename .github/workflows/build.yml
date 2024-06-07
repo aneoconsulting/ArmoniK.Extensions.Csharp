@@ -64,36 +64,10 @@ jobs:
       run: |
         find /tmp/packages -name 'ArmoniK*.nupkg' ! -name '*test*.nupkg' -exec dotnet nuget push {} -k ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate --no-symbols \;
 
-  buildWorkerEnd2End:
+  buildImages:
     runs-on: ubuntu-latest
     needs:
       - versionning
-    env:
-      VERSION: ${{ needs.versionning.outputs.version }}
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v3
-      with:
-        ref: ${{ github.ref }}
-        submodules: true
-
-    - name: login
-      run: |
-        echo ${{ secrets.DOCKER_HUB_TOKEN }} | docker login -u ${{ secrets.DOCKER_HUB_LOGIN }} --password-stdin
-
-    - name: build
-      run: |
-        docker build -t dockerhubaneo/armonik_worker_dll:$VERSION -f Worker/src/DLLWorker/Dockerfile .
-
-    - name: push
-      run: |
-        docker push dockerhubaneo/armonik_worker_dll:$VERSION
-
-  buildImagesCross:
-    runs-on: ubuntu-latest
-    needs:
-      - versionning
-      - buildWorkerEnd2End
     env:
       VERSION: ${{ needs.versionning.outputs.version }}
     steps:
@@ -125,7 +99,7 @@ jobs:
     needs:
       - versionning
       - buildProjects
-      - buildWorkerEnd2End
+      - buildImages
     strategy:
       fail-fast: false
       matrix:
@@ -254,7 +228,7 @@ jobs:
     runs-on: ubuntu-latest
     needs:
       - versionning
-      - buildWorkerEnd2End
+      - buildImages
     env:
       VERSION: ${{ needs.versionning.outputs.version }}
     steps:
