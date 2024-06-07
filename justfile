@@ -24,4 +24,4 @@ build imageTag dockerFile target="":
   fi
 
   set -x
-  docker buildx build --progress=plain --build-arg VERSION={{tag}} $platform_parameter $load_parameter $push_parameter $target_parameter -t "{{imageTag}}" -f "{{dockerFile}}" ./
+  docker buildx build --progress=plain --build-arg VERSION=${VERSION} --platform=linux/arm64,linux/amd64 --load=false --push=true -t dockerhubaneo/armonik_worker_dll:${VERSION} -f Worker/src/DLLWorker/Dockerfile .
