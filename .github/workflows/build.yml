@@ -107,7 +107,11 @@ jobs:
 
     - name: Set up Docker Buildx
       id: buildx
-      uses: docker/setup-buildx-action@v2
+      uses: docker/setup-buildx-action@d70bba72b1f3fd22344832f00baa16ece964efeb # v3  
+
+    - name: Setup just
+      run: |
+          sudo snap install --edge --classic just
 
     - name: login
       uses: docker/login-action@v2
@@ -117,20 +121,11 @@ jobs:
 
     - name: platforms
       run: echo ${{ steps.buildx.outputs.platforms }}
-
-    - name: Build and push
-      uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671 # v4
-      with:
-        file: Worker/src/DLLWorker/Dockerfile
-        context: .
-        platforms: linux/arm64
-        push: true
-        tags: |
-            dockerhubaneo/armonik_worker_dll:${{ needs.versionning.outputs.version }}-arm
-
-    - name: Create multi-arch manifest
-      run: docker buildx imagetools create dockerhubaneo/armonik_worker_dll:${VERSION} --tag dockerhubaneo/armonik_worker_dll:${VERSION} --append dockerhubaneo/armonik_worker_dll:${VERSION}-arm
-
+      
+    - name: Build
+      run: |
+        just tag=$VERSION platform=linux/arm64,linux/amd64 dockerfile=Worker/src/DLLWorker/Dockerfile load=false push=true ${{ matrix.type }}
+        
   testEndToEnd:
     needs:
       - versionning
