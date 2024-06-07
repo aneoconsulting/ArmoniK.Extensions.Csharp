@@ -119,7 +119,7 @@ jobs:
       run: echo ${{ steps.buildx.outputs.platforms }}
       
     - name: build and push
-      run: docker buildx build --progress=plain --build-arg VERSION=${VERSION} --platform =linux/arm64,linux/amd64 --load false --push true -t dockerhubaneo/armonik_worker_dll:${VERSION} -f Worker/src/DLLWorker/Dockerfile ./
+      run: docker buildx build --load --progress=plain --platform=linux/amd64,linux/arm64 --push=true -t dockerhubaneo/armonik_worker_dll:${VERSION} -f Worker/src/DLLWorker/Dockerfile ./
 
 
   testEndToEnd:
