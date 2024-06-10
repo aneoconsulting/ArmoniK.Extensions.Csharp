@@ -127,8 +127,8 @@ public class ZipArchiver : IArchiver
     //Check now if the assembly is present
     if (!File.Exists(mainAssembly))
     {
-      throw new WorkerApiException($"Fail to find assembly {mainAssembly}. Something went wrong during the extraction. " +
-                                   $"Please make sure that the folder tree inside the zip file is {packageId.ApplicationName}/{packageId.ApplicationVersion}/*.dll");
+      throw new WorkerApiException($"Fail to find assembly {mainAssembly}. The extracted zip should have the following structure" +
+                                   $" {packageId.ApplicationName}/{packageId.ApplicationVersion}/ which will contains all the dll files.");
     }
 
     return pathToAssemblyDir;
