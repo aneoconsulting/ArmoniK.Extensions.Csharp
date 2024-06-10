@@ -446,7 +446,7 @@ public abstract class BaseClientSubmitter<T>
       taskProperties.Add((result, payloadIndex, isLarge, dependencies, specificTaskOptions));
     }
 
-    var uploadSmallPayloads = smallPayloadProperties.ParallelSelect(new ParallelTaskOptions(1,
+    var uploadSmallPayloads = smallPayloadProperties.ParallelSelect(new ParallelTaskOptions(properties_.MaxParallelChannels,
                                                                                             cancellationToken),
                                                                     payload => Retry.WhileException(maxRetries,
                                                                                                     2000,
@@ -521,7 +521,7 @@ public abstract class BaseClientSubmitter<T>
                                     .AsTask();
 
 
-    var uploadLargePayloads = largePayloadProperties.ParallelForEach(new ParallelTaskOptions(1,
+    var uploadLargePayloads = largePayloadProperties.ParallelForEach(new ParallelTaskOptions(properties_.MaxParallelChannels,
                                                                                              cancellationToken),
                                                                      async payload =>
                                                                      {
@@ -779,7 +779,9 @@ public abstract class BaseClientSubmitter<T>
                                                                 nameof(Results.ResultsClient.GetResult));
 
                                                 return await result2TaskDic.Keys.ToChunks(100)
-                                                                           .ParallelSelect(async chunk =>
+                                                                           .ParallelSelect(new ParallelTaskOptions(properties_.MaxParallelChannels,
+                                                                                                                   cancellationToken),
+                                                                                           async chunk =>
                                                                                            {
                                                                                              await using var channel = await ChannelPool.GetAsync(cancellationToken)
                                                                                                                                         .ConfigureAwait(false);
