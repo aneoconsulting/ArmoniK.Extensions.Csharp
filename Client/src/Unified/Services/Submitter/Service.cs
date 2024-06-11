@@ -112,7 +112,7 @@ public class Service : AbstractClientService, ISubmitterService
                                                          }));
 
 
-    HandlerResponse = Task.Run(ResultTask,
+    HandlerResponse = Task.Run(() => ResultTask(CancellationResultTaskSource.Token),
                                CancellationResultTaskSource.Token);
   }
 
@@ -446,10 +446,12 @@ public class Service : AbstractClientService, ISubmitterService
   /// <param name="responseHandler">The action to take when a response is received.</param>
   /// <param name="errorHandler">The action to take when an error occurs.</param>
   /// <param name="chunkResultSize">The size of the chunk to retrieve results in.</param>
-  private void ProxyTryGetResults(IEnumerable<string>                taskIds,
-                                  Action<string, byte[]>             responseHandler,
-                                  Action<string, TaskStatus, string> errorHandler,
-                                  int                                chunkResultSize = 200)
+  /// <param name="cancellationToken"></param>
+  private async Task ProxyTryGetResults(IEnumerable<string>                taskIds,
+                                        Action<string, byte[]>             responseHandler,
+                                        Action<string, TaskStatus, string> errorHandler,
+                                        int                                chunkResultSize   = 200,
+                                        CancellationToken                  cancellationToken = default)
   {
     var missing  = new HashSet<string>(taskIds);
     var holdPrev = missing.Count;
@@ -469,38 +471,46 @@ public class Service : AbstractClientService, ISubmitterService
       foreach (var bucket in missing.ToList()
                                     .ToChunks(chunkResultSize))
       {
-        var resultStatusCollection = SessionService.GetResultStatus(bucket);
+        var resultStatusCollection = await SessionService.GetResultStatusAsync(bucket,
+                                                                               cancellationToken)
+                                                         .ConfigureAwait(false);
 
         foreach (var resultStatusData in resultStatusCollection.IdsReady)
         {
+          cancellationToken.ThrowIfCancellationRequested();
           try
           {
             Logger.LogTrace("Response handler for {taskId}",
                             resultStatusData.TaskId);
             responseHandler(resultStatusData.TaskId,
-                            Retry.WhileException(5,
-                                                 2000,
-                                                 retry =>
-                                                 {
-                                                   if (retry > 1)
-                                                   {
-                                                     Logger.LogWarning("Try {try} for {funcName}",
-                                                                       retry,
-                                                                       nameof(SessionService.TryGetResultAsync));
-                                                   }
+                            await Retry.WhileException(5,
+                                                       2000,
+                                                       retry =>
+                                                       {
+                                                         if (retry > 1)
+                                                         {
+                                                           Logger.LogWarning("Try {try} for {funcName}",
+                                                                             retry,
+                                                                             nameof(SessionService.TryGetResultAsync));
+                                                         }
 
-                                                   return SessionService.TryGetResultAsync(new ResultRequest
-                                                                                           {
-                                                                                             ResultId = resultStatusData.ResultId,
-                                                                                             Session  = SessionId,
-                                                                                           },
-                                                                                           CancellationToken.None)
-                                                                        .Result;
-                                                 },
-                                                 true,
-                                                 Logger,
-                                                 typeof(IOException),
-                                                 typeof(RpcException))!);
+                                                         return SessionService.TryGetResultAsync(new ResultRequest
+                                                                                                 {
+                                                                                                   ResultId = resultStatusData.ResultId,
+                                                                                                   Session  = SessionId,
+                                                                                                 },
+                                                                                                 cancellationToken);
+                                                       },
+                                                       true,
+                                                       Logger,
+                                                       cancellationToken,
+                                                       typeof(IOException),
+                                                       typeof(RpcException))
+                                       .ConfigureAwait(false)!);
+          }
+          catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+          {
+            throw;
           }
           catch (Exception e)
           {
@@ -528,7 +538,9 @@ public class Service : AbstractClientService, ISubmitterService
         {
           string details;
 
-          var taskStatus = SessionService.GetTaskStatus(resultStatusData.TaskId);
+          var taskStatus = await SessionService.GetTaskStatusAsync(resultStatusData.TaskId,
+                                                                   cancellationToken)
+                                               .ConfigureAwait(false);
 
           switch (taskStatus)
           {
@@ -537,7 +549,9 @@ public class Service : AbstractClientService, ISubmitterService
               details = $"Task {resultStatusData.TaskId} was canceled";
               break;
             default:
-              var outputInfo = SessionService.GetTaskOutputInfo(resultStatusData.TaskId);
+              var outputInfo = await SessionService.GetTaskOutputInfoAsync(resultStatusData.TaskId,
+                                                                           cancellationToken)
+                                                   .ConfigureAwait(false);
               details = outputInfo.TypeCase == Output.TypeOneofCase.Error
                           ? outputInfo.Error.Details
                           : "Result is in status : " + resultStatusData.Status + ", look for task in error in logs.";
@@ -567,6 +581,7 @@ public class Service : AbstractClientService, ISubmitterService
 
         foreach (var resultStatusData in resultStatusCollection.Canceled)
         {
+          cancellationToken.ThrowIfCancellationRequested();
           try
           {
             errorHandler(resultStatusData.TaskId,
@@ -600,12 +615,14 @@ public class Service : AbstractClientService, ISubmitterService
 
         holdPrev = missing.Count;
 
-        Thread.Sleep(waitInSeconds[idx]);
+        await Task.Delay(waitInSeconds[idx],
+                         cancellationToken)
+                  .ConfigureAwait(false);
       }
     }
   }
 
-  private void ResultTask()
+  private async Task ResultTask(CancellationToken cancellationToken)
   {
     while (!(CancellationResultTaskSource.Token.IsCancellationRequested && ResultHandlerDictionary.IsEmpty))
     {
@@ -613,75 +630,82 @@ public class Service : AbstractClientService, ISubmitterService
       {
         if (!ResultHandlerDictionary.IsEmpty)
         {
-          ProxyTryGetResults(ResultHandlerDictionary.Keys.ToList(),
-                             (taskId,
-                              byteResult) =>
-                             {
-                               try
-                               {
-                                 var result = ProtoSerializer.Deserialize<object?[]>(byteResult);
-                                 ResultHandlerDictionary[taskId]
-                                   .HandleResponse(result![0],
-                                                   taskId);
-                               }
-                               catch (Exception e)
-                               {
-                                 const ArmonikStatusCode statusCode = ArmonikStatusCode.Unknown;
+          await ProxyTryGetResults(ResultHandlerDictionary.Keys.ToList(),
+                                   (taskId,
+                                    byteResult) =>
+                                   {
+                                     try
+                                     {
+                                       var result = ProtoSerializer.Deserialize<object?[]>(byteResult);
+                                       ResultHandlerDictionary[taskId]
+                                         .HandleResponse(result![0],
+                                                         taskId);
+                                     }
+                                     catch (Exception e)
+                                     {
+                                       const ArmonikStatusCode statusCode = ArmonikStatusCode.Unknown;
 
-                                 ServiceInvocationException ex;
+                                       ServiceInvocationException ex;
 
-                                 var ae = e as AggregateException;
+                                       var ae = e as AggregateException;
 
-                                 if (ae is not null && ae.InnerExceptions.Count > 1)
-                                 {
-                                   ex = new ServiceInvocationException(ae,
-                                                                       statusCode);
-                                 }
-                                 else if (ae is not null)
-                                 {
-                                   ex = new ServiceInvocationException(ae.InnerException ?? ae,
-                                                                       statusCode);
-                                 }
-                                 else
-                                 {
-                                   ex = new ServiceInvocationException(e,
-                                                                       statusCode);
-                                 }
+                                       if (ae is not null && ae.InnerExceptions.Count > 1)
+                                       {
+                                         ex = new ServiceInvocationException(ae,
+                                                                             statusCode);
+                                       }
+                                       else if (ae is not null)
+                                       {
+                                         ex = new ServiceInvocationException(ae.InnerException ?? ae,
+                                                                             statusCode);
+                                       }
+                                       else
+                                       {
+                                         ex = new ServiceInvocationException(e,
+                                                                             statusCode);
+                                       }
 
-                                 ResultHandlerDictionary[taskId]
-                                   .HandleError(ex,
-                                                taskId);
-                               }
-                               finally
-                               {
-                                 ResultHandlerDictionary.TryRemove(taskId,
-                                                                   out _);
-                               }
-                             },
-                             (taskId,
-                              taskStatus,
-                              ex) =>
-                             {
-                               try
-                               {
-                                 var statusCode = taskStatus.ToArmonikStatusCode();
+                                       ResultHandlerDictionary[taskId]
+                                         .HandleError(ex,
+                                                      taskId);
+                                     }
+                                     finally
+                                     {
+                                       ResultHandlerDictionary.TryRemove(taskId,
+                                                                         out _);
+                                     }
+                                   },
+                                   (taskId,
+                                    taskStatus,
+                                    ex) =>
+                                   {
+                                     try
+                                     {
+                                       var statusCode = taskStatus.ToArmonikStatusCode();
 
-                                 ResultHandlerDictionary[taskId]
-                                   .HandleError(new ServiceInvocationException(ex,
-                                                                               statusCode),
-                                                taskId);
-                               }
-                               finally
-                               {
-                                 ResultHandlerDictionary.TryRemove(taskId,
-                                                                   out _);
-                               }
-                             });
+                                       ResultHandlerDictionary[taskId]
+                                         .HandleError(new ServiceInvocationException(ex,
+                                                                                     statusCode),
+                                                      taskId);
+                                     }
+                                     finally
+                                     {
+                                       ResultHandlerDictionary.TryRemove(taskId,
+                                                                         out _);
+                                     }
+                                   },
+                                   cancellationToken: cancellationToken);
         }
         else
         {
-          Thread.Sleep(100);
+          await Task.Delay(100,
+                           cancellationToken)
+                    .ConfigureAwait(false);
         }
+      }
+      catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+      {
+        break;
       }
       catch (Exception e)
       {
