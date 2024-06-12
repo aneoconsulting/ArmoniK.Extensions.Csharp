@@ -1,6 +1,6 @@
 // This file is part of the ArmoniK project
 //
-// Copyright (C) ANEO, 2021-2023. All rights reserved.
+// Copyright (C) ANEO, 2021-2024. All rights reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License")
 // you may not use this file except in compliance with the License.
@@ -17,6 +17,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading;
+using System.Threading.Tasks;
 
 using ArmoniK.Api.gRPC.V1;
 using ArmoniK.Api.gRPC.V1.Results;
@@ -24,6 +27,11 @@ using ArmoniK.Api.gRPC.V1.Sessions;
 using ArmoniK.Api.gRPC.V1.SortDirection;
 using ArmoniK.Api.gRPC.V1.Tasks;
 using ArmoniK.DevelopmentKit.Client.Common.Submitter;
+using ArmoniK.Utils;
+
+using Grpc.Net.Client;
+
+using JetBrains.Annotations;
 
 using Microsoft.Extensions.Logging;
 
@@ -31,6 +39,7 @@ using FilterField = ArmoniK.Api.gRPC.V1.Sessions.FilterField;
 using Filters = ArmoniK.Api.gRPC.V1.Tasks.Filters;
 using FiltersAnd = ArmoniK.Api.gRPC.V1.Sessions.FiltersAnd;
 using FilterStatus = ArmoniK.Api.gRPC.V1.Sessions.FilterStatus;
+using TaskStatus = ArmoniK.Api.gRPC.V1.TaskStatus;
 
 namespace ArmoniK.DevelopmentKit.Client.Unified.Services.Admin;
 
@@ -39,15 +48,15 @@ namespace ArmoniK.DevelopmentKit.Client.Unified.Services.Admin;
 /// </summary>
 public class AdminMonitoringService
 {
-  private readonly ChannelPool channelPool_;
+  private readonly ObjectPool<GrpcChannel> channelPool_;
 
   /// <summary>
   ///   The constructor to instantiate this service
   /// </summary>
   /// <param name="channel">The entry point to the control plane</param>
   /// <param name="loggerFactory">The factory logger to create logger</param>
-  public AdminMonitoringService(ChannelPool     channelPool,
-                                ILoggerFactory? loggerFactory = null)
+  public AdminMonitoringService(ObjectPool<GrpcChannel> channelPool,
+                                ILoggerFactory?         loggerFactory = null)
   {
     Logger       = loggerFactory?.CreateLogger<AdminMonitoringService>();
     channelPool_ = channelPool;
@@ -61,7 +70,7 @@ public class AdminMonitoringService
   /// </summary>
   public void GetServiceConfiguration()
   {
-    using var channel       = channelPool_.GetChannel();
+    using var channel       = channelPool_.Get();
     var       resultsClient = new Results.ResultsClient(channel);
     var       configuration = resultsClient.GetServiceConfiguration(new Empty());
     Logger?.LogInformation($"This configuration will be update in the nex version [ {configuration} ]");
@@ -72,17 +81,33 @@ public class AdminMonitoringService
   ///   mark all tasks in cancel status
   /// </summary>
   /// <param name="sessionId">the sessionId of the session to cancel</param>
-  public void CancelSession(string sessionId)
+  /// <param name="cancellationToken"></param>
+  [PublicAPI]
+  public async ValueTask CancelSessionAsync(string            sessionId,
+                                            CancellationToken cancellationToken = default)
   {
-    using var channel        = channelPool_.GetChannel();
-    var       sessionsClient = new Sessions.SessionsClient(channel);
-    sessionsClient.CancelSession(new CancelSessionRequest
-                                 {
-                                   SessionId = sessionId,
-                                 });
-    Logger.LogDebug("Session cancelled {sessionId}",
-                    sessionId);
+    await using var channel = await channelPool_.GetAsync(cancellationToken)
+                                                .ConfigureAwait(false);
+    var sessionsClient = new Sessions.SessionsClient(channel);
+    await sessionsClient.CancelSessionAsync(new CancelSessionRequest
+                                            {
+                                              SessionId = sessionId,
+                                            },
+                                            cancellationToken: cancellationToken)
+                        .ConfigureAwait(false);
+    Logger?.LogDebug("Session cancelled {sessionId}",
+                     sessionId);
   }
+
+  /// <summary>
+  ///   This method can mark the session in status Cancelled and
+  ///   mark all tasks in cancel status
+  /// </summary>
+  /// <param name="sessionId">the sessionId of the session to cancel</param>
+  [PublicAPI]
+  public void CancelSession(string sessionId)
+    => CancelSessionAsync(sessionId)
+      .WaitSync();
 
   /// <summary>
   ///   Return the whole list of task of a session
@@ -95,32 +120,61 @@ public class AdminMonitoringService
   ///   Return the list of task of a session filtered by status
   /// </summary>
   /// <returns>The list of filtered task </returns>
+  [PublicAPI]
   public IEnumerable<string> ListTasksBySession(string              sessionId,
                                                 params TaskStatus[] taskStatus)
-  {
-    using var channel     = channelPool_.GetChannel();
-    var       tasksClient = new Tasks.TasksClient(channel);
+    => ListTasksBySessionAsync(sessionId,
+                               taskStatus)
+      .ToEnumerable();
 
-    return tasksClient.ListTasks(new Filters
-                                 {
-                                   Or =
-                                   {
-                                     taskStatus.Select(status => TasksClientExt.TaskStatusFilter(status,
-                                                                                                 sessionId)),
-                                   },
-                                 },
-                                 new ListTasksRequest.Types.Sort
-                                 {
-                                   Field = new TaskField
+  /// <summary>
+  ///   Return the list of task of a session filtered by status
+  /// </summary>
+  /// <returns>The list of filtered task </returns>
+  [PublicAPI]
+  public IAsyncEnumerable<string> ListTasksBySessionAsync(string              sessionId,
+                                                          CancellationToken   cancellationToken = default,
+                                                          params TaskStatus[] taskStatus)
+    => ListTasksBySessionAsync(sessionId,
+                               taskStatus,
+                               cancellationToken);
+
+  /// <summary>
+  ///   Return the list of task of a session filtered by status
+  /// </summary>
+  /// <returns>The list of filtered task </returns>
+  private async IAsyncEnumerable<string> ListTasksBySessionAsync(string                                     sessionId,
+                                                                 TaskStatus[]                               taskStatus,
+                                                                 [EnumeratorCancellation] CancellationToken cancellationToken = default)
+  {
+    await using var channel = await channelPool_.GetAsync(cancellationToken)
+                                                .ConfigureAwait(false);
+    var tasksClient = new Tasks.TasksClient(channel);
+
+    var tasks = tasksClient.ListTasksAsync(new Filters
                                            {
-                                             TaskSummaryField = new TaskSummaryField
-                                                                {
-                                                                  Field = TaskSummaryEnumField.TaskId,
-                                                                },
+                                             Or =
+                                             {
+                                               taskStatus.Select(status => TasksClientExt.TaskStatusFilter(status,
+                                                                                                           sessionId)),
+                                             },
                                            },
-                                   Direction = SortDirection.Asc,
-                                 })
-                      .Select(summary => summary.Id);
+                                           new ListTasksRequest.Types.Sort
+                                           {
+                                             Field = new TaskField
+                                                     {
+                                                       TaskSummaryField = new TaskSummaryField
+                                                                          {
+                                                                            Field = TaskSummaryEnumField.TaskId,
+                                                                          },
+                                                     },
+                                             Direction = SortDirection.Asc,
+                                           },
+                                           cancellationToken: cancellationToken);
+    await foreach (var task in tasks.ConfigureAwait(false))
+    {
+      yield return task.Id;
+    }
   }
 
   /// <summary>
@@ -157,12 +211,29 @@ public class AdminMonitoringService
   ///   Return the list of all sessions
   /// </summary>
   /// <returns>The list of filtered session </returns>
+  [PublicAPI]
   public IEnumerable<string> ListAllSessions()
+    => ListAllSessionsAsync()
+      .ToEnumerable();
+
+  /// <summary>
+  ///   Return the list of all sessions
+  /// </summary>
+  /// <returns>The list of filtered session </returns>
+  [PublicAPI]
+  public async IAsyncEnumerable<string> ListAllSessionsAsync([EnumeratorCancellation] CancellationToken cancellationToken = default)
   {
-    using var channel        = channelPool_.GetChannel();
-    var       sessionsClient = new Sessions.SessionsClient(channel);
-    return sessionsClient.ListSessions(new ListSessionsRequest())
-                         .Sessions.Select(session => session.SessionId);
+    await using var channel = await channelPool_.GetAsync(cancellationToken)
+                                                .ConfigureAwait(false);
+    var sessionsClient = new Sessions.SessionsClient(channel);
+    var sessions = await sessionsClient.ListSessionsAsync(new ListSessionsRequest(),
+                                                          cancellationToken: cancellationToken)
+                                       .ConfigureAwait(false);
+
+    foreach (var session in sessions.Sessions)
+    {
+      yield return session.SessionId;
+    }
   }
 
 
@@ -170,82 +241,116 @@ public class AdminMonitoringService
   ///   The method is to get a filtered list of running session
   /// </summary>
   /// <returns>returns a list of session filtered</returns>
+  [PublicAPI]
   public IEnumerable<string> ListRunningSessions()
+    => ListRunningSessionsAsync()
+      .ToEnumerable();
+
+  /// <summary>
+  ///   The method is to get a filtered list of running session
+  /// </summary>
+  /// <returns>returns a list of session filtered</returns>
+  [PublicAPI]
+  public async IAsyncEnumerable<string> ListRunningSessionsAsync([EnumeratorCancellation] CancellationToken cancellationToken = default)
   {
-    using var channel        = channelPool_.GetChannel();
-    var       sessionsClient = new Sessions.SessionsClient(channel);
-    return sessionsClient.ListSessions(new ListSessionsRequest
-                                       {
-                                         Filters = new Api.gRPC.V1.Sessions.Filters
-                                                   {
-                                                     Or =
-                                                     {
-                                                       new FiltersAnd
-                                                       {
-                                                         And =
-                                                         {
-                                                           new FilterField
-                                                           {
-                                                             FilterStatus = new FilterStatus
+    await using var channel = await channelPool_.GetAsync(cancellationToken)
+                                                .ConfigureAwait(false);
+    var sessionsClient = new Sessions.SessionsClient(channel);
+    var sessions = await sessionsClient.ListSessionsAsync(new ListSessionsRequest
+                                                          {
+                                                            Filters = new Api.gRPC.V1.Sessions.Filters
+                                                                      {
+                                                                        Or =
+                                                                        {
+                                                                          new FiltersAnd
+                                                                          {
+                                                                            And =
                                                                             {
-                                                                              Operator = FilterStatusOperator.Equal,
-                                                                              Value    = SessionStatus.Running,
+                                                                              new FilterField
+                                                                              {
+                                                                                FilterStatus = new FilterStatus
+                                                                                               {
+                                                                                                 Operator = FilterStatusOperator.Equal,
+                                                                                                 Value    = SessionStatus.Running,
+                                                                                               },
+                                                                                Field = new SessionField
+                                                                                        {
+                                                                                          SessionRawField = new SessionRawField
+                                                                                                            {
+                                                                                                              Field = SessionRawEnumField.Status,
+                                                                                                            },
+                                                                                        },
+                                                                              },
                                                                             },
-                                                             Field = new SessionField
-                                                                     {
-                                                                       SessionRawField = new SessionRawField
-                                                                                         {
-                                                                                           Field = SessionRawEnumField.Status,
-                                                                                         },
-                                                                     },
-                                                           },
-                                                         },
-                                                       },
-                                                     },
-                                                   },
-                                       })
-                         .Sessions.Select(session => session.SessionId);
+                                                                          },
+                                                                        },
+                                                                      },
+                                                          },
+                                                          cancellationToken: cancellationToken)
+                                       .ConfigureAwait(false);
+
+    foreach (var session in sessions.Sessions)
+    {
+      yield return session.SessionId;
+    }
   }
 
   /// <summary>
   ///   The method is to get a filtered list of running session
   /// </summary>
   /// <returns>returns a list of session filtered</returns>
+  [PublicAPI]
   public IEnumerable<string> ListCancelledSessions()
+    => ListCancelledSessionsAsync()
+      .ToEnumerable();
+
+  /// <summary>
+  ///   The method is to get a filtered list of running session
+  /// </summary>
+  /// <returns>returns a list of session filtered</returns>
+  [PublicAPI]
+  public async IAsyncEnumerable<string> ListCancelledSessionsAsync([EnumeratorCancellation] CancellationToken cancellationToken = default)
   {
-    using var channel        = channelPool_.GetChannel();
-    var       sessionsClient = new Sessions.SessionsClient(channel);
-    return sessionsClient.ListSessions(new ListSessionsRequest
-                                       {
-                                         Filters = new Api.gRPC.V1.Sessions.Filters
-                                                   {
-                                                     Or =
-                                                     {
-                                                       new FiltersAnd
-                                                       {
-                                                         And =
-                                                         {
-                                                           new FilterField
-                                                           {
-                                                             FilterStatus = new FilterStatus
+    await using var channel = await channelPool_.GetAsync(cancellationToken)
+                                                .ConfigureAwait(false);
+    var sessionsClient = new Sessions.SessionsClient(channel);
+    var sessions = await sessionsClient.ListSessionsAsync(new ListSessionsRequest
+                                                          {
+                                                            Filters = new Api.gRPC.V1.Sessions.Filters
+                                                                      {
+                                                                        Or =
+                                                                        {
+                                                                          new FiltersAnd
+                                                                          {
+                                                                            And =
                                                                             {
-                                                                              Operator = FilterStatusOperator.Equal,
-                                                                              Value    = SessionStatus.Cancelled,
+                                                                              new FilterField
+                                                                              {
+                                                                                FilterStatus = new FilterStatus
+                                                                                               {
+                                                                                                 Operator = FilterStatusOperator.Equal,
+                                                                                                 Value    = SessionStatus.Cancelled,
+                                                                                               },
+                                                                                Field = new SessionField
+                                                                                        {
+                                                                                          SessionRawField = new SessionRawField
+                                                                                                            {
+                                                                                                              Field = SessionRawEnumField.Status,
+                                                                                                            },
+                                                                                        },
+                                                                              },
                                                                             },
-                                                             Field = new SessionField
-                                                                     {
-                                                                       SessionRawField = new SessionRawField
-                                                                                         {
-                                                                                           Field = SessionRawEnumField.Status,
-                                                                                         },
-                                                                     },
-                                                           },
-                                                         },
-                                                       },
-                                                     },
-                                                   },
-                                       })
-                         .Sessions.Select(session => session.SessionId);
+                                                                          },
+                                                                        },
+                                                                      },
+                                                          },
+                                                          cancellationToken: cancellationToken)
+                                       .ConfigureAwait(false);
+
+    foreach (var session in sessions.Sessions)
+    {
+      yield return session.SessionId;
+    }
   }
 
   /// <summary>
@@ -278,23 +383,56 @@ public class AdminMonitoringService
   /// <param name="sessionId">the id of the session</param>
   /// <param name="taskStatus">a variadic list of taskStatus </param>
   /// <returns>return the number of task</returns>
+  [PublicAPI]
   public int CountTaskBySession(string              sessionId,
                                 params TaskStatus[] taskStatus)
+    => CountTaskBySessionAsync(sessionId,
+                               taskStatus)
+      .WaitSync();
+
+  /// <summary>
+  ///   Count task in a session and select by status
+  /// </summary>
+  /// <param name="sessionId">the id of the session</param>
+  /// <param name="cancellationToken"></param>
+  /// <param name="taskStatus">a variadic list of taskStatus </param>
+  /// <returns>return the number of task</returns>
+  [PublicAPI]
+  private ValueTask<int> CountTaskBySessionAsync(string              sessionId,
+                                                 CancellationToken   cancellationToken = default,
+                                                 params TaskStatus[] taskStatus)
+    => CountTaskBySessionAsync(sessionId,
+                               taskStatus,
+                               cancellationToken);
+
+  /// <summary>
+  ///   Count task in a session and select by status
+  /// </summary>
+  /// <param name="sessionId">the id of the session</param>
+  /// <param name="taskStatus">a variadic list of taskStatus </param>
+  /// <param name="cancellationToken"></param>
+  /// <returns>return the number of task</returns>
+  private async ValueTask<int> CountTaskBySessionAsync(string            sessionId,
+                                                       TaskStatus[]      taskStatus,
+                                                       CancellationToken cancellationToken = default)
   {
-    using var channel     = channelPool_.GetChannel();
-    var       tasksClient = new Tasks.TasksClient(channel);
-    return tasksClient.CountTasksByStatus(new CountTasksByStatusRequest
-                                          {
-                                            Filters = new Filters
-                                                      {
-                                                        Or =
-                                                        {
-                                                          taskStatus.Select(status => TasksClientExt.TaskStatusFilter(status,
-                                                                                                                      sessionId)),
-                                                        },
-                                                      },
-                                          })
-                      .Status.Sum(count => count.Count);
+    await using var channel = await channelPool_.GetAsync(cancellationToken)
+                                                .ConfigureAwait(false);
+    var tasksClient = new Tasks.TasksClient(channel);
+    var counts = await tasksClient.CountTasksByStatusAsync(new CountTasksByStatusRequest
+                                                           {
+                                                             Filters = new Filters
+                                                                       {
+                                                                         Or =
+                                                                         {
+                                                                           taskStatus.Select(status => TasksClientExt.TaskStatusFilter(status,
+                                                                                                                                       sessionId)),
+                                                                         },
+                                                                       },
+                                                           },
+                                                           cancellationToken: cancellationToken)
+                                  .ConfigureAwait(false);
+    return counts.Status.Sum(count => count.Count);
   }
 
   /// <summary>
@@ -315,22 +453,36 @@ public class AdminMonitoringService
     => CountTaskBySession(sessionId,
                           TaskStatus.Completed);
 
+  /// <summary>
+  ///   Cancel a list of task in a session
+  /// </summary>
+  /// <param name="taskIds">the taskIds list to cancel</param>
+  [PublicAPI]
+  public void CancelTasksBySession(IEnumerable<string> taskIds)
+    => CancelTasksBySessionAsync(taskIds)
+      .WaitSync();
 
   /// <summary>
   ///   Cancel a list of task in a session
   /// </summary>
   /// <param name="taskIds">the taskIds list to cancel</param>
-  public void CancelTasksBySession(IEnumerable<string> taskIds)
+  /// <param name="cancellationToken"></param>
+  [PublicAPI]
+  public async ValueTask CancelTasksBySessionAsync(IEnumerable<string> taskIds,
+                                                   CancellationToken   cancellationToken = default)
   {
-    using var channel     = channelPool_.GetChannel();
-    var       tasksClient = new Tasks.TasksClient(channel);
-    tasksClient.CancelTasks(new CancelTasksRequest
-                            {
-                              TaskIds =
-                              {
-                                taskIds,
-                              },
-                            });
+    await using var channel = await channelPool_.GetAsync(cancellationToken)
+                                                .ConfigureAwait(false);
+    var tasksClient = new Tasks.TasksClient(channel);
+    await tasksClient.CancelTasksAsync(new CancelTasksRequest
+                                       {
+                                         TaskIds =
+                                         {
+                                           taskIds,
+                                         },
+                                       },
+                                       cancellationToken: cancellationToken)
+                     .ConfigureAwait(false);
   }
 
   /// <summary>
@@ -338,30 +490,49 @@ public class AdminMonitoringService
   /// </summary>
   /// <param name="taskIds">The list of task</param>
   /// <returns>returns a list of pair TaskId/TaskStatus</returns>
+  [PublicAPI]
   public IEnumerable<Tuple<string, TaskStatus>> GetTaskStatus(IEnumerable<string> taskIds)
+    => GetTaskStatusAsync(taskIds)
+      .ToEnumerable();
+
+  /// <summary>
+  ///   The method to get status of a list of tasks
+  /// </summary>
+  /// <param name="taskIds">The list of task</param>
+  /// <param name="cancellationToken"></param>
+  /// <returns>returns a list of pair TaskId/TaskStatus</returns>
+  [PublicAPI]
+  public async IAsyncEnumerable<Tuple<string, TaskStatus>> GetTaskStatusAsync(IEnumerable<string>                        taskIds,
+                                                                              [EnumeratorCancellation] CancellationToken cancellationToken = default)
   {
-    using var channel     = channelPool_.GetChannel();
-    var       tasksClient = new Tasks.TasksClient(channel);
-    return tasksClient.ListTasks(new Filters
-                                 {
-                                   Or =
-                                   {
-                                     taskIds.Select(TasksClientExt.TaskIdFilter),
-                                   },
-                                 },
-                                 new ListTasksRequest.Types.Sort
-                                 {
-                                   Direction = SortDirection.Asc,
-                                   Field = new TaskField
+    await using var channel = await channelPool_.GetAsync(cancellationToken)
+                                                .ConfigureAwait(false);
+    var tasksClient = new Tasks.TasksClient(channel);
+    var tasks = tasksClient.ListTasksAsync(new Filters
                                            {
-                                             TaskSummaryField = new TaskSummaryField
-                                                                {
-                                                                  Field = TaskSummaryEnumField.TaskId,
-                                                                },
+                                             Or =
+                                             {
+                                               taskIds.Select(TasksClientExt.TaskIdFilter),
+                                             },
                                            },
-                                 })
-                      .Select(task => new Tuple<string, TaskStatus>(task.Id,
-                                                                    task.Status));
+                                           new ListTasksRequest.Types.Sort
+                                           {
+                                             Direction = SortDirection.Asc,
+                                             Field = new TaskField
+                                                     {
+                                                       TaskSummaryField = new TaskSummaryField
+                                                                          {
+                                                                            Field = TaskSummaryEnumField.TaskId,
+                                                                          },
+                                                     },
+                                           },
+                                           cancellationToken: cancellationToken);
+
+    await foreach (var task in tasks.ConfigureAwait(false))
+    {
+      yield return new Tuple<string, TaskStatus>(task.Id,
+                                                 task.Status);
+    }
   }
 
 

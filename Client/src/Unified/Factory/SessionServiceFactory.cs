@@ -20,8 +20,11 @@ using ArmoniK.DevelopmentKit.Client.Common.Submitter;
 using ArmoniK.DevelopmentKit.Client.Unified.Services;
 using ArmoniK.DevelopmentKit.Client.Unified.Services.Admin;
 using ArmoniK.DevelopmentKit.Common;
+using ArmoniK.Utils;
 
 using Google.Protobuf.WellKnownTypes;
+
+using Grpc.Net.Client;
 
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
@@ -51,7 +54,7 @@ public class SessionServiceFactory
 
   private ILogger<SessionServiceFactory> Logger { get; }
 
-  private ChannelPool? GrpcPool { get; set; }
+  private ObjectPool<GrpcChannel>? GrpcPool { get; set; }
 
 
   private ILoggerFactory LoggerFactory { get; }

@@ -1,6 +1,6 @@
 // This file is part of the ArmoniK project
 // 
-// Copyright (C) ANEO, 2021-2023. All rights reserved.
+// Copyright (C) ANEO, 2021-2024. All rights reserved.
 // 
 // Licensed under the Apache License, Version 2.0 (the "License")
 // you may not use this file except in compliance with the License.
@@ -18,13 +18,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 
 using ArmoniK.Api.gRPC.V1;
 using ArmoniK.DevelopmentKit.Client.Common;
 using ArmoniK.DevelopmentKit.Client.Common.Submitter;
 using ArmoniK.DevelopmentKit.Common;
+using ArmoniK.Utils;
 
 using Google.Protobuf.WellKnownTypes;
+
+using JetBrains.Annotations;
 
 using Microsoft.Extensions.Logging;
 
@@ -96,13 +100,39 @@ public class SessionService : BaseClientSubmitter<SessionService>
   ///   TaskOptions argument to override default taskOptions in Session.
   ///   If non null it will override the default taskOptions in SessionService for client or given by taskHandler for worker
   /// </param>
+  [PublicAPI]
   public IEnumerable<string> SubmitTasks(IEnumerable<byte[]> payloads,
                                          int                 maxRetries  = 5,
                                          TaskOptions?        taskOptions = null)
-    => SubmitTasksWithDependencies(payloads.Select(payload => new Tuple<byte[], IList<string>>(payload,
-                                                                                               Array.Empty<string>())),
-                                   maxRetries,
-                                   taskOptions);
+    => SubmitTasksAsync(payloads,
+                        maxRetries,
+                        taskOptions)
+      .ToEnumerable();
+
+  /// <summary>
+  ///   User method to submit task from the client
+  ///   Need a client Service. In case of ServiceContainer
+  ///   submitterService can be null until the OpenSession is called
+  /// </summary>
+  /// <param name="payloads">
+  ///   The user payload list to execute. General used for subTasking.
+  /// </param>
+  /// <param name="maxRetries">The number of retry before fail to submit task. Default = 5 retries</param>
+  /// <param name="taskOptions">
+  ///   TaskOptions argument to override default taskOptions in Session.
+  ///   If non null it will override the default taskOptions in SessionService for client or given by taskHandler for worker
+  /// </param>
+  /// <param name="cancellationToken"></param>
+  [PublicAPI]
+  public IAsyncEnumerable<string> SubmitTasksAsync(IEnumerable<byte[]> payloads,
+                                                   int                 maxRetries        = 5,
+                                                   TaskOptions?        taskOptions       = null,
+                                                   CancellationToken   cancellationToken = default)
+    => SubmitTasksWithDependenciesAsync(payloads.Select(payload => new Tuple<byte[], IList<string>>(payload,
+                                                                                                    Array.Empty<string>())),
+                                        maxRetries,
+                                        taskOptions,
+                                        cancellationToken);
 
   /// <summary>
   ///   User method to submit task from the client
@@ -116,22 +146,53 @@ public class SessionService : BaseClientSubmitter<SessionService>
   ///   TaskOptions argument to override default taskOptions in Session.
   ///   If non null it will override the default taskOptions in SessionService for client or given by taskHandler for worker
   /// </param>
+  [PublicAPI]
   public string SubmitTask(byte[]       payload,
                            int          waitTimeBeforeNextSubmit = 2,
                            int          maxRetries               = 5,
                            TaskOptions? taskOptions              = null)
-  {
-    // TODO: wtf?
-    Thread.Sleep(waitTimeBeforeNextSubmit); // Twice the keep alive
-    return SubmitTasks(new[]
-                       {
-                         payload,
-                       },
+    => SubmitTaskAsync(payload,
+                       waitTimeBeforeNextSubmit,
                        maxRetries,
                        taskOptions)
-      .Single();
-  }
+      .WaitSync();
 
+  /// <summary>
+  ///   User method to submit task from the client
+  /// </summary>
+  /// <param name="payload">
+  ///   The user payload to execute.
+  /// </param>
+  /// <param name="waitTimeBeforeNextSubmit">The time to wait before 2 single submitTask</param>
+  /// <param name="maxRetries">The number of retry before fail to submit task. Default = 5 retries</param>
+  /// <param name="taskOptions">
+  ///   TaskOptions argument to override default taskOptions in Session.
+  ///   If non null it will override the default taskOptions in SessionService for client or given by taskHandler for worker
+  /// </param>
+  /// <param name="cancellationToken"></param>
+  [PublicAPI]
+  public async ValueTask<string> SubmitTaskAsync(byte[]            payload,
+                                                 int               waitTimeBeforeNextSubmit = 2,
+                                                 int               maxRetries               = 5,
+                                                 TaskOptions?      taskOptions              = null,
+                                                 CancellationToken cancellationToken        = default)
+  {
+    // TODO: wtf?
+    // Twice the keep alive
+    await Task.Delay(waitTimeBeforeNextSubmit,
+                     cancellationToken)
+              .ConfigureAwait(false);
+
+    return await SubmitTasksAsync(new[]
+                                  {
+                                    payload,
+                                  },
+                                  maxRetries,
+                                  taskOptions,
+                                  cancellationToken)
+                 .SingleAsync(cancellationToken)
+                 .ConfigureAwait(false);
+  }
 
   /// <summary>
   ///   The method to submit One task with dependencies tasks. This task will wait for
@@ -145,18 +206,43 @@ public class SessionService : BaseClientSubmitter<SessionService>
   ///   If non null it will override the default taskOptions in SessionService for client or given by taskHandler for worker
   /// </param>
   /// <returns>return the taskId of the created task </returns>
-  // TODO: mark with [PublicApi] ?
-  // ReSharper disable once UnusedMember.Global
+  [PublicAPI]
   public string SubmitTaskWithDependencies(byte[]        payload,
                                            IList<string> dependencies,
                                            int           maxRetries  = 5,
                                            TaskOptions?  taskOptions = null)
-    => SubmitTasksWithDependencies(new[]
-                                   {
-                                     Tuple.Create(payload,
-                                                  dependencies),
-                                   },
-                                   maxRetries,
-                                   taskOptions)
-      .Single();
+    => SubmitTaskWithDependenciesAsync(payload,
+                                       dependencies,
+                                       maxRetries,
+                                       taskOptions)
+      .WaitSync();
+
+  /// <summary>
+  ///   The method to submit One task with dependencies tasks. This task will wait for
+  ///   to start until all dependencies are completed successfully
+  /// </summary>
+  /// <param name="payload">The payload to submit</param>
+  /// <param name="dependencies">A list of task Id in dependence of this created task</param>
+  /// <param name="maxRetries">The number of retry before fail to submit task. Default = 5 retries</param>
+  /// <param name="taskOptions">
+  ///   TaskOptions argument to override default taskOptions in Session.
+  ///   If non null it will override the default taskOptions in SessionService for client or given by taskHandler for worker
+  /// </param>
+  /// <param name="cancellationToken"></param>
+  /// <returns>return the taskId of the created task </returns>
+  [PublicAPI]
+  public ValueTask<string> SubmitTaskWithDependenciesAsync(byte[]            payload,
+                                                           IList<string>     dependencies,
+                                                           int               maxRetries        = 5,
+                                                           TaskOptions?      taskOptions       = null,
+                                                           CancellationToken cancellationToken = default)
+    => SubmitTasksWithDependenciesAsync(new[]
+                                        {
+                                          Tuple.Create(payload,
+                                                       dependencies),
+                                        },
+                                        maxRetries,
+                                        taskOptions,
+                                        cancellationToken)
+      .SingleAsync(cancellationToken);
 }

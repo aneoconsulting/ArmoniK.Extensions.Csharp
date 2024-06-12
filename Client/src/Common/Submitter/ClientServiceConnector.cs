@@ -14,8 +14,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.Threading.Tasks;
+
 using ArmoniK.Api.Client.Options;
 using ArmoniK.Api.Client.Submitter;
+using ArmoniK.Utils;
+
+using Grpc.Net.Client;
 
 using Microsoft.Extensions.Logging;
 
@@ -33,8 +38,8 @@ public class ClientServiceConnector
   /// <param name="properties">Configuration Properties</param>
   /// <param name="loggerFactory">Optional logger factory</param>
   /// <returns>The connection pool</returns>
-  public static ChannelPool ControlPlaneConnectionPool(Properties      properties,
-                                                       ILoggerFactory? loggerFactory = null)
+  public static ObjectPool<GrpcChannel> ControlPlaneConnectionPool(Properties      properties,
+                                                                   ILoggerFactory? loggerFactory = null)
   {
     var options = new GrpcClient
                   {
@@ -52,7 +57,32 @@ public class ClientServiceConnector
                     ProxyPassword         = properties.ProxyPassword,
                   };
 
-    return new ChannelPool(() => GrpcChannelFactory.CreateChannel(options,
-                                                                  loggerFactory?.CreateLogger(typeof(ClientServiceConnector))));
+    return new ObjectPool<GrpcChannel>(ct => new ValueTask<GrpcChannel>(GrpcChannelFactory.CreateChannel(options,
+                                                                                                         loggerFactory?.CreateLogger(typeof(ClientServiceConnector)))),
+
+
+#if NET5_0_OR_GREATER
+                                       async (channel, ct) =>
+                                       {
+switch (channel.State)
+          {
+            case ConnectivityState.TransientFailure:
+              await channel.ShutdownAsync()
+                  .ConfigureAwait(false);
+              return false;
+            case ConnectivityState.Shutdown:
+              return false;
+            case ConnectivityState.Idle:
+            case ConnectivityState.Connecting:
+            case ConnectivityState.Ready:
+            default:
+              return true;
+          }
+                                       }
+#else
+                                       (_,
+                                        _) => new ValueTask<bool>(true)
+#endif
+                                      );
   }
 }
