@@ -122,26 +122,6 @@
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "api/ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.ChannelGuard.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.ChannelGuard.html"
-        }
-      },
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.html"
-        }
-      },
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
       "source_relative_path": "api/ArmoniK.DevelopmentKit.Client.Common.Submitter.ClientServiceConnector.yml",
       "output": {
         ".html": {

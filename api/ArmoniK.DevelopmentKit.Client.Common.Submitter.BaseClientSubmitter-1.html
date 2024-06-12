@@ -89,7 +89,7 @@
 
 
   <h1 id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1" class="text-break">
-Class BaseClientSubmitter&lt;T&gt;  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/BaseClientSubmitter.cs/#L56"><i class="bi bi-code-slash"></i></a>
+Class BaseClientSubmitter&lt;T&gt;  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/BaseClientSubmitter.cs/#L60"><i class="bi bi-code-slash"></i></a>
   </h1>
 
   <div class="facts text-secondary">
@@ -171,7 +171,7 @@ public abstract class BaseClientSubmitter&lt;T&gt;</code></pre>
 
   <h3 id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1__ctor_ArmoniK_DevelopmentKit_Client_Common_Properties_Microsoft_Extensions_Logging_ILoggerFactory_ArmoniK_Api_gRPC_V1_TaskOptions_ArmoniK_Api_gRPC_V1_Session_System_Int32_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.#ctor(ArmoniK.DevelopmentKit.Client.Common.Properties,Microsoft.Extensions.Logging.ILoggerFactory,ArmoniK.Api.gRPC.V1.TaskOptions,ArmoniK.Api.gRPC.V1.Session,System.Int32)">
   BaseClientSubmitter(Properties, ILoggerFactory, TaskOptions, Session?, int)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/BaseClientSubmitter.cs/#L82"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/BaseClientSubmitter.cs/#L81"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Base Object for all Client submitter</p>
@@ -218,7 +218,7 @@ public abstract class BaseClientSubmitter&lt;T&gt;</code></pre>
 
   <h3 id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_ChannelPool" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.ChannelPool">
   ChannelPool
-  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/BaseClientSubmitter.cs/#L118"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/BaseClientSubmitter.cs/#L122"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>The channel pool to use for creating clients</p>
@@ -226,7 +226,7 @@ public abstract class BaseClientSubmitter&lt;T&gt;</code></pre>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public ChannelPool ChannelPool { get; }</code></pre>
+    <pre><code class="lang-csharp hljs">public ObjectPool&lt;GrpcChannel&gt; ChannelPool { get; }</code></pre>
   </div>
 
 
@@ -235,7 +235,7 @@ public abstract class BaseClientSubmitter&lt;T&gt;</code></pre>
 
   <h4 class="section">Property Value</h4>
   <dl class="parameters">
-    <dt><a class="xref" href="ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.html">ChannelPool</a></dt>
+    <dt><span class="xref">ObjectPool</span>&lt;<a class="xref" href="https://github.com/grpc/grpc-dotnet/blob/main/src/Grpc.Net.Client/GrpcChannel.cs">GrpcChannel</a>&gt;</dt>
     <dd></dd>
   </dl>
 
@@ -250,7 +250,7 @@ public abstract class BaseClientSubmitter&lt;T&gt;</code></pre>
 
   <h3 id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_Logger" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.Logger">
   Logger
-  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/BaseClientSubmitter.cs/#L126"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/BaseClientSubmitter.cs/#L128"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>The logger to call the generate log in Seq</p>
@@ -282,7 +282,7 @@ public abstract class BaseClientSubmitter&lt;T&gt;</code></pre>
 
   <h3 id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_SessionId" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.SessionId">
   SessionId
-  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/BaseClientSubmitter.cs/#L113"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/BaseClientSubmitter.cs/#L117"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Get SessionId object stored during the call of SubmitTask, SubmitSubTask,
@@ -315,7 +315,7 @@ SubmitSubTaskWithDependencies or WaitForCompletion, WaitForSubTaskCompletion or 
 
   <h3 id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_TaskOptions" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.TaskOptions">
   TaskOptions
-  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/BaseClientSubmitter.cs/#L107"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/BaseClientSubmitter.cs/#L111"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Set or Get TaskOptions with inside MaxDuration, Priority, AppName, VersionName and AppNamespace</p>
@@ -351,7 +351,7 @@ SubmitSubTaskWithDependencies or WaitForCompletion, WaitForSubTaskCompletion or 
 
   <h3 id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_CreateResultsMetadata_System_Collections_Generic_IEnumerable_System_String__" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.CreateResultsMetadata(System.Collections.Generic.IEnumerable{System.String})">
   CreateResultsMetadata(IEnumerable&lt;string&gt;)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/BaseClientSubmitter.cs/#L952"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/BaseClientSubmitter.cs/#L1369"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Creates the results metadata</p>
@@ -387,11 +387,53 @@ public Dictionary&lt;string, string&gt; CreateResultsMetadata(IEnumerable&lt;str
 
 
 
+  <a id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_CreateResultsMetadataAsync_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.CreateResultsMetadataAsync*"></a>
+
+  <h3 id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_CreateResultsMetadataAsync_System_Collections_Generic_IEnumerable_System_String__System_Threading_CancellationToken_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.CreateResultsMetadataAsync(System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+  CreateResultsMetadataAsync(IEnumerable&lt;string&gt;, CancellationToken)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/BaseClientSubmitter.cs/#L1340"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Creates the results metadata</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[PublicAPI]
+public ValueTask&lt;Dictionary&lt;string, string&gt;&gt; CreateResultsMetadataAsync(IEnumerable&lt;string&gt; resultNames, CancellationToken cancellationToken = default)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>resultNames</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>&gt;</dt>
+    <dd><p>Results names</p>
+</dd>
+    <dt><code>cancellationToken</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.cancellationtoken">CancellationToken</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.valuetask-1">ValueTask</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2">Dictionary</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>&gt;&gt;</dt>
+    <dd><p>Dictionary where each result name is associated with its result id</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
   <a id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_GetResult_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.GetResult*"></a>
 
   <h3 id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_GetResult_System_String_System_Threading_CancellationToken_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.GetResult(System.String,System.Threading.CancellationToken)">
   GetResult(string, CancellationToken)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/BaseClientSubmitter.cs/#L663"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/BaseClientSubmitter.cs/#L1019"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Try to find the result of One task. If there no result, the function return byte[0]</p>
@@ -399,7 +441,8 @@ public Dictionary&lt;string, string&gt; CreateResultsMetadata(IEnumerable&lt;str
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public byte[] GetResult(string taskId, CancellationToken cancellationToken = default)</code></pre>
+    <pre><code class="lang-csharp hljs">[PublicAPI]
+public byte[] GetResult(string taskId, CancellationToken cancellationToken = default)</code></pre>
   </div>
 
   <h4 class="section">Parameters</h4>
@@ -429,11 +472,54 @@ public Dictionary&lt;string, string&gt; CreateResultsMetadata(IEnumerable&lt;str
 
 
 
+  <a id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_GetResultAsync_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.GetResultAsync*"></a>
+
+  <h3 id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_GetResultAsync_System_String_System_Threading_CancellationToken_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.GetResultAsync(System.String,System.Threading.CancellationToken)">
+  GetResultAsync(string, CancellationToken)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/BaseClientSubmitter.cs/#L957"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Try to find the result of One task. If there no result, the function return byte[0]</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[PublicAPI]
+public ValueTask&lt;byte[]&gt; GetResultAsync(string taskId, CancellationToken cancellationToken = default)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>taskId</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>The Id of the task</p>
+</dd>
+    <dt><code>cancellationToken</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.cancellationtoken">CancellationToken</a></dt>
+    <dd><p>The optional cancellationToken</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.valuetask-1">ValueTask</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">byte</a>[]&gt;</dt>
+    <dd><p>Returns the result or byte[0] if there no result</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
   <a id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_GetResultIds_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.GetResultIds*"></a>
 
   <h3 id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_GetResultIds_System_Collections_Generic_IEnumerable_System_String__" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.GetResultIds(System.Collections.Generic.IEnumerable{System.String})">
   GetResultIds(IEnumerable&lt;string&gt;)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/BaseClientSubmitter.cs/#L631"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/BaseClientSubmitter.cs/#L946"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Gets the result ids for a given list of task ids.</p>
@@ -441,7 +527,8 @@ public Dictionary&lt;string, string&gt; CreateResultsMetadata(IEnumerable&lt;str
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public ICollection&lt;GetResultIdsResponse.Types.MapTaskResult&gt; GetResultIds(IEnumerable&lt;string&gt; taskIds)</code></pre>
+    <pre><code class="lang-csharp hljs">[PublicAPI]
+public ICollection&lt;GetResultIdsResponse.Types.MapTaskResult&gt; GetResultIds(IEnumerable&lt;string&gt; taskIds)</code></pre>
   </div>
 
   <h4 class="section">Parameters</h4>
@@ -468,11 +555,53 @@ public Dictionary&lt;string, string&gt; CreateResultsMetadata(IEnumerable&lt;str
 
 
 
+  <a id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_GetResultIdsAsync_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.GetResultIdsAsync*"></a>
+
+  <h3 id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_GetResultIdsAsync_System_Collections_Generic_IEnumerable_System_String__System_Threading_CancellationToken_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.GetResultIdsAsync(System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+  GetResultIdsAsync(IEnumerable&lt;string&gt;, CancellationToken)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/BaseClientSubmitter.cs/#L905"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets the result ids for a given list of task ids.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[PublicAPI]
+public ValueTask&lt;ICollection&lt;GetResultIdsResponse.Types.MapTaskResult&gt;&gt; GetResultIdsAsync(IEnumerable&lt;string&gt; taskIds, CancellationToken cancellationToken = default)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>taskIds</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>&gt;</dt>
+    <dd><p>The list of task ids.</p>
+</dd>
+    <dt><code>cancellationToken</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.cancellationtoken">CancellationToken</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.valuetask-1">ValueTask</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1">ICollection</a>&lt;<span class="xref">GetResultIdsResponse</span>.<span class="xref">Types</span>.<span class="xref">MapTaskResult</span>&gt;&gt;</dt>
+    <dd><p>A collection of map task results.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
   <a id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_GetResultStatus_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.GetResultStatus*"></a>
 
   <h3 id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_GetResultStatus_System_Collections_Generic_IEnumerable_System_String__System_Threading_CancellationToken_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.GetResultStatus(System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
   GetResultStatus(IEnumerable&lt;string&gt;, CancellationToken)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/BaseClientSubmitter.cs/#L541"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/BaseClientSubmitter.cs/#L892"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Get the result status of a list of results</p>
@@ -480,7 +609,8 @@ public Dictionary&lt;string, string&gt; CreateResultsMetadata(IEnumerable&lt;str
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public ResultStatusCollection GetResultStatus(IEnumerable&lt;string&gt; taskIds, CancellationToken cancellationToken = default)</code></pre>
+    <pre><code class="lang-csharp hljs">[PublicAPI]
+public ResultStatusCollection GetResultStatus(IEnumerable&lt;string&gt; taskIds, CancellationToken cancellationToken = default)</code></pre>
   </div>
 
   <h4 class="section">Parameters</h4>
@@ -509,11 +639,53 @@ public Dictionary&lt;string, string&gt; CreateResultsMetadata(IEnumerable&lt;str
 
 
 
+  <a id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_GetResultStatusAsync_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.GetResultStatusAsync*"></a>
+
+  <h3 id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_GetResultStatusAsync_System_Collections_Generic_IEnumerable_System_String__System_Threading_CancellationToken_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.GetResultStatusAsync(System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+  GetResultStatusAsync(IEnumerable&lt;string&gt;, CancellationToken)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/BaseClientSubmitter.cs/#L736"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Get the result status of a list of results</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[PublicAPI]
+public ValueTask&lt;ResultStatusCollection&gt; GetResultStatusAsync(IEnumerable&lt;string&gt; taskIds, CancellationToken cancellationToken = default)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>taskIds</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>&gt;</dt>
+    <dd><p>Collection of task ids from which to retrieve results</p>
+</dd>
+    <dt><code>cancellationToken</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.cancellationtoken">CancellationToken</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.valuetask-1">ValueTask</a>&lt;<a class="xref" href="ArmoniK.DevelopmentKit.Client.Common.Status.ResultStatusCollection.html">ResultStatusCollection</a>&gt;</dt>
+    <dd><p>A ResultCollection sorted by Status Completed, Result in Error or missing</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
   <a id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_GetResults_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.GetResults*"></a>
 
   <h3 id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_GetResults_System_Collections_Generic_IEnumerable_System_String__System_Threading_CancellationToken_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.GetResults(System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
   GetResults(IEnumerable&lt;string&gt;, CancellationToken)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/BaseClientSubmitter.cs/#L718"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/BaseClientSubmitter.cs/#L1055"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Retrieve results from control plane</p>
@@ -521,7 +693,8 @@ public Dictionary&lt;string, string&gt; CreateResultsMetadata(IEnumerable&lt;str
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public IEnumerable&lt;Tuple&lt;string, byte[]&gt;&gt; GetResults(IEnumerable&lt;string&gt; taskIds, CancellationToken cancellationToken = default)</code></pre>
+    <pre><code class="lang-csharp hljs">[PublicAPI]
+public IEnumerable&lt;Tuple&lt;string, byte[]&gt;&gt; GetResults(IEnumerable&lt;string&gt; taskIds, CancellationToken cancellationToken = default)</code></pre>
   </div>
 
   <h4 class="section">Parameters</h4>
@@ -558,11 +731,61 @@ public Dictionary&lt;string, string&gt; CreateResultsMetadata(IEnumerable&lt;str
 
 
 
+  <a id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_GetResultsAsync_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.GetResultsAsync*"></a>
+
+  <h3 id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_GetResultsAsync_System_Collections_Generic_IEnumerable_System_String__System_Threading_CancellationToken_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.GetResultsAsync(System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+  GetResultsAsync(IEnumerable&lt;string&gt;, CancellationToken)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/BaseClientSubmitter.cs/#L1034"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Retrieve results from control plane</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[PublicAPI]
+public IAsyncEnumerable&lt;Tuple&lt;string, byte[]&gt;&gt; GetResultsAsync(IEnumerable&lt;string&gt; taskIds, CancellationToken cancellationToken = default)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>taskIds</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>&gt;</dt>
+    <dd><p>Collection of task ids</p>
+</dd>
+    <dt><code>cancellationToken</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.cancellationtoken">CancellationToken</a></dt>
+    <dd><p>The optional cancellationToken</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.iasyncenumerable-1">IAsyncEnumerable</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.tuple-2">Tuple</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">byte</a>[]&gt;&gt;</dt>
+    <dd><p>return a dictionary with key taskId and payload</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h4 class="section">Exceptions</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.argumentnullexception">ArgumentNullException</a></dt>
+    <dd></dd>
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.argumentexception">ArgumentException</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
   <a id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_GetTaskOutputInfo_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.GetTaskOutputInfo*"></a>
 
   <h3 id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_GetTaskOutputInfo_System_String_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.GetTaskOutputInfo(System.String)">
   GetTaskOutputInfo(string)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/BaseClientSubmitter.cs/#L201"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/BaseClientSubmitter.cs/#L284"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Return the taskOutput when error occurred</p>
@@ -570,7 +793,8 @@ public Dictionary&lt;string, string&gt; CreateResultsMetadata(IEnumerable&lt;str
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Output GetTaskOutputInfo(string taskId)</code></pre>
+    <pre><code class="lang-csharp hljs">[PublicAPI]
+public Output GetTaskOutputInfo(string taskId)</code></pre>
   </div>
 
   <h4 class="section">Parameters</h4>
@@ -595,11 +819,51 @@ public Dictionary&lt;string, string&gt; CreateResultsMetadata(IEnumerable&lt;str
 
 
 
+  <a id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_GetTaskOutputInfoAsync_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.GetTaskOutputInfoAsync*"></a>
+
+  <h3 id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_GetTaskOutputInfoAsync_System_String_System_Threading_CancellationToken_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.GetTaskOutputInfoAsync(System.String,System.Threading.CancellationToken)">
+  GetTaskOutputInfoAsync(string, CancellationToken)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/BaseClientSubmitter.cs/#L256"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Return the taskOutput when error occurred</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[PublicAPI]
+public ValueTask&lt;Output&gt; GetTaskOutputInfoAsync(string taskId, CancellationToken cancellationToken = default)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>taskId</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+    <dt><code>cancellationToken</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.cancellationtoken">CancellationToken</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.valuetask-1">ValueTask</a>&lt;<span class="xref">Output</span>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
   <a id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_GetTaskStatues_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.GetTaskStatues*"></a>
 
   <h3 id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_GetTaskStatues_System_String___" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.GetTaskStatues(System.String[])">
   GetTaskStatues(params string[])
-  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/BaseClientSubmitter.cs/#L168"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/BaseClientSubmitter.cs/#L243"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Returns the list status of the tasks</p>
@@ -607,7 +871,8 @@ public Dictionary&lt;string, string&gt; CreateResultsMetadata(IEnumerable&lt;str
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public IEnumerable&lt;Tuple&lt;string, TaskStatus&gt;&gt; GetTaskStatues(params string[] taskIds)</code></pre>
+    <pre><code class="lang-csharp hljs">[PublicAPI]
+public IEnumerable&lt;Tuple&lt;string, TaskStatus&gt;&gt; GetTaskStatues(params string[] taskIds)</code></pre>
   </div>
 
   <h4 class="section">Parameters</h4>
@@ -633,11 +898,52 @@ public Dictionary&lt;string, string&gt; CreateResultsMetadata(IEnumerable&lt;str
 
 
 
+  <a id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_GetTaskStatuesAsync_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.GetTaskStatuesAsync*"></a>
+
+  <h3 id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_GetTaskStatuesAsync_System_Threading_CancellationToken_System_String___" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.GetTaskStatuesAsync(System.Threading.CancellationToken,System.String[])">
+  GetTaskStatuesAsync(CancellationToken, params string[])
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/BaseClientSubmitter.cs/#L194"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Returns the list status of the tasks</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[PublicAPI]
+public IAsyncEnumerable&lt;Tuple&lt;string, TaskStatus&gt;&gt; GetTaskStatuesAsync(CancellationToken cancellationToken = default, params string[] taskIds)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>cancellationToken</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.cancellationtoken">CancellationToken</a></dt>
+    <dd></dd>
+    <dt><code>taskIds</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>[]</dt>
+    <dd><p>The list of taskIds</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.iasyncenumerable-1">IAsyncEnumerable</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.tuple-2">Tuple</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>, <span class="xref">TaskStatus</span>&gt;&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
   <a id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_GetTaskStatus_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.GetTaskStatus*"></a>
 
   <h3 id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_GetTaskStatus_System_String_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.GetTaskStatus(System.String)">
   GetTaskStatus(string)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/BaseClientSubmitter.cs/#L156"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/BaseClientSubmitter.cs/#L182"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Returns the status of the task</p>
@@ -645,7 +951,8 @@ public Dictionary&lt;string, string&gt; CreateResultsMetadata(IEnumerable&lt;str
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public TaskStatus GetTaskStatus(string taskId)</code></pre>
+    <pre><code class="lang-csharp hljs">[PublicAPI]
+public TaskStatus GetTaskStatus(string taskId)</code></pre>
   </div>
 
   <h4 class="section">Parameters</h4>
@@ -671,11 +978,52 @@ public Dictionary&lt;string, string&gt; CreateResultsMetadata(IEnumerable&lt;str
 
 
 
+  <a id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_GetTaskStatusAsync_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.GetTaskStatusAsync*"></a>
+
+  <h3 id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_GetTaskStatusAsync_System_String_System_Threading_CancellationToken_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.GetTaskStatusAsync(System.String,System.Threading.CancellationToken)">
+  GetTaskStatusAsync(string, CancellationToken)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/BaseClientSubmitter.cs/#L163"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Returns the status of the task</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[PublicAPI]
+public ValueTask&lt;TaskStatus&gt; GetTaskStatusAsync(string taskId, CancellationToken cancellationToken = default)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>taskId</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>The taskId of the task</p>
+</dd>
+    <dt><code>cancellationToken</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.cancellationtoken">CancellationToken</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.valuetask-1">ValueTask</a>&lt;<span class="xref">TaskStatus</span>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
   <a id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_SubmitTasksWithDependencies_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.SubmitTasksWithDependencies*"></a>
 
   <h3 id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_SubmitTasksWithDependencies_System_Collections_Generic_IEnumerable_System_Tuple_System_Byte___System_Collections_Generic_IList_System_String____System_Int32_ArmoniK_Api_gRPC_V1_TaskOptions_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.SubmitTasksWithDependencies(System.Collections.Generic.IEnumerable{System.Tuple{System.Byte[],System.Collections.Generic.IList{System.String}}},System.Int32,ArmoniK.Api.gRPC.V1.TaskOptions)">
   SubmitTasksWithDependencies(IEnumerable&lt;Tuple&lt;byte[], IList&lt;string&gt;&gt;&gt;, int, TaskOptions?)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/BaseClientSubmitter.cs/#L252"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/BaseClientSubmitter.cs/#L401"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>The method to submit several tasks with dependencies tasks. This task will wait for
@@ -724,7 +1072,7 @@ If non null it will override the default taskOptions in SessionService for clien
 
   <h3 id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_SubmitTasksWithDependencies_System_Collections_Generic_IEnumerable_System_Tuple_System_String_System_Byte___System_Collections_Generic_IList_System_String____System_Int32_ArmoniK_Api_gRPC_V1_TaskOptions_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.SubmitTasksWithDependencies(System.Collections.Generic.IEnumerable{System.Tuple{System.String,System.Byte[],System.Collections.Generic.IList{System.String}}},System.Int32,ArmoniK.Api.gRPC.V1.TaskOptions)">
   SubmitTasksWithDependencies(IEnumerable&lt;Tuple&lt;string, byte[], IList&lt;string&gt;&gt;&gt;, int, TaskOptions?)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/BaseClientSubmitter.cs/#L229"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/BaseClientSubmitter.cs/#L334"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>The method to submit several tasks with dependencies tasks. This task will wait for
@@ -771,11 +1119,115 @@ created tasks</p>
 
 
 
+  <a id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_SubmitTasksWithDependenciesAsync_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.SubmitTasksWithDependenciesAsync*"></a>
+
+  <h3 id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_SubmitTasksWithDependenciesAsync_System_Collections_Generic_IEnumerable_System_Tuple_System_Byte___System_Collections_Generic_IList_System_String____System_Int32_ArmoniK_Api_gRPC_V1_TaskOptions_System_Threading_CancellationToken_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.SubmitTasksWithDependenciesAsync(System.Collections.Generic.IEnumerable{System.Tuple{System.Byte[],System.Collections.Generic.IList{System.String}}},System.Int32,ArmoniK.Api.gRPC.V1.TaskOptions,System.Threading.CancellationToken)">
+  SubmitTasksWithDependenciesAsync(IEnumerable&lt;Tuple&lt;byte[], IList&lt;string&gt;&gt;&gt;, int, TaskOptions?, CancellationToken)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/BaseClientSubmitter.cs/#L358"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>The method to submit several tasks with dependencies tasks. This task will wait for
+to start until all dependencies are completed successfully</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[PublicAPI]
+public IAsyncEnumerable&lt;string&gt; SubmitTasksWithDependenciesAsync(IEnumerable&lt;Tuple&lt;byte[], IList&lt;string&gt;&gt;&gt; payloadsWithDependencies, int maxRetries = 5, TaskOptions? taskOptions = null, CancellationToken cancellationToken = default)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>payloadsWithDependencies</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.tuple-2">Tuple</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">byte</a>[], <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ilist-1">IList</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>&gt;&gt;&gt;</dt>
+    <dd><p>A list of Tuple(Payload, parent dependencies) in dependence of those created
+tasks</p>
+</dd>
+    <dt><code>maxRetries</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>The number of retry before fail to submit task. Default = 5 retries</p>
+</dd>
+    <dt><code>taskOptions</code> <span class="xref">TaskOptions</span></dt>
+    <dd><p>TaskOptions argument to override default taskOptions in Session.
+If non null it will override the default taskOptions in SessionService for client or given by taskHandler for worker</p>
+</dd>
+    <dt><code>cancellationToken</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.cancellationtoken">CancellationToken</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.iasyncenumerable-1">IAsyncEnumerable</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>&gt;</dt>
+    <dd><p>return a list of taskIds of the created tasks</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_SubmitTasksWithDependenciesAsync_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.SubmitTasksWithDependenciesAsync*"></a>
+
+  <h3 id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_SubmitTasksWithDependenciesAsync_System_Collections_Generic_IEnumerable_System_Tuple_System_String_System_Byte___System_Collections_Generic_IList_System_String____System_Int32_ArmoniK_Api_gRPC_V1_TaskOptions_System_Threading_CancellationToken_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.SubmitTasksWithDependenciesAsync(System.Collections.Generic.IEnumerable{System.Tuple{System.String,System.Byte[],System.Collections.Generic.IList{System.String}}},System.Int32,ArmoniK.Api.gRPC.V1.TaskOptions,System.Threading.CancellationToken)">
+  SubmitTasksWithDependenciesAsync(IEnumerable&lt;Tuple&lt;string, byte[], IList&lt;string&gt;&gt;&gt;, int, TaskOptions?, CancellationToken)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/BaseClientSubmitter.cs/#L303"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>The method to submit several tasks with dependencies tasks. This task will wait for
+to start until all dependencies are completed successfully</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[PublicAPI]
+public IAsyncEnumerable&lt;string&gt; SubmitTasksWithDependenciesAsync(IEnumerable&lt;Tuple&lt;string, byte[], IList&lt;string&gt;&gt;&gt; payloadsWithDependencies, int maxRetries = 5, TaskOptions? taskOptions = null, CancellationToken cancellationToken = default)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>payloadsWithDependencies</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.tuple-3">Tuple</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">byte</a>[], <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ilist-1">IList</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>&gt;&gt;&gt;</dt>
+    <dd><p>A list of Tuple(resultId, payload, parent dependencies) in dependence of those
+created tasks</p>
+</dd>
+    <dt><code>maxRetries</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>The number of retry before fail to submit task. Default = 5 retries</p>
+</dd>
+    <dt><code>taskOptions</code> <span class="xref">TaskOptions</span></dt>
+    <dd><p>TaskOptions overrides if non null override default in Session</p>
+</dd>
+    <dt><code>cancellationToken</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.cancellationtoken">CancellationToken</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.iasyncenumerable-1">IAsyncEnumerable</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>&gt;</dt>
+    <dd><p>return a list of taskIds of the created tasks</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+  <h4 class="section" id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_SubmitTasksWithDependenciesAsync_System_Collections_Generic_IEnumerable_System_Tuple_System_String_System_Byte___System_Collections_Generic_IList_System_String____System_Int32_ArmoniK_Api_gRPC_V1_TaskOptions_System_Threading_CancellationToken__remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>The result ids must first be created using <a class="xref" href="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_CreateResultsMetadata_System_Collections_Generic_IEnumerable_System_String__">CreateResultsMetadata(IEnumerable&lt;string&gt;)</a></p>
+</div>
+
+
+
+
   <a id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_TryGetResult_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.TryGetResult*"></a>
 
   <h3 id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_TryGetResult_System_String_System_Boolean_System_Threading_CancellationToken_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.TryGetResult(System.String,System.Boolean,System.Threading.CancellationToken)">
   TryGetResult(string, bool, CancellationToken)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/BaseClientSubmitter.cs/#L783"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/BaseClientSubmitter.cs/#L1133"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Try to find the result of One task. If there no result, the function return byte[0]</p>
@@ -821,7 +1273,7 @@ public byte[]? TryGetResult(string taskId, bool checkOutput, CancellationToken c
 
   <h3 id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_TryGetResult_System_String_System_Threading_CancellationToken_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.TryGetResult(System.String,System.Threading.CancellationToken)">
   TryGetResult(string, CancellationToken)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/BaseClientSubmitter.cs/#L799"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/BaseClientSubmitter.cs/#L1244"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Try to find the result of One task. If there no result, the function return byte[0]</p>
@@ -864,7 +1316,7 @@ public byte[]? TryGetResult(string taskId, CancellationToken cancellationToken =
 
   <h3 id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_TryGetResultAsync_ArmoniK_Api_gRPC_V1_ResultRequest_System_Threading_CancellationToken_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.TryGetResultAsync(ArmoniK.Api.gRPC.V1.ResultRequest,System.Threading.CancellationToken)">
   TryGetResultAsync(ResultRequest, CancellationToken)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/BaseClientSubmitter.cs/#L740"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/BaseClientSubmitter.cs/#L1072"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Try to get the result if it is available</p>
@@ -872,7 +1324,8 @@ public byte[]? TryGetResult(string taskId, CancellationToken cancellationToken =
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Task&lt;byte[]?&gt; TryGetResultAsync(ResultRequest resultRequest, CancellationToken cancellationToken = default)</code></pre>
+    <pre><code class="lang-csharp hljs">[PublicAPI]
+public ValueTask&lt;byte[]?&gt; TryGetResultAsync(ResultRequest resultRequest, CancellationToken cancellationToken = default)</code></pre>
   </div>
 
   <h4 class="section">Parameters</h4>
@@ -887,7 +1340,7 @@ public byte[]? TryGetResult(string taskId, CancellationToken cancellationToken =
 
   <h4 class="section">Returns</h4>
   <dl class="parameters">
-    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">byte</a>[]&gt;</dt>
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.valuetask-1">ValueTask</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">byte</a>[]&gt;</dt>
     <dd><p>Returns the result if it is ready, null if task is not yet ready</p>
 </dd>
   </dl>
@@ -909,11 +1362,100 @@ public byte[]? TryGetResult(string taskId, CancellationToken cancellationToken =
 
 
 
+  <a id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_TryGetResultAsync_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.TryGetResultAsync*"></a>
+
+  <h3 id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_TryGetResultAsync_System_String_System_Boolean_System_Threading_CancellationToken_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.TryGetResultAsync(System.String,System.Boolean,System.Threading.CancellationToken)">
+  TryGetResultAsync(string, bool, CancellationToken)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/BaseClientSubmitter.cs/#L1117"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Try to find the result of One task. If there no result, the function return byte[0]</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[PublicAPI]
+[Obsolete(&quot;Use version without the checkOutput parameter.&quot;)]
+public ValueTask&lt;byte[]?&gt; TryGetResultAsync(string taskId, bool checkOutput, CancellationToken cancellationToken = default)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>taskId</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>The Id of the task</p>
+</dd>
+    <dt><code>checkOutput</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+    <dt><code>cancellationToken</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.cancellationtoken">CancellationToken</a></dt>
+    <dd><p>The optional cancellationToken</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.valuetask-1">ValueTask</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">byte</a>[]&gt;</dt>
+    <dd><p>Returns the result or byte[0] if there no result or null if task is not yet ready</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_TryGetResultAsync_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.TryGetResultAsync*"></a>
+
+  <h3 id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_TryGetResultAsync_System_String_System_Threading_CancellationToken_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.TryGetResultAsync(System.String,System.Threading.CancellationToken)">
+  TryGetResultAsync(string, CancellationToken)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/BaseClientSubmitter.cs/#L1151"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Try to find the result of One task. If there no result, the function return byte[0]</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[PublicAPI]
+public ValueTask&lt;byte[]?&gt; TryGetResultAsync(string taskId, CancellationToken cancellationToken = default)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>taskId</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>The Id of the task</p>
+</dd>
+    <dt><code>cancellationToken</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.cancellationtoken">CancellationToken</a></dt>
+    <dd><p>The optional cancellationToken</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.valuetask-1">ValueTask</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">byte</a>[]&gt;</dt>
+    <dd><p>Returns the result or byte[0] if there no result or null if task is not yet ready</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
   <a id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_TryGetResults_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.TryGetResults*"></a>
 
   <h3 id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_TryGetResults_System_Collections_Generic_IList_System_String__" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.TryGetResults(System.Collections.Generic.IList{System.String})">
   TryGetResults(IList&lt;string&gt;)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/BaseClientSubmitter.cs/#L887"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/BaseClientSubmitter.cs/#L1328"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Try to get result of a list of taskIds</p>
@@ -921,7 +1463,8 @@ public byte[]? TryGetResult(string taskId, CancellationToken cancellationToken =
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public IList&lt;Tuple&lt;string, byte[]&gt;&gt; TryGetResults(IList&lt;string&gt; resultIds)</code></pre>
+    <pre><code class="lang-csharp hljs">[PublicAPI]
+public IList&lt;Tuple&lt;string, byte[]&gt;&gt; TryGetResults(IList&lt;string&gt; resultIds)</code></pre>
   </div>
 
   <h4 class="section">Parameters</h4>
@@ -948,11 +1491,53 @@ public byte[]? TryGetResult(string taskId, CancellationToken cancellationToken =
 
 
 
+  <a id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_TryGetResultsAsync_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.TryGetResultsAsync*"></a>
+
+  <h3 id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_TryGetResultsAsync_System_Collections_Generic_IList_System_String__System_Threading_CancellationToken_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.TryGetResultsAsync(System.Collections.Generic.IList{System.String},System.Threading.CancellationToken)">
+  TryGetResultsAsync(IList&lt;string&gt;, CancellationToken)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/BaseClientSubmitter.cs/#L1257"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Try to get result of a list of taskIds</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[PublicAPI]
+public IAsyncEnumerable&lt;Tuple&lt;string, byte[]&gt;&gt; TryGetResultsAsync(IList&lt;string&gt; resultIds, CancellationToken cancellationToken = default)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>resultIds</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ilist-1">IList</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>&gt;</dt>
+    <dd><p>A list of result ids</p>
+</dd>
+    <dt><code>cancellationToken</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.cancellationtoken">CancellationToken</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.iasyncenumerable-1">IAsyncEnumerable</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.tuple-2">Tuple</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">byte</a>[]&gt;&gt;</dt>
+    <dd><p>Returns an Enumerable pair of</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
   <a id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_WaitForTaskCompletion_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.WaitForTaskCompletion*"></a>
 
   <h3 id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_WaitForTaskCompletion_System_String_System_Int32_System_Int32_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.WaitForTaskCompletion(System.String,System.Int32,System.Int32)">
   WaitForTaskCompletion(string, int, int)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/BaseClientSubmitter.cs/#L470"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/BaseClientSubmitter.cs/#L645"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>User method to wait for only the parent task from the client</p>
@@ -960,7 +1545,8 @@ public byte[]? TryGetResult(string taskId, CancellationToken cancellationToken =
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public void WaitForTaskCompletion(string taskId, int maxRetries = 5, int delayMs = 20000)</code></pre>
+    <pre><code class="lang-csharp hljs">[PublicAPI]
+public void WaitForTaskCompletion(string taskId, int maxRetries = 5, int delayMs = 20000)</code></pre>
   </div>
 
   <h4 class="section">Parameters</h4>
@@ -987,11 +1573,58 @@ public byte[]? TryGetResult(string taskId, CancellationToken cancellationToken =
 
 
 
+  <a id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_WaitForTaskCompletionAsync_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.WaitForTaskCompletionAsync*"></a>
+
+  <h3 id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_WaitForTaskCompletionAsync_System_String_System_Int32_System_Int32_System_Threading_CancellationToken_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.WaitForTaskCompletionAsync(System.String,System.Int32,System.Int32,System.Threading.CancellationToken)">
+  WaitForTaskCompletionAsync(string, int, int, CancellationToken)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/BaseClientSubmitter.cs/#L619"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>User method to wait for only the parent task from the client</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[PublicAPI]
+public ValueTask WaitForTaskCompletionAsync(string taskId, int maxRetries = 5, int delayMs = 20000, CancellationToken cancellationToken = default)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>taskId</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>The task taskId of the task to wait for</p>
+</dd>
+    <dt><code>maxRetries</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>Max number of retries for the underlying calls</p>
+</dd>
+    <dt><code>delayMs</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>Delay between retries</p>
+</dd>
+    <dt><code>cancellationToken</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.cancellationtoken">CancellationToken</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.valuetask">ValueTask</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
   <a id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_WaitForTasksCompletion_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.WaitForTasksCompletion*"></a>
 
   <h3 id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_WaitForTasksCompletion_System_Collections_Generic_IEnumerable_System_String__System_Int32_System_Int32_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.WaitForTasksCompletion(System.Collections.Generic.IEnumerable{System.String},System.Int32,System.Int32)">
   WaitForTasksCompletion(IEnumerable&lt;string&gt;, int, int)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/BaseClientSubmitter.cs/#L492"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/BaseClientSubmitter.cs/#L721"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>User method to wait for only the parent task from the client</p>
@@ -1026,11 +1659,57 @@ public void WaitForTasksCompletion(IEnumerable&lt;string&gt; taskIds, int maxRet
 
 
 
+  <a id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_WaitForTasksCompletionAsync_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.WaitForTasksCompletionAsync*"></a>
+
+  <h3 id="ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_WaitForTasksCompletionAsync_System_Collections_Generic_IEnumerable_System_String__System_Int32_System_Int32_System_Threading_CancellationToken_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.WaitForTasksCompletionAsync(System.Collections.Generic.IEnumerable{System.String},System.Int32,System.Int32,System.Threading.CancellationToken)">
+  WaitForTasksCompletionAsync(IEnumerable&lt;string&gt;, int, int, CancellationToken)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/BaseClientSubmitter.cs/#L663"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>User method to wait for only the parent task from the client</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[PublicAPI]
+public ValueTask WaitForTasksCompletionAsync(IEnumerable&lt;string&gt; taskIds, int maxRetries = 5, int delayMs = 20000, CancellationToken cancellationToken = default)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>taskIds</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>&gt;</dt>
+    <dd><p>List of taskIds</p>
+</dd>
+    <dt><code>maxRetries</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>Max number of retries</p>
+</dd>
+    <dt><code>delayMs</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>cancellationToken</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.cancellationtoken">CancellationToken</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.valuetask">ValueTask</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
 
 </article>
 
         <div class="contribution d-print-none">
-          <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/BaseClientSubmitter.cs/#L56" class="edit-link">Edit this page</a>
+          <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/BaseClientSubmitter.cs/#L60" class="edit-link">Edit this page</a>
         </div>
 
 

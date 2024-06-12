@@ -89,7 +89,7 @@
 
 
   <h1 id="ArmoniK_DevelopmentKit_Client_Common_Submitter_TasksClientExt" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.TasksClientExt" class="text-break">
-Class TasksClientExt  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/TasksClientExt.cs/#L26"><i class="bi bi-code-slash"></i></a>
+Class TasksClientExt  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/TasksClientExt.cs/#L28"><i class="bi bi-code-slash"></i></a>
   </h1>
 
   <div class="facts text-secondary">
@@ -156,7 +156,7 @@ Class TasksClientExt  <a class="header-action link-secondary" title="View source
 
   <h3 id="ArmoniK_DevelopmentKit_Client_Common_Submitter_TasksClientExt_ListTasks_ArmoniK_Api_gRPC_V1_Tasks_Tasks_TasksClient_ArmoniK_Api_gRPC_V1_Tasks_Filters_ArmoniK_Api_gRPC_V1_Tasks_ListTasksRequest_Types_Sort_System_Int32_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.TasksClientExt.ListTasks(ArmoniK.Api.gRPC.V1.Tasks.Tasks.TasksClient,ArmoniK.Api.gRPC.V1.Tasks.Filters,ArmoniK.Api.gRPC.V1.Tasks.ListTasksRequest.Types.Sort,System.Int32)">
   ListTasks(TasksClient, Filters, Sort, int)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/TasksClientExt.cs/#L137"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/TasksClientExt.cs/#L175"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>List tasks while handling page size</p>
@@ -199,11 +199,60 @@ Class TasksClientExt  <a class="header-action link-secondary" title="View source
 
 
 
+  <a id="ArmoniK_DevelopmentKit_Client_Common_Submitter_TasksClientExt_ListTasksAsync_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.TasksClientExt.ListTasksAsync*"></a>
+
+  <h3 id="ArmoniK_DevelopmentKit_Client_Common_Submitter_TasksClientExt_ListTasksAsync_ArmoniK_Api_gRPC_V1_Tasks_Tasks_TasksClient_ArmoniK_Api_gRPC_V1_Tasks_Filters_ArmoniK_Api_gRPC_V1_Tasks_ListTasksRequest_Types_Sort_System_Int32_System_Threading_CancellationToken_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.TasksClientExt.ListTasksAsync(ArmoniK.Api.gRPC.V1.Tasks.Tasks.TasksClient,ArmoniK.Api.gRPC.V1.Tasks.Filters,ArmoniK.Api.gRPC.V1.Tasks.ListTasksRequest.Types.Sort,System.Int32,System.Threading.CancellationToken)">
+  ListTasksAsync(TasksClient, Filters, Sort, int, CancellationToken)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/TasksClientExt.cs/#L140"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>List tasks while handling page size</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static IAsyncEnumerable&lt;TaskSummary&gt; ListTasksAsync(this Tasks.TasksClient tasksClient, Filters filters, ListTasksRequest.Types.Sort sort, int pageSize = 50, CancellationToken cancellationToken = default)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>tasksClient</code> <span class="xref">Tasks</span>.<span class="xref">TasksClient</span></dt>
+    <dd><p>the tasks client</p>
+</dd>
+    <dt><code>filters</code> <span class="xref">Filters</span></dt>
+    <dd><p>filters to apply on the tasks</p>
+</dd>
+    <dt><code>sort</code> <span class="xref">ListTasksRequest</span>.<span class="xref">Types</span>.<span class="xref">Sort</span></dt>
+    <dd><p>sorting order</p>
+</dd>
+    <dt><code>pageSize</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>page size</p>
+</dd>
+    <dt><code>cancellationToken</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.cancellationtoken">CancellationToken</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.iasyncenumerable-1">IAsyncEnumerable</a>&lt;<span class="xref">TaskSummary</span>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
   <a id="ArmoniK_DevelopmentKit_Client_Common_Submitter_TasksClientExt_TaskIdFilter_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.TasksClientExt.TaskIdFilter*"></a>
 
   <h3 id="ArmoniK_DevelopmentKit_Client_Common_Submitter_TasksClientExt_TaskIdFilter_System_String_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.TasksClientExt.TaskIdFilter(System.String)">
   TaskIdFilter(string)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/TasksClientExt.cs/#L33"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/TasksClientExt.cs/#L35"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Filter on task id</p>
@@ -241,7 +290,7 @@ Class TasksClientExt  <a class="header-action link-secondary" title="View source
 
   <h3 id="ArmoniK_DevelopmentKit_Client_Common_Submitter_TasksClientExt_TaskSessionIdFilter_System_String_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.TasksClientExt.TaskSessionIdFilter(System.String)">
   TaskSessionIdFilter(string)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/TasksClientExt.cs/#L61"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/TasksClientExt.cs/#L63"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Filter tasks on their sessionId</p>
@@ -279,7 +328,7 @@ Class TasksClientExt  <a class="header-action link-secondary" title="View source
 
   <h3 id="ArmoniK_DevelopmentKit_Client_Common_Submitter_TasksClientExt_TaskStatusFilter_ArmoniK_Api_gRPC_V1_TaskStatus_System_String_" data-uid="ArmoniK.DevelopmentKit.Client.Common.Submitter.TasksClientExt.TaskStatusFilter(ArmoniK.Api.gRPC.V1.TaskStatus,System.String)">
   TaskStatusFilter(TaskStatus, string)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/TasksClientExt.cs/#L90"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/TasksClientExt.cs/#L92"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Filter on task status ajd session id</p>
@@ -320,7 +369,7 @@ Class TasksClientExt  <a class="header-action link-secondary" title="View source
 </article>
 
         <div class="contribution d-print-none">
-          <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/TasksClientExt.cs/#L26" class="edit-link">Edit this page</a>
+          <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Common/Submitter/TasksClientExt.cs/#L28" class="edit-link">Edit this page</a>
         </div>
 
 

@@ -821,6 +821,24 @@ references:
   fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter(Of T).CreateResultsMetadata
   nameWithType: BaseClientSubmitter<T>.CreateResultsMetadata
   nameWithType.vb: BaseClientSubmitter(Of T).CreateResultsMetadata
+- uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.CreateResultsMetadataAsync(System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)
+  name: CreateResultsMetadataAsync(IEnumerable<string>, CancellationToken)
+  href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_CreateResultsMetadataAsync_System_Collections_Generic_IEnumerable_System_String__System_Threading_CancellationToken_
+  commentId: M:ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.CreateResultsMetadataAsync(System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)
+  name.vb: CreateResultsMetadataAsync(IEnumerable(Of String), CancellationToken)
+  fullName: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter<T>.CreateResultsMetadataAsync(System.Collections.Generic.IEnumerable<string>, System.Threading.CancellationToken)
+  fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter(Of T).CreateResultsMetadataAsync(System.Collections.Generic.IEnumerable(Of String), System.Threading.CancellationToken)
+  nameWithType: BaseClientSubmitter<T>.CreateResultsMetadataAsync(IEnumerable<string>, CancellationToken)
+  nameWithType.vb: BaseClientSubmitter(Of T).CreateResultsMetadataAsync(IEnumerable(Of String), CancellationToken)
+- uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.CreateResultsMetadataAsync*
+  name: CreateResultsMetadataAsync
+  href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_CreateResultsMetadataAsync_
+  commentId: Overload:ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.CreateResultsMetadataAsync
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter<T>.CreateResultsMetadataAsync
+  fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter(Of T).CreateResultsMetadataAsync
+  nameWithType: BaseClientSubmitter<T>.CreateResultsMetadataAsync
+  nameWithType.vb: BaseClientSubmitter(Of T).CreateResultsMetadataAsync
 - uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.GetResult(System.String,System.Threading.CancellationToken)
   name: GetResult(string, CancellationToken)
   href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_GetResult_System_String_System_Threading_CancellationToken_
@@ -839,6 +857,24 @@ references:
   fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter(Of T).GetResult
   nameWithType: BaseClientSubmitter<T>.GetResult
   nameWithType.vb: BaseClientSubmitter(Of T).GetResult
+- uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.GetResultAsync(System.String,System.Threading.CancellationToken)
+  name: GetResultAsync(string, CancellationToken)
+  href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_GetResultAsync_System_String_System_Threading_CancellationToken_
+  commentId: M:ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.GetResultAsync(System.String,System.Threading.CancellationToken)
+  name.vb: GetResultAsync(String, CancellationToken)
+  fullName: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter<T>.GetResultAsync(string, System.Threading.CancellationToken)
+  fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter(Of T).GetResultAsync(String, System.Threading.CancellationToken)
+  nameWithType: BaseClientSubmitter<T>.GetResultAsync(string, CancellationToken)
+  nameWithType.vb: BaseClientSubmitter(Of T).GetResultAsync(String, CancellationToken)
+- uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.GetResultAsync*
+  name: GetResultAsync
+  href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_GetResultAsync_
+  commentId: Overload:ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.GetResultAsync
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter<T>.GetResultAsync
+  fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter(Of T).GetResultAsync
+  nameWithType: BaseClientSubmitter<T>.GetResultAsync
+  nameWithType.vb: BaseClientSubmitter(Of T).GetResultAsync
 - uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.GetResultIds(System.Collections.Generic.IEnumerable{System.String})
   name: GetResultIds(IEnumerable<string>)
   href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_GetResultIds_System_Collections_Generic_IEnumerable_System_String__
@@ -857,6 +893,24 @@ references:
   fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter(Of T).GetResultIds
   nameWithType: BaseClientSubmitter<T>.GetResultIds
   nameWithType.vb: BaseClientSubmitter(Of T).GetResultIds
+- uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.GetResultIdsAsync(System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)
+  name: GetResultIdsAsync(IEnumerable<string>, CancellationToken)
+  href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_GetResultIdsAsync_System_Collections_Generic_IEnumerable_System_String__System_Threading_CancellationToken_
+  commentId: M:ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.GetResultIdsAsync(System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)
+  name.vb: GetResultIdsAsync(IEnumerable(Of String), CancellationToken)
+  fullName: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter<T>.GetResultIdsAsync(System.Collections.Generic.IEnumerable<string>, System.Threading.CancellationToken)
+  fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter(Of T).GetResultIdsAsync(System.Collections.Generic.IEnumerable(Of String), System.Threading.CancellationToken)
+  nameWithType: BaseClientSubmitter<T>.GetResultIdsAsync(IEnumerable<string>, CancellationToken)
+  nameWithType.vb: BaseClientSubmitter(Of T).GetResultIdsAsync(IEnumerable(Of String), CancellationToken)
+- uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.GetResultIdsAsync*
+  name: GetResultIdsAsync
+  href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_GetResultIdsAsync_
+  commentId: Overload:ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.GetResultIdsAsync
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter<T>.GetResultIdsAsync
+  fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter(Of T).GetResultIdsAsync
+  nameWithType: BaseClientSubmitter<T>.GetResultIdsAsync
+  nameWithType.vb: BaseClientSubmitter(Of T).GetResultIdsAsync
 - uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.GetResultStatus(System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)
   name: GetResultStatus(IEnumerable<string>, CancellationToken)
   href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_GetResultStatus_System_Collections_Generic_IEnumerable_System_String__System_Threading_CancellationToken_
@@ -875,6 +929,24 @@ references:
   fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter(Of T).GetResultStatus
   nameWithType: BaseClientSubmitter<T>.GetResultStatus
   nameWithType.vb: BaseClientSubmitter(Of T).GetResultStatus
+- uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.GetResultStatusAsync(System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)
+  name: GetResultStatusAsync(IEnumerable<string>, CancellationToken)
+  href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_GetResultStatusAsync_System_Collections_Generic_IEnumerable_System_String__System_Threading_CancellationToken_
+  commentId: M:ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.GetResultStatusAsync(System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)
+  name.vb: GetResultStatusAsync(IEnumerable(Of String), CancellationToken)
+  fullName: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter<T>.GetResultStatusAsync(System.Collections.Generic.IEnumerable<string>, System.Threading.CancellationToken)
+  fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter(Of T).GetResultStatusAsync(System.Collections.Generic.IEnumerable(Of String), System.Threading.CancellationToken)
+  nameWithType: BaseClientSubmitter<T>.GetResultStatusAsync(IEnumerable<string>, CancellationToken)
+  nameWithType.vb: BaseClientSubmitter(Of T).GetResultStatusAsync(IEnumerable(Of String), CancellationToken)
+- uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.GetResultStatusAsync*
+  name: GetResultStatusAsync
+  href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_GetResultStatusAsync_
+  commentId: Overload:ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.GetResultStatusAsync
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter<T>.GetResultStatusAsync
+  fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter(Of T).GetResultStatusAsync
+  nameWithType: BaseClientSubmitter<T>.GetResultStatusAsync
+  nameWithType.vb: BaseClientSubmitter(Of T).GetResultStatusAsync
 - uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.GetResults(System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)
   name: GetResults(IEnumerable<string>, CancellationToken)
   href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_GetResults_System_Collections_Generic_IEnumerable_System_String__System_Threading_CancellationToken_
@@ -893,6 +965,24 @@ references:
   fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter(Of T).GetResults
   nameWithType: BaseClientSubmitter<T>.GetResults
   nameWithType.vb: BaseClientSubmitter(Of T).GetResults
+- uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.GetResultsAsync(System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)
+  name: GetResultsAsync(IEnumerable<string>, CancellationToken)
+  href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_GetResultsAsync_System_Collections_Generic_IEnumerable_System_String__System_Threading_CancellationToken_
+  commentId: M:ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.GetResultsAsync(System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)
+  name.vb: GetResultsAsync(IEnumerable(Of String), CancellationToken)
+  fullName: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter<T>.GetResultsAsync(System.Collections.Generic.IEnumerable<string>, System.Threading.CancellationToken)
+  fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter(Of T).GetResultsAsync(System.Collections.Generic.IEnumerable(Of String), System.Threading.CancellationToken)
+  nameWithType: BaseClientSubmitter<T>.GetResultsAsync(IEnumerable<string>, CancellationToken)
+  nameWithType.vb: BaseClientSubmitter(Of T).GetResultsAsync(IEnumerable(Of String), CancellationToken)
+- uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.GetResultsAsync*
+  name: GetResultsAsync
+  href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_GetResultsAsync_
+  commentId: Overload:ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.GetResultsAsync
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter<T>.GetResultsAsync
+  fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter(Of T).GetResultsAsync
+  nameWithType: BaseClientSubmitter<T>.GetResultsAsync
+  nameWithType.vb: BaseClientSubmitter(Of T).GetResultsAsync
 - uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.GetTaskOutputInfo(System.String)
   name: GetTaskOutputInfo(string)
   href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_GetTaskOutputInfo_System_String_
@@ -911,6 +1001,24 @@ references:
   fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter(Of T).GetTaskOutputInfo
   nameWithType: BaseClientSubmitter<T>.GetTaskOutputInfo
   nameWithType.vb: BaseClientSubmitter(Of T).GetTaskOutputInfo
+- uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.GetTaskOutputInfoAsync(System.String,System.Threading.CancellationToken)
+  name: GetTaskOutputInfoAsync(string, CancellationToken)
+  href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_GetTaskOutputInfoAsync_System_String_System_Threading_CancellationToken_
+  commentId: M:ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.GetTaskOutputInfoAsync(System.String,System.Threading.CancellationToken)
+  name.vb: GetTaskOutputInfoAsync(String, CancellationToken)
+  fullName: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter<T>.GetTaskOutputInfoAsync(string, System.Threading.CancellationToken)
+  fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter(Of T).GetTaskOutputInfoAsync(String, System.Threading.CancellationToken)
+  nameWithType: BaseClientSubmitter<T>.GetTaskOutputInfoAsync(string, CancellationToken)
+  nameWithType.vb: BaseClientSubmitter(Of T).GetTaskOutputInfoAsync(String, CancellationToken)
+- uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.GetTaskOutputInfoAsync*
+  name: GetTaskOutputInfoAsync
+  href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_GetTaskOutputInfoAsync_
+  commentId: Overload:ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.GetTaskOutputInfoAsync
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter<T>.GetTaskOutputInfoAsync
+  fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter(Of T).GetTaskOutputInfoAsync
+  nameWithType: BaseClientSubmitter<T>.GetTaskOutputInfoAsync
+  nameWithType.vb: BaseClientSubmitter(Of T).GetTaskOutputInfoAsync
 - uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.GetTaskStatues(System.String[])
   name: GetTaskStatues(params string[])
   href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_GetTaskStatues_System_String___
@@ -929,6 +1037,24 @@ references:
   fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter(Of T).GetTaskStatues
   nameWithType: BaseClientSubmitter<T>.GetTaskStatues
   nameWithType.vb: BaseClientSubmitter(Of T).GetTaskStatues
+- uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.GetTaskStatuesAsync(System.Threading.CancellationToken,System.String[])
+  name: GetTaskStatuesAsync(CancellationToken, params string[])
+  href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_GetTaskStatuesAsync_System_Threading_CancellationToken_System_String___
+  commentId: M:ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.GetTaskStatuesAsync(System.Threading.CancellationToken,System.String[])
+  name.vb: GetTaskStatuesAsync(CancellationToken, ParamArray String())
+  fullName: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter<T>.GetTaskStatuesAsync(System.Threading.CancellationToken, params string[])
+  fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter(Of T).GetTaskStatuesAsync(System.Threading.CancellationToken, ParamArray String())
+  nameWithType: BaseClientSubmitter<T>.GetTaskStatuesAsync(CancellationToken, params string[])
+  nameWithType.vb: BaseClientSubmitter(Of T).GetTaskStatuesAsync(CancellationToken, ParamArray String())
+- uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.GetTaskStatuesAsync*
+  name: GetTaskStatuesAsync
+  href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_GetTaskStatuesAsync_
+  commentId: Overload:ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.GetTaskStatuesAsync
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter<T>.GetTaskStatuesAsync
+  fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter(Of T).GetTaskStatuesAsync
+  nameWithType: BaseClientSubmitter<T>.GetTaskStatuesAsync
+  nameWithType.vb: BaseClientSubmitter(Of T).GetTaskStatuesAsync
 - uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.GetTaskStatus(System.String)
   name: GetTaskStatus(string)
   href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_GetTaskStatus_System_String_
@@ -947,6 +1073,24 @@ references:
   fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter(Of T).GetTaskStatus
   nameWithType: BaseClientSubmitter<T>.GetTaskStatus
   nameWithType.vb: BaseClientSubmitter(Of T).GetTaskStatus
+- uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.GetTaskStatusAsync(System.String,System.Threading.CancellationToken)
+  name: GetTaskStatusAsync(string, CancellationToken)
+  href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_GetTaskStatusAsync_System_String_System_Threading_CancellationToken_
+  commentId: M:ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.GetTaskStatusAsync(System.String,System.Threading.CancellationToken)
+  name.vb: GetTaskStatusAsync(String, CancellationToken)
+  fullName: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter<T>.GetTaskStatusAsync(string, System.Threading.CancellationToken)
+  fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter(Of T).GetTaskStatusAsync(String, System.Threading.CancellationToken)
+  nameWithType: BaseClientSubmitter<T>.GetTaskStatusAsync(string, CancellationToken)
+  nameWithType.vb: BaseClientSubmitter(Of T).GetTaskStatusAsync(String, CancellationToken)
+- uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.GetTaskStatusAsync*
+  name: GetTaskStatusAsync
+  href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_GetTaskStatusAsync_
+  commentId: Overload:ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.GetTaskStatusAsync
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter<T>.GetTaskStatusAsync
+  fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter(Of T).GetTaskStatusAsync
+  nameWithType: BaseClientSubmitter<T>.GetTaskStatusAsync
+  nameWithType.vb: BaseClientSubmitter(Of T).GetTaskStatusAsync
 - uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.Logger
   name: Logger
   href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_Logger
@@ -1008,6 +1152,33 @@ references:
   fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter(Of T).SubmitTasksWithDependencies
   nameWithType: BaseClientSubmitter<T>.SubmitTasksWithDependencies
   nameWithType.vb: BaseClientSubmitter(Of T).SubmitTasksWithDependencies
+- uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.SubmitTasksWithDependenciesAsync(System.Collections.Generic.IEnumerable{System.Tuple{System.Byte[],System.Collections.Generic.IList{System.String}}},System.Int32,ArmoniK.Api.gRPC.V1.TaskOptions,System.Threading.CancellationToken)
+  name: SubmitTasksWithDependenciesAsync(IEnumerable<Tuple<byte[], IList<string>>>, int, TaskOptions?, CancellationToken)
+  href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_SubmitTasksWithDependenciesAsync_System_Collections_Generic_IEnumerable_System_Tuple_System_Byte___System_Collections_Generic_IList_System_String____System_Int32_ArmoniK_Api_gRPC_V1_TaskOptions_System_Threading_CancellationToken_
+  commentId: M:ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.SubmitTasksWithDependenciesAsync(System.Collections.Generic.IEnumerable{System.Tuple{System.Byte[],System.Collections.Generic.IList{System.String}}},System.Int32,ArmoniK.Api.gRPC.V1.TaskOptions,System.Threading.CancellationToken)
+  name.vb: SubmitTasksWithDependenciesAsync(IEnumerable(Of Tuple(Of Byte(), IList(Of String))), Integer, TaskOptions, CancellationToken)
+  fullName: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter<T>.SubmitTasksWithDependenciesAsync(System.Collections.Generic.IEnumerable<System.Tuple<byte[], System.Collections.Generic.IList<string>>>, int, ArmoniK.Api.gRPC.V1.TaskOptions?, System.Threading.CancellationToken)
+  fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter(Of T).SubmitTasksWithDependenciesAsync(System.Collections.Generic.IEnumerable(Of System.Tuple(Of Byte(), System.Collections.Generic.IList(Of String))), Integer, ArmoniK.Api.gRPC.V1.TaskOptions, System.Threading.CancellationToken)
+  nameWithType: BaseClientSubmitter<T>.SubmitTasksWithDependenciesAsync(IEnumerable<Tuple<byte[], IList<string>>>, int, TaskOptions?, CancellationToken)
+  nameWithType.vb: BaseClientSubmitter(Of T).SubmitTasksWithDependenciesAsync(IEnumerable(Of Tuple(Of Byte(), IList(Of String))), Integer, TaskOptions, CancellationToken)
+- uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.SubmitTasksWithDependenciesAsync(System.Collections.Generic.IEnumerable{System.Tuple{System.String,System.Byte[],System.Collections.Generic.IList{System.String}}},System.Int32,ArmoniK.Api.gRPC.V1.TaskOptions,System.Threading.CancellationToken)
+  name: SubmitTasksWithDependenciesAsync(IEnumerable<Tuple<string, byte[], IList<string>>>, int, TaskOptions?, CancellationToken)
+  href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_SubmitTasksWithDependenciesAsync_System_Collections_Generic_IEnumerable_System_Tuple_System_String_System_Byte___System_Collections_Generic_IList_System_String____System_Int32_ArmoniK_Api_gRPC_V1_TaskOptions_System_Threading_CancellationToken_
+  commentId: M:ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.SubmitTasksWithDependenciesAsync(System.Collections.Generic.IEnumerable{System.Tuple{System.String,System.Byte[],System.Collections.Generic.IList{System.String}}},System.Int32,ArmoniK.Api.gRPC.V1.TaskOptions,System.Threading.CancellationToken)
+  name.vb: SubmitTasksWithDependenciesAsync(IEnumerable(Of Tuple(Of String, Byte(), IList(Of String))), Integer, TaskOptions, CancellationToken)
+  fullName: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter<T>.SubmitTasksWithDependenciesAsync(System.Collections.Generic.IEnumerable<System.Tuple<string, byte[], System.Collections.Generic.IList<string>>>, int, ArmoniK.Api.gRPC.V1.TaskOptions?, System.Threading.CancellationToken)
+  fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter(Of T).SubmitTasksWithDependenciesAsync(System.Collections.Generic.IEnumerable(Of System.Tuple(Of String, Byte(), System.Collections.Generic.IList(Of String))), Integer, ArmoniK.Api.gRPC.V1.TaskOptions, System.Threading.CancellationToken)
+  nameWithType: BaseClientSubmitter<T>.SubmitTasksWithDependenciesAsync(IEnumerable<Tuple<string, byte[], IList<string>>>, int, TaskOptions?, CancellationToken)
+  nameWithType.vb: BaseClientSubmitter(Of T).SubmitTasksWithDependenciesAsync(IEnumerable(Of Tuple(Of String, Byte(), IList(Of String))), Integer, TaskOptions, CancellationToken)
+- uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.SubmitTasksWithDependenciesAsync*
+  name: SubmitTasksWithDependenciesAsync
+  href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_SubmitTasksWithDependenciesAsync_
+  commentId: Overload:ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.SubmitTasksWithDependenciesAsync
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter<T>.SubmitTasksWithDependenciesAsync
+  fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter(Of T).SubmitTasksWithDependenciesAsync
+  nameWithType: BaseClientSubmitter<T>.SubmitTasksWithDependenciesAsync
+  nameWithType.vb: BaseClientSubmitter(Of T).SubmitTasksWithDependenciesAsync
 - uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.TaskOptions
   name: TaskOptions
   href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_TaskOptions
@@ -1060,6 +1231,24 @@ references:
   fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter(Of T).TryGetResultAsync(ArmoniK.Api.gRPC.V1.ResultRequest, System.Threading.CancellationToken)
   nameWithType: BaseClientSubmitter<T>.TryGetResultAsync(ResultRequest, CancellationToken)
   nameWithType.vb: BaseClientSubmitter(Of T).TryGetResultAsync(ResultRequest, CancellationToken)
+- uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.TryGetResultAsync(System.String,System.Boolean,System.Threading.CancellationToken)
+  name: TryGetResultAsync(string, bool, CancellationToken)
+  href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_TryGetResultAsync_System_String_System_Boolean_System_Threading_CancellationToken_
+  commentId: M:ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.TryGetResultAsync(System.String,System.Boolean,System.Threading.CancellationToken)
+  name.vb: TryGetResultAsync(String, Boolean, CancellationToken)
+  fullName: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter<T>.TryGetResultAsync(string, bool, System.Threading.CancellationToken)
+  fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter(Of T).TryGetResultAsync(String, Boolean, System.Threading.CancellationToken)
+  nameWithType: BaseClientSubmitter<T>.TryGetResultAsync(string, bool, CancellationToken)
+  nameWithType.vb: BaseClientSubmitter(Of T).TryGetResultAsync(String, Boolean, CancellationToken)
+- uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.TryGetResultAsync(System.String,System.Threading.CancellationToken)
+  name: TryGetResultAsync(string, CancellationToken)
+  href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_TryGetResultAsync_System_String_System_Threading_CancellationToken_
+  commentId: M:ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.TryGetResultAsync(System.String,System.Threading.CancellationToken)
+  name.vb: TryGetResultAsync(String, CancellationToken)
+  fullName: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter<T>.TryGetResultAsync(string, System.Threading.CancellationToken)
+  fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter(Of T).TryGetResultAsync(String, System.Threading.CancellationToken)
+  nameWithType: BaseClientSubmitter<T>.TryGetResultAsync(string, CancellationToken)
+  nameWithType.vb: BaseClientSubmitter(Of T).TryGetResultAsync(String, CancellationToken)
 - uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.TryGetResultAsync*
   name: TryGetResultAsync
   href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_TryGetResultAsync_
@@ -1087,6 +1276,24 @@ references:
   fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter(Of T).TryGetResults
   nameWithType: BaseClientSubmitter<T>.TryGetResults
   nameWithType.vb: BaseClientSubmitter(Of T).TryGetResults
+- uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.TryGetResultsAsync(System.Collections.Generic.IList{System.String},System.Threading.CancellationToken)
+  name: TryGetResultsAsync(IList<string>, CancellationToken)
+  href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_TryGetResultsAsync_System_Collections_Generic_IList_System_String__System_Threading_CancellationToken_
+  commentId: M:ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.TryGetResultsAsync(System.Collections.Generic.IList{System.String},System.Threading.CancellationToken)
+  name.vb: TryGetResultsAsync(IList(Of String), CancellationToken)
+  fullName: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter<T>.TryGetResultsAsync(System.Collections.Generic.IList<string>, System.Threading.CancellationToken)
+  fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter(Of T).TryGetResultsAsync(System.Collections.Generic.IList(Of String), System.Threading.CancellationToken)
+  nameWithType: BaseClientSubmitter<T>.TryGetResultsAsync(IList<string>, CancellationToken)
+  nameWithType.vb: BaseClientSubmitter(Of T).TryGetResultsAsync(IList(Of String), CancellationToken)
+- uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.TryGetResultsAsync*
+  name: TryGetResultsAsync
+  href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_TryGetResultsAsync_
+  commentId: Overload:ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.TryGetResultsAsync
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter<T>.TryGetResultsAsync
+  fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter(Of T).TryGetResultsAsync
+  nameWithType: BaseClientSubmitter<T>.TryGetResultsAsync
+  nameWithType.vb: BaseClientSubmitter(Of T).TryGetResultsAsync
 - uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.WaitForTaskCompletion(System.String,System.Int32,System.Int32)
   name: WaitForTaskCompletion(string, int, int)
   href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_WaitForTaskCompletion_System_String_System_Int32_System_Int32_
@@ -1105,6 +1312,24 @@ references:
   fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter(Of T).WaitForTaskCompletion
   nameWithType: BaseClientSubmitter<T>.WaitForTaskCompletion
   nameWithType.vb: BaseClientSubmitter(Of T).WaitForTaskCompletion
+- uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.WaitForTaskCompletionAsync(System.String,System.Int32,System.Int32,System.Threading.CancellationToken)
+  name: WaitForTaskCompletionAsync(string, int, int, CancellationToken)
+  href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_WaitForTaskCompletionAsync_System_String_System_Int32_System_Int32_System_Threading_CancellationToken_
+  commentId: M:ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.WaitForTaskCompletionAsync(System.String,System.Int32,System.Int32,System.Threading.CancellationToken)
+  name.vb: WaitForTaskCompletionAsync(String, Integer, Integer, CancellationToken)
+  fullName: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter<T>.WaitForTaskCompletionAsync(string, int, int, System.Threading.CancellationToken)
+  fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter(Of T).WaitForTaskCompletionAsync(String, Integer, Integer, System.Threading.CancellationToken)
+  nameWithType: BaseClientSubmitter<T>.WaitForTaskCompletionAsync(string, int, int, CancellationToken)
+  nameWithType.vb: BaseClientSubmitter(Of T).WaitForTaskCompletionAsync(String, Integer, Integer, CancellationToken)
+- uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.WaitForTaskCompletionAsync*
+  name: WaitForTaskCompletionAsync
+  href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_WaitForTaskCompletionAsync_
+  commentId: Overload:ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.WaitForTaskCompletionAsync
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter<T>.WaitForTaskCompletionAsync
+  fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter(Of T).WaitForTaskCompletionAsync
+  nameWithType: BaseClientSubmitter<T>.WaitForTaskCompletionAsync
+  nameWithType.vb: BaseClientSubmitter(Of T).WaitForTaskCompletionAsync
 - uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.WaitForTasksCompletion(System.Collections.Generic.IEnumerable{System.String},System.Int32,System.Int32)
   name: WaitForTasksCompletion(IEnumerable<string>, int, int)
   href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_WaitForTasksCompletion_System_Collections_Generic_IEnumerable_System_String__System_Int32_System_Int32_
@@ -1123,117 +1348,24 @@ references:
   fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter(Of T).WaitForTasksCompletion
   nameWithType: BaseClientSubmitter<T>.WaitForTasksCompletion
   nameWithType.vb: BaseClientSubmitter(Of T).WaitForTasksCompletion
-- uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool
-  name: ChannelPool
-  href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.html
-  commentId: T:ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool
-  fullName: ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool
-  nameWithType: ChannelPool
-- uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.#ctor(System.Func{Grpc.Net.Client.GrpcChannel},Microsoft.Extensions.Logging.ILoggerFactory)
-  name: ChannelPool(Func<GrpcChannel>, ILoggerFactory?)
-  href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_ChannelPool__ctor_System_Func_Grpc_Net_Client_GrpcChannel__Microsoft_Extensions_Logging_ILoggerFactory_
-  commentId: M:ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.#ctor(System.Func{Grpc.Net.Client.GrpcChannel},Microsoft.Extensions.Logging.ILoggerFactory)
-  name.vb: New(Func(Of GrpcChannel), ILoggerFactory)
-  fullName: ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.ChannelPool(System.Func<Grpc.Net.Client.GrpcChannel>, Microsoft.Extensions.Logging.ILoggerFactory?)
-  fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.New(System.Func(Of Grpc.Net.Client.GrpcChannel), Microsoft.Extensions.Logging.ILoggerFactory)
-  nameWithType: ChannelPool.ChannelPool(Func<GrpcChannel>, ILoggerFactory?)
-  nameWithType.vb: ChannelPool.New(Func(Of GrpcChannel), ILoggerFactory)
-- uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.#ctor*
-  name: ChannelPool
-  href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_ChannelPool__ctor_
-  commentId: Overload:ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.#ctor
+- uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.WaitForTasksCompletionAsync(System.Collections.Generic.IEnumerable{System.String},System.Int32,System.Int32,System.Threading.CancellationToken)
+  name: WaitForTasksCompletionAsync(IEnumerable<string>, int, int, CancellationToken)
+  href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_WaitForTasksCompletionAsync_System_Collections_Generic_IEnumerable_System_String__System_Int32_System_Int32_System_Threading_CancellationToken_
+  commentId: M:ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.WaitForTasksCompletionAsync(System.Collections.Generic.IEnumerable{System.String},System.Int32,System.Int32,System.Threading.CancellationToken)
+  name.vb: WaitForTasksCompletionAsync(IEnumerable(Of String), Integer, Integer, CancellationToken)
+  fullName: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter<T>.WaitForTasksCompletionAsync(System.Collections.Generic.IEnumerable<string>, int, int, System.Threading.CancellationToken)
+  fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter(Of T).WaitForTasksCompletionAsync(System.Collections.Generic.IEnumerable(Of String), Integer, Integer, System.Threading.CancellationToken)
+  nameWithType: BaseClientSubmitter<T>.WaitForTasksCompletionAsync(IEnumerable<string>, int, int, CancellationToken)
+  nameWithType.vb: BaseClientSubmitter(Of T).WaitForTasksCompletionAsync(IEnumerable(Of String), Integer, Integer, CancellationToken)
+- uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.WaitForTasksCompletionAsync*
+  name: WaitForTasksCompletionAsync
+  href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_WaitForTasksCompletionAsync_
+  commentId: Overload:ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.WaitForTasksCompletionAsync
   isSpec: "True"
-  name.vb: New
-  fullName: ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.ChannelPool
-  fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.New
-  nameWithType: ChannelPool.ChannelPool
-  nameWithType.vb: ChannelPool.New
-- uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.ChannelGuard
-  name: ChannelPool.ChannelGuard
-  href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.ChannelGuard.html
-  commentId: T:ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.ChannelGuard
-  fullName: ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.ChannelGuard
-  nameWithType: ChannelPool.ChannelGuard
-- uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.ChannelGuard.#ctor(ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool)
-  name: ChannelGuard(ChannelPool)
-  href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.ChannelGuard.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_ChannelPool_ChannelGuard__ctor_ArmoniK_DevelopmentKit_Client_Common_Submitter_ChannelPool_
-  commentId: M:ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.ChannelGuard.#ctor(ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool)
-  name.vb: New(ChannelPool)
-  fullName: ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.ChannelGuard.ChannelGuard(ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool)
-  fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.ChannelGuard.New(ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool)
-  nameWithType: ChannelPool.ChannelGuard.ChannelGuard(ChannelPool)
-  nameWithType.vb: ChannelPool.ChannelGuard.New(ChannelPool)
-- uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.ChannelGuard.#ctor*
-  name: ChannelGuard
-  href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.ChannelGuard.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_ChannelPool_ChannelGuard__ctor_
-  commentId: Overload:ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.ChannelGuard.#ctor
-  isSpec: "True"
-  name.vb: New
-  fullName: ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.ChannelGuard.ChannelGuard
-  fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.ChannelGuard.New
-  nameWithType: ChannelPool.ChannelGuard.ChannelGuard
-  nameWithType.vb: ChannelPool.ChannelGuard.New
-- uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.ChannelGuard.Dispose
-  name: Dispose()
-  href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.ChannelGuard.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_ChannelPool_ChannelGuard_Dispose
-  commentId: M:ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.ChannelGuard.Dispose
-  fullName: ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.ChannelGuard.Dispose()
-  nameWithType: ChannelPool.ChannelGuard.Dispose()
-- uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.ChannelGuard.Dispose*
-  name: Dispose
-  href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.ChannelGuard.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_ChannelPool_ChannelGuard_Dispose_
-  commentId: Overload:ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.ChannelGuard.Dispose
-  isSpec: "True"
-  fullName: ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.ChannelGuard.Dispose
-  nameWithType: ChannelPool.ChannelGuard.Dispose
-- uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.ChannelGuard.op_Implicit(ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.ChannelGuard)~Grpc.Net.Client.GrpcChannel
-  name: implicit operator GrpcChannel(ChannelGuard)
-  href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.ChannelGuard.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_ChannelPool_ChannelGuard_op_Implicit_ArmoniK_DevelopmentKit_Client_Common_Submitter_ChannelPool_ChannelGuard__Grpc_Net_Client_GrpcChannel
-  commentId: M:ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.ChannelGuard.op_Implicit(ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.ChannelGuard)~Grpc.Net.Client.GrpcChannel
-  name.vb: CType(ChannelGuard)
-  fullName: ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.ChannelGuard.implicit operator Grpc.Net.Client.GrpcChannel(ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.ChannelGuard)
-  fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.ChannelGuard.CType(ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.ChannelGuard)
-  nameWithType: ChannelPool.ChannelGuard.implicit operator GrpcChannel(ChannelPool.ChannelGuard)
-  nameWithType.vb: ChannelPool.ChannelGuard.CType(ChannelPool.ChannelGuard)
-- uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.ChannelGuard.op_Implicit*
-  name: implicit operator
-  href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.ChannelGuard.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_ChannelPool_ChannelGuard_op_Implicit_
-  commentId: Overload:ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.ChannelGuard.op_Implicit
-  isSpec: "True"
-  name.vb: CType
-  fullName: ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.ChannelGuard.implicit operator
-  fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.ChannelGuard.CType
-  nameWithType: ChannelPool.ChannelGuard.implicit operator
-  nameWithType.vb: ChannelPool.ChannelGuard.CType
-- uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.GetChannel
-  name: GetChannel()
-  href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_ChannelPool_GetChannel
-  commentId: M:ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.GetChannel
-  fullName: ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.GetChannel()
-  nameWithType: ChannelPool.GetChannel()
-- uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.GetChannel*
-  name: GetChannel
-  href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_ChannelPool_GetChannel_
-  commentId: Overload:ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.GetChannel
-  isSpec: "True"
-  fullName: ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.GetChannel
-  nameWithType: ChannelPool.GetChannel
-- uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.WithChannel*
-  name: WithChannel
-  href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_ChannelPool_WithChannel_
-  commentId: Overload:ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.WithChannel
-  isSpec: "True"
-  fullName: ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.WithChannel
-  nameWithType: ChannelPool.WithChannel
-- uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.WithChannel``1(System.Func{Grpc.Net.Client.GrpcChannel,``0})
-  name: WithChannel<T>(Func<GrpcChannel, T>)
-  href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_ChannelPool_WithChannel__1_System_Func_Grpc_Net_Client_GrpcChannel___0__
-  commentId: M:ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.WithChannel``1(System.Func{Grpc.Net.Client.GrpcChannel,``0})
-  name.vb: WithChannel(Of T)(Func(Of GrpcChannel, T))
-  fullName: ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.WithChannel<T>(System.Func<Grpc.Net.Client.GrpcChannel, T>)
-  fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool.WithChannel(Of T)(System.Func(Of Grpc.Net.Client.GrpcChannel, T))
-  nameWithType: ChannelPool.WithChannel<T>(Func<GrpcChannel, T>)
-  nameWithType.vb: ChannelPool.WithChannel(Of T)(Func(Of GrpcChannel, T))
+  fullName: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter<T>.WaitForTasksCompletionAsync
+  fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter(Of T).WaitForTasksCompletionAsync
+  nameWithType: BaseClientSubmitter<T>.WaitForTasksCompletionAsync
+  nameWithType.vb: BaseClientSubmitter(Of T).WaitForTasksCompletionAsync
 - uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.ClientServiceConnector
   name: ClientServiceConnector
   href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.ClientServiceConnector.html
@@ -1429,6 +1561,22 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.Client.Common.Submitter.TasksClientExt.ListTasks
   nameWithType: TasksClientExt.ListTasks
+- uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.TasksClientExt.ListTasksAsync(ArmoniK.Api.gRPC.V1.Tasks.Tasks.TasksClient,ArmoniK.Api.gRPC.V1.Tasks.Filters,ArmoniK.Api.gRPC.V1.Tasks.ListTasksRequest.Types.Sort,System.Int32,System.Threading.CancellationToken)
+  name: ListTasksAsync(TasksClient, Filters, Sort, int, CancellationToken)
+  href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.TasksClientExt.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_TasksClientExt_ListTasksAsync_ArmoniK_Api_gRPC_V1_Tasks_Tasks_TasksClient_ArmoniK_Api_gRPC_V1_Tasks_Filters_ArmoniK_Api_gRPC_V1_Tasks_ListTasksRequest_Types_Sort_System_Int32_System_Threading_CancellationToken_
+  commentId: M:ArmoniK.DevelopmentKit.Client.Common.Submitter.TasksClientExt.ListTasksAsync(ArmoniK.Api.gRPC.V1.Tasks.Tasks.TasksClient,ArmoniK.Api.gRPC.V1.Tasks.Filters,ArmoniK.Api.gRPC.V1.Tasks.ListTasksRequest.Types.Sort,System.Int32,System.Threading.CancellationToken)
+  name.vb: ListTasksAsync(TasksClient, Filters, Sort, Integer, CancellationToken)
+  fullName: ArmoniK.DevelopmentKit.Client.Common.Submitter.TasksClientExt.ListTasksAsync(ArmoniK.Api.gRPC.V1.Tasks.Tasks.TasksClient, ArmoniK.Api.gRPC.V1.Tasks.Filters, ArmoniK.Api.gRPC.V1.Tasks.ListTasksRequest.Types.Sort, int, System.Threading.CancellationToken)
+  fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Submitter.TasksClientExt.ListTasksAsync(ArmoniK.Api.gRPC.V1.Tasks.Tasks.TasksClient, ArmoniK.Api.gRPC.V1.Tasks.Filters, ArmoniK.Api.gRPC.V1.Tasks.ListTasksRequest.Types.Sort, Integer, System.Threading.CancellationToken)
+  nameWithType: TasksClientExt.ListTasksAsync(Tasks.TasksClient, Filters, ListTasksRequest.Types.Sort, int, CancellationToken)
+  nameWithType.vb: TasksClientExt.ListTasksAsync(Tasks.TasksClient, Filters, ListTasksRequest.Types.Sort, Integer, CancellationToken)
+- uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.TasksClientExt.ListTasksAsync*
+  name: ListTasksAsync
+  href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.TasksClientExt.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_TasksClientExt_ListTasksAsync_
+  commentId: Overload:ArmoniK.DevelopmentKit.Client.Common.Submitter.TasksClientExt.ListTasksAsync
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Client.Common.Submitter.TasksClientExt.ListTasksAsync
+  nameWithType: TasksClientExt.ListTasksAsync
 - uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.TasksClientExt.TaskIdFilter(System.String)
   name: TaskIdFilter(string)
   href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.TasksClientExt.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_TasksClientExt_TaskIdFilter_System_String_
@@ -1607,6 +1755,22 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.Client.Symphony.SessionService.SubmitTask
   nameWithType: SessionService.SubmitTask
+- uid: ArmoniK.DevelopmentKit.Client.Symphony.SessionService.SubmitTaskAsync(System.Byte[],System.Int32,ArmoniK.Api.gRPC.V1.TaskOptions,System.Threading.CancellationToken)
+  name: SubmitTaskAsync(byte[], int, TaskOptions?, CancellationToken)
+  href: api/ArmoniK.DevelopmentKit.Client.Symphony.SessionService.html#ArmoniK_DevelopmentKit_Client_Symphony_SessionService_SubmitTaskAsync_System_Byte___System_Int32_ArmoniK_Api_gRPC_V1_TaskOptions_System_Threading_CancellationToken_
+  commentId: M:ArmoniK.DevelopmentKit.Client.Symphony.SessionService.SubmitTaskAsync(System.Byte[],System.Int32,ArmoniK.Api.gRPC.V1.TaskOptions,System.Threading.CancellationToken)
+  name.vb: SubmitTaskAsync(Byte(), Integer, TaskOptions, CancellationToken)
+  fullName: ArmoniK.DevelopmentKit.Client.Symphony.SessionService.SubmitTaskAsync(byte[], int, ArmoniK.Api.gRPC.V1.TaskOptions?, System.Threading.CancellationToken)
+  fullName.vb: ArmoniK.DevelopmentKit.Client.Symphony.SessionService.SubmitTaskAsync(Byte(), Integer, ArmoniK.Api.gRPC.V1.TaskOptions, System.Threading.CancellationToken)
+  nameWithType: SessionService.SubmitTaskAsync(byte[], int, TaskOptions?, CancellationToken)
+  nameWithType.vb: SessionService.SubmitTaskAsync(Byte(), Integer, TaskOptions, CancellationToken)
+- uid: ArmoniK.DevelopmentKit.Client.Symphony.SessionService.SubmitTaskAsync*
+  name: SubmitTaskAsync
+  href: api/ArmoniK.DevelopmentKit.Client.Symphony.SessionService.html#ArmoniK_DevelopmentKit_Client_Symphony_SessionService_SubmitTaskAsync_
+  commentId: Overload:ArmoniK.DevelopmentKit.Client.Symphony.SessionService.SubmitTaskAsync
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Client.Symphony.SessionService.SubmitTaskAsync
+  nameWithType: SessionService.SubmitTaskAsync
 - uid: ArmoniK.DevelopmentKit.Client.Symphony.SessionService.SubmitTaskWithDependencies(System.Byte[],System.Collections.Generic.IList{System.String},System.Int32,ArmoniK.Api.gRPC.V1.TaskOptions)
   name: SubmitTaskWithDependencies(byte[], IList<string>, int, TaskOptions?)
   href: api/ArmoniK.DevelopmentKit.Client.Symphony.SessionService.html#ArmoniK_DevelopmentKit_Client_Symphony_SessionService_SubmitTaskWithDependencies_System_Byte___System_Collections_Generic_IList_System_String__System_Int32_ArmoniK_Api_gRPC_V1_TaskOptions_
@@ -1623,6 +1787,22 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.Client.Symphony.SessionService.SubmitTaskWithDependencies
   nameWithType: SessionService.SubmitTaskWithDependencies
+- uid: ArmoniK.DevelopmentKit.Client.Symphony.SessionService.SubmitTaskWithDependenciesAsync(System.Byte[],System.Collections.Generic.IList{System.String},System.Int32,ArmoniK.Api.gRPC.V1.TaskOptions,System.Threading.CancellationToken)
+  name: SubmitTaskWithDependenciesAsync(byte[], IList<string>, int, TaskOptions?, CancellationToken)
+  href: api/ArmoniK.DevelopmentKit.Client.Symphony.SessionService.html#ArmoniK_DevelopmentKit_Client_Symphony_SessionService_SubmitTaskWithDependenciesAsync_System_Byte___System_Collections_Generic_IList_System_String__System_Int32_ArmoniK_Api_gRPC_V1_TaskOptions_System_Threading_CancellationToken_
+  commentId: M:ArmoniK.DevelopmentKit.Client.Symphony.SessionService.SubmitTaskWithDependenciesAsync(System.Byte[],System.Collections.Generic.IList{System.String},System.Int32,ArmoniK.Api.gRPC.V1.TaskOptions,System.Threading.CancellationToken)
+  name.vb: SubmitTaskWithDependenciesAsync(Byte(), IList(Of String), Integer, TaskOptions, CancellationToken)
+  fullName: ArmoniK.DevelopmentKit.Client.Symphony.SessionService.SubmitTaskWithDependenciesAsync(byte[], System.Collections.Generic.IList<string>, int, ArmoniK.Api.gRPC.V1.TaskOptions?, System.Threading.CancellationToken)
+  fullName.vb: ArmoniK.DevelopmentKit.Client.Symphony.SessionService.SubmitTaskWithDependenciesAsync(Byte(), System.Collections.Generic.IList(Of String), Integer, ArmoniK.Api.gRPC.V1.TaskOptions, System.Threading.CancellationToken)
+  nameWithType: SessionService.SubmitTaskWithDependenciesAsync(byte[], IList<string>, int, TaskOptions?, CancellationToken)
+  nameWithType.vb: SessionService.SubmitTaskWithDependenciesAsync(Byte(), IList(Of String), Integer, TaskOptions, CancellationToken)
+- uid: ArmoniK.DevelopmentKit.Client.Symphony.SessionService.SubmitTaskWithDependenciesAsync*
+  name: SubmitTaskWithDependenciesAsync
+  href: api/ArmoniK.DevelopmentKit.Client.Symphony.SessionService.html#ArmoniK_DevelopmentKit_Client_Symphony_SessionService_SubmitTaskWithDependenciesAsync_
+  commentId: Overload:ArmoniK.DevelopmentKit.Client.Symphony.SessionService.SubmitTaskWithDependenciesAsync
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Client.Symphony.SessionService.SubmitTaskWithDependenciesAsync
+  nameWithType: SessionService.SubmitTaskWithDependenciesAsync
 - uid: ArmoniK.DevelopmentKit.Client.Symphony.SessionService.SubmitTasks(System.Collections.Generic.IEnumerable{System.Byte[]},System.Int32,ArmoniK.Api.gRPC.V1.TaskOptions)
   name: SubmitTasks(IEnumerable<byte[]>, int, TaskOptions?)
   href: api/ArmoniK.DevelopmentKit.Client.Symphony.SessionService.html#ArmoniK_DevelopmentKit_Client_Symphony_SessionService_SubmitTasks_System_Collections_Generic_IEnumerable_System_Byte____System_Int32_ArmoniK_Api_gRPC_V1_TaskOptions_
@@ -1639,6 +1819,22 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.Client.Symphony.SessionService.SubmitTasks
   nameWithType: SessionService.SubmitTasks
+- uid: ArmoniK.DevelopmentKit.Client.Symphony.SessionService.SubmitTasksAsync(System.Collections.Generic.IEnumerable{System.Byte[]},System.Int32,ArmoniK.Api.gRPC.V1.TaskOptions,System.Threading.CancellationToken)
+  name: SubmitTasksAsync(IEnumerable<byte[]>, int, TaskOptions?, CancellationToken)
+  href: api/ArmoniK.DevelopmentKit.Client.Symphony.SessionService.html#ArmoniK_DevelopmentKit_Client_Symphony_SessionService_SubmitTasksAsync_System_Collections_Generic_IEnumerable_System_Byte____System_Int32_ArmoniK_Api_gRPC_V1_TaskOptions_System_Threading_CancellationToken_
+  commentId: M:ArmoniK.DevelopmentKit.Client.Symphony.SessionService.SubmitTasksAsync(System.Collections.Generic.IEnumerable{System.Byte[]},System.Int32,ArmoniK.Api.gRPC.V1.TaskOptions,System.Threading.CancellationToken)
+  name.vb: SubmitTasksAsync(IEnumerable(Of Byte()), Integer, TaskOptions, CancellationToken)
+  fullName: ArmoniK.DevelopmentKit.Client.Symphony.SessionService.SubmitTasksAsync(System.Collections.Generic.IEnumerable<byte[]>, int, ArmoniK.Api.gRPC.V1.TaskOptions?, System.Threading.CancellationToken)
+  fullName.vb: ArmoniK.DevelopmentKit.Client.Symphony.SessionService.SubmitTasksAsync(System.Collections.Generic.IEnumerable(Of Byte()), Integer, ArmoniK.Api.gRPC.V1.TaskOptions, System.Threading.CancellationToken)
+  nameWithType: SessionService.SubmitTasksAsync(IEnumerable<byte[]>, int, TaskOptions?, CancellationToken)
+  nameWithType.vb: SessionService.SubmitTasksAsync(IEnumerable(Of Byte()), Integer, TaskOptions, CancellationToken)
+- uid: ArmoniK.DevelopmentKit.Client.Symphony.SessionService.SubmitTasksAsync*
+  name: SubmitTasksAsync
+  href: api/ArmoniK.DevelopmentKit.Client.Symphony.SessionService.html#ArmoniK_DevelopmentKit_Client_Symphony_SessionService_SubmitTasksAsync_
+  commentId: Overload:ArmoniK.DevelopmentKit.Client.Symphony.SessionService.SubmitTasksAsync
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Client.Symphony.SessionService.SubmitTasksAsync
+  nameWithType: SessionService.SubmitTasksAsync
 - uid: ArmoniK.DevelopmentKit.Client.Symphony.SessionService.ToString
   name: ToString()
   href: api/ArmoniK.DevelopmentKit.Client.Symphony.SessionService.html#ArmoniK_DevelopmentKit_Client_Symphony_SessionService_ToString
@@ -1901,15 +2097,15 @@ references:
   commentId: T:ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService
   fullName: ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService
   nameWithType: AdminMonitoringService
-- uid: ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.#ctor(ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool,Microsoft.Extensions.Logging.ILoggerFactory)
-  name: AdminMonitoringService(ChannelPool, ILoggerFactory?)
-  href: api/ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.html#ArmoniK_DevelopmentKit_Client_Unified_Services_Admin_AdminMonitoringService__ctor_ArmoniK_DevelopmentKit_Client_Common_Submitter_ChannelPool_Microsoft_Extensions_Logging_ILoggerFactory_
-  commentId: M:ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.#ctor(ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool,Microsoft.Extensions.Logging.ILoggerFactory)
-  name.vb: New(ChannelPool, ILoggerFactory)
-  fullName: ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.AdminMonitoringService(ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool, Microsoft.Extensions.Logging.ILoggerFactory?)
-  fullName.vb: ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.New(ArmoniK.DevelopmentKit.Client.Common.Submitter.ChannelPool, Microsoft.Extensions.Logging.ILoggerFactory)
-  nameWithType: AdminMonitoringService.AdminMonitoringService(ChannelPool, ILoggerFactory?)
-  nameWithType.vb: AdminMonitoringService.New(ChannelPool, ILoggerFactory)
+- uid: ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.#ctor(ArmoniK.Utils.ObjectPool{Grpc.Net.Client.GrpcChannel},Microsoft.Extensions.Logging.ILoggerFactory)
+  name: AdminMonitoringService(ObjectPool<GrpcChannel>, ILoggerFactory?)
+  href: api/ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.html#ArmoniK_DevelopmentKit_Client_Unified_Services_Admin_AdminMonitoringService__ctor_ArmoniK_Utils_ObjectPool_Grpc_Net_Client_GrpcChannel__Microsoft_Extensions_Logging_ILoggerFactory_
+  commentId: M:ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.#ctor(ArmoniK.Utils.ObjectPool{Grpc.Net.Client.GrpcChannel},Microsoft.Extensions.Logging.ILoggerFactory)
+  name.vb: New(ObjectPool(Of GrpcChannel), ILoggerFactory)
+  fullName: ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.AdminMonitoringService(ArmoniK.Utils.ObjectPool<Grpc.Net.Client.GrpcChannel>, Microsoft.Extensions.Logging.ILoggerFactory?)
+  fullName.vb: ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.New(ArmoniK.Utils.ObjectPool(Of Grpc.Net.Client.GrpcChannel), Microsoft.Extensions.Logging.ILoggerFactory)
+  nameWithType: AdminMonitoringService.AdminMonitoringService(ObjectPool<GrpcChannel>, ILoggerFactory?)
+  nameWithType.vb: AdminMonitoringService.New(ObjectPool(Of GrpcChannel), ILoggerFactory)
 - uid: ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.#ctor*
   name: AdminMonitoringService
   href: api/ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.html#ArmoniK_DevelopmentKit_Client_Unified_Services_Admin_AdminMonitoringService__ctor_
@@ -1936,6 +2132,22 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.CancelSession
   nameWithType: AdminMonitoringService.CancelSession
+- uid: ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.CancelSessionAsync(System.String,System.Threading.CancellationToken)
+  name: CancelSessionAsync(string, CancellationToken)
+  href: api/ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.html#ArmoniK_DevelopmentKit_Client_Unified_Services_Admin_AdminMonitoringService_CancelSessionAsync_System_String_System_Threading_CancellationToken_
+  commentId: M:ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.CancelSessionAsync(System.String,System.Threading.CancellationToken)
+  name.vb: CancelSessionAsync(String, CancellationToken)
+  fullName: ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.CancelSessionAsync(string, System.Threading.CancellationToken)
+  fullName.vb: ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.CancelSessionAsync(String, System.Threading.CancellationToken)
+  nameWithType: AdminMonitoringService.CancelSessionAsync(string, CancellationToken)
+  nameWithType.vb: AdminMonitoringService.CancelSessionAsync(String, CancellationToken)
+- uid: ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.CancelSessionAsync*
+  name: CancelSessionAsync
+  href: api/ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.html#ArmoniK_DevelopmentKit_Client_Unified_Services_Admin_AdminMonitoringService_CancelSessionAsync_
+  commentId: Overload:ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.CancelSessionAsync
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.CancelSessionAsync
+  nameWithType: AdminMonitoringService.CancelSessionAsync
 - uid: ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.CancelTasksBySession(System.Collections.Generic.IEnumerable{System.String})
   name: CancelTasksBySession(IEnumerable<string>)
   href: api/ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.html#ArmoniK_DevelopmentKit_Client_Unified_Services_Admin_AdminMonitoringService_CancelTasksBySession_System_Collections_Generic_IEnumerable_System_String__
@@ -1952,6 +2164,22 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.CancelTasksBySession
   nameWithType: AdminMonitoringService.CancelTasksBySession
+- uid: ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.CancelTasksBySessionAsync(System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)
+  name: CancelTasksBySessionAsync(IEnumerable<string>, CancellationToken)
+  href: api/ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.html#ArmoniK_DevelopmentKit_Client_Unified_Services_Admin_AdminMonitoringService_CancelTasksBySessionAsync_System_Collections_Generic_IEnumerable_System_String__System_Threading_CancellationToken_
+  commentId: M:ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.CancelTasksBySessionAsync(System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)
+  name.vb: CancelTasksBySessionAsync(IEnumerable(Of String), CancellationToken)
+  fullName: ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.CancelTasksBySessionAsync(System.Collections.Generic.IEnumerable<string>, System.Threading.CancellationToken)
+  fullName.vb: ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.CancelTasksBySessionAsync(System.Collections.Generic.IEnumerable(Of String), System.Threading.CancellationToken)
+  nameWithType: AdminMonitoringService.CancelTasksBySessionAsync(IEnumerable<string>, CancellationToken)
+  nameWithType.vb: AdminMonitoringService.CancelTasksBySessionAsync(IEnumerable(Of String), CancellationToken)
+- uid: ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.CancelTasksBySessionAsync*
+  name: CancelTasksBySessionAsync
+  href: api/ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.html#ArmoniK_DevelopmentKit_Client_Unified_Services_Admin_AdminMonitoringService_CancelTasksBySessionAsync_
+  commentId: Overload:ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.CancelTasksBySessionAsync
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.CancelTasksBySessionAsync
+  nameWithType: AdminMonitoringService.CancelTasksBySessionAsync
 - uid: ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.CountAllTasksBySession(System.String)
   name: CountAllTasksBySession(string)
   href: api/ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.html#ArmoniK_DevelopmentKit_Client_Unified_Services_Admin_AdminMonitoringService_CountAllTasksBySession_System_String_
@@ -2077,6 +2305,22 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.GetTaskStatus
   nameWithType: AdminMonitoringService.GetTaskStatus
+- uid: ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.GetTaskStatusAsync(System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)
+  name: GetTaskStatusAsync(IEnumerable<string>, CancellationToken)
+  href: api/ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.html#ArmoniK_DevelopmentKit_Client_Unified_Services_Admin_AdminMonitoringService_GetTaskStatusAsync_System_Collections_Generic_IEnumerable_System_String__System_Threading_CancellationToken_
+  commentId: M:ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.GetTaskStatusAsync(System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)
+  name.vb: GetTaskStatusAsync(IEnumerable(Of String), CancellationToken)
+  fullName: ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.GetTaskStatusAsync(System.Collections.Generic.IEnumerable<string>, System.Threading.CancellationToken)
+  fullName.vb: ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.GetTaskStatusAsync(System.Collections.Generic.IEnumerable(Of String), System.Threading.CancellationToken)
+  nameWithType: AdminMonitoringService.GetTaskStatusAsync(IEnumerable<string>, CancellationToken)
+  nameWithType.vb: AdminMonitoringService.GetTaskStatusAsync(IEnumerable(Of String), CancellationToken)
+- uid: ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.GetTaskStatusAsync*
+  name: GetTaskStatusAsync
+  href: api/ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.html#ArmoniK_DevelopmentKit_Client_Unified_Services_Admin_AdminMonitoringService_GetTaskStatusAsync_
+  commentId: Overload:ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.GetTaskStatusAsync
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.GetTaskStatusAsync
+  nameWithType: AdminMonitoringService.GetTaskStatusAsync
 - uid: ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.ListAllSessions
   name: ListAllSessions()
   href: api/ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.html#ArmoniK_DevelopmentKit_Client_Unified_Services_Admin_AdminMonitoringService_ListAllSessions
@@ -2090,6 +2334,19 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.ListAllSessions
   nameWithType: AdminMonitoringService.ListAllSessions
+- uid: ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.ListAllSessionsAsync(System.Threading.CancellationToken)
+  name: ListAllSessionsAsync(CancellationToken)
+  href: api/ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.html#ArmoniK_DevelopmentKit_Client_Unified_Services_Admin_AdminMonitoringService_ListAllSessionsAsync_System_Threading_CancellationToken_
+  commentId: M:ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.ListAllSessionsAsync(System.Threading.CancellationToken)
+  fullName: ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.ListAllSessionsAsync(System.Threading.CancellationToken)
+  nameWithType: AdminMonitoringService.ListAllSessionsAsync(CancellationToken)
+- uid: ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.ListAllSessionsAsync*
+  name: ListAllSessionsAsync
+  href: api/ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.html#ArmoniK_DevelopmentKit_Client_Unified_Services_Admin_AdminMonitoringService_ListAllSessionsAsync_
+  commentId: Overload:ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.ListAllSessionsAsync
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.ListAllSessionsAsync
+  nameWithType: AdminMonitoringService.ListAllSessionsAsync
 - uid: ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.ListAllTasksBySession(System.String)
   name: ListAllTasksBySession(string)
   href: api/ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.html#ArmoniK_DevelopmentKit_Client_Unified_Services_Admin_AdminMonitoringService_ListAllTasksBySession_System_String_
@@ -2119,6 +2376,19 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.ListCancelledSessions
   nameWithType: AdminMonitoringService.ListCancelledSessions
+- uid: ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.ListCancelledSessionsAsync(System.Threading.CancellationToken)
+  name: ListCancelledSessionsAsync(CancellationToken)
+  href: api/ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.html#ArmoniK_DevelopmentKit_Client_Unified_Services_Admin_AdminMonitoringService_ListCancelledSessionsAsync_System_Threading_CancellationToken_
+  commentId: M:ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.ListCancelledSessionsAsync(System.Threading.CancellationToken)
+  fullName: ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.ListCancelledSessionsAsync(System.Threading.CancellationToken)
+  nameWithType: AdminMonitoringService.ListCancelledSessionsAsync(CancellationToken)
+- uid: ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.ListCancelledSessionsAsync*
+  name: ListCancelledSessionsAsync
+  href: api/ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.html#ArmoniK_DevelopmentKit_Client_Unified_Services_Admin_AdminMonitoringService_ListCancelledSessionsAsync_
+  commentId: Overload:ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.ListCancelledSessionsAsync
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.ListCancelledSessionsAsync
+  nameWithType: AdminMonitoringService.ListCancelledSessionsAsync
 - uid: ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.ListCancelledTasks(System.String)
   name: ListCancelledTasks(string)
   href: api/ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.html#ArmoniK_DevelopmentKit_Client_Unified_Services_Admin_AdminMonitoringService_ListCancelledTasks_System_String_
@@ -2164,6 +2434,19 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.ListRunningSessions
   nameWithType: AdminMonitoringService.ListRunningSessions
+- uid: ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.ListRunningSessionsAsync(System.Threading.CancellationToken)
+  name: ListRunningSessionsAsync(CancellationToken)
+  href: api/ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.html#ArmoniK_DevelopmentKit_Client_Unified_Services_Admin_AdminMonitoringService_ListRunningSessionsAsync_System_Threading_CancellationToken_
+  commentId: M:ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.ListRunningSessionsAsync(System.Threading.CancellationToken)
+  fullName: ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.ListRunningSessionsAsync(System.Threading.CancellationToken)
+  nameWithType: AdminMonitoringService.ListRunningSessionsAsync(CancellationToken)
+- uid: ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.ListRunningSessionsAsync*
+  name: ListRunningSessionsAsync
+  href: api/ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.html#ArmoniK_DevelopmentKit_Client_Unified_Services_Admin_AdminMonitoringService_ListRunningSessionsAsync_
+  commentId: Overload:ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.ListRunningSessionsAsync
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.ListRunningSessionsAsync
+  nameWithType: AdminMonitoringService.ListRunningSessionsAsync
 - uid: ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.ListRunningTasks(System.String)
   name: ListRunningTasks(string)
   href: api/ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.html#ArmoniK_DevelopmentKit_Client_Unified_Services_Admin_AdminMonitoringService_ListRunningTasks_System_String_
@@ -2196,6 +2479,22 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.ListTasksBySession
   nameWithType: AdminMonitoringService.ListTasksBySession
+- uid: ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.ListTasksBySessionAsync(System.String,System.Threading.CancellationToken,ArmoniK.Api.gRPC.V1.TaskStatus[])
+  name: ListTasksBySessionAsync(string, CancellationToken, params TaskStatus[])
+  href: api/ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.html#ArmoniK_DevelopmentKit_Client_Unified_Services_Admin_AdminMonitoringService_ListTasksBySessionAsync_System_String_System_Threading_CancellationToken_ArmoniK_Api_gRPC_V1_TaskStatus___
+  commentId: M:ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.ListTasksBySessionAsync(System.String,System.Threading.CancellationToken,ArmoniK.Api.gRPC.V1.TaskStatus[])
+  name.vb: ListTasksBySessionAsync(String, CancellationToken, ParamArray TaskStatus())
+  fullName: ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.ListTasksBySessionAsync(string, System.Threading.CancellationToken, params ArmoniK.Api.gRPC.V1.TaskStatus[])
+  fullName.vb: ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.ListTasksBySessionAsync(String, System.Threading.CancellationToken, ParamArray ArmoniK.Api.gRPC.V1.TaskStatus())
+  nameWithType: AdminMonitoringService.ListTasksBySessionAsync(string, CancellationToken, params TaskStatus[])
+  nameWithType.vb: AdminMonitoringService.ListTasksBySessionAsync(String, CancellationToken, ParamArray TaskStatus())
+- uid: ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.ListTasksBySessionAsync*
+  name: ListTasksBySessionAsync
+  href: api/ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.html#ArmoniK_DevelopmentKit_Client_Unified_Services_Admin_AdminMonitoringService_ListTasksBySessionAsync_
+  commentId: Overload:ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.ListTasksBySessionAsync
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.ListTasksBySessionAsync
+  nameWithType: AdminMonitoringService.ListTasksBySessionAsync
 - uid: ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.ServiceAdmin
   name: ServiceAdmin
   href: api/ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.ServiceAdmin.html
@@ -2384,6 +2683,22 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.Client.Unified.Services.SessionService.SubmitTask
   nameWithType: SessionService.SubmitTask
+- uid: ArmoniK.DevelopmentKit.Client.Unified.Services.SessionService.SubmitTaskAsync(System.Byte[],System.Int32,System.Int32,ArmoniK.Api.gRPC.V1.TaskOptions,System.Threading.CancellationToken)
+  name: SubmitTaskAsync(byte[], int, int, TaskOptions?, CancellationToken)
+  href: api/ArmoniK.DevelopmentKit.Client.Unified.Services.SessionService.html#ArmoniK_DevelopmentKit_Client_Unified_Services_SessionService_SubmitTaskAsync_System_Byte___System_Int32_System_Int32_ArmoniK_Api_gRPC_V1_TaskOptions_System_Threading_CancellationToken_
+  commentId: M:ArmoniK.DevelopmentKit.Client.Unified.Services.SessionService.SubmitTaskAsync(System.Byte[],System.Int32,System.Int32,ArmoniK.Api.gRPC.V1.TaskOptions,System.Threading.CancellationToken)
+  name.vb: SubmitTaskAsync(Byte(), Integer, Integer, TaskOptions, CancellationToken)
+  fullName: ArmoniK.DevelopmentKit.Client.Unified.Services.SessionService.SubmitTaskAsync(byte[], int, int, ArmoniK.Api.gRPC.V1.TaskOptions?, System.Threading.CancellationToken)
+  fullName.vb: ArmoniK.DevelopmentKit.Client.Unified.Services.SessionService.SubmitTaskAsync(Byte(), Integer, Integer, ArmoniK.Api.gRPC.V1.TaskOptions, System.Threading.CancellationToken)
+  nameWithType: SessionService.SubmitTaskAsync(byte[], int, int, TaskOptions?, CancellationToken)
+  nameWithType.vb: SessionService.SubmitTaskAsync(Byte(), Integer, Integer, TaskOptions, CancellationToken)
+- uid: ArmoniK.DevelopmentKit.Client.Unified.Services.SessionService.SubmitTaskAsync*
+  name: SubmitTaskAsync
+  href: api/ArmoniK.DevelopmentKit.Client.Unified.Services.SessionService.html#ArmoniK_DevelopmentKit_Client_Unified_Services_SessionService_SubmitTaskAsync_
+  commentId: Overload:ArmoniK.DevelopmentKit.Client.Unified.Services.SessionService.SubmitTaskAsync
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Client.Unified.Services.SessionService.SubmitTaskAsync
+  nameWithType: SessionService.SubmitTaskAsync
 - uid: ArmoniK.DevelopmentKit.Client.Unified.Services.SessionService.SubmitTaskWithDependencies(System.Byte[],System.Collections.Generic.IList{System.String},System.Int32,ArmoniK.Api.gRPC.V1.TaskOptions)
   name: SubmitTaskWithDependencies(byte[], IList<string>, int, TaskOptions?)
   href: api/ArmoniK.DevelopmentKit.Client.Unified.Services.SessionService.html#ArmoniK_DevelopmentKit_Client_Unified_Services_SessionService_SubmitTaskWithDependencies_System_Byte___System_Collections_Generic_IList_System_String__System_Int32_ArmoniK_Api_gRPC_V1_TaskOptions_
@@ -2400,6 +2715,22 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.Client.Unified.Services.SessionService.SubmitTaskWithDependencies
   nameWithType: SessionService.SubmitTaskWithDependencies
+- uid: ArmoniK.DevelopmentKit.Client.Unified.Services.SessionService.SubmitTaskWithDependenciesAsync(System.Byte[],System.Collections.Generic.IList{System.String},System.Int32,ArmoniK.Api.gRPC.V1.TaskOptions,System.Threading.CancellationToken)
+  name: SubmitTaskWithDependenciesAsync(byte[], IList<string>, int, TaskOptions?, CancellationToken)
+  href: api/ArmoniK.DevelopmentKit.Client.Unified.Services.SessionService.html#ArmoniK_DevelopmentKit_Client_Unified_Services_SessionService_SubmitTaskWithDependenciesAsync_System_Byte___System_Collections_Generic_IList_System_String__System_Int32_ArmoniK_Api_gRPC_V1_TaskOptions_System_Threading_CancellationToken_
+  commentId: M:ArmoniK.DevelopmentKit.Client.Unified.Services.SessionService.SubmitTaskWithDependenciesAsync(System.Byte[],System.Collections.Generic.IList{System.String},System.Int32,ArmoniK.Api.gRPC.V1.TaskOptions,System.Threading.CancellationToken)
+  name.vb: SubmitTaskWithDependenciesAsync(Byte(), IList(Of String), Integer, TaskOptions, CancellationToken)
+  fullName: ArmoniK.DevelopmentKit.Client.Unified.Services.SessionService.SubmitTaskWithDependenciesAsync(byte[], System.Collections.Generic.IList<string>, int, ArmoniK.Api.gRPC.V1.TaskOptions?, System.Threading.CancellationToken)
+  fullName.vb: ArmoniK.DevelopmentKit.Client.Unified.Services.SessionService.SubmitTaskWithDependenciesAsync(Byte(), System.Collections.Generic.IList(Of String), Integer, ArmoniK.Api.gRPC.V1.TaskOptions, System.Threading.CancellationToken)
+  nameWithType: SessionService.SubmitTaskWithDependenciesAsync(byte[], IList<string>, int, TaskOptions?, CancellationToken)
+  nameWithType.vb: SessionService.SubmitTaskWithDependenciesAsync(Byte(), IList(Of String), Integer, TaskOptions, CancellationToken)
+- uid: ArmoniK.DevelopmentKit.Client.Unified.Services.SessionService.SubmitTaskWithDependenciesAsync*
+  name: SubmitTaskWithDependenciesAsync
+  href: api/ArmoniK.DevelopmentKit.Client.Unified.Services.SessionService.html#ArmoniK_DevelopmentKit_Client_Unified_Services_SessionService_SubmitTaskWithDependenciesAsync_
+  commentId: Overload:ArmoniK.DevelopmentKit.Client.Unified.Services.SessionService.SubmitTaskWithDependenciesAsync
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Client.Unified.Services.SessionService.SubmitTaskWithDependenciesAsync
+  nameWithType: SessionService.SubmitTaskWithDependenciesAsync
 - uid: ArmoniK.DevelopmentKit.Client.Unified.Services.SessionService.SubmitTasks(System.Collections.Generic.IEnumerable{System.Byte[]},System.Int32,ArmoniK.Api.gRPC.V1.TaskOptions)
   name: SubmitTasks(IEnumerable<byte[]>, int, TaskOptions?)
   href: api/ArmoniK.DevelopmentKit.Client.Unified.Services.SessionService.html#ArmoniK_DevelopmentKit_Client_Unified_Services_SessionService_SubmitTasks_System_Collections_Generic_IEnumerable_System_Byte____System_Int32_ArmoniK_Api_gRPC_V1_TaskOptions_
@@ -2416,6 +2747,22 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.Client.Unified.Services.SessionService.SubmitTasks
   nameWithType: SessionService.SubmitTasks
+- uid: ArmoniK.DevelopmentKit.Client.Unified.Services.SessionService.SubmitTasksAsync(System.Collections.Generic.IEnumerable{System.Byte[]},System.Int32,ArmoniK.Api.gRPC.V1.TaskOptions,System.Threading.CancellationToken)
+  name: SubmitTasksAsync(IEnumerable<byte[]>, int, TaskOptions?, CancellationToken)
+  href: api/ArmoniK.DevelopmentKit.Client.Unified.Services.SessionService.html#ArmoniK_DevelopmentKit_Client_Unified_Services_SessionService_SubmitTasksAsync_System_Collections_Generic_IEnumerable_System_Byte____System_Int32_ArmoniK_Api_gRPC_V1_TaskOptions_System_Threading_CancellationToken_
+  commentId: M:ArmoniK.DevelopmentKit.Client.Unified.Services.SessionService.SubmitTasksAsync(System.Collections.Generic.IEnumerable{System.Byte[]},System.Int32,ArmoniK.Api.gRPC.V1.TaskOptions,System.Threading.CancellationToken)
+  name.vb: SubmitTasksAsync(IEnumerable(Of Byte()), Integer, TaskOptions, CancellationToken)
+  fullName: ArmoniK.DevelopmentKit.Client.Unified.Services.SessionService.SubmitTasksAsync(System.Collections.Generic.IEnumerable<byte[]>, int, ArmoniK.Api.gRPC.V1.TaskOptions?, System.Threading.CancellationToken)
+  fullName.vb: ArmoniK.DevelopmentKit.Client.Unified.Services.SessionService.SubmitTasksAsync(System.Collections.Generic.IEnumerable(Of Byte()), Integer, ArmoniK.Api.gRPC.V1.TaskOptions, System.Threading.CancellationToken)
+  nameWithType: SessionService.SubmitTasksAsync(IEnumerable<byte[]>, int, TaskOptions?, CancellationToken)
+  nameWithType.vb: SessionService.SubmitTasksAsync(IEnumerable(Of Byte()), Integer, TaskOptions, CancellationToken)
+- uid: ArmoniK.DevelopmentKit.Client.Unified.Services.SessionService.SubmitTasksAsync*
+  name: SubmitTasksAsync
+  href: api/ArmoniK.DevelopmentKit.Client.Unified.Services.SessionService.html#ArmoniK_DevelopmentKit_Client_Unified_Services_SessionService_SubmitTasksAsync_
+  commentId: Overload:ArmoniK.DevelopmentKit.Client.Unified.Services.SessionService.SubmitTasksAsync
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Client.Unified.Services.SessionService.SubmitTasksAsync
+  nameWithType: SessionService.SubmitTasksAsync
 - uid: ArmoniK.DevelopmentKit.Client.Unified.Services.SessionService.ToString
   name: ToString()
   href: api/ArmoniK.DevelopmentKit.Client.Unified.Services.SessionService.html#ArmoniK_DevelopmentKit_Client_Unified_Services_SessionService_ToString
@@ -2755,19 +3102,19 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.Service.Execute
   nameWithType: Service.Execute
-- uid: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.Service.GetChannel
-  name: GetChannel()
-  href: api/ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.Service.html#ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_Service_GetChannel
-  commentId: M:ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.Service.GetChannel
-  fullName: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.Service.GetChannel()
-  nameWithType: Service.GetChannel()
-- uid: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.Service.GetChannel*
-  name: GetChannel
-  href: api/ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.Service.html#ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_Service_GetChannel_
-  commentId: Overload:ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.Service.GetChannel
+- uid: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.Service.GetChannelPool
+  name: GetChannelPool()
+  href: api/ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.Service.html#ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_Service_GetChannelPool
+  commentId: M:ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.Service.GetChannelPool
+  fullName: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.Service.GetChannelPool()
+  nameWithType: Service.GetChannelPool()
+- uid: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.Service.GetChannelPool*
+  name: GetChannelPool
+  href: api/ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.Service.html#ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_Service_GetChannelPool_
+  commentId: Overload:ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.Service.GetChannelPool
   isSpec: "True"
-  fullName: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.Service.GetChannel
-  nameWithType: Service.GetChannel
+  fullName: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.Service.GetChannelPool
+  nameWithType: Service.GetChannelPool
 - uid: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.Service.LocalExecute(System.Object,System.String,System.Object[])
   name: LocalExecute(object, string, object[])
   href: api/ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.Service.html#ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_Service_LocalExecute_System_Object_System_String_System_Object___
@@ -3506,6 +3853,24 @@ references:
   fullName.vb: ArmoniK.DevelopmentKit.Common.Retry.WhileException(Integer, Integer, System.Action(Of Integer), Boolean, ParamArray System.Type())
   nameWithType: Retry.WhileException(int, int, Action<int>, bool, params Type[])
   nameWithType.vb: Retry.WhileException(Integer, Integer, Action(Of Integer), Boolean, ParamArray Type())
+- uid: ArmoniK.DevelopmentKit.Common.Retry.WhileException(System.Int32,System.Int32,System.Func{System.Int32,System.Threading.Tasks.ValueTask},System.Boolean,Microsoft.Extensions.Logging.ILogger,System.Threading.CancellationToken,System.Type[])
+  name: WhileException(int, int, Func<int, ValueTask>, bool, ILogger?, CancellationToken, params Type[])
+  href: api/ArmoniK.DevelopmentKit.Common.Retry.html#ArmoniK_DevelopmentKit_Common_Retry_WhileException_System_Int32_System_Int32_System_Func_System_Int32_System_Threading_Tasks_ValueTask__System_Boolean_Microsoft_Extensions_Logging_ILogger_System_Threading_CancellationToken_System_Type___
+  commentId: M:ArmoniK.DevelopmentKit.Common.Retry.WhileException(System.Int32,System.Int32,System.Func{System.Int32,System.Threading.Tasks.ValueTask},System.Boolean,Microsoft.Extensions.Logging.ILogger,System.Threading.CancellationToken,System.Type[])
+  name.vb: WhileException(Integer, Integer, Func(Of Integer, ValueTask), Boolean, ILogger, CancellationToken, ParamArray Type())
+  fullName: ArmoniK.DevelopmentKit.Common.Retry.WhileException(int, int, System.Func<int, System.Threading.Tasks.ValueTask>, bool, Microsoft.Extensions.Logging.ILogger?, System.Threading.CancellationToken, params System.Type[])
+  fullName.vb: ArmoniK.DevelopmentKit.Common.Retry.WhileException(Integer, Integer, System.Func(Of Integer, System.Threading.Tasks.ValueTask), Boolean, Microsoft.Extensions.Logging.ILogger, System.Threading.CancellationToken, ParamArray System.Type())
+  nameWithType: Retry.WhileException(int, int, Func<int, ValueTask>, bool, ILogger?, CancellationToken, params Type[])
+  nameWithType.vb: Retry.WhileException(Integer, Integer, Func(Of Integer, ValueTask), Boolean, ILogger, CancellationToken, ParamArray Type())
+- uid: ArmoniK.DevelopmentKit.Common.Retry.WhileException(System.Int32,System.Int32,System.Func{System.Int32,System.Threading.Tasks.ValueTask},System.Boolean,System.Threading.CancellationToken,System.Type[])
+  name: WhileException(int, int, Func<int, ValueTask>, bool, CancellationToken, params Type[])
+  href: api/ArmoniK.DevelopmentKit.Common.Retry.html#ArmoniK_DevelopmentKit_Common_Retry_WhileException_System_Int32_System_Int32_System_Func_System_Int32_System_Threading_Tasks_ValueTask__System_Boolean_System_Threading_CancellationToken_System_Type___
+  commentId: M:ArmoniK.DevelopmentKit.Common.Retry.WhileException(System.Int32,System.Int32,System.Func{System.Int32,System.Threading.Tasks.ValueTask},System.Boolean,System.Threading.CancellationToken,System.Type[])
+  name.vb: WhileException(Integer, Integer, Func(Of Integer, ValueTask), Boolean, CancellationToken, ParamArray Type())
+  fullName: ArmoniK.DevelopmentKit.Common.Retry.WhileException(int, int, System.Func<int, System.Threading.Tasks.ValueTask>, bool, System.Threading.CancellationToken, params System.Type[])
+  fullName.vb: ArmoniK.DevelopmentKit.Common.Retry.WhileException(Integer, Integer, System.Func(Of Integer, System.Threading.Tasks.ValueTask), Boolean, System.Threading.CancellationToken, ParamArray System.Type())
+  nameWithType: Retry.WhileException(int, int, Func<int, ValueTask>, bool, CancellationToken, params Type[])
+  nameWithType.vb: Retry.WhileException(Integer, Integer, Func(Of Integer, ValueTask), Boolean, CancellationToken, ParamArray Type())
 - uid: ArmoniK.DevelopmentKit.Common.Retry.WhileException*
   name: WhileException
   href: api/ArmoniK.DevelopmentKit.Common.Retry.html#ArmoniK_DevelopmentKit_Common_Retry_WhileException_
@@ -3513,6 +3878,24 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.Common.Retry.WhileException
   nameWithType: Retry.WhileException
+- uid: ArmoniK.DevelopmentKit.Common.Retry.WhileException``1(System.Int32,System.Int32,System.Func{System.Int32,System.Threading.Tasks.ValueTask{``0}},System.Boolean,Microsoft.Extensions.Logging.ILogger,System.Threading.CancellationToken,System.Type[])
+  name: WhileException<T>(int, int, Func<int, ValueTask<T>>, bool, ILogger?, CancellationToken, params Type[])
+  href: api/ArmoniK.DevelopmentKit.Common.Retry.html#ArmoniK_DevelopmentKit_Common_Retry_WhileException__1_System_Int32_System_Int32_System_Func_System_Int32_System_Threading_Tasks_ValueTask___0___System_Boolean_Microsoft_Extensions_Logging_ILogger_System_Threading_CancellationToken_System_Type___
+  commentId: M:ArmoniK.DevelopmentKit.Common.Retry.WhileException``1(System.Int32,System.Int32,System.Func{System.Int32,System.Threading.Tasks.ValueTask{``0}},System.Boolean,Microsoft.Extensions.Logging.ILogger,System.Threading.CancellationToken,System.Type[])
+  name.vb: WhileException(Of T)(Integer, Integer, Func(Of Integer, ValueTask(Of T)), Boolean, ILogger, CancellationToken, ParamArray Type())
+  fullName: ArmoniK.DevelopmentKit.Common.Retry.WhileException<T>(int, int, System.Func<int, System.Threading.Tasks.ValueTask<T>>, bool, Microsoft.Extensions.Logging.ILogger?, System.Threading.CancellationToken, params System.Type[])
+  fullName.vb: ArmoniK.DevelopmentKit.Common.Retry.WhileException(Of T)(Integer, Integer, System.Func(Of Integer, System.Threading.Tasks.ValueTask(Of T)), Boolean, Microsoft.Extensions.Logging.ILogger, System.Threading.CancellationToken, ParamArray System.Type())
+  nameWithType: Retry.WhileException<T>(int, int, Func<int, ValueTask<T>>, bool, ILogger?, CancellationToken, params Type[])
+  nameWithType.vb: Retry.WhileException(Of T)(Integer, Integer, Func(Of Integer, ValueTask(Of T)), Boolean, ILogger, CancellationToken, ParamArray Type())
+- uid: ArmoniK.DevelopmentKit.Common.Retry.WhileException``1(System.Int32,System.Int32,System.Func{System.Int32,System.Threading.Tasks.ValueTask{``0}},System.Boolean,System.Threading.CancellationToken,System.Type[])
+  name: WhileException<T>(int, int, Func<int, ValueTask<T>>, bool, CancellationToken, params Type[])
+  href: api/ArmoniK.DevelopmentKit.Common.Retry.html#ArmoniK_DevelopmentKit_Common_Retry_WhileException__1_System_Int32_System_Int32_System_Func_System_Int32_System_Threading_Tasks_ValueTask___0___System_Boolean_System_Threading_CancellationToken_System_Type___
+  commentId: M:ArmoniK.DevelopmentKit.Common.Retry.WhileException``1(System.Int32,System.Int32,System.Func{System.Int32,System.Threading.Tasks.ValueTask{``0}},System.Boolean,System.Threading.CancellationToken,System.Type[])
+  name.vb: WhileException(Of T)(Integer, Integer, Func(Of Integer, ValueTask(Of T)), Boolean, CancellationToken, ParamArray Type())
+  fullName: ArmoniK.DevelopmentKit.Common.Retry.WhileException<T>(int, int, System.Func<int, System.Threading.Tasks.ValueTask<T>>, bool, System.Threading.CancellationToken, params System.Type[])
+  fullName.vb: ArmoniK.DevelopmentKit.Common.Retry.WhileException(Of T)(Integer, Integer, System.Func(Of Integer, System.Threading.Tasks.ValueTask(Of T)), Boolean, System.Threading.CancellationToken, ParamArray System.Type())
+  nameWithType: Retry.WhileException<T>(int, int, Func<int, ValueTask<T>>, bool, CancellationToken, params Type[])
+  nameWithType.vb: Retry.WhileException(Of T)(Integer, Integer, Func(Of Integer, ValueTask(Of T)), Boolean, CancellationToken, ParamArray Type())
 - uid: ArmoniK.DevelopmentKit.Common.Retry.WhileException``1(System.Int32,System.Int32,System.Func{System.Int32,``0},System.Boolean,Microsoft.Extensions.Logging.ILogger,System.Type[])
   name: WhileException<T>(int, int, Func<int, T>, bool, ILogger?, params Type[])
   href: api/ArmoniK.DevelopmentKit.Common.Retry.html#ArmoniK_DevelopmentKit_Common_Retry_WhileException__1_System_Int32_System_Int32_System_Func_System_Int32___0__System_Boolean_Microsoft_Extensions_Logging_ILogger_System_Type___
