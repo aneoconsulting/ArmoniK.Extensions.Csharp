@@ -82,18 +82,23 @@ public class Service : AbstractClientService, ISubmitterService
                                                                                  cancellationToken),
                                                          async chunk =>
                                                          {
-                                                           var taskRequests = chunk.Select(req => ((string?)null, req.Payload, req.Dependencies, req.TaskOptions));
-                                                           var response = SessionService.ChunkSubmitTasksWithDependenciesAsync(taskRequests,
-                                                                                                                               cancellationToken: cancellationToken);
+                                                           Logger?.LogInformation("Submitting batch of {NbTask}/{MaxTask}",
+                                                                                  chunk.Length,
+                                                                                  properties.MaxTasksPerBuffer);
 
                                                            List<(string taskId, string resultId)> tasks;
                                                            try
                                                            {
+                                                             var taskRequests = chunk.Select(req => ((string?)null, req.Payload, req.Dependencies, req.TaskOptions));
+                                                             var response = SessionService.ChunkSubmitTasksWithDependenciesAsync(taskRequests,
+                                                                                                                                 cancellationToken: cancellationToken);
                                                              tasks = await response.ToListAsync(cancellationToken)
                                                                                    .ConfigureAwait(false);
                                                            }
                                                            catch (Exception e)
                                                            {
+                                                             Logger?.LogError(e,
+                                                                              "Error while submitting tasks");
                                                              foreach (var req in chunk)
                                                              {
                                                                req.Tcs.SetException(e);
