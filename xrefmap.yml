@@ -803,6 +803,24 @@ references:
   fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter(Of T).ChannelPool
   nameWithType: BaseClientSubmitter<T>.ChannelPool
   nameWithType.vb: BaseClientSubmitter(Of T).ChannelPool
+- uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.ChunkSubmitTasksWithDependenciesAsync(System.Collections.Generic.IEnumerable{System.ValueTuple{System.String,System.Byte[],System.Collections.Generic.IList{System.String},ArmoniK.Api.gRPC.V1.TaskOptions}},System.Int32,ArmoniK.Api.gRPC.V1.TaskOptions,System.Threading.CancellationToken)
+  name: ChunkSubmitTasksWithDependenciesAsync(IEnumerable<(string?, byte[], IList<string>, TaskOptions?)>, int, TaskOptions?, CancellationToken)
+  href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_ChunkSubmitTasksWithDependenciesAsync_System_Collections_Generic_IEnumerable_System_ValueTuple_System_String_System_Byte___System_Collections_Generic_IList_System_String__ArmoniK_Api_gRPC_V1_TaskOptions___System_Int32_ArmoniK_Api_gRPC_V1_TaskOptions_System_Threading_CancellationToken_
+  commentId: M:ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.ChunkSubmitTasksWithDependenciesAsync(System.Collections.Generic.IEnumerable{System.ValueTuple{System.String,System.Byte[],System.Collections.Generic.IList{System.String},ArmoniK.Api.gRPC.V1.TaskOptions}},System.Int32,ArmoniK.Api.gRPC.V1.TaskOptions,System.Threading.CancellationToken)
+  name.vb: ChunkSubmitTasksWithDependenciesAsync(IEnumerable(Of (String, Byte(), IList(Of String), TaskOptions)), Integer, TaskOptions, CancellationToken)
+  fullName: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter<T>.ChunkSubmitTasksWithDependenciesAsync(System.Collections.Generic.IEnumerable<(string?, byte[], System.Collections.Generic.IList<string>, ArmoniK.Api.gRPC.V1.TaskOptions?)>, int, ArmoniK.Api.gRPC.V1.TaskOptions?, System.Threading.CancellationToken)
+  fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter(Of T).ChunkSubmitTasksWithDependenciesAsync(System.Collections.Generic.IEnumerable(Of (String, Byte(), System.Collections.Generic.IList(Of String), ArmoniK.Api.gRPC.V1.TaskOptions)), Integer, ArmoniK.Api.gRPC.V1.TaskOptions, System.Threading.CancellationToken)
+  nameWithType: BaseClientSubmitter<T>.ChunkSubmitTasksWithDependenciesAsync(IEnumerable<(string?, byte[], IList<string>, TaskOptions?)>, int, TaskOptions?, CancellationToken)
+  nameWithType.vb: BaseClientSubmitter(Of T).ChunkSubmitTasksWithDependenciesAsync(IEnumerable(Of (String, Byte(), IList(Of String), TaskOptions)), Integer, TaskOptions, CancellationToken)
+- uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.ChunkSubmitTasksWithDependenciesAsync*
+  name: ChunkSubmitTasksWithDependenciesAsync
+  href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_ChunkSubmitTasksWithDependenciesAsync_
+  commentId: Overload:ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.ChunkSubmitTasksWithDependenciesAsync
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter<T>.ChunkSubmitTasksWithDependenciesAsync
+  fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter(Of T).ChunkSubmitTasksWithDependenciesAsync
+  nameWithType: BaseClientSubmitter<T>.ChunkSubmitTasksWithDependenciesAsync
+  nameWithType.vb: BaseClientSubmitter(Of T).ChunkSubmitTasksWithDependenciesAsync
 - uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter`1.CreateResultsMetadata(System.Collections.Generic.IEnumerable{System.String})
   name: CreateResultsMetadata(IEnumerable<string>)
   href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.BaseClientSubmitter-1.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_BaseClientSubmitter_1_CreateResultsMetadata_System_Collections_Generic_IEnumerable_System_String__
@@ -2782,263 +2800,6 @@ references:
   commentId: N:ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter
   fullName: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter
   nameWithType: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter
-- uid: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1
-  name: BatchUntilInactiveBlock<T>
-  href: api/ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock-1.html
-  commentId: T:ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1
-  name.vb: BatchUntilInactiveBlock(Of T)
-  fullName: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock<T>
-  fullName.vb: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock(Of T)
-  nameWithType: BatchUntilInactiveBlock<T>
-  nameWithType.vb: BatchUntilInactiveBlock(Of T)
-- uid: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.#ctor(System.Int32,System.TimeSpan,System.Threading.Tasks.Dataflow.ExecutionDataflowBlockOptions)
-  name: BatchUntilInactiveBlock(int, TimeSpan, ExecutionDataflowBlockOptions?)
-  href: api/ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock-1.html#ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_BatchUntilInactiveBlock_1__ctor_System_Int32_System_TimeSpan_System_Threading_Tasks_Dataflow_ExecutionDataflowBlockOptions_
-  commentId: M:ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.#ctor(System.Int32,System.TimeSpan,System.Threading.Tasks.Dataflow.ExecutionDataflowBlockOptions)
-  name.vb: New(Integer, TimeSpan, ExecutionDataflowBlockOptions)
-  fullName: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock<T>.BatchUntilInactiveBlock(int, System.TimeSpan, System.Threading.Tasks.Dataflow.ExecutionDataflowBlockOptions?)
-  fullName.vb: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock(Of T).New(Integer, System.TimeSpan, System.Threading.Tasks.Dataflow.ExecutionDataflowBlockOptions)
-  nameWithType: BatchUntilInactiveBlock<T>.BatchUntilInactiveBlock(int, TimeSpan, ExecutionDataflowBlockOptions?)
-  nameWithType.vb: BatchUntilInactiveBlock(Of T).New(Integer, TimeSpan, ExecutionDataflowBlockOptions)
-- uid: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.#ctor*
-  name: BatchUntilInactiveBlock
-  href: api/ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock-1.html#ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_BatchUntilInactiveBlock_1__ctor_
-  commentId: Overload:ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.#ctor
-  isSpec: "True"
-  name.vb: New
-  fullName: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock<T>.BatchUntilInactiveBlock
-  fullName.vb: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock(Of T).New
-  nameWithType: BatchUntilInactiveBlock<T>.BatchUntilInactiveBlock
-  nameWithType.vb: BatchUntilInactiveBlock(Of T).New
-- uid: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.BatchSize
-  name: BatchSize
-  href: api/ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock-1.html#ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_BatchUntilInactiveBlock_1_BatchSize
-  commentId: P:ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.BatchSize
-  fullName: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock<T>.BatchSize
-  fullName.vb: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock(Of T).BatchSize
-  nameWithType: BatchUntilInactiveBlock<T>.BatchSize
-  nameWithType.vb: BatchUntilInactiveBlock(Of T).BatchSize
-- uid: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.BatchSize*
-  name: BatchSize
-  href: api/ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock-1.html#ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_BatchUntilInactiveBlock_1_BatchSize_
-  commentId: Overload:ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.BatchSize
-  isSpec: "True"
-  fullName: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock<T>.BatchSize
-  fullName.vb: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock(Of T).BatchSize
-  nameWithType: BatchUntilInactiveBlock<T>.BatchSize
-  nameWithType.vb: BatchUntilInactiveBlock(Of T).BatchSize
-- uid: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.Complete
-  name: Complete()
-  href: api/ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock-1.html#ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_BatchUntilInactiveBlock_1_Complete
-  commentId: M:ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.Complete
-  fullName: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock<T>.Complete()
-  fullName.vb: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock(Of T).Complete()
-  nameWithType: BatchUntilInactiveBlock<T>.Complete()
-  nameWithType.vb: BatchUntilInactiveBlock(Of T).Complete()
-- uid: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.Complete*
-  name: Complete
-  href: api/ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock-1.html#ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_BatchUntilInactiveBlock_1_Complete_
-  commentId: Overload:ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.Complete
-  isSpec: "True"
-  fullName: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock<T>.Complete
-  fullName.vb: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock(Of T).Complete
-  nameWithType: BatchUntilInactiveBlock<T>.Complete
-  nameWithType.vb: BatchUntilInactiveBlock(Of T).Complete
-- uid: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.Completion
-  name: Completion
-  href: api/ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock-1.html#ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_BatchUntilInactiveBlock_1_Completion
-  commentId: P:ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.Completion
-  fullName: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock<T>.Completion
-  fullName.vb: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock(Of T).Completion
-  nameWithType: BatchUntilInactiveBlock<T>.Completion
-  nameWithType.vb: BatchUntilInactiveBlock(Of T).Completion
-- uid: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.Completion*
-  name: Completion
-  href: api/ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock-1.html#ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_BatchUntilInactiveBlock_1_Completion_
-  commentId: Overload:ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.Completion
-  isSpec: "True"
-  fullName: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock<T>.Completion
-  fullName.vb: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock(Of T).Completion
-  nameWithType: BatchUntilInactiveBlock<T>.Completion
-  nameWithType.vb: BatchUntilInactiveBlock(Of T).Completion
-- uid: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.ConsumeMessage(System.Threading.Tasks.Dataflow.DataflowMessageHeader,System.Threading.Tasks.Dataflow.ITargetBlock{`0[]},System.Boolean@)
-  name: ConsumeMessage(DataflowMessageHeader, ITargetBlock<T[]>, out bool)
-  href: api/ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock-1.html#ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_BatchUntilInactiveBlock_1_ConsumeMessage_System_Threading_Tasks_Dataflow_DataflowMessageHeader_System_Threading_Tasks_Dataflow_ITargetBlock__0____System_Boolean__
-  commentId: M:ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.ConsumeMessage(System.Threading.Tasks.Dataflow.DataflowMessageHeader,System.Threading.Tasks.Dataflow.ITargetBlock{`0[]},System.Boolean@)
-  name.vb: ConsumeMessage(DataflowMessageHeader, ITargetBlock(Of T()), Boolean)
-  fullName: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock<T>.ConsumeMessage(System.Threading.Tasks.Dataflow.DataflowMessageHeader, System.Threading.Tasks.Dataflow.ITargetBlock<T[]>, out bool)
-  fullName.vb: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock(Of T).ConsumeMessage(System.Threading.Tasks.Dataflow.DataflowMessageHeader, System.Threading.Tasks.Dataflow.ITargetBlock(Of T()), Boolean)
-  nameWithType: BatchUntilInactiveBlock<T>.ConsumeMessage(DataflowMessageHeader, ITargetBlock<T[]>, out bool)
-  nameWithType.vb: BatchUntilInactiveBlock(Of T).ConsumeMessage(DataflowMessageHeader, ITargetBlock(Of T()), Boolean)
-- uid: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.ConsumeMessage*
-  name: ConsumeMessage
-  href: api/ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock-1.html#ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_BatchUntilInactiveBlock_1_ConsumeMessage_
-  commentId: Overload:ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.ConsumeMessage
-  isSpec: "True"
-  fullName: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock<T>.ConsumeMessage
-  fullName.vb: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock(Of T).ConsumeMessage
-  nameWithType: BatchUntilInactiveBlock<T>.ConsumeMessage
-  nameWithType.vb: BatchUntilInactiveBlock(Of T).ConsumeMessage
-- uid: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.ExecuteAsync(System.Action{`0[]})
-  name: ExecuteAsync(Action<T[]>)
-  href: api/ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock-1.html#ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_BatchUntilInactiveBlock_1_ExecuteAsync_System_Action__0____
-  commentId: M:ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.ExecuteAsync(System.Action{`0[]})
-  name.vb: ExecuteAsync(Action(Of T()))
-  fullName: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock<T>.ExecuteAsync(System.Action<T[]>)
-  fullName.vb: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock(Of T).ExecuteAsync(System.Action(Of T()))
-  nameWithType: BatchUntilInactiveBlock<T>.ExecuteAsync(Action<T[]>)
-  nameWithType.vb: BatchUntilInactiveBlock(Of T).ExecuteAsync(Action(Of T()))
-- uid: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.ExecuteAsync*
-  name: ExecuteAsync
-  href: api/ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock-1.html#ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_BatchUntilInactiveBlock_1_ExecuteAsync_
-  commentId: Overload:ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.ExecuteAsync
-  isSpec: "True"
-  fullName: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock<T>.ExecuteAsync
-  fullName.vb: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock(Of T).ExecuteAsync
-  nameWithType: BatchUntilInactiveBlock<T>.ExecuteAsync
-  nameWithType.vb: BatchUntilInactiveBlock(Of T).ExecuteAsync
-- uid: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.Fault(System.Exception)
-  name: Fault(Exception)
-  href: api/ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock-1.html#ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_BatchUntilInactiveBlock_1_Fault_System_Exception_
-  commentId: M:ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.Fault(System.Exception)
-  fullName: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock<T>.Fault(System.Exception)
-  fullName.vb: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock(Of T).Fault(System.Exception)
-  nameWithType: BatchUntilInactiveBlock<T>.Fault(Exception)
-  nameWithType.vb: BatchUntilInactiveBlock(Of T).Fault(Exception)
-- uid: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.Fault*
-  name: Fault
-  href: api/ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock-1.html#ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_BatchUntilInactiveBlock_1_Fault_
-  commentId: Overload:ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.Fault
-  isSpec: "True"
-  fullName: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock<T>.Fault
-  fullName.vb: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock(Of T).Fault
-  nameWithType: BatchUntilInactiveBlock<T>.Fault
-  nameWithType.vb: BatchUntilInactiveBlock(Of T).Fault
-- uid: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.LinkTo(System.Threading.Tasks.Dataflow.ITargetBlock{`0[]},System.Threading.Tasks.Dataflow.DataflowLinkOptions)
-  name: LinkTo(ITargetBlock<T[]>, DataflowLinkOptions)
-  href: api/ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock-1.html#ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_BatchUntilInactiveBlock_1_LinkTo_System_Threading_Tasks_Dataflow_ITargetBlock__0____System_Threading_Tasks_Dataflow_DataflowLinkOptions_
-  commentId: M:ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.LinkTo(System.Threading.Tasks.Dataflow.ITargetBlock{`0[]},System.Threading.Tasks.Dataflow.DataflowLinkOptions)
-  name.vb: LinkTo(ITargetBlock(Of T()), DataflowLinkOptions)
-  fullName: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock<T>.LinkTo(System.Threading.Tasks.Dataflow.ITargetBlock<T[]>, System.Threading.Tasks.Dataflow.DataflowLinkOptions)
-  fullName.vb: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock(Of T).LinkTo(System.Threading.Tasks.Dataflow.ITargetBlock(Of T()), System.Threading.Tasks.Dataflow.DataflowLinkOptions)
-  nameWithType: BatchUntilInactiveBlock<T>.LinkTo(ITargetBlock<T[]>, DataflowLinkOptions)
-  nameWithType.vb: BatchUntilInactiveBlock(Of T).LinkTo(ITargetBlock(Of T()), DataflowLinkOptions)
-- uid: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.LinkTo*
-  name: LinkTo
-  href: api/ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock-1.html#ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_BatchUntilInactiveBlock_1_LinkTo_
-  commentId: Overload:ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.LinkTo
-  isSpec: "True"
-  fullName: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock<T>.LinkTo
-  fullName.vb: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock(Of T).LinkTo
-  nameWithType: BatchUntilInactiveBlock<T>.LinkTo
-  nameWithType.vb: BatchUntilInactiveBlock(Of T).LinkTo
-- uid: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.OfferMessage(System.Threading.Tasks.Dataflow.DataflowMessageHeader,`0,System.Threading.Tasks.Dataflow.ISourceBlock{`0},System.Boolean)
-  name: OfferMessage(DataflowMessageHeader, T, ISourceBlock<T>, bool)
-  href: api/ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock-1.html#ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_BatchUntilInactiveBlock_1_OfferMessage_System_Threading_Tasks_Dataflow_DataflowMessageHeader__0_System_Threading_Tasks_Dataflow_ISourceBlock__0__System_Boolean_
-  commentId: M:ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.OfferMessage(System.Threading.Tasks.Dataflow.DataflowMessageHeader,`0,System.Threading.Tasks.Dataflow.ISourceBlock{`0},System.Boolean)
-  name.vb: OfferMessage(DataflowMessageHeader, T, ISourceBlock(Of T), Boolean)
-  fullName: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock<T>.OfferMessage(System.Threading.Tasks.Dataflow.DataflowMessageHeader, T, System.Threading.Tasks.Dataflow.ISourceBlock<T>, bool)
-  fullName.vb: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock(Of T).OfferMessage(System.Threading.Tasks.Dataflow.DataflowMessageHeader, T, System.Threading.Tasks.Dataflow.ISourceBlock(Of T), Boolean)
-  nameWithType: BatchUntilInactiveBlock<T>.OfferMessage(DataflowMessageHeader, T, ISourceBlock<T>, bool)
-  nameWithType.vb: BatchUntilInactiveBlock(Of T).OfferMessage(DataflowMessageHeader, T, ISourceBlock(Of T), Boolean)
-- uid: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.OfferMessage*
-  name: OfferMessage
-  href: api/ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock-1.html#ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_BatchUntilInactiveBlock_1_OfferMessage_
-  commentId: Overload:ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.OfferMessage
-  isSpec: "True"
-  fullName: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock<T>.OfferMessage
-  fullName.vb: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock(Of T).OfferMessage
-  nameWithType: BatchUntilInactiveBlock<T>.OfferMessage
-  nameWithType.vb: BatchUntilInactiveBlock(Of T).OfferMessage
-- uid: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.ReleaseReservation(System.Threading.Tasks.Dataflow.DataflowMessageHeader,System.Threading.Tasks.Dataflow.ITargetBlock{`0[]})
-  name: ReleaseReservation(DataflowMessageHeader, ITargetBlock<T[]>)
-  href: api/ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock-1.html#ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_BatchUntilInactiveBlock_1_ReleaseReservation_System_Threading_Tasks_Dataflow_DataflowMessageHeader_System_Threading_Tasks_Dataflow_ITargetBlock__0____
-  commentId: M:ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.ReleaseReservation(System.Threading.Tasks.Dataflow.DataflowMessageHeader,System.Threading.Tasks.Dataflow.ITargetBlock{`0[]})
-  name.vb: ReleaseReservation(DataflowMessageHeader, ITargetBlock(Of T()))
-  fullName: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock<T>.ReleaseReservation(System.Threading.Tasks.Dataflow.DataflowMessageHeader, System.Threading.Tasks.Dataflow.ITargetBlock<T[]>)
-  fullName.vb: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock(Of T).ReleaseReservation(System.Threading.Tasks.Dataflow.DataflowMessageHeader, System.Threading.Tasks.Dataflow.ITargetBlock(Of T()))
-  nameWithType: BatchUntilInactiveBlock<T>.ReleaseReservation(DataflowMessageHeader, ITargetBlock<T[]>)
-  nameWithType.vb: BatchUntilInactiveBlock(Of T).ReleaseReservation(DataflowMessageHeader, ITargetBlock(Of T()))
-- uid: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.ReleaseReservation*
-  name: ReleaseReservation
-  href: api/ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock-1.html#ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_BatchUntilInactiveBlock_1_ReleaseReservation_
-  commentId: Overload:ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.ReleaseReservation
-  isSpec: "True"
-  fullName: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock<T>.ReleaseReservation
-  fullName.vb: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock(Of T).ReleaseReservation
-  nameWithType: BatchUntilInactiveBlock<T>.ReleaseReservation
-  nameWithType.vb: BatchUntilInactiveBlock(Of T).ReleaseReservation
-- uid: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.ReserveMessage(System.Threading.Tasks.Dataflow.DataflowMessageHeader,System.Threading.Tasks.Dataflow.ITargetBlock{`0[]})
-  name: ReserveMessage(DataflowMessageHeader, ITargetBlock<T[]>)
-  href: api/ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock-1.html#ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_BatchUntilInactiveBlock_1_ReserveMessage_System_Threading_Tasks_Dataflow_DataflowMessageHeader_System_Threading_Tasks_Dataflow_ITargetBlock__0____
-  commentId: M:ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.ReserveMessage(System.Threading.Tasks.Dataflow.DataflowMessageHeader,System.Threading.Tasks.Dataflow.ITargetBlock{`0[]})
-  name.vb: ReserveMessage(DataflowMessageHeader, ITargetBlock(Of T()))
-  fullName: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock<T>.ReserveMessage(System.Threading.Tasks.Dataflow.DataflowMessageHeader, System.Threading.Tasks.Dataflow.ITargetBlock<T[]>)
-  fullName.vb: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock(Of T).ReserveMessage(System.Threading.Tasks.Dataflow.DataflowMessageHeader, System.Threading.Tasks.Dataflow.ITargetBlock(Of T()))
-  nameWithType: BatchUntilInactiveBlock<T>.ReserveMessage(DataflowMessageHeader, ITargetBlock<T[]>)
-  nameWithType.vb: BatchUntilInactiveBlock(Of T).ReserveMessage(DataflowMessageHeader, ITargetBlock(Of T()))
-- uid: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.ReserveMessage*
-  name: ReserveMessage
-  href: api/ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock-1.html#ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_BatchUntilInactiveBlock_1_ReserveMessage_
-  commentId: Overload:ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.ReserveMessage
-  isSpec: "True"
-  fullName: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock<T>.ReserveMessage
-  fullName.vb: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock(Of T).ReserveMessage
-  nameWithType: BatchUntilInactiveBlock<T>.ReserveMessage
-  nameWithType.vb: BatchUntilInactiveBlock(Of T).ReserveMessage
-- uid: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.TriggerBatch
-  name: TriggerBatch()
-  href: api/ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock-1.html#ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_BatchUntilInactiveBlock_1_TriggerBatch
-  commentId: M:ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.TriggerBatch
-  fullName: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock<T>.TriggerBatch()
-  fullName.vb: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock(Of T).TriggerBatch()
-  nameWithType: BatchUntilInactiveBlock<T>.TriggerBatch()
-  nameWithType.vb: BatchUntilInactiveBlock(Of T).TriggerBatch()
-- uid: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.TriggerBatch*
-  name: TriggerBatch
-  href: api/ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock-1.html#ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_BatchUntilInactiveBlock_1_TriggerBatch_
-  commentId: Overload:ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.TriggerBatch
-  isSpec: "True"
-  fullName: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock<T>.TriggerBatch
-  fullName.vb: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock(Of T).TriggerBatch
-  nameWithType: BatchUntilInactiveBlock<T>.TriggerBatch
-  nameWithType.vb: BatchUntilInactiveBlock(Of T).TriggerBatch
-- uid: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.TryReceive(System.Predicate{`0[]},`0[]@)
-  name: TryReceive(Predicate<T[]>, out T[])
-  href: api/ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock-1.html#ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_BatchUntilInactiveBlock_1_TryReceive_System_Predicate__0_____0____
-  commentId: M:ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.TryReceive(System.Predicate{`0[]},`0[]@)
-  name.vb: TryReceive(Predicate(Of T()), T())
-  fullName: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock<T>.TryReceive(System.Predicate<T[]>, out T[])
-  fullName.vb: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock(Of T).TryReceive(System.Predicate(Of T()), T())
-  nameWithType: BatchUntilInactiveBlock<T>.TryReceive(Predicate<T[]>, out T[])
-  nameWithType.vb: BatchUntilInactiveBlock(Of T).TryReceive(Predicate(Of T()), T())
-- uid: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.TryReceive*
-  name: TryReceive
-  href: api/ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock-1.html#ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_BatchUntilInactiveBlock_1_TryReceive_
-  commentId: Overload:ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.TryReceive
-  isSpec: "True"
-  fullName: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock<T>.TryReceive
-  fullName.vb: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock(Of T).TryReceive
-  nameWithType: BatchUntilInactiveBlock<T>.TryReceive
-  nameWithType.vb: BatchUntilInactiveBlock(Of T).TryReceive
-- uid: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.TryReceiveAll(System.Collections.Generic.IList{`0[]}@)
-  name: TryReceiveAll(out IList<T[]>)
-  href: api/ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock-1.html#ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_BatchUntilInactiveBlock_1_TryReceiveAll_System_Collections_Generic_IList__0_____
-  commentId: M:ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.TryReceiveAll(System.Collections.Generic.IList{`0[]}@)
-  name.vb: TryReceiveAll(IList(Of T()))
-  fullName: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock<T>.TryReceiveAll(out System.Collections.Generic.IList<T[]>)
-  fullName.vb: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock(Of T).TryReceiveAll(System.Collections.Generic.IList(Of T()))
-  nameWithType: BatchUntilInactiveBlock<T>.TryReceiveAll(out IList<T[]>)
-  nameWithType.vb: BatchUntilInactiveBlock(Of T).TryReceiveAll(IList(Of T()))
-- uid: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.TryReceiveAll*
-  name: TryReceiveAll
-  href: api/ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock-1.html#ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_BatchUntilInactiveBlock_1_TryReceiveAll_
-  commentId: Overload:ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock`1.TryReceiveAll
-  isSpec: "True"
-  fullName: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock<T>.TryReceiveAll
-  fullName.vb: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.BatchUntilInactiveBlock(Of T).TryReceiveAll
-  nameWithType: BatchUntilInactiveBlock<T>.TryReceiveAll
-  nameWithType.vb: BatchUntilInactiveBlock(Of T).TryReceiveAll
 - uid: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.Service
   name: Service
   href: api/ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.Service.html
