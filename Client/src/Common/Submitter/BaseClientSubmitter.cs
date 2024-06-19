@@ -34,6 +34,7 @@ using ArmoniK.Api.gRPC.V1.Tasks;
 using ArmoniK.DevelopmentKit.Client.Common.Status;
 using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.Common.Exceptions;
+using ArmoniK.DevelopmentKit.Common.Utils;
 using ArmoniK.Utils;
 
 using Google.Protobuf;
@@ -301,23 +302,18 @@ public abstract class BaseClientSubmitter<T>
   /// <remarks>The result ids must first be created using <see cref="CreateResultsMetadata" /></remarks>
   /// <returns>return a list of taskIds of the created tasks </returns>
   [PublicAPI]
-  public async IAsyncEnumerable<string> SubmitTasksWithDependenciesAsync(IEnumerable<Tuple<string, byte[], IList<string>>> payloadsWithDependencies,
-                                                                         int                                               maxRetries        = 5,
-                                                                         TaskOptions?                                      taskOptions       = null,
-                                                                         [EnumeratorCancellation] CancellationToken        cancellationToken = default)
-  {
-    foreach (var chunk in payloadsWithDependencies.ToChunks(chunkSubmitSize_))
-    {
-      await foreach (var taskIds in ChunkSubmitTasksWithDependenciesAsync(chunk,
-                                                                          maxRetries,
-                                                                          taskOptions ?? TaskOptions,
-                                                                          cancellationToken)
-                       .ConfigureAwait(false))
-      {
-        yield return taskIds;
-      }
-    }
-  }
+  public IAsyncEnumerable<string> SubmitTasksWithDependenciesAsync(IEnumerable<Tuple<string, byte[], IList<string>>> payloadsWithDependencies,
+                                                                   int                                               maxRetries        = 5,
+                                                                   TaskOptions?                                      taskOptions       = null,
+                                                                   CancellationToken                                 cancellationToken = default)
+    => payloadsWithDependencies.ToChunks(chunkSubmitSize_)
+                               .ToAsyncEnumerable()
+                               .SelectMany(chunk => ChunkSubmitTasksWithDependenciesAsync(chunk.Select(tuple => ((string?)tuple.Item1, tuple.Item2, tuple.Item3,
+                                                                                                                 (TaskOptions?)null)),
+                                                                                          maxRetries,
+                                                                                          taskOptions,
+                                                                                          cancellationToken))
+                               .Select(task => task.taskId);
 
   /// <summary>
   ///   The method to submit several tasks with dependencies tasks. This task will wait for
@@ -356,33 +352,18 @@ public abstract class BaseClientSubmitter<T>
   /// <param name="cancellationToken"></param>
   /// <returns>return a list of taskIds of the created tasks </returns>
   [PublicAPI]
-  public async IAsyncEnumerable<string> SubmitTasksWithDependenciesAsync(IEnumerable<Tuple<byte[], IList<string>>>  payloadsWithDependencies,
-                                                                         int                                        maxRetries        = 5,
-                                                                         TaskOptions?                               taskOptions       = null,
-                                                                         [EnumeratorCancellation] CancellationToken cancellationToken = default)
-  {
-    foreach (var chunk in payloadsWithDependencies.ToChunks(chunkSubmitSize_))
-    {
-      var resultsMetadata = await CreateResultsMetadataAsync(Enumerable.Range(0,
-                                                                              chunk.Length)
-                                                                       .Select(_ => Guid.NewGuid()
-                                                                                        .ToString()),
-                                                             cancellationToken)
-                              .ConfigureAwait(false);
-      var tasks = ChunkSubmitTasksWithDependenciesAsync(chunk.Zip(resultsMetadata,
-                                                                  (payloadWithDependencies,
-                                                                   metadata) => Tuple.Create(metadata.Value,
-                                                                                             payloadWithDependencies.Item1,
-                                                                                             payloadWithDependencies.Item2)),
-                                                        maxRetries,
-                                                        taskOptions ?? TaskOptions,
-                                                        cancellationToken);
-      await foreach (var taskId in tasks.ConfigureAwait(false))
-      {
-        yield return taskId;
-      }
-    }
-  }
+  public IAsyncEnumerable<string> SubmitTasksWithDependenciesAsync(IEnumerable<Tuple<byte[], IList<string>>> payloadsWithDependencies,
+                                                                   int                                       maxRetries        = 5,
+                                                                   TaskOptions?                              taskOptions       = null,
+                                                                   CancellationToken                         cancellationToken = default)
+    => payloadsWithDependencies.ToChunks(chunkSubmitSize_)
+                               .ToAsyncEnumerable()
+                               .SelectMany(chunk => ChunkSubmitTasksWithDependenciesAsync(chunk.Select(tuple => ((string?)null, tuple.Item1, tuple.Item2,
+                                                                                                                 (TaskOptions?)null)),
+                                                                                          maxRetries,
+                                                                                          taskOptions,
+                                                                                          cancellationToken))
+                               .Select(task => task.taskId);
 
   /// <summary>
   ///   The method to submit several tasks with dependencies tasks. This task will wait for
@@ -420,191 +401,228 @@ public abstract class BaseClientSubmitter<T>
   /// </param>
   /// <param name="cancellationToken"></param>
   /// <returns>return the ids of the created tasks</returns>
-  private async IAsyncEnumerable<string> ChunkSubmitTasksWithDependenciesAsync(IEnumerable<Tuple<string, byte[], IList<string>>> payloadsWithDependencies,
-                                                                               int                                               maxRetries,
-                                                                               TaskOptions?                                      taskOptions       = null,
-                                                                               [EnumeratorCancellation] CancellationToken        cancellationToken = default)
+  public async IAsyncEnumerable<(string taskId, string resultId)> ChunkSubmitTasksWithDependenciesAsync(
+    IEnumerable<(string?, byte[], IList<string>, TaskOptions?)> payloadsWithDependencies,
+    int                                                         maxRetries        = 5,
+    TaskOptions?                                                taskOptions       = null,
+    [EnumeratorCancellation] CancellationToken                  cancellationToken = default)
   {
     using var _ = Logger.LogFunction();
 
-    var tasks = new List<SubmitTasksRequest.Types.TaskCreation>();
+    var taskProperties         = new List<(Either<string, int>, int, bool, IList<string>, TaskOptions?)>();
+    var smallPayloadProperties = new List<byte[]>();
+    var largePayloadProperties = new List<(byte[], int)>();
+    var nbResults              = 0;
 
-    foreach (var (resultId, payload, dependencies) in payloadsWithDependencies)
+    foreach (var (resultId, payload, dependencies, specificTaskOptions) in payloadsWithDependencies)
     {
-      for (var nbRetry = 0; nbRetry < maxRetries; nbRetry++)
+      Either<string, int> result;
+      if (resultId is null)
       {
-        await using var channel = await ChannelPool.GetAsync(cancellationToken)
-                                                   .ConfigureAwait(false);
-        var resultsClient = new Results.ResultsClient(channel);
-
-        try
-        {
-          // todo: migrate to ArmoniK.Api
-          string payloadId;
-          if (payload.Length > configuration_)
-          {
-            var response = await resultsClient.CreateResultsMetaDataAsync(new CreateResultsMetaDataRequest
-                                                                          {
-                                                                            SessionId = SessionId.Id,
-                                                                            Results =
-                                                                            {
-                                                                              new CreateResultsMetaDataRequest.Types.ResultCreate(),
-                                                                            },
-                                                                          },
-                                                                          cancellationToken: cancellationToken)
-                                              .ConfigureAwait(false);
-            payloadId = response.Results.Select(raw => raw.ResultId)
-                                .Single();
-
-            await resultsClient.UploadResultData(SessionId.Id,
-                                                 payloadId,
-                                                 payload);
-          }
-          else
-          {
-            var response = await resultsClient.CreateResultsAsync(new CreateResultsRequest
-                                                                  {
-                                                                    SessionId = SessionId.Id,
-                                                                    Results =
-                                                                    {
-                                                                      new CreateResultsRequest.Types.ResultCreate
-                                                                      {
-                                                                        Data = UnsafeByteOperations.UnsafeWrap(payload),
-                                                                      },
-                                                                    },
-                                                                  },
-                                                                  cancellationToken: cancellationToken)
-                                              .ConfigureAwait(false);
-            payloadId = response.Results.Select(raw => raw.ResultId)
-                                .Single();
-          }
-
-
-          tasks.Add(new SubmitTasksRequest.Types.TaskCreation
-                    {
-                      PayloadId = payloadId,
-                      DataDependencies =
-                      {
-                        dependencies,
-                      },
-                      ExpectedOutputKeys =
-                      {
-                        resultId,
-                      },
-                    });
-          // break retry loop because submission is successful
-          break;
-        }
-        catch (Exception e)
-        {
-          if (nbRetry >= maxRetries - 1)
-          {
-            throw;
-          }
-
-          var innerException = e is AggregateException
-                                    {
-                                      InnerExceptions.Count: 1,
-                                    } agg
-                                 ? agg.InnerException
-                                 : e;
-
-          switch (innerException)
-          {
-            case RpcException:
-            case IOException:
-              Logger.LogWarning(innerException,
-                                "Failure to submit : Retrying");
-              break;
-            default:
-              Logger.LogError(innerException,
-                              "Unknown failure");
-              throw;
-          }
-
-          if (nbRetry > 0)
-          {
-            Logger.LogWarning("{retry}/{maxRetries} nbRetry to submit task associated to {resultId}",
-                              nbRetry,
-                              maxRetries,
-                              resultId);
-          }
-        }
+        result    =  nbResults;
+        nbResults += 1;
       }
+      else
+      {
+        result = resultId;
+      }
+
+      int  payloadIndex;
+      bool isLarge;
+      if (payload.Length > configuration_)
+      {
+        payloadIndex = largePayloadProperties.Count;
+        largePayloadProperties.Add((payload, nbResults));
+        nbResults += 1;
+        isLarge   =  true;
+      }
+      else
+      {
+        payloadIndex = smallPayloadProperties.Count;
+        smallPayloadProperties.Add(payload);
+        isLarge = false;
+      }
+
+      taskProperties.Add((result, payloadIndex, isLarge, dependencies, specificTaskOptions));
     }
 
-    foreach (var taskChunk in tasks.ToChunks(100))
-    {
-      if (taskChunk.Length == 0)
-      {
-        continue;
-      }
+    var uploadSmallPayloads = smallPayloadProperties.ParallelSelect(new ParallelTaskOptions(properties_.MaxParallelChannels,
+                                                                                            cancellationToken),
+                                                                    payload => Retry.WhileException(maxRetries,
+                                                                                                    2000,
+                                                                                                    async _ =>
+                                                                                                    {
+                                                                                                      await using var channel =
+                                                                                                        await ChannelPool.GetAsync(cancellationToken)
+                                                                                                                         .ConfigureAwait(false);
+                                                                                                      var resultClient = new Results.ResultsClient(channel);
+                                                                                                      var response = await resultClient
+                                                                                                                           .CreateResultsAsync(new CreateResultsRequest
+                                                                                                                                               {
+                                                                                                                                                 SessionId =
+                                                                                                                                                   SessionId.Id,
+                                                                                                                                                 Results =
+                                                                                                                                                 {
+                                                                                                                                                   new
+                                                                                                                                                   CreateResultsRequest.
+                                                                                                                                                   Types.ResultCreate
+                                                                                                                                                   {
+                                                                                                                                                     Data =
+                                                                                                                                                       UnsafeByteOperations
+                                                                                                                                                         .UnsafeWrap(payload),
+                                                                                                                                                   },
+                                                                                                                                                 },
+                                                                                                                                               },
+                                                                                                                                               cancellationToken:
+                                                                                                                                               cancellationToken)
+                                                                                                                           .ConfigureAwait(false);
 
-      SubmitTasksResponse? submitTasksResponse = null;
-      for (var nbRetry = 0; nbRetry < maxRetries; nbRetry++)
-      {
-        await using var channel = await ChannelPool.GetAsync(cancellationToken)
-                                                   .ConfigureAwait(false);
-        var tasksClient = new Tasks.TasksClient(channel);
+                                                                                                      return response.Results.Single()
+                                                                                                                     .ResultId;
+                                                                                                    },
+                                                                                                    true,
+                                                                                                    Logger,
+                                                                                                    cancellationToken,
+                                                                                                    typeof(IOException),
+                                                                                                    typeof(RpcException))
+                                                                                    .AsTask())
+                                                    .ToListAsync(cancellationToken);
 
-        try
-        {
-          submitTasksResponse = await tasksClient.SubmitTasksAsync(new SubmitTasksRequest
-                                                                   {
-                                                                     TaskOptions = taskOptions,
-                                                                     SessionId   = SessionId.Id,
-                                                                     TaskCreations =
+    var createResultMetadata = Retry.WhileException(maxRetries,
+                                                    2000,
+                                                    async _ =>
+                                                    {
+                                                      await using var channel = await ChannelPool.GetAsync(cancellationToken)
+                                                                                                 .ConfigureAwait(false);
+                                                      var resultClient = new Results.ResultsClient(channel);
+                                                      var response = await resultClient.CreateResultsMetaDataAsync(new CreateResultsMetaDataRequest
+                                                                                                                   {
+                                                                                                                     SessionId = SessionId.Id,
+                                                                                                                     Results =
+                                                                                                                     {
+                                                                                                                       Enumerable.Range(0,
+                                                                                                                                        nbResults)
+                                                                                                                                 .Select(_ => new
+                                                                                                                                           CreateResultsMetaDataRequest.
+                                                                                                                                           Types.ResultCreate()),
+                                                                                                                     },
+                                                                                                                   },
+                                                                                                                   cancellationToken: cancellationToken)
+                                                                                       .ConfigureAwait(false);
+
+                                                      return response.Results.Select(result => result.ResultId)
+                                                                     .AsIList();
+                                                    },
+                                                    true,
+                                                    Logger,
+                                                    cancellationToken,
+                                                    typeof(IOException),
+                                                    typeof(RpcException))
+                                    .AsTask();
+
+
+    var uploadLargePayloads = largePayloadProperties.ParallelForEach(new ParallelTaskOptions(properties_.MaxParallelChannels,
+                                                                                             cancellationToken),
+                                                                     async payload =>
                                                                      {
-                                                                       taskChunk,
-                                                                     },
-                                                                   },
-                                                                   cancellationToken: cancellationToken)
-                                                 .ConfigureAwait(false);
+                                                                       var results = await createResultMetadata.ConfigureAwait(false);
 
-          // break retry loop because submission is successful
-          break;
-        }
-        catch (Exception e)
-        {
-          if (nbRetry >= maxRetries - 1)
-          {
-            throw;
-          }
+                                                                       await Retry.WhileException(maxRetries,
+                                                                                                  2000,
+                                                                                                  async _ =>
+                                                                                                  {
+                                                                                                    var resultId = results[payload.Item2];
+                                                                                                    await using var channel =
+                                                                                                      await ChannelPool.GetAsync(cancellationToken)
+                                                                                                                       .ConfigureAwait(false);
+                                                                                                    var resultClient = new Results.ResultsClient(channel);
 
-          var innerException = e is AggregateException
-                                    {
-                                      InnerExceptions.Count: 1,
-                                    } agg
-                                 ? agg.InnerException
-                                 : e;
+                                                                                                    await resultClient.UploadResultData(SessionId.Id,
+                                                                                                                                        resultId,
+                                                                                                                                        payload.Item1)
+                                                                                                                      .ConfigureAwait(false);
+                                                                                                  },
+                                                                                                  true,
+                                                                                                  Logger,
+                                                                                                  cancellationToken,
+                                                                                                  typeof(IOException),
+                                                                                                  typeof(RpcException))
+                                                                                  .ConfigureAwait(false);
+                                                                     });
 
-          switch (innerException)
-          {
-            case RpcException:
-            case IOException:
-              Logger.LogWarning(innerException,
-                                "Failure to submit : Retrying");
-              break;
-            default:
-              Logger.LogError(innerException,
-                              "Unknown failure");
-              throw;
-          }
+    var results       = await createResultMetadata.ConfigureAwait(false);
+    var smallPayloads = await uploadSmallPayloads.ConfigureAwait(false);
 
-          if (nbRetry > 0)
-          {
-            Logger.LogWarning("{retry}/{maxRetries} nbRetry to submit tasks",
-                              nbRetry,
-                              maxRetries);
-          }
-        }
-      }
+    var tasks = taskProperties.Select(tuple =>
+                                      {
+                                        var (result, payloadIndex, isLarge, dependencies, specificTaskOptions) = tuple;
+                                        var resultId = (string?)result ?? results[(int)result]!;
 
-      foreach (var taskInfo in submitTasksResponse!.TaskInfos)
+                                        var payloadId = isLarge
+                                                          ? results[largePayloadProperties[payloadIndex]
+                                                                      .Item2]
+                                                          : smallPayloads[payloadIndex];
+
+                                        return new SubmitTasksRequest.Types.TaskCreation
+                                               {
+                                                 PayloadId = payloadId,
+                                                 DataDependencies =
+                                                 {
+                                                   dependencies,
+                                                 },
+                                                 ExpectedOutputKeys =
+                                                 {
+                                                   resultId,
+                                                 },
+                                                 TaskOptions = specificTaskOptions,
+                                               };
+                                      })
+                              .AsIList();
+
+    var taskSubmit = tasks.ToChunks(100)
+                          .ParallelSelect(new ParallelTaskOptions(1,
+                                                                  cancellationToken),
+                                          async taskChunk =>
+                                          {
+                                            var response = await Retry.WhileException(maxRetries,
+                                                                                      2000,
+                                                                                      async _ =>
+                                                                                      {
+                                                                                        await using var channel = await ChannelPool.GetAsync(cancellationToken)
+                                                                                                                                   .ConfigureAwait(false);
+                                                                                        var taskClient = new Tasks.TasksClient(channel);
+
+                                                                                        return await taskClient.SubmitTasksAsync(new SubmitTasksRequest
+                                                                                                                                 {
+                                                                                                                                   TaskOptions = taskOptions,
+                                                                                                                                   SessionId   = SessionId.Id,
+                                                                                                                                   TaskCreations =
+                                                                                                                                   {
+                                                                                                                                     taskChunk,
+                                                                                                                                   },
+                                                                                                                                 },
+                                                                                                                                 cancellationToken: cancellationToken)
+                                                                                                               .ConfigureAwait(false);
+                                                                                      },
+                                                                                      true,
+                                                                                      Logger,
+                                                                                      cancellationToken,
+                                                                                      typeof(IOException),
+                                                                                      typeof(RpcException))
+                                                                      .ConfigureAwait(false);
+
+                                            return response.TaskInfos.Select(task => (task.TaskId, task.ExpectedOutputIds.Single()));
+                                          });
+
+    await foreach (var taskChunk in taskSubmit.ConfigureAwait(false))
+    {
+      foreach (var task in taskChunk)
       {
-        yield return taskInfo.TaskId;
+        yield return task;
       }
     }
+
+    await uploadLargePayloads.ConfigureAwait(false);
   }
 
   /// <summary>
@@ -761,7 +779,9 @@ public abstract class BaseClientSubmitter<T>
                                                                 nameof(Results.ResultsClient.GetResult));
 
                                                 return await result2TaskDic.Keys.ToChunks(100)
-                                                                           .ParallelSelect(async chunk =>
+                                                                           .ParallelSelect(new ParallelTaskOptions(properties_.MaxParallelChannels,
+                                                                                                                   cancellationToken),
+                                                                                           async chunk =>
                                                                                            {
                                                                                              await using var channel = await ChannelPool.GetAsync(cancellationToken)
                                                                                                                                         .ConfigureAwait(false);

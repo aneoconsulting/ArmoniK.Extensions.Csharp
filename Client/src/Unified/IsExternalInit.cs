@@ -14,25 +14,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
-using System.Threading;
 
-using ArmoniK.Api.gRPC.V1;
-using ArmoniK.DevelopmentKit.Client.Common;
-using ArmoniK.DevelopmentKit.Common;
+#if NETFRAMEWORK || NETSTANDARD
+// This type is required to use initializers when compiling to framework
+namespace System.Runtime.CompilerServices;
 
-namespace ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter;
-
-internal class BlockRequest
+internal static class IsExternalInit
 {
-  public IServiceInvocationHandler Handler;
-
-  public ArmonikPayload? Payload { get; set; }
-
-  public SemaphoreSlim Lock     { get; set; }
-  public Guid          SubmitId { get; set; }
-
-  public string      ResultId    { get; set; }
-  public int         MaxRetries  { get; set; } = 5;
-  public TaskOptions TaskOptions { get; set; }
 }
+#endif
