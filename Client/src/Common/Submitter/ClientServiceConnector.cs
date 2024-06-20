@@ -55,6 +55,8 @@ public class ClientServiceConnector
                     Proxy                 = properties.Proxy,
                     ProxyUsername         = properties.ProxyUsername,
                     ProxyPassword         = properties.ProxyPassword,
+                    KeepAliveTime         = properties.KeepAliveTime,
+                    KeepAliveTimeInterval = properties.KeepAliveTimeInterval,
                   };
 
     return new ObjectPool<GrpcChannel>(ct => new ValueTask<GrpcChannel>(GrpcChannelFactory.CreateChannel(options,
@@ -80,6 +82,7 @@ switch (channel.State)
           }
                                        }
 #else
+
                                        (_,
                                         _) => new ValueTask<bool>(true)
 #endif
