@@ -113,8 +113,10 @@ public static class Retry
         if (exceptionType != null && allowDerivedExceptions && ex is AggregateException &&
             exceptionType.Any(e => ex.InnerException != null && ex.InnerException.GetType() == e))
         {
-          logger?.LogDebug("Got exception while executing function to retry : {ex}",
-                           ex);
+          logger?.LogWarning(ex,
+                             "Got exception while executing function to retry {retry}/{retries}",
+                             retry,
+                             retries);
           Thread.Sleep(delayMs);
         }
         else if (exceptionType == null || exceptionType.Any(e => e == ex.GetType()) || (allowDerivedExceptions && exceptionType.Any(e => ex.GetType()
@@ -123,8 +125,10 @@ public static class Retry
           // Ignore exceptions when exceptionType is not specified OR
           // the exception thrown was of the specified exception type OR
           // the exception thrown is derived from the specified exception type and we allow that
-          logger?.LogDebug("Got exception while executing function to retry : {ex}",
-                           ex);
+          logger?.LogWarning(ex,
+                             "Got exception while executing function to retry {retry}/{retries}",
+                             retry,
+                             retries);
           Thread.Sleep(delayMs);
         }
         else
@@ -197,8 +201,10 @@ public static class Retry
         if (exceptionType != null && allowDerivedExceptions && ex is AggregateException &&
             exceptionType.Any(e => ex.InnerException != null && ex.InnerException.GetType() == e))
         {
-          logger?.LogDebug("Got exception while executing function to retry : {ex}",
-                           ex);
+          logger?.LogWarning(ex,
+                             "Got exception while executing function to retry {retry}/{retries}",
+                             retry,
+                             retries);
           Thread.Sleep(delayMs);
         }
         else if (exceptionType == null || exceptionType.Any(e => e == ex.GetType()) || (allowDerivedExceptions && exceptionType.Any(e => ex.GetType()
@@ -207,8 +213,10 @@ public static class Retry
           // Ignore exceptions when exceptionType is not specified OR
           // the exception thrown was of the specified exception type OR
           // the exception thrown is derived from the specified exception type and we allow that
-          logger?.LogDebug("Got exception while executing function to retry : {ex}",
-                           ex);
+          logger?.LogWarning(ex,
+                             "Got exception while executing function to retry {retry}/{retries}",
+                             retry,
+                             retries);
           Thread.Sleep(delayMs);
         }
         else
@@ -293,8 +301,10 @@ public static class Retry
         if (exceptionType != null && allowDerivedExceptions && ex is AggregateException &&
             exceptionType.Any(e => ex.InnerException != null && ex.InnerException.GetType() == e))
         {
-          logger?.LogDebug("Got exception while executing function to retry : {ex}",
-                           ex);
+          logger?.LogWarning(ex,
+                             "Got exception while executing function to retry {retry}/{retries}",
+                             retry,
+                             retries);
           Thread.Sleep(delayMs);
         }
         else if (exceptionType == null || exceptionType.Any(e => e == ex.GetType()) || (allowDerivedExceptions && exceptionType.Any(e => ex.GetType()
@@ -303,8 +313,10 @@ public static class Retry
           // Ignore exceptions when exceptionType is not specified OR
           // the exception thrown was of the specified exception type OR
           // the exception thrown is derived from the specified exception type and we allow that
-          logger?.LogDebug("Got exception while executing function to retry : {ex}",
-                           ex);
+          logger?.LogWarning(ex,
+                             "Got exception while executing function to retry {retry}/{retries}",
+                             retry,
+                             retries);
           await Task.Delay(delayMs,
                            cancellationToken)
                     .ConfigureAwait(false);
@@ -385,8 +397,10 @@ public static class Retry
         if (exceptionType != null && allowDerivedExceptions && ex is AggregateException &&
             exceptionType.Any(e => ex.InnerException != null && ex.InnerException.GetType() == e))
         {
-          logger?.LogDebug("Got exception while executing function to retry : {ex}",
-                           ex);
+          logger?.LogWarning(ex,
+                             "Got exception while executing function to retry {retry}/{retries}",
+                             retry,
+                             retries);
           await Task.Delay(delayMs,
                            cancellationToken)
                     .ConfigureAwait(false);
@@ -397,8 +411,10 @@ public static class Retry
           // Ignore exceptions when exceptionType is not specified OR
           // the exception thrown was of the specified exception type OR
           // the exception thrown is derived from the specified exception type and we allow that
-          logger?.LogDebug("Got exception while executing function to retry : {ex}",
-                           ex);
+          logger?.LogWarning(ex,
+                             "Got exception while executing function to retry {retry}/{retries}",
+                             retry,
+                             retries);
           await Task.Delay(delayMs,
                            cancellationToken)
                     .ConfigureAwait(false);
