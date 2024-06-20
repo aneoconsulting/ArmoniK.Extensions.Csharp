@@ -59,7 +59,7 @@ public class Properties
   private const string SectionRetryMaxBackoff        = "RetryMaxBackoff";
 
   private const string SectionKeepAliveTime         = "KeepAliveTime";
-  private const string SectionKeepAliveTimeInterval = "KeepAliveTimeInvterval";
+  private const string SectionKeepAliveTimeInterval = "KeepAliveTimeInterval";
 
   /// <summary>
   ///   The default configuration to submit task in a Session
@@ -422,7 +422,13 @@ public class Properties
   /// </summary>
   public string ProxyPassword { get; set; }
 
+  /// <summary>
+  ///   TCP KeepAlive Time
+  /// </summary>
   public TimeSpan KeepAliveTime { get; } = TimeSpan.FromSeconds(30);
 
+  /// <summary>
+  ///   TCP KeepAlive Time Interval
+  /// </summary>
   public TimeSpan KeepAliveTimeInterval { get; } = TimeSpan.FromSeconds(30);
 }
