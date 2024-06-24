@@ -55,6 +55,7 @@ public class ClientServiceConnector
                     Proxy                 = properties.Proxy,
                     ProxyUsername         = properties.ProxyUsername,
                     ProxyPassword         = properties.ProxyPassword,
+                    ReusePorts            = properties.ReusePorts,
                   };
 
     return new ObjectPool<GrpcChannel>(ct => new ValueTask<GrpcChannel>(GrpcChannelFactory.CreateChannel(options,
