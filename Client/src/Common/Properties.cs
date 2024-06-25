@@ -58,6 +58,9 @@ public class Properties
   private const string SectionRetryBackoffMultiplier = "RetryBackoffMultiplier";
   private const string SectionRetryMaxBackoff        = "RetryMaxBackoff";
 
+  private const string SectionKeepAliveTime         = "KeepAliveTime";
+  private const string SectionKeepAliveTimeInterval = "KeepAliveTimeInterval";
+
   /// <summary>
   ///   The default configuration to submit task in a Session
   /// </summary>
@@ -127,6 +130,11 @@ public class Properties
   /// <param name="retryInitialBackoff">Initial retry backoff delay</param>
   /// <param name="retryBackoffMultiplier">Retry backoff multiplier</param>
   /// <param name="retryMaxBackoff">Max retry backoff</param>
+  /// <param name="proxy">Proxy url</param>
+  /// <param name="proxyUsername">Proxy Username</param>
+  /// <param name="proxyPassword">Proxy Password</param>
+  /// <param name="keepAliveTime">KeepAlive Time</param>
+  /// <param name="keepAliveTimeInterval">KeepAlive Time Interval</param>
   /// <exception cref="ArgumentException"></exception>
   public Properties(IConfiguration configuration,
                     TaskOptions    options,
@@ -143,7 +151,9 @@ public class Properties
                     TimeSpan       retryMaxBackoff        = new(),
                     string?        proxy                  = null,
                     string?        proxyUsername          = null,
-                    string?        proxyPassword          = null)
+                    string?        proxyPassword          = null,
+                    TimeSpan       keepAliveTime          = new(),
+                    TimeSpan       keepAliveTimeInterval  = new())
   {
     TaskOptions   = options;
     Configuration = configuration;
@@ -222,6 +232,24 @@ public class Properties
     else if (!string.IsNullOrWhiteSpace(sectionGrpc?[SectionRetryMaxBackoff]))
     {
       RetryMaxBackoff = TimeSpan.Parse(sectionGrpc[SectionRetryMaxBackoff]);
+    }
+
+    if (keepAliveTime != TimeSpan.Zero)
+    {
+      KeepAliveTime = keepAliveTime;
+    }
+    else if (!string.IsNullOrWhiteSpace(sectionGrpc?[SectionKeepAliveTime]))
+    {
+      KeepAliveTime = TimeSpan.Parse(sectionGrpc[SectionKeepAliveTime]);
+    }
+
+    if (keepAliveTimeInterval != TimeSpan.Zero)
+    {
+      KeepAliveTimeInterval = keepAliveTimeInterval;
+    }
+    else if (!string.IsNullOrWhiteSpace(sectionGrpc?[SectionKeepAliveTimeInterval]))
+    {
+      KeepAliveTime = TimeSpan.Parse(sectionGrpc[SectionKeepAliveTimeInterval]);
     }
 
 
@@ -393,4 +421,14 @@ public class Properties
   ///   Password for the proxy
   /// </summary>
   public string ProxyPassword { get; set; }
+
+  /// <summary>
+  ///   TCP KeepAlive Time
+  /// </summary>
+  public TimeSpan KeepAliveTime { get; } = TimeSpan.FromSeconds(30);
+
+  /// <summary>
+  ///   TCP KeepAlive Time Interval
+  /// </summary>
+  public TimeSpan KeepAliveTimeInterval { get; } = TimeSpan.FromSeconds(30);
 }

@@ -55,10 +55,12 @@ public class ClientServiceConnector
                     Proxy                 = properties.Proxy,
                     ProxyUsername         = properties.ProxyUsername,
                     ProxyPassword         = properties.ProxyPassword,
+                    KeepAliveTime         = properties.KeepAliveTime,
+                    KeepAliveTimeInterval = properties.KeepAliveTimeInterval,
                   };
-
+    var logger = loggerFactory?.CreateLogger(typeof(ClientServiceConnector));
     return new ObjectPool<GrpcChannel>(ct => new ValueTask<GrpcChannel>(GrpcChannelFactory.CreateChannel(options,
-                                                                                                         loggerFactory?.CreateLogger(typeof(ClientServiceConnector)))),
+                                                                                                         logger)),
 
 
 #if NET5_0_OR_GREATER
@@ -83,6 +85,14 @@ switch (channel.State)
                                        (_,
                                         _) => new ValueTask<bool>(true)
 #endif
-                                      );
+                                      ,
+                                       (_,
+                                        ex,
+                                        _) =>
+                                       {
+                                         logger?.LogInformation(ex,
+                                                                "Channel dropped due to exception");
+                                         return new ValueTask<bool>(false);
+                                       });
   }
 }

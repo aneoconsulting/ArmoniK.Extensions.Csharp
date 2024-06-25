@@ -133,19 +133,20 @@ public abstract class BaseClientSubmitter<T>
   {
     using var _ = Logger.LogFunction();
     Logger.LogDebug("Creating Session... ");
-    await using var channel = await ChannelPool.GetAsync(cancellationToken)
-                                               .ConfigureAwait(false);
-    var sessionsClient = new Sessions.SessionsClient(channel);
-    var createSessionReply = await sessionsClient.CreateSessionAsync(new CreateSessionRequest
-                                                                     {
-                                                                       DefaultTaskOption = TaskOptions,
-                                                                       PartitionIds =
-                                                                       {
-                                                                         partitionIds,
-                                                                       },
-                                                                     },
-                                                                     cancellationToken: cancellationToken)
-                                                 .ConfigureAwait(false);
+    var createSessionReply = await ChannelPool.WithInstanceAsync(async channel => await new Sessions.SessionsClient(channel).CreateSessionAsync(new CreateSessionRequest
+                                                                                                                                                {
+                                                                                                                                                  DefaultTaskOption =
+                                                                                                                                                    TaskOptions,
+                                                                                                                                                  PartitionIds =
+                                                                                                                                                  {
+                                                                                                                                                    partitionIds,
+                                                                                                                                                  },
+                                                                                                                                                },
+                                                                                                                                                cancellationToken:
+                                                                                                                                                cancellationToken)
+                                                                                                                            .ConfigureAwait(false),
+                                                                 cancellationToken)
+                                              .ConfigureAwait(false);
     Logger.LogDebug("Session Created {SessionId}",
                     SessionId);
     return new Session
@@ -229,10 +230,25 @@ public abstract class BaseClientSubmitter<T>
                                                      },
                                            },
                                            cancellationToken: cancellationToken);
-    await foreach (var task in tasks.ConfigureAwait(false))
+    await using var taskIterator = tasks.GetAsyncEnumerator(cancellationToken);
+    while (true)
     {
-      yield return new Tuple<string, TaskStatus>(task.Id,
-                                                 task.Status);
+      try
+      {
+        if (!await taskIterator.MoveNextAsync()
+                               .ConfigureAwait(false))
+        {
+          break;
+        }
+      }
+      catch (Exception e)
+      {
+        channel.RecordException(e);
+        throw;
+      }
+
+      yield return new Tuple<string, TaskStatus>(taskIterator.Current.Id,
+                                                 taskIterator.Current.Status);
     }
   }
 
@@ -455,30 +471,38 @@ public abstract class BaseClientSubmitter<T>
                                                                                                       await using var channel =
                                                                                                         await ChannelPool.GetAsync(cancellationToken)
                                                                                                                          .ConfigureAwait(false);
-                                                                                                      var resultClient = new Results.ResultsClient(channel);
-                                                                                                      var response = await resultClient
-                                                                                                                           .CreateResultsAsync(new CreateResultsRequest
-                                                                                                                                               {
-                                                                                                                                                 SessionId =
-                                                                                                                                                   SessionId.Id,
-                                                                                                                                                 Results =
+                                                                                                      try
+                                                                                                      {
+                                                                                                        var resultClient = new Results.ResultsClient(channel);
+                                                                                                        var response = await resultClient
+                                                                                                                             .CreateResultsAsync(new CreateResultsRequest
                                                                                                                                                  {
-                                                                                                                                                   new
-                                                                                                                                                   CreateResultsRequest.
-                                                                                                                                                   Types.ResultCreate
+                                                                                                                                                   SessionId = SessionId
+                                                                                                                                                     .Id,
+                                                                                                                                                   Results =
                                                                                                                                                    {
-                                                                                                                                                     Data =
-                                                                                                                                                       UnsafeByteOperations
-                                                                                                                                                         .UnsafeWrap(payload),
+                                                                                                                                                     new
+                                                                                                                                                     CreateResultsRequest
+                                                                                                                                                     .Types.ResultCreate
+                                                                                                                                                     {
+                                                                                                                                                       Data =
+                                                                                                                                                         UnsafeByteOperations
+                                                                                                                                                           .UnsafeWrap(payload),
+                                                                                                                                                     },
                                                                                                                                                    },
                                                                                                                                                  },
-                                                                                                                                               },
-                                                                                                                                               cancellationToken:
-                                                                                                                                               cancellationToken)
-                                                                                                                           .ConfigureAwait(false);
+                                                                                                                                                 cancellationToken:
+                                                                                                                                                 cancellationToken)
+                                                                                                                             .ConfigureAwait(false);
 
-                                                                                                      return response.Results.Single()
-                                                                                                                     .ResultId;
+                                                                                                        return response.Results.Single()
+                                                                                                                       .ResultId;
+                                                                                                      }
+                                                                                                      catch (Exception e)
+                                                                                                      {
+                                                                                                        channel.RecordException(e);
+                                                                                                        throw;
+                                                                                                      }
                                                                                                     },
                                                                                                     true,
                                                                                                     Logger,
@@ -494,24 +518,32 @@ public abstract class BaseClientSubmitter<T>
                                                     {
                                                       await using var channel = await ChannelPool.GetAsync(cancellationToken)
                                                                                                  .ConfigureAwait(false);
-                                                      var resultClient = new Results.ResultsClient(channel);
-                                                      var response = await resultClient.CreateResultsMetaDataAsync(new CreateResultsMetaDataRequest
-                                                                                                                   {
-                                                                                                                     SessionId = SessionId.Id,
-                                                                                                                     Results =
+                                                      try
+                                                      {
+                                                        var resultClient = new Results.ResultsClient(channel);
+                                                        var response = await resultClient.CreateResultsMetaDataAsync(new CreateResultsMetaDataRequest
                                                                                                                      {
-                                                                                                                       Enumerable.Range(0,
-                                                                                                                                        nbResults)
-                                                                                                                                 .Select(_ => new
-                                                                                                                                           CreateResultsMetaDataRequest.
-                                                                                                                                           Types.ResultCreate()),
+                                                                                                                       SessionId = SessionId.Id,
+                                                                                                                       Results =
+                                                                                                                       {
+                                                                                                                         Enumerable.Range(0,
+                                                                                                                                          nbResults)
+                                                                                                                                   .Select(_ => new
+                                                                                                                                             CreateResultsMetaDataRequest
+                                                                                                                                             .Types.ResultCreate()),
+                                                                                                                       },
                                                                                                                      },
-                                                                                                                   },
-                                                                                                                   cancellationToken: cancellationToken)
-                                                                                       .ConfigureAwait(false);
+                                                                                                                     cancellationToken: cancellationToken)
+                                                                                         .ConfigureAwait(false);
 
-                                                      return response.Results.Select(result => result.ResultId)
-                                                                     .AsIList();
+                                                        return response.Results.Select(result => result.ResultId)
+                                                                       .AsIList();
+                                                      }
+                                                      catch (Exception e)
+                                                      {
+                                                        channel.RecordException(e);
+                                                        throw;
+                                                      }
                                                     },
                                                     true,
                                                     Logger,
@@ -535,12 +567,20 @@ public abstract class BaseClientSubmitter<T>
                                                                                                     await using var channel =
                                                                                                       await ChannelPool.GetAsync(cancellationToken)
                                                                                                                        .ConfigureAwait(false);
-                                                                                                    var resultClient = new Results.ResultsClient(channel);
+                                                                                                    try
+                                                                                                    {
+                                                                                                      var resultClient = new Results.ResultsClient(channel);
 
-                                                                                                    await resultClient.UploadResultData(SessionId.Id,
-                                                                                                                                        resultId,
-                                                                                                                                        payload.Item1)
-                                                                                                                      .ConfigureAwait(false);
+                                                                                                      await resultClient.UploadResultData(SessionId.Id,
+                                                                                                                                          resultId,
+                                                                                                                                          payload.Item1)
+                                                                                                                        .ConfigureAwait(false);
+                                                                                                    }
+                                                                                                    catch (Exception e)
+                                                                                                    {
+                                                                                                      channel.RecordException(e);
+                                                                                                      throw;
+                                                                                                    }
                                                                                                   },
                                                                                                   true,
                                                                                                   Logger,
@@ -559,8 +599,7 @@ public abstract class BaseClientSubmitter<T>
                                         var resultId = (string?)result ?? results[(int)result]!;
 
                                         var payloadId = isLarge
-                                                          ? results[largePayloadProperties[payloadIndex]
-                                                                      .Item2]
+                                                          ? results[largePayloadProperties[payloadIndex].Item2]
                                                           : smallPayloads[payloadIndex];
 
                                         return new SubmitTasksRequest.Types.TaskCreation
@@ -590,19 +629,27 @@ public abstract class BaseClientSubmitter<T>
                                                                                       {
                                                                                         await using var channel = await ChannelPool.GetAsync(cancellationToken)
                                                                                                                                    .ConfigureAwait(false);
-                                                                                        var taskClient = new Tasks.TasksClient(channel);
+                                                                                        try
+                                                                                        {
+                                                                                          var taskClient = new Tasks.TasksClient(channel);
 
-                                                                                        return await taskClient.SubmitTasksAsync(new SubmitTasksRequest
-                                                                                                                                 {
-                                                                                                                                   TaskOptions = taskOptions,
-                                                                                                                                   SessionId   = SessionId.Id,
-                                                                                                                                   TaskCreations =
+                                                                                          return await taskClient.SubmitTasksAsync(new SubmitTasksRequest
                                                                                                                                    {
-                                                                                                                                     taskChunk,
+                                                                                                                                     TaskOptions = taskOptions,
+                                                                                                                                     SessionId   = SessionId.Id,
+                                                                                                                                     TaskCreations =
+                                                                                                                                     {
+                                                                                                                                       taskChunk,
+                                                                                                                                     },
                                                                                                                                    },
-                                                                                                                                 },
-                                                                                                                                 cancellationToken: cancellationToken)
-                                                                                                               .ConfigureAwait(false);
+                                                                                                                                   cancellationToken: cancellationToken)
+                                                                                                                 .ConfigureAwait(false);
+                                                                                        }
+                                                                                        catch (Exception e)
+                                                                                        {
+                                                                                          channel.RecordException(e);
+                                                                                          throw;
+                                                                                        }
                                                                                       },
                                                                                       true,
                                                                                       Logger,
@@ -703,23 +750,31 @@ public abstract class BaseClientSubmitter<T>
                                {
                                  await using var channel = await ChannelPool.GetAsync(cancellationToken)
                                                                             .ConfigureAwait(false);
-                                 var submitterService = new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel);
-
-                                 if (retry > 1)
+                                 try
                                  {
-                                   Logger.LogWarning("Try {try} for {funcName}",
-                                                     retry,
-                                                     nameof(submitterService.WaitForCompletion));
-                                 }
+                                   var submitterService = new Api.gRPC.V1.Submitter.Submitter.SubmitterClient(channel);
 
-                                 var __ = await submitterService.WaitForCompletionAsync(new WaitRequest
-                                                                                        {
-                                                                                          Filter                      = filter,
-                                                                                          StopOnFirstTaskCancellation = true,
-                                                                                          StopOnFirstTaskError        = true,
-                                                                                        },
-                                                                                        cancellationToken: cancellationToken)
-                                                                .ConfigureAwait(false);
+                                   if (retry > 1)
+                                   {
+                                     Logger.LogWarning("Try {try} for {funcName}",
+                                                       retry,
+                                                       nameof(submitterService.WaitForCompletion));
+                                   }
+
+                                   var __ = await submitterService.WaitForCompletionAsync(new WaitRequest
+                                                                                          {
+                                                                                            Filter                      = filter,
+                                                                                            StopOnFirstTaskCancellation = true,
+                                                                                            StopOnFirstTaskError        = true,
+                                                                                          },
+                                                                                          cancellationToken: cancellationToken)
+                                                                  .ConfigureAwait(false);
+                                 }
+                                 catch (Exception e)
+                                 {
+                                   channel.RecordException(e);
+                                   throw;
+                                 }
                                },
                                true,
                                Logger,
@@ -785,70 +840,79 @@ public abstract class BaseClientSubmitter<T>
                                                                                            {
                                                                                              await using var channel = await ChannelPool.GetAsync(cancellationToken)
                                                                                                                                         .ConfigureAwait(false);
-
-                                                                                             var resultsClient = new Results.ResultsClient(channel);
-                                                                                             var filters = chunk.Select(resultId => new FiltersAnd
-                                                                                                                                    {
-                                                                                                                                      And =
+                                                                                             try
+                                                                                             {
+                                                                                               var resultsClient = new Results.ResultsClient(channel);
+                                                                                               var filters = chunk.Select(resultId => new FiltersAnd
                                                                                                                                       {
-                                                                                                                                        new FilterField
+                                                                                                                                        And =
                                                                                                                                         {
-                                                                                                                                          Field = new ResultField
+                                                                                                                                          new FilterField
+                                                                                                                                          {
+                                                                                                                                            Field = new ResultField
+                                                                                                                                                    {
+                                                                                                                                                      ResultRawField =
+                                                                                                                                                        new
+                                                                                                                                                        ResultRawField
+                                                                                                                                                        {
+                                                                                                                                                          Field =
+                                                                                                                                                            ResultRawEnumField
+                                                                                                                                                              .ResultId,
+                                                                                                                                                        },
+                                                                                                                                                    },
+                                                                                                                                            FilterString =
+                                                                                                                                              new FilterString
+                                                                                                                                              {
+                                                                                                                                                Operator =
+                                                                                                                                                  FilterStringOperator
+                                                                                                                                                    .Equal,
+                                                                                                                                                Value = resultId,
+                                                                                                                                              },
+                                                                                                                                          },
+                                                                                                                                        },
+                                                                                                                                      });
+                                                                                               var res = await resultsClient.ListResultsAsync(new ListResultsRequest
+                                                                                                                                              {
+                                                                                                                                                Filters =
+                                                                                                                                                  new Api.gRPC.V1.Results
+                                                                                                                                                  .Filters
                                                                                                                                                   {
-                                                                                                                                                    ResultRawField =
-                                                                                                                                                      new ResultRawField
+                                                                                                                                                    Or =
+                                                                                                                                                    {
+                                                                                                                                                      filters,
+                                                                                                                                                    },
+                                                                                                                                                  },
+                                                                                                                                                Sort =
+                                                                                                                                                  new ListResultsRequest.
+                                                                                                                                                  Types.Sort
+                                                                                                                                                  {
+                                                                                                                                                    Direction =
+                                                                                                                                                      SortDirection.Asc,
+                                                                                                                                                    Field =
+                                                                                                                                                      new ResultField
                                                                                                                                                       {
-                                                                                                                                                        Field =
-                                                                                                                                                          ResultRawEnumField
-                                                                                                                                                            .ResultId,
+                                                                                                                                                        ResultRawField =
+                                                                                                                                                          new
+                                                                                                                                                          ResultRawField
+                                                                                                                                                          {
+                                                                                                                                                            Field =
+                                                                                                                                                              ResultRawEnumField
+                                                                                                                                                                .ResultId,
+                                                                                                                                                          },
                                                                                                                                                       },
                                                                                                                                                   },
-                                                                                                                                          FilterString = new FilterString
-                                                                                                                                                         {
-                                                                                                                                                           Operator =
-                                                                                                                                                             FilterStringOperator
-                                                                                                                                                               .Equal,
-                                                                                                                                                           Value =
-                                                                                                                                                             resultId,
-                                                                                                                                                         },
-                                                                                                                                        },
-                                                                                                                                      },
-                                                                                                                                    });
-                                                                                             var res = await resultsClient.ListResultsAsync(new ListResultsRequest
-                                                                                                                                            {
-                                                                                                                                              Filters =
-                                                                                                                                                new Api.gRPC.V1.Results.
-                                                                                                                                                Filters
-                                                                                                                                                {
-                                                                                                                                                  Or =
-                                                                                                                                                  {
-                                                                                                                                                    filters,
-                                                                                                                                                  },
-                                                                                                                                                },
-                                                                                                                                              Sort =
-                                                                                                                                                new ListResultsRequest.
-                                                                                                                                                Types.Sort
-                                                                                                                                                {
-                                                                                                                                                  Direction =
-                                                                                                                                                    SortDirection.Asc,
-                                                                                                                                                  Field = new ResultField
-                                                                                                                                                          {
-                                                                                                                                                            ResultRawField =
-                                                                                                                                                              new
-                                                                                                                                                              ResultRawField
-                                                                                                                                                              {
-                                                                                                                                                                Field =
-                                                                                                                                                                  ResultRawEnumField
-                                                                                                                                                                    .ResultId,
-                                                                                                                                                              },
-                                                                                                                                                          },
-                                                                                                                                                },
-                                                                                                                                              PageSize = 100,
-                                                                                                                                            },
-                                                                                                                                            cancellationToken:
-                                                                                                                                            cancellationToken)
-                                                                                                                          .ConfigureAwait(false);
-                                                                                             return res;
+                                                                                                                                                PageSize = 100,
+                                                                                                                                              },
+                                                                                                                                              cancellationToken:
+                                                                                                                                              cancellationToken)
+                                                                                                                            .ConfigureAwait(false);
+                                                                                               return res;
+                                                                                             }
+                                                                                             catch (Exception e)
+                                                                                             {
+                                                                                               channel.RecordException(e);
+                                                                                               throw;
+                                                                                             }
                                                                                            })
                                                                            .SelectMany(results => results
                                                                                                   .Results.Select(result => (resultId: result.ResultId,
@@ -938,19 +1002,27 @@ public abstract class BaseClientSubmitter<T>
 
                               await using var channel = await ChannelPool.GetAsync(cancellationToken)
                                                                          .ConfigureAwait(false);
-                              var taskClient = new Tasks.TasksClient(channel);
+                              try
+                              {
+                                var taskClient = new Tasks.TasksClient(channel);
 
-                              var response = await taskClient.GetResultIdsAsync(new GetResultIdsRequest
-                                                                                {
-                                                                                  TaskId =
+                                var response = await taskClient.GetResultIdsAsync(new GetResultIdsRequest
                                                                                   {
-                                                                                    taskIds,
+                                                                                    TaskId =
+                                                                                    {
+                                                                                      taskIds,
+                                                                                    },
                                                                                   },
-                                                                                },
-                                                                                cancellationToken: cancellationToken)
-                                                             .ConfigureAwait(false);
+                                                                                  cancellationToken: cancellationToken)
+                                                               .ConfigureAwait(false);
 
-                              return response.TaskResults.AsICollection();
+                                return response.TaskResults.AsICollection();
+                              }
+                              catch (Exception e)
+                              {
+                                channel.RecordException(e);
+                                throw;
+                              }
                             },
                             true,
                             Logger,
@@ -1001,15 +1073,23 @@ public abstract class BaseClientSubmitter<T>
       {
         await using var channel = await ChannelPool.GetAsync(cancellationToken)
                                                    .ConfigureAwait(false);
-        var eventsClient = new Events.EventsClient(channel);
+        try
+        {
+          var eventsClient = new Events.EventsClient(channel);
 
-        await eventsClient.WaitForResultsAsync(SessionId.Id,
-                                               new List<string>
-                                               {
-                                                 resultId,
-                                               },
-                                               cancellationToken)
-                          .ConfigureAwait(false);
+          await eventsClient.WaitForResultsAsync(SessionId.Id,
+                                                 new List<string>
+                                                 {
+                                                   resultId,
+                                                 },
+                                                 cancellationToken)
+                            .ConfigureAwait(false);
+        }
+        catch (Exception e)
+        {
+          channel.RecordException(e);
+          throw;
+        }
       }
 
       return await Retry.WhileException(5,
@@ -1095,34 +1175,46 @@ public abstract class BaseClientSubmitter<T>
   {
     await using var channel = await ChannelPool.GetAsync(cancellationToken)
                                                .ConfigureAwait(false);
-    var resultsClient = new Results.ResultsClient(channel);
-    var getResultResponse = await resultsClient.GetResultAsync(new GetResultRequest
-                                                               {
-                                                                 ResultId = resultRequest.ResultId,
-                                                               },
-                                                               null,
-                                                               null,
-                                                               cancellationToken)
-                                               .ConfigureAwait(false);
-    var result = getResultResponse.Result;
-    switch (result.Status)
+    try
     {
-      case ResultStatus.Completed:
+      var resultsClient = new Results.ResultsClient(channel);
+      var getResultResponse = await resultsClient.GetResultAsync(new GetResultRequest
+                                                                 {
+                                                                   ResultId = resultRequest.ResultId,
+                                                                 },
+                                                                 null,
+                                                                 null,
+                                                                 cancellationToken)
+                                                 .ConfigureAwait(false);
+      var result = getResultResponse.Result;
+      switch (result.Status)
       {
-        return await resultsClient.DownloadResultData(result.SessionId,
-                                                      result.ResultId,
-                                                      cancellationToken)
-                                  .ConfigureAwait(false);
+        case ResultStatus.Completed:
+        {
+          return await resultsClient.DownloadResultData(result.SessionId,
+                                                        result.ResultId,
+                                                        cancellationToken)
+                                    .ConfigureAwait(false);
+        }
+        case ResultStatus.Aborted:
+          throw new Exception($"Error while trying to get result {result.ResultId}. Result was aborted");
+        case ResultStatus.Notfound:
+          throw new Exception($"Error while trying to get result {result.ResultId}. Result was not found");
+        case ResultStatus.Created:
+          return null;
+        case ResultStatus.Unspecified:
+        default:
+          throw new ArgumentOutOfRangeException(nameof(result.Status));
       }
-      case ResultStatus.Aborted:
-        throw new Exception($"Error while trying to get result {result.ResultId}. Result was aborted");
-      case ResultStatus.Notfound:
-        throw new Exception($"Error while trying to get result {result.ResultId}. Result was not found");
-      case ResultStatus.Created:
-        return null;
-      case ResultStatus.Unspecified:
-      default:
-        throw new ArgumentOutOfRangeException(nameof(result.Status));
+    }
+    catch (ArgumentOutOfRangeException _)
+    {
+      throw;
+    }
+    catch (Exception e)
+    {
+      channel.RecordException(e);
+      throw;
     }
   }
 
@@ -1302,8 +1394,7 @@ public abstract class BaseClientSubmitter<T>
 
         var taskIdInError = resultStatus.IdsError.Any()
                               ? resultStatus.IdsError[0]
-                              : resultStatus.IdsResultError[0]
-                                            .TaskId;
+                              : resultStatus.IdsResultError[0].TaskId;
 
         const string message = "The missing result is in error or canceled. "                                                          +
                                "Please check log for more information on Armonik grid server list of taskIds in Error: [{taskList}]\n" +
@@ -1363,22 +1454,30 @@ public abstract class BaseClientSubmitter<T>
   {
     await using var channel = await ChannelPool.GetAsync(cancellationToken)
                                                .ConfigureAwait(false);
-    var client = new Results.ResultsClient(channel);
-    var results = await client.CreateResultsMetaDataAsync(new CreateResultsMetaDataRequest
-                                                          {
-                                                            SessionId = SessionId.Id,
-                                                            Results =
+    try
+    {
+      var client = new Results.ResultsClient(channel);
+      var results = await client.CreateResultsMetaDataAsync(new CreateResultsMetaDataRequest
                                                             {
-                                                              resultNames.Select(name => new CreateResultsMetaDataRequest.Types.ResultCreate
-                                                                                         {
-                                                                                           Name = name,
-                                                                                         }),
+                                                              SessionId = SessionId.Id,
+                                                              Results =
+                                                              {
+                                                                resultNames.Select(name => new CreateResultsMetaDataRequest.Types.ResultCreate
+                                                                                           {
+                                                                                             Name = name,
+                                                                                           }),
+                                                              },
                                                             },
-                                                          },
-                                                          cancellationToken: cancellationToken)
-                              .ConfigureAwait(false);
-    return results.Results.ToDictionary(r => r.Name,
-                                        r => r.ResultId);
+                                                            cancellationToken: cancellationToken)
+                                .ConfigureAwait(false);
+      return results.Results.ToDictionary(r => r.Name,
+                                          r => r.ResultId);
+    }
+    catch (Exception e)
+    {
+      channel.RecordException(e);
+      throw;
+    }
   }
 
   /// <summary>
