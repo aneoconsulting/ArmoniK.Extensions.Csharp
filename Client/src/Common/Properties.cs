@@ -53,6 +53,7 @@ public class Properties
   private const string SectionProxy              = "Proxy";
   private const string SectionProxyUsername      = "ProxyUsername";
   private const string SectionProxyPassword      = "ProxyPassword";
+  private const string SectionReusePorts         = "ReusePorts";
 
   private const string SectionRetryInitialBackoff    = "RetryInitialBackoff";
   private const string SectionRetryBackoffMultiplier = "RetryBackoffMultiplier";
@@ -127,6 +128,10 @@ public class Properties
   /// <param name="retryInitialBackoff">Initial retry backoff delay</param>
   /// <param name="retryBackoffMultiplier">Retry backoff multiplier</param>
   /// <param name="retryMaxBackoff">Max retry backoff</param>
+  /// <param name="proxy">Proxy configuration</param>
+  /// <param name="proxyUsername">Username used for proxy authentication</param>
+  /// <param name="proxyPassword">Password used for proxy authentication</param>
+  /// <param name="reusePorts">Enable the option SO_REUSE_UNICASTPORT upon socket opening to limit port exhaustion</param>
   /// <exception cref="ArgumentException"></exception>
   public Properties(IConfiguration configuration,
                     TaskOptions    options,
@@ -143,7 +148,8 @@ public class Properties
                     TimeSpan       retryMaxBackoff        = new(),
                     string?        proxy                  = null,
                     string?        proxyUsername          = null,
-                    string?        proxyPassword          = null)
+                    string?        proxyPassword          = null,
+                    bool?          reusePorts             = null)
   {
     TaskOptions   = options;
     Configuration = configuration;
@@ -195,6 +201,17 @@ public class Properties
     Proxy              = proxy                                  ?? sectionGrpc[SectionProxy]         ?? string.Empty;
     ProxyUsername      = proxyUsername                          ?? sectionGrpc[SectionProxyUsername] ?? string.Empty;
     ProxyPassword      = proxyPassword                          ?? sectionGrpc[SectionProxyPassword] ?? string.Empty;
+    ReusePorts = reusePorts ?? sectionGrpc[SectionReusePorts]
+                                 ?.ToLower() switch
+                               {
+                                 null or ""                   => true,
+                                 "true" or "yes" or "enable"  => true,
+                                 "false" or "no" or "disable" => false,
+#pragma warning disable CA2208
+                                 var val => throw new ArgumentException($"\"{val}\" is not a valid boolean",
+                                                                        SectionReusePorts),
+#pragma warning restore CA2208
+                               };
 
     if (retryInitialBackoff != TimeSpan.Zero)
     {
@@ -393,4 +410,9 @@ public class Properties
   ///   Password for the proxy
   /// </summary>
   public string ProxyPassword { get; set; }
+
+  /// <summary>
+  ///   Enable the option SO_REUSE_UNICASTPORT upon socket opening to limit port exhaustion
+  /// </summary>
+  public bool ReusePorts { get; set; }
 }
