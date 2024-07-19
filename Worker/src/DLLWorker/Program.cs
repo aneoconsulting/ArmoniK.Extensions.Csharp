@@ -14,11 +14,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System;
+
 using ArmoniK.Api.Worker.Utils;
 using ArmoniK.DevelopmentKit.Worker.DLLWorker;
 using ArmoniK.DevelopmentKit.Worker.DLLWorker.Services;
 
 using Microsoft.Extensions.DependencyInjection;
+
+// Workaround for connectivity issue: https://github.com/grpc/grpc-dotnet/issues/2361#issuecomment-1895791020
+AppContext.SetSwitch("System.Net.SocketsHttpHandler.Http2FlowControl.DisableDynamicWindowSizing",
+                     true);
 
 WorkerServer.Create<ComputerService>(serviceConfigurator: collection => collection.AddSingleton<ServiceRequestContext>())
             .Run();
