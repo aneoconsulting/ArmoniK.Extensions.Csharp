@@ -1,6 +1,6 @@
 // This file is part of the ArmoniK project
 // 
-// Copyright (C) ANEO, 2021-2023. All rights reserved.
+// Copyright (C) ANEO, 2021-2024. All rights reserved.
 // 
 // Licensed under the Apache License, Version 2.0 (the "License")
 // you may not use this file except in compliance with the License.
@@ -20,5 +20,9 @@ using ArmoniK.DevelopmentKit.Worker.DLLWorker.Services;
 
 using Microsoft.Extensions.DependencyInjection;
 
-WorkerServer.Create<ComputerService>(serviceConfigurator: collection => collection.AddSingleton<ServiceRequestContext>())
+WorkerServer.Create<ComputerService>(serviceConfigurator: collection =>
+                                                          {
+                                                            collection.AddSingleton<ServiceRequestContext>();
+                                                            collection.AddSingleton<ComputerService>();
+                                                          })
             .Run();
