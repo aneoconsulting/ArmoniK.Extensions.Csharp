@@ -26,5 +26,9 @@ using Microsoft.Extensions.DependencyInjection;
 AppContext.SetSwitch("System.Net.SocketsHttpHandler.Http2FlowControl.DisableDynamicWindowSizing",
                      true);
 
-WorkerServer.Create<ComputerService>(serviceConfigurator: collection => collection.AddSingleton<ServiceRequestContext>())
+WorkerServer.Create<ComputerService>(serviceConfigurator: collection =>
+                                                          {
+                                                            collection.AddSingleton<ComputerService>();
+                                                            collection.AddSingleton<ServiceRequestContext>();
+                                                          })
             .Run();
