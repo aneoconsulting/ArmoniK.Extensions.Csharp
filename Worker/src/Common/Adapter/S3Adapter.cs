@@ -103,8 +103,10 @@ public class S3Adapter : IFileAdapter
                                         });
     var stream2 = new BufferedStream(r.ResponseStream);
 
+    var materializedFileName = fileName + Guid.NewGuid();
+
     var file = new FileStream(Path.Combine(LocalZipDir,
-                                           fileName),
+                                           materializedFileName),
                               FileMode.Create,
                               FileAccess.Write);
     try
@@ -133,5 +135,10 @@ public class S3Adapter : IFileAdapter
 
       throw new Exception("Error occurred: " + amazonS3Exception.Message);
     }
+
+    File.Move(Path.Combine(LocalZipDir,
+                           materializedFileName),
+              Path.Combine(LocalZipDir,
+                           fileName));
   }
 }
