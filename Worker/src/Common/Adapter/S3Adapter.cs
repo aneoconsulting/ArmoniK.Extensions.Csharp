@@ -103,8 +103,10 @@ public class S3Adapter : IFileAdapter
                                         });
     var stream2 = new BufferedStream(r.ResponseStream);
 
+    var materializedFileName = fileName+Guid.NewGuid().ToString();
+
     var file = new FileStream(Path.Combine(LocalZipDir,
-                                           fileName),
+                                           materializedFileName),
                               FileMode.Create,
                               FileAccess.Write);
     try
@@ -132,6 +134,22 @@ public class S3Adapter : IFileAdapter
       }
 
       throw new Exception("Error occurred: " + amazonS3Exception.Message);
+    }
+
+    try
+    {
+      File.Move(Path.Combine(LocalZipDir,
+                             materializedFileName),
+                Path.Combine(LocalZipDir,
+                             fileName));
+    }
+    catch (FileNotFoundException e)
+    {
+      throw new FileNotFoundException("Could not find downloaded file.");
+    }
+    catch (Exception e)
+    {
+      throw new Exception("Could not move file to directory");
     }
   }
 }
