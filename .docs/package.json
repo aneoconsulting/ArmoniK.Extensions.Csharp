@@ -19,8 +19,8 @@
   "devDependencies": {
     "@nuxt/eslint-config": "^0.1.1",
     "case-police": "^0.6.1",
-    "eslint": "^8.40.0",
+    "eslint": "^9.8.0",
     "markdownlint-cli": "^0.34.0"
   },
-  "packageManager": "pnpm@8.4.0"
+  "packageManager": "pnpm@9.7.0"
 }
