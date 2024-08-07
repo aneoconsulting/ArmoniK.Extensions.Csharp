@@ -16,7 +16,7 @@ jobs:
       release: ${{ steps.genver.outputs.release }}
     steps:
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
       with:
         ref: ${{ github.ref }}
         fetch-depth: 0
@@ -43,7 +43,7 @@ jobs:
       GENVERSION: ${{ needs.versionning.outputs.version }}
     steps:
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
       with:
         ref: ${{ github.ref }}
         submodules: true
@@ -68,19 +68,19 @@ jobs:
       VERSION: ${{ needs.versionning.outputs.version }}
     steps:
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
       with:
         ref: ${{ github.ref }}
 
     - name: Set up QEMU
-      uses: docker/setup-qemu-action@v2
+      uses: docker/setup-qemu-action@49b3bc8e6bdd4a60e6116a5414239cba5943d3cf # v3
 
     - name: Set up Docker Buildx
       id: buildx
       uses: docker/setup-buildx-action@d70bba72b1f3fd22344832f00baa16ece964efeb # v3
 
     - name: login
-      uses: docker/login-action@v2
+      uses: docker/login-action@9780b0c442fbb1117ed29e0efdff1e18412f7567 # v3
       with:
         username: ${{ secrets.DOCKER_HUB_LOGIN }}
         password: ${{ secrets.DOCKER_HUB_TOKEN }}
@@ -114,7 +114,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
         with:
           ref: ${{ github.ref }}
 
@@ -127,7 +127,7 @@ jobs:
            aws: true
 
       - name: Checkout Infra
-        uses: actions/checkout@v3
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
         with:
           repository: aneoconsulting/ArmoniK
           path: infra
@@ -213,7 +213,7 @@ jobs:
           aws s3 cp end2end-${{ matrix.tls }}-${{ matrix.mtls }}-${{ matrix.sslvalidation }}-${{ matrix.useca }}.tar.gz s3://${{ secrets.AWS_LOG_BUCKET_NAME }}/extcsharp-pipeline/${{ github.run_number }}/${{ github.run_attempt }}/end2end-${{ matrix.tls }}-${{ matrix.mtls }}-${{ matrix.sslvalidation }}-${{ matrix.useca }}.tar.gz
 
       - name: 'Upload Artifact'
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@834a144ee995460fba8ed112a2fc961b36a5ec5a # v4
         with:
           name: end2end-${{ matrix.tls }}-${{ matrix.mtls }}-${{ matrix.sslvalidation }}-${{ matrix.useca }}.tar.gz
           path: end2end-${{ matrix.tls }}-${{ matrix.mtls }}-${{ matrix.sslvalidation }}-${{ matrix.useca }}.tar.gz
@@ -229,7 +229,7 @@ jobs:
       VERSION: ${{ needs.versionning.outputs.version }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
         with:
           ref: ${{ github.ref }}
 
@@ -242,7 +242,7 @@ jobs:
            aws: true
 
       - name: Checkout Infra
-        uses: actions/checkout@v3
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
         with:
           repository: aneoconsulting/ArmoniK
           path: infra
