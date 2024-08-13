@@ -207,7 +207,8 @@ jobs:
            cp infrastructure/quick-deploy/localhost/all-in-one/generated/armonik-output.json end2end/infra/generated
           fi
           cp infrastructure/quick-deploy/localhost/all-in-one/generated/terraform.tfstate end2end/infra/tfstates
-          sudo cp -rL /var/log/pods/armonik_* end2end/app
+          sudo find /var/log/pods/ -maxdepth 1 -iname 'armonik_*' -exec cp -rL '{}' end2end/app/ ';'
+
           sudo chown $USER -R end2end
           tar -czf end2end-${{ matrix.tls }}-${{ matrix.mtls }}-${{ matrix.sslvalidation }}-${{ matrix.useca }}.tar.gz end2end
           aws s3 cp end2end-${{ matrix.tls }}-${{ matrix.mtls }}-${{ matrix.sslvalidation }}-${{ matrix.useca }}.tar.gz s3://${{ secrets.AWS_LOG_BUCKET_NAME }}/extcsharp-pipeline/${{ github.run_number }}/${{ github.run_attempt }}/end2end-${{ matrix.tls }}-${{ matrix.mtls }}-${{ matrix.sslvalidation }}-${{ matrix.useca }}.tar.gz
