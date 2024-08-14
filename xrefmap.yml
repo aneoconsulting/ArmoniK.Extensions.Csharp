@@ -4094,15 +4094,15 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.Worker.Common.Adapter.S3Adapter.DownloadFile
   nameWithType: S3Adapter.DownloadFile
-- uid: ArmoniK.DevelopmentKit.Worker.Common.Adapter.S3Adapter.DownloadFileAsync(System.String)
-  name: DownloadFileAsync(string)
-  href: api/ArmoniK.DevelopmentKit.Worker.Common.Adapter.S3Adapter.html#ArmoniK_DevelopmentKit_Worker_Common_Adapter_S3Adapter_DownloadFileAsync_System_String_
-  commentId: M:ArmoniK.DevelopmentKit.Worker.Common.Adapter.S3Adapter.DownloadFileAsync(System.String)
-  name.vb: DownloadFileAsync(String)
-  fullName: ArmoniK.DevelopmentKit.Worker.Common.Adapter.S3Adapter.DownloadFileAsync(string)
-  fullName.vb: ArmoniK.DevelopmentKit.Worker.Common.Adapter.S3Adapter.DownloadFileAsync(String)
-  nameWithType: S3Adapter.DownloadFileAsync(string)
-  nameWithType.vb: S3Adapter.DownloadFileAsync(String)
+- uid: ArmoniK.DevelopmentKit.Worker.Common.Adapter.S3Adapter.DownloadFileAsync(System.String,System.Threading.CancellationToken)
+  name: DownloadFileAsync(string, CancellationToken)
+  href: api/ArmoniK.DevelopmentKit.Worker.Common.Adapter.S3Adapter.html#ArmoniK_DevelopmentKit_Worker_Common_Adapter_S3Adapter_DownloadFileAsync_System_String_System_Threading_CancellationToken_
+  commentId: M:ArmoniK.DevelopmentKit.Worker.Common.Adapter.S3Adapter.DownloadFileAsync(System.String,System.Threading.CancellationToken)
+  name.vb: DownloadFileAsync(String, CancellationToken)
+  fullName: ArmoniK.DevelopmentKit.Worker.Common.Adapter.S3Adapter.DownloadFileAsync(string, System.Threading.CancellationToken)
+  fullName.vb: ArmoniK.DevelopmentKit.Worker.Common.Adapter.S3Adapter.DownloadFileAsync(String, System.Threading.CancellationToken)
+  nameWithType: S3Adapter.DownloadFileAsync(string, CancellationToken)
+  nameWithType.vb: S3Adapter.DownloadFileAsync(String, CancellationToken)
 - uid: ArmoniK.DevelopmentKit.Worker.Common.Adapter.S3Adapter.DownloadFileAsync*
   name: DownloadFileAsync
   href: api/ArmoniK.DevelopmentKit.Worker.Common.Adapter.S3Adapter.html#ArmoniK_DevelopmentKit_Worker_Common_Adapter_S3Adapter_DownloadFileAsync_

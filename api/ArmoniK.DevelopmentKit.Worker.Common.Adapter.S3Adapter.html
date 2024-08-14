@@ -89,7 +89,7 @@
 
 
   <h1 id="ArmoniK_DevelopmentKit_Worker_Common_Adapter_S3Adapter" data-uid="ArmoniK.DevelopmentKit.Worker.Common.Adapter.S3Adapter" class="text-break">
-Class S3Adapter  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Worker/src/Common/Adapter/S3Adapter.cs/#L28"><i class="bi bi-code-slash"></i></a>
+Class S3Adapter  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Worker/src/Common/Adapter/S3Adapter.cs/#L30"><i class="bi bi-code-slash"></i></a>
   </h1>
 
   <div class="facts text-secondary">
@@ -162,7 +162,7 @@ Class S3Adapter  <a class="header-action link-secondary" title="View source" hre
 
   <h3 id="ArmoniK_DevelopmentKit_Worker_Common_Adapter_S3Adapter__ctor_System_String_System_String_System_String_System_String_System_String_System_Boolean_System_String_" data-uid="ArmoniK.DevelopmentKit.Worker.Common.Adapter.S3Adapter.#ctor(System.String,System.String,System.String,System.String,System.String,System.Boolean,System.String)">
   S3Adapter(string, string, string, string, string, bool, string)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Worker/src/Common/Adapter/S3Adapter.cs/#L30"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Worker/src/Common/Adapter/S3Adapter.cs/#L32"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -209,7 +209,7 @@ Class S3Adapter  <a class="header-action link-secondary" title="View source" hre
 
   <h3 id="ArmoniK_DevelopmentKit_Worker_Common_Adapter_S3Adapter_DestinationDirPath" data-uid="ArmoniK.DevelopmentKit.Worker.Common.Adapter.S3Adapter.DestinationDirPath">
   DestinationDirPath
-  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Worker/src/Common/Adapter/S3Adapter.cs/#L77"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Worker/src/Common/Adapter/S3Adapter.cs/#L79"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Get the directory where the file will be downloaded</p>
@@ -245,7 +245,7 @@ Class S3Adapter  <a class="header-action link-secondary" title="View source" hre
 
   <h3 id="ArmoniK_DevelopmentKit_Worker_Common_Adapter_S3Adapter_DownloadFile_System_String_" data-uid="ArmoniK.DevelopmentKit.Worker.Common.Adapter.S3Adapter.DownloadFile(System.String)">
   DownloadFile(string)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Worker/src/Common/Adapter/S3Adapter.cs/#L85"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Worker/src/Common/Adapter/S3Adapter.cs/#L87"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>The method to download file from form remote server</p>
@@ -282,28 +282,34 @@ Class S3Adapter  <a class="header-action link-secondary" title="View source" hre
 
   <a id="ArmoniK_DevelopmentKit_Worker_Common_Adapter_S3Adapter_DownloadFileAsync_" data-uid="ArmoniK.DevelopmentKit.Worker.Common.Adapter.S3Adapter.DownloadFileAsync*"></a>
 
-  <h3 id="ArmoniK_DevelopmentKit_Worker_Common_Adapter_S3Adapter_DownloadFileAsync_System_String_" data-uid="ArmoniK.DevelopmentKit.Worker.Common.Adapter.S3Adapter.DownloadFileAsync(System.String)">
-  DownloadFileAsync(string)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Worker/src/Common/Adapter/S3Adapter.cs/#L95"><i class="bi bi-code-slash"></i></a>
+  <h3 id="ArmoniK_DevelopmentKit_Worker_Common_Adapter_S3Adapter_DownloadFileAsync_System_String_System_Threading_CancellationToken_" data-uid="ArmoniK.DevelopmentKit.Worker.Common.Adapter.S3Adapter.DownloadFileAsync(System.String,System.Threading.CancellationToken)">
+  DownloadFileAsync(string, CancellationToken)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Worker/src/Common/Adapter/S3Adapter.cs/#L97"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>The method to download file from form remote server</p>
+</div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Task DownloadFileAsync(string fileName)</code></pre>
+    <pre><code class="lang-csharp hljs">public Task&lt;string&gt; DownloadFileAsync(string fileName, CancellationToken cancellationToken = default)</code></pre>
   </div>
 
   <h4 class="section">Parameters</h4>
   <dl class="parameters">
     <dt><code>fileName</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
-    <dd></dd>
+    <dd><p>The filename with extension and without directory path</p>
+</dd>
+    <dt><code>cancellationToken</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.cancellationtoken">CancellationToken</a></dt>
+    <dd><p>Abort download of the file</p>
+</dd>
   </dl>
 
   <h4 class="section">Returns</h4>
   <dl class="parameters">
-    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task">Task</a></dt>
-    <dd></dd>
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>&gt;</dt>
+    <dd><p>Returns the path where the file has been downloaded</p>
+</dd>
   </dl>
 
 
@@ -320,7 +326,7 @@ Class S3Adapter  <a class="header-action link-secondary" title="View source" hre
 </article>
 
         <div class="contribution d-print-none">
-          <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Worker/src/Common/Adapter/S3Adapter.cs/#L28" class="edit-link">Edit this page</a>
+          <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Worker/src/Common/Adapter/S3Adapter.cs/#L30" class="edit-link">Edit this page</a>
         </div>
 
 
