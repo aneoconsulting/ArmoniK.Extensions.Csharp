@@ -162,7 +162,7 @@ public class Properties
 
     Protocol = protocol ?? Protocol;
 
-    ConfSSLValidation  = sslValidation ?? sectionGrpc?[SectionSSlValidation] != "disable";
+    ConfSSLValidation  = sslValidation                          ?? sectionGrpc?[SectionSSlValidation] != "disable";
     TargetNameOverride = sectionGrpc[SectionTargetNameOverride] ?? string.Empty;
     CaCertFilePem      = caCertPem                              ?? sectionGrpc[SectionCaCert]        ?? string.Empty;
     ClientCertFilePem  = clientCertFilePem                      ?? sectionGrpc[SectionClientCert]    ?? string.Empty;

@@ -18,10 +18,12 @@ using System;
 using System.Collections.Concurrent;
 using System.Diagnostics.CodeAnalysis;
 
-using Grpc.Core;
 using Grpc.Net.Client;
 
 using Microsoft.Extensions.Logging;
+#if NET5_0_OR_GREATER
+using Grpc.Core;
+#endif
 
 namespace ArmoniK.DevelopmentKit.Client.Common.Submitter;
 
