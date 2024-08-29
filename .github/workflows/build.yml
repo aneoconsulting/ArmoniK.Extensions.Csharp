@@ -7,6 +7,9 @@ on:
       - "[0-9]+.[0-9]+.x"
   pull_request:
 
+env:
+  ARMONIK_SHARED_HOST_PATH: ${{ github.workspace }}/infra/infrastructure/quick-deploy/localhost/all-in-one/data/
+
 jobs:
   versionning:
     name: Versionning
@@ -142,6 +145,8 @@ jobs:
           mtls: ${{ matrix.mtls }}
           ext-csharp-version: ${{ needs.versionning.outputs.version }}
           core-version: 0.24.2
+          shared-data-folder: ${{ env.ARMONIK_SHARED_HOST_PATH }}
+          log-suffix: end2end-${{ matrix.tls }}-${{ matrix.mtls }}-${{ matrix.sslvalidation }}-${{ matrix.useca }}
 
       - name: Setup hosts file
         run : echo -e "$(kubectl get svc ingress -n armonik -o jsonpath={.status.loadBalancer.ingress[0].ip})\tarmonik.local" | sudo tee -a /etc/hosts
@@ -266,6 +271,8 @@ jobs:
           type: localhost
           ext-csharp-version: ${{ needs.versionning.outputs.version }}
           core-version: 0.24.2
+          shared-data-folder: ${{ env.ARMONIK_SHARED_HOST_PATH }}
+          log-suffix: container
 
       - name: Run Test
         timeout-minutes: 20
