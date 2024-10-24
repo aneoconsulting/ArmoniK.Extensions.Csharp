@@ -110,21 +110,6 @@ public sealed class ChannelPool
     {
       switch (channel)
       {
-        case Channel chan:
-          switch (chan.State)
-          {
-            case ChannelState.TransientFailure:
-              chan.ShutdownAsync()
-                  .Wait();
-              return true;
-            case ChannelState.Shutdown:
-              return true;
-            case ChannelState.Idle:
-            case ChannelState.Connecting:
-            case ChannelState.Ready:
-            default:
-              return false;
-          }
 #if NET5_0_OR_GREATER
         case GrpcChannel chan:
           switch (chan.State)
