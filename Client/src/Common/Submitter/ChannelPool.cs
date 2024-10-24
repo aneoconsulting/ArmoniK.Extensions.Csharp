@@ -1,13 +1,13 @@
 // This file is part of the ArmoniK project
-// 
+//
 // Copyright (C) ANEO, 2021-2023. All rights reserved.
-// 
+//
 // Licensed under the Apache License, Version 2.0 (the "License")
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
-// 
+//
 //     http://www.apache.org/licenses/LICENSE-2.0
-// 
+//
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,15 +16,13 @@
 
 using System;
 using System.Collections.Concurrent;
+using System.Diagnostics.CodeAnalysis;
 
-using Grpc.Core;
+using Grpc.Net.Client;
 
 using JetBrains.Annotations;
 
 using Microsoft.Extensions.Logging;
-#if NET5_0_OR_GREATER
-using Grpc.Net.Client;
-#endif
 
 namespace ArmoniK.DevelopmentKit.Client.Common.Submitter;
 
@@ -33,31 +31,31 @@ namespace ArmoniK.DevelopmentKit.Client.Common.Submitter;
 /// </summary>
 public sealed class ChannelPool
 {
-  private readonly Func<ChannelBase> channelFactory_;
+  private readonly Func<GrpcChannel> channelFactory_;
 
   [CanBeNull]
   private readonly ILogger<ChannelPool> logger_;
 
-  private readonly ConcurrentBag<ChannelBase> pool_;
+  private readonly ConcurrentBag<GrpcChannel> pool_;
 
   /// <summary>
   ///   Constructs a new channelPool
   /// </summary>
   /// <param name="channelFactory">Function used to create new channels</param>
   /// <param name="loggerFactory">loggerFactory used to instantiate a logger for the pool</param>
-  public ChannelPool(Func<ChannelBase>          channelFactory,
-                     [CanBeNull] ILoggerFactory loggerFactory = null)
+  public ChannelPool(Func<GrpcChannel> channelFactory,
+                     ILoggerFactory?   loggerFactory = null)
   {
     channelFactory_ = channelFactory;
-    pool_           = new ConcurrentBag<ChannelBase>();
+    pool_           = new ConcurrentBag<GrpcChannel>();
     logger_         = loggerFactory?.CreateLogger<ChannelPool>();
   }
 
   /// <summary>
   ///   Get a channel from the pool. If the pool is empty, create a new channel
   /// </summary>
-  /// <returns>A ChannelBase used by nobody else</returns>
-  private ChannelBase AcquireChannel()
+  /// <returns>A GrpcChannel used by nobody else</returns>
+  private GrpcChannel AcquireChannel()
   {
     if (pool_.TryTake(out var channel))
     {
@@ -81,10 +79,10 @@ public sealed class ChannelPool
   }
 
   /// <summary>
-  ///   Release a ChannelBase to the pool that could be reused later by someone else
+  ///   Release a GrpcChannel to the pool that could be reused later by someone else
   /// </summary>
   /// <param name="channel">Channel to release</param>
-  private void ReleaseChannel(ChannelBase channel)
+  private void ReleaseChannel(GrpcChannel channel)
   {
     if (ShutdownOnFailure(channel))
     {
@@ -104,47 +102,30 @@ public sealed class ChannelPool
   /// </summary>
   /// <param name="channel">Channel to check the state</param>
   /// <returns>True if the channel has been shut down</returns>
-  private static bool ShutdownOnFailure(ChannelBase channel)
+  private static bool ShutdownOnFailure(GrpcChannel channel)
   {
     try
     {
-      switch (channel)
-      {
-        case Channel chan:
-          switch (chan.State)
-          {
-            case ChannelState.TransientFailure:
-              chan.ShutdownAsync()
-                  .Wait();
-              return true;
-            case ChannelState.Shutdown:
-              return true;
-            case ChannelState.Idle:
-            case ChannelState.Connecting:
-            case ChannelState.Ready:
-            default:
-              return false;
-          }
 #if NET5_0_OR_GREATER
-        case GrpcChannel chan:
-          switch (chan.State)
-          {
-            case ConnectivityState.TransientFailure:
-              chan.ShutdownAsync()
-                  .Wait();
-              return true;
-            case ConnectivityState.Shutdown:
-              return true;
-            case ConnectivityState.Idle:
-            case ConnectivityState.Connecting:
-            case ConnectivityState.Ready:
-            default:
-              return false;
-          }
-#endif
+      switch (channel.State)
+      {
+        case ConnectivityState.TransientFailure:
+          channel.ShutdownAsync()
+                 .Wait();
+          channel.Dispose();
+          return true;
+        case ConnectivityState.Shutdown:
+          return true;
+        case ConnectivityState.Idle:
+        case ConnectivityState.Connecting:
+        case ConnectivityState.Ready:
         default:
           return false;
       }
+#else
+      _ = channel;
+      return false;
+#endif
     }
     catch (InvalidOperationException)
     {
@@ -165,7 +146,7 @@ public sealed class ChannelPool
   /// <param name="f">Function to be called</param>
   /// <typeparam name="T">Type of the return type of f</typeparam>
   /// <returns>Value returned by f</returns>
-  public T WithChannel<T>(Func<ChannelBase, T> f)
+  public T WithChannel<T>(Func<GrpcChannel, T> f)
   {
     using var channel = GetChannel();
     return f(channel.Channel);
@@ -189,7 +170,9 @@ public sealed class ChannelPool
     /// <summary>
     ///   Channel that is used by nobody else
     /// </summary>
-    public readonly ChannelBase Channel;
+    [SuppressMessage("Usage",
+                     "CA2213:Disposable fields should be disposed")]
+    private readonly GrpcChannel channel_;
 
     private readonly ChannelPool pool_;
 
@@ -200,19 +183,19 @@ public sealed class ChannelPool
     public ChannelGuard(ChannelPool channelPool)
     {
       pool_   = channelPool;
-      Channel = channelPool.AcquireChannel();
+      channel_ = channelPool.AcquireChannel();
     }
 
     /// <inheritdoc />
     public void Dispose()
-      => pool_.ReleaseChannel(Channel);
+      => pool_.ReleaseChannel(channel_);
 
     /// <summary>
     ///   Implicit convert a ChannelGuard into a ChannelBase
     /// </summary>
     /// <param name="guard">ChannelGuard</param>
-    /// <returns>ChannelBase</returns>
-    public static implicit operator ChannelBase(ChannelGuard guard)
-      => guard.Channel;
+    /// <returns>GrpcChannel</returns>
+    public static implicit operator GrpcChannel(ChannelGuard guard)
+      => guard.channel_;
   }
 }
