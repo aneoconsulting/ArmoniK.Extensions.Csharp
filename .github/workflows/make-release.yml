@@ -16,7 +16,7 @@ jobs:
       release: ${{ steps.release.outputs.version }}
     steps:
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
         ref: ${{ github.ref }}
         fetch-depth: 0
@@ -67,7 +67,7 @@ jobs:
       GENRELEASE: ${{ needs.versionning.outputs.release }}
     steps:
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
         ref: ${{ github.ref }}
         submodules: true
@@ -88,7 +88,7 @@ jobs:
       - versionning
     steps:
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
         ref: ${{ github.ref }}
         submodules: true 
