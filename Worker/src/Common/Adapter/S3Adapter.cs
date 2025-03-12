@@ -116,9 +116,15 @@ public class S3Adapter : IFileAdapter
                                              false,
                                              cancellationToken)
              .ConfigureAwait(false);
-
-      File.Move(materializedFileName,
-                targetFileName);
+      try
+      {
+        File.Move(materializedFileName,
+                  targetFileName);
+      }
+      catch (IOException ioException)
+      {
+        // File already exists
+      }
 
       return targetFileName;
     }
