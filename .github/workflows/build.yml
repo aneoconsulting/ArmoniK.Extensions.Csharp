@@ -19,7 +19,7 @@ jobs:
       release: ${{ steps.genver.outputs.release }}
     steps:
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
       with:
         ref: ${{ github.ref }}
         fetch-depth: 0
@@ -46,10 +46,17 @@ jobs:
       GENVERSION: ${{ needs.versionning.outputs.version }}
     steps:
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
       with:
         ref: ${{ github.ref }}
         submodules: true
+
+    - name: Install .NET Core
+      uses: actions/setup-dotnet@3951f0dfe7a07e2313ec93c75700083e2005cbab # v4
+      with:
+        dotnet-version: |
+          6.x
+          8.x
 
     - name: Build the package
       run: |
@@ -71,19 +78,19 @@ jobs:
       VERSION: ${{ needs.versionning.outputs.version }}
     steps:
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
       with:
         ref: ${{ github.ref }}
 
     - name: Set up QEMU
-      uses: docker/setup-qemu-action@v2
+      uses: docker/setup-qemu-action@5964de0df58d5ad28b04d8fe2e6b80ad47105b91 # v3
 
     - name: Set up Docker Buildx
       id: buildx
-      uses: docker/setup-buildx-action@d70bba72b1f3fd22344832f00baa16ece964efeb # v3
+      uses: docker/setup-buildx-action@b5ca514318bd6ebac0fb2aedd5d36ec1b5c232a2 # v3
 
     - name: login
-      uses: docker/login-action@v2
+      uses: docker/login-action@9780b0c442fbb1117ed29e0efdff1e18412f7567 # v3
       with:
         username: ${{ secrets.DOCKER_HUB_LOGIN }}
         password: ${{ secrets.DOCKER_HUB_TOKEN }}
@@ -117,9 +124,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
         with:
           ref: ${{ github.ref }}
+
+      - name: Install .NET Core
+        uses: actions/setup-dotnet@3951f0dfe7a07e2313ec93c75700083e2005cbab # v4
+        with:
+          dotnet-version: |
+            6.x
+            8.x
 
       - name: Install Dependencies
         uses: aneoconsulting/ArmoniK.Action.Deploy/dependencies@main
@@ -130,7 +144,7 @@ jobs:
            aws: true
 
       - name: Checkout Infra
-        uses: actions/checkout@v3
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
         with:
           repository: aneoconsulting/ArmoniK
           path: infra
@@ -188,7 +202,7 @@ jobs:
          dotnet test --runtime linux-x64 -f net6.0 --logger "trx;LogFileName=test-results.trx"
          
       - name: Test Report
-        uses: dorny/test-reporter@v1
+        uses: dorny/test-reporter@6e6a65b7a0bd2c9197df7d0ae36ac5cee784230c #v2
         if: success() || failure()
         with:
           name: "IntegrationTests tls:${{ matrix.tls }} mtls:${{ matrix.mtls }} val:${{ matrix.sslvalidation }} ca:${{ matrix.useca }}"
@@ -219,7 +233,7 @@ jobs:
           aws s3 cp end2end-${{ matrix.tls }}-${{ matrix.mtls }}-${{ matrix.sslvalidation }}-${{ matrix.useca }}.tar.gz s3://${{ secrets.AWS_LOG_BUCKET_NAME }}/extcsharp-pipeline/${{ github.run_number }}/${{ github.run_attempt }}/end2end-${{ matrix.tls }}-${{ matrix.mtls }}-${{ matrix.sslvalidation }}-${{ matrix.useca }}.tar.gz
 
       - name: 'Upload Artifact'
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@4cec3d8aa04e39d1a68397de0c4cd6fb9dce8ec1 # v4
         with:
           name: end2end-${{ matrix.tls }}-${{ matrix.mtls }}-${{ matrix.sslvalidation }}-${{ matrix.useca }}.tar.gz
           path: end2end-${{ matrix.tls }}-${{ matrix.mtls }}-${{ matrix.sslvalidation }}-${{ matrix.useca }}.tar.gz
@@ -235,9 +249,16 @@ jobs:
       VERSION: ${{ needs.versionning.outputs.version }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
         with:
           ref: ${{ github.ref }}
+
+      - name: Install .NET Core
+        uses: actions/setup-dotnet@3951f0dfe7a07e2313ec93c75700083e2005cbab # v4
+        with:
+          dotnet-version: |
+            6.x
+            8.x
 
       - name: Install Dependencies
         uses: aneoconsulting/ArmoniK.Action.Deploy/dependencies@main
@@ -248,7 +269,7 @@ jobs:
            aws: true
 
       - name: Checkout Infra
-        uses: actions/checkout@v3
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
         with:
           repository: aneoconsulting/ArmoniK
           path: infra
