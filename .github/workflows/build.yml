@@ -51,6 +51,13 @@ jobs:
         ref: ${{ github.ref }}
         submodules: true
 
+    - name: Install .NET Core
+      uses: actions/setup-dotnet@3951f0dfe7a07e2313ec93c75700083e2005cbab # v4
+      with:
+        dotnet-version: |
+          6.x
+          8.x
+
     - name: Build the package
       run: |
         dotnet build ArmoniK.Extensions.Csharp.sln -c Release -p:Version=$GENVERSION
@@ -120,6 +127,13 @@ jobs:
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
         with:
           ref: ${{ github.ref }}
+
+      - name: Install .NET Core
+        uses: actions/setup-dotnet@3951f0dfe7a07e2313ec93c75700083e2005cbab # v4
+        with:
+          dotnet-version: |
+            6.x
+            8.x
 
       - name: Install Dependencies
         uses: aneoconsulting/ArmoniK.Action.Deploy/dependencies@main
@@ -238,6 +252,13 @@ jobs:
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
         with:
           ref: ${{ github.ref }}
+
+      - name: Install .NET Core
+        uses: actions/setup-dotnet@3951f0dfe7a07e2313ec93c75700083e2005cbab # v4
+        with:
+          dotnet-version: |
+            6.x
+            8.x
 
       - name: Install Dependencies
         uses: aneoconsulting/ArmoniK.Action.Deploy/dependencies@main
