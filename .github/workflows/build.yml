@@ -188,7 +188,7 @@ jobs:
          dotnet test --runtime linux-x64 -f net6.0 --logger "trx;LogFileName=test-results.trx"
          
       - name: Test Report
-        uses: dorny/test-reporter@v1
+        uses: dorny/test-reporter@6e6a65b7a0bd2c9197df7d0ae36ac5cee784230c #v2
         if: success() || failure()
         with:
           name: "IntegrationTests tls:${{ matrix.tls }} mtls:${{ matrix.mtls }} val:${{ matrix.sslvalidation }} ca:${{ matrix.useca }}"
