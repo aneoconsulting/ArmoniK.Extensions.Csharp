@@ -49,6 +49,7 @@ public class Properties
   private const string SectionProxy              = "Proxy";
   private const string SectionProxyUsername      = "ProxyUsername";
   private const string SectionProxyPassword      = "ProxyPassword";
+  private const string SectionHttpMessageHandler = "HttpMessageHandler";
 
   private const string SectionRetryInitialBackoff    = "RetryInitialBackoff";
   private const string SectionRetryBackoffMultiplier = "RetryBackoffMultiplier";
@@ -119,6 +120,16 @@ public class Properties
   /// <param name="retryInitialBackoff">Initial retry backoff delay</param>
   /// <param name="retryBackoffMultiplier">Retry backoff multiplier</param>
   /// <param name="retryMaxBackoff">Max retry backoff</param>
+  /// <param name="proxy">
+  ///   Proxy configuration. If empty, the default proxy configuration is used. If "none", proxy is
+  ///   disabled. If "system", the system proxy is used Otherwise, it is the URL of the proxy to use
+  /// </param>
+  /// <param name="proxyUsername">Username used for proxy authentication</param>
+  /// <param name="proxyPassword">Password used for proxy authentication</param>
+  /// <param name="httpMessageHandler">
+  ///   Which HttpMessageHandler to use. Valid options: - `HttpClientHandler` -
+  ///   `WinHttpHandler` - `GrpcWebHandler` If the handler is not set, the best one will be used.
+  /// </param>
   /// <exception cref="ArgumentException"></exception>
   public Properties(IConfiguration configuration,
                     TaskOptions    options,
@@ -133,9 +144,10 @@ public class Properties
                     TimeSpan       retryInitialBackoff    = new(),
                     double         retryBackoffMultiplier = 0,
                     TimeSpan       retryMaxBackoff        = new(),
-                    string?        proxy                  = null,
-                    string?        proxyUsername          = null,
-                    string?        proxyPassword          = null)
+                    string         proxy                  = null,
+                    string         proxyUsername          = null,
+                    string         proxyPassword          = null,
+                    string         httpMessageHandler     = null)
   {
     TaskOptions   = options;
     Configuration = configuration;
@@ -162,15 +174,16 @@ public class Properties
 
     Protocol = protocol ?? Protocol;
 
-    ConfSSLValidation  = sslValidation                          ?? sectionGrpc?[SectionSSlValidation] != "disable";
-    TargetNameOverride = sectionGrpc[SectionTargetNameOverride] ?? string.Empty;
-    CaCertFilePem      = caCertPem                              ?? sectionGrpc[SectionCaCert]        ?? string.Empty;
-    ClientCertFilePem  = clientCertFilePem                      ?? sectionGrpc[SectionClientCert]    ?? string.Empty;
-    ClientKeyFilePem   = clientKeyFilePem                       ?? sectionGrpc[SectionClientKey]     ?? string.Empty;
-    ClientP12File      = clientP12                              ?? sectionGrpc[SectionClientCertP12] ?? string.Empty;
-    Proxy              = proxy                                  ?? sectionGrpc[SectionProxy]         ?? string.Empty;
-    ProxyUsername      = proxyUsername                          ?? sectionGrpc[SectionProxyUsername] ?? string.Empty;
-    ProxyPassword      = proxyPassword                          ?? sectionGrpc[SectionProxyPassword] ?? string.Empty;
+    ConfSSLValidation  = sslValidation                           ?? sectionGrpc?[SectionSSlValidation] != "disable";
+    TargetNameOverride = sectionGrpc?[SectionTargetNameOverride] ?? string.Empty;
+    CaCertFilePem      = caCertPem                               ?? sectionGrpc?[SectionCaCert]             ?? string.Empty;
+    ClientCertFilePem  = clientCertFilePem                       ?? sectionGrpc?[SectionClientCert]         ?? string.Empty;
+    ClientKeyFilePem   = clientKeyFilePem                        ?? sectionGrpc?[SectionClientKey]          ?? string.Empty;
+    ClientP12File      = clientP12                               ?? sectionGrpc?[SectionClientCertP12]      ?? string.Empty;
+    Proxy              = proxy                                   ?? sectionGrpc?[SectionProxy]              ?? string.Empty;
+    ProxyUsername      = proxyUsername                           ?? sectionGrpc?[SectionProxyUsername]      ?? string.Empty;
+    ProxyPassword      = proxyPassword                           ?? sectionGrpc?[SectionProxyPassword]      ?? string.Empty;
+    HttpMessageHandler = httpMessageHandler                      ?? sectionGrpc?[SectionHttpMessageHandler] ?? string.Empty;
 
     if (retryInitialBackoff != TimeSpan.Zero)
     {
@@ -178,7 +191,7 @@ public class Properties
     }
     else if (!string.IsNullOrWhiteSpace(sectionGrpc?[SectionRetryInitialBackoff]))
     {
-      RetryInitialBackoff = TimeSpan.Parse(sectionGrpc[SectionRetryInitialBackoff]);
+      RetryInitialBackoff = TimeSpan.Parse(sectionGrpc?[SectionRetryInitialBackoff]);
     }
 
     if (retryBackoffMultiplier != 0)
@@ -187,7 +200,7 @@ public class Properties
     }
     else if (!string.IsNullOrWhiteSpace(sectionGrpc?[SectionRetryBackoffMultiplier]))
     {
-      RetryBackoffMultiplier = double.Parse(sectionGrpc[SectionRetryBackoffMultiplier]);
+      RetryBackoffMultiplier = double.Parse(sectionGrpc?[SectionRetryBackoffMultiplier]);
     }
 
 
@@ -197,7 +210,7 @@ public class Properties
     }
     else if (!string.IsNullOrWhiteSpace(sectionGrpc?[SectionRetryMaxBackoff]))
     {
-      RetryMaxBackoff = TimeSpan.Parse(sectionGrpc[SectionRetryMaxBackoff]);
+      RetryMaxBackoff = TimeSpan.Parse(sectionGrpc?[SectionRetryMaxBackoff]);
     }
 
 
@@ -356,4 +369,10 @@ public class Properties
   ///   Password for the proxy
   /// </summary>
   public string ProxyPassword { get; set; }
+
+  /// <summary>
+  ///   Which HttpMessageHandler to use. Valid options: - `HttpClientHandler` - `WinHttpHandler` - `GrpcWebHandler`
+  ///   If the handler is not set, the best one will be used.
+  /// </summary>
+  public string HttpMessageHandler { get; set; }
 }
