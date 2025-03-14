@@ -17,10 +17,10 @@
     "nuxt": "^3.16.0"
   },
   "devDependencies": {
-    "@nuxt/eslint-config": "^0.7.6",
-    "case-police": "^0.7.2",
-    "eslint": "^8.57.1",
+    "@nuxt/eslint-config": "^1.2.0",
+    "case-police": "^1.0.0",
+    "eslint": "^9.22.0",
     "markdownlint-cli": "^0.44.0"
   },
-  "packageManager": "pnpm@8.15.9"
+  "packageManager": "pnpm@10.6.3"
 }
