@@ -54,6 +54,7 @@ public class Properties
   private const string SectionProxyUsername      = "ProxyUsername";
   private const string SectionProxyPassword      = "ProxyPassword";
   private const string SectionReusePorts         = "ReusePorts";
+  private const string SectionHttpMessageHandler = "HttpMessageHandler";
 
   private const string SectionRetryInitialBackoff    = "RetryInitialBackoff";
   private const string SectionRetryBackoffMultiplier = "RetryBackoffMultiplier";
@@ -128,10 +129,17 @@ public class Properties
   /// <param name="retryInitialBackoff">Initial retry backoff delay</param>
   /// <param name="retryBackoffMultiplier">Retry backoff multiplier</param>
   /// <param name="retryMaxBackoff">Max retry backoff</param>
-  /// <param name="proxy">Proxy configuration</param>
+  /// <param name="proxy">
+  ///   Proxy configuration. If empty, the default proxy configuration is used. If "none", proxy is
+  ///   disabled. If "system", the system proxy is used Otherwise, it is the URL of the proxy to use
+  /// </param>
   /// <param name="proxyUsername">Username used for proxy authentication</param>
   /// <param name="proxyPassword">Password used for proxy authentication</param>
   /// <param name="reusePorts">Enable the option SO_REUSE_UNICASTPORT upon socket opening to limit port exhaustion</param>
+  /// <param name="httpMessageHandler">
+  ///   Which HttpMessageHandler to use. Valid options: - `HttpClientHandler` -
+  ///   `WinHttpHandler` - `GrpcWebHandler` If the handler is not set, the best one will be used.
+  /// </param>
   /// <exception cref="ArgumentException"></exception>
   public Properties(IConfiguration configuration,
                     TaskOptions    options,
@@ -149,7 +157,8 @@ public class Properties
                     string?        proxy                  = null,
                     string?        proxyUsername          = null,
                     string?        proxyPassword          = null,
-                    bool?          reusePorts             = null)
+                    bool?          reusePorts             = null,
+                    string?        httpMessageHandler     = null)
   {
     TaskOptions   = options;
     Configuration = configuration;
@@ -212,6 +221,7 @@ public class Properties
                                                                         SectionReusePorts),
 #pragma warning restore CA2208
                                };
+    HttpMessageHandler = httpMessageHandler ?? sectionGrpc[SectionHttpMessageHandler] ?? string.Empty;
 
     if (retryInitialBackoff != TimeSpan.Zero)
     {
@@ -397,7 +407,8 @@ public class Properties
   public TimeSpan RetryMaxBackoff { get; } = TimeSpan.FromSeconds(30);
 
   /// <summary>
-  ///   Proxy URL
+  ///   Proxy configuration. If empty, the default proxy configuration is used. If "none", proxy is
+  ///   disabled. If "system", the system proxy is used Otherwise, it is the URL of the proxy to use.
   /// </summary>
   public string Proxy { get; set; }
 
@@ -415,4 +426,10 @@ public class Properties
   ///   Enable the option SO_REUSE_UNICASTPORT upon socket opening to limit port exhaustion
   /// </summary>
   public bool ReusePorts { get; set; }
+
+  /// <summary>
+  ///   Which HttpMessageHandler to use. Valid options: - `HttpClientHandler` - `WinHttpHandler` - `GrpcWebHandler`
+  ///   If the handler is not set, the best one will be used.
+  /// </summary>
+  public string HttpMessageHandler { get; set; }
 }
