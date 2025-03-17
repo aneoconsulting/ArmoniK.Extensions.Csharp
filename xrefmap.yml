@@ -182,15 +182,15 @@ references:
   fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Properties.New(ArmoniK.Api.gRPC.V1.TaskOptions, String, Integer, String, String, String, String, String, Boolean?)
   nameWithType: Properties.Properties(TaskOptions, string?, int, string?, string?, string?, string?, string?, bool?)
   nameWithType.vb: Properties.New(TaskOptions, String, Integer, String, String, String, String, String, Boolean?)
-- uid: ArmoniK.DevelopmentKit.Client.Common.Properties.#ctor(Microsoft.Extensions.Configuration.IConfiguration,ArmoniK.Api.gRPC.V1.TaskOptions,System.String,System.Int32,System.String,System.String,System.String,System.String,System.String,System.Nullable{System.Boolean},System.TimeSpan,System.Double,System.TimeSpan,System.String,System.String,System.String,System.Nullable{System.Boolean})
-  name: Properties(IConfiguration, TaskOptions, string?, int, string?, string?, string?, string?, string?, bool?, TimeSpan, double, TimeSpan, string?, string?, string?, bool?)
-  href: api/ArmoniK.DevelopmentKit.Client.Common.Properties.html#ArmoniK_DevelopmentKit_Client_Common_Properties__ctor_Microsoft_Extensions_Configuration_IConfiguration_ArmoniK_Api_gRPC_V1_TaskOptions_System_String_System_Int32_System_String_System_String_System_String_System_String_System_String_System_Nullable_System_Boolean__System_TimeSpan_System_Double_System_TimeSpan_System_String_System_String_System_String_System_Nullable_System_Boolean__
-  commentId: M:ArmoniK.DevelopmentKit.Client.Common.Properties.#ctor(Microsoft.Extensions.Configuration.IConfiguration,ArmoniK.Api.gRPC.V1.TaskOptions,System.String,System.Int32,System.String,System.String,System.String,System.String,System.String,System.Nullable{System.Boolean},System.TimeSpan,System.Double,System.TimeSpan,System.String,System.String,System.String,System.Nullable{System.Boolean})
-  name.vb: New(IConfiguration, TaskOptions, String, Integer, String, String, String, String, String, Boolean?, TimeSpan, Double, TimeSpan, String, String, String, Boolean?)
-  fullName: ArmoniK.DevelopmentKit.Client.Common.Properties.Properties(Microsoft.Extensions.Configuration.IConfiguration, ArmoniK.Api.gRPC.V1.TaskOptions, string?, int, string?, string?, string?, string?, string?, bool?, System.TimeSpan, double, System.TimeSpan, string?, string?, string?, bool?)
-  fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Properties.New(Microsoft.Extensions.Configuration.IConfiguration, ArmoniK.Api.gRPC.V1.TaskOptions, String, Integer, String, String, String, String, String, Boolean?, System.TimeSpan, Double, System.TimeSpan, String, String, String, Boolean?)
-  nameWithType: Properties.Properties(IConfiguration, TaskOptions, string?, int, string?, string?, string?, string?, string?, bool?, TimeSpan, double, TimeSpan, string?, string?, string?, bool?)
-  nameWithType.vb: Properties.New(IConfiguration, TaskOptions, String, Integer, String, String, String, String, String, Boolean?, TimeSpan, Double, TimeSpan, String, String, String, Boolean?)
+- uid: ArmoniK.DevelopmentKit.Client.Common.Properties.#ctor(Microsoft.Extensions.Configuration.IConfiguration,ArmoniK.Api.gRPC.V1.TaskOptions,System.String,System.Int32,System.String,System.String,System.String,System.String,System.String,System.Nullable{System.Boolean},System.TimeSpan,System.Double,System.TimeSpan,System.String,System.String,System.String,System.Nullable{System.Boolean},System.String)
+  name: Properties(IConfiguration, TaskOptions, string?, int, string?, string?, string?, string?, string?, bool?, TimeSpan, double, TimeSpan, string?, string?, string?, bool?, string?)
+  href: api/ArmoniK.DevelopmentKit.Client.Common.Properties.html#ArmoniK_DevelopmentKit_Client_Common_Properties__ctor_Microsoft_Extensions_Configuration_IConfiguration_ArmoniK_Api_gRPC_V1_TaskOptions_System_String_System_Int32_System_String_System_String_System_String_System_String_System_String_System_Nullable_System_Boolean__System_TimeSpan_System_Double_System_TimeSpan_System_String_System_String_System_String_System_Nullable_System_Boolean__System_String_
+  commentId: M:ArmoniK.DevelopmentKit.Client.Common.Properties.#ctor(Microsoft.Extensions.Configuration.IConfiguration,ArmoniK.Api.gRPC.V1.TaskOptions,System.String,System.Int32,System.String,System.String,System.String,System.String,System.String,System.Nullable{System.Boolean},System.TimeSpan,System.Double,System.TimeSpan,System.String,System.String,System.String,System.Nullable{System.Boolean},System.String)
+  name.vb: New(IConfiguration, TaskOptions, String, Integer, String, String, String, String, String, Boolean?, TimeSpan, Double, TimeSpan, String, String, String, Boolean?, String)
+  fullName: ArmoniK.DevelopmentKit.Client.Common.Properties.Properties(Microsoft.Extensions.Configuration.IConfiguration, ArmoniK.Api.gRPC.V1.TaskOptions, string?, int, string?, string?, string?, string?, string?, bool?, System.TimeSpan, double, System.TimeSpan, string?, string?, string?, bool?, string?)
+  fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Properties.New(Microsoft.Extensions.Configuration.IConfiguration, ArmoniK.Api.gRPC.V1.TaskOptions, String, Integer, String, String, String, String, String, Boolean?, System.TimeSpan, Double, System.TimeSpan, String, String, String, Boolean?, String)
+  nameWithType: Properties.Properties(IConfiguration, TaskOptions, string?, int, string?, string?, string?, string?, string?, bool?, TimeSpan, double, TimeSpan, string?, string?, string?, bool?, string?)
+  nameWithType.vb: Properties.New(IConfiguration, TaskOptions, String, Integer, String, String, String, String, String, Boolean?, TimeSpan, Double, TimeSpan, String, String, String, Boolean?, String)
 - uid: ArmoniK.DevelopmentKit.Client.Common.Properties.#ctor*
   name: Properties
   href: api/ArmoniK.DevelopmentKit.Client.Common.Properties.html#ArmoniK_DevelopmentKit_Client_Common_Properties__ctor_
@@ -350,6 +350,19 @@ references:
   commentId: F:ArmoniK.DevelopmentKit.Client.Common.Properties.DefaultTaskOptions
   fullName: ArmoniK.DevelopmentKit.Client.Common.Properties.DefaultTaskOptions
   nameWithType: Properties.DefaultTaskOptions
+- uid: ArmoniK.DevelopmentKit.Client.Common.Properties.HttpMessageHandler
+  name: HttpMessageHandler
+  href: api/ArmoniK.DevelopmentKit.Client.Common.Properties.html#ArmoniK_DevelopmentKit_Client_Common_Properties_HttpMessageHandler
+  commentId: P:ArmoniK.DevelopmentKit.Client.Common.Properties.HttpMessageHandler
+  fullName: ArmoniK.DevelopmentKit.Client.Common.Properties.HttpMessageHandler
+  nameWithType: Properties.HttpMessageHandler
+- uid: ArmoniK.DevelopmentKit.Client.Common.Properties.HttpMessageHandler*
+  name: HttpMessageHandler
+  href: api/ArmoniK.DevelopmentKit.Client.Common.Properties.html#ArmoniK_DevelopmentKit_Client_Common_Properties_HttpMessageHandler_
+  commentId: Overload:ArmoniK.DevelopmentKit.Client.Common.Properties.HttpMessageHandler
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Client.Common.Properties.HttpMessageHandler
+  nameWithType: Properties.HttpMessageHandler
 - uid: ArmoniK.DevelopmentKit.Client.Common.Properties.MaxConcurrentBuffers
   name: MaxConcurrentBuffers
   href: api/ArmoniK.DevelopmentKit.Client.Common.Properties.html#ArmoniK_DevelopmentKit_Client_Common_Properties_MaxConcurrentBuffers
