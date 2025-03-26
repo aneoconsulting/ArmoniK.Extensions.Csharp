@@ -14,13 +14,13 @@
   },
   "dependencies": {
     "@aneoconsultingfr/armonik-docs-theme": "^0.6.15",
-    "nuxt": "^3.16.0"
+    "nuxt": "^3.16.1"
   },
   "devDependencies": {
     "@nuxt/eslint-config": "^1.2.0",
     "case-police": "^1.0.0",
-    "eslint": "^9.22.0",
+    "eslint": "^9.23.0",
     "markdownlint-cli": "^0.44.0"
   },
-  "packageManager": "pnpm@10.6.3"
+  "packageManager": "pnpm@10.7.0"
 }
