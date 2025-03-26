@@ -291,7 +291,6 @@ jobs:
           working-directory: ${{ github.workspace }}/infra
           type: localhost
           ext-csharp-version: ${{ needs.versionning.outputs.version }}
-          core-version: 0.24.2
           shared-data-folder: ${{ env.ARMONIK_SHARED_HOST_PATH }}
           log-suffix: container
 
