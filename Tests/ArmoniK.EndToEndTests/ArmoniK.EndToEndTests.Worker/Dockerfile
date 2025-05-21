@@ -7,7 +7,7 @@ COPY . .
 
 WORKDIR "/src/Tests/ArmoniK.EndToEndTests/ArmoniK.EndToEndTests.Worker"
 
-RUN dotnet publish -a "${TARGETARCH}" --self-contained -c Release -f net6.0 .
+RUN dotnet publish -a "${TARGETARCH}" --self-contained -c Release -f net8.0 .
 
 
 FROM ${WORKER_DLL_IMAGE} AS final
