@@ -15,10 +15,10 @@ RUN dotnet restore -a "${TARGETARCH}" "Worker/src/DLLWorker/ArmoniK.DevelopmentK
 COPY . .
 WORKDIR "/src/Worker/src/DLLWorker"
 ARG BUILD_CONFIG=Release
-RUN dotnet build "ArmoniK.DevelopmentKit.Worker.DLLWorker.csproj" -c "${BUILD_CONFIG}" -f net6.0 -o /app/build
+RUN dotnet build "ArmoniK.DevelopmentKit.Worker.DLLWorker.csproj" -c "${BUILD_CONFIG}" -f net8.0 -o /app/build
 
 FROM build AS publish
-RUN dotnet publish -a "${TARGETARCH}" "ArmoniK.DevelopmentKit.Worker.DLLWorker.csproj" -c "${BUILD_CONFIG}" -f net6.0 -o /app/publish --self-contained true
+RUN dotnet publish -a "${TARGETARCH}" "ArmoniK.DevelopmentKit.Worker.DLLWorker.csproj" -c "${BUILD_CONFIG}" -f net8.0 -o /app/publish --self-contained true
 
 FROM base AS final
 
