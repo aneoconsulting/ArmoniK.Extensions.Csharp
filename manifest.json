@@ -810,20 +810,6 @@
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "api/ArmoniK.DevelopmentKit.Common.Utils.FileSpinLock.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/ArmoniK.DevelopmentKit.Common.Utils.FileSpinLock.html"
-        }
-      },
-      "version": "",
-      "Uid": null,
-      "IsMRef": true,
-      "Title": "ArmoniK.DevelopmentKit.Common.Utils.FileSpinLock",
-      "Summary": "<p sourcefile=\"api/ArmoniK.DevelopmentKit.Common.Utils.FileSpinLock.yml\" sourcestartlinenumber=\"1\">Spin lock on a file</p>\n"
-    },
-    {
-      "type": "ManagedReference",
       "source_relative_path": "api/ArmoniK.DevelopmentKit.Common.Utils.yml",
       "output": {
         ".html": {

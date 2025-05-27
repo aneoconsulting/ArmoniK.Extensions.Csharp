@@ -3923,57 +3923,6 @@ references:
   fullName.vb: ArmoniK.DevelopmentKit.Common.Utils.Either(Of L, R).CType
   nameWithType: Either<L, R>.implicit operator
   nameWithType.vb: Either(Of L, R).CType
-- uid: ArmoniK.DevelopmentKit.Common.Utils.FileSpinLock
-  name: FileSpinLock
-  href: api/ArmoniK.DevelopmentKit.Common.Utils.FileSpinLock.html
-  commentId: T:ArmoniK.DevelopmentKit.Common.Utils.FileSpinLock
-  fullName: ArmoniK.DevelopmentKit.Common.Utils.FileSpinLock
-  nameWithType: FileSpinLock
-- uid: ArmoniK.DevelopmentKit.Common.Utils.FileSpinLock.#ctor(System.String,System.Boolean,System.Int32,System.Int32)
-  name: FileSpinLock(string, bool, int, int)
-  href: api/ArmoniK.DevelopmentKit.Common.Utils.FileSpinLock.html#ArmoniK_DevelopmentKit_Common_Utils_FileSpinLock__ctor_System_String_System_Boolean_System_Int32_System_Int32_
-  commentId: M:ArmoniK.DevelopmentKit.Common.Utils.FileSpinLock.#ctor(System.String,System.Boolean,System.Int32,System.Int32)
-  name.vb: New(String, Boolean, Integer, Integer)
-  fullName: ArmoniK.DevelopmentKit.Common.Utils.FileSpinLock.FileSpinLock(string, bool, int, int)
-  fullName.vb: ArmoniK.DevelopmentKit.Common.Utils.FileSpinLock.New(String, Boolean, Integer, Integer)
-  nameWithType: FileSpinLock.FileSpinLock(string, bool, int, int)
-  nameWithType.vb: FileSpinLock.New(String, Boolean, Integer, Integer)
-- uid: ArmoniK.DevelopmentKit.Common.Utils.FileSpinLock.#ctor*
-  name: FileSpinLock
-  href: api/ArmoniK.DevelopmentKit.Common.Utils.FileSpinLock.html#ArmoniK_DevelopmentKit_Common_Utils_FileSpinLock__ctor_
-  commentId: Overload:ArmoniK.DevelopmentKit.Common.Utils.FileSpinLock.#ctor
-  isSpec: "True"
-  name.vb: New
-  fullName: ArmoniK.DevelopmentKit.Common.Utils.FileSpinLock.FileSpinLock
-  fullName.vb: ArmoniK.DevelopmentKit.Common.Utils.FileSpinLock.New
-  nameWithType: FileSpinLock.FileSpinLock
-  nameWithType.vb: FileSpinLock.New
-- uid: ArmoniK.DevelopmentKit.Common.Utils.FileSpinLock.Dispose
-  name: Dispose()
-  href: api/ArmoniK.DevelopmentKit.Common.Utils.FileSpinLock.html#ArmoniK_DevelopmentKit_Common_Utils_FileSpinLock_Dispose
-  commentId: M:ArmoniK.DevelopmentKit.Common.Utils.FileSpinLock.Dispose
-  fullName: ArmoniK.DevelopmentKit.Common.Utils.FileSpinLock.Dispose()
-  nameWithType: FileSpinLock.Dispose()
-- uid: ArmoniK.DevelopmentKit.Common.Utils.FileSpinLock.Dispose*
-  name: Dispose
-  href: api/ArmoniK.DevelopmentKit.Common.Utils.FileSpinLock.html#ArmoniK_DevelopmentKit_Common_Utils_FileSpinLock_Dispose_
-  commentId: Overload:ArmoniK.DevelopmentKit.Common.Utils.FileSpinLock.Dispose
-  isSpec: "True"
-  fullName: ArmoniK.DevelopmentKit.Common.Utils.FileSpinLock.Dispose
-  nameWithType: FileSpinLock.Dispose
-- uid: ArmoniK.DevelopmentKit.Common.Utils.FileSpinLock.HasLock
-  name: HasLock
-  href: api/ArmoniK.DevelopmentKit.Common.Utils.FileSpinLock.html#ArmoniK_DevelopmentKit_Common_Utils_FileSpinLock_HasLock
-  commentId: P:ArmoniK.DevelopmentKit.Common.Utils.FileSpinLock.HasLock
-  fullName: ArmoniK.DevelopmentKit.Common.Utils.FileSpinLock.HasLock
-  nameWithType: FileSpinLock.HasLock
-- uid: ArmoniK.DevelopmentKit.Common.Utils.FileSpinLock.HasLock*
-  name: HasLock
-  href: api/ArmoniK.DevelopmentKit.Common.Utils.FileSpinLock.html#ArmoniK_DevelopmentKit_Common_Utils_FileSpinLock_HasLock_
-  commentId: Overload:ArmoniK.DevelopmentKit.Common.Utils.FileSpinLock.HasLock
-  isSpec: "True"
-  fullName: ArmoniK.DevelopmentKit.Common.Utils.FileSpinLock.HasLock
-  nameWithType: FileSpinLock.HasLock
 - uid: ArmoniK.DevelopmentKit.Worker.Common
   name: ArmoniK.DevelopmentKit.Worker.Common
   href: api/ArmoniK.DevelopmentKit.Worker.Common.html
@@ -4135,15 +4084,12 @@ references:
   commentId: T:ArmoniK.DevelopmentKit.Worker.Common.Archive.IArchiver
   fullName: ArmoniK.DevelopmentKit.Worker.Common.Archive.IArchiver
   nameWithType: IArchiver
-- uid: ArmoniK.DevelopmentKit.Worker.Common.Archive.IArchiver.ArchiveAlreadyExtracted(ArmoniK.DevelopmentKit.Worker.Common.PackageId,System.Int32,System.Int32)
-  name: ArchiveAlreadyExtracted(PackageId, int, int)
-  href: api/ArmoniK.DevelopmentKit.Worker.Common.Archive.IArchiver.html#ArmoniK_DevelopmentKit_Worker_Common_Archive_IArchiver_ArchiveAlreadyExtracted_ArmoniK_DevelopmentKit_Worker_Common_PackageId_System_Int32_System_Int32_
-  commentId: M:ArmoniK.DevelopmentKit.Worker.Common.Archive.IArchiver.ArchiveAlreadyExtracted(ArmoniK.DevelopmentKit.Worker.Common.PackageId,System.Int32,System.Int32)
-  name.vb: ArchiveAlreadyExtracted(PackageId, Integer, Integer)
-  fullName: ArmoniK.DevelopmentKit.Worker.Common.Archive.IArchiver.ArchiveAlreadyExtracted(ArmoniK.DevelopmentKit.Worker.Common.PackageId, int, int)
-  fullName.vb: ArmoniK.DevelopmentKit.Worker.Common.Archive.IArchiver.ArchiveAlreadyExtracted(ArmoniK.DevelopmentKit.Worker.Common.PackageId, Integer, Integer)
-  nameWithType: IArchiver.ArchiveAlreadyExtracted(PackageId, int, int)
-  nameWithType.vb: IArchiver.ArchiveAlreadyExtracted(PackageId, Integer, Integer)
+- uid: ArmoniK.DevelopmentKit.Worker.Common.Archive.IArchiver.ArchiveAlreadyExtracted(ArmoniK.DevelopmentKit.Worker.Common.PackageId)
+  name: ArchiveAlreadyExtracted(PackageId)
+  href: api/ArmoniK.DevelopmentKit.Worker.Common.Archive.IArchiver.html#ArmoniK_DevelopmentKit_Worker_Common_Archive_IArchiver_ArchiveAlreadyExtracted_ArmoniK_DevelopmentKit_Worker_Common_PackageId_
+  commentId: M:ArmoniK.DevelopmentKit.Worker.Common.Archive.IArchiver.ArchiveAlreadyExtracted(ArmoniK.DevelopmentKit.Worker.Common.PackageId)
+  fullName: ArmoniK.DevelopmentKit.Worker.Common.Archive.IArchiver.ArchiveAlreadyExtracted(ArmoniK.DevelopmentKit.Worker.Common.PackageId)
+  nameWithType: IArchiver.ArchiveAlreadyExtracted(PackageId)
 - uid: ArmoniK.DevelopmentKit.Worker.Common.Archive.IArchiver.ArchiveAlreadyExtracted*
   name: ArchiveAlreadyExtracted
   href: api/ArmoniK.DevelopmentKit.Worker.Common.Archive.IArchiver.html#ArmoniK_DevelopmentKit_Worker_Common_Archive_IArchiver_ArchiveAlreadyExtracted_
@@ -4151,15 +4097,15 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.Worker.Common.Archive.IArchiver.ArchiveAlreadyExtracted
   nameWithType: IArchiver.ArchiveAlreadyExtracted
-- uid: ArmoniK.DevelopmentKit.Worker.Common.Archive.IArchiver.ExtractArchive(System.String,ArmoniK.DevelopmentKit.Worker.Common.PackageId,System.Boolean)
-  name: ExtractArchive(string, PackageId, bool)
-  href: api/ArmoniK.DevelopmentKit.Worker.Common.Archive.IArchiver.html#ArmoniK_DevelopmentKit_Worker_Common_Archive_IArchiver_ExtractArchive_System_String_ArmoniK_DevelopmentKit_Worker_Common_PackageId_System_Boolean_
-  commentId: M:ArmoniK.DevelopmentKit.Worker.Common.Archive.IArchiver.ExtractArchive(System.String,ArmoniK.DevelopmentKit.Worker.Common.PackageId,System.Boolean)
-  name.vb: ExtractArchive(String, PackageId, Boolean)
-  fullName: ArmoniK.DevelopmentKit.Worker.Common.Archive.IArchiver.ExtractArchive(string, ArmoniK.DevelopmentKit.Worker.Common.PackageId, bool)
-  fullName.vb: ArmoniK.DevelopmentKit.Worker.Common.Archive.IArchiver.ExtractArchive(String, ArmoniK.DevelopmentKit.Worker.Common.PackageId, Boolean)
-  nameWithType: IArchiver.ExtractArchive(string, PackageId, bool)
-  nameWithType.vb: IArchiver.ExtractArchive(String, PackageId, Boolean)
+- uid: ArmoniK.DevelopmentKit.Worker.Common.Archive.IArchiver.ExtractArchive(System.String,ArmoniK.DevelopmentKit.Worker.Common.PackageId)
+  name: ExtractArchive(string, PackageId)
+  href: api/ArmoniK.DevelopmentKit.Worker.Common.Archive.IArchiver.html#ArmoniK_DevelopmentKit_Worker_Common_Archive_IArchiver_ExtractArchive_System_String_ArmoniK_DevelopmentKit_Worker_Common_PackageId_
+  commentId: M:ArmoniK.DevelopmentKit.Worker.Common.Archive.IArchiver.ExtractArchive(System.String,ArmoniK.DevelopmentKit.Worker.Common.PackageId)
+  name.vb: ExtractArchive(String, PackageId)
+  fullName: ArmoniK.DevelopmentKit.Worker.Common.Archive.IArchiver.ExtractArchive(string, ArmoniK.DevelopmentKit.Worker.Common.PackageId)
+  fullName.vb: ArmoniK.DevelopmentKit.Worker.Common.Archive.IArchiver.ExtractArchive(String, ArmoniK.DevelopmentKit.Worker.Common.PackageId)
+  nameWithType: IArchiver.ExtractArchive(string, PackageId)
+  nameWithType.vb: IArchiver.ExtractArchive(String, PackageId)
 - uid: ArmoniK.DevelopmentKit.Worker.Common.Archive.IArchiver.ExtractArchive*
   name: ExtractArchive
   href: api/ArmoniK.DevelopmentKit.Worker.Common.Archive.IArchiver.html#ArmoniK_DevelopmentKit_Worker_Common_Archive_IArchiver_ExtractArchive_
@@ -4192,15 +4138,12 @@ references:
   fullName.vb: ArmoniK.DevelopmentKit.Worker.Common.Archive.ZipArchiver.New
   nameWithType: ZipArchiver.ZipArchiver
   nameWithType.vb: ZipArchiver.New
-- uid: ArmoniK.DevelopmentKit.Worker.Common.Archive.ZipArchiver.ArchiveAlreadyExtracted(ArmoniK.DevelopmentKit.Worker.Common.PackageId,System.Int32,System.Int32)
-  name: ArchiveAlreadyExtracted(PackageId, int, int)
-  href: api/ArmoniK.DevelopmentKit.Worker.Common.Archive.ZipArchiver.html#ArmoniK_DevelopmentKit_Worker_Common_Archive_ZipArchiver_ArchiveAlreadyExtracted_ArmoniK_DevelopmentKit_Worker_Common_PackageId_System_Int32_System_Int32_
-  commentId: M:ArmoniK.DevelopmentKit.Worker.Common.Archive.ZipArchiver.ArchiveAlreadyExtracted(ArmoniK.DevelopmentKit.Worker.Common.PackageId,System.Int32,System.Int32)
-  name.vb: ArchiveAlreadyExtracted(PackageId, Integer, Integer)
-  fullName: ArmoniK.DevelopmentKit.Worker.Common.Archive.ZipArchiver.ArchiveAlreadyExtracted(ArmoniK.DevelopmentKit.Worker.Common.PackageId, int, int)
-  fullName.vb: ArmoniK.DevelopmentKit.Worker.Common.Archive.ZipArchiver.ArchiveAlreadyExtracted(ArmoniK.DevelopmentKit.Worker.Common.PackageId, Integer, Integer)
-  nameWithType: ZipArchiver.ArchiveAlreadyExtracted(PackageId, int, int)
-  nameWithType.vb: ZipArchiver.ArchiveAlreadyExtracted(PackageId, Integer, Integer)
+- uid: ArmoniK.DevelopmentKit.Worker.Common.Archive.ZipArchiver.ArchiveAlreadyExtracted(ArmoniK.DevelopmentKit.Worker.Common.PackageId)
+  name: ArchiveAlreadyExtracted(PackageId)
+  href: api/ArmoniK.DevelopmentKit.Worker.Common.Archive.ZipArchiver.html#ArmoniK_DevelopmentKit_Worker_Common_Archive_ZipArchiver_ArchiveAlreadyExtracted_ArmoniK_DevelopmentKit_Worker_Common_PackageId_
+  commentId: M:ArmoniK.DevelopmentKit.Worker.Common.Archive.ZipArchiver.ArchiveAlreadyExtracted(ArmoniK.DevelopmentKit.Worker.Common.PackageId)
+  fullName: ArmoniK.DevelopmentKit.Worker.Common.Archive.ZipArchiver.ArchiveAlreadyExtracted(ArmoniK.DevelopmentKit.Worker.Common.PackageId)
+  nameWithType: ZipArchiver.ArchiveAlreadyExtracted(PackageId)
 - uid: ArmoniK.DevelopmentKit.Worker.Common.Archive.ZipArchiver.ArchiveAlreadyExtracted*
   name: ArchiveAlreadyExtracted
   href: api/ArmoniK.DevelopmentKit.Worker.Common.Archive.ZipArchiver.html#ArmoniK_DevelopmentKit_Worker_Common_Archive_ZipArchiver_ArchiveAlreadyExtracted_
@@ -4208,15 +4151,15 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.Worker.Common.Archive.ZipArchiver.ArchiveAlreadyExtracted
   nameWithType: ZipArchiver.ArchiveAlreadyExtracted
-- uid: ArmoniK.DevelopmentKit.Worker.Common.Archive.ZipArchiver.ExtractArchive(System.String,ArmoniK.DevelopmentKit.Worker.Common.PackageId,System.Boolean)
-  name: ExtractArchive(string, PackageId, bool)
-  href: api/ArmoniK.DevelopmentKit.Worker.Common.Archive.ZipArchiver.html#ArmoniK_DevelopmentKit_Worker_Common_Archive_ZipArchiver_ExtractArchive_System_String_ArmoniK_DevelopmentKit_Worker_Common_PackageId_System_Boolean_
-  commentId: M:ArmoniK.DevelopmentKit.Worker.Common.Archive.ZipArchiver.ExtractArchive(System.String,ArmoniK.DevelopmentKit.Worker.Common.PackageId,System.Boolean)
-  name.vb: ExtractArchive(String, PackageId, Boolean)
-  fullName: ArmoniK.DevelopmentKit.Worker.Common.Archive.ZipArchiver.ExtractArchive(string, ArmoniK.DevelopmentKit.Worker.Common.PackageId, bool)
-  fullName.vb: ArmoniK.DevelopmentKit.Worker.Common.Archive.ZipArchiver.ExtractArchive(String, ArmoniK.DevelopmentKit.Worker.Common.PackageId, Boolean)
-  nameWithType: ZipArchiver.ExtractArchive(string, PackageId, bool)
-  nameWithType.vb: ZipArchiver.ExtractArchive(String, PackageId, Boolean)
+- uid: ArmoniK.DevelopmentKit.Worker.Common.Archive.ZipArchiver.ExtractArchive(System.String,ArmoniK.DevelopmentKit.Worker.Common.PackageId)
+  name: ExtractArchive(string, PackageId)
+  href: api/ArmoniK.DevelopmentKit.Worker.Common.Archive.ZipArchiver.html#ArmoniK_DevelopmentKit_Worker_Common_Archive_ZipArchiver_ExtractArchive_System_String_ArmoniK_DevelopmentKit_Worker_Common_PackageId_
+  commentId: M:ArmoniK.DevelopmentKit.Worker.Common.Archive.ZipArchiver.ExtractArchive(System.String,ArmoniK.DevelopmentKit.Worker.Common.PackageId)
+  name.vb: ExtractArchive(String, PackageId)
+  fullName: ArmoniK.DevelopmentKit.Worker.Common.Archive.ZipArchiver.ExtractArchive(string, ArmoniK.DevelopmentKit.Worker.Common.PackageId)
+  fullName.vb: ArmoniK.DevelopmentKit.Worker.Common.Archive.ZipArchiver.ExtractArchive(String, ArmoniK.DevelopmentKit.Worker.Common.PackageId)
+  nameWithType: ZipArchiver.ExtractArchive(string, PackageId)
+  nameWithType.vb: ZipArchiver.ExtractArchive(String, PackageId)
 - uid: ArmoniK.DevelopmentKit.Worker.Common.Archive.ZipArchiver.ExtractArchive*
   name: ExtractArchive
   href: api/ArmoniK.DevelopmentKit.Worker.Common.Archive.ZipArchiver.html#ArmoniK_DevelopmentKit_Worker_Common_Archive_ZipArchiver_ExtractArchive_

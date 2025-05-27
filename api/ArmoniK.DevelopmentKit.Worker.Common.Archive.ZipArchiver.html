@@ -89,7 +89,7 @@
 
 
   <h1 id="ArmoniK_DevelopmentKit_Worker_Common_Archive_ZipArchiver" data-uid="ArmoniK.DevelopmentKit.Worker.Common.Archive.ZipArchiver" class="text-break">
-Class ZipArchiver  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Worker/src/Common/Archive/ZipArchiver.cs/#L30"><i class="bi bi-code-slash"></i></a>
+Class ZipArchiver  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Worker/src/Common/Archive/ZipArchiver.cs/#L28"><i class="bi bi-code-slash"></i></a>
   </h1>
 
   <div class="facts text-secondary">
@@ -163,7 +163,7 @@ Class ZipArchiver  <a class="header-action link-secondary" title="View source" h
 
   <h3 id="ArmoniK_DevelopmentKit_Worker_Common_Archive_ZipArchiver__ctor_System_String_" data-uid="ArmoniK.DevelopmentKit.Worker.Common.Archive.ZipArchiver.#ctor(System.String)">
   ZipArchiver(string)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Worker/src/Common/Archive/ZipArchiver.cs/#L38"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Worker/src/Common/Archive/ZipArchiver.cs/#L36"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Creates a zip archive handler</p>
@@ -198,9 +198,9 @@ Class ZipArchiver  <a class="header-action link-secondary" title="View source" h
 
   <a id="ArmoniK_DevelopmentKit_Worker_Common_Archive_ZipArchiver_ArchiveAlreadyExtracted_" data-uid="ArmoniK.DevelopmentKit.Worker.Common.Archive.ZipArchiver.ArchiveAlreadyExtracted*"></a>
 
-  <h3 id="ArmoniK_DevelopmentKit_Worker_Common_Archive_ZipArchiver_ArchiveAlreadyExtracted_ArmoniK_DevelopmentKit_Worker_Common_PackageId_System_Int32_System_Int32_" data-uid="ArmoniK.DevelopmentKit.Worker.Common.Archive.ZipArchiver.ArchiveAlreadyExtracted(ArmoniK.DevelopmentKit.Worker.Common.PackageId,System.Int32,System.Int32)">
-  ArchiveAlreadyExtracted(PackageId, int, int)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Worker/src/Common/Archive/ZipArchiver.cs/#L42"><i class="bi bi-code-slash"></i></a>
+  <h3 id="ArmoniK_DevelopmentKit_Worker_Common_Archive_ZipArchiver_ArchiveAlreadyExtracted_ArmoniK_DevelopmentKit_Worker_Common_PackageId_" data-uid="ArmoniK.DevelopmentKit.Worker.Common.Archive.ZipArchiver.ArchiveAlreadyExtracted(ArmoniK.DevelopmentKit.Worker.Common.PackageId)">
+  ArchiveAlreadyExtracted(PackageId)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Worker/src/Common/Archive/ZipArchiver.cs/#L40"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Checks if the archive has already been extracted. If the file is being extracted by another process, waits for its
@@ -209,7 +209,7 @@ completion to return an answer</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public bool ArchiveAlreadyExtracted(PackageId packageId, int waitForExtraction = 60000, int spinInterval = 1000)</code></pre>
+    <pre><code class="lang-csharp hljs">public bool ArchiveAlreadyExtracted(PackageId packageId)</code></pre>
   </div>
 
   <h4 class="section">Parameters</h4>
@@ -217,10 +217,6 @@ completion to return an answer</p>
     <dt><code>packageId</code> <a class="xref" href="ArmoniK.DevelopmentKit.Worker.Common.PackageId.html">PackageId</a></dt>
     <dd><p>Package Id</p>
 </dd>
-    <dt><code>waitForExtraction</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
-    <dd></dd>
-    <dt><code>spinInterval</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
-    <dd></dd>
   </dl>
 
   <h4 class="section">Returns</h4>
@@ -242,9 +238,9 @@ completion to return an answer</p>
 
   <a id="ArmoniK_DevelopmentKit_Worker_Common_Archive_ZipArchiver_ExtractArchive_" data-uid="ArmoniK.DevelopmentKit.Worker.Common.Archive.ZipArchiver.ExtractArchive*"></a>
 
-  <h3 id="ArmoniK_DevelopmentKit_Worker_Common_Archive_ZipArchiver_ExtractArchive_System_String_ArmoniK_DevelopmentKit_Worker_Common_PackageId_System_Boolean_" data-uid="ArmoniK.DevelopmentKit.Worker.Common.Archive.ZipArchiver.ExtractArchive(System.String,ArmoniK.DevelopmentKit.Worker.Common.PackageId,System.Boolean)">
-  ExtractArchive(string, PackageId, bool)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Worker/src/Common/Archive/ZipArchiver.cs/#L80"><i class="bi bi-code-slash"></i></a>
+  <h3 id="ArmoniK_DevelopmentKit_Worker_Common_Archive_ZipArchiver_ExtractArchive_System_String_ArmoniK_DevelopmentKit_Worker_Common_PackageId_" data-uid="ArmoniK.DevelopmentKit.Worker.Common.Archive.ZipArchiver.ExtractArchive(System.String,ArmoniK.DevelopmentKit.Worker.Common.PackageId)">
+  ExtractArchive(string, PackageId)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Worker/src/Common/Archive/ZipArchiver.cs/#L49"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Interface for archive extraction</p>
@@ -252,7 +248,7 @@ completion to return an answer</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public string ExtractArchive(string filename, PackageId packageId, bool overwrite = false)</code></pre>
+    <pre><code class="lang-csharp hljs">public string ExtractArchive(string filename, PackageId packageId)</code></pre>
   </div>
 
   <h4 class="section">Parameters</h4>
@@ -260,8 +256,6 @@ completion to return an answer</p>
     <dt><code>filename</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
     <dd></dd>
     <dt><code>packageId</code> <a class="xref" href="ArmoniK.DevelopmentKit.Worker.Common.PackageId.html">PackageId</a></dt>
-    <dd></dd>
-    <dt><code>overwrite</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
     <dd></dd>
   </dl>
 
@@ -328,7 +322,7 @@ archive is being extracted by another process</p>
 </article>
 
         <div class="contribution d-print-none">
-          <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Worker/src/Common/Archive/ZipArchiver.cs/#L30" class="edit-link">Edit this page</a>
+          <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Worker/src/Common/Archive/ZipArchiver.cs/#L28" class="edit-link">Edit this page</a>
         </div>
 
 

@@ -123,9 +123,9 @@ Interface IArchiver  <a class="header-action link-secondary" title="View source"
 
   <a id="ArmoniK_DevelopmentKit_Worker_Common_Archive_IArchiver_ArchiveAlreadyExtracted_" data-uid="ArmoniK.DevelopmentKit.Worker.Common.Archive.IArchiver.ArchiveAlreadyExtracted*"></a>
 
-  <h3 id="ArmoniK_DevelopmentKit_Worker_Common_Archive_IArchiver_ArchiveAlreadyExtracted_ArmoniK_DevelopmentKit_Worker_Common_PackageId_System_Int32_System_Int32_" data-uid="ArmoniK.DevelopmentKit.Worker.Common.Archive.IArchiver.ArchiveAlreadyExtracted(ArmoniK.DevelopmentKit.Worker.Common.PackageId,System.Int32,System.Int32)">
-  ArchiveAlreadyExtracted(PackageId, int, int)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Worker/src/Common/Archive/IArchiver.cs/#L43"><i class="bi bi-code-slash"></i></a>
+  <h3 id="ArmoniK_DevelopmentKit_Worker_Common_Archive_IArchiver_ArchiveAlreadyExtracted_ArmoniK_DevelopmentKit_Worker_Common_PackageId_" data-uid="ArmoniK.DevelopmentKit.Worker.Common.Archive.IArchiver.ArchiveAlreadyExtracted(ArmoniK.DevelopmentKit.Worker.Common.PackageId)">
+  ArchiveAlreadyExtracted(PackageId)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Worker/src/Common/Archive/IArchiver.cs/#L40"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Checks if the archive has already been extracted. If the file is being extracted by another process, waits for its
@@ -134,19 +134,13 @@ completion to return an answer</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">bool ArchiveAlreadyExtracted(PackageId packageId, int waitExtractionTimeoutMs = 60000, int waitSpinIntervalMs = 1000)</code></pre>
+    <pre><code class="lang-csharp hljs">bool ArchiveAlreadyExtracted(PackageId packageId)</code></pre>
   </div>
 
   <h4 class="section">Parameters</h4>
   <dl class="parameters">
     <dt><code>packageId</code> <a class="xref" href="ArmoniK.DevelopmentKit.Worker.Common.PackageId.html">PackageId</a></dt>
     <dd><p>Package Id</p>
-</dd>
-    <dt><code>waitExtractionTimeoutMs</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
-    <dd><p>If the file is being extracted by another process, wait until this timeout</p>
-</dd>
-    <dt><code>waitSpinIntervalMs</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
-    <dd><p>Interval between file checks while waiting for extraction</p>
 </dd>
   </dl>
 
@@ -169,8 +163,8 @@ completion to return an answer</p>
 
   <a id="ArmoniK_DevelopmentKit_Worker_Common_Archive_IArchiver_ExtractArchive_" data-uid="ArmoniK.DevelopmentKit.Worker.Common.Archive.IArchiver.ExtractArchive*"></a>
 
-  <h3 id="ArmoniK_DevelopmentKit_Worker_Common_Archive_IArchiver_ExtractArchive_System_String_ArmoniK_DevelopmentKit_Worker_Common_PackageId_System_Boolean_" data-uid="ArmoniK.DevelopmentKit.Worker.Common.Archive.IArchiver.ExtractArchive(System.String,ArmoniK.DevelopmentKit.Worker.Common.PackageId,System.Boolean)">
-  ExtractArchive(string, PackageId, bool)
+  <h3 id="ArmoniK_DevelopmentKit_Worker_Common_Archive_IArchiver_ExtractArchive_System_String_ArmoniK_DevelopmentKit_Worker_Common_PackageId_" data-uid="ArmoniK.DevelopmentKit.Worker.Common.Archive.IArchiver.ExtractArchive(System.String,ArmoniK.DevelopmentKit.Worker.Common.PackageId)">
+  ExtractArchive(string, PackageId)
   <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Worker/src/Common/Archive/IArchiver.cs/#L31"><i class="bi bi-code-slash"></i></a>
   </h3>
 
@@ -179,7 +173,7 @@ completion to return an answer</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">string ExtractArchive(string filename, PackageId packageId, bool overwrite = false)</code></pre>
+    <pre><code class="lang-csharp hljs">string ExtractArchive(string filename, PackageId packageId)</code></pre>
   </div>
 
   <h4 class="section">Parameters</h4>
@@ -189,9 +183,6 @@ completion to return an answer</p>
 </dd>
     <dt><code>packageId</code> <a class="xref" href="ArmoniK.DevelopmentKit.Worker.Common.PackageId.html">PackageId</a></dt>
     <dd><p>Package Id</p>
-</dd>
-    <dt><code>overwrite</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
-    <dd><p>Overwrite the files if they have been already extracted</p>
 </dd>
   </dl>
 
