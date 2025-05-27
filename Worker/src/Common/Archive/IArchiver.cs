@@ -1,6 +1,6 @@
 // This file is part of the ArmoniK project
 // 
-// Copyright (C) ANEO, 2021-2023. All rights reserved.
+// Copyright (C) ANEO, 2021-2025. All rights reserved.
 // 
 // Licensed under the Apache License, Version 2.0 (the "License")
 // you may not use this file except in compliance with the License.
@@ -29,18 +29,13 @@ public interface IArchiver
   /// <param name="overwrite">Overwrite the files if they have been already extracted</param>
   /// <returns>Path to extracted package folder</returns>
   public string ExtractArchive(string    filename,
-                               PackageId packageId,
-                               bool      overwrite = false);
+                               PackageId packageId);
 
   /// <summary>
   ///   Checks if the archive has already been extracted. If the file is being extracted by another process, waits for its
   ///   completion to return an answer
   /// </summary>
   /// <param name="packageId">Package Id</param>
-  /// <param name="waitExtractionTimeoutMs">If the file is being extracted by another process, wait until this timeout</param>
-  /// <param name="waitSpinIntervalMs">Interval between file checks while waiting for extraction</param>
   /// <returns>True if the archive has already been extracted, false otherwise</returns>
-  public bool ArchiveAlreadyExtracted(PackageId packageId,
-                                      int       waitExtractionTimeoutMs = 60000,
-                                      int       waitSpinIntervalMs      = 1000);
+  public bool ArchiveAlreadyExtracted(PackageId packageId);
 }

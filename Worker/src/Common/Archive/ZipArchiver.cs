@@ -1,6 +1,6 @@
 // This file is part of the ArmoniK project
 // 
-// Copyright (C) ANEO, 2021-2023. All rights reserved.
+// Copyright (C) ANEO, 2021-2025. All rights reserved.
 // 
 // Licensed under the Apache License, Version 2.0 (the "License")
 // you may not use this file except in compliance with the License.
@@ -17,10 +17,8 @@
 using System;
 using System.IO;
 using System.IO.Compression;
-using System.Threading;
 
 using ArmoniK.DevelopmentKit.Common.Exceptions;
-using ArmoniK.DevelopmentKit.Common.Utils;
 
 namespace ArmoniK.DevelopmentKit.Worker.Common.Archive;
 
@@ -39,38 +37,9 @@ public class ZipArchiver : IArchiver
     => rootAppPath_ = assembliesBasePath;
 
   /// <inheritdoc />
-  public bool ArchiveAlreadyExtracted(PackageId packageId,
-                                      int       waitForExtraction = 60000,
-                                      int       spinInterval      = 1000)
-  {
-    var pathToAssemblyDir = Path.Combine(rootAppPath_,
-                                         packageId.PackageSubpath);
-
-    if (!Directory.Exists(pathToAssemblyDir))
-    {
-      return false;
-    }
-
-    var mainAssembly = Path.Combine(pathToAssemblyDir,
-                                    packageId.MainAssemblyFileName);
-
-    if (File.Exists(mainAssembly))
-    {
-      return true;
-    }
-
-    var lockFileName = Path.Combine(pathToAssemblyDir,
-                                    $"{packageId.ApplicationName}.lock");
-
-    while (File.Exists(lockFileName) && waitForExtraction > 0)
-    {
-      Thread.Sleep(Math.Min(spinInterval,
-                            waitForExtraction));
-      waitForExtraction -= spinInterval;
-    }
-
-    return File.Exists(mainAssembly) && !File.Exists(lockFileName);
-  }
+  public bool ArchiveAlreadyExtracted(PackageId packageId)
+    => File.Exists(Path.Combine(rootAppPath_,
+                                $".{packageId}.extracted"));
 
   /// <inheritdoc cref="IArchiver" />
   /// <exception cref="WorkerApiException">
@@ -78,8 +47,7 @@ public class ZipArchiver : IArchiver
   ///   archive is being extracted by another process
   /// </exception>
   public string ExtractArchive(string    filename,
-                               PackageId packageId,
-                               bool      overwrite = false)
+                               PackageId packageId)
   {
     if (!IsZipFile(filename))
     {
@@ -88,47 +56,79 @@ public class ZipArchiver : IArchiver
 
     var pathToAssemblyDir = Path.Combine(rootAppPath_,
                                          packageId.PackageSubpath);
-    var mainAssembly = Path.Combine(pathToAssemblyDir,
-                                    packageId.MainAssemblyFileName);
+    var signalPath = Path.Combine(rootAppPath_,
+                                  $".{packageId}.extracted");
 
-    if (!Directory.Exists(pathToAssemblyDir))
+    if (File.Exists(signalPath))
     {
-      Directory.CreateDirectory(pathToAssemblyDir);
+      return pathToAssemblyDir;
     }
 
-    var lockFileName = Path.Combine(pathToAssemblyDir,
-                                    $"{packageId.ApplicationName}.lock");
+    var extractPath = Path.Combine(rootAppPath_,
+                                   $".{packageId}.{Guid.NewGuid()}");
 
-    using (var spinLock = new FileSpinLock(lockFileName,
-                                           timeoutMs: 60000))
+    try
     {
-      if (spinLock.HasLock)
-      {
-        if (overwrite || !File.Exists(mainAssembly))
-        {
-          try
-          {
-            ZipFile.ExtractToDirectory(filename,
-                                       rootAppPath_);
-          }
-          catch (Exception e)
-          {
-            throw new WorkerApiException($"Could not extract zip file {filename}",
-                                         e);
-          }
-        }
-      }
-      else
-      {
-        throw new WorkerApiException($"Could not lock file to extract zip {filename}");
-      }
+      FileExt.TryCreateDirectory(extractPath);
+    }
+    catch (Exception e)
+    {
+      throw new WorkerApiException($"Cannot create extract directory {extractPath}",
+                                   e);
     }
 
-    //Check now if the assembly is present
-    if (!File.Exists(mainAssembly))
+    try
     {
-      throw new WorkerApiException($"Fail to find assembly {mainAssembly}. The extracted zip should have the following structure" +
-                                   $" {packageId.ApplicationName}/{packageId.ApplicationVersion}/ which will contains all the dll files.");
+      try
+      {
+        ZipFile.ExtractToDirectory(filename,
+                                   extractPath);
+      }
+      catch (Exception e)
+      {
+        throw new WorkerApiException($"Cannot extract archive {filename} to directory {extractPath}",
+                                     e);
+      }
+
+      var extractedMainAssembly = Path.Combine(extractPath,
+                                               packageId.PackageSubpath,
+                                               packageId.MainAssemblyFileName);
+
+      // Check now if the assembly is present
+      if (!File.Exists(extractedMainAssembly))
+      {
+        throw new WorkerApiException($"Fail to find assembly {extractedMainAssembly}. The extracted zip should have the following structure" +
+                                     $" {packageId.PackageSubpath}/ which will contains all the dll files.");
+      }
+
+      try
+      {
+        FileExt.MoveOrDeleteDirectory(extractPath,
+                                      rootAppPath_);
+      }
+      catch (Exception e)
+      {
+        throw new WorkerApiException($"Cannot move extracted archive {filename} from directory {extractPath} to directory {rootAppPath_}",
+                                     e);
+      }
+    }
+    finally
+    {
+      FileExt.TryDeleteDirectory(extractPath);
+    }
+
+    try
+    {
+      File.CreateText(signalPath)
+          .Dispose();
+    }
+    catch (Exception e)
+    {
+      if (!File.Exists(signalPath))
+      {
+        throw new WorkerApiException($"Cannot finalize extraction of {Path.Combine(pathToAssemblyDir, packageId.MainAssemblyFileName)}",
+                                     e);
+      }
     }
 
     return pathToAssemblyDir;
@@ -140,7 +140,7 @@ public class ZipArchiver : IArchiver
   /// <returns></returns>
   public static bool IsZipFile(string assemblyNameFilePath)
   {
-    //ATm ONLY Check the extensions 
+    // ATm ONLY Check the extensions
 
     var extension = Path.GetExtension(assemblyNameFilePath);
     return extension?.ToLower() == ".zip";
