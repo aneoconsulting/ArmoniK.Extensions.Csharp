@@ -33,7 +33,7 @@ jobs:
 
     - name: Generate Snapshot Version
       id: snapshot
-      uses: codacy/git-version@80c816f11db8dea5e3a81025f598193015b51832 # 2.8.0
+      uses: codacy/git-version@ac0f426c364a91292bfdf845a3e9dc9b4774bc7d # 2.8.1
       with:
         minor-identifier: "feat:"
         release-branch: ${{ github.ref_name }}-pre
@@ -41,7 +41,7 @@ jobs:
 
     - name: Generate Release Version
       id: release
-      uses: codacy/git-version@80c816f11db8dea5e3a81025f598193015b51832 # 2.8.0
+      uses: codacy/git-version@ac0f426c364a91292bfdf845a3e9dc9b4774bc7d # 2.8.1
       with:
         minor-identifier: "feat:"
         release-branch: ${{ steps.rev.outputs.current-branch }}
@@ -73,7 +73,7 @@ jobs:
         submodules: true
 
     - name: Install .NET Core
-      uses: actions/setup-dotnet@3951f0dfe7a07e2313ec93c75700083e2005cbab # v4
+      uses: actions/setup-dotnet@67a3573c9a986a3f9c594539f4ab511d57bb3ce9 # v4
       with:
         dotnet-version: |
           6.x
@@ -117,7 +117,7 @@ jobs:
       run: echo ${{ steps.buildx.outputs.platforms }}
 
     - name: Build and push
-      uses: docker/build-push-action@471d1dc4e07e5cdedd4c2171150001c434f0b7a4 # v6
+      uses: docker/build-push-action@263435318d21b8e681c14492fe198d362a7d2c83 # v6
       with:
         file: Worker/src/DLLWorker/Dockerfile
         context: .
