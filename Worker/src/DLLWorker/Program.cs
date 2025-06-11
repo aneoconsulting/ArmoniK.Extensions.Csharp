@@ -24,5 +24,6 @@ WorkerServer.Create<ComputerService>(serviceConfigurator: collection =>
                                                           {
                                                             collection.AddSingleton<ServiceRequestContext>();
                                                             collection.AddSingleton<ComputerService>();
+                                                            collection.AddSingleton<HealthCheckService>();
                                                           })
             .Run();

@@ -42,14 +42,15 @@ namespace ArmoniK.DevelopmentKit.Worker.DLLWorker.Services;
 public class HealthCheckService : Health.HealthBase, IAsyncDisposable
 {
 
-    private readonly ILogger<HealthCheckService> _logger;
-    private readonly ComputePlane _computePlaneOptions;
-    private readonly GrpcChannelProvider _provider;
-    private readonly IConfiguration _configuration;
-    private readonly WorkerStreamWrapper _workerWrapper;
+    private readonly ILogger<HealthCheckService> logger_;
+    private readonly ComputePlane computePlaneOptions_;
+    private readonly GrpcChannelProvider provider_;
+    private readonly IConfiguration configuration_;
+    private readonly WorkerStreamWrapper workerWrapper_;
     private readonly CancellationTokenSource cancellationTokenSource_;
 
-    private bool _isDisposed;
+    private bool isDisposed_;
+    private volatile bool isHealthy_ = true;
     /// <summary>
     /// Initializes a new instance of the <see cref="HealthCheckService"/> class.
     /// </summary>
@@ -57,24 +58,24 @@ public class HealthCheckService : Health.HealthBase, IAsyncDisposable
     /// <param name="computePlaneOptions">The compute plane options.</param>
     /// <param name="provider">The gRPC channel provider, to create channels with the Agent.</param>
     /// <param name="configuration">The configuration.</param>
-    public HealthCheckService(ILoggerFactory loggerFactory, ComputePlane computePlaneOptions, GrpcChannelProvider provider, IConfiguration configuration) 
+    public HealthCheckService(ILoggerFactory loggerFactory, ComputePlane computePlaneOptions, GrpcChannelProvider provider, IConfiguration configuration)
     {
-        _logger = loggerFactory.CreateLogger<HealthCheckService>();
-        _computePlaneOptions = computePlaneOptions ?? throw new ArgumentNullException(nameof(computePlaneOptions));
-        _provider = provider ?? throw new ArgumentNullException(nameof(provider));
-        _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));       
+        logger_ = loggerFactory.CreateLogger<HealthCheckService>();
+        computePlaneOptions_ = computePlaneOptions ?? throw new ArgumentNullException(nameof(computePlaneOptions));
+        provider_ = provider ?? throw new ArgumentNullException(nameof(provider));
+        configuration_ = configuration ?? throw new ArgumentNullException(nameof(configuration));
         cancellationTokenSource_ = new CancellationTokenSource();
 
         try
         {
-            _workerWrapper = new WorkerStreamWrapper(loggerFactory, computePlaneOptions, provider);
-            _logger.LogInformation("HealthCheckService initialized with ComputePlane options: {ComputePlaneOptions}", computePlaneOptions);
-            _logger.LogInformation("HealthCheckService initialized with GrpcChannelProvider: {GrpcChannelProvider}", provider);
-            _logger.LogInformation("HealthCheckService initialized with configuration: {Configuration}", configuration);
+            workerWrapper_ = new WorkerStreamWrapper(loggerFactory, computePlaneOptions, provider);
+            logger_.LogInformation("HealthCheckService initialized with ComputePlane options: {ComputePlaneOptions}", computePlaneOptions);
+            logger_.LogInformation("HealthCheckService initialized with GrpcChannelProvider: {GrpcChannelProvider}", provider);
+            logger_.LogInformation("HealthCheckService initialized with configuration: {Configuration}", configuration);
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error initializing HealthCheckService");
+            logger_.LogError(ex, "Error initializing HealthCheckService");
             throw;
         }
     }
@@ -82,21 +83,31 @@ public class HealthCheckService : Health.HealthBase, IAsyncDisposable
     /// <inheritdoc/>
     public override Task<HealthCheckResponse> Check(HealthCheckRequest request, ServerCallContext context)
     {
-        _logger.LogDebug("HealthCheckService.Check called with request: {Request}", request);
+        logger_.LogDebug("HealthCheckService.Check called with request: {Request}", request);
 
-        if (_isDisposed)
+        if (isDisposed_)
         {
-            _logger.LogWarning("HealthCheckService is disposed, returning NOT_SERVING status.");
+            logger_.LogWarning("HealthCheckService is disposed, returning NOT_SERVING status.");
             return Task.FromResult(new HealthCheckResponse
             {
                 Status = HealthCheckResponse.Types.ServingStatus.NotServing
             });
         }
-        
+
         // Unable to perform health check if the worker wrapper is null
-        if (_workerWrapper == null)
+        if (workerWrapper_ == null)
         {
-            _logger.LogWarning("WorkerWrapper is null, returning NOT_SERVING status.");
+            logger_.LogWarning("WorkerWrapper is null, returning NOT_SERVING status.");
+            return Task.FromResult(new HealthCheckResponse
+            {
+                Status = HealthCheckResponse.Types.ServingStatus.NotServing
+            });
+        }
+
+        // Check if the service is healthy
+        if (!isHealthy_)
+        {
+            logger_.LogWarning("HealthCheckService marked as unhealthy, returning NOT_SERVING status.");
             return Task.FromResult(new HealthCheckResponse
             {
                 Status = HealthCheckResponse.Types.ServingStatus.NotServing
@@ -104,33 +115,59 @@ public class HealthCheckService : Health.HealthBase, IAsyncDisposable
         }
 
         // Available to health check
-        _logger.LogDebug("HealthCheckService is healthy, returning SERVING status.");
+        logger_.LogDebug("HealthCheckService is healthy, returning SERVING status.");
         return Task.FromResult(new HealthCheckResponse
         {
             Status = HealthCheckResponse.Types.ServingStatus.Serving
         });
     }
 
+    /// <summary>
+    /// Marks the service as healthy.
+    /// </summary>
+    public void MarkHealthy()
+    {
+        isHealthy_ = true;
+        logger_.LogInformation("HealthCheckService marked as healthy.");
+    }
+    /// <summary>
+    /// Marks the service as unhealthy.
+    /// </summary>
+    public void MarkUnhealthy()
+    {
+        isHealthy_ = false;
+        logger_.LogInformation("HealthCheckService marked as unhealthy.");
+    }
+    /// <summary>
+    /// Disposes the HealthCheckService asynchronously.
+    /// </summary>
+    /// <returns></returns>
     public async ValueTask DisposeAsync()
     {
-        if (_isDisposed)
+        if (isDisposed_)
         {
-            _logger.LogWarning("HealthCheckService is already disposed.");
+            logger_.LogWarning("HealthCheckService is already disposed.");
             return;
         }
-        _isDisposed = true;
+        isDisposed_ = true;
         try
         {
             cancellationTokenSource_.Dispose();
-            if(_workerWrapper != null)
+            if (workerWrapper_ != null)
             {
-                await _workerWrapper.DisposeAsync();
-                _logger.LogInformation("WorkerStreamWrapper disposed successfully.");
+                await workerWrapper_.DisposeAsync();
+                logger_.LogInformation("WorkerStreamWrapper disposed successfully.");
             }
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error disposing HealthCheckService");
+            logger_.LogError(ex, "Error disposing HealthCheckService");
         }
-  }
+    }
+
+    /// <summary>
+    /// Gets the current health status
+    /// </summary>
+    public bool IsHealthy => isHealthy_ && !isDisposed_;
+
 }
