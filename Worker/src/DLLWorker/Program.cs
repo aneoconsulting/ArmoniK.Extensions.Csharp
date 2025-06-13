@@ -14,6 +14,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Armonik.DevelopmentKit.Worker.DLLWorker.Services;
+
 using ArmoniK.Api.Worker.Utils;
 using ArmoniK.DevelopmentKit.Worker.DLLWorker;
 using ArmoniK.DevelopmentKit.Worker.DLLWorker.Services;
@@ -24,6 +26,7 @@ WorkerServer.Create<ComputerService>(serviceConfigurator: collection =>
                                                           {
                                                             collection.AddSingleton<ServiceRequestContext>();
                                                             collection.AddSingleton<ComputerService>();
-                                                            collection.AddSingleton<HealthCheckService>();
+                                                            collection.AddSingleton<IHealthStatusController>(provider => 
+        provider.GetRequiredService<HealthCheckService>());
                                                           })
             .Run();

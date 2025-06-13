@@ -34,12 +34,13 @@ using ProtoBuf.Meta;
 using System.Threading.Tasks;
 using System;
 using System.Threading;
+using Armonik.DevelopmentKit.Worker.DLLWorker.Services;
 
 namespace ArmoniK.DevelopmentKit.Worker.DLLWorker.Services;
 /// <summary>
-/// 
+/// HealthCheck Class to associate a heathState to our worker
 /// </summary>
-public class HealthCheckService : Health.HealthBase, IAsyncDisposable
+public class HealthCheckService : Health.HealthBase, IAsyncDisposable, IHealthStatusController
 {
 
     private readonly ILogger<HealthCheckService> logger_;
@@ -51,6 +52,9 @@ public class HealthCheckService : Health.HealthBase, IAsyncDisposable
 
     private bool isDisposed_;
     private volatile bool isHealthy_ = true;
+    private string statusReason_ = "Service is healthy.";
+    private int failureCount_ = 0;
+
     /// <summary>
     /// Initializes a new instance of the <see cref="HealthCheckService"/> class.
     /// </summary>
@@ -127,17 +131,31 @@ public class HealthCheckService : Health.HealthBase, IAsyncDisposable
     /// </summary>
     public void MarkHealthy()
     {
+        failureCount_ = 0; // Réinitialiser le compteur d'échecs
         isHealthy_ = true;
+        statusReason_ = "Service is marked as healthy.";
         logger_.LogInformation("HealthCheckService marked as healthy.");
     }
     /// <summary>
-    /// Marks the service as unhealthy.
+    /// Marks the service as unhealthy
     /// </summary>
     public void MarkUnhealthy()
     {
-        isHealthy_ = false;
-        logger_.LogInformation("HealthCheckService marked as unhealthy.");
+        failureCount_++;
+        if (failureCount_ >= 10)
+        {
+            isHealthy_ = false;
+            statusReason_ = "Service is marked as unhealthy due to consecutive failures.";
+            logger_.LogCritical("HealthCheckService marked as unhealthy.");
+        }
+        else if (failureCount_ >= 11)
+        {
+            // Si le worker réussit après avoir été marqué comme unhealthy, le rétablir
+            MarkHealthy();
+            failureCount_ = 0;
+        }
     }
+
     /// <summary>
     /// Disposes the HealthCheckService asynchronously.
     /// </summary>
@@ -168,6 +186,16 @@ public class HealthCheckService : Health.HealthBase, IAsyncDisposable
     /// <summary>
     /// Gets the current health status
     /// </summary>
-    public bool IsHealthy => isHealthy_ && !isDisposed_;
+     bool IHealthStatusController.IsHealthy()
+    {
+        return isHealthy_;
+    }   
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
+    public string GetStatusInfo(){
+        return $"Healthy: {isHealthy_}, Disposed: {isDisposed_}, Reason: {statusReason_}, Failure Count: {failureCount_}";
+    }
 
 }

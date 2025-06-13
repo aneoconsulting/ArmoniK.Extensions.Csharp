@@ -22,7 +22,10 @@ using System.Threading;
 using System.Threading.Channels;
 using System.Threading.Tasks;
 
+using Armonik.DevelopmentKit.Worker.DLLWorker.Services;
+
 using ArmoniK.Api.Common.Channel.Utils;
+using ArmoniK.Api.Common.Options;
 using ArmoniK.Api.Common.Utils;
 using ArmoniK.Api.gRPC.V1;
 using ArmoniK.Api.Worker.Worker;
@@ -42,13 +45,14 @@ public class ComputerService : WorkerStreamWrapper
 {
   private readonly ApplicationPackageManager                                                         appPackageManager_;
   private readonly ChannelWriter<(ArmonikServiceWorker, ITaskHandler, TaskCompletionSource<byte[]>)> channel_;
-  private readonly HealthCheckService healthCheckService_;
+  private readonly IHealthStatusController healthController_;
 
   public ComputerService(IConfiguration configuration,
                          GrpcChannelProvider provider,
                          ServiceRequestContext serviceRequestContext
-                         , HealthCheckService healthCheckService)
+                         , IHealthStatusController healthController)
     : base(serviceRequestContext.LoggerFactory,
+           new ComputePlane(),
            provider)
   {
     Configuration = configuration;
@@ -56,11 +60,11 @@ public class ComputerService : WorkerStreamWrapper
     ServiceRequestContext = serviceRequestContext;
     appPackageManager_ = new ApplicationPackageManager(configuration,
                                                        serviceRequestContext.LoggerFactory);
-    healthCheckService_ = healthCheckService;
+    healthController_ = healthController;
 
     var channel = Channel.CreateBounded<(ArmonikServiceWorker, ITaskHandler, TaskCompletionSource<byte[]>)>(1);
     var channelReader = channel.Reader;
-      channel_ = channel.Writer;
+    channel_ = channel.Writer;
     new Thread(() =>
                {
                  var requests = channelReader.ToAsyncEnumerable(CancellationToken.None)
@@ -70,11 +74,11 @@ public class ComputerService : WorkerStreamWrapper
                    try
                    {
                      tcs.SetResult(service.Execute(taskHandler));
-                     healthCheckService_.MarkHealthy();
+                     healthController.MarkHealthy();
                    }
                    catch (Exception e)
                    {
-                    healthCheckService_.MarkUnhealthy();
+                     healthController.MarkUnhealthy();
                      tcs.SetException(e);
                    }
                  }
@@ -101,9 +105,9 @@ public class ComputerService : WorkerStreamWrapper
                     taskHandler.DataDependencies.Keys);
     Logger.LogTrace("ExpectedResults {ExpectedResults}",
                     taskHandler.ExpectedResults);
-    if (!healthCheckService_.IsHealthy)
+    if (!healthController_.IsHealthy())
     {
-      Logger.LogWarning("Worker is marked as unhealthy, refusing to process task {TaskId}", taskHandler.TaskId);
+      Logger.LogWarning("Worker is marked as unhealthy, refusing to process task {TaskId}, the healthStatus : {HealthStatus}", taskHandler.TaskId,healthController_.GetStatusInfo());
       throw new RpcException(new Status(StatusCode.Unavailable, "Worker is unhealthy"));
     }
     Output output;
@@ -155,7 +159,7 @@ public class ComputerService : WorkerStreamWrapper
         serviceWorker.CloseSession();
       }
 
-      serviceWorker.InitializeSessionWorker(ServiceRequestContext.SessionId,
+      serviceWorker.InitializeSessionWorker(ServiceRequestContext.SessionId!,
                                             taskHandler.TaskOptions);
 
       ServiceRequestContext.SessionId = sessionIdCaller;
@@ -182,11 +186,11 @@ public class ComputerService : WorkerStreamWrapper
       {
         Ok = new Empty(),
       };
-      healthCheckService_.MarkHealthy();
+      healthController_.MarkHealthy();
     }
     catch (WorkerApiException ex)
     {
-      healthCheckService_.MarkUnhealthy();
+      healthController_.MarkUnhealthy();
       Logger.LogError(ex,
                       "WorkerAPIException failure while executing task");
 
@@ -204,7 +208,7 @@ public class ComputerService : WorkerStreamWrapper
                         "Worker sent an error");
       if (ex.StatusCode == StatusCode.Internal || ex.StatusCode == StatusCode.Unavailable)
       {
-        healthCheckService_.MarkUnhealthy();
+        healthController_.MarkUnhealthy();
       }
 
       throw;
@@ -213,7 +217,7 @@ public class ComputerService : WorkerStreamWrapper
     {
       Logger.LogError(ex,
                       "Unmanaged exception while executing task");
-      healthCheckService_.MarkUnhealthy();
+      healthController_.MarkUnhealthy();
       throw new RpcException(new Status(StatusCode.Internal,
                                         ex.Message + Environment.NewLine + ex.StackTrace));
     }
