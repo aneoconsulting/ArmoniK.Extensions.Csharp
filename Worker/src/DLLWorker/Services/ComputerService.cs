@@ -22,7 +22,10 @@ using System.Threading;
 using System.Threading.Channels;
 using System.Threading.Tasks;
 
+using Armonik.DevelopmentKit.Worker.DLLWorker.Services;
+
 using ArmoniK.Api.Common.Channel.Utils;
+using ArmoniK.Api.Common.Options;
 using ArmoniK.Api.Common.Utils;
 using ArmoniK.Api.gRPC.V1;
 using ArmoniK.Api.Worker.Worker;
@@ -42,20 +45,24 @@ public class ComputerService : WorkerStreamWrapper
 {
   private readonly ApplicationPackageManager                                                         appPackageManager_;
   private readonly ChannelWriter<(ArmonikServiceWorker, ITaskHandler, TaskCompletionSource<byte[]>)> channel_;
+  private readonly IHealthStatusController healthController_;
 
-  public ComputerService(IConfiguration        configuration,
-                         GrpcChannelProvider   provider,
-                         ServiceRequestContext serviceRequestContext)
+  public ComputerService(IConfiguration configuration,
+                         GrpcChannelProvider provider,
+                         ServiceRequestContext serviceRequestContext
+                         , IHealthStatusController healthController)
     : base(serviceRequestContext.LoggerFactory,
+           new ComputePlane(),
            provider)
   {
-    Configuration         = configuration;
-    Logger                = serviceRequestContext.LoggerFactory.CreateLogger<ComputerService>();
+    Configuration = configuration;
+    Logger = serviceRequestContext.LoggerFactory.CreateLogger<ComputerService>();
     ServiceRequestContext = serviceRequestContext;
     appPackageManager_ = new ApplicationPackageManager(configuration,
                                                        serviceRequestContext.LoggerFactory);
+    healthController_ = healthController;
 
-    var channel       = Channel.CreateBounded<(ArmonikServiceWorker, ITaskHandler, TaskCompletionSource<byte[]>)>(1);
+    var channel = Channel.CreateBounded<(ArmonikServiceWorker, ITaskHandler, TaskCompletionSource<byte[]>)>(1);
     var channelReader = channel.Reader;
     channel_ = channel.Writer;
     new Thread(() =>
@@ -67,9 +74,11 @@ public class ComputerService : WorkerStreamWrapper
                    try
                    {
                      tcs.SetResult(service.Execute(taskHandler));
+                     healthController.MarkHealthy();
                    }
                    catch (Exception e)
                    {
+                     healthController.MarkUnhealthy();
                      tcs.SetException(e);
                    }
                  }
@@ -96,18 +105,22 @@ public class ComputerService : WorkerStreamWrapper
                     taskHandler.DataDependencies.Keys);
     Logger.LogTrace("ExpectedResults {ExpectedResults}",
                     taskHandler.ExpectedResults);
-
+    if (!healthController_.IsHealthy())
+    {
+      Logger.LogWarning("Worker is marked as unhealthy, refusing to process task {TaskId}, the healthStatus : {HealthStatus}", taskHandler.TaskId,healthController_.GetStatusInfo());
+      throw new RpcException(new Status(StatusCode.Unavailable, "Worker is unhealthy"));
+    }
     Output output;
     try
     {
       var sessionIdCaller = new Session
-                            {
-                              Id = taskHandler.SessionId,
-                            };
+      {
+        Id = taskHandler.SessionId,
+      };
       var taskId = new TaskId
-                   {
-                     Task = taskHandler.TaskId,
-                   };
+      {
+        Task = taskHandler.TaskId,
+      };
       Logger.BeginPropertyScope(("TaskId", taskId.Task),
                                 ("SessionId", sessionIdCaller));
 
@@ -146,13 +159,13 @@ public class ComputerService : WorkerStreamWrapper
         serviceWorker.CloseSession();
       }
 
-      serviceWorker.InitializeSessionWorker(ServiceRequestContext.SessionId,
+      serviceWorker.InitializeSessionWorker(ServiceRequestContext.SessionId!,
                                             taskHandler.TaskOptions);
 
       ServiceRequestContext.SessionId = sessionIdCaller;
 
       Logger.LogInformation("Executing task");
-      var sw  = Stopwatch.StartNew();
+      var sw = Stopwatch.StartNew();
       var tcs = new TaskCompletionSource<byte[]>();
       await channel_.WriteAsync((serviceWorker, taskHandler, tcs))
                     .ConfigureAwait(false);
@@ -170,34 +183,41 @@ public class ComputerService : WorkerStreamWrapper
 
 
       output = new Output
-               {
-                 Ok = new Empty(),
-               };
+      {
+        Ok = new Empty(),
+      };
+      healthController_.MarkHealthy();
     }
     catch (WorkerApiException ex)
     {
+      healthController_.MarkUnhealthy();
       Logger.LogError(ex,
                       "WorkerAPIException failure while executing task");
 
       return new Output
-             {
-               Error = new Output.Types.Error
-                       {
-                         Details = ex.Message + Environment.NewLine + ex.StackTrace,
-                       },
-             };
+      {
+        Error = new Output.Types.Error
+        {
+          Details = ex.Message + Environment.NewLine + ex.StackTrace,
+        },
+      };
     }
     catch (RpcException ex)
     {
       Logger.LogWarning(ex,
                         "Worker sent an error");
+      if (ex.StatusCode == StatusCode.Internal || ex.StatusCode == StatusCode.Unavailable)
+      {
+        healthController_.MarkUnhealthy();
+      }
+
       throw;
     }
     catch (Exception ex)
     {
       Logger.LogError(ex,
                       "Unmanaged exception while executing task");
-
+      healthController_.MarkUnhealthy();
       throw new RpcException(new Status(StatusCode.Internal,
                                         ex.Message + Environment.NewLine + ex.StackTrace));
     }
