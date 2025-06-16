@@ -1,13 +1,13 @@
 // This file is part of the ArmoniK project
-// 
+//
 // Copyright (C) ANEO, 2021-2024. All rights reserved.
-// 
+//
 // Licensed under the Apache License, Version 2.0 (the "License")
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
-// 
+//
 //     http://www.apache.org/licenses/LICENSE-2.0
-// 
+//
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -25,6 +25,7 @@ using System.Threading.Tasks;
 using ArmoniK.Api.Common.Channel.Utils;
 using ArmoniK.Api.Common.Utils;
 using ArmoniK.Api.gRPC.V1;
+using ArmoniK.Api.gRPC.V1.Worker;
 using ArmoniK.Api.Worker.Worker;
 using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.Common.Exceptions;
@@ -42,6 +43,8 @@ public class ComputerService : WorkerStreamWrapper
 {
   private readonly ApplicationPackageManager                                                         appPackageManager_;
   private readonly ChannelWriter<(ArmonikServiceWorker, ITaskHandler, TaskCompletionSource<byte[]>)> channel_;
+
+
 
   public ComputerService(IConfiguration        configuration,
                          GrpcChannelProvider   provider,
@@ -240,4 +243,17 @@ public class ComputerService : WorkerStreamWrapper
 
     return message;
   }
+
+  /// <inheritdoc />
+  public override Task<HealthCheckReply> HealthCheck(Empty             request,
+                                                     ServerCallContext context)
+    => Task.FromResult(ServiceRequestContext.CurrentService?.GridWorker?.CheckHealth() ?? true
+                         ? new HealthCheckReply
+                           {
+                             Status = HealthCheckReply.Types.ServingStatus.Serving
+                           }
+                         : new HealthCheckReply
+                           {
+                             Status = HealthCheckReply.Types.ServingStatus.NotServing
+                           });
 }
