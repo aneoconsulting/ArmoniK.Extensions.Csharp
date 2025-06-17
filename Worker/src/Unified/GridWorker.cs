@@ -262,7 +262,7 @@ public class GridWorker : IGridWorker
     OnDestroyService();
     Dispose();
   }
-
+  bool IGridWorker.CheckHealth() => CheckHealth();
   public bool CheckHealth()
   {
     if (ServiceClass is ICheckHealth checkHealth)
