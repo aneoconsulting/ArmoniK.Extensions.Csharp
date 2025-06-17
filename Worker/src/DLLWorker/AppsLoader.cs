@@ -181,6 +181,11 @@ public class AppsLoader : IAppsLoader
     {
       using (UserAssemblyLoadContext.EnterContextualReflection())
       {
+        logger_.LogInformation($"Loading GridWorker from assembly: {assemblyGridWorker_.FullName}");
+        if (assemblyGridWorker_ == null)
+        {
+          throw new NullReferenceException($"Assembly {ArmoniKDevelopmentKitServerApi}.dll is not loaded");
+        }
         logger_.LogInformation($"Looking for type: {ArmoniKDevelopmentKitServerApi}.GridWorker in assembly: {assemblyGridWorker_.FullName}");
 
         var classType = assemblyGridWorker_.GetType($"{ArmoniKDevelopmentKitServerApi}.GridWorker");
