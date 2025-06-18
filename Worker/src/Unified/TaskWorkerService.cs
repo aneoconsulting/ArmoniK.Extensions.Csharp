@@ -44,7 +44,7 @@ namespace ArmoniK.DevelopmentKit.Worker.Unified;
 /// </summary>
 [PublicAPI]
 [MarkDownDoc]
-public abstract class TaskWorkerService : ITaskContextConfiguration, ISessionServiceConfiguration, ITaskOptionsConfiguration, ISessionConfiguration, ILoggerConfiguration
+public abstract class TaskWorkerService : ITaskContextConfiguration, ISessionServiceConfiguration, ITaskOptionsConfiguration, ISessionConfiguration, ILoggerConfiguration, ICheckHealth
 {
   /// <summary>
   /// </summary>
