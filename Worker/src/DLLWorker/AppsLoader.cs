@@ -186,6 +186,7 @@ public class AppsLoader : IAppsLoader
         {
           throw new NullReferenceException($"Assembly {ArmoniKDevelopmentKitServerApi}.dll is not loaded");
         }
+
         logger_.LogInformation($"Looking for type: {ArmoniKDevelopmentKitServerApi}.GridWorker in assembly: {assemblyGridWorker_.FullName}");
 
         var classType = assemblyGridWorker_.GetType($"{ArmoniKDevelopmentKitServerApi}.GridWorker");

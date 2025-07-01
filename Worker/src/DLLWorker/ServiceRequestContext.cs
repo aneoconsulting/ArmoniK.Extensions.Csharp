@@ -1,13 +1,13 @@
 // This file is part of the ArmoniK project
-//
+// 
 // Copyright (C) ANEO, 2021-2023. All rights reserved.
-//
+// 
 // Licensed under the Apache License, Version 2.0 (the "License")
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
-//
+// 
 //     http://www.apache.org/licenses/LICENSE-2.0
-//
+// 
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -116,22 +116,22 @@ public class ServiceRequestContext
 {
   private readonly ILogger<ServiceRequestContext> logger_;
 
-  [CanBeNull]
-  private ArmonikServiceWorker currentService_;
-
   public ServiceRequestContext(ILoggerFactory loggerFactory)
   {
-    LoggerFactory   = loggerFactory;
-    currentService_ = null;
-    logger_         = loggerFactory.CreateLogger<ServiceRequestContext>();
+    LoggerFactory  = loggerFactory;
+    CurrentService = null;
+    logger_        = loggerFactory.CreateLogger<ServiceRequestContext>();
   }
 
   public Session SessionId { get; set; }
 
   public ILoggerFactory LoggerFactory { get; set; }
 
-  public ArmonikServiceWorker? CurrentService
-    => currentService_;
+  /// <summary>
+  ///   Gets the current service worker.
+  /// </summary>
+  [CanBeNull]
+  public ArmonikServiceWorker? CurrentService { get; private set; }
 
   public bool IsNewSessionId(Session sessionId)
   {
@@ -178,16 +178,16 @@ public class ServiceRequestContext
                                   requestTaskOptions.ApplicationNamespace,
                                   EngineTypeHelper.ToEnum(engineTypeName));
 
-    if (currentService_?.ServiceId == serviceId)
+    if (CurrentService?.ServiceId == serviceId)
     {
-      return currentService_;
+      return CurrentService;
     }
 
-    logger_.LogInformation($"Worker needs to load new context, from {currentService_?.ServiceId.ToString() ?? "null"} to {serviceId}");
+    logger_.LogInformation($"Worker needs to load new context, from {CurrentService?.ServiceId.ToString() ?? "null"} to {serviceId}");
 
-    currentService_?.DestroyService();
-    currentService_?.Dispose();
-    currentService_ = null;
+    CurrentService?.DestroyService();
+    CurrentService?.Dispose();
+    CurrentService = null;
 
 
     var appsLoader = new AppsLoader(appPackageManager,
@@ -195,17 +195,17 @@ public class ServiceRequestContext
                                     engineTypeName,
                                     packageId);
 
-    currentService_ = new ArmonikServiceWorker
-                      {
-                        AppsLoader = appsLoader,
-                        GridWorker = appsLoader.GetGridWorkerInstance(configuration,
-                                                                      LoggerFactory),
-                        ServiceId = serviceId,
-                      };
+    CurrentService = new ArmonikServiceWorker
+                     {
+                       AppsLoader = appsLoader,
+                       GridWorker = appsLoader.GetGridWorkerInstance(configuration,
+                                                                     LoggerFactory),
+                       ServiceId = serviceId,
+                     };
 
-    currentService_.Configure(configuration,
-                              requestTaskOptions);
+    CurrentService.Configure(configuration,
+                             requestTaskOptions);
 
-    return currentService_;
+    return CurrentService;
   }
 }
