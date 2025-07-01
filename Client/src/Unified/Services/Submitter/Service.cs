@@ -754,11 +754,12 @@ public class Service : AbstractClientService, ISubmitterService
   public ObjectPool<GrpcChannel> GetChannelPool()
     => SessionService.ChannelPool;
 
-  private record TaskSubmission(byte[]                        Payload,
-                                IList<string>                 Dependencies,
-                                TaskOptions?                  TaskOptions,
-                                IServiceInvocationHandler     Handler,
-                                TaskCompletionSource<string>? Tcs);
+  private record TaskSubmission(
+    byte[]                        Payload,
+    IList<string>                 Dependencies,
+    TaskOptions?                  TaskOptions,
+    IServiceInvocationHandler     Handler,
+    TaskCompletionSource<string>? Tcs);
 
   /// <summary>
   ///   Class to return TaskId and the result

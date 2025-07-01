@@ -27,6 +27,4 @@ namespace ArmoniK.DevelopmentKit.Client.Common.Status;
 /// <param name="TaskId">The id of the task producing the result</param>
 /// <param name="Status">The status of the result</param>
 [PublicAPI]
-public sealed record ResultStatusData(string       ResultId,
-                                      string       TaskId,
-                                      ResultStatus Status);
+public sealed record ResultStatusData(string ResultId, string TaskId, ResultStatus Status);
