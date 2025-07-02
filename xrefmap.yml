@@ -4211,6 +4211,19 @@ references:
   commentId: T:ArmoniK.DevelopmentKit.Worker.Common.IGridWorker
   fullName: ArmoniK.DevelopmentKit.Worker.Common.IGridWorker
   nameWithType: IGridWorker
+- uid: ArmoniK.DevelopmentKit.Worker.Common.IGridWorker.CheckHealth
+  name: CheckHealth()
+  href: api/ArmoniK.DevelopmentKit.Worker.Common.IGridWorker.html#ArmoniK_DevelopmentKit_Worker_Common_IGridWorker_CheckHealth
+  commentId: M:ArmoniK.DevelopmentKit.Worker.Common.IGridWorker.CheckHealth
+  fullName: ArmoniK.DevelopmentKit.Worker.Common.IGridWorker.CheckHealth()
+  nameWithType: IGridWorker.CheckHealth()
+- uid: ArmoniK.DevelopmentKit.Worker.Common.IGridWorker.CheckHealth*
+  name: CheckHealth
+  href: api/ArmoniK.DevelopmentKit.Worker.Common.IGridWorker.html#ArmoniK_DevelopmentKit_Worker_Common_IGridWorker_CheckHealth_
+  commentId: Overload:ArmoniK.DevelopmentKit.Worker.Common.IGridWorker.CheckHealth
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Worker.Common.IGridWorker.CheckHealth
+  nameWithType: IGridWorker.CheckHealth
 - uid: ArmoniK.DevelopmentKit.Worker.Common.IGridWorker.Configure(Microsoft.Extensions.Configuration.IConfiguration,ArmoniK.Api.gRPC.V1.TaskOptions,ArmoniK.DevelopmentKit.Worker.Common.IAppsLoader)
   name: Configure(IConfiguration, TaskOptions, IAppsLoader)
   href: api/ArmoniK.DevelopmentKit.Worker.Common.IGridWorker.html#ArmoniK_DevelopmentKit_Worker_Common_IGridWorker_Configure_Microsoft_Extensions_Configuration_IConfiguration_ArmoniK_Api_gRPC_V1_TaskOptions_ArmoniK_DevelopmentKit_Worker_Common_IAppsLoader_
@@ -5130,6 +5143,19 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.Worker.DLLWorker.ServiceRequestContext.CreateOrGetArmonikService
   nameWithType: ServiceRequestContext.CreateOrGetArmonikService
+- uid: ArmoniK.DevelopmentKit.Worker.DLLWorker.ServiceRequestContext.CurrentService
+  name: CurrentService
+  href: api/ArmoniK.DevelopmentKit.Worker.DLLWorker.ServiceRequestContext.html#ArmoniK_DevelopmentKit_Worker_DLLWorker_ServiceRequestContext_CurrentService
+  commentId: P:ArmoniK.DevelopmentKit.Worker.DLLWorker.ServiceRequestContext.CurrentService
+  fullName: ArmoniK.DevelopmentKit.Worker.DLLWorker.ServiceRequestContext.CurrentService
+  nameWithType: ServiceRequestContext.CurrentService
+- uid: ArmoniK.DevelopmentKit.Worker.DLLWorker.ServiceRequestContext.CurrentService*
+  name: CurrentService
+  href: api/ArmoniK.DevelopmentKit.Worker.DLLWorker.ServiceRequestContext.html#ArmoniK_DevelopmentKit_Worker_DLLWorker_ServiceRequestContext_CurrentService_
+  commentId: Overload:ArmoniK.DevelopmentKit.Worker.DLLWorker.ServiceRequestContext.CurrentService
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Worker.DLLWorker.ServiceRequestContext.CurrentService
+  nameWithType: ServiceRequestContext.CurrentService
 - uid: ArmoniK.DevelopmentKit.Worker.DLLWorker.ServiceRequestContext.IsNewSessionId(ArmoniK.Api.gRPC.V1.Session)
   name: IsNewSessionId(Session)
   href: api/ArmoniK.DevelopmentKit.Worker.DLLWorker.ServiceRequestContext.html#ArmoniK_DevelopmentKit_Worker_DLLWorker_ServiceRequestContext_IsNewSessionId_ArmoniK_Api_gRPC_V1_Session_
@@ -5222,6 +5248,19 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.Worker.DLLWorker.Services.ComputerService.Configuration
   nameWithType: ComputerService.Configuration
+- uid: ArmoniK.DevelopmentKit.Worker.DLLWorker.Services.ComputerService.HealthCheck(ArmoniK.Api.gRPC.V1.Empty,Grpc.Core.ServerCallContext)
+  name: HealthCheck(Empty, ServerCallContext)
+  href: api/ArmoniK.DevelopmentKit.Worker.DLLWorker.Services.ComputerService.html#ArmoniK_DevelopmentKit_Worker_DLLWorker_Services_ComputerService_HealthCheck_ArmoniK_Api_gRPC_V1_Empty_Grpc_Core_ServerCallContext_
+  commentId: M:ArmoniK.DevelopmentKit.Worker.DLLWorker.Services.ComputerService.HealthCheck(ArmoniK.Api.gRPC.V1.Empty,Grpc.Core.ServerCallContext)
+  fullName: ArmoniK.DevelopmentKit.Worker.DLLWorker.Services.ComputerService.HealthCheck(ArmoniK.Api.gRPC.V1.Empty, Grpc.Core.ServerCallContext)
+  nameWithType: ComputerService.HealthCheck(Empty, ServerCallContext)
+- uid: ArmoniK.DevelopmentKit.Worker.DLLWorker.Services.ComputerService.HealthCheck*
+  name: HealthCheck
+  href: api/ArmoniK.DevelopmentKit.Worker.DLLWorker.Services.ComputerService.html#ArmoniK_DevelopmentKit_Worker_DLLWorker_Services_ComputerService_HealthCheck_
+  commentId: Overload:ArmoniK.DevelopmentKit.Worker.DLLWorker.Services.ComputerService.HealthCheck
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Worker.DLLWorker.Services.ComputerService.HealthCheck
+  nameWithType: ComputerService.HealthCheck
 - uid: ArmoniK.DevelopmentKit.Worker.DLLWorker.Services.ComputerService.Process(ArmoniK.Api.Worker.Worker.ITaskHandler)
   name: Process(ITaskHandler)
   href: api/ArmoniK.DevelopmentKit.Worker.DLLWorker.Services.ComputerService.html#ArmoniK_DevelopmentKit_Worker_DLLWorker_Services_ComputerService_Process_ArmoniK_Api_Worker_Worker_ITaskHandler_
@@ -5288,6 +5327,19 @@ references:
   fullName.vb: ArmoniK.DevelopmentKit.Worker.Symphony.GridWorker.New
   nameWithType: GridWorker.GridWorker
   nameWithType.vb: GridWorker.New
+- uid: ArmoniK.DevelopmentKit.Worker.Symphony.GridWorker.CheckHealth
+  name: CheckHealth()
+  href: api/ArmoniK.DevelopmentKit.Worker.Symphony.GridWorker.html#ArmoniK_DevelopmentKit_Worker_Symphony_GridWorker_CheckHealth
+  commentId: M:ArmoniK.DevelopmentKit.Worker.Symphony.GridWorker.CheckHealth
+  fullName: ArmoniK.DevelopmentKit.Worker.Symphony.GridWorker.CheckHealth()
+  nameWithType: GridWorker.CheckHealth()
+- uid: ArmoniK.DevelopmentKit.Worker.Symphony.GridWorker.CheckHealth*
+  name: CheckHealth
+  href: api/ArmoniK.DevelopmentKit.Worker.Symphony.GridWorker.html#ArmoniK_DevelopmentKit_Worker_Symphony_GridWorker_CheckHealth_
+  commentId: Overload:ArmoniK.DevelopmentKit.Worker.Symphony.GridWorker.CheckHealth
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Worker.Symphony.GridWorker.CheckHealth
+  nameWithType: GridWorker.CheckHealth
 - uid: ArmoniK.DevelopmentKit.Worker.Symphony.GridWorker.Configuration
   name: Configuration
   href: api/ArmoniK.DevelopmentKit.Worker.Symphony.GridWorker.html#ArmoniK_DevelopmentKit_Worker_Symphony_GridWorker_Configuration
@@ -5515,6 +5567,19 @@ references:
   commentId: T:ArmoniK.DevelopmentKit.Worker.Symphony.ServiceContainerBase
   fullName: ArmoniK.DevelopmentKit.Worker.Symphony.ServiceContainerBase
   nameWithType: ServiceContainerBase
+- uid: ArmoniK.DevelopmentKit.Worker.Symphony.ServiceContainerBase.CheckHealth
+  name: CheckHealth()
+  href: api/ArmoniK.DevelopmentKit.Worker.Symphony.ServiceContainerBase.html#ArmoniK_DevelopmentKit_Worker_Symphony_ServiceContainerBase_CheckHealth
+  commentId: M:ArmoniK.DevelopmentKit.Worker.Symphony.ServiceContainerBase.CheckHealth
+  fullName: ArmoniK.DevelopmentKit.Worker.Symphony.ServiceContainerBase.CheckHealth()
+  nameWithType: ServiceContainerBase.CheckHealth()
+- uid: ArmoniK.DevelopmentKit.Worker.Symphony.ServiceContainerBase.CheckHealth*
+  name: CheckHealth
+  href: api/ArmoniK.DevelopmentKit.Worker.Symphony.ServiceContainerBase.html#ArmoniK_DevelopmentKit_Worker_Symphony_ServiceContainerBase_CheckHealth_
+  commentId: Overload:ArmoniK.DevelopmentKit.Worker.Symphony.ServiceContainerBase.CheckHealth
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Worker.Symphony.ServiceContainerBase.CheckHealth
+  nameWithType: ServiceContainerBase.CheckHealth
 - uid: ArmoniK.DevelopmentKit.Worker.Symphony.ServiceContainerBase.Configuration
   name: Configuration
   href: api/ArmoniK.DevelopmentKit.Worker.Symphony.ServiceContainerBase.html#ArmoniK_DevelopmentKit_Worker_Symphony_ServiceContainerBase_Configuration
@@ -6766,6 +6831,19 @@ references:
   fullName.vb: ArmoniK.DevelopmentKit.Worker.Unified.GridWorker.New
   nameWithType: GridWorker.GridWorker
   nameWithType.vb: GridWorker.New
+- uid: ArmoniK.DevelopmentKit.Worker.Unified.GridWorker.CheckHealth
+  name: CheckHealth()
+  href: api/ArmoniK.DevelopmentKit.Worker.Unified.GridWorker.html#ArmoniK_DevelopmentKit_Worker_Unified_GridWorker_CheckHealth
+  commentId: M:ArmoniK.DevelopmentKit.Worker.Unified.GridWorker.CheckHealth
+  fullName: ArmoniK.DevelopmentKit.Worker.Unified.GridWorker.CheckHealth()
+  nameWithType: GridWorker.CheckHealth()
+- uid: ArmoniK.DevelopmentKit.Worker.Unified.GridWorker.CheckHealth*
+  name: CheckHealth
+  href: api/ArmoniK.DevelopmentKit.Worker.Unified.GridWorker.html#ArmoniK_DevelopmentKit_Worker_Unified_GridWorker_CheckHealth_
+  commentId: Overload:ArmoniK.DevelopmentKit.Worker.Unified.GridWorker.CheckHealth
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Worker.Unified.GridWorker.CheckHealth
+  nameWithType: GridWorker.CheckHealth
 - uid: ArmoniK.DevelopmentKit.Worker.Unified.GridWorker.Configuration
   name: Configuration
   href: api/ArmoniK.DevelopmentKit.Worker.Unified.GridWorker.html#ArmoniK_DevelopmentKit_Worker_Unified_GridWorker_Configuration
@@ -7026,6 +7104,25 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.Worker.Unified.GridWorker.TaskOptions
   nameWithType: GridWorker.TaskOptions
+- uid: ArmoniK.DevelopmentKit.Worker.Unified.ICheckHealth
+  name: ICheckHealth
+  href: api/ArmoniK.DevelopmentKit.Worker.Unified.ICheckHealth.html
+  commentId: T:ArmoniK.DevelopmentKit.Worker.Unified.ICheckHealth
+  fullName: ArmoniK.DevelopmentKit.Worker.Unified.ICheckHealth
+  nameWithType: ICheckHealth
+- uid: ArmoniK.DevelopmentKit.Worker.Unified.ICheckHealth.CheckHealth
+  name: CheckHealth()
+  href: api/ArmoniK.DevelopmentKit.Worker.Unified.ICheckHealth.html#ArmoniK_DevelopmentKit_Worker_Unified_ICheckHealth_CheckHealth
+  commentId: M:ArmoniK.DevelopmentKit.Worker.Unified.ICheckHealth.CheckHealth
+  fullName: ArmoniK.DevelopmentKit.Worker.Unified.ICheckHealth.CheckHealth()
+  nameWithType: ICheckHealth.CheckHealth()
+- uid: ArmoniK.DevelopmentKit.Worker.Unified.ICheckHealth.CheckHealth*
+  name: CheckHealth
+  href: api/ArmoniK.DevelopmentKit.Worker.Unified.ICheckHealth.html#ArmoniK_DevelopmentKit_Worker_Unified_ICheckHealth_CheckHealth_
+  commentId: Overload:ArmoniK.DevelopmentKit.Worker.Unified.ICheckHealth.CheckHealth
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Worker.Unified.ICheckHealth.CheckHealth
+  nameWithType: ICheckHealth.CheckHealth
 - uid: ArmoniK.DevelopmentKit.Worker.Unified.ILoggerConfiguration
   name: ILoggerConfiguration
   href: api/ArmoniK.DevelopmentKit.Worker.Unified.ILoggerConfiguration.html

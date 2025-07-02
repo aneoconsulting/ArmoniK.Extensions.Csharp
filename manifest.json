@@ -1328,6 +1328,20 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/ArmoniK.DevelopmentKit.Worker.Unified.ICheckHealth.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ArmoniK.DevelopmentKit.Worker.Unified.ICheckHealth.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "ArmoniK.DevelopmentKit.Worker.Unified.ICheckHealth",
+      "Summary": "<p sourcefile=\"api/ArmoniK.DevelopmentKit.Worker.Unified.ICheckHealth.yml\" sourcestartlinenumber=\"1\">Interface to check the health of a service.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/ArmoniK.DevelopmentKit.Worker.Unified.ILoggerConfiguration.yml",
       "output": {
         ".html": {

@@ -89,7 +89,7 @@
 
 
   <h1 id="ArmoniK_DevelopmentKit_Worker_DLLWorker_Services_ComputerService" data-uid="ArmoniK.DevelopmentKit.Worker.DLLWorker.Services.ComputerService" class="text-break">
-Class ComputerService  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Worker/src/DLLWorker/Services/ComputerService.cs/#L41"><i class="bi bi-code-slash"></i></a>
+Class ComputerService  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Worker/src/DLLWorker/Services/ComputerService.cs/#L42"><i class="bi bi-code-slash"></i></a>
   </h1>
 
   <div class="facts text-secondary">
@@ -141,9 +141,6 @@ Class ComputerService  <a class="header-action link-secondary" title="View sourc
       <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.cancellationtoken">WorkerStreamWrapper.ProcessAsync(ITaskHandler, CancellationToken)</a>
     </div>
     <div>
-      <a class="xref" href="https://github.com/grpc/grpc-dotnet/blob/main/src/Grpc.Core.Api/ServerCallContext.cs">WorkerStreamWrapper.HealthCheck(Empty, ServerCallContext)</a>
-    </div>
-    <div>
       <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)">object.Equals(object)</a>
     </div>
     <div>
@@ -179,7 +176,7 @@ Class ComputerService  <a class="header-action link-secondary" title="View sourc
 
   <h3 id="ArmoniK_DevelopmentKit_Worker_DLLWorker_Services_ComputerService__ctor_Microsoft_Extensions_Configuration_IConfiguration_ArmoniK_Api_Common_Channel_Utils_GrpcChannelProvider_ArmoniK_DevelopmentKit_Worker_DLLWorker_ServiceRequestContext_" data-uid="ArmoniK.DevelopmentKit.Worker.DLLWorker.Services.ComputerService.#ctor(Microsoft.Extensions.Configuration.IConfiguration,ArmoniK.Api.Common.Channel.Utils.GrpcChannelProvider,ArmoniK.DevelopmentKit.Worker.DLLWorker.ServiceRequestContext)">
   ComputerService(IConfiguration, GrpcChannelProvider, ServiceRequestContext)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Worker/src/DLLWorker/Services/ComputerService.cs/#L46"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Worker/src/DLLWorker/Services/ComputerService.cs/#L48"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -218,7 +215,7 @@ Class ComputerService  <a class="header-action link-secondary" title="View sourc
 
   <h3 id="ArmoniK_DevelopmentKit_Worker_DLLWorker_Services_ComputerService_Configuration" data-uid="ArmoniK.DevelopmentKit.Worker.DLLWorker.Services.ComputerService.Configuration">
   Configuration
-  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Worker/src/DLLWorker/Services/ComputerService.cs/#L88"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Worker/src/DLLWorker/Services/ComputerService.cs/#L90"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -249,7 +246,7 @@ Class ComputerService  <a class="header-action link-secondary" title="View sourc
 
   <h3 id="ArmoniK_DevelopmentKit_Worker_DLLWorker_Services_ComputerService_ServiceRequestContext" data-uid="ArmoniK.DevelopmentKit.Worker.DLLWorker.Services.ComputerService.ServiceRequestContext">
   ServiceRequestContext
-  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Worker/src/DLLWorker/Services/ComputerService.cs/#L86"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Worker/src/DLLWorker/Services/ComputerService.cs/#L88"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -280,11 +277,49 @@ Class ComputerService  <a class="header-action link-secondary" title="View sourc
 </h2>
 
 
+  <a id="ArmoniK_DevelopmentKit_Worker_DLLWorker_Services_ComputerService_HealthCheck_" data-uid="ArmoniK.DevelopmentKit.Worker.DLLWorker.Services.ComputerService.HealthCheck*"></a>
+
+  <h3 id="ArmoniK_DevelopmentKit_Worker_DLLWorker_Services_ComputerService_HealthCheck_ArmoniK_Api_gRPC_V1_Empty_Grpc_Core_ServerCallContext_" data-uid="ArmoniK.DevelopmentKit.Worker.DLLWorker.Services.ComputerService.HealthCheck(ArmoniK.Api.gRPC.V1.Empty,Grpc.Core.ServerCallContext)">
+  HealthCheck(Empty, ServerCallContext)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Worker/src/DLLWorker/Services/ComputerService.cs/#L247"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override Task&lt;HealthCheckReply&gt; HealthCheck(Empty request, ServerCallContext context)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>request</code> <span class="xref">Empty</span></dt>
+    <dd></dd>
+    <dt><code>context</code> <a class="xref" href="https://github.com/grpc/grpc-dotnet/blob/main/src/Grpc.Core.Api/ServerCallContext.cs">ServerCallContext</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<span class="xref">HealthCheckReply</span>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
   <a id="ArmoniK_DevelopmentKit_Worker_DLLWorker_Services_ComputerService_Process_" data-uid="ArmoniK.DevelopmentKit.Worker.DLLWorker.Services.ComputerService.Process*"></a>
 
   <h3 id="ArmoniK_DevelopmentKit_Worker_DLLWorker_Services_ComputerService_Process_ArmoniK_Api_Worker_Worker_ITaskHandler_" data-uid="ArmoniK.DevelopmentKit.Worker.DLLWorker.Services.ComputerService.Process(ArmoniK.Api.Worker.Worker.ITaskHandler)">
   Process(ITaskHandler)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Worker/src/DLLWorker/Services/ComputerService.cs/#L90"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Worker/src/DLLWorker/Services/ComputerService.cs/#L92"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>User defined computations</p>
@@ -329,7 +364,7 @@ Class ComputerService  <a class="header-action link-secondary" title="View sourc
 </article>
 
         <div class="contribution d-print-none">
-          <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Worker/src/DLLWorker/Services/ComputerService.cs/#L41" class="edit-link">Edit this page</a>
+          <a href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Worker/src/DLLWorker/Services/ComputerService.cs/#L42" class="edit-link">Edit this page</a>
         </div>
 
 
