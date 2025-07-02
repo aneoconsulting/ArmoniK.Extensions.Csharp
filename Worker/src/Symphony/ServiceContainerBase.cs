@@ -307,6 +307,13 @@ public abstract class ServiceContainerBase
   public void ConfigureSessionService(ITaskHandler taskHandler)
     => SessionService = new SessionPollingService(LoggerFactory,
                                                   taskHandler);
+
+  /// <summary>
+  ///   Check the health of the service.
+  /// </summary>
+  /// <returns></returns>
+  public virtual bool CheckHealth()
+    => true;
 }
 
 /// <summary>

@@ -25,6 +25,7 @@ using System.Threading.Tasks;
 using ArmoniK.Api.Common.Channel.Utils;
 using ArmoniK.Api.Common.Utils;
 using ArmoniK.Api.gRPC.V1;
+using ArmoniK.Api.gRPC.V1.Worker;
 using ArmoniK.Api.Worker.Worker;
 using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.Common.Exceptions;
@@ -42,6 +43,7 @@ public class ComputerService : WorkerStreamWrapper
 {
   private readonly ApplicationPackageManager                                                         appPackageManager_;
   private readonly ChannelWriter<(ArmonikServiceWorker, ITaskHandler, TaskCompletionSource<byte[]>)> channel_;
+
 
   public ComputerService(IConfiguration        configuration,
                          GrpcChannelProvider   provider,
@@ -240,4 +242,17 @@ public class ComputerService : WorkerStreamWrapper
 
     return message;
   }
+
+  /// <inheritdoc />
+  public override Task<HealthCheckReply> HealthCheck(Empty             request,
+                                                     ServerCallContext context)
+    => Task.FromResult(ServiceRequestContext.CurrentService?.GridWorker?.CheckHealth() ?? true
+                         ? new HealthCheckReply
+                           {
+                             Status = HealthCheckReply.Types.ServingStatus.Serving,
+                           }
+                         : new HealthCheckReply
+                           {
+                             Status = HealthCheckReply.Types.ServingStatus.NotServing,
+                           });
 }

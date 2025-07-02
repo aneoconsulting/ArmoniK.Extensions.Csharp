@@ -27,3 +27,16 @@ public interface ITaskContextConfiguration
   /// </summary>
   TaskContext TaskContext { get; set; }
 }
+
+/// <summary>
+///   Interface to check the health of a service.
+/// </summary>
+public interface ICheckHealth
+{
+  /// <summary>
+  ///   Checks the health of the service.
+  /// </summary>
+  /// <returns></returns>
+  bool CheckHealth()
+    => true;
+}

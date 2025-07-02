@@ -37,4 +37,10 @@ public interface IGridWorker : IDisposable
   public void SessionFinalize();
 
   public void DestroyService();
+
+  /// <summary>
+  ///   Checks the health of the service.
+  /// </summary>
+  /// <returns>True if the service is healthy, false otherwise.</returns>
+  public bool CheckHealth();
 }

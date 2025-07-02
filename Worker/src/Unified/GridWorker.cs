@@ -263,6 +263,17 @@ public class GridWorker : IGridWorker
     Dispose();
   }
 
+  /// <inheritdoc />
+  public bool CheckHealth()
+  {
+    if (ServiceClass is ICheckHealth checkHealth)
+    {
+      return checkHealth.CheckHealth();
+    }
+
+    return true;
+  }
+
   /// <summary>
   ///   Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources
   /// </summary>

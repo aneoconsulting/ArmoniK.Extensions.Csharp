@@ -167,6 +167,13 @@ public class GridWorker : IGridWorker
   public void DestroyService()
     => OnDestroyService();
 
+  /// <summary>
+  ///   Checks the health of the service.
+  /// </summary>
+  /// <returns></returns>
+  public bool CheckHealth()
+    => serviceContainerBase_?.CheckHealth() ?? true;
+
   /// <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
   public void Dispose()
     => OnDestroyService();
