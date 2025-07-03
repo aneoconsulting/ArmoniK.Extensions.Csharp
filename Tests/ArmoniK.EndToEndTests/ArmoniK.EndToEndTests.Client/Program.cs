@@ -89,30 +89,30 @@ public class Program
   private static IEnumerable<TestContext> RetrieveClientTests()
   {
     var serviceContainerTypes = new[]
-                                {
-                                  Assembly.GetExecutingAssembly(),
-                                }.SelectMany(x =>
-                                             {
-                                               try
-                                               {
-                                                 return x.GetTypes();
-                                               }
-                                               catch (ReflectionTypeLoadException ex)
-                                               {
-                                                 return ex.Types.Where(t => t != null);
-                                               }
-                                               catch
-                                               {
-                                                 return Type.EmptyTypes;
-                                               }
-                                             })
-                                 .Where(x => x != null)
-                                 .Where(x => x.IsPublic && !x.IsGenericType && !typeof(Delegate).IsAssignableFrom(x) && !x.GetCustomAttributes<ObsoleteAttribute>()
-                                                                                                                          .Any() && !x
-                                                                                                                                     .GetCustomAttributes<
-                                                                                                                                       DisabledAttribute>()
-                                                                                                                                     .Any())
-                                 .ToArray();
+      {
+        Assembly.GetExecutingAssembly(),
+      }.SelectMany(x =>
+                   {
+                     try
+                     {
+                       return x.GetTypes();
+                     }
+                     catch (ReflectionTypeLoadException ex)
+                     {
+                       return ex.Types.Where(t => t != null);
+                     }
+                     catch
+                     {
+                       return Type.EmptyTypes;
+                     }
+                   })
+       .Where(x => x != null)
+       .Where(x => x.IsPublic && !x.IsGenericType && !typeof(Delegate).IsAssignableFrom(x) && !x.GetCustomAttributes<ObsoleteAttribute>()
+                                                                                                .Any() && !x
+                                                                                                           .GetCustomAttributes<
+                                                                                                             DisabledAttribute>()
+                                                                                                           .Any())
+       .ToArray();
 
     var results = serviceContainerTypes.Select(x => new Tuple<Type, MethodInfo[]>(x,
                                                                                   GetMethods(x)))
@@ -140,27 +140,27 @@ public class Program
     //Get first test where ServiceContainer Exists
 
     var serviceContainerTypes = new[]
-                                {
-                                  Assembly.GetExecutingAssembly(),
-                                }.SelectMany(x =>
-                                             {
-                                               try
-                                               {
-                                                 return x.GetTypes();
-                                               }
-                                               catch (ReflectionTypeLoadException ex)
-                                               {
-                                                 return ex.Types.Where(t => t != null);
-                                               }
-                                               catch
-                                               {
-                                                 return Type.EmptyTypes;
-                                               }
-                                             })
-                                 .Where(x => x != null)
-                                 .Where(x => x.IsPublic && !x.IsGenericType && !typeof(Delegate).IsAssignableFrom(x) && !x.GetCustomAttributes<ObsoleteAttribute>()
-                                                                                                                          .Any())
-                                 .ToArray();
+      {
+        Assembly.GetExecutingAssembly(),
+      }.SelectMany(x =>
+                   {
+                     try
+                     {
+                       return x.GetTypes();
+                     }
+                     catch (ReflectionTypeLoadException ex)
+                     {
+                       return ex.Types.Where(t => t != null);
+                     }
+                     catch
+                     {
+                       return Type.EmptyTypes;
+                     }
+                   })
+       .Where(x => x != null)
+       .Where(x => x.IsPublic && !x.IsGenericType && !typeof(Delegate).IsAssignableFrom(x) && !x.GetCustomAttributes<ObsoleteAttribute>()
+                                                                                                .Any())
+       .ToArray();
 
     var results = serviceContainerTypes.Select(x => new Tuple<Type, MethodInfo[]>(x,
                                                                                   GetMethods(x)))
@@ -197,7 +197,7 @@ public class Program
   public static MethodInfo[] GetMethods(Type type)
     => type.GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.InvokeMethod)
            .Where(x => !x.IsSpecialName                                                          && !x.GetCustomAttributes<ObsoleteAttribute>()
-                                                                    .Any()                       && x.GetCustomAttributes<EntryPointAttribute>()
-                                                                                          .Any() && !x.IsPrivate)
+                                                                                                      .Any()                       && x.GetCustomAttributes<EntryPointAttribute>()
+                                                                                                                                       .Any() && !x.IsPrivate)
            .ToArray();
 }

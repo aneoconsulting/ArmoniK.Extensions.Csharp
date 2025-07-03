@@ -25,12 +25,13 @@ namespace ArmoniK.DevelopmentKit.Common;
 /// <param name="ClientPayload">The arguments for the method</param>
 /// <param name="SerializedArguments">Defines whether the payload should be transmitted as is to the worker method.</param>
 [ProtoContract(SkipConstructor = true)]
-public record ArmonikPayload([property: ProtoMember(1)]
-                             string MethodName,
-                             [property: ProtoMember(2)]
-                             byte[] ClientPayload,
-                             [property: ProtoMember(3)]
-                             bool SerializedArguments)
+public record ArmonikPayload(
+  [property: ProtoMember(1)]
+  string MethodName,
+  [property: ProtoMember(2)]
+  byte[] ClientPayload,
+  [property: ProtoMember(3)]
+  bool SerializedArguments)
 {
   public byte[] Serialize()
     => ProtoSerializer.Serialize(this);

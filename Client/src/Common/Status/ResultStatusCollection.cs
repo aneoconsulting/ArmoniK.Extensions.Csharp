@@ -32,8 +32,9 @@ namespace ArmoniK.DevelopmentKit.Client.Common.Status;
 /// <param name="IdsNotReady">List of result not yet written in database</param>
 /// <param name="Canceled">List of canceled task</param>
 [PublicAPI]
-public sealed record ResultStatusCollection(IReadOnlyList<ResultStatusData> IdsReady,
-                                            IReadOnlyList<ResultStatusData> IdsResultError,
-                                            IReadOnlyList<string>           IdsError,
-                                            IReadOnlyList<ResultStatusData> IdsNotReady,
-                                            IReadOnlyList<ResultStatusData> Canceled);
+public sealed record ResultStatusCollection(
+  IReadOnlyList<ResultStatusData> IdsReady,
+  IReadOnlyList<ResultStatusData> IdsResultError,
+  IReadOnlyList<string>           IdsError,
+  IReadOnlyList<ResultStatusData> IdsNotReady,
+  IReadOnlyList<ResultStatusData> Canceled);

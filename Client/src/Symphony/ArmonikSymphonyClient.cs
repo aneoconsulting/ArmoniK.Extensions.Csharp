@@ -38,8 +38,8 @@ namespace ArmoniK.DevelopmentKit.Client.Symphony;
 [MarkDownDoc]
 public class ArmonikSymphonyClient
 {
-  private readonly IConfigurationSection          controlPlanSection_;
   private readonly ILogger<ArmonikSymphonyClient> Logger;
+  private readonly IConfigurationSection          controlPlanSection_;
 
 
   /// <summary>

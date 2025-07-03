@@ -116,12 +116,12 @@ public class ComputerService : WorkerStreamWrapper
       Logger.LogInformation($"Receive new task Session        {sessionIdCaller} -> task {taskId}");
       Logger.LogInformation($"Previous Session#SubSession was {ServiceRequestContext.SessionId?.Id ?? "NOT SET"}");
       if (new[]
-          {
-            (nameof(taskHandler.TaskOptions.ApplicationName), string.IsNullOrEmpty(taskHandler.TaskOptions.ApplicationName)),
-            (nameof(taskHandler.TaskOptions.ApplicationVersion), string.IsNullOrEmpty(taskHandler.TaskOptions.ApplicationVersion)),
-            (nameof(taskHandler.TaskOptions.ApplicationNamespace), string.IsNullOrEmpty(taskHandler.TaskOptions.ApplicationNamespace)),
-          }.Where(x => x.Item2)
-           .ToArray() is var missingKeys && missingKeys.Any())
+            {
+              (nameof(taskHandler.TaskOptions.ApplicationName), string.IsNullOrEmpty(taskHandler.TaskOptions.ApplicationName)),
+              (nameof(taskHandler.TaskOptions.ApplicationVersion), string.IsNullOrEmpty(taskHandler.TaskOptions.ApplicationVersion)),
+              (nameof(taskHandler.TaskOptions.ApplicationNamespace), string.IsNullOrEmpty(taskHandler.TaskOptions.ApplicationNamespace)),
+            }.Where(x => x.Item2)
+             .ToArray() is var missingKeys && missingKeys.Any())
       {
         throw new WorkerApiException($"Error in TaskOptions : One of Keys is missing [{string.Join(";", missingKeys.Select(el => $"{el.Item1} => {el.Item2}"))}]");
       }
