@@ -1,6 +1,6 @@
 // This file is part of the ArmoniK project
 // 
-// Copyright (C) ANEO, 2021-2024. All rights reserved.
+// Copyright (C) ANEO, 2021-2025. All rights reserved.
 // 
 // Licensed under the Apache License, Version 2.0 (the "License")
 // you may not use this file except in compliance with the License.
@@ -56,17 +56,27 @@ public class Service : AbstractClientService, ISubmitterService
 {
   /// <summary>
   ///   The default constructor to open connection with the control plane
-  ///   and create the session to ArmoniK
+  ///   and create the session to ArmoniK, or use an existing session
   /// </summary>
+  /// <remarks>
+  ///   If <paramref name="sessionId" /> is null, a new session is created.
+  ///   Otherwise, the specified session is opened, and the task options configured
+  ///   during the session creation will be used instead of <paramref name="properties" />'s task options.
+  /// </remarks>
   /// <param name="properties">The properties containing TaskOptions and information to communicate with Control plane and </param>
   /// <param name="loggerFactory"></param>
+  /// <param name="sessionId">The ID of the session to open</param>
   public Service(Properties      properties,
-                 ILoggerFactory? loggerFactory = null)
+                 ILoggerFactory? loggerFactory = null,
+                 string?         sessionId     = null)
     : base(loggerFactory)
   {
-    Properties                   = properties;
-    SessionServiceFactory        = new SessionServiceFactory(LoggerFactory);
-    SessionService               = SessionServiceFactory.CreateSession(properties);
+    Properties            = properties;
+    SessionServiceFactory = new SessionServiceFactory(LoggerFactory);
+    SessionService = string.IsNullOrEmpty(sessionId)
+                       ? SessionServiceFactory.CreateSession(properties)
+                       : SessionServiceFactory.OpenSession(properties,
+                                                           sessionId!);
     CancellationResultTaskSource = new CancellationTokenSource();
     Logger                       = LoggerFactory.CreateLogger<Service>();
     Logger.BeginPropertyScope(("SessionId", SessionService.SessionId),
