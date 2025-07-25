@@ -3,14 +3,6 @@ Write-Host "    - WSL must be started."
 Write-Host "    - ArmoniK must be already deployed with make deploy"
 Write-Host ""
 
-$armonikPath = "~/ArmoniK/infrastructure/quick-deploy/localhost"
-wsl test -d $armonikPath
-if ($LASTEXITCODE -eq 0) {
-} else {
-    Write-Host "ArmoniK is not installed on WSL. Expected path is ~/ArmoniK"
-	return 1
-}
-
 # Set current directory to the current script location
 Set-Location $PSScriptRoot
 
