@@ -1,6 +1,5 @@
-Write-Host "Prerequisite to the present script:"
+Write-Host "Deployment of the Worker on WSL. Prerequisites:"
 Write-Host "    - WSL must be started."
-Write-Host "    - Armonik must be installed on WSL at location ~/ArmoniK"
 Write-Host "    - ArmoniK must be already deployed with make deploy"
 Write-Host ""
 
@@ -15,7 +14,10 @@ if ($LASTEXITCODE -eq 0) {
 # Set current directory to the current script location
 Set-Location $PSScriptRoot
 
-$wslUser = wsl -d Ubuntu -e whoami
+$wslUser = wsl whoami
+Write-Host "WSL user is $wslUser"
+$wslDistrib = ((wsl --status) -replace "`0","" -split ":")[1].Trim()
+Write-Host "WSL distribution is $wslDistrib"
 
 $Project = "ArmoniK.EndToEndTests.Worker"
 $Version = "1.0.0-700"
@@ -38,15 +40,20 @@ if (Test-Path $zipPath) {
 Write-Host "Build and publish worker"
 dotnet publish --self-contained -c Release -r linux-x64 -f net6.0 .
 
+# Find the destination folder (should contain path /ArmoniK/infrastructure/quick-deploy/localhost/data)
+$deployment = $(wsl kubectl -n armonik get deployments/compute-plane-default -o json) | ConvertFrom-Json
+$sharedVolume = $deployment.spec.template.spec.volumes | Where-Object { $_.name -eq "shared-volume" }
+$destinationPath = $sharedVolume.hostPath.path
+
 # Deploy the worker
-$destination = "~/ArmoniK/infrastructure/quick-deploy/localhost/data"
 Write-Host "Deploying $zipPath to WSL"
-Copy-Item $zipPath -Destination "\\wsl$\Ubuntu\home\$wslUser"
-wsl -e bash -c "cd ~ && mv $zipName $destination"
+Copy-Item $zipPath -Destination "\\wsl$\$wslDistrib\home\$wslUser"
+wsl -e bash -c "cd ~ && mv $zipName $destinationPath"
 
 # Get the url of the control plane and set it in appSettings.json of the client
 Write-Host "Fetching the control plane url"
-$armonikOutPut = (wsl cat ~/ArmoniK/infrastructure/quick-deploy/localhost/generated/armonik-output.json) | ConvertFrom-Json
+$localhostPath = (wsl dirname $destinationPath)
+$armonikOutPut = (wsl cat $localhostPath/generated/armonik-output.json) | ConvertFrom-Json
 $appSettingsPath = "..\ArmoniK.EndToEndTests.Client\appSettings.json"
 try
 {
@@ -55,7 +62,7 @@ try
 }
 catch{
 	Write-Error "Unexpected error (syntax error?) while parsing $appSettingsPath"
-	return
+	return 1
 }
 
 # Write the url	
@@ -64,8 +71,4 @@ $appSettings | ConvertTo-Json -Depth 4 | Out-File $appSettingsPath
 
 # Restart computeplane pods
 Write-Host "Restarting compute plane pods"
-$pods -split "`n" | Where-Object { $_ -like "compute-plane*" } | ForEach-Object {
-	$name = ($_ -split "\s+")[0]
-	Write-Host "    Restart pod $name"
-	wsl kubectl -n armonik delete pod $name
-}
+wsl kubectl -n armonik delete pod -l partition=default
