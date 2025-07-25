@@ -38,7 +38,8 @@ $sharedVolume = $deployment.spec.template.spec.volumes | Where-Object { $_.name 
 $destinationPath = $sharedVolume.hostPath.path
 
 # Deploy the worker
-Write-Host "Deploying $zipPath to WSL"
+Write-Host ""
+Write-Host "Deploying $zipPath to WSL $destinationPath"
 Copy-Item $zipPath -Destination "\\wsl$\$wslDistrib\home\$wslUser"
 wsl -e bash -c "cd ~ && mv $zipName $destinationPath"
 
@@ -58,7 +59,8 @@ catch{
 }
 
 # Write the url	
-Write-Host "Set control plane url to $appSettingsPath"
+$url = $appSettings.Grpc.EndPoint
+Write-Host "Set control plane url $url to $appSettingsPath"
 $appSettings | ConvertTo-Json -Depth 4 | Out-File $appSettingsPath
 
 # Restart computeplane pods
