@@ -183,18 +183,18 @@ Grid.</p>
 
   <a id="ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_Service__ctor_" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.Service.#ctor*"></a>
 
-  <h3 id="ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_Service__ctor_ArmoniK_DevelopmentKit_Client_Common_Properties_Microsoft_Extensions_Logging_ILoggerFactory_" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.Service.#ctor(ArmoniK.DevelopmentKit.Client.Common.Properties,Microsoft.Extensions.Logging.ILoggerFactory)">
-  Service(Properties, ILoggerFactory?)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Unified/Services/Submitter/Service.cs/#L63"><i class="bi bi-code-slash"></i></a>
+  <h3 id="ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_Service__ctor_ArmoniK_DevelopmentKit_Client_Common_Properties_Microsoft_Extensions_Logging_ILoggerFactory_System_String_" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.Service.#ctor(ArmoniK.DevelopmentKit.Client.Common.Properties,Microsoft.Extensions.Logging.ILoggerFactory,System.String)">
+  Service(Properties, ILoggerFactory?, string?)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Unified/Services/Submitter/Service.cs/#L69"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>The default constructor to open connection with the control plane
-and create the session to ArmoniK</p>
+and create the session to ArmoniK, or use an existing session</p>
 </div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Service(Properties properties, ILoggerFactory? loggerFactory = null)</code></pre>
+    <pre><code class="lang-csharp hljs">public Service(Properties properties, ILoggerFactory? loggerFactory = null, string? sessionId = null)</code></pre>
   </div>
 
   <h4 class="section">Parameters</h4>
@@ -204,6 +204,9 @@ and create the session to ArmoniK</p>
 </dd>
     <dt><code>loggerFactory</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/microsoft.extensions.logging.iloggerfactory">ILoggerFactory</a></dt>
     <dd></dd>
+    <dt><code>sessionId</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>The ID of the session to open</p>
+</dd>
   </dl>
 
 
@@ -213,6 +216,11 @@ and create the session to ArmoniK</p>
 
 
 
+  <h4 class="section" id="ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_Service__ctor_ArmoniK_DevelopmentKit_Client_Common_Properties_Microsoft_Extensions_Logging_ILoggerFactory_System_String__remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>If <code class="paramref">sessionId</code> is null, a new session is created.
+Otherwise, the specified session is opened, and the task options configured
+during the session creation will be used instead of <code class="paramref">properties</code>'s task options.</p>
+</div>
 
 
 
@@ -225,7 +233,7 @@ and create the session to ArmoniK</p>
 
   <h3 id="ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_Service_SessionId" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.Service.SessionId">
   SessionId
-  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Unified/Services/Submitter/Service.cs/#L152"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Unified/Services/Submitter/Service.cs/#L162"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>The sessionId</p>
@@ -257,7 +265,7 @@ and create the session to ArmoniK</p>
 
   <h3 id="ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_Service_SessionService" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.Service.SessionService">
   SessionService
-  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Unified/Services/Submitter/Service.cs/#L135"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Unified/Services/Submitter/Service.cs/#L145"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Property Get the SessionId</p>
@@ -294,7 +302,7 @@ public SessionService SessionService { get; }</code></pre>
 
   <h3 id="ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_Service_Dispose" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.Service.Dispose">
   Dispose()
-  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Unified/Services/Submitter/Service.cs/#L217"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Unified/Services/Submitter/Service.cs/#L227"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</p>
@@ -321,7 +329,7 @@ public SessionService SessionService { get; }</code></pre>
 
   <h3 id="ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_Service_Execute_System_String_System_Byte___System_Int32_ArmoniK_Api_gRPC_V1_TaskOptions_" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.Service.Execute(System.String,System.Byte[],System.Int32,ArmoniK.Api.gRPC.V1.TaskOptions)">
   Execute(string, byte[], int, TaskOptions?)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Unified/Services/Submitter/Service.cs/#L383"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Unified/Services/Submitter/Service.cs/#L393"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>This method is used to execute task and waiting after the result.
@@ -371,7 +379,7 @@ If non null it will override the default taskOptions in SessionService for clien
 
   <h3 id="ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_Service_Execute_System_String_System_Object___System_Int32_ArmoniK_Api_gRPC_V1_TaskOptions_" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.Service.Execute(System.String,System.Object[],System.Int32,ArmoniK.Api.gRPC.V1.TaskOptions)">
   Execute(string, object[], int, TaskOptions?)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Unified/Services/Submitter/Service.cs/#L359"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Unified/Services/Submitter/Service.cs/#L369"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>This method is used to execute task and waiting after the result.
@@ -421,7 +429,7 @@ If non null it will override the default taskOptions in SessionService for clien
 
   <h3 id="ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_Service_GetChannelPool" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.Service.GetChannelPool">
   GetChannelPool()
-  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Unified/Services/Submitter/Service.cs/#L754"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Unified/Services/Submitter/Service.cs/#L764"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Get a new channel to communicate with the control plane</p>
@@ -454,7 +462,7 @@ If non null it will override the default taskOptions in SessionService for clien
 
   <h3 id="ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_Service_LocalExecute_System_Object_System_String_System_Object___" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.Service.LocalExecute(System.Object,System.String,System.Object[])">
   LocalExecute(object, string, object[])
-  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Unified/Services/Submitter/Service.cs/#L328"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Unified/Services/Submitter/Service.cs/#L338"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>This function execute code locally with the same configuration as Armonik Grid execution
@@ -505,7 +513,7 @@ The method needs the Service to execute, the method name to call and arguments o
 
   <h3 id="ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_Service_Submit_System_String_System_Collections_Generic_IEnumerable_System_Byte____ArmoniK_DevelopmentKit_Client_Common_IServiceInvocationHandler_System_Int32_ArmoniK_Api_gRPC_V1_TaskOptions_" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.Service.Submit(System.String,System.Collections.Generic.IEnumerable{System.Byte[]},ArmoniK.DevelopmentKit.Client.Common.IServiceInvocationHandler,System.Int32,ArmoniK.Api.gRPC.V1.TaskOptions)">
   Submit(string, IEnumerable&lt;byte[]&gt;, IServiceInvocationHandler, int, TaskOptions?)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Unified/Services/Submitter/Service.cs/#L171"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Unified/Services/Submitter/Service.cs/#L181"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>The method submits a list of task with a list of arguments for each task which will be serialized into a byte[] for
@@ -559,7 +567,7 @@ If non null it will override the default taskOptions in SessionService for clien
 
   <h3 id="ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_Service_Submit_System_String_System_Collections_Generic_IEnumerable_System_Object____ArmoniK_DevelopmentKit_Client_Common_IServiceInvocationHandler_System_Int32_ArmoniK_Api_gRPC_V1_TaskOptions_" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.Service.Submit(System.String,System.Collections.Generic.IEnumerable{System.Object[]},ArmoniK.DevelopmentKit.Client.Common.IServiceInvocationHandler,System.Int32,ArmoniK.Api.gRPC.V1.TaskOptions)">
   Submit(string, IEnumerable&lt;object[]&gt;, IServiceInvocationHandler, int, TaskOptions?)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Unified/Services/Submitter/Service.cs/#L157"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Unified/Services/Submitter/Service.cs/#L167"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>The method submits a list of task with a list of arguments for each task which will be serialized into a byte[] for
@@ -613,7 +621,7 @@ If non null it will override the default taskOptions in SessionService for clien
 
   <h3 id="ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_Service_SubmitAsync_System_String_System_Byte___ArmoniK_DevelopmentKit_Client_Common_IServiceInvocationHandler_System_Int32_ArmoniK_Api_gRPC_V1_TaskOptions_System_Threading_CancellationToken_" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.Service.SubmitAsync(System.String,System.Byte[],ArmoniK.DevelopmentKit.Client.Common.IServiceInvocationHandler,System.Int32,ArmoniK.Api.gRPC.V1.TaskOptions,System.Threading.CancellationToken)">
   SubmitAsync(string, byte[], IServiceInvocationHandler, int, TaskOptions?, CancellationToken)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Unified/Services/Submitter/Service.cs/#L201"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Unified/Services/Submitter/Service.cs/#L211"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>The method submit with one serialized argument that will send as byte[] MethodName(byte[]   argument).</p>
@@ -668,7 +676,7 @@ If non null it will override the default taskOptions in SessionService for clien
 
   <h3 id="ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_Service_SubmitAsync_System_String_System_Object___ArmoniK_DevelopmentKit_Client_Common_IServiceInvocationHandler_System_Int32_ArmoniK_Api_gRPC_V1_TaskOptions_System_Threading_CancellationToken_" data-uid="ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.Service.SubmitAsync(System.String,System.Object[],ArmoniK.DevelopmentKit.Client.Common.IServiceInvocationHandler,System.Int32,ArmoniK.Api.gRPC.V1.TaskOptions,System.Threading.CancellationToken)">
   SubmitAsync(string, object[], IServiceInvocationHandler, int, TaskOptions?, CancellationToken)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Unified/Services/Submitter/Service.cs/#L184"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/aneoconsulting/ArmoniK.Extensions.Csharp/blob/main/Client/src/Unified/Services/Submitter/Service.cs/#L194"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>The method submit with one serialized argument that will send as byte[] MethodName(byte[]   argument).</p>

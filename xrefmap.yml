@@ -2832,15 +2832,15 @@ references:
   commentId: T:ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.Service
   fullName: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.Service
   nameWithType: Service
-- uid: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.Service.#ctor(ArmoniK.DevelopmentKit.Client.Common.Properties,Microsoft.Extensions.Logging.ILoggerFactory)
-  name: Service(Properties, ILoggerFactory?)
-  href: api/ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.Service.html#ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_Service__ctor_ArmoniK_DevelopmentKit_Client_Common_Properties_Microsoft_Extensions_Logging_ILoggerFactory_
-  commentId: M:ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.Service.#ctor(ArmoniK.DevelopmentKit.Client.Common.Properties,Microsoft.Extensions.Logging.ILoggerFactory)
-  name.vb: New(Properties, ILoggerFactory)
-  fullName: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.Service.Service(ArmoniK.DevelopmentKit.Client.Common.Properties, Microsoft.Extensions.Logging.ILoggerFactory?)
-  fullName.vb: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.Service.New(ArmoniK.DevelopmentKit.Client.Common.Properties, Microsoft.Extensions.Logging.ILoggerFactory)
-  nameWithType: Service.Service(Properties, ILoggerFactory?)
-  nameWithType.vb: Service.New(Properties, ILoggerFactory)
+- uid: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.Service.#ctor(ArmoniK.DevelopmentKit.Client.Common.Properties,Microsoft.Extensions.Logging.ILoggerFactory,System.String)
+  name: Service(Properties, ILoggerFactory?, string?)
+  href: api/ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.Service.html#ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_Service__ctor_ArmoniK_DevelopmentKit_Client_Common_Properties_Microsoft_Extensions_Logging_ILoggerFactory_System_String_
+  commentId: M:ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.Service.#ctor(ArmoniK.DevelopmentKit.Client.Common.Properties,Microsoft.Extensions.Logging.ILoggerFactory,System.String)
+  name.vb: New(Properties, ILoggerFactory, String)
+  fullName: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.Service.Service(ArmoniK.DevelopmentKit.Client.Common.Properties, Microsoft.Extensions.Logging.ILoggerFactory?, string?)
+  fullName.vb: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.Service.New(ArmoniK.DevelopmentKit.Client.Common.Properties, Microsoft.Extensions.Logging.ILoggerFactory, String)
+  nameWithType: Service.Service(Properties, ILoggerFactory?, string?)
+  nameWithType.vb: Service.New(Properties, ILoggerFactory, String)
 - uid: ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.Service.#ctor*
   name: Service
   href: api/ArmoniK.DevelopmentKit.Client.Unified.Services.Submitter.Service.html#ArmoniK_DevelopmentKit_Client_Unified_Services_Submitter_Service__ctor_
