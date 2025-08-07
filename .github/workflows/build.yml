@@ -42,7 +42,7 @@ jobs:
         echo "Release :" >> $GITHUB_STEP_SUMMARY
         echo "$RELEASE" >> $GITHUB_STEP_SUMMARY
 
-  format:
+  format-csharp:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -305,7 +305,7 @@ jobs:
   canMerge:
     needs: 
       - testEndToEnd
-      - format
+      - format-csharp
     runs-on: ubuntu-latest
     steps:
       - name: Echo OK
