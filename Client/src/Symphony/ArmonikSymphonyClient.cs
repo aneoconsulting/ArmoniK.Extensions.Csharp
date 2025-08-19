@@ -18,7 +18,7 @@ using ArmoniK.Api.gRPC.V1;
 using ArmoniK.DevelopmentKit.Client.Common;
 using ArmoniK.DevelopmentKit.Client.Common.Submitter;
 using ArmoniK.DevelopmentKit.Common;
-using ArmoniK.Utils;
+using ArmoniK.Utils.Pool;
 
 using Grpc.Net.Client;
 

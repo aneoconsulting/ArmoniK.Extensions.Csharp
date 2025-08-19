@@ -36,6 +36,7 @@ using ArmoniK.DevelopmentKit.Common;
 using ArmoniK.DevelopmentKit.Common.Exceptions;
 using ArmoniK.DevelopmentKit.Common.Utils;
 using ArmoniK.Utils;
+using ArmoniK.Utils.Pool;
 
 using Google.Protobuf;
 

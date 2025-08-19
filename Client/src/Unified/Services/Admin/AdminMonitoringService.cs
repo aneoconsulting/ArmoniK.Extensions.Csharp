@@ -28,6 +28,7 @@ using ArmoniK.Api.gRPC.V1.SortDirection;
 using ArmoniK.Api.gRPC.V1.Tasks;
 using ArmoniK.DevelopmentKit.Client.Common.Submitter;
 using ArmoniK.Utils;
+using ArmoniK.Utils.Pool;
 
 using Grpc.Net.Client;
 
