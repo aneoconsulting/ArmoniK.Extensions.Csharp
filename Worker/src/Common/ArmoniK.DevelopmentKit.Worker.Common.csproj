@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ArmoniK.Api.Worker" Version="3.25.0" />
+    <PackageReference Include="ArmoniK.Api.Worker" Version="4.0.0-jgupdatedep.2.5225310" />
     <PackageReference Include="AWSSDK.S3" Version="3.7.415.18" />
     <!-- AWSSDK.SecurityToken is used by AWSSDK.S3 to automatically get credentials from pod secrets -->
     <PackageReference Include="AWSSDK.SecurityToken" Version="3.7.401.62" />
