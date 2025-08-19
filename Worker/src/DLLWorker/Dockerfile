@@ -22,7 +22,7 @@ RUN dotnet publish -a "${TARGETARCH}" "ArmoniK.DevelopmentKit.Worker.DLLWorker.c
 
 FROM base AS final
 
-COPY ["Worker/src/DLLWorker/entry.sh", "/entry.sh"]
+ADD --chmod=755 https://github.com/krallin/tini/releases/download/v0.19.0/tini-static-${TARGETARCH} /tini
 
 WORKDIR /app
 COPY --from=publish /app/publish .
@@ -31,4 +31,4 @@ RUN groupadd --gid 5000 armonikuser && useradd --home-dir /home/armonikuser --cr
 RUN mkdir /cache /data && chown armonikuser: /cache /data
 USER armonikuser
 
-ENTRYPOINT ["/entry.sh", "dotnet", "ArmoniK.DevelopmentKit.Worker.DLLWorker.dll"]
+ENTRYPOINT ["/tini", "-s", "-vv", "--", "dotnet", "ArmoniK.DevelopmentKit.Worker.DLLWorker.dll"]
