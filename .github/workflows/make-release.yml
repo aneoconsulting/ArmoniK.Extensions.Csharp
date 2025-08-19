@@ -53,7 +53,7 @@ jobs:
         echo RELASE   => ${{ steps.release.outputs.version }} >> $GITHUB_STEP_SUMMARY
 
     - name: Validate tag
-      run : test ${{ steps.release.outputs.version }} == ${{ github.ref_name }}
+      run : test "${{ steps.release.outputs.version }}" == "${{ github.ref_name }}" -o "${{ vars.OVERRIDE_RELEASE_VERSION }}" == "${{ github.ref_name }}"
 
     - name: Delete tag if invalid
       if: failure() || cancelled()
@@ -64,7 +64,7 @@ jobs:
     needs:
       - versionning
     env:
-      GENRELEASE: ${{ needs.versionning.outputs.release }}
+      GENRELEASE: ${{ github.ref_name }}
     steps:
     - name: Checkout
       uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
@@ -126,5 +126,5 @@ jobs:
           linux/amd64
         push: true
         tags: |
-            dockerhubaneo/armonik_worker_dll:${{ needs.versionning.outputs.release }}
+            dockerhubaneo/armonik_worker_dll:${{ github.ref_name }}
             dockerhubaneo/armonik_worker_dll:latest
