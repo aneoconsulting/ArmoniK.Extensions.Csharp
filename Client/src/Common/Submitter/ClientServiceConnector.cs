@@ -18,7 +18,7 @@ using System.Threading.Tasks;
 
 using ArmoniK.Api.Client.Options;
 using ArmoniK.Api.Client.Submitter;
-using ArmoniK.Utils;
+using ArmoniK.Utils.Pool;
 
 using Grpc.Net.Client;
 

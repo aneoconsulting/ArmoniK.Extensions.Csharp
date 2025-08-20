@@ -20,7 +20,7 @@ using ArmoniK.DevelopmentKit.Client.Common.Submitter;
 using ArmoniK.DevelopmentKit.Client.Unified.Services;
 using ArmoniK.DevelopmentKit.Client.Unified.Services.Admin;
 using ArmoniK.DevelopmentKit.Common;
-using ArmoniK.Utils;
+using ArmoniK.Utils.Pool;
 
 using Google.Protobuf.WellKnownTypes;
 
