@@ -2141,13 +2141,13 @@ references:
   commentId: T:ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService
   fullName: ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService
   nameWithType: AdminMonitoringService
-- uid: ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.#ctor(ArmoniK.Utils.ObjectPool{Grpc.Net.Client.GrpcChannel},Microsoft.Extensions.Logging.ILoggerFactory)
+- uid: ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.#ctor(ArmoniK.Utils.Pool.ObjectPool{Grpc.Net.Client.GrpcChannel},Microsoft.Extensions.Logging.ILoggerFactory)
   name: AdminMonitoringService(ObjectPool<GrpcChannel>, ILoggerFactory?)
-  href: api/ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.html#ArmoniK_DevelopmentKit_Client_Unified_Services_Admin_AdminMonitoringService__ctor_ArmoniK_Utils_ObjectPool_Grpc_Net_Client_GrpcChannel__Microsoft_Extensions_Logging_ILoggerFactory_
-  commentId: M:ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.#ctor(ArmoniK.Utils.ObjectPool{Grpc.Net.Client.GrpcChannel},Microsoft.Extensions.Logging.ILoggerFactory)
+  href: api/ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.html#ArmoniK_DevelopmentKit_Client_Unified_Services_Admin_AdminMonitoringService__ctor_ArmoniK_Utils_Pool_ObjectPool_Grpc_Net_Client_GrpcChannel__Microsoft_Extensions_Logging_ILoggerFactory_
+  commentId: M:ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.#ctor(ArmoniK.Utils.Pool.ObjectPool{Grpc.Net.Client.GrpcChannel},Microsoft.Extensions.Logging.ILoggerFactory)
   name.vb: New(ObjectPool(Of GrpcChannel), ILoggerFactory)
-  fullName: ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.AdminMonitoringService(ArmoniK.Utils.ObjectPool<Grpc.Net.Client.GrpcChannel>, Microsoft.Extensions.Logging.ILoggerFactory?)
-  fullName.vb: ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.New(ArmoniK.Utils.ObjectPool(Of Grpc.Net.Client.GrpcChannel), Microsoft.Extensions.Logging.ILoggerFactory)
+  fullName: ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.AdminMonitoringService(ArmoniK.Utils.Pool.ObjectPool<Grpc.Net.Client.GrpcChannel>, Microsoft.Extensions.Logging.ILoggerFactory?)
+  fullName.vb: ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.New(ArmoniK.Utils.Pool.ObjectPool(Of Grpc.Net.Client.GrpcChannel), Microsoft.Extensions.Logging.ILoggerFactory)
   nameWithType: AdminMonitoringService.AdminMonitoringService(ObjectPool<GrpcChannel>, ILoggerFactory?)
   nameWithType.vb: AdminMonitoringService.New(ObjectPool(Of GrpcChannel), ILoggerFactory)
 - uid: ArmoniK.DevelopmentKit.Client.Unified.Services.Admin.AdminMonitoringService.#ctor*
