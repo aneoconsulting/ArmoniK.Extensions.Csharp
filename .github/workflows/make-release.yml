@@ -33,7 +33,7 @@ jobs:
 
     - name: Generate Snapshot Version
       id: snapshot
-      uses: codacy/git-version@454ef1a755d0e22451c02e7926b3f99016b98036 # 2.8.5
+      uses: codacy/git-version@877bb11b7a2ee44dcd7c0a03882c7037356e64e9 # 2.8.6
       with:
         minor-identifier: "feat:"
         release-branch: ${{ github.ref_name }}-pre
@@ -41,7 +41,7 @@ jobs:
 
     - name: Generate Release Version
       id: release
-      uses: codacy/git-version@454ef1a755d0e22451c02e7926b3f99016b98036 # 2.8.5
+      uses: codacy/git-version@877bb11b7a2ee44dcd7c0a03882c7037356e64e9 # 2.8.6
       with:
         minor-identifier: "feat:"
         release-branch: ${{ steps.rev.outputs.current-branch }}
