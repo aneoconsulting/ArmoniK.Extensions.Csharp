@@ -1,6 +1,6 @@
 // This file is part of the ArmoniK project
 //
-// Copyright (C) ANEO, 2021-2024. All rights reserved.
+// Copyright (C) ANEO, 2021-2025. All rights reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License")
 // you may not use this file except in compliance with the License.
@@ -1357,28 +1357,43 @@ public abstract class BaseClientSubmitter<T>
   /// <param name="cancellationToken"></param>
   /// <returns>Dictionary where each result name is associated with its result id</returns>
   [PublicAPI]
-  public async ValueTask<Dictionary<string, string>> CreateResultsMetadataAsync(IEnumerable<string> resultNames,
-                                                                                CancellationToken   cancellationToken = default)
-  {
-    await using var channel = await ChannelPool.GetAsync(cancellationToken)
-                                               .ConfigureAwait(false);
-    var client = new Results.ResultsClient(channel);
-    var results = await client.CreateResultsMetaDataAsync(new CreateResultsMetaDataRequest
-                                                          {
-                                                            SessionId = SessionId.Id,
-                                                            Results =
-                                                            {
-                                                              resultNames.Select(name => new CreateResultsMetaDataRequest.Types.ResultCreate
-                                                                                         {
-                                                                                           Name = name,
-                                                                                         }),
-                                                            },
-                                                          },
-                                                          cancellationToken: cancellationToken)
-                              .ConfigureAwait(false);
-    return results.Results.ToDictionary(r => r.Name,
-                                        r => r.ResultId);
-  }
+  public ValueTask<Dictionary<string, string>> CreateResultsMetadataAsync(IEnumerable<string> resultNames,
+                                                                          CancellationToken   cancellationToken = default)
+    => Retry.WhileException(5,
+                            2000,
+                            async retry =>
+                            {
+                              if (retry > 1)
+                              {
+                                Logger.LogWarning("Try {try} for {funcName}",
+                                                  retry,
+                                                  nameof(CreateResultsMetadataAsync));
+                              }
+
+                              await using var channel = await ChannelPool.GetAsync(cancellationToken)
+                                                                         .ConfigureAwait(false);
+                              var client = new Results.ResultsClient(channel);
+                              var results = await client.CreateResultsMetaDataAsync(new CreateResultsMetaDataRequest
+                                                                                    {
+                                                                                      SessionId = SessionId.Id,
+                                                                                      Results =
+                                                                                      {
+                                                                                        resultNames.Select(name => new CreateResultsMetaDataRequest.Types.ResultCreate
+                                                                                                                   {
+                                                                                                                     Name = name,
+                                                                                                                   }),
+                                                                                      },
+                                                                                    },
+                                                                                    cancellationToken: cancellationToken)
+                                                        .ConfigureAwait(false);
+                              return results.Results.ToDictionary(r => r.Name,
+                                                                  r => r.ResultId);
+                            },
+                            true,
+                            Logger,
+                            cancellationToken,
+                            typeof(IOException),
+                            typeof(RpcException));
 
   /// <summary>
   ///   Creates the results metadata
