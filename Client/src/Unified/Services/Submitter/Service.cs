@@ -534,10 +534,18 @@ public class Service : AbstractClientService, ISubmitterService
                                                                                                                             .ConfigureAwait(false);
                                                                               var resultsClient = new Results.ResultsClient(channel);
 
-                                                                              return await resultsClient.DownloadResultData(SessionId,
-                                                                                                                            result.ResultId,
-                                                                                                                            cancellationToken)
-                                                                                                        .ConfigureAwait(false);
+                                                                              try
+                                                                              {
+                                                                                return await resultsClient.DownloadResultData(SessionId,
+                                                                                                                              result.ResultId,
+                                                                                                                              cancellationToken)
+                                                                                                          .ConfigureAwait(false);
+                                                                              }
+                                                                              catch (Exception e)
+                                                                              {
+                                                                                channel.Exception = e;
+                                                                                throw;
+                                                                              }
                                                                             },
                                                                             true,
                                                                             Logger,
