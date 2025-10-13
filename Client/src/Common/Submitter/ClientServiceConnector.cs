@@ -1,19 +1,20 @@
 // This file is part of the ArmoniK project
-// 
-// Copyright (C) ANEO, 2021-2023. All rights reserved.
-// 
+//
+// Copyright (C) ANEO, 2021-2025. All rights reserved.
+//
 // Licensed under the Apache License, Version 2.0 (the "License")
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
-// 
+//
 //     http://www.apache.org/licenses/LICENSE-2.0
-// 
+//
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System;
 using System.Threading.Tasks;
 
 using ArmoniK.Api.Client.Options;
@@ -59,32 +60,88 @@ public class ClientServiceConnector
                     HttpMessageHandler    = properties.HttpMessageHandler,
                   };
 
-    return new ObjectPool<GrpcChannel>(ct => new ValueTask<GrpcChannel>(GrpcChannelFactory.CreateChannel(options,
-                                                                                                         loggerFactory?.CreateLogger(typeof(ClientServiceConnector)))),
+    var poolPolicy = new PoolPolicy<ChannelHandle>().SetCreate(() => new ChannelHandle(GrpcChannelFactory.CreateChannel(options,
+                                                                                                                        loggerFactory
+                                                                                                                          ?.CreateLogger(typeof(
+                                                                                                                                           ClientServiceConnector)))))
+                                                    .SetValidateAcquire(ChannelHandle.ValidateAcquire)
+                                                    .SetValidateRelease(ChannelHandle.ValidateRelease);
 
+    using var pool = new ObjectPool<ChannelHandle>(poolPolicy);
 
+    return pool.Project(handle => handle.Channel);
+  }
+
+  private sealed class ChannelHandle : IDisposable
+  {
+    internal readonly GrpcChannel Channel;
+    private           bool        error_;
+
+    internal ChannelHandle(GrpcChannel channel)
+    {
+      Channel = channel;
+      error_  = false;
+    }
+
+    /// <inheritdoc />
+    public void Dispose()
+      => Channel.Dispose();
+
+    /// <summary>
+    ///   Validate if the Acquired channel is valid
+    /// </summary>
+    /// <param name="handle">Handle which should be verified</param>
+    /// <returns>Whether the handle is valid</returns>
+#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
+    internal static async ValueTask<bool> ValidateAcquire(ChannelHandle handle)
+    {
 #if NET5_0_OR_GREATER
-                                       async (channel, ct) =>
-                                       {
-switch (channel.State)
-          {
-            case ConnectivityState.TransientFailure:
-              await channel.ShutdownAsync()
-                  .ConfigureAwait(false);
-              return false;
-            case ConnectivityState.Shutdown:
-              return false;
-            case ConnectivityState.Idle:
-            case ConnectivityState.Connecting:
-            case ConnectivityState.Ready:
-            default:
-              return true;
-          }
-                                       }
+      switch (handle.channel.State)
+      {
+        case ConnectivityState.TransientFailure:
+          await handle.channel.ShutdownAsync()
+                       .ConfigureAwait(false);
+          return false;
+        case ConnectivityState.Shutdown:
+          return false;
+        case ConnectivityState.Idle:
+        case ConnectivityState.Connecting:
+        case ConnectivityState.Ready:
+        default:
+          return true;
+      }
 #else
-                                       (_,
-                                        _) => new ValueTask<bool>(true)
+      _ = handle;
+      return true;
 #endif
-                                      );
+    }
+#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
+
+    /// <summary>
+    ///   Validate if the Released channel is valid
+    /// </summary>
+    /// <param name="handle">Handle which should be verified</param>
+    /// <param name="error">Error that happened while using the channel, if any</param>
+    /// <returns>Whether the handle is valid</returns>
+    internal static async ValueTask<bool> ValidateRelease(ChannelHandle handle,
+                                                          Exception?    error)
+    {
+      if (error is null)
+      {
+        handle.error_ = false;
+        return await ValidateAcquire(handle)
+                 .ConfigureAwait(false);
+      }
+
+      if (handle.error_)
+      {
+        return false;
+      }
+
+      handle.error_ = true;
+
+      return await ValidateAcquire(handle)
+               .ConfigureAwait(false);
+    }
   }
 }
