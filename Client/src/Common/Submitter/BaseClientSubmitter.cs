@@ -512,6 +512,8 @@ public abstract class BaseClientSubmitter<T>
     var results       = await createResultMetadata.ConfigureAwait(false);
     var smallPayloads = await uploadSmallPayloads.ConfigureAwait(false);
 
+    await uploadLargePayloads.ConfigureAwait(false);
+
     var tasks = taskProperties.Select(tuple =>
                                       {
                                         var (result, payloadIndex, isLarge, dependencies, specificTaskOptions) = tuple;
@@ -563,8 +565,6 @@ public abstract class BaseClientSubmitter<T>
         yield return (task.TaskId, task.ExpectedOutputIds.Single());
       }
     }
-
-    await uploadLargePayloads.ConfigureAwait(false);
   }
 
   /// <summary>
