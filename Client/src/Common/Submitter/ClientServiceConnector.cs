@@ -15,6 +15,7 @@
 // limitations under the License.
 
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 using ArmoniK.Api.Client.Options;
@@ -60,10 +61,8 @@ public class ClientServiceConnector
                     HttpMessageHandler    = properties.HttpMessageHandler,
                   };
 
-    var poolPolicy = new PoolPolicy<ChannelHandle>().SetCreate(() => new ChannelHandle(GrpcChannelFactory.CreateChannel(options,
-                                                                                                                        loggerFactory
-                                                                                                                          ?.CreateLogger(typeof(
-                                                                                                                                           ClientServiceConnector)))))
+    var poolPolicy = new PoolPolicy<ChannelHandle>().SetCreate(() => new ChannelHandle(options,
+                                                                                       loggerFactory))
                                                     .SetValidateAcquire(ChannelHandle.ValidateAcquire)
                                                     .SetValidateRelease(ChannelHandle.ValidateRelease);
 
@@ -74,18 +73,33 @@ public class ClientServiceConnector
 
   private sealed class ChannelHandle : IDisposable
   {
+    private static    int         nbChannels;
     internal readonly GrpcChannel Channel;
+    private readonly  string      display_;
     private           bool        error_;
+    private readonly  ILogger?    logger_;
 
-    internal ChannelHandle(GrpcChannel channel)
+    public ChannelHandle(GrpcClient      options,
+                         ILoggerFactory? loggerFactory)
     {
-      Channel = channel;
-      error_  = false;
+      var idChannel = Interlocked.Increment(ref nbChannels);
+      logger_ = loggerFactory?.CreateLogger(typeof(ClientServiceConnector));
+      Channel = GrpcChannelFactory.CreateChannel(options,
+                                                 logger_,
+                                                 loggerFactory);
+      error_   = false;
+      display_ = $"{options.Endpoint} #{idChannel}";
+      logger_?.LogDebug("Channel {Endpoint} created",
+                        display_);
     }
 
     /// <inheritdoc />
     public void Dispose()
-      => Channel.Dispose();
+    {
+      logger_?.LogDebug("Channel {Endpoint} destroyed",
+                        display_);
+      Channel.Dispose();
+    }
 
     /// <summary>
     ///   Validate if the Acquired channel is valid
@@ -99,10 +113,14 @@ public class ClientServiceConnector
       switch (handle.channel.State)
       {
         case ConnectivityState.TransientFailure:
+          handle.logger_?.LogDebug("Channel {Endpoint} has a transient failure, channel will be destroyed",
+                                   handle.display_);
           await handle.channel.ShutdownAsync()
                        .ConfigureAwait(false);
           return false;
         case ConnectivityState.Shutdown:
+          handle.logger_?.LogDebug("Channel {Endpoint} is shutting down, channel will be destroyed",
+                                   handle.display_);
           return false;
         case ConnectivityState.Idle:
         case ConnectivityState.Connecting:
@@ -135,8 +153,15 @@ public class ClientServiceConnector
 
       if (handle.error_)
       {
+        handle.logger_?.LogDebug(error,
+                                 "Too many errors for channel {Endpoint}, channel will be destroyed",
+                                 handle.display_);
         return false;
       }
+
+      handle.logger_?.LogDebug(error,
+                               "Error for channel {Endpoint}, next error will trigger channel destruction",
+                               handle.display_);
 
       handle.error_ = true;
 
