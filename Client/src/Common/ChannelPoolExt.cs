@@ -175,7 +175,7 @@ public static class ChannelPoolExt
     public async ValueTask ExecuteAsync(Func<TService, ValueTask> func,
                                         CancellationToken         cancellationToken = default)
       => await ExecuteAsync(service => func(service)
-                              .AndThen(() => new ValueTuple()),
+                              .AndThen(static () => new ValueTuple()),
                             cancellationToken)
            .ConfigureAwait(false);
 

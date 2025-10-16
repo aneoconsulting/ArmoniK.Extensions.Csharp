@@ -172,7 +172,7 @@ public class AdminMonitoringService
     return channelPool_.ListTasksAsync(filter,
                                        sort,
                                        cancellationToken: cancellationToken)
-                       .Select(task => task.Id);
+                       .Select(static task => task.Id);
   }
 
   /// <summary>
@@ -442,7 +442,7 @@ public class AdminMonitoringService
                                                                           },
                                                                           cancellationToken: cancellationToken),
                                  cancellationToken)
-                   .AndThen(counts => counts.Status.Sum(count => count.Count));
+                   .AndThen(static counts => counts.Status.Sum(static count => count.Count));
 
   /// <summary>
   ///   The method is to get the number of error tasks in the session
@@ -490,7 +490,7 @@ public class AdminMonitoringService
                                                                    },
                                                                    cancellationToken: cancellationToken),
                                  cancellationToken)
-                   .AndThen(_ =>
+                   .AndThen(static _ =>
                             {
                             });
 
@@ -532,8 +532,8 @@ public class AdminMonitoringService
                                              },
                                    },
                                    cancellationToken: cancellationToken)
-                   .Select(task => new Tuple<string, TaskStatus>(task.Id,
-                                                                 task.Status));
+                   .Select(static task => new Tuple<string, TaskStatus>(task.Id,
+                                                                        task.Status));
 
 
   private void UploadResources(string path)

@@ -100,9 +100,9 @@ public abstract class BaseClientSubmitter<T>
                   .WaitSync();
 
     configuration_ = ChannelPool.WithResultClient(Logger)
-                                .ExecuteAsync(client => client.GetServiceConfiguration(new Empty())
-                                                              .DataChunkMaxSize)
-                                .WaitSync();
+                                .ExecuteAsync(static client => client.GetServiceConfigurationAsync(new Empty()))
+                                .WaitSync()
+                                .DataChunkMaxSize;
   }
 
   private ILoggerFactory LoggerFactory { get; }
@@ -230,8 +230,8 @@ public abstract class BaseClientSubmitter<T>
     return ChannelPool.ListTasksAsync(filter,
                                       sort,
                                       cancellationToken: cancellationToken)
-                      .Select(task => new Tuple<string, TaskStatus>(task.Id,
-                                                                    task.Status));
+                      .Select(static task => new Tuple<string, TaskStatus>(task.Id,
+                                                                           task.Status));
   }
 
   /// <summary>
@@ -469,8 +469,8 @@ public abstract class BaseClientSubmitter<T>
                                                                                                                                             cancellationToken),
                                                                                                         cancellationToken)
                                                                                           .AsTask())
-                                                    .Select(response => response.Results.Single()
-                                                                                .ResultId)
+                                                    .Select(static response => response.Results.Single()
+                                                                                       .ResultId)
                                                     .ToListAsync(cancellationToken);
 
     var createResultMetadata = ChannelPool.WithResultClient(Logger)
@@ -753,8 +753,8 @@ public abstract class BaseClientSubmitter<T>
                                                                                          cancellationToken)
                                                                            .AsTask();
                                                        })
-                                       .SelectMany(results => results.Results.Select(result => (resultId: result.ResultId, status: result.Status))
-                                                                     .ToAsyncEnumerable())
+                                       .SelectMany(static results => results.Results.Select(static result => (resultId: result.ResultId, status: result.Status))
+                                                                            .ToAsyncEnumerable())
                                        .ToListAsync(cancellationToken)
                                        .ConfigureAwait(false);
 
@@ -832,7 +832,7 @@ public abstract class BaseClientSubmitter<T>
                                                                    },
                                                                    cancellationToken: cancellationToken),
                                 cancellationToken)
-                  .AndThen(response => response.TaskResults.AsICollection());
+                  .AndThen(static response => response.TaskResults.AsICollection());
 
 
   /// <summary>
@@ -1246,8 +1246,8 @@ public abstract class BaseClientSubmitter<T>
                                                                             },
                                                                             cancellationToken: cancellationToken),
                                 cancellationToken)
-                  .AndThen(results => results.Results.ToDictionary(r => r.Name,
-                                                                   r => r.ResultId));
+                  .AndThen(static results => results.Results.ToDictionary(static r => r.Name,
+                                                                          static r => r.ResultId));
 
   /// <summary>
   ///   Creates the results metadata

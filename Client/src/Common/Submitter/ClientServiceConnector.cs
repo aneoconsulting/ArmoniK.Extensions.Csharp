@@ -68,7 +68,7 @@ public class ClientServiceConnector
 
     using var pool = new ObjectPool<ChannelHandle>(poolPolicy);
 
-    return pool.Project(handle => handle.Channel);
+    return pool.Project(static handle => handle.Channel);
   }
 
   private sealed class ChannelHandle : IDisposable
@@ -76,8 +76,8 @@ public class ClientServiceConnector
     private static    int         nbChannels;
     internal readonly GrpcChannel Channel;
     private readonly  string      display_;
-    private           bool        error_;
     private readonly  ILogger?    logger_;
+    private           bool        error_;
 
     public ChannelHandle(GrpcClient      options,
                          ILoggerFactory? loggerFactory)
