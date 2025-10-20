@@ -1,13 +1,13 @@
 // This file is part of the ArmoniK project
-// 
+//
 // Copyright (C) ANEO, 2021-2025. All rights reserved.
-// 
+//
 // Licensed under the Apache License, Version 2.0 (the "License")
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
-// 
+//
 //     http://www.apache.org/licenses/LICENSE-2.0
-// 
+//
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,7 +16,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Channels;
@@ -25,7 +24,6 @@ using System.Threading.Tasks;
 using ArmoniK.Api.Client;
 using ArmoniK.Api.Common.Utils;
 using ArmoniK.Api.gRPC.V1;
-using ArmoniK.Api.gRPC.V1.Results;
 using ArmoniK.DevelopmentKit.Client.Common;
 using ArmoniK.DevelopmentKit.Client.Common.Exceptions;
 using ArmoniK.DevelopmentKit.Client.Common.Status;
@@ -37,7 +35,6 @@ using ArmoniK.DevelopmentKit.Common.Exceptions;
 using ArmoniK.Utils;
 using ArmoniK.Utils.Pool;
 
-using Grpc.Core;
 using Grpc.Net.Client;
 
 using JetBrains.Annotations;
@@ -519,32 +516,14 @@ public class Service : AbstractClientService, ISubmitterService
                                                       result.TaskId);
 
                                       // Download the result data with retry
-                                      var data = await Retry.WhileException(5,
-                                                                            2000,
-                                                                            async retry =>
-                                                                            {
-                                                                              if (retry > 1)
-                                                                              {
-                                                                                Logger.LogWarning("Try {try} for {funcName}",
-                                                                                                  retry,
-                                                                                                  nameof(SessionService.TryGetResultAsync));
-                                                                              }
-
-                                                                              await using var channel = await SessionService.ChannelPool.GetAsync(cancellationToken)
-                                                                                                                            .ConfigureAwait(false);
-                                                                              var resultsClient = new Results.ResultsClient(channel);
-
-                                                                              return await resultsClient.DownloadResultData(SessionId,
-                                                                                                                            result.ResultId,
-                                                                                                                            cancellationToken)
-                                                                                                        .ConfigureAwait(false);
-                                                                            },
-                                                                            true,
-                                                                            Logger,
-                                                                            cancellationToken,
-                                                                            typeof(IOException),
-                                                                            typeof(RpcException))
-                                                            .ConfigureAwait(false);
+                                      var data = await SessionService.ChannelPool.WithResultClient(Logger)
+                                                                     .WithDefaultRetries()
+                                                                     .WithBackoff(2000)
+                                                                     .ExecuteAsync(client => new ValueTask<byte[]>(client.DownloadResultData(SessionId,
+                                                                                                                                             result.ResultId,
+                                                                                                                                             cancellationToken)),
+                                                                                   cancellationToken)
+                                                                     .ConfigureAwait(false);
                                       responseHandler(result.TaskId,
                                                       data);
                                     }

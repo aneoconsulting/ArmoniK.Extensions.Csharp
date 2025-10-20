@@ -13,7 +13,6 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-//
 
 using System.Collections.Generic;
 using System.Linq;
@@ -22,6 +21,9 @@ using System.Threading;
 
 using ArmoniK.Api.gRPC.V1;
 using ArmoniK.Api.gRPC.V1.Tasks;
+using ArmoniK.Utils.Pool;
+
+using Grpc.Net.Client;
 
 namespace ArmoniK.DevelopmentKit.Client.Common.Submitter;
 
@@ -131,13 +133,13 @@ public static class TasksClientExt
   /// <summary>
   ///   List tasks while handling page size
   /// </summary>
-  /// <param name="tasksClient"> the tasks client </param>
+  /// <param name="pool"> the channel pool backing the task client </param>
   /// <param name="filters"> filters to apply on the tasks </param>
   /// <param name="sort"> sorting order </param>
   /// <param name="pageSize"> page size </param>
   /// <param name="cancellationToken"></param>
   /// <returns></returns>
-  public static async IAsyncEnumerable<TaskSummary> ListTasksAsync(this Tasks.TasksClient                     tasksClient,
+  public static async IAsyncEnumerable<TaskSummary> ListTasksAsync(this ObjectPool<GrpcChannel>               pool,
                                                                    Filters                                    filters,
                                                                    ListTasksRequest.Types.Sort                sort,
                                                                    int                                        pageSize          = 50,
@@ -145,18 +147,22 @@ public static class TasksClientExt
   {
     var               page = 0;
     ListTasksResponse res;
-    while ((res = await tasksClient.ListTasksAsync(new ListTasksRequest
-                                                   {
-                                                     Filters  = filters,
-                                                     Sort     = sort,
-                                                     PageSize = pageSize,
-                                                     Page     = page,
-                                                   },
-                                                   cancellationToken: cancellationToken)
-                                   .ConfigureAwait(false)).Tasks.Any())
+    while ((res = await pool.WithTaskClient()
+                            .WithDefaultRetries()
+                            .ExecuteAsync(client => client.ListTasksAsync(new ListTasksRequest
+                                                                          {
+                                                                            Filters  = filters,
+                                                                            Sort     = sort,
+                                                                            PageSize = pageSize,
+                                                                            Page     = page,
+                                                                          },
+                                                                          cancellationToken: cancellationToken),
+                                          cancellationToken)
+                            .ConfigureAwait(false)).Tasks.Any())
     {
       foreach (var taskSummary in res.Tasks)
       {
+        cancellationToken.ThrowIfCancellationRequested();
         yield return taskSummary;
       }
 
@@ -167,16 +173,16 @@ public static class TasksClientExt
   /// <summary>
   ///   List tasks while handling page size
   /// </summary>
-  /// <param name="tasksClient"> the tasks client </param>
+  /// <param name="pool"> the channel pool backing the task client </param>
   /// <param name="filters"> filters to apply on the tasks </param>
   /// <param name="sort"> sorting order </param>
   /// <param name="pageSize"> page size </param>
   /// <returns></returns>
-  public static IEnumerable<TaskSummary> ListTasks(this Tasks.TasksClient      tasksClient,
-                                                   Filters                     filters,
-                                                   ListTasksRequest.Types.Sort sort,
-                                                   int                         pageSize = 50)
-    => ListTasksAsync(tasksClient,
+  public static IEnumerable<TaskSummary> ListTasks(this ObjectPool<GrpcChannel> pool,
+                                                   Filters                      filters,
+                                                   ListTasksRequest.Types.Sort  sort,
+                                                   int                          pageSize = 50)
+    => ListTasksAsync(pool,
                       filters,
                       sort,
                       pageSize)
