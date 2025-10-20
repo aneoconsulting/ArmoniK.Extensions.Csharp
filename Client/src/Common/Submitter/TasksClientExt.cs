@@ -133,7 +133,7 @@ public static class TasksClientExt
   /// <summary>
   ///   List tasks while handling page size
   /// </summary>
-  /// <param name="pool"> the tasks client </param>
+  /// <param name="pool"> the channel pool backing the task client </param>
   /// <param name="filters"> filters to apply on the tasks </param>
   /// <param name="sort"> sorting order </param>
   /// <param name="pageSize"> page size </param>
@@ -162,6 +162,7 @@ public static class TasksClientExt
     {
       foreach (var taskSummary in res.Tasks)
       {
+        cancellationToken.ThrowIfCancellationRequested();
         yield return taskSummary;
       }
 
@@ -172,7 +173,7 @@ public static class TasksClientExt
   /// <summary>
   ///   List tasks while handling page size
   /// </summary>
-  /// <param name="pool"> the tasks client </param>
+  /// <param name="pool"> the channel pool backing the task client </param>
   /// <param name="filters"> filters to apply on the tasks </param>
   /// <param name="sort"> sorting order </param>
   /// <param name="pageSize"> page size </param>

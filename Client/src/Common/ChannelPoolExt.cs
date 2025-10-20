@@ -163,6 +163,7 @@ public static class ChannelPoolExt
         }
       }
 
+      // Code is unreachable as the last iteration of the loop either returns or rethrows.
       throw new Exception("Unreachable: out of retries",
                           lastException);
     }

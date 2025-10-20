@@ -221,15 +221,16 @@ public class AdminMonitoringService
   [PublicAPI]
   public async IAsyncEnumerable<string> ListAllSessionsAsync([EnumeratorCancellation] CancellationToken cancellationToken = default)
   {
-    var sessions = await channelPool_.WithSessionClient(Logger)
+    var response = await channelPool_.WithSessionClient(Logger)
                                      .WithDefaultRetries()
                                      .ExecuteAsync(client => client.ListSessionsAsync(new ListSessionsRequest(),
                                                                                       cancellationToken: cancellationToken),
                                                    cancellationToken)
                                      .ConfigureAwait(false);
 
-    foreach (var session in sessions.Sessions)
+    foreach (var session in response.Sessions)
     {
+      cancellationToken.ThrowIfCancellationRequested();
       yield return session.SessionId;
     }
   }
@@ -251,48 +252,46 @@ public class AdminMonitoringService
   [PublicAPI]
   public async IAsyncEnumerable<string> ListRunningSessionsAsync([EnumeratorCancellation] CancellationToken cancellationToken = default)
   {
-    var sessions = await channelPool_.WithSessionClient(Logger)
+    var request = new ListSessionsRequest
+                  {
+                    Filters = new Api.gRPC.V1.Sessions.Filters
+                              {
+                                Or =
+                                {
+                                  new FiltersAnd
+                                  {
+                                    And =
+                                    {
+                                      new FilterField
+                                      {
+                                        FilterStatus = new FilterStatus
+                                                       {
+                                                         Operator = FilterStatusOperator.Equal,
+                                                         Value    = SessionStatus.Running,
+                                                       },
+                                        Field = new SessionField
+                                                {
+                                                  SessionRawField = new SessionRawField
+                                                                    {
+                                                                      Field = SessionRawEnumField.Status,
+                                                                    },
+                                                },
+                                      },
+                                    },
+                                  },
+                                },
+                              },
+                  };
+    var response = await channelPool_.WithSessionClient(Logger)
                                      .WithDefaultRetries()
-                                     .ExecuteAsync(client =>
-                                                   {
-                                                     var request = new ListSessionsRequest
-                                                                   {
-                                                                     Filters = new Api.gRPC.V1.Sessions.Filters
-                                                                               {
-                                                                                 Or =
-                                                                                 {
-                                                                                   new FiltersAnd
-                                                                                   {
-                                                                                     And =
-                                                                                     {
-                                                                                       new FilterField
-                                                                                       {
-                                                                                         FilterStatus = new FilterStatus
-                                                                                                        {
-                                                                                                          Operator = FilterStatusOperator.Equal,
-                                                                                                          Value    = SessionStatus.Running,
-                                                                                                        },
-                                                                                         Field = new SessionField
-                                                                                                 {
-                                                                                                   SessionRawField = new SessionRawField
-                                                                                                                     {
-                                                                                                                       Field = SessionRawEnumField.Status,
-                                                                                                                     },
-                                                                                                 },
-                                                                                       },
-                                                                                     },
-                                                                                   },
-                                                                                 },
-                                                                               },
-                                                                   };
-                                                     return client.ListSessionsAsync(request,
-                                                                                     cancellationToken: cancellationToken);
-                                                   },
+                                     .ExecuteAsync(client => client.ListSessionsAsync(request,
+                                                                                      cancellationToken: cancellationToken),
                                                    cancellationToken)
                                      .ConfigureAwait(false);
 
-    foreach (var session in sessions.Sessions)
+    foreach (var session in response.Sessions)
     {
+      cancellationToken.ThrowIfCancellationRequested();
       yield return session.SessionId;
     }
   }
@@ -313,54 +312,47 @@ public class AdminMonitoringService
   [PublicAPI]
   public async IAsyncEnumerable<string> ListCancelledSessionsAsync([EnumeratorCancellation] CancellationToken cancellationToken = default)
   {
-    await using var channel = await channelPool_.GetAsync(cancellationToken)
-                                                .ConfigureAwait(false);
-    var sessionsClient = new Sessions.SessionsClient(channel);
-
-    ListSessionsResponse sessions;
-    try
-    {
-      sessions = await sessionsClient.ListSessionsAsync(new ListSessionsRequest
-                                                        {
-                                                          Filters = new Api.gRPC.V1.Sessions.Filters
+    var request = new ListSessionsRequest
+                  {
+                    Filters = new Api.gRPC.V1.Sessions.Filters
+                              {
+                                Or =
+                                {
+                                  new FiltersAnd
+                                  {
+                                    And =
+                                    {
+                                      new FilterField
+                                      {
+                                        FilterStatus = new FilterStatus
+                                                       {
+                                                         Operator = FilterStatusOperator.Equal,
+                                                         Value    = SessionStatus.Cancelled,
+                                                       },
+                                        Field = new SessionField
+                                                {
+                                                  SessionRawField = new SessionRawField
                                                                     {
-                                                                      Or =
-                                                                      {
-                                                                        new FiltersAnd
-                                                                        {
-                                                                          And =
-                                                                          {
-                                                                            new FilterField
-                                                                            {
-                                                                              FilterStatus = new FilterStatus
-                                                                                             {
-                                                                                               Operator = FilterStatusOperator.Equal,
-                                                                                               Value    = SessionStatus.Cancelled,
-                                                                                             },
-                                                                              Field = new SessionField
-                                                                                      {
-                                                                                        SessionRawField = new SessionRawField
-                                                                                                          {
-                                                                                                            Field = SessionRawEnumField.Status,
-                                                                                                          },
-                                                                                      },
-                                                                            },
-                                                                          },
-                                                                        },
-                                                                      },
+                                                                      Field = SessionRawEnumField.Status,
                                                                     },
-                                                        },
-                                                        cancellationToken: cancellationToken)
-                                     .ConfigureAwait(false);
-    }
-    catch (Exception e)
-    {
-      channel.Exception = e;
-      throw;
-    }
+                                                },
+                                      },
+                                    },
+                                  },
+                                },
+                              },
+                  };
 
-    foreach (var session in sessions.Sessions)
+    var response = await channelPool_.WithSessionClient(Logger)
+                                     .WithDefaultRetries()
+                                     .ExecuteAsync(client => client.ListSessionsAsync(request,
+                                                                                      cancellationToken: cancellationToken),
+                                                   cancellationToken)
+                                     .ConfigureAwait(false);
+
+    foreach (var session in response.Sessions)
     {
+      cancellationToken.ThrowIfCancellationRequested();
       yield return session.SessionId;
     }
   }
