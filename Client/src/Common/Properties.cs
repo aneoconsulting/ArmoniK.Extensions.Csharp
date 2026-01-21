@@ -384,6 +384,14 @@ public class Properties
   public TaskOptions TaskOptions { get; set; }
 
   /// <summary>
+  ///   Value in bytes above which streaming is used for data upload and download. 0 to always use streaming.
+  /// </summary>
+  // TODO: mark as [PublicApi] for setter ?
+  // ReSharper disable once MemberCanBePrivate.Global
+  // ReSharper disable once AutoPropertyCanBeMadeGetOnly.Global
+  public int StreamingThreshold { get; set; } = 0;
+
+  /// <summary>
   ///   The target name of the endpoint when ssl validation is disabled. Automatic if not set.
   /// </summary>
   // TODO: mark as [PublicApi] for setter ?

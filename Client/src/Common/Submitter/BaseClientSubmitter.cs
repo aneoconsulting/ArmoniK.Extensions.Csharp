@@ -99,7 +99,7 @@ public abstract class BaseClientSubmitter<T>
                                               })
                   .WaitSync();
 
-    configuration_ = ChannelPool.WithResultClient(Logger)
+    configuration_ = properties.StreamingThreshold > 0 ? properties.StreamingThreshold : ChannelPool.WithResultClient(Logger)
                                 .ExecuteAsync(static client => client.GetServiceConfigurationAsync(new Empty()))
                                 .WaitSync()
                                 .DataChunkMaxSize;
