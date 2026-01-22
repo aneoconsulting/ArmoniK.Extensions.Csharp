@@ -12,34 +12,6 @@
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "api/ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.ChannelPoolFluent-1.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.ChannelPoolFluent-1.html"
-        }
-      },
-      "version": "",
-      "Uid": null,
-      "IsMRef": true,
-      "Title": "ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.ChannelPoolFluent<TService>",
-      "Summary": null
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.html"
-        }
-      },
-      "version": "",
-      "Uid": null,
-      "IsMRef": true,
-      "Title": "ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt",
-      "Summary": null
-    },
-    {
-      "type": "ManagedReference",
       "source_relative_path": "api/ArmoniK.DevelopmentKit.Client.Common.Exceptions.ResultAbortedException.yml",
       "output": {
         ".html": {
