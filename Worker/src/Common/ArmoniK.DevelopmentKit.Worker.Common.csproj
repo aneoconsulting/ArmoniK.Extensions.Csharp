@@ -8,13 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ArmoniK.Api.Worker" Version="3.27.0" />
-    <PackageReference Include="AWSSDK.S3" Version="3.7.501.21" />
+    <PackageReference Include="ArmoniK.Api.Worker" Version="3.28.3" />
+    <PackageReference Include="AWSSDK.S3" Version="3.7.510.9" />
     <!-- AWSSDK.SecurityToken is used by AWSSDK.S3 to automatically get credentials from pod secrets -->
-    <PackageReference Include="AWSSDK.SecurityToken" Version="3.7.501.27" />
+    <PackageReference Include="AWSSDK.SecurityToken" Version="3.7.504.35" />
     <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" PrivateAssets="All" />
-    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.22.1" />
-    <PackageReference Include="Grpc.Tools" Version="2.72.0">
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.23.0" />
+    <PackageReference Include="Grpc.Tools" Version="2.78.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
