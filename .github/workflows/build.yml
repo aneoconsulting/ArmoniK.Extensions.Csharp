@@ -157,6 +157,7 @@ jobs:
           type: localhost
           tls: ${{ matrix.tls }}
           mtls: ${{ matrix.mtls }}
+          generate-client-cert: ${{ matrix.mtls }}
           override-compute: true
           override-worker-version: ${{ needs.versionning.outputs.version }}
           override-worker-image: dockerhubaneo/armonik_worker_dll
