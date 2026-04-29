@@ -31,10 +31,10 @@ popd >/dev/null 2>&1
 TestDir=${BASEDIR}/$RELATIVE_PROJECT/$RELATIVE_PROJECT
 
 kubectl get svc -n armonik -o wide
-CPIP=$(kubectl get svc ingress -n armonik -o jsonpath="{.status.loadBalancer.ingress[0]."ip"}")
-CPHOST=$(kubectl get svc ingress -n armonik -o jsonpath="{.status.loadBalancer.ingress[0]."hostname"}")
+CPIP=$(kubectl get svc nginx -n armonik -o jsonpath="{.status.loadBalancer.ingress[0]."ip"}")
+CPHOST=$(kubectl get svc nginx -n armonik -o jsonpath="{.status.loadBalancer.ingress[0]."hostname"}")
 export CPIP=${CPHOST:-$CPIP}
-export CPPort=$(kubectl get svc ingress -n armonik -o custom-columns="PORT:.spec.ports[1].port" --no-headers=true)
+export CPPort=$(kubectl get svc nginx -n armonik -o custom-columns="PORT:.spec.ports[1].port" --no-headers=true)
 export Grpc__Endpoint=http://$CPIP:$CPPort
 echo "Load Balancer : ${Grpc__Endpoint}"
 
@@ -65,17 +65,8 @@ function SSLConnection()
 function GetGrpcEndPointFromFile()
 {
   OUTPUT_JSON=$1
-  if [ -f ${OUTPUT_JSON} ]; then
-    #Test if ingress exists
-    link=`cat ${OUTPUT_JSON} | jq -r -e '.armonik.ingress.control_plane'`
-    if [ "$?" == "1" ]; then
-      link=`cat ${OUTPUT_JSON} | jq -r -e '.armonik.control_plane_url'`
-      if [ "$?" == "1" ]; then
-        echo "Error : cannot read Endpoint from file ${OUTPUT_JSON}"
-        exit 1
-      fi
-    fi
-    export Grpc__Endpoint=$link
+  if [ -f "${OUTPUT_JSON}" ]; then
+    export Grpc__Endpoint=$(jq -r -e '.armonik.control_plane_url' "${OUTPUT_JSON}") || { echo "Error: cannot read control_plane_url from ${OUTPUT_JSON}"; exit 1; }
   fi
   echo "Running with endPoint ${Grpc__Endpoint} from output.json"
 }
