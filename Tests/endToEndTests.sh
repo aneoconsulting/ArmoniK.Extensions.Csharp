@@ -31,10 +31,10 @@ popd >/dev/null 2>&1
 TestDir=${BASEDIR}/$RELATIVE_PROJECT/$RELATIVE_PROJECT
 
 kubectl get svc -n armonik -o wide
-CPIP=$(kubectl get svc ingress -n armonik -o jsonpath="{.status.loadBalancer.ingress[0]."ip"}")
-CPHOST=$(kubectl get svc ingress -n armonik -o jsonpath="{.status.loadBalancer.ingress[0]."hostname"}")
+CPIP=$(kubectl get svc nginx -n armonik -o jsonpath="{.status.loadBalancer.ingress[0]."ip"}")
+CPHOST=$(kubectl get svc nginx -n armonik -o jsonpath="{.status.loadBalancer.ingress[0]."hostname"}")
 export CPIP=${CPHOST:-$CPIP}
-export CPPort=$(kubectl get svc ingress -n armonik -o custom-columns="PORT:.spec.ports[1].port" --no-headers=true)
+export CPPort=$(kubectl get svc nginx -n armonik -o custom-columns="PORT:.spec.ports[1].port" --no-headers=true)
 export Grpc__Endpoint=http://$CPIP:$CPPort
 echo "Load Balancer : ${Grpc__Endpoint}"
 
