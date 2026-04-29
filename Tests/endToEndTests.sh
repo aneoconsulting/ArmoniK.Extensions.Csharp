@@ -65,8 +65,8 @@ function SSLConnection()
 function GetGrpcEndPointFromFile()
 {
   OUTPUT_JSON=$1
-  if [ -f ${OUTPUT_JSON} ]; then
-    export Grpc__Endpoint=$(jq -r -e '.armonik.control_plane_url' ${OUTPUT_JSON})
+  if [ -f "${OUTPUT_JSON}" ]; then
+    export Grpc__Endpoint=$(jq -r -e '.armonik.control_plane_url' "${OUTPUT_JSON}") || { echo "Error: cannot read control_plane_url from ${OUTPUT_JSON}"; exit 1; }
   fi
   echo "Running with endPoint ${Grpc__Endpoint} from output.json"
 }

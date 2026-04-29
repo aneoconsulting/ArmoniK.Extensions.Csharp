@@ -189,7 +189,7 @@ jobs:
         run: |
          set -ex
          kubectl get svc -n armonik -o wide
-         export Grpc__Endpoint=$(jq -r .armonik.control_plane_url ${{ steps.deploy.outputs.generated-folder }}/armonik-output.json)
+         export Grpc__Endpoint=$(jq -r .armonik.control_plane_url "${{ steps.deploy.outputs.generated-folder }}/armonik-output.json")
          export Grpc__SSLValidation=${{ matrix.sslvalidation }}
          if [ "${{ matrix.useca }}" = "true" ]; then
           export Grpc__CaCert="${{ steps.deploy.outputs.generated-folder }}/certificates/ingress/ca.crt"
