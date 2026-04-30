@@ -7,6 +7,236 @@ references:
   commentId: N:ArmoniK.DevelopmentKit.Client.Common
   fullName: ArmoniK.DevelopmentKit.Client.Common
   nameWithType: ArmoniK.DevelopmentKit.Client.Common
+- uid: ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt
+  name: ChannelPoolExt
+  href: api/ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.html
+  commentId: T:ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt
+  fullName: ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt
+  nameWithType: ChannelPoolExt
+- uid: ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.ChannelPoolFluent`1
+  name: ChannelPoolExt.ChannelPoolFluent<TService>
+  href: api/ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.ChannelPoolFluent-1.html
+  commentId: T:ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.ChannelPoolFluent`1
+  name.vb: ChannelPoolExt.ChannelPoolFluent(Of TService)
+  fullName: ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.ChannelPoolFluent<TService>
+  fullName.vb: ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.ChannelPoolFluent(Of TService)
+  nameWithType: ChannelPoolExt.ChannelPoolFluent<TService>
+  nameWithType.vb: ChannelPoolExt.ChannelPoolFluent(Of TService)
+- uid: ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.ChannelPoolFluent`1.ExecuteAsync(System.Action{`0},System.Threading.CancellationToken)
+  name: ExecuteAsync(Action<TService>, CancellationToken)
+  href: api/ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.ChannelPoolFluent-1.html#ArmoniK_DevelopmentKit_Client_Common_ChannelPoolExt_ChannelPoolFluent_1_ExecuteAsync_System_Action__0__System_Threading_CancellationToken_
+  commentId: M:ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.ChannelPoolFluent`1.ExecuteAsync(System.Action{`0},System.Threading.CancellationToken)
+  name.vb: ExecuteAsync(Action(Of TService), CancellationToken)
+  fullName: ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.ChannelPoolFluent<TService>.ExecuteAsync(System.Action<TService>, System.Threading.CancellationToken)
+  fullName.vb: ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.ChannelPoolFluent(Of TService).ExecuteAsync(System.Action(Of TService), System.Threading.CancellationToken)
+  nameWithType: ChannelPoolExt.ChannelPoolFluent<TService>.ExecuteAsync(Action<TService>, CancellationToken)
+  nameWithType.vb: ChannelPoolExt.ChannelPoolFluent(Of TService).ExecuteAsync(Action(Of TService), CancellationToken)
+- uid: ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.ChannelPoolFluent`1.ExecuteAsync(System.Func{`0,System.Threading.Tasks.Task},System.Threading.CancellationToken)
+  name: ExecuteAsync(Func<TService, Task>, CancellationToken)
+  href: api/ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.ChannelPoolFluent-1.html#ArmoniK_DevelopmentKit_Client_Common_ChannelPoolExt_ChannelPoolFluent_1_ExecuteAsync_System_Func__0_System_Threading_Tasks_Task__System_Threading_CancellationToken_
+  commentId: M:ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.ChannelPoolFluent`1.ExecuteAsync(System.Func{`0,System.Threading.Tasks.Task},System.Threading.CancellationToken)
+  name.vb: ExecuteAsync(Func(Of TService, Task), CancellationToken)
+  fullName: ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.ChannelPoolFluent<TService>.ExecuteAsync(System.Func<TService, System.Threading.Tasks.Task>, System.Threading.CancellationToken)
+  fullName.vb: ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.ChannelPoolFluent(Of TService).ExecuteAsync(System.Func(Of TService, System.Threading.Tasks.Task), System.Threading.CancellationToken)
+  nameWithType: ChannelPoolExt.ChannelPoolFluent<TService>.ExecuteAsync(Func<TService, Task>, CancellationToken)
+  nameWithType.vb: ChannelPoolExt.ChannelPoolFluent(Of TService).ExecuteAsync(Func(Of TService, Task), CancellationToken)
+- uid: ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.ChannelPoolFluent`1.ExecuteAsync(System.Func{`0,System.Threading.Tasks.ValueTask},System.Threading.CancellationToken)
+  name: ExecuteAsync(Func<TService, ValueTask>, CancellationToken)
+  href: api/ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.ChannelPoolFluent-1.html#ArmoniK_DevelopmentKit_Client_Common_ChannelPoolExt_ChannelPoolFluent_1_ExecuteAsync_System_Func__0_System_Threading_Tasks_ValueTask__System_Threading_CancellationToken_
+  commentId: M:ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.ChannelPoolFluent`1.ExecuteAsync(System.Func{`0,System.Threading.Tasks.ValueTask},System.Threading.CancellationToken)
+  name.vb: ExecuteAsync(Func(Of TService, ValueTask), CancellationToken)
+  fullName: ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.ChannelPoolFluent<TService>.ExecuteAsync(System.Func<TService, System.Threading.Tasks.ValueTask>, System.Threading.CancellationToken)
+  fullName.vb: ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.ChannelPoolFluent(Of TService).ExecuteAsync(System.Func(Of TService, System.Threading.Tasks.ValueTask), System.Threading.CancellationToken)
+  nameWithType: ChannelPoolExt.ChannelPoolFluent<TService>.ExecuteAsync(Func<TService, ValueTask>, CancellationToken)
+  nameWithType.vb: ChannelPoolExt.ChannelPoolFluent(Of TService).ExecuteAsync(Func(Of TService, ValueTask), CancellationToken)
+- uid: ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.ChannelPoolFluent`1.ExecuteAsync*
+  name: ExecuteAsync
+  href: api/ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.ChannelPoolFluent-1.html#ArmoniK_DevelopmentKit_Client_Common_ChannelPoolExt_ChannelPoolFluent_1_ExecuteAsync_
+  commentId: Overload:ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.ChannelPoolFluent`1.ExecuteAsync
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.ChannelPoolFluent<TService>.ExecuteAsync
+  fullName.vb: ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.ChannelPoolFluent(Of TService).ExecuteAsync
+  nameWithType: ChannelPoolExt.ChannelPoolFluent<TService>.ExecuteAsync
+  nameWithType.vb: ChannelPoolExt.ChannelPoolFluent(Of TService).ExecuteAsync
+- uid: ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.ChannelPoolFluent`1.ExecuteAsync``1(System.Func{`0,Grpc.Core.AsyncUnaryCall{``0}},System.Threading.CancellationToken)
+  name: ExecuteAsync<TOut>(Func<TService, AsyncUnaryCall<TOut>>, CancellationToken)
+  href: api/ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.ChannelPoolFluent-1.html#ArmoniK_DevelopmentKit_Client_Common_ChannelPoolExt_ChannelPoolFluent_1_ExecuteAsync__1_System_Func__0_Grpc_Core_AsyncUnaryCall___0___System_Threading_CancellationToken_
+  commentId: M:ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.ChannelPoolFluent`1.ExecuteAsync``1(System.Func{`0,Grpc.Core.AsyncUnaryCall{``0}},System.Threading.CancellationToken)
+  name.vb: ExecuteAsync(Of TOut)(Func(Of TService, AsyncUnaryCall(Of TOut)), CancellationToken)
+  fullName: ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.ChannelPoolFluent<TService>.ExecuteAsync<TOut>(System.Func<TService, Grpc.Core.AsyncUnaryCall<TOut>>, System.Threading.CancellationToken)
+  fullName.vb: ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.ChannelPoolFluent(Of TService).ExecuteAsync(Of TOut)(System.Func(Of TService, Grpc.Core.AsyncUnaryCall(Of TOut)), System.Threading.CancellationToken)
+  nameWithType: ChannelPoolExt.ChannelPoolFluent<TService>.ExecuteAsync<TOut>(Func<TService, AsyncUnaryCall<TOut>>, CancellationToken)
+  nameWithType.vb: ChannelPoolExt.ChannelPoolFluent(Of TService).ExecuteAsync(Of TOut)(Func(Of TService, AsyncUnaryCall(Of TOut)), CancellationToken)
+- uid: ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.ChannelPoolFluent`1.ExecuteAsync``1(System.Func{`0,System.Threading.Tasks.Task{``0}},System.Threading.CancellationToken)
+  name: ExecuteAsync<TOut>(Func<TService, Task<TOut>>, CancellationToken)
+  href: api/ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.ChannelPoolFluent-1.html#ArmoniK_DevelopmentKit_Client_Common_ChannelPoolExt_ChannelPoolFluent_1_ExecuteAsync__1_System_Func__0_System_Threading_Tasks_Task___0___System_Threading_CancellationToken_
+  commentId: M:ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.ChannelPoolFluent`1.ExecuteAsync``1(System.Func{`0,System.Threading.Tasks.Task{``0}},System.Threading.CancellationToken)
+  name.vb: ExecuteAsync(Of TOut)(Func(Of TService, Task(Of TOut)), CancellationToken)
+  fullName: ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.ChannelPoolFluent<TService>.ExecuteAsync<TOut>(System.Func<TService, System.Threading.Tasks.Task<TOut>>, System.Threading.CancellationToken)
+  fullName.vb: ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.ChannelPoolFluent(Of TService).ExecuteAsync(Of TOut)(System.Func(Of TService, System.Threading.Tasks.Task(Of TOut)), System.Threading.CancellationToken)
+  nameWithType: ChannelPoolExt.ChannelPoolFluent<TService>.ExecuteAsync<TOut>(Func<TService, Task<TOut>>, CancellationToken)
+  nameWithType.vb: ChannelPoolExt.ChannelPoolFluent(Of TService).ExecuteAsync(Of TOut)(Func(Of TService, Task(Of TOut)), CancellationToken)
+- uid: ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.ChannelPoolFluent`1.ExecuteAsync``1(System.Func{`0,System.Threading.Tasks.ValueTask{``0}},System.Threading.CancellationToken)
+  name: ExecuteAsync<TOut>(Func<TService, ValueTask<TOut>>, CancellationToken)
+  href: api/ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.ChannelPoolFluent-1.html#ArmoniK_DevelopmentKit_Client_Common_ChannelPoolExt_ChannelPoolFluent_1_ExecuteAsync__1_System_Func__0_System_Threading_Tasks_ValueTask___0___System_Threading_CancellationToken_
+  commentId: M:ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.ChannelPoolFluent`1.ExecuteAsync``1(System.Func{`0,System.Threading.Tasks.ValueTask{``0}},System.Threading.CancellationToken)
+  name.vb: ExecuteAsync(Of TOut)(Func(Of TService, ValueTask(Of TOut)), CancellationToken)
+  fullName: ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.ChannelPoolFluent<TService>.ExecuteAsync<TOut>(System.Func<TService, System.Threading.Tasks.ValueTask<TOut>>, System.Threading.CancellationToken)
+  fullName.vb: ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.ChannelPoolFluent(Of TService).ExecuteAsync(Of TOut)(System.Func(Of TService, System.Threading.Tasks.ValueTask(Of TOut)), System.Threading.CancellationToken)
+  nameWithType: ChannelPoolExt.ChannelPoolFluent<TService>.ExecuteAsync<TOut>(Func<TService, ValueTask<TOut>>, CancellationToken)
+  nameWithType.vb: ChannelPoolExt.ChannelPoolFluent(Of TService).ExecuteAsync(Of TOut)(Func(Of TService, ValueTask(Of TOut)), CancellationToken)
+- uid: ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.ChannelPoolFluent`1.ExecuteAsync``1(System.Func{`0,``0},System.Threading.CancellationToken)
+  name: ExecuteAsync<TOut>(Func<TService, TOut>, CancellationToken)
+  href: api/ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.ChannelPoolFluent-1.html#ArmoniK_DevelopmentKit_Client_Common_ChannelPoolExt_ChannelPoolFluent_1_ExecuteAsync__1_System_Func__0___0__System_Threading_CancellationToken_
+  commentId: M:ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.ChannelPoolFluent`1.ExecuteAsync``1(System.Func{`0,``0},System.Threading.CancellationToken)
+  name.vb: ExecuteAsync(Of TOut)(Func(Of TService, TOut), CancellationToken)
+  fullName: ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.ChannelPoolFluent<TService>.ExecuteAsync<TOut>(System.Func<TService, TOut>, System.Threading.CancellationToken)
+  fullName.vb: ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.ChannelPoolFluent(Of TService).ExecuteAsync(Of TOut)(System.Func(Of TService, TOut), System.Threading.CancellationToken)
+  nameWithType: ChannelPoolExt.ChannelPoolFluent<TService>.ExecuteAsync<TOut>(Func<TService, TOut>, CancellationToken)
+  nameWithType.vb: ChannelPoolExt.ChannelPoolFluent(Of TService).ExecuteAsync(Of TOut)(Func(Of TService, TOut), CancellationToken)
+- uid: ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.ChannelPoolFluent`1.WithBackoff(System.Int32)
+  name: WithBackoff(int)
+  href: api/ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.ChannelPoolFluent-1.html#ArmoniK_DevelopmentKit_Client_Common_ChannelPoolExt_ChannelPoolFluent_1_WithBackoff_System_Int32_
+  commentId: M:ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.ChannelPoolFluent`1.WithBackoff(System.Int32)
+  name.vb: WithBackoff(Integer)
+  fullName: ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.ChannelPoolFluent<TService>.WithBackoff(int)
+  fullName.vb: ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.ChannelPoolFluent(Of TService).WithBackoff(Integer)
+  nameWithType: ChannelPoolExt.ChannelPoolFluent<TService>.WithBackoff(int)
+  nameWithType.vb: ChannelPoolExt.ChannelPoolFluent(Of TService).WithBackoff(Integer)
+- uid: ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.ChannelPoolFluent`1.WithBackoff*
+  name: WithBackoff
+  href: api/ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.ChannelPoolFluent-1.html#ArmoniK_DevelopmentKit_Client_Common_ChannelPoolExt_ChannelPoolFluent_1_WithBackoff_
+  commentId: Overload:ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.ChannelPoolFluent`1.WithBackoff
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.ChannelPoolFluent<TService>.WithBackoff
+  fullName.vb: ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.ChannelPoolFluent(Of TService).WithBackoff
+  nameWithType: ChannelPoolExt.ChannelPoolFluent<TService>.WithBackoff
+  nameWithType.vb: ChannelPoolExt.ChannelPoolFluent(Of TService).WithBackoff
+- uid: ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.ChannelPoolFluent`1.WithDefaultRetries(System.Int32)
+  name: WithDefaultRetries(int)
+  href: api/ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.ChannelPoolFluent-1.html#ArmoniK_DevelopmentKit_Client_Common_ChannelPoolExt_ChannelPoolFluent_1_WithDefaultRetries_System_Int32_
+  commentId: M:ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.ChannelPoolFluent`1.WithDefaultRetries(System.Int32)
+  name.vb: WithDefaultRetries(Integer)
+  fullName: ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.ChannelPoolFluent<TService>.WithDefaultRetries(int)
+  fullName.vb: ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.ChannelPoolFluent(Of TService).WithDefaultRetries(Integer)
+  nameWithType: ChannelPoolExt.ChannelPoolFluent<TService>.WithDefaultRetries(int)
+  nameWithType.vb: ChannelPoolExt.ChannelPoolFluent(Of TService).WithDefaultRetries(Integer)
+- uid: ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.ChannelPoolFluent`1.WithDefaultRetries*
+  name: WithDefaultRetries
+  href: api/ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.ChannelPoolFluent-1.html#ArmoniK_DevelopmentKit_Client_Common_ChannelPoolExt_ChannelPoolFluent_1_WithDefaultRetries_
+  commentId: Overload:ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.ChannelPoolFluent`1.WithDefaultRetries
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.ChannelPoolFluent<TService>.WithDefaultRetries
+  fullName.vb: ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.ChannelPoolFluent(Of TService).WithDefaultRetries
+  nameWithType: ChannelPoolExt.ChannelPoolFluent<TService>.WithDefaultRetries
+  nameWithType.vb: ChannelPoolExt.ChannelPoolFluent(Of TService).WithDefaultRetries
+- uid: ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.ChannelPoolFluent`1.WithRetries(System.Int32,System.Boolean,System.Type[])
+  name: WithRetries(int, bool, params Type[]?)
+  href: api/ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.ChannelPoolFluent-1.html#ArmoniK_DevelopmentKit_Client_Common_ChannelPoolExt_ChannelPoolFluent_1_WithRetries_System_Int32_System_Boolean_System_Type___
+  commentId: M:ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.ChannelPoolFluent`1.WithRetries(System.Int32,System.Boolean,System.Type[])
+  name.vb: WithRetries(Integer, Boolean, ParamArray Type())
+  fullName: ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.ChannelPoolFluent<TService>.WithRetries(int, bool, params System.Type[]?)
+  fullName.vb: ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.ChannelPoolFluent(Of TService).WithRetries(Integer, Boolean, ParamArray System.Type())
+  nameWithType: ChannelPoolExt.ChannelPoolFluent<TService>.WithRetries(int, bool, params Type[]?)
+  nameWithType.vb: ChannelPoolExt.ChannelPoolFluent(Of TService).WithRetries(Integer, Boolean, ParamArray Type())
+- uid: ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.ChannelPoolFluent`1.WithRetries(System.Int32,System.Func{System.Exception,System.Boolean})
+  name: WithRetries(int, Func<Exception, bool>)
+  href: api/ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.ChannelPoolFluent-1.html#ArmoniK_DevelopmentKit_Client_Common_ChannelPoolExt_ChannelPoolFluent_1_WithRetries_System_Int32_System_Func_System_Exception_System_Boolean__
+  commentId: M:ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.ChannelPoolFluent`1.WithRetries(System.Int32,System.Func{System.Exception,System.Boolean})
+  name.vb: WithRetries(Integer, Func(Of Exception, Boolean))
+  fullName: ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.ChannelPoolFluent<TService>.WithRetries(int, System.Func<System.Exception, bool>)
+  fullName.vb: ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.ChannelPoolFluent(Of TService).WithRetries(Integer, System.Func(Of System.Exception, Boolean))
+  nameWithType: ChannelPoolExt.ChannelPoolFluent<TService>.WithRetries(int, Func<Exception, bool>)
+  nameWithType.vb: ChannelPoolExt.ChannelPoolFluent(Of TService).WithRetries(Integer, Func(Of Exception, Boolean))
+- uid: ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.ChannelPoolFluent`1.WithRetries*
+  name: WithRetries
+  href: api/ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.ChannelPoolFluent-1.html#ArmoniK_DevelopmentKit_Client_Common_ChannelPoolExt_ChannelPoolFluent_1_WithRetries_
+  commentId: Overload:ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.ChannelPoolFluent`1.WithRetries
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.ChannelPoolFluent<TService>.WithRetries
+  fullName.vb: ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.ChannelPoolFluent(Of TService).WithRetries
+  nameWithType: ChannelPoolExt.ChannelPoolFluent<TService>.WithRetries
+  nameWithType.vb: ChannelPoolExt.ChannelPoolFluent(Of TService).WithRetries
+- uid: ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.WithEventClient(ArmoniK.Utils.Pool.ObjectPool{Grpc.Net.Client.GrpcChannel},Microsoft.Extensions.Logging.ILogger)
+  name: WithEventClient(ObjectPool<GrpcChannel>, ILogger?)
+  href: api/ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.html#ArmoniK_DevelopmentKit_Client_Common_ChannelPoolExt_WithEventClient_ArmoniK_Utils_Pool_ObjectPool_Grpc_Net_Client_GrpcChannel__Microsoft_Extensions_Logging_ILogger_
+  commentId: M:ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.WithEventClient(ArmoniK.Utils.Pool.ObjectPool{Grpc.Net.Client.GrpcChannel},Microsoft.Extensions.Logging.ILogger)
+  name.vb: WithEventClient(ObjectPool(Of GrpcChannel), ILogger)
+  fullName: ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.WithEventClient(ArmoniK.Utils.Pool.ObjectPool<Grpc.Net.Client.GrpcChannel>, Microsoft.Extensions.Logging.ILogger?)
+  fullName.vb: ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.WithEventClient(ArmoniK.Utils.Pool.ObjectPool(Of Grpc.Net.Client.GrpcChannel), Microsoft.Extensions.Logging.ILogger)
+  nameWithType: ChannelPoolExt.WithEventClient(ObjectPool<GrpcChannel>, ILogger?)
+  nameWithType.vb: ChannelPoolExt.WithEventClient(ObjectPool(Of GrpcChannel), ILogger)
+- uid: ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.WithEventClient*
+  name: WithEventClient
+  href: api/ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.html#ArmoniK_DevelopmentKit_Client_Common_ChannelPoolExt_WithEventClient_
+  commentId: Overload:ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.WithEventClient
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.WithEventClient
+  nameWithType: ChannelPoolExt.WithEventClient
+- uid: ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.WithResultClient(ArmoniK.Utils.Pool.ObjectPool{Grpc.Net.Client.GrpcChannel},Microsoft.Extensions.Logging.ILogger)
+  name: WithResultClient(ObjectPool<GrpcChannel>, ILogger?)
+  href: api/ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.html#ArmoniK_DevelopmentKit_Client_Common_ChannelPoolExt_WithResultClient_ArmoniK_Utils_Pool_ObjectPool_Grpc_Net_Client_GrpcChannel__Microsoft_Extensions_Logging_ILogger_
+  commentId: M:ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.WithResultClient(ArmoniK.Utils.Pool.ObjectPool{Grpc.Net.Client.GrpcChannel},Microsoft.Extensions.Logging.ILogger)
+  name.vb: WithResultClient(ObjectPool(Of GrpcChannel), ILogger)
+  fullName: ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.WithResultClient(ArmoniK.Utils.Pool.ObjectPool<Grpc.Net.Client.GrpcChannel>, Microsoft.Extensions.Logging.ILogger?)
+  fullName.vb: ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.WithResultClient(ArmoniK.Utils.Pool.ObjectPool(Of Grpc.Net.Client.GrpcChannel), Microsoft.Extensions.Logging.ILogger)
+  nameWithType: ChannelPoolExt.WithResultClient(ObjectPool<GrpcChannel>, ILogger?)
+  nameWithType.vb: ChannelPoolExt.WithResultClient(ObjectPool(Of GrpcChannel), ILogger)
+- uid: ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.WithResultClient*
+  name: WithResultClient
+  href: api/ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.html#ArmoniK_DevelopmentKit_Client_Common_ChannelPoolExt_WithResultClient_
+  commentId: Overload:ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.WithResultClient
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.WithResultClient
+  nameWithType: ChannelPoolExt.WithResultClient
+- uid: ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.WithSessionClient(ArmoniK.Utils.Pool.ObjectPool{Grpc.Net.Client.GrpcChannel},Microsoft.Extensions.Logging.ILogger)
+  name: WithSessionClient(ObjectPool<GrpcChannel>, ILogger?)
+  href: api/ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.html#ArmoniK_DevelopmentKit_Client_Common_ChannelPoolExt_WithSessionClient_ArmoniK_Utils_Pool_ObjectPool_Grpc_Net_Client_GrpcChannel__Microsoft_Extensions_Logging_ILogger_
+  commentId: M:ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.WithSessionClient(ArmoniK.Utils.Pool.ObjectPool{Grpc.Net.Client.GrpcChannel},Microsoft.Extensions.Logging.ILogger)
+  name.vb: WithSessionClient(ObjectPool(Of GrpcChannel), ILogger)
+  fullName: ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.WithSessionClient(ArmoniK.Utils.Pool.ObjectPool<Grpc.Net.Client.GrpcChannel>, Microsoft.Extensions.Logging.ILogger?)
+  fullName.vb: ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.WithSessionClient(ArmoniK.Utils.Pool.ObjectPool(Of Grpc.Net.Client.GrpcChannel), Microsoft.Extensions.Logging.ILogger)
+  nameWithType: ChannelPoolExt.WithSessionClient(ObjectPool<GrpcChannel>, ILogger?)
+  nameWithType.vb: ChannelPoolExt.WithSessionClient(ObjectPool(Of GrpcChannel), ILogger)
+- uid: ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.WithSessionClient*
+  name: WithSessionClient
+  href: api/ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.html#ArmoniK_DevelopmentKit_Client_Common_ChannelPoolExt_WithSessionClient_
+  commentId: Overload:ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.WithSessionClient
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.WithSessionClient
+  nameWithType: ChannelPoolExt.WithSessionClient
+- uid: ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.WithSubmitterClient(ArmoniK.Utils.Pool.ObjectPool{Grpc.Net.Client.GrpcChannel},Microsoft.Extensions.Logging.ILogger)
+  name: WithSubmitterClient(ObjectPool<GrpcChannel>, ILogger?)
+  href: api/ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.html#ArmoniK_DevelopmentKit_Client_Common_ChannelPoolExt_WithSubmitterClient_ArmoniK_Utils_Pool_ObjectPool_Grpc_Net_Client_GrpcChannel__Microsoft_Extensions_Logging_ILogger_
+  commentId: M:ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.WithSubmitterClient(ArmoniK.Utils.Pool.ObjectPool{Grpc.Net.Client.GrpcChannel},Microsoft.Extensions.Logging.ILogger)
+  name.vb: WithSubmitterClient(ObjectPool(Of GrpcChannel), ILogger)
+  fullName: ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.WithSubmitterClient(ArmoniK.Utils.Pool.ObjectPool<Grpc.Net.Client.GrpcChannel>, Microsoft.Extensions.Logging.ILogger?)
+  fullName.vb: ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.WithSubmitterClient(ArmoniK.Utils.Pool.ObjectPool(Of Grpc.Net.Client.GrpcChannel), Microsoft.Extensions.Logging.ILogger)
+  nameWithType: ChannelPoolExt.WithSubmitterClient(ObjectPool<GrpcChannel>, ILogger?)
+  nameWithType.vb: ChannelPoolExt.WithSubmitterClient(ObjectPool(Of GrpcChannel), ILogger)
+- uid: ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.WithSubmitterClient*
+  name: WithSubmitterClient
+  href: api/ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.html#ArmoniK_DevelopmentKit_Client_Common_ChannelPoolExt_WithSubmitterClient_
+  commentId: Overload:ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.WithSubmitterClient
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.WithSubmitterClient
+  nameWithType: ChannelPoolExt.WithSubmitterClient
+- uid: ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.WithTaskClient(ArmoniK.Utils.Pool.ObjectPool{Grpc.Net.Client.GrpcChannel},Microsoft.Extensions.Logging.ILogger)
+  name: WithTaskClient(ObjectPool<GrpcChannel>, ILogger?)
+  href: api/ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.html#ArmoniK_DevelopmentKit_Client_Common_ChannelPoolExt_WithTaskClient_ArmoniK_Utils_Pool_ObjectPool_Grpc_Net_Client_GrpcChannel__Microsoft_Extensions_Logging_ILogger_
+  commentId: M:ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.WithTaskClient(ArmoniK.Utils.Pool.ObjectPool{Grpc.Net.Client.GrpcChannel},Microsoft.Extensions.Logging.ILogger)
+  name.vb: WithTaskClient(ObjectPool(Of GrpcChannel), ILogger)
+  fullName: ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.WithTaskClient(ArmoniK.Utils.Pool.ObjectPool<Grpc.Net.Client.GrpcChannel>, Microsoft.Extensions.Logging.ILogger?)
+  fullName.vb: ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.WithTaskClient(ArmoniK.Utils.Pool.ObjectPool(Of Grpc.Net.Client.GrpcChannel), Microsoft.Extensions.Logging.ILogger)
+  nameWithType: ChannelPoolExt.WithTaskClient(ObjectPool<GrpcChannel>, ILogger?)
+  nameWithType.vb: ChannelPoolExt.WithTaskClient(ObjectPool(Of GrpcChannel), ILogger)
+- uid: ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.WithTaskClient*
+  name: WithTaskClient
+  href: api/ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.html#ArmoniK_DevelopmentKit_Client_Common_ChannelPoolExt_WithTaskClient_
+  commentId: Overload:ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.WithTaskClient
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Client.Common.ChannelPoolExt.WithTaskClient
+  nameWithType: ChannelPoolExt.WithTaskClient
 - uid: ArmoniK.DevelopmentKit.Client.Common.Exceptions
   name: ArmoniK.DevelopmentKit.Client.Common.Exceptions
   href: api/ArmoniK.DevelopmentKit.Client.Common.Exceptions.html
@@ -1589,15 +1819,15 @@ references:
   commentId: T:ArmoniK.DevelopmentKit.Client.Common.Submitter.TasksClientExt
   fullName: ArmoniK.DevelopmentKit.Client.Common.Submitter.TasksClientExt
   nameWithType: TasksClientExt
-- uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.TasksClientExt.ListTasks(ArmoniK.Api.gRPC.V1.Tasks.Tasks.TasksClient,ArmoniK.Api.gRPC.V1.Tasks.Filters,ArmoniK.Api.gRPC.V1.Tasks.ListTasksRequest.Types.Sort,System.Int32)
-  name: ListTasks(TasksClient, Filters, Sort, int)
-  href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.TasksClientExt.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_TasksClientExt_ListTasks_ArmoniK_Api_gRPC_V1_Tasks_Tasks_TasksClient_ArmoniK_Api_gRPC_V1_Tasks_Filters_ArmoniK_Api_gRPC_V1_Tasks_ListTasksRequest_Types_Sort_System_Int32_
-  commentId: M:ArmoniK.DevelopmentKit.Client.Common.Submitter.TasksClientExt.ListTasks(ArmoniK.Api.gRPC.V1.Tasks.Tasks.TasksClient,ArmoniK.Api.gRPC.V1.Tasks.Filters,ArmoniK.Api.gRPC.V1.Tasks.ListTasksRequest.Types.Sort,System.Int32)
-  name.vb: ListTasks(TasksClient, Filters, Sort, Integer)
-  fullName: ArmoniK.DevelopmentKit.Client.Common.Submitter.TasksClientExt.ListTasks(ArmoniK.Api.gRPC.V1.Tasks.Tasks.TasksClient, ArmoniK.Api.gRPC.V1.Tasks.Filters, ArmoniK.Api.gRPC.V1.Tasks.ListTasksRequest.Types.Sort, int)
-  fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Submitter.TasksClientExt.ListTasks(ArmoniK.Api.gRPC.V1.Tasks.Tasks.TasksClient, ArmoniK.Api.gRPC.V1.Tasks.Filters, ArmoniK.Api.gRPC.V1.Tasks.ListTasksRequest.Types.Sort, Integer)
-  nameWithType: TasksClientExt.ListTasks(Tasks.TasksClient, Filters, ListTasksRequest.Types.Sort, int)
-  nameWithType.vb: TasksClientExt.ListTasks(Tasks.TasksClient, Filters, ListTasksRequest.Types.Sort, Integer)
+- uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.TasksClientExt.ListTasks(ArmoniK.Utils.Pool.ObjectPool{Grpc.Net.Client.GrpcChannel},ArmoniK.Api.gRPC.V1.Tasks.Filters,ArmoniK.Api.gRPC.V1.Tasks.ListTasksRequest.Types.Sort,System.Int32)
+  name: ListTasks(ObjectPool<GrpcChannel>, Filters, Sort, int)
+  href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.TasksClientExt.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_TasksClientExt_ListTasks_ArmoniK_Utils_Pool_ObjectPool_Grpc_Net_Client_GrpcChannel__ArmoniK_Api_gRPC_V1_Tasks_Filters_ArmoniK_Api_gRPC_V1_Tasks_ListTasksRequest_Types_Sort_System_Int32_
+  commentId: M:ArmoniK.DevelopmentKit.Client.Common.Submitter.TasksClientExt.ListTasks(ArmoniK.Utils.Pool.ObjectPool{Grpc.Net.Client.GrpcChannel},ArmoniK.Api.gRPC.V1.Tasks.Filters,ArmoniK.Api.gRPC.V1.Tasks.ListTasksRequest.Types.Sort,System.Int32)
+  name.vb: ListTasks(ObjectPool(Of GrpcChannel), Filters, Sort, Integer)
+  fullName: ArmoniK.DevelopmentKit.Client.Common.Submitter.TasksClientExt.ListTasks(ArmoniK.Utils.Pool.ObjectPool<Grpc.Net.Client.GrpcChannel>, ArmoniK.Api.gRPC.V1.Tasks.Filters, ArmoniK.Api.gRPC.V1.Tasks.ListTasksRequest.Types.Sort, int)
+  fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Submitter.TasksClientExt.ListTasks(ArmoniK.Utils.Pool.ObjectPool(Of Grpc.Net.Client.GrpcChannel), ArmoniK.Api.gRPC.V1.Tasks.Filters, ArmoniK.Api.gRPC.V1.Tasks.ListTasksRequest.Types.Sort, Integer)
+  nameWithType: TasksClientExt.ListTasks(ObjectPool<GrpcChannel>, Filters, ListTasksRequest.Types.Sort, int)
+  nameWithType.vb: TasksClientExt.ListTasks(ObjectPool(Of GrpcChannel), Filters, ListTasksRequest.Types.Sort, Integer)
 - uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.TasksClientExt.ListTasks*
   name: ListTasks
   href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.TasksClientExt.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_TasksClientExt_ListTasks_
@@ -1605,15 +1835,15 @@ references:
   isSpec: "True"
   fullName: ArmoniK.DevelopmentKit.Client.Common.Submitter.TasksClientExt.ListTasks
   nameWithType: TasksClientExt.ListTasks
-- uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.TasksClientExt.ListTasksAsync(ArmoniK.Api.gRPC.V1.Tasks.Tasks.TasksClient,ArmoniK.Api.gRPC.V1.Tasks.Filters,ArmoniK.Api.gRPC.V1.Tasks.ListTasksRequest.Types.Sort,System.Int32,System.Threading.CancellationToken)
-  name: ListTasksAsync(TasksClient, Filters, Sort, int, CancellationToken)
-  href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.TasksClientExt.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_TasksClientExt_ListTasksAsync_ArmoniK_Api_gRPC_V1_Tasks_Tasks_TasksClient_ArmoniK_Api_gRPC_V1_Tasks_Filters_ArmoniK_Api_gRPC_V1_Tasks_ListTasksRequest_Types_Sort_System_Int32_System_Threading_CancellationToken_
-  commentId: M:ArmoniK.DevelopmentKit.Client.Common.Submitter.TasksClientExt.ListTasksAsync(ArmoniK.Api.gRPC.V1.Tasks.Tasks.TasksClient,ArmoniK.Api.gRPC.V1.Tasks.Filters,ArmoniK.Api.gRPC.V1.Tasks.ListTasksRequest.Types.Sort,System.Int32,System.Threading.CancellationToken)
-  name.vb: ListTasksAsync(TasksClient, Filters, Sort, Integer, CancellationToken)
-  fullName: ArmoniK.DevelopmentKit.Client.Common.Submitter.TasksClientExt.ListTasksAsync(ArmoniK.Api.gRPC.V1.Tasks.Tasks.TasksClient, ArmoniK.Api.gRPC.V1.Tasks.Filters, ArmoniK.Api.gRPC.V1.Tasks.ListTasksRequest.Types.Sort, int, System.Threading.CancellationToken)
-  fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Submitter.TasksClientExt.ListTasksAsync(ArmoniK.Api.gRPC.V1.Tasks.Tasks.TasksClient, ArmoniK.Api.gRPC.V1.Tasks.Filters, ArmoniK.Api.gRPC.V1.Tasks.ListTasksRequest.Types.Sort, Integer, System.Threading.CancellationToken)
-  nameWithType: TasksClientExt.ListTasksAsync(Tasks.TasksClient, Filters, ListTasksRequest.Types.Sort, int, CancellationToken)
-  nameWithType.vb: TasksClientExt.ListTasksAsync(Tasks.TasksClient, Filters, ListTasksRequest.Types.Sort, Integer, CancellationToken)
+- uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.TasksClientExt.ListTasksAsync(ArmoniK.Utils.Pool.ObjectPool{Grpc.Net.Client.GrpcChannel},ArmoniK.Api.gRPC.V1.Tasks.Filters,ArmoniK.Api.gRPC.V1.Tasks.ListTasksRequest.Types.Sort,System.Int32,System.Threading.CancellationToken)
+  name: ListTasksAsync(ObjectPool<GrpcChannel>, Filters, Sort, int, CancellationToken)
+  href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.TasksClientExt.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_TasksClientExt_ListTasksAsync_ArmoniK_Utils_Pool_ObjectPool_Grpc_Net_Client_GrpcChannel__ArmoniK_Api_gRPC_V1_Tasks_Filters_ArmoniK_Api_gRPC_V1_Tasks_ListTasksRequest_Types_Sort_System_Int32_System_Threading_CancellationToken_
+  commentId: M:ArmoniK.DevelopmentKit.Client.Common.Submitter.TasksClientExt.ListTasksAsync(ArmoniK.Utils.Pool.ObjectPool{Grpc.Net.Client.GrpcChannel},ArmoniK.Api.gRPC.V1.Tasks.Filters,ArmoniK.Api.gRPC.V1.Tasks.ListTasksRequest.Types.Sort,System.Int32,System.Threading.CancellationToken)
+  name.vb: ListTasksAsync(ObjectPool(Of GrpcChannel), Filters, Sort, Integer, CancellationToken)
+  fullName: ArmoniK.DevelopmentKit.Client.Common.Submitter.TasksClientExt.ListTasksAsync(ArmoniK.Utils.Pool.ObjectPool<Grpc.Net.Client.GrpcChannel>, ArmoniK.Api.gRPC.V1.Tasks.Filters, ArmoniK.Api.gRPC.V1.Tasks.ListTasksRequest.Types.Sort, int, System.Threading.CancellationToken)
+  fullName.vb: ArmoniK.DevelopmentKit.Client.Common.Submitter.TasksClientExt.ListTasksAsync(ArmoniK.Utils.Pool.ObjectPool(Of Grpc.Net.Client.GrpcChannel), ArmoniK.Api.gRPC.V1.Tasks.Filters, ArmoniK.Api.gRPC.V1.Tasks.ListTasksRequest.Types.Sort, Integer, System.Threading.CancellationToken)
+  nameWithType: TasksClientExt.ListTasksAsync(ObjectPool<GrpcChannel>, Filters, ListTasksRequest.Types.Sort, int, CancellationToken)
+  nameWithType.vb: TasksClientExt.ListTasksAsync(ObjectPool(Of GrpcChannel), Filters, ListTasksRequest.Types.Sort, Integer, CancellationToken)
 - uid: ArmoniK.DevelopmentKit.Client.Common.Submitter.TasksClientExt.ListTasksAsync*
   name: ListTasksAsync
   href: api/ArmoniK.DevelopmentKit.Client.Common.Submitter.TasksClientExt.html#ArmoniK_DevelopmentKit_Client_Common_Submitter_TasksClientExt_ListTasksAsync_
