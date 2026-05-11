@@ -7934,6 +7934,19 @@ references:
   fullName.vb: ArmoniK.DevelopmentKit.Worker.Unified.TaskWorkerService.New
   nameWithType: TaskWorkerService.TaskWorkerService
   nameWithType.vb: TaskWorkerService.New
+- uid: ArmoniK.DevelopmentKit.Worker.Unified.TaskWorkerService.CheckHealth
+  name: CheckHealth()
+  href: api/ArmoniK.DevelopmentKit.Worker.Unified.TaskWorkerService.html#ArmoniK_DevelopmentKit_Worker_Unified_TaskWorkerService_CheckHealth
+  commentId: M:ArmoniK.DevelopmentKit.Worker.Unified.TaskWorkerService.CheckHealth
+  fullName: ArmoniK.DevelopmentKit.Worker.Unified.TaskWorkerService.CheckHealth()
+  nameWithType: TaskWorkerService.CheckHealth()
+- uid: ArmoniK.DevelopmentKit.Worker.Unified.TaskWorkerService.CheckHealth*
+  name: CheckHealth
+  href: api/ArmoniK.DevelopmentKit.Worker.Unified.TaskWorkerService.html#ArmoniK_DevelopmentKit_Worker_Unified_TaskWorkerService_CheckHealth_
+  commentId: Overload:ArmoniK.DevelopmentKit.Worker.Unified.TaskWorkerService.CheckHealth
+  isSpec: "True"
+  fullName: ArmoniK.DevelopmentKit.Worker.Unified.TaskWorkerService.CheckHealth
+  nameWithType: TaskWorkerService.CheckHealth
 - uid: ArmoniK.DevelopmentKit.Worker.Unified.TaskWorkerService.Configuration
   name: Configuration
   href: api/ArmoniK.DevelopmentKit.Worker.Unified.TaskWorkerService.html#ArmoniK_DevelopmentKit_Worker_Unified_TaskWorkerService_Configuration
