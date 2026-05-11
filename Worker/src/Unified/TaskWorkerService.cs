@@ -101,6 +101,9 @@ public abstract class TaskWorkerService : ITaskContextConfiguration, ISessionSer
   /// </summary>
   public ILoggerFactory LoggerFactory { get; set; }
 
+  public virtual bool CheckHealth()
+    => true;
+
   /// <inheritdoc />
   public void ConfigureLogger(IConfiguration configuration)
   {

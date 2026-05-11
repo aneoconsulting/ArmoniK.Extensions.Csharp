@@ -37,6 +37,5 @@ public interface ICheckHealth
   ///   Checks the health of the service.
   /// </summary>
   /// <returns></returns>
-  bool CheckHealth()
-    => true;
+  bool CheckHealth();
 }
